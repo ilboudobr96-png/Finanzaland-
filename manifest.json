@@ -1,0 +1,51 @@
+{
+  "name": "FinanzaLand — L'Accademia del Risparmio",
+  "short_name": "FinanzaLand",
+  "description": "Impara il risparmio e la ricchezza attraverso il gioco. Di Bernard Ilboudo & Riccarda.",
+  "start_url": "/FinanzaLand_App_Final.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#FFD700",
+  "lang": "it",
+  "categories": ["education", "games", "finance"],
+  "icons": [
+    {
+      "src": "1000189853.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "1000189853.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "1000189685.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "label": "Mappa del Regno FinanzaLand"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Missioni di Oggi",
+      "short_name": "Missioni",
+      "description": "Vai direttamente alle missioni",
+      "url": "/FinanzaLand_App_Final.html#missioni",
+      "icons": [{ "src": "1000189854.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Il Mio Tesoro",
+      "short_name": "Tesoro",
+      "description": "Controlla i tuoi Semi di Luce",
+      "url": "/FinanzaLand_App_Final.html#tesoro",
+      "icons": [{ "src": "1000189857.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}
