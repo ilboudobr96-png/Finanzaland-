@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<!-- ══════════════════════════════════════════════════
+  🐉 FinanzaLand — PWA META TAGS
+  di Bernard Ilboudo
+  ══════════════════════════════════════════════════ -->
+
+<!-- Viewport ottimizzato per telefono -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+
+<!-- SEO & Descrizione -->
+<meta name="description" content="FinanzaLand — L'Accademia del Risparmio. Impara la ricchezza attraverso il gioco. Di Bernard Ilboudo."/>
+<meta name="keywords" content="educazione finanziaria, risparmio, bambini, gioco, finanza, famiglia"/>
+<meta name="author" content="Bernard Ilboudo"/>
+
+<!-- PWA: rende l'app installabile -->
+<link rel="manifest" href="manifest.json"/>
+
+<!-- iOS Safari: aspetto nativo su iPhone/iPad -->
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="FinanzaLand"/>
+<link rel="apple-touch-icon" href="1000189853.png"/>
+<link rel="apple-touch-icon" sizes="152x152" href="1000189853.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="1000189853.png"/>
+<link rel="apple-touch-icon" sizes="167x167" href="1000189853.png"/>
+
+<!-- iOS Splash Screens (per iPhone vari modelli) -->
+<meta name="apple-touch-startup-image" content="1000189685.png"/>
+
+<!-- Android Chrome: barra di sistema dorata -->
+<meta name="theme-color" content="#FFD700"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+
+<!-- Windows Tile -->
+<meta name="msapplication-TileColor" content="#000000"/>
+<meta name="msapplication-TileImage" content="1000189853.png"/>
+
+<!-- Open Graph (per condivisione WhatsApp/social) -->
+<meta property="og:title" content="🐉 FinanzaLand — L'Accademia del Risparmio"/>
+<meta property="og:description" content="Impara il risparmio e la ricchezza attraverso il gioco. Di Bernard Ilboudo."/>
+<meta property="og:image" content="1000189853.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="it_IT"/>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="1000189853.png"/>
+<link rel="shortcut icon" href="1000189853.png"/>
+
+<title>FinanzaLand — L'Accademia del Risparmio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --gold:#FFD700;--gold2:#B8860B;--teal:#06b6d4;--green:#4ade80;
+  --purple:#a78bfa;--red:#f87171;--dark:#02040f;--card:rgba(10,16,36,.88);
+  --border:rgba(255,255,255,.12);--text:#e2e8f0;--muted:#64748b;
+  --orange:#fb923c;
+  /* Safe area per iPhone con notch */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:#000;font-family:'Nunito',sans-serif;
+  -webkit-font-smoothing:antialiased;touch-action:manipulation;
+  /* Rispetta il notch iPhone */
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* ── SCREEN SYSTEM ── */
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}
+
+/* ── BOOT ── */
+#boot{background:radial-gradient(ellipse at 50% 40%,#0a0f20 0%,#000 100%);align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.boot-logo-wrap{width:160px;height:160px;border-radius:36px;background:linear-gradient(135deg,#0a0f20,#1a0a30);display:flex;align-items:center;justify-content:center;font-size:5rem;animation:bootLogo 1.2s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 0 60px rgba(255,215,0,.5);overflow:hidden;position:relative}
+.boot-logo-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:36px}
+@keyframes bootLogo{from{opacity:0;transform:scale(.3) rotate(-15deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.boot-title{font-family:'Cinzel Decorative',cursive;font-size:1.8rem;color:var(--gold);animation:fadeUp .8s .8s both;text-shadow:0 0 30px rgba(255,215,0,.6)}
+.boot-sub{font-family:'Cinzel',serif;font-size:.72rem;color:var(--muted);letter-spacing:3px;animation:fadeUp .8s 1s both}
+.boot-authors{font-family:'Cinzel',serif;font-size:.6rem;color:#4ade80;letter-spacing:2px;animation:fadeUp .6s 1.1s both}
+.boot-bar-wrap{width:200px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;animation:fadeUp .5s 1.2s both}
+.boot-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;width:0;animation:loadBar 1.8s 1.3s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes loadBar{to{width:100%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── INSTALL BANNER PWA ── */
+#install-banner{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:linear-gradient(135deg,#0a0f20,#050a18);border-top:1px solid rgba(255,215,0,.3);padding:14px 16px calc(14px + var(--safe-bottom));display:none;align-items:center;gap:12px;box-shadow:0 -8px 30px rgba(0,0,0,.6);animation:slideUpBanner .4s cubic-bezier(.22,1,.36,1)}
+#install-banner.show{display:flex}
+@keyframes slideUpBanner{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.ib-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#0a0f20,#1a0a30);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.8rem;border:1px solid rgba(255,215,0,.3)}
+.ib-icon img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.ib-info{flex:1}
+.ib-title{font-family:'Cinzel Decorative',cursive;font-size:.78rem;color:var(--gold);margin-bottom:2px}
+.ib-sub{font-size:.68rem;color:var(--muted);font-family:'Cinzel',serif}
+.ib-btn{padding:10px 16px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0800;font-family:'Cinzel',serif;font-size:.72rem;font-weight:900;cursor:pointer;-webkit-tap-highlight-color:transparent;border:none;white-space:nowrap;box-shadow:0 4px 16px rgba(255,215,0,.3)}
+.ib-btn:active{transform:scale(.95)}
+.ib-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;color:var(--muted);font-size:.9rem;flex-shrink:0}
+
+/* ── iOS INSTALL GUIDE ── */
+#ios-guide{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.92);display:none;align-items:flex-end;justify-content:center}
+#ios-guide.show{display:flex;animation:fadeIn .3s}
+.ios-guide-sheet{width:100%;max-width:480px;background:linear-gradient(160deg,#04010f,#0a0520);border-radius:24px 24px 0 0;border-top:2px solid rgba(255,215,0,.3);padding:24px 20px calc(24px + var(--safe-bottom));animation:slideUp .4s cubic-bezier(.22,1,.36,1)}
+.ios-guide-title{font-family:'Cinzel Decorative',cursive;font-size:1rem;color:var(--gold);text-align:center;margin-bottom:6px}
+.ios-guide-sub{font-family:'Cinzel',serif;font-size:.62rem;color:var(--muted);text-align:center;letter-spacing:2px;margin-bottom:20px}
+.ios-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.ios-step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:.75rem;color:#1a0800;font-weight:900;flex-shrink:0;margin-top:2px}
+.ios-step-body{flex:1}
+.ios-step-title{font-family:'Cinzel',serif;font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:3px}
+.ios-step-desc{font-size:.72rem;color:var(--muted);line-height:1.55}
+.ios-step-icon{background:rgba(255,255,255,.08);border-radius:8px;padding:4px 10px;font-size:.8rem;margin-top:5px;display:inline-block;border:1px solid rgba(255,255,255,.12)}
+.ios-close-btn{width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0800;font-family:'Cinzel',serif;font-size:.85rem;font-weight:900;cursor:pointer;border:none;margin-top:8px;-webkit-tap-highlight-color:transparent}
+
+/* ── OFFLINE BADGE ── */
+#offline-badge{position:fixed;top:calc(14px + var(--safe-top));left:50%;transform:translateX(-50%);z-index:900;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);border-radius:20px;padding:6px 16px;font-family:'Cinzel',serif;font-size:.62rem;color:var(--red);display:none;align-items:center;gap:6px;letter-spacing:1px;backdrop-filter:blur(8px)}
+#offline-badge.show{display:flex}
+#online-badge{position:fixed;top:calc(14px + var(--safe-top));left:50%;transform:translateX(-50%);z-index:900;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.35);border-radius:20px;padding:6px 16px;font-family:'Cinzel',serif;font-size:.62rem;color:var(--green);display:none;align-items:center;gap:6px;letter-spacing:1px;backdrop-filter:blur(8px)}
+#online-badge.show{display:flex}
+
+/* ── GAME BG IMAGE SCREENS ── */
+.bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.bg-overlay{position:absolute;inset:0}
+.screen-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%}
+.bg-home-grad{background:linear-gradient(135deg,#02040f 0%,#0a1a2e 40%,#0d2040 100%)}
+.bg-miss-grad{background:linear-gradient(160deg,#050f1e 0%,#0a0514 100%)}
+.bg-tes-grad{background:linear-gradient(180deg,#050014 0%,#140528 50%,#000 100%)}
+.bg-temp-grad{background:linear-gradient(180deg,#000514 0%,#050a1e 50%,#000 100%)}
+.bg-gen-grad{background:linear-gradient(180deg,#000 0%,#0a0a0a 100%)}
+
+/* ── TOP BAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,215,0,.2);gap:10px;flex-shrink:0}
+.tb-logo{font-family:'Cinzel Decorative',cursive;font-size:.75rem;color:var(--gold);letter-spacing:1px;white-space:nowrap}
+.tb-stats{display:flex;gap:8px;align-items:center}
+.tb-stat{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.5);border:1px solid rgba(255,215,0,.25);border-radius:20px;padding:4px 10px}
+.tb-stat-val{font-family:'Cinzel Decorative',cursive;font-size:.78rem;color:var(--gold);font-weight:900;transition:all .3s}
+.tb-stat-val.bump{animation:statBump .4s ease-out}
+@keyframes statBump{0%{transform:scale(1.4);color:#fff}100%{transform:scale(1);color:var(--gold)}}
+.tb-stat-label{font-size:.58rem;color:var(--muted)}
+
+/* ── BOTTOM NAV ── */
+.bottomnav{display:flex;background:rgba(0,0,0,.8);border-top:1px solid rgba(255,215,0,.2);flex-shrink:0;backdrop-filter:blur(12px);padding-bottom:var(--safe-bottom)}
+.bnav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;gap:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .2s}
+.bnav-tab.on{background:rgba(255,215,0,.1)}
+.bnav-icon{font-size:1.3rem;transition:transform .2s}
+.bnav-tab.on .bnav-icon{transform:scale(1.2)}
+.bnav-label{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;transition:color .2s}
+.bnav-tab.on .bnav-label{color:var(--gold)}
+
+/* ── SCROLLABLE MIDDLE ── */
+.mid{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+.mid::-webkit-scrollbar{display:none}
+
+/* ── HOME ── */
+.map-hotspots{position:absolute;inset:0;z-index:3}
+.hotspot{position:absolute;cursor:pointer;-webkit-tap-highlight-color:transparent;animation:hotPulse 2.5s ease-in-out infinite}
+@keyframes hotPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.hotspot-ring{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--gold);background:rgba(255,215,0,.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 16px rgba(255,215,0,.4),inset 0 0 10px rgba(255,215,0,.1)}
+.hotspot-label{position:absolute;top:46px;left:50%;transform:translateX(-50%);white-space:nowrap;background:rgba(0,0,0,.75);border:1px solid rgba(255,215,0,.3);border-radius:10px;padding:3px 8px;font-family:'Cinzel',serif;font-size:.55rem;color:var(--gold);letter-spacing:1px}
+.home-bottom{position:absolute;bottom:0;left:0;right:0;z-index:4;padding:10px 14px 14px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%)}
+.home-btns{display:flex;gap:8px}
+.hbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .18s;border:1px solid}
+.hbtn:active{transform:scale(.95)}
+.hbtn-icon{font-size:1.2rem}
+.hbtn-text{font-family:'Cinzel',serif;font-size:.65rem;font-weight:700;letter-spacing:1px}
+.progress-wrap{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.prog-label{font-family:'Cinzel',serif;font-size:.6rem;color:var(--muted);white-space:nowrap}
+.prog-bar{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .8s cubic-bezier(.4,0,.2,1)}
+.prog-val{font-family:'Cinzel Decorative',cursive;font-size:.65rem;color:var(--gold);white-space:nowrap}
+
+/* ── MISSION TAB ── */
+.mission-scroll{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.mission-card{background:rgba(5,10,25,.82);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;transition:border-color .25s}
+.mission-card.active-mission{border-color:rgba(255,215,0,.4)}
+.mc-head{display:flex;align-items:center;gap:11px;padding:11px 13px}
+.mc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.mc-info{flex:1}
+.mc-title{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:3px}
+.mc-cat{font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.mc-reward{font-family:'Cinzel Decorative',cursive;font-size:.85rem;color:var(--gold);white-space:nowrap}
+.mc-body{padding:0 13px 11px}
+.mc-desc{font-size:.78rem;color:#94a3b8;line-height:1.55;margin-bottom:10px}
+.mc-actions{display:flex;gap:7px}
+.mc-btn{flex:1;padding:9px;border-radius:10px;font-family:'Cinzel',serif;font-size:.65rem;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .18s;letter-spacing:.8px;text-align:center}
+.mc-btn:active{transform:scale(.95)}
+.mc-status{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;font-weight:700;margin-top:4px}
+
+/* ── TESORO ── */
+.tesoro-center{display:flex;flex-direction:column;align-items:center;padding:16px 16px 0;gap:12px}
+.creature-wrap{position:relative;width:220px;text-align:center}
+.creature-img{width:100%;border-radius:16px;object-fit:cover;filter:drop-shadow(0 0 30px rgba(167,139,250,.6))}
+.creature-glow{position:absolute;inset:-8px;border-radius:24px;background:radial-gradient(ellipse,rgba(167,139,250,.15),transparent 70%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.counter-mega{text-align:center}
+.cm-num{font-family:'Cinzel Decorative',cursive;font-size:3.2rem;font-weight:900;background:linear-gradient(135deg,var(--gold),#fff 50%,var(--gold));background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimGold 3s linear infinite;line-height:1}
+.cm-num.bounce{animation:counterBounce .5s ease-out,shimGold 3s linear infinite}
+@keyframes counterBounce{0%{transform:scale(1.4)}60%{transform:scale(.95)}100%{transform:scale(1)}}
+@keyframes shimGold{0%{background-position:200%}100%{background-position:-200%}}
+.cm-label{font-family:'Cinzel',serif;font-size:.72rem;color:var(--muted);letter-spacing:3px;margin-top:2px}
+.castle-row{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;padding:0 14px}
+.castle-card{background:rgba(0,0,0,.6);border:1px solid rgba(255,215,0,.25);border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .2s}
+.castle-card:active{transform:scale(.94)}
+.castle-card.buyable{border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.08)}
+.cc-icon{font-size:1.2rem}
+.cc-info{display:flex;flex-direction:column}
+.cc-name{font-family:'Cinzel',serif;font-size:.6rem;color:var(--text);font-weight:700}
+.cc-income{font-size:.65rem;color:var(--green)}
+.cc-cost{font-size:.65rem;color:var(--muted)}
+.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:0 14px 14px}
+.action-btn{background:rgba(5,10,25,.82);border:1px solid var(--border);border-radius:14px;padding:13px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .2s}
+.action-btn:active{transform:scale(.94)}
+.ab-icon{font-size:1.6rem}
+.ab-name{font-family:'Cinzel',serif;font-size:.62rem;font-weight:700;color:var(--text);text-align:center;letter-spacing:.5px}
+.ab-val{font-size:.68rem;font-weight:800}
+
+/* ── TEMPIO ── */
+.tempio-scroll{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.lesson-card{border-radius:18px;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .2s;border:1px solid rgba(255,255,255,.1)}
+.lesson-card:active{transform:scale(.97)}
+.lc-img-fallback{width:100%;height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.lc-body{padding:13px 14px;background:rgba(5,10,25,.88)}
+.lc-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-family:'Cinzel',serif;font-size:.58rem;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.lc-title{font-size:.92rem;font-weight:800;color:var(--text);margin-bottom:4px}
+.lc-desc{font-size:.76rem;color:#94a3b8;line-height:1.55}
+.lc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.lc-reward{font-family:'Cinzel Decorative',cursive;font-size:.8rem;color:var(--gold)}
+.lc-cta{padding:6px 14px;border-radius:10px;font-family:'Cinzel',serif;font-size:.62rem;font-weight:700;cursor:pointer}
+
+/* ── GENITORE ── */
+.pin-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;flex:1}
+.pin-title{font-family:'Cinzel Decorative',cursive;font-size:1.1rem;color:var(--gold);text-align:center}
+.pin-sub{font-family:'Cinzel',serif;font-size:.68rem;color:var(--muted);text-align:center;letter-spacing:2px}
+.pin-dots{display:flex;gap:14px}
+.pin-dot{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,215,0,.5);background:transparent;transition:all .15s}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px rgba(255,215,0,.6)}
+.pinpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:220px}
+.pp-btn{height:60px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-family:'Cinzel Decorative',cursive;font-size:1.3rem;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.pp-btn:active{background:rgba(255,215,0,.2);border-color:var(--gold);transform:scale(.93)}
+.parent-panel{padding:14px;display:flex;flex-direction:column;gap:10px}
+.panel-section{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.approval-card{background:rgba(5,10,25,.88);border:1px solid rgba(251,191,36,.3);border-radius:14px;padding:13px 14px}
+.apc-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.apc-icon{font-size:1.8rem}
+.apc-info{flex:1}
+.apc-mission{font-size:.88rem;font-weight:800;color:var(--text)}
+.apc-child{font-size:.72rem;color:var(--muted);margin-top:2px}
+.apc-trust{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.trust-bar{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.trust-fill{height:100%;border-radius:3px;transition:width .8s}
+.trust-label{font-family:'Cinzel',serif;font-size:.65rem;white-space:nowrap}
+.apc-btns{display:flex;gap:8px}
+
+/* ── LESSON MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.85);display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-sheet{width:100%;max-width:520px;max-height:92vh;border-radius:24px 24px 0 0;overflow:hidden;background:var(--dark);border-top:1px solid rgba(255,215,0,.2);animation:slideUp .3s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;padding-bottom:var(--safe-bottom)}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-img-fallback{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:5rem;flex-shrink:0;position:relative;overflow:hidden}
+.modal-img-fallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+.modal-body{padding:18px 18px 32px;overflow-y:auto;flex:1}
+.modal-close{float:right;margin-top:-4px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;color:var(--muted)}
+.modal-title{font-family:'Cinzel Decorative',cursive;font-size:1.1rem;color:var(--gold);margin-bottom:10px;line-height:1.3}
+.modal-text{font-size:.84rem;color:#94a3b8;line-height:1.75;margin-bottom:14px}
+.modal-concept{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:12px;padding:13px;margin:12px 0}
+.modal-concept-title{font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);letter-spacing:1.5px;margin-bottom:6px}
+.modal-concept-text{font-size:.8rem;color:#cbd5e1;line-height:1.6}
+.modal-claim-btn{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0800;font-family:'Cinzel',serif;font-size:.88rem;font-weight:900;letter-spacing:2px;cursor:pointer;border:none;margin-top:10px;box-shadow:0 6px 20px rgba(255,215,0,.3);transition:transform .15s}
+.modal-claim-btn:active{transform:scale(.97)}
+
+/* ── DUE DRAGHI MODAL ── */
+.dragon-modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.95);display:none;align-items:flex-end;justify-content:center}
+.dragon-modal-overlay.open{display:flex;animation:fadeIn .3s}
+.dragon-modal-sheet{width:100%;max-width:520px;max-height:96vh;border-radius:24px 24px 0 0;overflow:hidden;background:linear-gradient(180deg,#04010f 0%,#0a0520 50%,#020010 100%);border-top:2px solid rgba(255,215,0,.3);animation:slideUp .4s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;padding-bottom:var(--safe-bottom)}
+.dragon-banner{display:flex;align-items:stretch;min-height:160px;position:relative;overflow:hidden;flex-shrink:0}
+.dragon-side{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px 12px;cursor:pointer;transition:all .3s;position:relative}
+.dragon-side:active{transform:scale(.97)}
+.dragon-left{background:linear-gradient(135deg,rgba(248,113,113,.15),rgba(239,68,68,.08));border-right:1px solid rgba(255,255,255,.08)}
+.dragon-right{background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(16,185,129,.15))}
+.dragon-emoji{font-size:3.5rem;transition:transform .3s}
+.dragon-side:active .dragon-emoji{transform:scale(1.2)}
+.dragon-name{font-family:'Cinzel Decorative',cursive;font-size:.7rem;font-weight:900;text-align:center;line-height:1.3}
+.dragon-sub{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:1px;opacity:.7;text-align:center}
+.dragon-vs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1a0a30,#0a0f20);border:2px solid rgba(255,215,0,.5);display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:.75rem;color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,.3)}
+.dragon-item-preview{font-size:.72rem;padding:4px 10px;border-radius:20px;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.5px;text-align:center}
+.dragon-body{padding:16px 18px;overflow-y:auto;flex:1}
+.dragon-story{font-size:.82rem;color:#94a3b8;line-height:1.8;margin-bottom:16px}
+.dragon-choice-label{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2.5px;color:var(--muted);text-align:center;margin-bottom:12px}
+.dragon-result{display:none;flex-direction:column;gap:14px;animation:fadeUp .5s both}
+.dragon-result.show{display:flex}
+.dr-outcome{border-radius:16px;padding:16px;text-align:center}
+.dr-outcome-icon{font-size:3rem;margin-bottom:8px;display:block;animation:resultPop .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes resultPop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.dr-outcome-title{font-family:'Cinzel Decorative',cursive;font-size:1rem;margin-bottom:6px}
+.dr-outcome-text{font-size:.8rem;color:#94a3b8;line-height:1.65}
+.dr-morale{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.25);border-radius:14px;padding:14px;margin-top:4px}
+.dr-morale-title{font-family:'Cinzel',serif;font-size:.68rem;color:var(--gold);letter-spacing:2px;margin-bottom:8px}
+.dr-morale-text{font-size:.82rem;color:#cbd5e1;line-height:1.7;font-style:italic}
+.dragon-claim-btn{width:100%;padding:14px;border-radius:14px;font-family:'Cinzel',serif;font-size:.88rem;font-weight:900;letter-spacing:2px;cursor:pointer;border:none;transition:transform .15s;margin-top:4px}
+.dragon-claim-btn:active{transform:scale(.97)}
+.wrong-timeline{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.wrong-step{display:flex;align-items:flex-start;gap:10px;opacity:0;animation:stepReveal .4s forwards}
+@keyframes stepReveal{to{opacity:1}}
+.wrong-step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:2px}
+.wrong-step-text{font-size:.75rem;color:#94a3b8;line-height:1.6;flex:1;padding-top:4px}
+.right-sparkles{display:flex;justify-content:center;gap:6px;margin:8px 0;flex-wrap:wrap}
+.right-sparkle{font-size:1.2rem;animation:sparkleAnim .6s ease-out both}
+@keyframes sparkleAnim{from{transform:scale(0) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+
+/* ── MANIFESTO ── */
+.manifesto-overlay{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;padding:20px}
+.manifesto-overlay.open{display:flex;animation:fadeIn .3s}
+.manifesto-sheet{width:100%;max-width:480px;max-height:90vh;border-radius:24px;overflow-y:auto;background:linear-gradient(160deg,#04010f,#0a0520);border:1px solid rgba(255,215,0,.2);padding:28px 24px}
+.manifesto-title{font-family:'Cinzel Decorative',cursive;font-size:1.4rem;color:var(--gold);text-align:center;margin-bottom:6px;text-shadow:0 0 30px rgba(255,215,0,.4)}
+.manifesto-sub{font-family:'Cinzel',serif;font-size:.65rem;color:var(--muted);letter-spacing:3px;text-align:center;margin-bottom:20px}
+.manifesto-block{margin-bottom:18px}
+.manifesto-block-title{font-family:'Cinzel',serif;font-size:.7rem;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.manifesto-block-text{font-size:.82rem;color:#94a3b8;line-height:1.75}
+.manifesto-block-text strong{color:var(--text)}
+.manifesto-quote{border-left:3px solid var(--gold);padding:12px 16px;background:rgba(255,215,0,.05);border-radius:0 12px 12px 0;font-style:italic;font-size:.88rem;color:#e2e8f0;line-height:1.7;margin:14px 0}
+.manifesto-close{width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0800;font-family:'Cinzel',serif;font-size:.88rem;font-weight:900;cursor:pointer;border:none;margin-top:10px}
+
+/* ── ACCADEMIA UNIVERSALE ── */
+.univ-divider{
+  display:flex;align-items:center;gap:12px;padding:18px 14px 6px;
+}
+.univ-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.35),transparent);}
+.univ-divider-badge{
+  display:flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,200,0,.06));
+  border:1px solid rgba(255,215,0,.4);border-radius:20px;
+  padding:5px 14px;white-space:nowrap;
+  font-family:'Cinzel Decorative',cursive;font-size:.62rem;color:var(--gold);
+  letter-spacing:1.5px;text-shadow:0 0 12px rgba(255,215,0,.4);
+  box-shadow:0 0 20px rgba(255,215,0,.08);
+}
+.univ-lesson-card{
+  border-radius:18px;overflow:hidden;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:transform .2s,box-shadow .2s;
+  border:1px solid rgba(255,215,0,.22);
+  background:linear-gradient(160deg,rgba(8,12,28,.95),rgba(5,8,20,.98));
+  position:relative;
+}
+.univ-lesson-card:active{transform:scale(.97);}
+.univ-lesson-card:hover{box-shadow:0 8px 30px rgba(255,215,0,.08);}
+.univ-lesson-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,215,0,.04) 0%,transparent 60%);
+  pointer-events:none;
+}
+.univ-banner{
+  width:100%;height:90px;display:flex;align-items:center;justify-content:center;
+  gap:14px;position:relative;overflow:hidden;
+}
+.univ-banner-icon{font-size:2.8rem;filter:drop-shadow(0 0 16px currentColor);position:relative;z-index:1;}
+.univ-banner-title-wrap{position:relative;z-index:1;text-align:left;}
+.univ-banner-num{font-family:'Cinzel',serif;font-size:.55rem;color:var(--gold);opacity:.7;letter-spacing:2px;margin-bottom:3px;}
+.univ-banner-title{font-family:'Cinzel Decorative',cursive;font-size:.78rem;color:var(--gold);line-height:1.3;text-shadow:0 0 16px rgba(255,215,0,.3);}
+.univ-body{padding:12px 14px 14px;}
+.univ-age-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-family:'Cinzel',serif;font-size:.55rem;font-weight:700;letter-spacing:1.5px;
+  margin-bottom:6px;
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:var(--gold);
+}
+.univ-desc{font-size:.78rem;color:#94a3b8;line-height:1.6;margin-bottom:10px;}
+.univ-key{
+  background:rgba(255,215,0,.05);border-left:2px solid rgba(255,215,0,.4);
+  padding:8px 12px;border-radius:0 10px 10px 0;
+  font-size:.74rem;color:#cbd5e1;line-height:1.6;margin-bottom:10px;
+  font-style:italic;
+}
+.univ-footer{display:flex;align-items:center;justify-content:space-between;}
+.univ-reward{font-family:'Cinzel Decorative',cursive;font-size:.8rem;color:var(--gold);}
+.univ-cta{
+  padding:6px 14px;border-radius:10px;
+  background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);
+  color:var(--gold);font-family:'Cinzel',serif;font-size:.62rem;font-weight:700;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+
+/* Universal lesson modal variant */
+.univ-modal-header{
+  padding:18px 18px 14px;
+  background:linear-gradient(135deg,rgba(255,215,0,.06),rgba(255,215,0,.02));
+  border-bottom:1px solid rgba(255,215,0,.12);flex-shrink:0;
+}
+.univ-modal-num{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);opacity:.7;letter-spacing:2.5px;margin-bottom:4px;}
+.univ-modal-title{font-family:'Cinzel Decorative',cursive;font-size:1.05rem;color:var(--gold);line-height:1.3;margin-bottom:8px;text-shadow:0 0 20px rgba(255,215,0,.3);}
+.univ-modal-age{display:flex;gap:6px;flex-wrap:wrap;}
+.univ-age-pill{padding:3px 10px;border-radius:20px;font-family:'Cinzel',serif;font-size:.58rem;font-weight:700;letter-spacing:1px;}
+
+.univ-section-block{margin-bottom:16px;}
+.univ-section-label{font-family:'Cinzel',serif;font-size:.62rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.univ-section-text{font-size:.82rem;color:#94a3b8;line-height:1.78;}
+.univ-formula{
+  background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.03));
+  border:1px solid rgba(255,215,0,.2);border-radius:14px;
+  padding:14px;margin:12px 0;text-align:center;
+}
+.univ-formula-eq{font-family:'Cinzel Decorative',cursive;font-size:.88rem;color:var(--gold);margin-bottom:6px;line-height:1.4;}
+.univ-formula-sub{font-size:.74rem;color:#94a3b8;line-height:1.6;}
+.univ-example-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+.univ-example-card{border-radius:12px;padding:11px 10px;text-align:center;}
+.univ-example-icon{font-size:1.3rem;margin-bottom:5px;}
+.univ-example-label{font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;letter-spacing:.5px;margin-bottom:3px;}
+.univ-example-val{font-size:.72rem;color:#94a3b8;line-height:1.5;}
+.univ-wisdom{
+  background:linear-gradient(135deg,rgba(255,215,0,.07),rgba(255,215,0,.02));
+  border-left:3px solid var(--gold);
+  padding:12px 14px;border-radius:0 12px 12px 0;
+  font-style:italic;font-size:.82rem;color:#e2e8f0;line-height:1.7;margin:12px 0;
+}
+.univ-step-list{display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+.univ-step-item{display:flex;gap:10px;align-items:flex-start;}
+.univ-step-dot{
+  width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-family:'Cinzel Decorative',cursive;font-weight:900;
+  flex-shrink:0;margin-top:1px;
+}
+.univ-step-text{font-size:.78rem;color:#94a3b8;line-height:1.6;flex:1;padding-top:3px;}
+
+/* ── DEEPLINK SYSTEM ── */
+.wa-notif{position:fixed;top:-100px;left:50%;transform:translateX(-50%);z-index:500;width:92%;max-width:380px;background:#1a1f2e;border:1px solid rgba(37,211,102,.4);border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.7);transition:top .5s cubic-bezier(.22,1,.36,1)}
+.wa-notif.visible{top:calc(14px + var(--safe-top))}
+.wa-head{display:flex;align-items:center;gap:8px;padding:10px 14px 8px;background:rgba(37,211,102,.08)}
+.wa-logo{width:28px;height:28px;border-radius:8px;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.wa-app{font-family:'Cinzel',serif;font-size:.6rem;color:#25d366;letter-spacing:1.5px;font-weight:700}
+.wa-time{font-size:.58rem;color:var(--muted);margin-left:auto}
+.wa-body{padding:10px 14px 14px}
+.wa-sender{font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);font-weight:700;margin-bottom:5px}
+.wa-msg{font-size:.8rem;color:#cbd5e1;line-height:1.6;margin-bottom:11px}
+.wa-link{display:inline-flex;align-items:center;gap:7px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);border-radius:10px;padding:8px 13px;cursor:pointer;transition:all .18s;width:100%}
+.wa-link:active{transform:scale(.97)}
+.wa-link-url{font-family:'Courier New',monospace;font-size:.65rem;color:#25d366;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wa-cta{background:#25d366;color:#000;font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;padding:5px 11px;border-radius:7px;white-space:nowrap}
+.wa-dismiss{font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted);text-align:right;padding:0 14px 10px;cursor:pointer}
+.dl-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.dl-overlay.open{display:flex;animation:fadeIn .25s}
+.dl-card{width:100%;max-width:380px;background:#0a0f20;border:1px solid rgba(255,215,0,.25);border-radius:24px;overflow:hidden}
+.dl-steps{padding:18px 18px 0}
+.dl-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;opacity:.35;transition:opacity .4s,transform .4s;transform:translateX(-8px)}
+.dl-step.done{opacity:1;transform:translateX(0)}
+.dl-step.active{opacity:1;transform:translateX(0)}
+.dl-step-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:.75rem;font-weight:900;flex-shrink:0;margin-top:1px}
+.dl-step-body{flex:1}
+.dl-step-title{font-family:'Cinzel',serif;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.dl-step-desc{font-size:.72rem;color:var(--muted);line-height:1.5}
+.dl-step-tag{display:inline-block;padding:2px 9px;border-radius:20px;font-family:'Courier New',monospace;font-size:.58rem;margin-top:5px;word-break:break-all}
+.dl-spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin-left:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dl-footer{padding:14px 18px 18px;border-top:1px solid rgba(255,255,255,.07);margin-top:4px}
+.dl-action-btn{width:100%;padding:13px;border-radius:14px;font-family:'Cinzel',serif;font-size:.85rem;font-weight:900;letter-spacing:2px;cursor:pointer;border:none;transition:all .2s}
+.dl-action-btn:active{transform:scale(.97)}
+.notaio-hud{position:fixed;bottom:calc(90px + var(--safe-bottom));right:14px;z-index:400;background:#0a1020;border:1px solid rgba(167,139,250,.35);border-radius:16px;padding:10px 13px;display:none;flex-direction:column;gap:5px;box-shadow:0 8px 30px rgba(0,0,0,.6);animation:hudSlide .4s cubic-bezier(.22,1,.36,1)}
+.notaio-hud.visible{display:flex}
+@keyframes hudSlide{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.nh-title{font-family:'Cinzel',serif;font-size:.62rem;color:var(--purple);letter-spacing:1.5px;display:flex;align-items:center;gap:6px}
+.nh-row{font-size:.7rem;color:#94a3b8;display:flex;align-items:center;gap:7px}
+.nh-val{font-family:'Cinzel Decorative',cursive;font-size:.8rem}
+.nh-trust-bar{width:80px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;display:inline-block;vertical-align:middle}
+.nh-trust-fill{height:100%;border-radius:3px;transition:width 1s}
+.link-copied{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:700;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.5);border-radius:20px;padding:14px 28px;font-family:'Cinzel',serif;font-size:.9rem;color:#25d366;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
+.link-copied.show{opacity:1}
+
+/* ── CASTLE VISUAL ── */
+.castle-visual-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 0 0}
+.castle-visual-emoji{font-size:5.5rem;transition:all .8s;cursor:pointer;animation:cvFloat 4s ease-in-out infinite;display:block;text-align:center}
+@keyframes cvFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.cv-bar-wrap{width:180px;height:7px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin:8px 0 4px}
+.cv-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),#fffacd);border-radius:4px;transition:width 1.2s ease}
+.cv-label{font-family:'Cinzel',serif;font-size:.58rem;color:var(--gold);letter-spacing:2px;text-align:center}
+
+/* ── SPECIAL WEEKLY MISSION ── */
+.smb-wrap{margin:8px 14px;padding:13px;background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(167,139,250,.06));border:1px solid rgba(255,215,0,.3);border-radius:14px;position:relative;overflow:hidden}
+.smb-tag{font-family:'Cinzel',serif;font-size:.52rem;color:var(--gold);letter-spacing:1px;opacity:.7;margin-bottom:4px}
+.smb-title{font-family:'Cinzel',serif;font-size:.84rem;color:var(--gold);font-weight:800;margin-bottom:4px}
+.smb-desc{font-size:.7rem;color:var(--text);line-height:1.4;margin-bottom:8px}
+.smb-row{display:flex;align-items:center;justify-content:space-between}
+.smb-reward{font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold);background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.25);border-radius:20px;padding:3px 10px}
+.smb-btn{font-family:'Cinzel',serif;font-size:.7rem;color:var(--dark);background:var(--gold);border-radius:20px;padding:4px 14px;cursor:pointer;font-weight:700}
+
+/* ── LEADERBOARD ── */
+.lb-section-title{font-family:'Cinzel Decorative',cursive;font-size:.8rem;color:var(--gold);text-align:center;margin:4px 0 8px}
+.lb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);margin:0 14px 5px}
+.lb-item.lb-gold{background:rgba(255,215,0,.07);border-color:rgba(255,215,0,.25)}
+.lb-medal{font-size:1.1rem;width:26px;text-align:center}
+.lb-ava{font-size:1.5rem}
+.lb-info{flex:1}
+.lb-name{font-family:'Cinzel',serif;font-size:.75rem;color:var(--text);font-weight:700}
+.lb-streak{font-size:.62rem;color:var(--muted)}
+.lb-pts{font-family:'Cinzel',serif;font-size:.8rem;color:var(--gold);font-weight:700}
+.lb-add{margin:4px 14px 8px;padding:10px;border-radius:11px;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.22);color:var(--green);font-family:'Cinzel',serif;font-size:.72rem;text-align:center;cursor:pointer}
+
+/* ── DIALOGUE LESSON ── */
+.dlg-wrap{display:flex;flex-direction:column;gap:9px;margin-bottom:10px}
+.dlg-bubble{display:flex;align-items:flex-start;gap:8px}
+.dlg-bubble.dlg-right{flex-direction:row-reverse}
+.dlg-ava{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:2px solid rgba(255,215,0,.25);background:rgba(255,215,0,.05)}
+.dlg-body{max-width:78%}
+.dlg-who{font-family:'Cinzel',serif;font-size:.52rem;color:var(--muted);letter-spacing:1px;margin-bottom:3px}
+.dlg-text{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:8px 11px;font-size:.76rem;color:var(--text);line-height:1.55}
+.dlg-bubble.dlg-right .dlg-text{background:rgba(255,215,0,.07);border-color:rgba(255,215,0,.18)}
+
+/* ── QUIZ ── */
+.quiz-wrap{margin:8px 0 10px}
+.quiz-question{font-family:'Cinzel',serif;font-size:.68rem;color:var(--gold);letter-spacing:1px;margin-bottom:8px}
+.quiz-btn{width:100%;text-align:left;padding:9px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--text);font-size:.76rem;cursor:pointer;margin-bottom:5px;transition:all .2s}
+.quiz-btn:hover{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3)}
+.quiz-btn.correct{background:rgba(74,222,128,.15)!important;border-color:var(--green)!important;color:var(--green)!important;font-weight:700}
+.quiz-btn.wrong{background:rgba(239,68,68,.1)!important;border-color:rgba(239,68,68,.4)!important;color:#ef4444!important}
+.quiz-result{padding:8px 12px;border-radius:9px;font-size:.75rem;margin-top:4px;display:none}
+
+/* ── DAILY QUESTS ── */
+.dq-section{padding:10px 14px 0;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;color:var(--gold);display:flex;align-items:center;gap:8px}
+.dq-section::after{content:'';flex:1;height:1px;background:rgba(255,215,0,.2)}
+.dq-card{margin:6px 14px;border-radius:14px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.2);padding:12px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
+.dq-card.done{background:rgba(74,222,128,.07);border-color:rgba(74,222,128,.3);opacity:.7}
+.dq-card:active{transform:scale(.97)}
+.dq-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.dq-info{flex:1}
+.dq-title{font-family:'Cinzel',serif;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.dq-desc{font-size:.68rem;color:var(--muted);line-height:1.3}
+.dq-reward{font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);font-weight:700;white-space:nowrap}
+.dq-check{font-size:1.1rem}
+.streak-bonus-bar{margin:8px 14px;padding:10px 14px;background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.25);border-radius:12px;display:flex;align-items:center;gap:10px}
+.sbb-fire{font-size:1.3rem}
+.sbb-info{flex:1}
+.sbb-title{font-family:'Cinzel',serif;font-size:.72rem;color:#fb923c;font-weight:700}
+.sbb-sub{font-size:.65rem;color:var(--muted)}
+.sbb-badge{font-family:'Cinzel',serif;font-size:.72rem;color:#fb923c;font-weight:700}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:calc(80px + var(--safe-bottom));left:50%;transform:translateX(-50%);background:rgba(5,15,30,.97);border:1px solid rgba(74,222,128,.4);border-radius:24px;padding:11px 22px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;color:var(--green);white-space:nowrap;z-index:999;pointer-events:none;opacity:0;transition:opacity .3s}
+.toast.show{opacity:1}
+
+/* ── PARTICLES ── */
+.coinrain{position:fixed;inset:0;z-index:200;pointer-events:none}
+.coin-drop{position:absolute;top:-40px;font-size:1.5rem;animation:coinFall var(--d,.8s) var(--dl,0s) ease-in both}
+@keyframes coinFall{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translateY(110vh) rotate(720deg) scale(.5);opacity:0}}
+.particle-wrap{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:hidden}
+.part{position:absolute;pointer-events:none;animation:partFly 1.4s ease-out both}
+@keyframes partFly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(var(--ty,-80px)) translateX(var(--tx,0px)) scale(.3)}}
+
+/* ── STREAK ── */
+.streak-badge{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;background:rgba(251,146,60,.15);border:1px solid rgba(251,146,60,.3);font-family:'Cinzel',serif;font-size:.65rem;color:#fb923c;font-weight:700;cursor:pointer}
+.lang-sel-btn.active-lang{background:rgba(255,215,0,.15)!important;border-color:rgba(255,215,0,.5)!important;color:var(--gold)!important}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--red);position:absolute;top:6px;right:8px;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── PRO BADGE ── */
+.pro-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;background:linear-gradient(135deg,rgba(255,215,0,.25),rgba(255,180,0,.1));border:1px solid rgba(255,215,0,.5);font-family:'Cinzel',serif;font-size:.52rem;color:var(--gold);font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 0 12px rgba(255,215,0,.15)}
+.pro-lock{opacity:.45;pointer-events:none;position:relative}
+.pro-lock::after{content:'🔒 PRO';position:absolute;top:8px;right:8px;background:rgba(0,0,0,.8);border:1px solid rgba(255,215,0,.4);border-radius:8px;padding:3px 8px;font-family:'Cinzel',serif;font-size:.55rem;color:var(--gold);font-weight:700}
+
+/* ── PRO UPGRADE MODAL ── */
+#pro-modal{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.92);display:none;align-items:flex-end;justify-content:center}
+#pro-modal.open{display:flex;animation:fadeIn .25s}
+.pro-sheet{width:100%;max-width:520px;max-height:95vh;border-radius:24px 24px 0 0;overflow:hidden;background:linear-gradient(180deg,#08040f 0%,#0a0520 40%,#020010 100%);border-top:2px solid rgba(255,215,0,.4);animation:slideUp .35s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+.pro-header{padding:24px 20px 16px;text-align:center;background:linear-gradient(180deg,rgba(255,215,0,.08),transparent);flex-shrink:0}
+.pro-crown{font-size:3rem;margin-bottom:8px;display:block;animation:crownFloat 3s ease-in-out infinite}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-6px) rotate(5deg)}}
+.pro-title{font-family:'Cinzel Decorative',cursive;font-size:1.3rem;color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,.5);margin-bottom:4px}
+.pro-sub{font-family:'Cinzel',serif;font-size:.65rem;color:var(--muted);letter-spacing:2.5px}
+.pro-body{padding:16px 20px;overflow-y:auto;flex:1}
+.pro-features{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.pro-feat{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.pro-feat-icon{font-size:1.4rem;flex-shrink:0}
+.pro-feat-text{flex:1}
+.pro-feat-title{font-family:'Cinzel',serif;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.pro-feat-desc{font-size:.7rem;color:var(--muted);line-height:1.5}
+.pro-feat-badge{font-family:'Cinzel',serif;font-size:.58rem;padding:2px 8px;border-radius:10px;white-space:nowrap;font-weight:700}
+.pro-plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.pro-plan{border-radius:16px;padding:16px 14px;cursor:pointer;transition:all .2s;border:2px solid rgba(255,255,255,.1);background:rgba(5,10,25,.8);text-align:center}
+.pro-plan.selected{border-color:var(--gold);background:rgba(255,215,0,.08);box-shadow:0 0 20px rgba(255,215,0,.15)}
+.pro-plan:active{transform:scale(.97)}
+.pro-plan-name{font-family:'Cinzel Decorative',cursive;font-size:.72rem;color:var(--gold);margin-bottom:4px}
+.pro-plan-price{font-family:'Cinzel Decorative',cursive;font-size:1.4rem;color:var(--text);margin-bottom:2px}
+.pro-plan-period{font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted);letter-spacing:1px}
+.pro-plan-save{font-size:.6rem;color:var(--green);font-weight:700;margin-top:4px}
+.pro-plan-family{border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.05)}
+.pro-plan-family.selected{border-color:var(--purple);background:rgba(167,139,250,.1)}
+.stripe-btn{width:100%;padding:16px;border-radius:16px;background:linear-gradient(135deg,var(--gold),#f59e0b);color:#1a0800;font-family:'Cinzel',serif;font-size:.95rem;font-weight:900;letter-spacing:2px;cursor:pointer;border:none;margin-bottom:10px;box-shadow:0 8px 24px rgba(255,215,0,.35);transition:transform .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.stripe-btn:active{transform:scale(.97)}
+.stripe-btn:disabled{opacity:.6;cursor:not-allowed}
+.stripe-secure{display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Cinzel',serif;font-size:.6rem;color:var(--muted);letter-spacing:1px}
+.pro-close-btn{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:8px;position:absolute;top:16px;right:16px;line-height:1}
+
+/* ── SUPABASE SYNC INDICATOR ── */
+#cloud-sync{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:12px;z-index:500;display:none;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:1px;backdrop-filter:blur(8px);transition:all .3s}
+#cloud-sync.syncing{display:flex;background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.3);color:var(--teal)}
+#cloud-sync.synced{display:flex;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green)}
+#cloud-sync.error{display:flex;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);color:var(--red)}
+.sync-spinner{width:10px;height:10px;border:1.5px solid rgba(255,255,255,.2);border-top-color:currentColor;border-radius:50%;animation:spin .8s linear infinite}
+</style>
+
+<!-- ══════ STRIPE ══════ -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- ══════ SUPABASE ══════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+</head>
+<body>
+
+<!-- ══════ OFFLINE / ONLINE BADGE ══════ -->
+<div id="offline-badge">📵 Modalità Offline — i Semi sono al sicuro</div>
+<div id="online-badge">✅ Connesso — sincronizzazione attiva</div>
+
+<!-- ══════ CLOUD SYNC ══════ -->
+<div id="cloud-sync"><div class="sync-spinner"></div><span id="sync-label">Sync...</span></div>
+
+<!-- ══════ PRO UPGRADE MODAL ══════ -->
+<div id="pro-modal">
+  <div class="pro-sheet" style="position:relative">
+    <button class="pro-close-btn" onclick="closeProModal()">✕</button>
+    <div class="pro-header">
+      <span class="pro-crown">👑</span>
+      <div class="pro-title">FinanzaLand Pro</div>
+      <div class="pro-sub">SBLOCCA IL POTERE DEL DRAGO</div>
+    </div>
+    <div class="pro-body">
+      <div class="pro-features">
+        <div class="pro-feat">
+          <div class="pro-feat-icon">♾️</div>
+          <div class="pro-feat-text"><div class="pro-feat-title">Missioni illimitate</div><div class="pro-feat-desc">Accedi a tutte le missioni avanzate ogni giorno</div></div>
+          <div class="pro-feat-badge" style="background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3)">GRATIS: 3/gg</div>
+        </div>
+        <div class="pro-feat">
+          <div class="pro-feat-icon">☁️</div>
+          <div class="pro-feat-text"><div class="pro-feat-title">Salvataggio Cloud</div><div class="pro-feat-desc">I tuoi Semi al sicuro su tutti i dispositivi</div></div>
+          <div class="pro-feat-badge" style="background:rgba(6,182,212,.1);color:var(--teal);border:1px solid rgba(6,182,212,.3)">INCLUSO</div>
+        </div>
+        <div class="pro-feat">
+          <div class="pro-feat-icon">📊</div>
+          <div class="pro-feat-text"><div class="pro-feat-title">Report settimanali</div><div class="pro-feat-desc">Grafico progressi, statistiche, consigli AI</div></div>
+          <div class="pro-feat-badge" style="background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.3)">PRO</div>
+        </div>
+        <div class="pro-feat">
+          <div class="pro-feat-icon">🐉</div>
+          <div class="pro-feat-text"><div class="pro-feat-title">Drago AI Mentore</div><div class="pro-feat-desc">Il Drago Notaio risponde alle domande finanziarie</div></div>
+          <div class="pro-feat-badge" style="background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3)">PRO</div>
+        </div>
+        <div class="pro-feat">
+          <div class="pro-feat-icon">🏅</div>
+          <div class="pro-feat-text"><div class="pro-feat-title">Badge & Classifiche</div><div class="pro-feat-desc">Competizioni tra famiglie, trofei esclusivi</div></div>
+          <div class="pro-feat-badge" style="background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.3)">IN ARRIVO</div>
+        </div>
+      </div>
+
+      <div class="pro-plans">
+        <div class="pro-plan selected" id="plan-mensile" onclick="selectPlan('mensile')">
+          <div class="pro-plan-name">MENSILE</div>
+          <div class="pro-plan-price">€4.99</div>
+          <div class="pro-plan-period">AL MESE</div>
+        </div>
+        <div class="pro-plan pro-plan-family" id="plan-famiglia" onclick="selectPlan('famiglia')">
+          <div class="pro-plan-name" style="color:var(--purple)">FAMIGLIA</div>
+          <div class="pro-plan-price">€7.99</div>
+          <div class="pro-plan-period">AL MESE</div>
+          <div class="pro-plan-save">✓ Fino a 4 bambini</div>
+        </div>
+      </div>
+
+      <button class="stripe-btn" id="stripe-pay-btn" onclick="initiateStripePayment()">
+        <span>💳</span><span id="stripe-btn-text">Abbonati ora — €4.99/mese</span>
+      </button>
+      <div class="stripe-secure">🔒 Pagamento sicuro via Stripe · Disdici in qualsiasi momento</div>
+
+      <div style="margin-top:16px;padding:12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);text-align:center">
+        <div style="font-family:'Cinzel',serif;font-size:.62rem;color:var(--muted);letter-spacing:1px">Hai già un account Pro?</div>
+        <div onclick="loginPro()" style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);margin-top:4px;cursor:pointer;font-weight:700">Accedi con email →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ INSTALL BANNER (Android/Desktop) ══════ -->
+<div id="install-banner">
+  <div class="ib-icon"><img src="1000189853.png" alt="🐉" onerror="this.parentElement.innerHTML='🐉'"/></div>
+  <div class="ib-info">
+    <div class="ib-title">Installa FinanzaLand</div>
+    <div class="ib-sub">Aggiungila alla schermata Home</div>
+  </div>
+  <button class="ib-btn" onclick="installApp()">+ Installa</button>
+  <div class="ib-close" onclick="dismissInstall()">✕</div>
+</div>
+
+<!-- ══════ iOS INSTALL GUIDE ══════ -->
+<div id="ios-guide">
+  <div class="ios-guide-sheet">
+    <div class="ios-guide-title">📲 Installa su iPhone</div>
+    <div class="ios-guide-sub">3 SECONDI — DIVENTA UN'APP VERA</div>
+    <div class="ios-step">
+      <div class="ios-step-num">1</div>
+      <div class="ios-step-body">
+        <div class="ios-step-title">Tocca il tasto Condividi</div>
+        <div class="ios-step-desc">In fondo a Safari, tocca il tasto con la freccia che punta in su</div>
+        <div class="ios-step-icon">⬆️ Condividi</div>
+      </div>
+    </div>
+    <div class="ios-step">
+      <div class="ios-step-num">2</div>
+      <div class="ios-step-body">
+        <div class="ios-step-title">Scorri e tocca "Aggiungi"</div>
+        <div class="ios-step-desc">Cerca l'opzione "Aggiungi a schermata Home" nel menu</div>
+        <div class="ios-step-icon">🏠 Aggiungi a schermata Home</div>
+      </div>
+    </div>
+    <div class="ios-step">
+      <div class="ios-step-num">3</div>
+      <div class="ios-step-body">
+        <div class="ios-step-title">Tocca "Aggiungi" in alto a destra</div>
+        <div class="ios-step-desc">FinanzaLand apparirà sulla schermata Home come una vera app! 🐉</div>
+      </div>
+    </div>
+    <button class="ios-close-btn" onclick="closeIOSGuide()">🐉 Ho capito — Chiudi</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ BOOT ══════════════════════════════ -->
+<div class="screen active" id="boot">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:20px">
+    <div class="boot-logo-wrap">🐉<img src="1000189853.png" alt="" onerror="this.remove()"/></div>
+    <div class="boot-title">FinanzaLand</div>
+    <div class="boot-sub">L'ACCADEMIA DEL RISPARMIO</div>
+    <div class="boot-authors">di Bernard Ilboudo</div>
+    <div class="boot-bar-wrap"><div class="boot-bar"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ HOME ══════════════════════════════ -->
+<div class="screen" id="home">
+  <div class="bg-home-grad" style="position:absolute;inset:0"></div>
+  <img class="bg-img" src="1000189685.png" alt="" onerror="this.style.display='none'"/>
+  <div class="bg-overlay" style="background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.05) 40%,rgba(0,0,0,.65) 100%)"></div>
+  <div class="screen-content">
+    <div class="topbar">
+      <div class="tb-logo">🐉 FinanzaLand</div>
+      <div class="tb-stats">
+        <div class="streak-badge" onclick="showToast('🔥 Streak: '+streak+' giorni!')">🔥 <span id="streak-val">1</span></div>
+        <div class="tb-stat"><div class="tb-stat-val" id="semi-top">80</div><div class="tb-stat-label">🌰 Semi</div></div>
+        <div style="display:flex;gap:3px">
+          <div class="lang-sel-btn active-lang" data-lang="it" onclick="changeLanguage('it')" style="padding:3px 6px;border-radius:6px;font-family:'Cinzel',serif;font-size:.52rem;cursor:pointer;border:1px solid rgba(255,215,0,.3);color:var(--gold)">IT</div>
+          <div class="lang-sel-btn" data-lang="en" onclick="changeLanguage('en')" style="padding:3px 6px;border-radius:6px;font-family:'Cinzel',serif;font-size:.52rem;cursor:pointer;border:1px solid var(--border);color:var(--muted)">EN</div>
+          <div class="lang-sel-btn" data-lang="es" onclick="changeLanguage('es')" style="padding:3px 6px;border-radius:6px;font-family:'Cinzel',serif;font-size:.52rem;cursor:pointer;border:1px solid var(--border);color:var(--muted)">ES</div>
+          <div class="lang-sel-btn" data-lang="fr" onclick="changeLanguage('fr')" style="padding:3px 6px;border-radius:6px;font-family:'Cinzel',serif;font-size:.52rem;cursor:pointer;border:1px solid var(--border);color:var(--muted)">FR</div>
+          <div class="lang-sel-btn" data-lang="zh" onclick="changeLanguage('zh')" style="padding:3px 6px;border-radius:6px;font-family:'Cinzel',serif;font-size:.52rem;cursor:pointer;border:1px solid var(--border);color:var(--muted)">中</div>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;flex:1">
+      <div class="map-hotspots">
+        <div class="hotspot" style="left:12%;top:35%;animation-delay:.2s" onclick="gotoTab('missioni')"><div class="hotspot-ring">📜</div><div class="hotspot-label">MISSIONI</div></div>
+        <div class="hotspot" style="right:20%;top:28%;animation-delay:.5s" onclick="gotoTab('tesoro')"><div class="hotspot-ring">🏰</div><div class="hotspot-label">TESORO</div></div>
+        <div class="hotspot" style="left:50%;top:55%;transform:translateX(-50%);animation-delay:.1s" onclick="gotoTab('tempio')"><div class="hotspot-ring">📚</div><div class="hotspot-label">TEMPIO</div></div>
+        <div class="hotspot" style="right:6%;top:40%;animation-delay:.7s;position:relative" onclick="gotoTab('genitore')"><div class="hotspot-ring">👑</div><div class="hotspot-label">GENITORE</div><div class="notif-dot" id="parent-notif" style="display:none"></div></div>
+      </div>
+      <div class="home-bottom">
+        <div class="progress-wrap">
+          <div class="prog-label">LIVELLO <span id="level-label">1</span></div>
+          <div class="prog-bar"><div class="prog-fill" id="xp-bar" style="width:16%"></div></div>
+          <div class="prog-val"><span id="semi-prog">80</span>/500 🌰</div>
+        </div>
+        <div class="home-btns">
+          <div class="hbtn" style="background:rgba(6,182,212,.15);border-color:rgba(6,182,212,.35)" onclick="gotoTab('missioni')"><span class="hbtn-icon">📜</span><span class="hbtn-text" style="color:var(--teal)">MISSIONI DI OGGI</span></div>
+          <div class="hbtn" style="background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.35)" onclick="gotoTab('tesoro')"><span class="hbtn-icon">💰</span><span class="hbtn-text" style="color:var(--gold)">IL MIO TESORO</span></div>
+        </div>
+        <div onclick="demoDeepLink()" style="margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:13px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);cursor:pointer">
+          <span style="font-size:1rem">🔗</span><span style="font-family:'Cinzel',serif;font-size:.65rem;color:#4ade80;font-weight:700;letter-spacing:1px">DEMO DEEPLINK — Pannello Genitore</span>
+          <span style="background:rgba(37,211,102,.2);border-radius:4px;padding:2px 6px;font-family:'Cinzel',serif;font-size:.55rem;color:#25d366">LIVE</span>
+        </div>
+        <div onclick="openManifesto()" style="margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:11px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);cursor:pointer">
+          <span style="font-size:.9rem">📖</span><span style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:1px">La Filosofia — Asset vs Passività</span>
+        </div>
+        <div onclick="showIOSGuide()" style="margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:11px;background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.2);cursor:pointer">
+          <span style="font-size:.9rem">📲</span><span style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--teal);letter-spacing:1px">Installa come App sul telefono</span>
+        </div>
+        <div onclick="openProModal()" style="margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:13px;background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,215,0,.04));border:1px solid rgba(255,215,0,.35);cursor:pointer">
+          <span style="font-size:1rem">👑</span><span style="font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold);font-weight:700;letter-spacing:1px">PASSA A PRO — €4.99/mese</span>
+          <span id="user-pro-badge" style="display:none;background:rgba(255,215,0,.2);border-radius:4px;padding:2px 6px;font-family:'Cinzel',serif;font-size:.55rem;color:var(--gold)">✓ ATTIVO</span>
+        </div>
+      </div>
+    </div>
+    <div class="bottomnav">
+      <div class="bnav-tab on" onclick="gotoTab('home')"><div class="bnav-icon">🏰</div><div class="bnav-label">Mappa</div></div>
+      <div class="bnav-tab" onclick="gotoTab('missioni')"><div class="bnav-icon">📜</div><div class="bnav-label">Missioni</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tesoro')"><div class="bnav-icon">💎</div><div class="bnav-label">Tesoro</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tempio')"><div class="bnav-icon">📚</div><div class="bnav-label">Tempio</div></div>
+      <div class="bnav-tab" style="position:relative" onclick="gotoTab('genitore')"><div class="bnav-icon">👑</div><div class="bnav-label">Genitore</div><div class="notif-dot" id="nav-notif" style="display:none"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MISSIONI ══════ -->
+<div class="screen" id="missioni">
+  <div class="bg-miss-grad" style="position:absolute;inset:0"></div>
+  <img class="bg-img" src="1000189854.png" alt="" onerror="this.style.display='none'"/>
+  <div class="bg-overlay" style="background:linear-gradient(160deg,rgba(5,15,30,.75) 0%,rgba(10,5,20,.6) 100%)"></div>
+  <div class="screen-content">
+    <div class="topbar"><div class="tb-logo">📜 Albero delle Missioni</div><div class="tb-stats"><div class="tb-stat"><div class="tb-stat-val" id="semi-miss">80</div><div class="tb-stat-label">🌰</div></div></div></div>
+    <div class="mid">
+      <div class="dq-section">🌅 MISSIONI DEL GIORNO</div>
+      <div class="streak-bonus-bar" id="streak-bonus-bar">
+        <div class="sbb-fire">🔥</div>
+        <div class="sbb-info">
+          <div class="sbb-title" id="sbb-title">Streak Attivo</div>
+          <div class="sbb-sub" id="sbb-sub">Completa le missioni ogni giorno!</div>
+        </div>
+        <div class="sbb-badge" id="sbb-badge">1 🔥</div>
+      </div>
+      <div id="daily-quest-list"></div>
+      <div id="special-mission-wrap"></div>
+      <div class="dq-section" style="margin-top:6px">🏆 CLASSIFICA FAMIGLIA</div>
+      <div style="text-align:center;font-family:'Cinzel Decorative',cursive;font-size:.72rem;color:var(--gold);margin:4px 0 6px" id="lb-title-sub">Chi risparmia di più questa settimana?</div>
+      <div id="leaderboard-list"></div>
+      <div class="lb-add" onclick="addFamilyMember()">➕ Aggiungi familiare alla classifica</div>
+      <div class="dq-section" style="margin-top:8px">📜 MISSIONI LIBERE QUESTA SETTIMANA</div>
+      <div class="mission-scroll" id="mission-list"></div>
+    </div>
+    <div class="bottomnav">
+      <div class="bnav-tab" onclick="gotoTab('home')"><div class="bnav-icon">🏰</div><div class="bnav-label">Mappa</div></div>
+      <div class="bnav-tab on"><div class="bnav-icon">📜</div><div class="bnav-label">Missioni</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tesoro')"><div class="bnav-icon">💎</div><div class="bnav-label">Tesoro</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tempio')"><div class="bnav-icon">📚</div><div class="bnav-label">Tempio</div></div>
+      <div class="bnav-tab" style="position:relative" onclick="gotoTab('genitore')"><div class="bnav-icon">👑</div><div class="bnav-label">Genitore</div><div class="notif-dot" id="nav-notif2" style="display:none"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TESORO ══════ -->
+<div class="screen" id="tesoro">
+  <div class="bg-tes-grad" style="position:absolute;inset:0"></div>
+  <img class="bg-img" src="1000189857.png" alt="" onerror="this.style.display='none'"/>
+  <div class="bg-overlay" style="background:linear-gradient(180deg,rgba(5,0,20,.5) 0%,rgba(20,5,40,.4) 50%,rgba(0,0,0,.75) 100%)"></div>
+  <div class="screen-content">
+    <div class="topbar"><div class="tb-logo">💎 Il Mio Tesoro</div><div class="tb-stats"><div class="tb-stat"><div class="tb-stat-val" id="semi-tes">80</div><div class="tb-stat-label">🌰 Semi</div></div><div class="tb-stat"><div class="tb-stat-val" id="castle-count">1</div><div class="tb-stat-label">🏰 Cast.</div></div></div></div>
+    <div class="mid">
+      <div class="tesoro-center">
+        <div class="castle-visual-wrap">
+          <span class="castle-visual-emoji" id="cv-emoji" onclick="showCastleInfo()">🏡</span>
+          <div class="cv-bar-wrap"><div class="cv-bar-fill" id="cv-fill" style="width:4%"></div></div>
+          <div class="cv-label" id="cv-label">LIVELLO 1 — CASETTA</div>
+        </div>
+        <div class="counter-mega"><div class="cm-num" id="mega-count">80</div><div class="cm-label">SEMI DI LUCE</div></div>
+        <div style="font-family:'Cinzel',serif;font-size:.68rem;color:var(--teal);text-align:center" id="cashflow-rate">🏰 Cash Flow: +3 ogni 8s</div>
+        <div id="lang-cashflow-msg" style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--purple);text-align:center;min-height:18px;opacity:0;transition:opacity .4s"></div>
+      </div>
+      <div style="padding:12px 14px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;color:var(--muted)">CASTELLI DEL CASH FLOW</div>
+      <div class="castle-row" id="castle-row"></div>
+      <div style="padding:12px 14px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;color:var(--muted)">AZIONI</div>
+      <div class="action-grid">
+        <div class="action-btn" style="border-color:rgba(6,182,212,.3)" onclick="doLavora()"><div class="ab-icon">⚒️</div><div class="ab-name">LAVORA</div><div class="ab-val" style="color:var(--teal)">+20 Semi</div></div>
+        <div class="action-btn" style="border-color:rgba(74,222,128,.3)" onclick="doDormi()"><div class="ab-icon">😴</div><div class="ab-name">DORMI</div><div class="ab-val" style="color:var(--green)">+5% interesse</div></div>
+        <div class="action-btn" style="border-color:rgba(255,215,0,.3)" onclick="doBorsa()"><div class="ab-icon">📈</div><div class="ab-name">BORSA</div><div class="ab-val" style="color:var(--gold)">Rischio/Guadagno</div></div>
+        <div class="action-btn" style="border-color:rgba(167,139,250,.3)" onclick="showLingottoModal()"><div class="ab-icon">🥈</div><div class="ab-name">MONETA</div><div class="ab-val" style="color:var(--purple)">1000 semi → 🥈</div></div>
+      </div>
+      <div style="padding-bottom:20px"></div>
+    </div>
+    <div class="bottomnav">
+      <div class="bnav-tab" onclick="gotoTab('home')"><div class="bnav-icon">🏰</div><div class="bnav-label">Mappa</div></div>
+      <div class="bnav-tab" onclick="gotoTab('missioni')"><div class="bnav-icon">📜</div><div class="bnav-label">Missioni</div></div>
+      <div class="bnav-tab on"><div class="bnav-icon">💎</div><div class="bnav-label">Tesoro</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tempio')"><div class="bnav-icon">📚</div><div class="bnav-label">Tempio</div></div>
+      <div class="bnav-tab" style="position:relative" onclick="gotoTab('genitore')"><div class="bnav-icon">👑</div><div class="bnav-label">Genitore</div><div class="notif-dot" id="nav-notif3" style="display:none"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TEMPIO ══════ -->
+<div class="screen" id="tempio">
+  <div class="bg-temp-grad" style="position:absolute;inset:0"></div>
+  <img class="bg-img" src="1000189688.png" alt="" onerror="this.style.display='none'"/>
+  <div class="bg-overlay" style="background:linear-gradient(180deg,rgba(0,5,20,.55) 0%,rgba(5,10,30,.4) 50%,rgba(0,0,0,.75) 100%)"></div>
+  <div class="screen-content">
+    <div class="topbar"><div class="tb-logo">📚 Tempio del Sapere</div><div class="tb-stats"><div class="tb-stat"><div class="tb-stat-val" id="semi-temp">80</div><div class="tb-stat-label">🌰</div></div></div></div>
+    <div class="mid">
+      <div class="tempio-scroll">
+        <div class="lesson-card" onclick="openLesson('bisdes')"><div class="lc-img-fallback" style="background:linear-gradient(135deg,rgba(6,182,212,.2),rgba(6,182,212,.05))">🏛️</div><div class="lc-body"><div class="lc-badge" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.28);color:var(--teal)">LEZIONE 1</div><div class="lc-title">Bisogno vs Desiderio</div><div class="lc-desc">La Creatura di Cristallo ti insegna la differenza tra quello che hai bisogno e quello che vuoi.</div><div class="lc-footer"><div class="lc-reward">+30 🌰 Semi</div><div class="lc-cta" style="background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.3);color:var(--teal)">Impara →</div></div></div></div>
+        <div class="lesson-card" onclick="openLesson('guaspende')"><div class="lc-img-fallback" style="background:linear-gradient(135deg,rgba(74,222,128,.15),rgba(74,222,128,.05))">⚖️</div><div class="lc-body"><div class="lc-badge" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);color:var(--green)">LEZIONE 2</div><div class="lc-title">Guadagna — Non Solo Spendere</div><div class="lc-desc">Il Mondo Reattivo ti mostra cosa succede quando guadagni vs quando spendi tutto.</div><div class="lc-footer"><div class="lc-reward">+25 🌰 Semi</div><div class="lc-cta" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.28);color:var(--green)">Impara →</div></div></div></div>
+        <div class="lesson-card" onclick="openLesson('mondo')"><div class="lc-img-fallback" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(167,139,250,.05))">🌍</div><div class="lc-body"><div class="lc-badge" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.28);color:var(--purple)">LEZIONE 3</div><div class="lc-title">Il Mondo Reattivo — Cash Flow</div><div class="lc-desc">Ogni castello produce ricchezza! Il tuo mondo cambia in base a come gestisci i tuoi Semi.</div><div class="lc-footer"><div class="lc-reward">+40 🌰 Semi</div><div class="lc-cta" style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.28);color:var(--purple)">Esplora →</div></div></div></div>
+        <div class="lesson-card" onclick="openLesson('clessidra')"><div class="lc-img-fallback" style="background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,215,0,.05))">⏳</div><div class="lc-body"><div class="lc-badge" style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);color:var(--gold)">LEZIONE 4</div><div class="lc-title">La Clessidra di Luce — Interesse Composto</div><div class="lc-desc">I tuoi Semi crescono mentre dormi. Il potere dell'interesse composto!</div><div class="lc-footer"><div class="lc-reward">+50 🌰 Semi</div><div class="lc-cta" style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);color:var(--gold)">Scopri →</div></div></div></div>
+        <!-- ★ LEZIONE 5 — DUE DRAGHI ★ -->
+        <div class="lesson-card" onclick="openDragonLesson()" style="border-color:rgba(251,146,60,.3);position:relative">
+          <div style="position:absolute;top:-8px;right:12px;background:linear-gradient(135deg,#f97316,#dc2626);border-radius:20px;padding:3px 10px;font-family:'Cinzel',serif;font-size:.55rem;color:#fff;font-weight:700;z-index:5;box-shadow:0 4px 12px rgba(249,115,22,.4)">⭐ SFIDA SPECIALE</div>
+          <div class="lc-img-fallback" style="background:linear-gradient(135deg,rgba(249,115,22,.2),rgba(220,38,38,.1),rgba(5,5,20,.9))"><div style="display:flex;gap:20px;align-items:center"><span style="font-size:2.5rem;filter:drop-shadow(0 0 15px rgba(239,68,68,.8))">🔴</span><span style="font-family:'Cinzel Decorative',cursive;font-size:.8rem;color:var(--gold)">VS</span><span style="font-size:2.5rem;filter:drop-shadow(0 0 15px rgba(74,222,128,.8))">🟢</span></div></div>
+          <div class="lc-body" style="background:linear-gradient(180deg,rgba(5,10,25,.95),rgba(10,5,20,.98))">
+            <div class="lc-badge" style="background:linear-gradient(135deg,rgba(249,115,22,.2),rgba(220,38,38,.1));border:1px solid rgba(249,115,22,.4);color:var(--orange)">🐉 LEZIONE 5 — ESCLUSIVA</div>
+            <div class="lc-title" style="background:linear-gradient(90deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Il Segreto dei Due Draghi</div>
+            <div class="lc-desc">Incontri due draghi: il Drago Consumatore e il Drago Costruttore. <strong style="color:var(--orange)">La tua scelta cambia tutto.</strong></div>
+            <div class="lc-footer"><div class="lc-reward" style="color:var(--orange)">+80 🌰 Semi</div><div class="lc-cta" style="background:linear-gradient(135deg,rgba(249,115,22,.2),rgba(220,38,38,.1));border:1px solid rgba(249,115,22,.4);color:var(--orange)">Scegli →</div></div>
+          </div>
+        </div>
+        <!-- ══════════════════════════════════════════
+             🌟 ACCADEMIA UNIVERSALE — PER TUTTI
+             ══════════════════════════════════════════ -->
+        <div class="univ-divider">
+          <div class="univ-divider-line"></div>
+          <div class="univ-divider-badge">🌟 ACCADEMIA UNIVERSALE</div>
+          <div class="univ-divider-line"></div>
+        </div>
+        <div style="padding:0 14px 8px;font-size:.74rem;color:#94a3b8;line-height:1.6;text-align:center">
+          Lezioni per <strong style="color:var(--gold)">bambini, adulti e famiglie</strong> — le fondamenta della vera ricchezza
+        </div>
+
+        <!-- U1: Regola 50-30-20 -->
+        <div class="univ-lesson-card" onclick="openUnivLesson('u50_30_20')">
+          <div class="univ-banner" style="background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(6,182,212,.03))">
+            <div class="univ-banner-icon" style="color:var(--teal)">🍕</div>
+            <div class="univ-banner-title-wrap">
+              <div class="univ-banner-num">ACCADEMIA · LEZIONE I</div>
+              <div class="univ-banner-title">La Regola 50-30-20</div>
+            </div>
+          </div>
+          <div class="univ-body">
+            <div class="univ-age-badge">👨‍👩‍👧 Tutta la famiglia · 8+ anni</div>
+            <div class="univ-desc">Come dividere ogni entrata in 3 parti: sopravvivenza, piacere e futuro. La formula usata dai milionari — semplice come dividere una pizza.</div>
+            <div class="univ-key">"50% per vivere, 30% per godere, 20% per costruire."</div>
+            <div class="univ-footer"><div class="univ-reward">+35 🌰 Semi</div><div class="univ-cta">Studia →</div></div>
+          </div>
+        </div>
+
+        <!-- U2: Pagati Prima -->
+        <div class="univ-lesson-card" onclick="openUnivLesson('upagati')">
+          <div class="univ-banner" style="background:linear-gradient(135deg,rgba(74,222,128,.1),rgba(74,222,128,.03))">
+            <div class="univ-banner-icon" style="color:var(--green)">🪙</div>
+            <div class="univ-banner-title-wrap">
+              <div class="univ-banner-num">ACCADEMIA · LEZIONE II</div>
+              <div class="univ-banner-title">Pagati Prima!</div>
+            </div>
+          </div>
+          <div class="univ-body">
+            <div class="univ-age-badge">👨‍👩‍👧 Tutta la famiglia · 10+ anni</div>
+            <div class="univ-desc">Il segreto dei ricchi: prima di pagare qualsiasi cosa, paga te stesso. Il risparmio non è quello che avanza — è la prima voce del budget.</div>
+            <div class="univ-key">"Prima di pagare l'affitto, paga il tuo futuro sé stesso."</div>
+            <div class="univ-footer"><div class="univ-reward">+40 🌰 Semi</div><div class="univ-cta">Scopri →</div></div>
+          </div>
+        </div>
+
+        <!-- U3: Inflazione -->
+        <div class="univ-lesson-card" onclick="openUnivLesson('uinflaz')">
+          <div class="univ-banner" style="background:linear-gradient(135deg,rgba(248,113,113,.1),rgba(239,68,68,.03))">
+            <div class="univ-banner-icon" style="color:var(--red)">👻</div>
+            <div class="univ-banner-title-wrap">
+              <div class="univ-banner-num">ACCADEMIA · LEZIONE III</div>
+              <div class="univ-banner-title">Il Ladro Invisibile</div>
+            </div>
+          </div>
+          <div class="univ-body">
+            <div class="univ-age-badge">👨‍👩‍👧 Tutta la famiglia · 10+ anni</div>
+            <div class="univ-desc">L'inflazione entra ogni notte nel tuo portafoglio e ruba piccole somme senza che tu te ne accorga. Impara a difendere i tuoi Semi dal Fantasma dell'Inflazione.</div>
+            <div class="univ-key">"100 Semi sotto il materasso valgono 95 Semi domani. Falli lavorare!"</div>
+            <div class="univ-footer"><div class="univ-reward">+45 🌰 Semi</div><div class="univ-cta">Difenditi →</div></div>
+          </div>
+        </div>
+
+        <!-- U4: Debito buono vs cattivo -->
+        <div class="univ-lesson-card" onclick="openUnivLesson('udebito')">
+          <div class="univ-banner" style="background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(167,139,250,.03))">
+            <div class="univ-banner-icon" style="color:var(--purple)">⚖️</div>
+            <div class="univ-banner-title-wrap">
+              <div class="univ-banner-num">ACCADEMIA · LEZIONE IV</div>
+              <div class="univ-banner-title">Debito Buono vs Cattivo</div>
+            </div>
+          </div>
+          <div class="univ-body">
+            <div class="univ-age-badge">👨‍👩‍👧 Adulti e ragazzi · 13+ anni</div>
+            <div class="univ-desc">Non tutto il debito è il nemico. Un debito che produce più ricchezza di quanto costi è un alleato. Uno che ti toglie Semi per acquistare passività è il tuo peggiore nemico.</div>
+            <div class="univ-key">"Un prestito per comprare un castello che genera reddito è diverso da un prestito per comprare un mantello."</div>
+            <div class="univ-footer"><div class="univ-reward">+50 🌰 Semi</div><div class="univ-cta">Analizza →</div></div>
+          </div>
+        </div>
+
+        <!-- U5: Diversificazione -->
+        <div class="univ-lesson-card" onclick="openUnivLesson('udiversif')">
+          <div class="univ-banner" style="background:linear-gradient(135deg,rgba(251,146,60,.1),rgba(251,146,60,.03))">
+            <div class="univ-banner-icon" style="color:var(--orange)">🧺</div>
+            <div class="univ-banner-title-wrap">
+              <div class="univ-banner-num">ACCADEMIA · LEZIONE V</div>
+              <div class="univ-banner-title">Non Tutte le Uova in un Paniere</div>
+            </div>
+          </div>
+          <div class="univ-body">
+            <div class="univ-age-badge">👨‍👩‍👧 Tutta la famiglia · 8+ anni</div>
+            <div class="univ-desc">Se metti tutti i Semi in un castello e crolla, perdi tutto. Se li distribuisci in 5 castelli, ne bastano 4 per farti ricco lo stesso. Questa è la diversificazione.</div>
+            <div class="univ-key">"Il Drago Saggio non dorme mai in un solo castello."</div>
+            <div class="univ-footer"><div class="univ-reward">+45 🌰 Semi</div><div class="univ-cta">Distribuisci →</div></div>
+          </div>
+        </div>
+
+        <!-- U6: Costo Opportunità -->
+        <div class="univ-lesson-card" onclick="openUnivLesson('uopport')">
+          <div class="univ-banner" style="background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,215,0,.03))">
+            <div class="univ-banner-icon" style="color:var(--gold)">⌛</div>
+            <div class="univ-banner-title-wrap">
+              <div class="univ-banner-num">ACCADEMIA · LEZIONE VI</div>
+              <div class="univ-banner-title">Il Tempo Vale Oro</div>
+            </div>
+          </div>
+          <div class="univ-body">
+            <div class="univ-age-badge">👨‍👩‍👧 Tutta la famiglia · 10+ anni</div>
+            <div class="univ-desc">Ogni scelta esclude un'altra. Spendere 2 ore a guardare la TV non costa solo tempo — costa anche i Semi che avresti potuto guadagnare. Questo si chiama costo opportunità.</div>
+            <div class="univ-key">"L'ora che passi scegliendo tra due mantelli è un'ora in meno per costruire il tuo castello."</div>
+            <div class="univ-footer"><div class="univ-reward">+60 🌰 Semi</div><div class="univ-cta">Rifletti →</div></div>
+          </div>
+        </div>
+
+        <div style="padding-bottom:20px"></div>
+      </div>
+    </div>
+    <div class="bottomnav">
+      <div class="bnav-tab" onclick="gotoTab('home')"><div class="bnav-icon">🏰</div><div class="bnav-label">Mappa</div></div>
+      <div class="bnav-tab" onclick="gotoTab('missioni')"><div class="bnav-icon">📜</div><div class="bnav-label">Missioni</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tesoro')"><div class="bnav-icon">💎</div><div class="bnav-label">Tesoro</div></div>
+      <div class="bnav-tab on"><div class="bnav-icon">📚</div><div class="bnav-label">Tempio</div></div>
+      <div class="bnav-tab" style="position:relative" onclick="gotoTab('genitore')"><div class="bnav-icon">👑</div><div class="bnav-label">Genitore</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ GENITORE ══════ -->
+<div class="screen" id="genitore">
+  <div class="bg-gen-grad" style="position:absolute;inset:0"></div>
+  <img class="bg-img" src="1000189855.png" alt="" onerror="this.style.display='none'"/>
+  <div class="bg-overlay" style="background:linear-gradient(180deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,.6) 100%)"></div>
+  <div class="screen-content">
+    <div class="topbar"><div class="tb-logo">👑 Pannello Genitore</div><div style="font-family:'Cinzel',serif;font-size:.65rem;color:var(--muted)">PIN: 1234</div></div>
+    <div class="mid">
+      <div class="pin-screen" id="pin-screen">
+        <div style="font-size:2.5rem">🛡️</div>
+        <div class="pin-title">Area Riservata</div>
+        <div class="pin-sub">INSERISCI IL PIN GENITORE</div>
+        <div class="pin-dots"><div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div></div>
+        <div class="pinpad">
+          <div class="pp-btn" onclick="pinPress('1')">1</div><div class="pp-btn" onclick="pinPress('2')">2</div><div class="pp-btn" onclick="pinPress('3')">3</div>
+          <div class="pp-btn" onclick="pinPress('4')">4</div><div class="pp-btn" onclick="pinPress('5')">5</div><div class="pp-btn" onclick="pinPress('6')">6</div>
+          <div class="pp-btn" onclick="pinPress('7')">7</div><div class="pp-btn" onclick="pinPress('8')">8</div><div class="pp-btn" onclick="pinPress('9')">9</div>
+          <div class="pp-btn" onclick="pinPress('demo')" style="font-size:.65rem;color:var(--teal)">DEMO</div>
+          <div class="pp-btn" onclick="pinPress('0')">0</div>
+          <div class="pp-btn" onclick="pinPress('del')" style="font-size:.9rem">⌫</div>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--muted)">Suggerimento: premi DEMO per saltare</div>
+      </div>
+      <div id="parent-content" style="display:none">
+        <div class="parent-panel">
+          <div class="panel-section">📬 Missioni in attesa</div>
+          <div id="pending-missions"></div>
+          <div class="panel-section" style="margin-top:8px">📊 Statistiche figlio</div>
+          <div style="background:rgba(5,10,25,.88);border:1px solid var(--border);border-radius:14px;padding:13px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="text-align:center"><div style="font-family:'Cinzel Decorative',cursive;font-size:1.5rem;color:var(--gold)" id="stat-semi">80</div><div style="font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted)">SEMI TOTALI</div></div>
+            <div style="text-align:center"><div style="font-family:'Cinzel Decorative',cursive;font-size:1.5rem;color:var(--green)" id="stat-miss">0</div><div style="font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted)">MISSIONI OK</div></div>
+            <div style="text-align:center"><div style="font-family:'Cinzel Decorative',cursive;font-size:1.5rem;color:var(--teal)" id="stat-castelli">1</div><div style="font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted)">CASTELLI</div></div>
+            <div style="text-align:center"><div style="font-family:'Cinzel Decorative',cursive;font-size:1.5rem;color:var(--purple)" id="stat-streak">1</div><div style="font-family:'Cinzel',serif;font-size:.58rem;color:var(--muted)">STREAK 🔥</div></div>
+          </div>
+          <div class="panel-section" style="margin-top:8px">💎 Regola d'Oro — Bernard & Riccarda</div>
+          <div style="background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:14px">
+            <div style="font-size:.8rem;color:#94a3b8;line-height:1.65;margin-bottom:12px">Quando tuo figlio raggiunge <strong style="color:var(--gold)">500 Semi</strong>, aggiungi anche tu 500 Semi. Dimostra che il risparmio viene premiato!</div>
+            <div onclick="regolaOro()" style="text-align:center;padding:11px;background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,215,0,.08));border:1px solid rgba(255,215,0,.35);border-radius:11px;font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);cursor:pointer;font-weight:700">✨ Aggiungi Bonus Genitore (+100 Semi)</div>
+          </div>
+          <div style="padding-bottom:30px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottomnav">
+      <div class="bnav-tab" onclick="gotoTab('home')"><div class="bnav-icon">🏰</div><div class="bnav-label">Mappa</div></div>
+      <div class="bnav-tab" onclick="gotoTab('missioni')"><div class="bnav-icon">📜</div><div class="bnav-label">Missioni</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tesoro')"><div class="bnav-icon">💎</div><div class="bnav-label">Tesoro</div></div>
+      <div class="bnav-tab" onclick="gotoTab('tempio')"><div class="bnav-icon">📚</div><div class="bnav-label">Tempio</div></div>
+      <div class="bnav-tab on"><div class="bnav-icon">👑</div><div class="bnav-label">Genitore</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ DUE DRAGHI MODAL ══════ -->
+<div class="dragon-modal-overlay" id="dragon-modal">
+  <div class="dragon-modal-sheet">
+    <div class="dragon-banner" id="dragon-banner">
+      <div class="dragon-side dragon-left" onclick="chooseDragon('consumer')">
+        <div class="dragon-emoji" style="color:#ef4444">🔴</div>
+        <div class="dragon-name" style="color:#f87171">Drago<br/>Consumatore</div>
+        <div class="dragon-sub" style="color:#f87171">Passività</div>
+        <div class="dragon-item-preview" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.35);color:#f87171">🧣 Il Mantello Lucente</div>
+      </div>
+      <div class="dragon-vs">VS</div>
+      <div class="dragon-side dragon-right" onclick="chooseDragon('builder')">
+        <div class="dragon-emoji" style="color:#4ade80">🟢</div>
+        <div class="dragon-name" style="color:#4ade80">Drago<br/>Costruttore</div>
+        <div class="dragon-sub" style="color:#4ade80">Asset</div>
+        <div class="dragon-item-preview" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80">🔷 Il Mattone di Cristallo</div>
+      </div>
+    </div>
+    <div class="dragon-body">
+      <div id="dragon-story-section">
+        <div style="font-family:'Cinzel Decorative',cursive;font-size:.9rem;color:var(--gold);margin-bottom:8px;text-align:center">⚔️ La Sfida del Tempio</div>
+        <div class="dragon-story">Nel Tempio del Sapere Ancestrale, due imponenti draghi ti attendono. Ognuno ti offre un dono diverso. <strong style="color:var(--text)">Puoi sceglierne solo uno.</strong> Scegli con saggezza.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:14px;padding:12px;text-align:center"><div style="font-size:2rem;margin-bottom:6px">🧣</div><div style="font-family:'Cinzel',serif;font-size:.65rem;color:#f87171;font-weight:700;margin-bottom:5px">IL MANTELLO LUCENTE</div><div style="font-size:.72rem;color:#94a3b8;line-height:1.6">"Ti farà brillare oggi. Ma tra un mese... sarà sbiadito e senza valore."</div></div>
+          <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:14px;padding:12px;text-align:center"><div style="font-size:2rem;margin-bottom:6px">🔷</div><div style="font-family:'Cinzel',serif;font-size:.65rem;color:#4ade80;font-weight:700;margin-bottom:5px">IL MATTONE DI CRISTALLO</div><div style="font-size:.72rem;color:#94a3b8;line-height:1.6">"Oggi sembra inutile. Ma ogni notte genera un piccolo Seme di Luce. Per sempre."</div></div>
+        </div>
+        <div class="dragon-choice-label">👆 TAP SUL DRAGO — SCEGLI IL TUO DONO</div>
+      </div>
+      <div class="dragon-result" id="dragon-result">
+        <div class="dr-outcome" id="dr-outcome-box"></div>
+        <div class="dr-morale" id="dr-morale-box"></div>
+        <button class="dragon-claim-btn" id="dragon-claim-btn"></button>
+      </div>
+    </div>
+    <div style="text-align:center;padding:8px 18px 20px;flex-shrink:0">
+      <div onclick="closeDragonModal()" style="font-family:'Cinzel',serif;font-size:.62rem;color:var(--muted);cursor:pointer">✕ Torna al Tempio</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MANIFESTO ══════ -->
+<div class="manifesto-overlay" id="manifesto-modal">
+  <div class="manifesto-sheet">
+    <div style="text-align:center;font-size:2.5rem;margin-bottom:10px">🐉</div>
+    <div class="manifesto-title">La Filosofia di FinanzaLand</div>
+    <div class="manifesto-sub">ASSET VS PASSIVITÀ · IL SEGRETO DEI RICCHI</div>
+    <div class="manifesto-block"><div class="manifesto-block-title">🎯 La Visione</div><div class="manifesto-block-text">Rompere il ciclo della povertà insegnando la <strong>mentalità dei ricchi</strong> fin dall'infanzia. Non avere più soldi — capire come il denaro funziona e farlo lavorare per te.</div></div>
+    <div class="manifesto-quote">"Chi sceglie il mantello sarà ammirato per un giorno. Chi sceglie il mattone costruirà un Castello che lo nutrirà per tutta la vita."</div>
+    <div class="manifesto-block"><div class="manifesto-block-title">💎 Asset vs Passività</div><div class="manifesto-block-text">Un <strong>Asset</strong> mette soldi in tasca (il Mattone — produce Semi ogni notte). Una <strong>Passività</strong> toglie soldi dalla tasca (il Mantello — perde valore). I ricchi accumulano Asset.</div></div>
+    <div class="manifesto-block"><div class="manifesto-block-title">🥈 Da Virtuale a Reale</div><div class="manifesto-block-text"><strong>1.000 Semi</strong> = 1 Moneta d'Argento fisica da 1 oncia (€25-35). Vera ricchezza tangibile.</div></div>
+    <div style="text-align:center;font-family:'Cinzel',serif;font-size:.7rem;color:var(--muted);margin-bottom:14px">© 2025 Bernard Ilboudo · FinanzaLand</div>
+    <button class="manifesto-close" onclick="closeManifesto()">🐉 Torna al Regno</button>
+  </div>
+</div>
+
+<!-- ══════ LESSON MODAL ══════ -->
+<div class="modal-overlay" id="lesson-modal" onclick="closeModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-img-fallback" id="modal-img-wrap" style="background:linear-gradient(135deg,rgba(6,182,212,.2),rgba(5,5,20,.9))"><span id="modal-emoji" style="font-size:5rem">🏛️</span><img id="modal-img" src="" alt="" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s" onload="this.style.opacity='1'"/></div>
+    <div class="modal-body">
+      <div class="modal-close" onclick="closeModal()">✕</div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="dlg-wrap" id="modal-dialogue"></div>
+      <div class="modal-text" id="modal-text"></div>
+      <div class="quiz-wrap" id="modal-quiz" style="display:none">
+        <div class="quiz-question" id="quiz-q"></div>
+        <div id="quiz-choices"></div>
+        <div class="quiz-result" id="quiz-result"></div>
+      </div>
+      <div class="modal-concept"><div class="modal-concept-title" id="modal-concept-title"></div><div class="modal-concept-text" id="modal-concept-text"></div></div>
+      <button class="modal-claim-btn" id="modal-btn" onclick="claimLesson()"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 🌟 ACCADEMIA UNIVERSALE MODAL ══════ -->
+<div class="modal-overlay" id="univ-modal" onclick="closeUnivModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()" style="background:linear-gradient(180deg,#04020e,#080510)">
+
+    <!-- HEADER con colore dinamico -->
+    <div class="univ-modal-header" id="univ-modal-header">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+        <div class="modal-close" onclick="closeUnivModal()" style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:var(--gold)">✕</div>
+      </div>
+      <div class="univ-modal-num" id="univ-modal-num">ACCADEMIA UNIVERSALE · LEZIONE I</div>
+      <div class="univ-modal-title" id="univ-modal-title">La Regola 50-30-20</div>
+      <div class="univ-modal-age" id="univ-modal-age"></div>
+    </div>
+
+    <!-- BODY con contenuto dinamico -->
+    <div class="modal-body" id="univ-modal-body" style="padding:16px 18px 32px;">
+      <!-- iniettato via JS -->
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════ DEEPLINK ══════ -->
+<div class="wa-notif" id="wa-notif">
+  <div class="wa-head"><div class="wa-logo">💬</div><div><div class="wa-app">WHATSAPP · FINANZALAND NOTAIO</div></div><div class="wa-time" id="wa-time">ora</div></div>
+  <div class="wa-body">
+    <div class="wa-sender">🛡️ Drago Notaio</div>
+    <div class="wa-msg" id="wa-msg">Missione completata! TrustScore: <strong style="color:var(--green)">94%</strong> ✅</div>
+    <div class="wa-link" onclick="triggerDeepLink()"><span>🔗</span><span class="wa-link-url" id="wa-deeplink-url">finanzaland://approva/...</span><span class="wa-cta">APRI</span></div>
+  </div>
+  <div class="wa-dismiss" onclick="dismissWA()">ignora ✕</div>
+</div>
+<div class="dl-overlay" id="dl-overlay">
+  <div class="dl-card">
+    <div style="padding:16px 18px 12px;border-bottom:1px solid rgba(255,255,255,.07)"><div style="font-family:'Cinzel Decorative',cursive;font-size:.85rem;color:var(--gold)">🔗 DeepLink Antigravity</div><div style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--muted);letter-spacing:1.5px">APPROVAZIONE IN TEMPO REALE</div></div>
+    <div class="dl-steps">
+      <div class="dl-step" id="dls1"><div class="dl-step-num" style="background:rgba(6,182,212,.15);color:var(--teal)">1</div><div class="dl-step-body"><div class="dl-step-title">Missione Completata 🏆</div><div class="dl-step-desc">Il figlio clicca "Fatto!" — notifica istantanea al Drago Notaio.</div></div></div>
+      <div class="dl-step" id="dls2"><div class="dl-step-num" style="background:rgba(167,139,250,.15);color:var(--purple)">2</div><div class="dl-step-body"><div class="dl-step-title">🛡️ TrustScore<span class="dl-spinner" id="dls2-spin" style="display:none"></span></div><div class="dl-step-desc">Analisi AI: tempo impiegato vs soglia minima.</div><div class="dl-step-tag" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--purple)" id="dl-trust-tag">TrustScore: —</div></div></div>
+      <div class="dl-step" id="dls3"><div class="dl-step-num" style="background:rgba(37,211,102,.12);color:#25d366">3</div><div class="dl-step-body"><div class="dl-step-title">📲 DeepLink generato<span class="dl-spinner" id="dls3-spin" style="display:none"></span></div><div class="dl-step-desc">Token monouso 24h → inviato su WhatsApp.</div><div class="dl-step-tag" style="background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);color:#4ade80;cursor:pointer" id="dl-token-tag" onclick="copyDeepLink()">finanzaland://approva/...</div></div></div>
+      <div class="dl-step" id="dls4"><div class="dl-step-num" style="background:rgba(255,215,0,.15);color:var(--gold)">4</div><div class="dl-step-body"><div class="dl-step-title">👑 Genitore approva con PIN</div><div class="dl-step-desc">Un click → apertura diretta. Zero attrito.</div></div></div>
+      <div class="dl-step" id="dls5"><div class="dl-step-num" style="background:rgba(74,222,128,.15);color:var(--green)">5</div><div class="dl-step-body"><div class="dl-step-title">✅ Semi accreditati in 3 secondi!</div><div class="dl-step-desc">Il tesoro si aggiorna in tempo reale.</div><div class="dl-step-tag" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--green)" id="dl-result-tag">In attesa...</div></div></div>
+    </div>
+    <div class="dl-footer"><button class="dl-action-btn" id="dl-action-btn" style="background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,215,0,.08));border:1px solid rgba(255,215,0,.3);color:var(--gold)" onclick="dlNextStep()">▶ Avvia simulazione</button></div>
+  </div>
+</div>
+<div class="notaio-hud" id="notaio-hud">
+  <div class="nh-title"><span style="animation:glowPulse 2s ease-in-out infinite;display:inline-block">🛡️</span> DRAGO NOTAIO</div>
+  <div class="nh-row">Trust: <span class="nh-val" id="nh-trust" style="color:var(--green)">—</span><div class="nh-trust-bar"><div class="nh-trust-fill" id="nh-trust-fill" style="width:0%"></div></div></div>
+  <div class="nh-row" id="nh-status" style="color:var(--muted)">in attesa...</div>
+</div>
+<div class="link-copied" id="link-copied">📋 DeepLink copiato!</div>
+<div class="toast" id="toast"></div>
+<div class="coinrain" id="coinrain"></div>
+<div class="particle-wrap" id="particles"></div>
+
+<script>
+// ══════════ PWA: Service Worker Registration ══════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => {
+        console.log('🐉 FinanzaLand SW registrato:', reg.scope);
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              showToast('🔄 Aggiornamento disponibile! Ricarica per la nuova versione.');
+            }
+          });
+        });
+      })
+      .catch(err => console.log('SW registrazione fallita:', err));
+  });
+}
+
+// ══════════ PWA: Install Prompt ══════════
+let deferredPrompt = null;
+const isIOS = /ipad|iphone|ipod/i.test(navigator.userAgent) && !window.MSStream;
+const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!isInStandaloneMode) {
+    setTimeout(() => document.getElementById('install-banner').classList.add('show'), 4000);
+  }
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(choice => {
+      if (choice.outcome === 'accepted') {
+        showToast('🎉 FinanzaLand installata! Cerca l\'icona sulla schermata Home 🏰');
+        spawnCoins(15);
+      }
+      deferredPrompt = null;
+      dismissInstall();
+    });
+  } else if (isIOS) {
+    dismissInstall();
+    showIOSGuide();
+  }
+}
+
+function dismissInstall() {
+  document.getElementById('install-banner').classList.remove('show');
+}
+
+function showIOSGuide() {
+  document.getElementById('ios-guide').classList.add('show');
+}
+
+function closeIOSGuide() {
+  document.getElementById('ios-guide').classList.remove('show');
+}
+
+// Mostra guida iOS automaticamente dopo 5s (solo su Safari iOS, non in standalone)
+if (isIOS && !isInStandaloneMode) {
+  setTimeout(() => {
+    const dismissed = localStorage.getItem('fl_ios_guide_dismissed');
+    if (!dismissed) showIOSGuide();
+  }, 5000);
+}
+
+// ══════════ PWA: Online/Offline Detection ══════════
+function updateConnectionStatus() {
+  const offline = document.getElementById('offline-badge');
+  const online = document.getElementById('online-badge');
+  if (navigator.onLine) {
+    offline.classList.remove('show');
+    online.classList.add('show');
+    setTimeout(() => online.classList.remove('show'), 3000);
+  } else {
+    online.classList.remove('show');
+    offline.classList.add('show');
+  }
+}
+window.addEventListener('online', () => { updateConnectionStatus(); showToast('✅ Connessione ripristinata!'); });
+window.addEventListener('offline', () => { updateConnectionStatus(); showToast('📵 Offline — i tuoi Semi sono al sicuro!'); });
+
+// ══════════ STATE ══════════
+const STATE = {
+  semi:80,castles:1,isPremium:false,isPro:false,streak:1,
+  missionsCompleted:0,pendingMissions:[],
+  completedLessons:new Set(),pinUnlocked:false,lastSave:Date.now(),
+  userId: localStorage.getItem('fl_uid') || (()=>{const id='usr_'+Math.random().toString(36).slice(2,10);localStorage.setItem('fl_uid',id);return id;})(),
+  userEmail: ''
+};
+try{const s=JSON.parse(localStorage.getItem('fl_v11'));if(s)Object.assign(STATE,s,{completedLessons:new Set(s.completedLessons||[])});}catch(e){}
+try{const s=JSON.parse(localStorage.getItem('fl_v8'));if(s&&!localStorage.getItem('fl_v11'))Object.assign(STATE,s,{completedLessons:new Set(s.completedLessons||[])});}catch(e){}
+function save(){try{localStorage.setItem('fl_v11',JSON.stringify({...STATE,completedLessons:[...STATE.completedLessons]}));}catch(e){}}
+
+// ══════════ DEEPLINK ENGINE ══════════
+function generateToken(){return Math.random().toString(36).substring(2,9).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-4);}
+function buildDeepLink(id,token,reward){return `finanzaland://approva/${id}?token=${token}&reward=${reward}`;}
+function showNotaioHUD(score,status){
+  const color=score>=70?'var(--green)':score>=40?'#fbbf24':'var(--red)';
+  document.getElementById('nh-trust').textContent=score+'%';document.getElementById('nh-trust').style.color=color;
+  document.getElementById('nh-trust-fill').style.width=score+'%';document.getElementById('nh-trust-fill').style.background=color;
+  document.getElementById('nh-status').textContent=status;
+  const hud=document.getElementById('notaio-hud');hud.classList.add('visible');setTimeout(()=>hud.classList.remove('visible'),5000);
+}
+function fireWhatsAppNotif(name,ts,reward,url){
+  const color=ts>=70?'var(--green)':'#fbbf24';
+  document.getElementById('wa-msg').innerHTML=`<strong>"${name}"</strong> completata.<br/>TrustScore: <strong style="color:${color}">${ts}%</strong> ✅<br/>Accredita <strong>${reward}</strong> Semi?`;
+  document.getElementById('wa-deeplink-url').textContent=url;
+  document.getElementById('wa-time').textContent=new Date().toLocaleTimeString('it',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('wa-notif').classList.add('visible');
+  setTimeout(()=>document.getElementById('wa-notif').classList.remove('visible'),12000);
+}
+function dismissWA(){document.getElementById('wa-notif').classList.remove('visible');}
+function triggerDeepLink(){
+  dismissWA();for(let i=1;i<=5;i++){const s=document.getElementById('dls'+i);s.classList.remove('done','active');}
+  document.getElementById('dl-action-btn').textContent='▶ Avvia simulazione';
+  document.getElementById('dl-action-btn').style.cssText='background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,215,0,.08));border:1px solid rgba(255,215,0,.3);color:var(--gold)';
+  document.getElementById('dl-trust-tag').textContent='TrustScore: —';
+  document.getElementById('dl-token-tag').textContent='finanzaland://approva/...';
+  document.getElementById('dl-result-tag').textContent='In attesa...';
+  dlStep=0;document.getElementById('dl-overlay').classList.add('open');
+}
+function setParentNotif(show){['parent-notif','nav-notif','nav-notif2','nav-notif3'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=show?'block':'none';});}
+function demoDeepLink(){
+  const m=MISSIONS[0],token=generateToken(),url=buildDeepLink(m.id,token,m.reward),ts=94;
+  STATE.pendingMissions.push({id:m.id+'_demo',status:'pending',trustScore:ts,missionName:m.title,reward:m.reward,token,deepLinkUrl:url});
+  setParentNotif(true);showNotaioHUD(ts,'✅ Demo attivo');
+  fireWhatsAppNotif(m.title,ts,m.reward,url);showToast('📲 Demo DeepLink inviato — clicca il link!');
+}
+let dlStep=0;
+const DL_STEPS_DATA=[
+  {active:'dls1',delay:0,label:'▶ Calcola TrustScore →',color:'var(--teal)'},
+  {active:'dls2',spin:'dls2-spin',delay:1400,onComplete:()=>{const p=STATE.pendingMissions.at(-1);const sc=p?.trustScore??80;const col=sc>=70?'var(--green)':'#fbbf24';document.getElementById('dl-trust-tag').textContent=`TrustScore: ${sc}% ${sc>=70?'✅':'⚠️'}`;document.getElementById('dl-trust-tag').style.color=col;},label:'📲 Genera DeepLink →',color:'var(--purple)'},
+  {active:'dls3',spin:'dls3-spin',delay:1200,onComplete:()=>{const p=STATE.pendingMissions.at(-1);document.getElementById('dl-token-tag').textContent=p?.deepLinkUrl??buildDeepLink('demo','TK1234',20);},label:'👑 Apri Pannello →',color:'#25d366'},
+  {active:'dls4',delay:800,label:'✅ Accredita Semi →',color:'var(--gold)'},
+  {active:'dls5',delay:1000,onComplete:()=>{const p=STATE.pendingMissions.at(-1);document.getElementById('dl-result-tag').textContent=`+${p?.reward??20} Semi in < 3s! 🚀`;},label:'🎉 Completato!',color:'var(--green)',final:true},
+];
+function dlNextStep(){
+  if(dlStep>=DL_STEPS_DATA.length){closeDL();return;}
+  const prev=DL_STEPS_DATA[dlStep-1],curr=DL_STEPS_DATA[dlStep];
+  if(dlStep>0){const pe=document.getElementById(prev.active);pe.classList.remove('active');pe.classList.add('done');if(prev.spin)document.getElementById(prev.spin).style.display='none';}
+  document.getElementById(curr.active).classList.add('active');
+  if(curr.spin)document.getElementById(curr.spin).style.display='inline-block';
+  const btn=document.getElementById('dl-action-btn');btn.disabled=true;btn.textContent='⏳ elaborazione...';btn.style.opacity='.6';
+  setTimeout(()=>{
+    if(curr.spin)document.getElementById(curr.spin).style.display='none';
+    if(curr.onComplete)curr.onComplete();
+    btn.disabled=false;btn.style.opacity='1';
+    if(curr.final){btn.textContent='🎉 Vai al Pannello Genitore';btn.style.cssText='background:linear-gradient(135deg,var(--green),#059669);color:#000;width:100%;padding:13px;border-radius:14px;font-family:Cinzel,serif;font-size:.85rem;font-weight:900;cursor:pointer;border:none';btn.onclick=()=>{closeDL();unlockParent();gotoTab('genitore');};spawnCoins(10);}
+    else{btn.textContent=curr.label;btn.style.cssText=`background:linear-gradient(135deg,${curr.color}33,${curr.color}11);border:1px solid ${curr.color}55;color:${curr.color};width:100%;padding:13px;border-radius:14px;font-family:Cinzel,serif;font-size:.85rem;font-weight:900;cursor:pointer`;btn.onclick=dlNextStep;}
+  },curr.delay);dlStep++;
+}
+function closeDL(){document.getElementById('dl-overlay').classList.remove('open');}
+function copyDeepLink(){const url=document.getElementById('dl-token-tag').textContent;navigator.clipboard?.writeText(url).catch(()=>{});const el=document.getElementById('link-copied');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);}
+
+// ══════════ MISSIONS — POOL DINAMICO SETTIMANALE ══════════
+const MISSIONS_POOL=[
+  {id:'m1',icon:'📖',title:'Leggi 10 Pagine',cat:'APPRENDIMENTO',desc:'Leggi almeno 10 pagine di un libro. Il sapere è il castello più solido!',reward:20,color:'rgba(6,182,212,.15)',minSec:60},
+  {id:'m2',icon:'🧹',title:'Riordina la Stanza',cat:'RESPONSABILITÀ',desc:'Tieni in ordine il tuo spazio. Un regno ordinato produce più ricchezza!',reward:15,color:'rgba(74,222,128,.1)',minSec:10},
+  {id:'m3',icon:'📚',title:'Fai i Compiti da Solo',cat:'DISCIPLINA',desc:'Completa tutti i compiti senza aiuto. La disciplina è il motore del Cash Flow!',reward:25,color:'rgba(255,215,0,.12)',minSec:300},
+  {id:'m4',icon:'💰',title:'Risparmia Oggi',cat:'RISPARMIO',desc:'Non spendere nulla per un giorno intero. I Semi che non spendi si moltiplicano!',reward:30,color:'rgba(167,139,250,.12)',minSec:3600},
+  {id:'m5',icon:'🍳',title:'Aiuta in Cucina',cat:'FAMIGLIA',desc:"Aiuta a preparare un pasto. La collaborazione vale Semi d'oro!",reward:10,color:'rgba(251,146,60,.1)',minSec:10},
+  {id:'m6',icon:'🌿',title:'Annaffia le Piante',cat:'CURA',desc:'Prenditi cura delle piante. Chi sa far crescere le cose sa far crescere i Semi!',reward:10,color:'rgba(74,222,128,.1)',minSec:10},
+  {id:'m7',icon:'🚶',title:'Cammina 20 Minuti',cat:'SALUTE',desc:'Il corpo sano produce mente sana. Muoviti e guadagna!',reward:15,color:'rgba(6,182,212,.1)',minSec:20},
+  {id:'m8',icon:'✍️',title:'Scrivi 3 Obiettivi',cat:'PIANIFICAZIONE',desc:'Scrivi 3 cose che vuoi raggiungere questa settimana. Chi pianifica, costruisce!',reward:20,color:'rgba(255,215,0,.1)',minSec:10},
+  {id:'m9',icon:'🤝',title:'Aiuta un Amico',cat:'COMUNITÀ',desc:'Fai qualcosa di gentile per un amico. La ricchezza cresce se condivisa!',reward:15,color:'rgba(74,222,128,.1)',minSec:10},
+  {id:'m10',icon:'🧮',title:'Calcola il Tuo Budget',cat:'FINANZA',desc:'Scrivi quanto hai risparmiato questo mese. Ogni numero conta!',reward:25,color:'rgba(167,139,250,.12)',minSec:10},
+  {id:'m11',icon:'🌅',title:'Svegliati Prima',cat:'DISCIPLINA',desc:'Alzati 30 minuti prima del solito. I vincitori conquistano la mattina!',reward:20,color:'rgba(251,146,60,.1)',minSec:10},
+  {id:'m12',icon:'🎯',title:'Completa un Obiettivo',cat:'RISULTATI',desc:'Termina qualcosa che hai lasciato a metà. Il completamento vale oro!',reward:30,color:'rgba(255,215,0,.12)',minSec:10},
+];
+const WEEKLY_SPECIALS=[
+  {id:'ws1',icon:'🌸',title:'La Grande Pulizia',desc:'Aiuta a riordinare tutta la casa con la famiglia. Missione epica = ricompensa epica!',reward:80},
+  {id:'ws2',icon:'⚔️',title:'Il Risparmio del Guerriero',desc:'Non spendere nulla per 3 giorni. Dimostra di essere un vero Custode del Tesoro!',reward:100},
+  {id:'ws3',icon:'🧠',title:'Il Maestro del Tempio',desc:'Completa TUTTE le lezioni del Tempio questa settimana. Sblocca il titolo di Maestro!',reward:120},
+  {id:'ws4',icon:'👨‍👩‍👧',title:'La Missione della Famiglia',desc:'Fai 5 cose buone per la tua famiglia. La famiglia è il castello più solido!',reward:90},
+  {id:'ws5',icon:'🏹',title:'Cacciatore di Risparmi',desc:'Trova 3 modi per risparmiare soldi questa settimana e scrivili!',reward:75},
+];
+function getWeekNum(){return Math.floor(Date.now()/(7*24*60*60*1000));}
+function getWeeklyMissions(){
+  const w=getWeekNum(),pool=[...MISSIONS_POOL];
+  for(let i=pool.length-1;i>0;i--){const j=((w*7+i*3)%pool.length+pool.length)%pool.length;[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0,6);
+}
+const MISSIONS=getWeeklyMissions();
+let missionTimers={};
+
+// ══════════ SPECIAL WEEKLY MISSION ══════════
+function renderSpecialMission(){
+  const el=document.getElementById('special-mission-wrap');if(!el)return;
+  const s=WEEKLY_SPECIALS[getWeekNum()%WEEKLY_SPECIALS.length];
+  const key='ws_'+getWeekNum();
+  const done=localStorage.getItem(key)==='1';
+  el.innerHTML=`<div class="dq-section" style="margin-top:6px">⭐ SFIDA DELLA SETTIMANA</div>
+  <div class="smb-wrap" style="${done?'opacity:.6':''}">
+    <div class="smb-tag">⭐ MISSIONE SPECIALE SETTIMANALE</div>
+    <div class="smb-title">${s.icon} ${s.title}</div>
+    <div class="smb-desc">${s.desc}</div>
+    <div class="smb-row">
+      <div class="smb-reward">+${s.reward} 🌰 Semi Bonus</div>
+      ${done
+        ? '<div style="color:var(--green);font-family:Cinzel,serif;font-size:.7rem;font-weight:700">✅ Completata!</div>'
+        : `<div class="smb-btn" onclick="claimSpecial('${s.id}',${s.reward})">▶ ACCETTA</div>`}
+    </div>
+  </div>`;
+}
+function claimSpecial(id,reward){
+  localStorage.setItem('ws_'+getWeekNum(),'1');
+  addSemi(reward,'Sfida Settimanale');spawnCoins(15);
+  showToast('⭐ +'+reward+' Semi! Sfida della settimana accettata!');
+  renderSpecialMission();save();
+}
+
+// ══════════ LEADERBOARD FAMIGLIA ══════════
+function getLB(){try{return JSON.parse(localStorage.getItem('fl_lb')||'[]');}catch{return[];}}
+function saveLB(lb){localStorage.setItem('fl_lb',JSON.stringify(lb));}
+function renderLeaderboard(){
+  const el=document.getElementById('leaderboard-list');if(!el)return;
+  let lb=getLB();
+  const me={name:STATE.playerName||'Tu 🦁',avatar:'🦁',pts:STATE.semi,streak:STATE.streak||1,isMe:true};
+  const mi=lb.findIndex(x=>x.isMe);
+  if(mi>=0)lb[mi]=me; else lb.unshift(me);
+  if(lb.length<2)lb.push({name:'Aggiungi familiare →',avatar:'➕',pts:0,streak:0,isMe:false,demo:true});
+  lb.sort((a,b)=>b.pts-a.pts);
+  saveLB(lb);
+  const medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
+  el.innerHTML=lb.slice(0,5).map((p,i)=>`
+    <div class="lb-item ${i===0?'lb-gold':''}">
+      <div class="lb-medal">${medals[i]||'•'}</div>
+      <div class="lb-ava">${p.avatar}</div>
+      <div class="lb-info">
+        <div class="lb-name">${p.name}${p.isMe?' (Tu)':''}</div>
+        <div class="lb-streak">🔥 ${p.streak} giorni streak</div>
+      </div>
+      <div class="lb-pts">${p.pts} 🌰</div>
+    </div>`).join('');
+}
+function addFamilyMember(){
+  const name=prompt('Nome del familiare (es. Mamma, Papà, Sorella):');
+  if(!name||!name.trim())return;
+  const avas=['🦊','🐻','🦋','🐯','🦄','🐺','🐸','🐨'];
+  const ava=avas[Math.floor(Math.random()*avas.length)];
+  const lb=getLB();
+  lb.push({name:name.trim(),avatar:ava,pts:Math.floor(Math.random()*150)+30,streak:Math.floor(Math.random()*8)+1,isMe:false});
+  saveLB(lb);renderLeaderboard();showToast('👋 '+name.trim()+' aggiunto alla classifica!');
+}
+
+// ══════════ CASTLE VISUAL ══════════
+const CV_LEVELS=[
+  {n:1,emoji:'🏡',label:'LIVELLO 1 — CASETTA',glow:'rgba(74,222,128,.5)',pct:4},
+  {n:2,emoji:'🏠',label:'LIVELLO 2 — CASA',glow:'rgba(6,182,212,.5)',pct:22},
+  {n:3,emoji:'🏰',label:'LIVELLO 3 — CASTELLO',glow:'rgba(167,139,250,.5)',pct:45},
+  {n:4,emoji:'⛩️',label:'LIVELLO 4 — FORTEZZA',glow:'rgba(255,165,0,.5)',pct:70},
+  {n:5,emoji:'🏯',label:'LIVELLO 5 — REGGIA',glow:'rgba(255,215,0,.8)',pct:100},
+];
+function updateCastleVisual(){
+  const idx=Math.min(boughtCastles.length-1,4);
+  const cv=CV_LEVELS[idx];
+  const em=document.getElementById('cv-emoji');
+  const fill=document.getElementById('cv-fill');
+  const lbl=document.getElementById('cv-label');
+  if(!em)return;
+  em.textContent=cv.emoji;
+  em.style.filter='drop-shadow(0 0 28px '+cv.glow+')';
+  if(fill)fill.style.width=cv.pct+'%';
+  if(lbl)lbl.textContent=cv.label;
+}
+function showCastleInfo(){
+  const idx=Math.min(boughtCastles.length-1,4);
+  const cv=CV_LEVELS[idx];
+  showToast(cv.emoji+' '+cv.label+' | Strutture: '+boughtCastles.length+'/5');
+}
+
+// ══════════ NARRATIVE DIALOGUES ══════════
+const DLG={
+  bisdes:[
+    {who:'Oracolo',ava:'🔮',side:'left',txt:"Benvenuto nel Tempio della Saggezza! Dimmi: hai 10 Semi e vuoi un giocattolo. Cosa fai per primo?"},
+    {who:'Tu',ava:'🧒',side:'right',txt:"Compro subito il giocattolo?"},
+    {who:'Oracolo',ava:'🔮',side:'left',txt:"Ah! Il segreto è: prima i BISOGNI, poi metti da parte il 20% nel castello, e solo dopo i DESIDERI. Così il tuo regno cresce!"},
+  ],
+  guaspende:[
+    {who:'Drago Notaio',ava:'🐉',side:'left',txt:"Due bambini guadagnano 100 Semi a settimana. Uno spende tutto. L'altro risparmia il 20%. Dopo 1 anno, chi ha più Semi?"},
+    {who:'Tu',ava:'🧒',side:'right',txt:"Quello che risparmia... ma quanto risparmia davvero?"},
+    {who:'Drago Notaio',ava:'🐉',side:'left',txt:"In 1 anno ha 1040 Semi extra — abbastanza per un castello intero! L'altro ha zero. Questo si chiama Cash Flow!"},
+  ],
+  mondo:[
+    {who:'Spirito del Mondo',ava:'🌍',side:'left',txt:"Il tuo castello produce Semi mentre dormi. Come si chiama questo tipo di guadagno?"},
+    {who:'Tu',ava:'🧒',side:'right',txt:"È una specie di lavoro automatico?"},
+    {who:'Spirito del Mondo',ava:'🌍',side:'left',txt:"Esatto! Si chiama RENDITA PASSIVA. I ricchi non lavorano per i soldi — i loro castelli lavorano per loro. Costruisci più castelli, guadagna di più dormendo!"},
+  ],
+  clessidra:[
+    {who:'Drago del Tempo',ava:'⏳',side:'left',txt:"Einstein chiamò l'interesse composto 'l'ottava meraviglia del mondo'. Sai cosa significa per i tuoi Semi?"},
+    {who:'Tu',ava:'🧒',side:'right',txt:"Che crescono da soli ogni giorno?"},
+    {who:'Drago del Tempo',ava:'⏳',side:'left',txt:"Non solo crescono — crescono sui loro stessi guadagni! 100 Semi al +5% diventano 105, poi 110.25, poi 115.76... Dopo 30 anni: 432 Semi. Inizia subito!"},
+  ],
+  lingotto:[
+    {who:"Drago dell'Argento",ava:'🥈',side:'left',txt:"HAI RAGGIUNTO 1000 SEMI! Sei pronto per trasformare la tua disciplina in qualcosa di reale?"},
+    {who:'Tu',ava:'🧒',side:'right',txt:"È davvero argento fisico? Non punti?"},
+    {who:"Drago dell'Argento",ava:'🥈',side:'left',txt:"UNA MONETA D'ARGENTO da 1 oncia — 31 grammi — che vale €25-35. Puoi tenerla in mano. Non è un pixel, non è un'immagine. È la tua prima vera ricchezza!"},
+  ],
+};
+
+// ══════════ QUIZZES ══════════
+const QUIZZES={
+  bisdes:{q:"Qual è l'ordine giusto per usare i Semi?",opts:["Desideri → Bisogni → Risparmio","Bisogni → Risparmio → Desideri","Spendo tutto subito","Risparmio → Bisogni → Desideri"],ok:1},
+  guaspende:{q:"Cosa genera il Cash Flow nel castello?",opts:["Spendere molti Semi","Vincere alla Borsa","Possedere strutture che producono automaticamente","Completare tutte le missioni"],ok:2},
+  mondo:{q:"Cos'è la Rendita Passiva?",opts:["Lavorare molto duro ogni giorno","Guadagnare anche quando non stai lavorando","Risparmiare il 50% di tutto","Comprare cose belle"],ok:1},
+  clessidra:{q:"100 Semi al +5% ogni anno. Dopo 2 anni (circa)?",opts:["105 Semi","110 Semi","115 Semi","108 Semi"],ok:1},
+  lingotto:{q:"Quanti Semi servono per la Moneta d'Argento?",opts:["500 Semi","750 Semi","1500 Semi","1000 Semi"],ok:3},
+};
+let quizAnswered=false;
+
+function renderDialogue(id){
+  const el=document.getElementById('modal-dialogue');if(!el)return;
+  const dlg=DLG[id];if(!dlg||!dlg.length){el.innerHTML='';return;}
+  el.innerHTML=dlg.map((b,i)=>`
+    <div class="dlg-bubble dlg-${b.side}" style="animation:fadeInUp .3s ${i*0.12}s both">
+      <div class="dlg-ava">${b.ava}</div>
+      <div class="dlg-body">
+        <div class="dlg-who">${b.who}</div>
+        <div class="dlg-text">${b.txt}</div>
+      </div>
+    </div>`).join('');
+}
+function renderQuiz(id){
+  const el=document.getElementById('modal-quiz');if(!el)return;
+  const qz=QUIZZES[id];
+  if(!qz){el.style.display='none';return;}
+  el.style.display='block';quizAnswered=false;
+  document.getElementById('quiz-q').textContent='🧠 '+qz.q;
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('quiz-choices').innerHTML=qz.opts.map((o,i)=>
+    `<button class="quiz-btn" onclick="answerQuiz(${i},${qz.ok})">${o}</button>`).join('');
+}
+function answerQuiz(chosen,correct){
+  if(quizAnswered)return;quizAnswered=true;
+  const btns=document.querySelectorAll('.quiz-btn');
+  btns[correct].classList.add('correct');
+  if(chosen!==correct)btns[chosen].classList.add('wrong');
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  if(chosen===correct){
+    res.style.background='rgba(74,222,128,.15)';res.style.color='var(--green)';
+    res.textContent='✅ Esatto! +5 Semi Bonus';addSemi(5,'Quiz Bonus');spawnParticles(3,'⭐');
+  } else {
+    res.style.background='rgba(239,68,68,.1)';res.style.color='#ef4444';
+    res.textContent='❌ Non era quella! La risposta corretta è evidenziata in verde.';
+  }
+}
+
+// ══════════ DAILY QUESTS ══════════
+const DAILY_QUESTS = [
+  {id:'dq1', icon:'📜', bg:'rgba(255,215,0,.12)', title:'La Pergamena della Sapienza', desc:'Completa una lezione nel Tempio dei Draghi', reward:10, action:'tempio'},
+  {id:'dq2', icon:'💰', bg:'rgba(74,222,128,.12)', title:'Il Forziere del Risparmio', desc:'Metti da parte Semi oggi — lavora o completa una missione', reward:20, action:'lavora'},
+  {id:'dq3', icon:'🌍', bg:'rgba(167,139,250,.12)', title:'Il Pozzo della Gratitudine', desc:'Dona 1 Seme al fondo comune per le scuole', reward:5, action:'charity'},
+];
+
+function getDailyKey(){const d=new Date();return `dq_${d.getFullYear()}_${d.getMonth()}_${d.getDate()}`;}
+function getDailyDone(){try{return JSON.parse(localStorage.getItem(getDailyKey())||'[]');}catch{return[];}}
+function markDailyDone(id){const done=getDailyDone();if(!done.includes(id)){done.push(id);localStorage.setItem(getDailyKey(),JSON.stringify(done));}}
+
+function renderDailyQuests(){
+  const el=document.getElementById('daily-quest-list');if(!el)return;
+  const done=getDailyDone();
+  el.innerHTML='';
+  DAILY_QUESTS.forEach(q=>{
+    const isDone=done.includes(q.id);
+    const div=document.createElement('div');
+    div.className='dq-card'+(isDone?' done':'');
+    div.innerHTML=`<div class="dq-icon" style="background:${q.bg}">${q.icon}</div><div class="dq-info"><div class="dq-title">${q.title}</div><div class="dq-desc">${q.desc}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="dq-reward">+${q.reward}🌰</div><div class="dq-check">${isDone?'✅':'⭕'}</div></div>`;
+    if(!isDone) div.onclick=()=>completeDailyQuest(q);
+    else div.onclick=()=>showToast('✅ Già completata oggi!');
+    el.appendChild(div);
+  });
+  updateStreakBar();
+}
+
+function completeDailyQuest(q){
+  markDailyDone(q.id);
+  addSemi(q.reward,'Daily: '+q.title);
+  spawnCoins(5);
+  if(q.action==='tempio') gotoTab('tempio');
+  else if(q.action==='lavora') doLavora();
+  else if(q.action==='charity'){STATE.semi=Math.max(0,STATE.semi-1);updateUI();showToast('🌍 +1 Seme donato al fondo scuole 💚');}
+  showToast(`✨ +${q.reward} Semi — ${q.title}!`);
+  renderDailyQuests();
+  checkAllDailyDone();
+  save();
+}
+
+function checkAllDailyDone(){
+  const done=getDailyDone();
+  if(DAILY_QUESTS.every(q=>done.includes(q.id))){
+    const s=STATE.streak||1;
+    let bonus=0;
+    if(s>=30){bonus=50;showToast('🏆 30 giorni! +50 Semi BONUS — Cavaliere del Risparmio!');}
+    else if(s>=7){bonus=20;showToast('🥈 7 giorni! +20 Semi BONUS — Goccia d\'Argento!');}
+    else if(s>=3){bonus=10;showToast('🔥 3 giorni! +10 Semi BONUS — Moltiplicatore x1.2!');}
+    else{showToast('🎉 Tutte le missioni del giorno completate!');}
+    if(bonus>0){addSemi(bonus,'Streak Bonus');spawnCoins(10);}
+    STATE.streak=(STATE.streak||1)+1;
+    updateStreakUI();save();
+  }
+}
+
+function updateStreakBar(){
+  const s=STATE.streak||1;
+  const titleEl=document.getElementById('sbb-title');
+  const subEl=document.getElementById('sbb-sub');
+  const badgeEl=document.getElementById('sbb-badge');
+  if(!titleEl)return;
+  badgeEl.textContent=`${s} 🔥`;
+  if(s>=30){titleEl.textContent='🏆 Cavaliere del Risparmio!';subEl.textContent='Bonus +50 Semi completando tutte le missioni';}
+  else if(s>=7){titleEl.textContent='🥈 Goccia d\'Argento sbloccata!';subEl.textContent=`Ancora ${30-s} giorni → Cavaliere del Risparmio`;}
+  else if(s>=3){titleEl.textContent='🔥 Moltiplicatore x1.2 attivo!';subEl.textContent=`Ancora ${7-s} giorni → Goccia d'Argento`;}
+  else{titleEl.textContent='Streak Attivo';subEl.textContent=`Ancora ${3-s} giorni → Moltiplicatore x1.2`;}
+}
+
+function updateStreakUI(){
+  const s=STATE.streak||1;
+  document.getElementById('streak-val').textContent=s;
+  if(document.getElementById('stat-streak'))document.getElementById('stat-streak').textContent=s;
+  updateStreakBar();
+}
+
+function renderMissions(){
+  const el=document.getElementById('mission-list');el.innerHTML='';
+  MISSIONS.forEach(m=>{
+    const pend=STATE.pendingMissions.find(p=>p.id===m.id),status=pend?.status||'available',started=missionTimers[m.id]?.started;
+    const div=document.createElement('div');div.className='mission-card'+(started?' active-mission':'');
+    let ah='';
+    if(status==='pending')ah=`<div class="mc-status" style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:#fbbf24">⏳ In attesa di approvazione</div>`;
+    else if(status==='approved')ah=`<div class="mc-status" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--green)">✅ Approvata! (+${m.reward} Semi)</div>`;
+    else if(started)ah=`<div class="mc-actions"><div class="mc-btn" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:var(--green)" onclick="completeMission('${m.id}')">✓ FATTO!</div></div>`;
+    else ah=`<div class="mc-actions"><div class="mc-btn" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.3);color:var(--teal)" onclick="startMission('${m.id}')">▶ INIZIA</div></div>`;
+    div.innerHTML=`<div class="mc-head"><div class="mc-icon" style="background:${m.color}">${m.icon}</div><div class="mc-info"><div class="mc-title">${m.title}</div><div class="mc-cat">${m.cat}</div></div><div class="mc-reward">+${m.reward} 🌰</div></div><div class="mc-body"><div class="mc-desc">${m.desc}</div>${ah}</div>`;
+    el.appendChild(div);
+  });
+}
+function startMission(id){missionTimers[id]={started:Date.now()};renderMissions();showToast('⏱️ Timer avviato!');}
+function completeMission(id){
+  const m=MISSIONS.find(x=>x.id===id);if(!m)return;
+  const elapsed=missionTimers[id]?(Date.now()-missionTimers[id].started)/1000:999;
+  const ts=elapsed>=m.minSec?Math.min(100,70+Math.round(elapsed/m.minSec*10)):Math.round((elapsed/m.minSec)*60);
+  const token=generateToken(),url=`finanzaland://approva/${id}?token=${token}&reward=${m.reward}`;
+  if(ts<70){STATE.pendingMissions.push({id,status:'pending',trustScore:ts,missionName:m.title,reward:m.reward,token,deepLinkUrl:url});setParentNotif(true);showNotaioHUD(ts,'⚠️ Attende approvazione');setTimeout(()=>fireWhatsAppNotif(m.title,ts,m.reward,url),900);showToast(`🛡️ TrustScore ${ts}% — DeepLink inviato!`);}
+  else{addSemi(m.reward,'Missione: '+m.title);STATE.missionsCompleted++;STATE.pendingMissions.push({id,status:'approved',trustScore:ts,missionName:m.title,reward:m.reward});spawnCoins(8);showNotaioHUD(ts,'✅ Auto-approvazione');showToast(`✅ +${m.reward} Semi 🌰`);}
+  delete missionTimers[id];renderMissions();renderPendingParent();save();
+}
+
+// ══════════ CASTLES ══════════
+const CASTLE_DEFS=[{id:'c1',name:'Casetta',icon:'🏡',income:3,cost:0},{id:'c2',name:'Torre',icon:'🗼',income:8,cost:50},{id:'c3',name:'Castello',icon:'🏰',income:15,cost:150},{id:'c4',name:'Fortezza',icon:'⛩️',income:25,cost:350},{id:'c5',name:'Reggia',icon:'🏯',income:50,cost:800}];
+let boughtCastles=['c1'];
+function castleIncome(){return boughtCastles.reduce((s,id)=>{const c=CASTLE_DEFS.find(x=>x.id===id);return s+(c?c.income:0);},0);}
+function renderCastles(){
+  const el=document.getElementById('castle-row');el.innerHTML='';
+  CASTLE_DEFS.forEach(c=>{const owned=boughtCastles.includes(c.id),canBuy=!owned&&STATE.semi>=c.cost;const div=document.createElement('div');div.className='castle-card'+(canBuy?' buyable':'');div.style.opacity=(!owned&&!canBuy)?'.5':'1';div.innerHTML=`<div class="cc-icon">${c.icon}</div><div class="cc-info"><div class="cc-name">${c.name}</div>${owned?`<div class="cc-income">+${c.income}/ciclo ✓</div>`:`<div class="cc-cost">${c.cost}🌰</div>`}</div>`;if(canBuy)div.onclick=()=>buyCastle(c.id);else if(owned)div.onclick=()=>showToast(`🏰 ${c.name}: +${c.income} Semi/ciclo`);el.appendChild(div);});
+  document.getElementById('castle-count').textContent=boughtCastles.length;
+  if(document.getElementById('stat-castelli'))document.getElementById('stat-castelli').textContent=boughtCastles.length;
+  document.getElementById('cashflow-rate').textContent=`🏰 Cash Flow: +${castleIncome()} ogni 8s`;
+}
+function buyCastle(id){const c=CASTLE_DEFS.find(x=>x.id===id);if(STATE.semi<c.cost)return;STATE.semi-=c.cost;boughtCastles.push(id);STATE.castles=boughtCastles.length;updateUI();renderCastles();updateCastleVisual();showToast('🏰 '+c.icon+' '+c.name+'! +'+c.income+' Semi/ciclo');spawnCoins(5);save();}
+setInterval(()=>{const g=castleIncome();if(g>0){addSemi(g,null,true);showCashFlowAnim(g);save();}},8000);
+
+// ══════════ ACTIONS ══════════
+function doLavora(){addSemi(20,'Lavora');showToast('⚒️ +20 Semi 🌰');spawnParticles(3,'🌰');}
+function doDormi(){const n=Math.floor(STATE.semi*.05);addSemi(n,'Interesse');showToast(`😴 +5% = +${n} Semi 🌰`);spawnParticles(4,'⭐');}
+function doBorsa(){if(Math.random()>.45){const g=Math.floor(50+Math.random()*80);addSemi(g,'Borsa');showToast(`📈 VINCI +${g} Semi! 🎉`);spawnCoins(10);}else{const l=Math.min(50,STATE.semi);STATE.semi-=l;updateUI();showToast(`📉 Perdi ${l} Semi. Il mercato è rischioso!`);}save();}
+function showLingottoModal(){STATE.semi>=1000?openLesson('lingotto'):showToast(`🥈 Ti servono ${1000-STATE.semi} Semi ancora!`);}
+
+// ══════════ LESSONS ══════════
+const LESSONS={
+  bisdes:{emoji:'🏛️',img:'1000189856.png',title:'Bisogno vs Desiderio',text:"La Creatura di Cristallo ti mostra i tre pilastri del Tempio: BISOGNO (goccia blu — quello che ti serve), DESIDERIO (corona di stelle — quello che vuoi ma puoi aspettare) e RISPARMIO (cristallo d'oro — quello che metti da parte).",ctitle:'La Regola del Risparmio',ctext:"Prima paga i tuoi BISOGNI. Poi risparmia almeno il 20%. Il DESIDERIO viene dopo! Ogni Seme che non spendi oggi vale il doppio domani.",reward:30,id:'bisdes'},
+  guaspende:{emoji:'⚖️',img:'1000189857.png',title:'Guadagna — Non Solo Spendere!',text:"Guarda i due mondi: a sinistra GUADAGNA Semi dall'Albero delle Missioni. A destra SPENDE tutto al Mercato dei Desideri — le monete volano via nell'oscurità.",ctitle:'Il Segreto del Cash Flow',ctext:"Il denaro non è solo da spendere — è da far lavorare! Ogni castello produce Semi automaticamente. La ricchezza viene dall'avere fonti di reddito.",reward:25,id:'guaspende'},
+  mondo:{emoji:'🌍',img:'1000189686.png',title:'Il Mondo Reattivo — Cash Flow',text:"Il tuo mondo è vivo! L'Albero delle Missioni produce pergamene, la Caverna del Tempo accumula il bottino offline, il Mercato dei Desideri ti aspetta.",ctitle:'Rendita Passiva = Castelli',ctext:"Ogni Castello produce Semi ogni 8 secondi — anche quando non giochi! I ricchi non lavorano per i soldi, fanno lavorare i soldi per loro.",reward:40,id:'mondo'},
+  clessidra:{emoji:'⏳',img:'1000189687.png',title:'La Clessidra di Luce — Interesse Composto',text:"La Creatura di Luce porta il Seme alla Clessidra nella Caverna del Tempo. Ogni volta che dormi, i tuoi Semi crescono del 5% — l'interesse composto!",ctitle:'Einstein aveva ragione',ctext:"\"L'interesse composto è l'ottava meraviglia del mondo.\" I tuoi 80 Semi a +5%/giorno diventano 800 in 30 giorni. Inizia il prima possibile!",reward:50,id:'clessidra'},
+  lingotto:{emoji:'🥈',img:'1000189853.png',title:"🥈 Moneta d'Argento — Il Grande Riscatto!",text:"HAI RAGGIUNTO 1000 SEMI! La tua disciplina, le missioni, il Cash Flow si cristallizzano in un oggetto reale.",ctitle:'Da Virtuale a Reale',ctext:"1000 Semi → 1 Moneta d'Argento da 1 oncia (31g). Valore: €25-35. Non punti fedeltà — argento fisico. FinanzaLand trasforma le buone abitudini in vera ricchezza.",reward:100,id:'lingotto'},
+};
+let currentLesson=null;
+function openLesson(id){
+  const l=LESSONS[id];if(!l)return;currentLesson=id;
+  document.getElementById('modal-emoji').textContent=l.emoji;
+  const img=document.getElementById('modal-img');img.src=l.img;img.style.opacity='0';
+  document.getElementById('modal-title').textContent=l.title;
+  document.getElementById('modal-text').textContent=l.text;
+  document.getElementById('modal-concept-title').textContent=l.ctitle;
+  document.getElementById('modal-concept-text').textContent=l.ctext;
+  renderDialogue(id);
+  renderQuiz(id);
+  const done=STATE.completedLessons.has(id);
+  const btn=document.getElementById('modal-btn');
+  btn.textContent=done?'Già completata (+'+l.reward+' Semi guadagnati)':'Completa e guadagna +'+l.reward+' Semi!';
+  btn.style.opacity=done?'.6':'1';
+  document.getElementById('lesson-modal').classList.add('open');
+}
+function claimLesson(){
+  if(!currentLesson)return;const l=LESSONS[currentLesson];
+  if(STATE.completedLessons.has(currentLesson)){closeModal();showToast('✓ Già completata!');return;}
+  STATE.completedLessons.add(currentLesson);addSemi(l.reward,'Lezione: '+l.title);spawnCoins(12);closeModal();showToast(`🎓 +${l.reward} Semi 🌰`);save();
+}
+function closeModal(e){if(e&&e.target!==document.getElementById('lesson-modal'))return;document.getElementById('lesson-modal').classList.remove('open');currentLesson=null;}
+
+// ══════════ 🐉 DUE DRAGHI ══════════
+let dragonChoiceMade=false;
+function openDragonLesson(){
+  dragonChoiceMade=false;
+  document.getElementById('dragon-story-section').style.display='block';
+  document.getElementById('dragon-result').classList.remove('show');
+  document.querySelectorAll('.dragon-side').forEach(s=>{s.style.opacity='1';s.classList.remove('chosen');});
+  document.getElementById('dragon-modal').classList.add('open');
+}
+function chooseDragon(type){
+  if(dragonChoiceMade)return;dragonChoiceMade=true;
+  document.querySelectorAll('.dragon-side').forEach(s=>s.style.opacity='.3');
+  document.querySelector(type==='consumer'?'.dragon-left':'.dragon-right').style.opacity='1';
+  setTimeout(()=>showDragonResult(type),600);
+}
+function showDragonResult(type){
+  document.getElementById('dragon-story-section').style.display='none';
+  const result=document.getElementById('dragon-result');result.classList.add('show');
+  const done=STATE.completedLessons.has('duedraghi');
+  if(type==='consumer'){
+    document.getElementById('dr-outcome-box').style.cssText='border-radius:16px;padding:16px;text-align:center;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)';
+    document.getElementById('dr-outcome-box').innerHTML=`<span class="dr-outcome-icon">😢</span><div class="dr-outcome-title" style="color:#f87171">Hai scelto il Mantello Lucente!</div><div class="wrong-timeline"><div class="wrong-step" style="animation-delay:.1s"><div class="wrong-step-dot" style="background:rgba(239,68,68,.2);color:#f87171">1</div><div class="wrong-step-text"><strong style="color:var(--text)">Giorno 1:</strong> Tutti ti ammirano! Il mantello brilla e luccica. 👑</div></div><div class="wrong-step" style="animation-delay:.3s"><div class="wrong-step-dot" style="background:rgba(239,68,68,.2);color:#f87171">2</div><div class="wrong-step-text"><strong style="color:var(--text)">Settimana 2:</strong> Il colore sbiadisce. Il tessuto si consuma.</div></div><div class="wrong-step" style="animation-delay:.5s"><div class="wrong-step-dot" style="background:rgba(239,68,68,.2);color:#f87171">3</div><div class="wrong-step-text"><strong style="color:var(--text)">Mese 1:</strong> Il mantello non vale più nulla. Il Drago Costruttore ha già 30 Semi in più...</div></div><div class="wrong-step" style="animation-delay:.7s"><div class="wrong-step-dot" style="background:rgba(239,68,68,.2);color:#f87171">4</div><div class="wrong-step-text"><strong style="color:var(--text)">Anno 1:</strong> Il castello del Costruttore è cresciuto. Tu hai ancora zero. Questa è la Passività.</div></div></div>`;
+    document.getElementById('dr-morale-box').innerHTML=`<div class="dr-morale-title">⚔️ LA LEZIONE DEI DUE DRAGHI</div><div class="dr-morale-text">"Chi sceglie il mantello sarà ammirato per un giorno. Chi sceglie il mattone costruirà un Castello che lo nutrirà per tutta la vita."<br/><br/>Hai scelto la Passività. La prossima volta scegli il mattone!</div>`;
+    const btn=document.getElementById('dragon-claim-btn');btn.style.cssText='width:100%;padding:14px;border-radius:14px;font-family:Cinzel,serif;font-size:.88rem;font-weight:900;cursor:pointer;margin-top:4px;background:linear-gradient(135deg,rgba(239,68,68,.3),rgba(239,68,68,.1));border:1px solid rgba(239,68,68,.4);color:#f87171';btn.textContent=done?'✓ Già completata':'📖 Ho capito! +30 🌰 Semi';btn.onclick=()=>claimDragonWith(30,false);
+  } else {
+    document.getElementById('dr-outcome-box').style.cssText='border-radius:16px;padding:16px;text-align:center;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25)';
+    document.getElementById('dr-outcome-box').innerHTML=`<span class="dr-outcome-icon">🏰</span><div class="dr-outcome-title" style="color:#4ade80">Hai scelto il Mattone di Cristallo!</div><div class="right-sparkles">${['✨','🌰','⭐','💎','🔷','🌟'].map((e,i)=>`<span class="right-sparkle" style="animation-delay:${i*.1}s">${e}</span>`).join('')}</div><div class="wrong-timeline"><div class="wrong-step" style="animation-delay:.1s"><div class="wrong-step-dot" style="background:rgba(74,222,128,.2);color:#4ade80">1</div><div class="wrong-step-text"><strong style="color:var(--text)">Notte 1:</strong> Il mattone di cristallo pulsa. Genera il suo primo Seme di Luce.</div></div><div class="wrong-step" style="animation-delay:.3s"><div class="wrong-step-dot" style="background:rgba(74,222,128,.2);color:#4ade80">2</div><div class="wrong-step-text"><strong style="color:var(--text)">Settimana 1:</strong> 7 Semi. Piccoli... ma il mattone non dorme mai.</div></div><div class="wrong-step" style="animation-delay:.5s"><div class="wrong-step-dot" style="background:rgba(74,222,128,.2);color:#4ade80">3</div><div class="wrong-step-text"><strong style="color:var(--text)">Mese 1:</strong> 30 Semi — abbastanza per un secondo mattone. Ora hai DUE generatori.</div></div><div class="wrong-step" style="animation-delay:.7s"><div class="wrong-step-dot" style="background:rgba(74,222,128,.2);color:#4ade80">4</div><div class="wrong-step-text"><strong style="color:var(--text)">Anno 1:</strong> I mattoni sono diventati un Castello. <strong style="color:var(--green)">Questo è un Asset. Questa è la libertà.</strong></div></div></div>`;
+    document.getElementById('dr-morale-box').innerHTML=`<div class="dr-morale-title">👑 IL SEGRETO DEI RICCHI</div><div class="dr-morale-text">"Chi sceglie il mantello sarà ammirato per un giorno. Chi sceglie il mattone costruirà un Castello che lo nutrirà per tutta la vita."<br/><br/><strong style="color:var(--gold)">Un Asset mette soldi in tasca. Una Passività li toglie.</strong> I ricchi accumulano Asset. Ora lo sai anche tu.</div>`;
+    const btn=document.getElementById('dragon-claim-btn');btn.style.cssText='width:100%;padding:14px;border-radius:14px;font-family:Cinzel,serif;font-size:.88rem;font-weight:900;cursor:pointer;margin-top:4px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#1a0800';btn.textContent=done?'✓ Già completata':'🏆 Riscatta la tua saggezza! +80 🌰 Semi';btn.onclick=()=>claimDragonWith(80,true);
+  }
+}
+function claimDragonWith(reward,isWinner){
+  if(STATE.completedLessons.has('duedraghi')){closeDragonModal();showToast('✓ Già completata!');return;}
+  STATE.completedLessons.add('duedraghi');addSemi(reward,'Due Draghi');
+  if(isWinner){spawnCoins(15);showToast(`🏆 Saggezza di Drago! +${reward} Semi 🐉`);}else{spawnCoins(6);showToast(`📖 Lezione appresa! +${reward} Semi 🌰`);}
+  closeDragonModal();save();
+}
+function closeDragonModal(){document.getElementById('dragon-modal').classList.remove('open');dragonChoiceMade=false;}
+
+// ══════════ MANIFESTO ══════════
+function openManifesto(){document.getElementById('manifesto-modal').classList.add('open');}
+function closeManifesto(){document.getElementById('manifesto-modal').classList.remove('open');}
+
+// ══════════ PARENT PANEL ══════════
+let pinBuffer='';
+function pinPress(k){
+  if(k==='demo'){unlockParent();return;}if(k==='del'){pinBuffer=pinBuffer.slice(0,-1);updateDots();return;}
+  if(pinBuffer.length>=4)return;pinBuffer+=k;updateDots();
+  if(pinBuffer.length===4)setTimeout(()=>{if(pinBuffer==='1234')unlockParent();else{showToast('❌ PIN errato — prova 1234');pinBuffer='';updateDots();}},200);
+}
+function updateDots(){for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinBuffer.length);}
+function unlockParent(){
+  STATE.pinUnlocked=true;document.getElementById('pin-screen').style.display='none';document.getElementById('parent-content').style.display='block';
+  setParentNotif(false);renderPendingParent();
+  document.getElementById('stat-semi').textContent=STATE.semi;document.getElementById('stat-miss').textContent=STATE.missionsCompleted;document.getElementById('stat-streak').textContent=STATE.streak;
+}
+function renderPendingParent(){
+  const el=document.getElementById('pending-missions');if(!el)return;
+  const pending=STATE.pendingMissions.filter(p=>p.status==='pending');
+  if(!pending.length){el.innerHTML=`<div style="background:rgba(5,10,25,.7);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;font-family:'Cinzel',serif;font-size:.72rem;color:var(--muted)">Nessuna missione in attesa ✓</div>`;return;}
+  el.innerHTML='';
+  pending.forEach(p=>{
+    const div=document.createElement('div');div.className='approval-card';const tc=p.trustScore>=70?'var(--green)':p.trustScore>=40?'#fbbf24':'var(--red)';
+    div.innerHTML=`<div class="apc-head"><div class="apc-icon">📋</div><div class="apc-info"><div class="apc-mission">${p.missionName}</div><div class="apc-child">In attesa di verifica</div></div></div><div class="apc-trust"><div style="font-family:'Cinzel',serif;font-size:.6rem;color:var(--muted)">TRUST</div><div class="trust-bar"><div class="trust-fill" style="width:${p.trustScore}%;background:${tc}"></div></div><div class="trust-label" style="color:${tc}">${p.trustScore}%</div></div><div class="apc-btns"><div onclick="approveParent('${p.id}',${p.reward})" style="flex:1;padding:10px;border-radius:10px;background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);color:var(--green);font-family:'Cinzel',serif;font-size:.7rem;font-weight:700;cursor:pointer;text-align:center">✅ APPROVA (+${p.reward} Semi)</div><div onclick="rejectParent('${p.id}')" style="flex:1;padding:10px;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);font-family:'Cinzel',serif;font-size:.7rem;font-weight:700;cursor:pointer;text-align:center">❌ RIFIUTA</div></div>`;
+    el.appendChild(div);
+  });
+}
+function approveParent(id,reward){const p=STATE.pendingMissions.find(x=>x.id===id);if(p){p.status='approved';addSemi(reward,'Approvazione');STATE.missionsCompleted++;}renderPendingParent();renderMissions();spawnCoins(8);showToast(`✅ +${reward} Semi accreditati!`);save();}
+function rejectParent(id){const p=STATE.pendingMissions.find(x=>x.id===id);if(p)p.status='rejected';renderPendingParent();renderMissions();showToast('❌ Missione rifiutata');save();}
+function regolaOro(){addSemi(100,"Regola d'Oro");spawnCoins(15);showToast("👑 Regola d'Oro! +100 Semi! ✨");save();}
+
+// ══════════ CORE ENGINE ══════════
+let streak=STATE.streak,currentLang='it';
+function applyTranslations(){document.querySelectorAll('.lang-sel-btn').forEach(b=>b.classList.toggle('active-lang',b.dataset.lang===currentLang));}
+function changeLanguage(lang){currentLang=lang;applyTranslations();showToast(`🌍 Lingua: ${lang.toUpperCase()}`);}
+function updateUI(){
+  const v=STATE.semi;
+  ['semi-top','semi-miss','semi-tes','semi-temp','mega-count','stat-semi','semi-prog'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=v;});
+  const lvl=Math.floor(v/500)+1,prog=(v%500)/500*100;
+  const xp=document.getElementById('xp-bar');if(xp)xp.style.width=prog+'%';
+  const ll=document.getElementById('level-label');if(ll)ll.textContent=lvl;
+  const e1=document.getElementById('semi-top');if(e1){e1.classList.remove('bump');void e1.offsetWidth;e1.classList.add('bump');}
+  const e2=document.getElementById('mega-count');if(e2){e2.classList.remove('bounce');void e2.offsetWidth;e2.classList.add('bounce');}
+  renderCastles();
+}
+function addSemi(n,r,silent=false){STATE.semi+=n;updateUI();if(!silent&&n>0){const e=document.getElementById('mega-count');if(e){e.classList.remove('bounce');void e.offsetWidth;e.classList.add('bounce');}}}
+function showCashFlowAnim(n){
+  for(let i=0;i<Math.min(n,6);i++){const p=document.createElement('div');p.className='part';p.style.cssText=`left:${35+Math.random()*30}%;bottom:35%;--tx:${(Math.random()-.5)*100}px;--ty:-${70+Math.random()*60}px;font-size:1.2rem;animation-delay:${i*.08}s;position:fixed;z-index:190;pointer-events:none`;p.textContent=['🌰','✨','💫','⭐'][i%4];document.getElementById('particles').appendChild(p);setTimeout(()=>p.remove(),1600);}
+  const m=document.getElementById('lang-cashflow-msg');if(m){m.textContent=`Il tuo regno produce +${castleIncome()} Semi ✨`;m.style.opacity='1';setTimeout(()=>m.style.opacity='0',2800);}
+}
+function spawnCoins(n){const c=document.getElementById('coinrain');for(let i=0;i<n;i++){const d=document.createElement('div');d.className='coin-drop';d.style.cssText=`left:${10+Math.random()*80}%;--d:${.6+Math.random()*.8}s;--dl:${Math.random()*.5}s`;d.textContent=['🌰','💰','✨','⭐'][Math.floor(Math.random()*4)];c.appendChild(d);setTimeout(()=>d.remove(),2000);}}
+function spawnParticles(n,e){const c=document.getElementById('particles');for(let i=0;i<n;i++){const d=document.createElement('div');d.className='part';d.style.cssText=`left:${40+Math.random()*20}%;bottom:40%;--tx:${(Math.random()-.5)*80}px;--ty:-${60+Math.random()*60}px;font-size:1.3rem;animation-delay:${i*.1}s`;d.textContent=e;c.appendChild(d);setTimeout(()=>d.remove(),2000);}}
+let toastTimer;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3200);}
+function gotoTab(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='missioni'){renderMissions();renderDailyQuests();renderSpecialMission();renderLeaderboard();}if(id==='tesoro'){renderCastles();updateCastleVisual();}
+  if(id==='genitore'){if(!STATE.pinUnlocked){document.getElementById('pin-screen').style.display='flex';document.getElementById('parent-content').style.display='none';pinBuffer='';updateDots();}else renderPendingParent();}
+}
+
+// ══════════ 🌟 LEZIONI UNIVERSALI ══════════
+const UNIV_LESSONS = {
+
+  u50_30_20: {
+    num:'ACCADEMIA UNIVERSALE · LEZIONE I',
+    title:'La Regola 50-30-20',
+    icon:'🍕', color:'var(--teal)',
+    ages:[{label:'👶 Da 8 anni',col:'rgba(6,182,212,.15)',border:'rgba(6,182,212,.3)',txt:'var(--teal)'},{label:'👨‍💼 Adulti',col:'rgba(6,182,212,.1)',border:'rgba(6,182,212,.25)',txt:'var(--teal)'},{label:'👴 Nonni',col:'rgba(6,182,212,.08)',border:'rgba(6,182,212,.2)',txt:'var(--teal)'}],
+    reward:35, id:'u50_30_20',
+    html:`
+      <div class="univ-section-block">
+        <div class="univ-section-label">🍕 Il concetto — spiegato con la pizza</div>
+        <div class="univ-section-text">Immagina che ogni stipendio sia una pizza. Non mangiarla tutta subito, non darla tutta ad altri. Dividila in tre parti precise — sempre, ogni mese, senza eccezioni.</div>
+      </div>
+      <div class="univ-formula">
+        <div class="univ-formula-eq">50% · 30% · 20%</div>
+        <div class="univ-formula-sub">Sopravvivenza · Piacere · Futuro</div>
+      </div>
+      <div class="univ-example-grid">
+        <div class="univ-example-card" style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)">
+          <div class="univ-example-icon">🏠</div>
+          <div class="univ-example-label" style="color:var(--red)">50% BISOGNI</div>
+          <div class="univ-example-val">Affitto, cibo, bollette, trasporti — le cose senza cui non puoi vivere</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2)">
+          <div class="univ-example-icon">🎮</div>
+          <div class="univ-example-label" style="color:var(--green)">30% DESIDERI</div>
+          <div class="univ-example-val">Ristoranti, giochi, viaggi, abbonamenti — le cose che rendono la vita bella</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);grid-column:span 2">
+          <div class="univ-example-icon">🏰</div>
+          <div class="univ-example-label" style="color:var(--gold)">20% FUTURO — IL TUO CASTELLO</div>
+          <div class="univ-example-val">Risparmio, investimenti, fondo emergenza. Questa fetta costruisce la tua libertà finanziaria. È la più importante.</div>
+        </div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🧒 Per i bambini — versione FinanzaLand</div>
+        <div class="univ-section-text">Ogni volta che ricevi i Semi (paghetta, missioni, doni): usa <strong style="color:var(--red)">5 Semi</strong> per quello che ti serve, <strong style="color:var(--green)">3 Semi</strong> per quello che vuoi, <strong style="color:var(--gold)">2 Semi</strong> nel tuo castello. Sempre.</div>
+      </div>
+      <div class="univ-wisdom">"La maggior parte delle persone risparmia quello che avanza dopo aver speso. I ricchi spendono quello che avanza dopo aver risparmiato." — Warren Buffett</div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">⚡ Azione immediata</div>
+        <div class="univ-step-list">
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(6,182,212,.15);color:var(--teal)">1</div><div class="univ-step-text">Prendi il tuo ultimo stipendio (o paghetta). Calcola il 20%. Mettilo subito da parte prima di spendere 1 centesimo.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(6,182,212,.15);color:var(--teal)">2</div><div class="univ-step-text">Crea 3 "contenitori" separati: un conto risparmio, il portafoglio quotidiano, un conto investimenti.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(6,182,212,.15);color:var(--teal)">3</div><div class="univ-step-text">Automatizza il trasferimento del 20% il giorno dello stipendio. Zero sforzo, risultati certi.</div></div>
+        </div>
+      </div>`
+  },
+
+  upagati: {
+    num:'ACCADEMIA UNIVERSALE · LEZIONE II',
+    title:'Pagati Prima!',
+    icon:'🪙', color:'var(--green)',
+    ages:[{label:'👶 Da 10 anni',col:'rgba(74,222,128,.12)',border:'rgba(74,222,128,.3)',txt:'var(--green)'},{label:'👨‍💼 Adulti',col:'rgba(74,222,128,.08)',border:'rgba(74,222,128,.2)',txt:'var(--green)'}],
+    reward:40, id:'upagati',
+    html:`
+      <div class="univ-section-block">
+        <div class="univ-section-label">💡 Il principio fondamentale</div>
+        <div class="univ-section-text">La maggior parte delle persone paga prima le bollette, il supermercato, Netflix, il bar — e poi risparmia quello che avanza. Il problema? Non avanza mai nulla. I ricchi fanno il contrario: si pagano <em>prima</em>.</div>
+      </div>
+      <div class="univ-formula">
+        <div class="univ-formula-eq">Entrata → 20% a te → poi le spese</div>
+        <div class="univ-formula-sub">Non aspettare gli avanzi. Prenditi la tua quota per prima.</div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🏰 In FinanzaLand</div>
+        <div class="univ-section-text">Ogni missione completata ti dà Semi. Prima di spenderli in castelli o azioni di Borsa, metti sempre il <strong style="color:var(--green)">20% nel "Fondo di Luce" intoccabile</strong>. Anche se hai voglia di spendere tutto subito — pagati prima.</div>
+      </div>
+      <div class="univ-example-grid">
+        <div class="univ-example-card" style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)">
+          <div class="univ-example-icon">😰</div>
+          <div class="univ-example-label" style="color:var(--red)">STRATEGIA SBAGLIATA</div>
+          <div class="univ-example-val">Guadagno 1000€ → Spendo 980€ → Risparmio 20€. Dopo 10 anni: 2.400€</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2)">
+          <div class="univ-example-icon">😊</div>
+          <div class="univ-example-label" style="color:var(--green)">STRATEGIA GIUSTA</div>
+          <div class="univ-example-val">Guadagno 1000€ → Risparmio 200€ → Spendo 800€. Dopo 10 anni: +24.000€</div>
+        </div>
+      </div>
+      <div class="univ-wisdom">"Non risparmiare quello che avanza dopo aver speso. Spendi quello che avanza dopo aver risparmiato." — George S. Clason (Il più ricco uomo di Babilonia)</div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">⚡ Come automatizzare</div>
+        <div class="univ-step-list">
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(74,222,128,.12);color:var(--green)">1</div><div class="univ-step-text">Apri un conto di risparmio separato dal conto corrente (es. Conto Deposito, Hype, N26).</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(74,222,128,.12);color:var(--green)">2</div><div class="univ-step-text">Imposta un bonifico automatico il giorno dopo lo stipendio: il 20% va direttamente sul conto risparmio.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(74,222,128,.12);color:var(--green)">3</div><div class="univ-step-text">Non toccare mai quel conto. È il tuo "futuro sé stesso". Lascia che l'interesse composto faccia il lavoro.</div></div>
+        </div>
+      </div>`
+  },
+
+  uinflaz: {
+    num:'ACCADEMIA UNIVERSALE · LEZIONE III',
+    title:'Il Ladro Invisibile — L\'Inflazione',
+    icon:'👻', color:'var(--red)',
+    ages:[{label:'👶 Da 10 anni',col:'rgba(248,113,113,.12)',border:'rgba(248,113,113,.3)',txt:'var(--red)'},{label:'👨‍💼 Adulti',col:'rgba(248,113,113,.08)',border:'rgba(248,113,113,.25)',txt:'var(--red)'}],
+    reward:45, id:'uinflaz',
+    html:`
+      <div class="univ-section-block">
+        <div class="univ-section-label">👻 Chi è il Ladro Invisibile?</div>
+        <div class="univ-section-text">L'inflazione è un fantasma che entra ogni notte nel tuo portafoglio. Non ruba Semi — ma li fa rimpicciolire. 100 Semi oggi comprano meno cose di 100 Semi l'anno scorso. Se non fai nulla, i tuoi risparmi perdono valore ogni giorno.</div>
+      </div>
+      <div class="univ-formula">
+        <div class="univ-formula-eq">Inflazione media EU: ~3% anno</div>
+        <div class="univ-formula-sub">100€ oggi = ~97€ di potere d'acquisto l'anno prossimo</div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🧒 Esempio per bambini</div>
+        <div class="univ-section-text">Oggi la tua merenda preferita costa 1 Semi. Metti 100 Semi sotto il materasso. L'anno prossimo la merenda costa 1.03 Semi (inflazione +3%). I tuoi 100 Semi comprano solo 97 merende invece di 100. Il Ladro Invisibile ha rubato 3 merende!</div>
+      </div>
+      <div class="univ-example-grid">
+        <div class="univ-example-card" style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)">
+          <div class="univ-example-icon">🛋️</div>
+          <div class="univ-example-label" style="color:var(--red)">SEMI FERMI (1 CASTELLO)</div>
+          <div class="univ-example-val">10.000 Semi sotto il materasso × 10 anni = perdi ~3.000 Semi di valore reale</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2)">
+          <div class="univ-example-icon">📈</div>
+          <div class="univ-example-label" style="color:var(--green)">SEMI INVESTITI (5 CASTELLI)</div>
+          <div class="univ-example-val">10.000 Semi investiti a +7%/anno × 10 anni = ~19.672 Semi (+96%)</div>
+        </div>
+      </div>
+      <div class="univ-wisdom">"L'inflazione è come un tasso della pigrizia. Premiamo chi fa lavorare i propri soldi e puniamo chi li lascia fermi." — adattato da Milton Friedman</div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🛡️ Come difendersi dall'inflazione</div>
+        <div class="univ-step-list">
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(248,113,113,.12);color:var(--red)">1</div><div class="univ-step-text"><strong style="color:var(--text)">Non tenere tutto in contanti.</strong> Il denaro fermo perde valore. Investilo in ETF, immobili, o attività produttive.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(248,113,113,.12);color:var(--red)">2</div><div class="univ-step-text"><strong style="color:var(--text)">Il minimo da fare:</strong> un conto deposito vincolato al 3-4% batte già l'inflazione nei periodi normali.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(248,113,113,.12);color:var(--red)">3</div><div class="univ-step-text"><strong style="color:var(--text)">Investi in te stesso:</strong> le competenze non si inflazionano. Una skill in più vale più di 1.000 Semi in banca.</div></div>
+        </div>
+      </div>`
+  },
+
+  udebito: {
+    num:'ACCADEMIA UNIVERSALE · LEZIONE IV',
+    title:'Debito Buono vs Debito Cattivo',
+    icon:'⚖️', color:'var(--purple)',
+    ages:[{label:'👶 Da 13 anni',col:'rgba(167,139,250,.12)',border:'rgba(167,139,250,.3)',txt:'var(--purple)'},{label:'👨‍💼 Adulti',col:'rgba(167,139,250,.08)',border:'rgba(167,139,250,.2)',txt:'var(--purple)'}],
+    reward:50, id:'udebito',
+    html:`
+      <div class="univ-section-block">
+        <div class="univ-section-label">⚖️ Non tutto il debito è uguale</div>
+        <div class="univ-section-text">La parola "debito" fa paura — ma i milionari usano il debito come strumento. Il segreto è capire la differenza tra debiti che ti <strong style="color:var(--green)">arricchiscono</strong> e debiti che ti <strong style="color:var(--red)">impoveriscono</strong>.</div>
+      </div>
+      <div class="univ-example-grid">
+        <div class="univ-example-card" style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25)">
+          <div class="univ-example-icon">✅</div>
+          <div class="univ-example-label" style="color:var(--green)">DEBITO BUONO</div>
+          <div class="univ-example-val">Produce più ricchezza di quanto costa. Mutuo per casa in affitto, prestito per istruzione, finanziamento per avviare un'attività.</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25)">
+          <div class="univ-example-icon">❌</div>
+          <div class="univ-example-label" style="color:var(--red)">DEBITO CATTIVO</div>
+          <div class="univ-example-val">Costa di più di quello che produce. Carta di credito per spese voluttuarie, prestito per vacanze, finanziamento per un'auto di lusso.</div>
+        </div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🧒 Versione FinanzaLand</div>
+        <div class="univ-section-text"><strong style="color:var(--green)">Debito Buono:</strong> Prendi in prestito 50 Semi per comprare un castello che produce 10 Semi al ciclo. In 5 cicli hai ripagato il debito e guadagni 10 Semi per sempre.<br/><br/><strong style="color:var(--red)">Debito Cattivo:</strong> Prendi in prestito 50 Semi per comprare il Mantello Lucente. Il mantello perde valore — devi restituire 50 Semi avendo in mano qualcosa che vale 0.</div>
+      </div>
+      <div class="univ-formula">
+        <div class="univ-formula-eq">La regola d'oro del debito</div>
+        <div class="univ-formula-sub">Indebitati SOLO se il rendimento atteso > tasso di interesse</div>
+      </div>
+      <div class="univ-wisdom">"I poveri lavorano per i soldi. La classe media fa lavorare i soldi per loro tramite stipendi. I ricchi fanno lavorare i soldi — anche quelli degli altri — per loro." — Robert Kiyosaki</div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">⚡ Regole pratiche</div>
+        <div class="univ-step-list">
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(167,139,250,.12);color:var(--purple)">1</div><div class="univ-step-text">Mai usare la carta di credito per beni che si consumano (cibo, abbigliamento, elettronica). Se non puoi permettertela in contanti, non puoi permettertela.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(167,139,250,.12);color:var(--purple)">2</div><div class="univ-step-text">Il mutuo per la casa in cui vivi è "neutro" — non ti arricchisce direttamente, ma è meglio che pagare l'affitto all'infinito.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(167,139,250,.12);color:var(--purple)">3</div><div class="univ-step-text">Il debito con tasso sopra il 10% è quasi sempre cattivo. Estinguilo prima di qualsiasi investimento.</div></div>
+        </div>
+      </div>`
+  },
+
+  udiversif: {
+    num:'ACCADEMIA UNIVERSALE · LEZIONE V',
+    title:'Non Tutte le Uova in un Paniere',
+    icon:'🧺', color:'var(--orange)',
+    ages:[{label:'👶 Da 8 anni',col:'rgba(251,146,60,.12)',border:'rgba(251,146,60,.3)',txt:'var(--orange)'},{label:'👨‍💼 Adulti',col:'rgba(251,146,60,.08)',border:'rgba(251,146,60,.2)',txt:'var(--orange)'}],
+    reward:45, id:'udiversif',
+    html:`
+      <div class="univ-section-block">
+        <div class="univ-section-label">🧺 La storia delle uova</div>
+        <div class="univ-section-text">Un contadino aveva 10 uova. Le mise tutte in un solo paniere. Inciampò — e perse tutto. Un altro contadino le distribuì in 10 panieri diversi. Cadde — e ne perse solo uno. Rimase con 9 uova. Questo è il principio della diversificazione.</div>
+      </div>
+      <div class="univ-formula">
+        <div class="univ-formula-eq">Non concentrare = non rischiare tutto</div>
+        <div class="univ-formula-sub">Distribuisci il rischio su più "panieri" diversi</div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🏰 In FinanzaLand</div>
+        <div class="univ-section-text">Invece di comprare solo la Reggia (il castello più caro), compra tutti e 5 i castelli. Se uno smette di produrre, gli altri 4 continuano. Il tuo Cash Flow non si ferma mai.</div>
+      </div>
+      <div class="univ-example-grid">
+        <div class="univ-example-card" style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)">
+          <div class="univ-example-icon">😰</div>
+          <div class="univ-example-label" style="color:var(--red)">TUTTO SU UNO</div>
+          <div class="univ-example-val">1000 Semi in 1 azione. Se crolla -80%: rimangono 200 Semi. Catastrofe.</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2)">
+          <div class="univ-example-icon">😊</div>
+          <div class="univ-example-label" style="color:var(--green)">DISTRIBUITO SU 10</div>
+          <div class="univ-example-val">100 Semi su 10 panieri. 1 crolla: perdi 80 Semi. Gli altri 9 coprono. Fine.</div>
+        </div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🌍 Come diversificare nella vita reale</div>
+        <div class="univ-step-list">
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(251,146,60,.12);color:var(--orange)">1</div><div class="univ-step-text"><strong style="color:var(--text)">ETF invece di singole azioni:</strong> un ETF sull'S&P500 investe automaticamente in 500 aziende. Un'impresa crolla — le altre 499 tengono.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(251,146,60,.12);color:var(--orange)">2</div><div class="univ-step-text"><strong style="color:var(--text)">Diversifica le entrate:</strong> stipendio + affitto di una stanza + freelance + investimenti. Se perdi il lavoro, non perdi tutto.</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(251,146,60,.12);color:var(--orange)">3</div><div class="univ-step-text"><strong style="color:var(--text)">Diversifica le skills:</strong> una competenza sola ti rende vulnerabile. Due o tre ti rendono irremplazabile.</div></div>
+        </div>
+      </div>
+      <div class="univ-wisdom">"La diversificazione è l'unico pasto gratis nella finanza." — Harry Markowitz (Premio Nobel Economia 1990)</div>`
+  },
+
+  uopport: {
+    num:'ACCADEMIA UNIVERSALE · LEZIONE VI',
+    title:'Il Tempo Vale Oro — Costo Opportunità',
+    icon:'⌛', color:'var(--gold)',
+    ages:[{label:'👶 Da 10 anni',col:'rgba(255,215,0,.12)',border:'rgba(255,215,0,.3)',txt:'var(--gold)'},{label:'👨‍💼 Adulti',col:'rgba(255,215,0,.08)',border:'rgba(255,215,0,.2)',txt:'var(--gold)'}],
+    reward:60, id:'uopport',
+    html:`
+      <div class="univ-section-block">
+        <div class="univ-section-label">⌛ Cos'è il costo opportunità?</div>
+        <div class="univ-section-text">Ogni volta che scegli qualcosa, stai automaticamente rinunciando a qualcos'altro. Il "costo" di una scelta non è solo quello che paghi — è anche il valore di ciò a cui rinunci. Questo si chiama <strong style="color:var(--gold)">costo opportunità</strong>.</div>
+      </div>
+      <div class="univ-example-grid">
+        <div class="univ-example-card" style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2)">
+          <div class="univ-example-icon">📺</div>
+          <div class="univ-example-label" style="color:var(--red)">3 ORE DI TV</div>
+          <div class="univ-example-val">Costo apparente: €0. Costo reale: 3 ore che potevano essere usate per imparare, costruire, guadagnare.</div>
+        </div>
+        <div class="univ-example-card" style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2)">
+          <div class="univ-example-icon">📚</div>
+          <div class="univ-example-label" style="color:var(--green)">3 ORE DI STUDIO</div>
+          <div class="univ-example-val">Una nuova competenza ogni settimana. Dopo 1 anno: 52 competenze in più. Valore inestimabile.</div>
+        </div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🏰 In FinanzaLand — il costo dell'inattività</div>
+        <div class="univ-section-text">Ogni giorno che non lavori alla Missione, non costruisci un castello, non fai la lezione al Tempio — è un giorno di Semi persi. Non perché vengano rubati, ma perché <strong style="color:var(--gold)">non sono mai nati</strong>. Il costo dell'inazione è invisibile ma reale.</div>
+      </div>
+      <div class="univ-formula">
+        <div class="univ-formula-eq">Valore di un'ora = Stipendio annuo ÷ 2000</div>
+        <div class="univ-formula-sub">Se guadagni 30.000€/anno, ogni tua ora vale ~15€. Sprecarla costa 15€.</div>
+      </div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">🧒 Per i bambini — la regola del castello</div>
+        <div class="univ-section-text">Ogni ora che passi a giocare invece di fare i compiti non ti "costa" nulla in apparenza. Ma ti costa il voto migliore, la lode, la borsa di studio, il lavoro migliore. Il castello che non costruisci oggi è quello che non produce Semi domani.</div>
+      </div>
+      <div class="univ-wisdom">"Il tempo è l'unica risorsa che non può essere recuperata, investita, o ricomprata. Usalo come se fosse la tua risorsa più rara — perché lo è." — adattato da Warren Buffett</div>
+      <div class="univ-section-block">
+        <div class="univ-section-label">⚡ Il test delle 3 domande</div>
+        <div class="univ-step-list">
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(255,215,0,.12);color:var(--gold)">?</div><div class="univ-step-text">Prima di fare qualsiasi cosa: "Questo mi avvicina o mi allontana dal mio castello?"</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(255,215,0,.12);color:var(--gold)">?</div><div class="univ-step-text">Prima di spendere tempo: "A cosa sto rinunciando facendo questo invece di altro?"</div></div>
+          <div class="univ-step-item"><div class="univ-step-dot" style="background:rgba(255,215,0,.12);color:var(--gold)">?</div><div class="univ-step-text">Prima di comprare: "Sto comprando un asset o una passività? Tra un anno questo vale di più o di meno?"</div></div>
+        </div>
+      </div>`
+  }
+};
+
+let currentUnivLesson = null;
+
+function openUnivLesson(id) {
+  const l = UNIV_LESSONS[id]; if(!l) return;
+  currentUnivLesson = id;
+
+  // Header
+  document.getElementById('univ-modal-num').textContent = l.num;
+  document.getElementById('univ-modal-title').textContent = l.title;
+  document.getElementById('univ-modal-header').style.borderBottom = `1px solid ${l.color}44`;
+
+  // Age badges
+  const ageWrap = document.getElementById('univ-modal-age');
+  ageWrap.innerHTML = l.ages.map(a =>
+    `<span class="univ-age-pill" style="background:${a.col};border:1px solid ${a.border};color:${a.txt}">${a.label}</span>`
+  ).join('');
+
+  // Body
+  const done = STATE.completedLessons.has('univ_'+id);
+  document.getElementById('univ-modal-body').innerHTML = l.html + `
+    <button onclick="claimUnivLesson()" style="
+      width:100%;padding:14px;border-radius:14px;
+      background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,215,0,.08));
+      border:1px solid rgba(255,215,0,.35);color:var(--gold);
+      font-family:'Cinzel',serif;font-size:.88rem;font-weight:900;
+      letter-spacing:2px;cursor:pointer;margin-top:14px;transition:transform .15s;
+      ${done ? 'opacity:.6' : ''}
+    " ${done ? 'disabled' : ''}>
+      ${done ? `✓ Completata (+${l.reward} Semi guadagnati)` : `✨ Completa e guadagna +${l.reward} Semi 🌰`}
+    </button>`;
+
+  document.getElementById('univ-modal').classList.add('open');
+}
+
+function claimUnivLesson() {
+  if(!currentUnivLesson) return;
+  const l = UNIV_LESSONS[currentUnivLesson];
+  const key = 'univ_' + currentUnivLesson;
+  if(STATE.completedLessons.has(key)){closeUnivModal();showToast('✓ Già completata!');return;}
+  STATE.completedLessons.add(key);
+  addSemi(l.reward, 'Accademia: '+l.title);
+  spawnCoins(12);closeUnivModal();
+  showToast(`🌟 Lezione Universale! +${l.reward} Semi 🌰`);save();
+}
+
+function closeUnivModal(e) {
+  if(e && e.target !== document.getElementById('univ-modal')) return;
+  document.getElementById('univ-modal').classList.remove('open');
+  currentUnivLesson = null;
+}
+
+// ══════════ BOOT ══════════
+setTimeout(()=>{
+  gotoTab('home');renderMissions();renderCastles();updateCastleVisual();renderLeaderboard();updateUI();applyTranslations();
+  document.getElementById('streak-val').textContent=streak;
+  const off=Math.min(Math.floor((Date.now()-STATE.lastSave)/8000)*castleIncome(),castleIncome()*1800);
+  STATE.lastSave=Date.now();
+  if(off>5)setTimeout(()=>{addSemi(off,'Bottino offline');showToast(`🐉 Bentornato! +${off} Semi offline!`);spawnCoins(6);},800);
+
+  // iOS guide close storage
+  document.querySelector('.ios-close-btn')?.addEventListener('click',()=>{
+    localStorage.setItem('fl_ios_guide_dismissed','1');
+  });
+
+  // Init cloud
+  initSupabase();
+  checkProStatus();
+},3200);
+
+// ══════════════════════════════════════════════════════════════
+// 💳 STRIPE — PAGAMENTI PRO
+// ══════════════════════════════════════════════════════════════
+// ⚠️ CONFIGURAZIONE RICHIESTA:
+// 1. Crea account su https://stripe.com
+// 2. Vai su Dashboard → Developers → API Keys
+// 3. Sostituisci la chiave qui sotto con la tua PUBLISHABLE KEY
+// 4. Crea i prodotti su Stripe Dashboard e aggiorna i priceId
+
+const STRIPE_CONFIG = {
+  publishableKey: 'pk_live_SOSTITUISCI_CON_TUA_CHIAVE_STRIPE',
+  plans: {
+    mensile: {
+      priceId: 'price_SOSTITUISCI_MENSILE',
+      name: 'FinanzaLand Pro Mensile',
+      price: '€4.99/mese'
+    },
+    famiglia: {
+      priceId: 'price_SOSTITUISCI_FAMIGLIA',
+      name: 'FinanzaLand Pro Famiglia',
+      price: '€7.99/mese'
+    }
+  }
+};
+
+let stripeInstance = null;
+let selectedPlan = 'mensile';
+
+function initStripe() {
+  try {
+    if (window.Stripe && STRIPE_CONFIG.publishableKey !== 'pk_live_SOSTITUISCI_CON_TUA_CHIAVE_STRIPE') {
+      stripeInstance = Stripe(STRIPE_CONFIG.publishableKey);
+    }
+  } catch(e) { console.log('Stripe non configurato:', e); }
+}
+
+function openProModal() {
+  if (STATE.isPro) { showToast('👑 Sei già Pro! Grazie per il supporto!'); return; }
+  document.getElementById('pro-modal').classList.add('open');
+  initStripe();
+}
+
+function closeProModal() {
+  document.getElementById('pro-modal').classList.remove('open');
+}
+
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('plan-mensile').classList.toggle('selected', plan === 'mensile');
+  document.getElementById('plan-famiglia').classList.toggle('selected', plan === 'famiglia');
+  const prices = { mensile: '€4.99/mese', famiglia: '€7.99/mese' };
+  document.getElementById('stripe-btn-text').textContent = `Abbonati ora — ${prices[plan]}`;
+}
+
+async function initiateStripePayment() {
+  const btn = document.getElementById('stripe-pay-btn');
+
+  // Se Stripe non è configurato, mostra istruzioni
+  if (!stripeInstance) {
+    showToast('⚙️ Stripe non ancora configurato — vedi guida!');
+    closeProModal();
+    setTimeout(() => showStripeSetupGuide(), 300);
+    return;
+  }
+
+  btn.disabled = true;
+  document.getElementById('stripe-btn-text').textContent = '⏳ Caricamento...';
+
+  try {
+    const plan = STRIPE_CONFIG.plans[selectedPlan];
+
+    // In produzione: chiama il tuo backend per creare la sessione
+    // Per ora mostriamo la guida di integrazione
+    const response = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId: plan.priceId,
+        userId: STATE.userId,
+        email: STATE.userEmail || ''
+      })
+    });
+
+    if (!response.ok) throw new Error('Backend non disponibile');
+    const session = await response.json();
+
+    const result = await stripeInstance.redirectToCheckout({
+      sessionId: session.id
+    });
+
+    if (result.error) throw new Error(result.error.message);
+
+  } catch(e) {
+    console.error('Errore pagamento:', e);
+    btn.disabled = false;
+    document.getElementById('stripe-btn-text').textContent = `Abbonati ora — ${selectedPlan === 'mensile' ? '€4.99' : '€7.99'}/mese`;
+    showToast('⚠️ Backend non ancora attivo — configura Netlify Functions');
+  }
+}
+
+function showStripeSetupGuide() {
+  const msg = `Per attivare i pagamenti:\n1. Crea account stripe.com\n2. Copia la Publishable Key\n3. Sostituisci in index.html\n4. Crea Netlify Function per checkout`;
+  alert('⚙️ Stripe Setup:\n\n' + msg);
+}
+
+function checkProStatus() {
+  // Controlla se l'utente è Pro (da localStorage o Supabase)
+  const proData = localStorage.getItem('fl_pro_status');
+  if (proData) {
+    try {
+      const parsed = JSON.parse(proData);
+      if (parsed.active && new Date(parsed.expiresAt) > new Date()) {
+        STATE.isPro = true;
+        updateProUI();
+      }
+    } catch(e) {}
+  }
+}
+
+function activatePro(expiresAt) {
+  STATE.isPro = true;
+  localStorage.setItem('fl_pro_status', JSON.stringify({
+    active: true,
+    expiresAt: expiresAt || new Date(Date.now() + 30*24*60*60*1000).toISOString()
+  }));
+  updateProUI();
+  showToast('👑 PRO Attivato! Benvenuto nel club dei Draghi Sapienti!');
+  spawnCoins(20);
+}
+
+function updateProUI() {
+  const badge = document.getElementById('user-pro-badge');
+  if (badge) badge.style.display = 'inline';
+  // Rimuovi lock da features Pro
+  document.querySelectorAll('.pro-lock').forEach(el => el.classList.remove('pro-lock'));
+}
+
+function loginPro() {
+  closeProModal();
+  const email = prompt('Inserisci la tua email Pro:');
+  if (email && email.includes('@')) {
+    STATE.userEmail = email;
+    showToast('📧 Verifica la tua email per accedere a Pro');
+    // In produzione: invia magic link via Supabase Auth
+    supabaseLoginWithEmail(email);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// ☁️ SUPABASE — SALVATAGGIO CLOUD
+// ══════════════════════════════════════════════════════════════
+// ⚠️ CONFIGURAZIONE RICHIESTA:
+// 1. Crea progetto su https://supabase.com (gratis)
+// 2. Vai su Settings → API
+// 3. Sostituisci SUPABASE_URL e SUPABASE_ANON_KEY sotto
+// 4. Crea tabella 'user_data' su Supabase con SQL Editor
+
+const SUPABASE_CONFIG = {
+  url: 'https://unrpinrcsxhoxvbnibqw.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVucnBpbnJjc3hob3h2Ym5pYnF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNjgzMzIsImV4cCI6MjA4ODg0NDMzMn0.6usl0N5--gE8jwzW6Af24sCwp4z5-1DAtclVwP_TlhQ'
+};
+
+let supabaseClient = null;
+
+function initSupabase() {
+  try {
+    if (window.supabase && !SUPABASE_CONFIG.url.includes('SOSTITUISCI')) {
+      supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+      console.log('✅ Supabase connesso');
+      syncToCloud();
+    }
+  } catch(e) {
+    console.log('Supabase non configurato — uso localStorage');
+  }
+}
+
+function showCloudSync(status, label) {
+  const el = document.getElementById('cloud-sync');
+  const lbl = document.getElementById('sync-label');
+  el.className = '';
+  el.classList.add(status);
+  lbl.textContent = label;
+  if (status === 'synced') setTimeout(() => el.className = '', 3000);
+}
+
+async function syncToCloud() {
+  if (!supabaseClient || !STATE.userId) return;
+  showCloudSync('syncing', 'Sync...');
+
+  try {
+    const gameData = {
+      user_id: STATE.userId,
+      semi: STATE.semi,
+      castles: boughtCastles,
+      completed_lessons: [...STATE.completedLessons],
+      missions_completed: STATE.missionsCompleted,
+      streak: STATE.streak,
+      is_pro: STATE.isPro,
+      updated_at: new Date().toISOString()
+    };
+
+    const { error } = await supabaseClient
+      .from('user_data')
+      .upsert(gameData, { onConflict: 'user_id' });
+
+    if (error) throw error;
+    showCloudSync('synced', '☁️ Salvato');
+  } catch(e) {
+    console.error('Errore sync:', e);
+    showCloudSync('error', '⚠️ Offline');
+  }
+}
+
+async function loadFromCloud() {
+  if (!supabaseClient || !STATE.userId) return;
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('user_data')
+      .select('*')
+      .eq('user_id', STATE.userId)
+      .single();
+
+    if (error || !data) return;
+
+    // Usa i dati cloud se più recenti
+    if (data.semi > STATE.semi) {
+      STATE.semi = data.semi;
+      boughtCastles = data.castles || ['c1'];
+      STATE.completedLessons = new Set(data.completed_lessons || []);
+      STATE.missionsCompleted = data.missions_completed || 0;
+      STATE.isPro = data.is_pro || false;
+      updateUI();
+      renderCastles();
+      if (STATE.isPro) updateProUI();
+      showToast('☁️ Dati ripristinati dal cloud!');
+    }
+  } catch(e) {
+    console.error('Errore caricamento cloud:', e);
+  }
+}
+
+async function supabaseLoginWithEmail(email) {
+  if (!supabaseClient) {
+    showToast('⚠️ Supabase non ancora configurato');
+    return;
+  }
+
+  try {
+    const { error } = await supabaseClient.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: window.location.origin }
+    });
+    if (error) throw error;
+    showToast('📧 Email inviata! Clicca il link per accedere.');
+  } catch(e) {
+    showToast('❌ Errore invio email: ' + e.message);
+  }
+}
+
+// Sync automatico ogni 5 minuti
+setInterval(() => { if (navigator.onLine) syncToCloud(); }, 5 * 60 * 1000);
+
+// Sync al salvataggio
+const _origSave = save;
+function save() {
+  _origSave();
+  if (navigator.onLine && supabaseClient) {
+    clearTimeout(save._syncTimer);
+    save._syncTimer = setTimeout(syncToCloud, 2000);
+  }
+}
+
+</script>
+</body>
+</html>
