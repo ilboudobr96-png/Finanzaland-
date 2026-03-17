@@ -1,51 +1,133 @@
 {
   "name": "FinanzaLand — L'Accademia del Risparmio",
   "short_name": "FinanzaLand",
-  "description": "Impara il risparmio e la ricchezza attraverso il gioco. Di Bernard Ilboudo & Riccarda.",
-  "start_url": "/FinanzaLand_App_Final.html",
+  "description": "Impara la ricchezza attraverso il gioco. Di Bernard Ilboudo.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#000000",
   "theme_color": "#FFD700",
   "lang": "it",
-  "categories": ["education", "games", "finance"],
+  "categories": ["education", "finance", "games", "kids"],
+  "author": "Bernard Ilboudo",
+
   "icons": [
     {
-      "src": "1000189853.png",
+      "src": "icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "1000189853.png",
+      "src": "icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
+
   "screenshots": [
     {
-      "src": "1000189685.png",
-      "sizes": "1080x1920",
+      "src": "screenshot-home.png",
+      "sizes": "390x844",
       "type": "image/png",
-      "label": "Mappa del Regno FinanzaLand"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Missioni di Oggi",
-      "short_name": "Missioni",
-      "description": "Vai direttamente alle missioni",
-      "url": "/FinanzaLand_App_Final.html#missioni",
-      "icons": [{ "src": "1000189854.png", "sizes": "192x192" }]
+      "form_factor": "narrow",
+      "label": "Mappa del regno — FinanzaLand"
     },
     {
-      "name": "Il Mio Tesoro",
-      "short_name": "Tesoro",
-      "description": "Controlla i tuoi Semi di Luce",
-      "url": "/FinanzaLand_App_Final.html#tesoro",
-      "icons": [{ "src": "1000189857.png", "sizes": "192x192" }]
+      "src": "screenshot-mercato.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mercato dei Draghi — Azioni e Obbligazioni"
     }
   ],
-  "prefer_related_applications": false
+
+  "shortcuts": [
+    {
+      "name": "Missioni di oggi",
+      "short_name": "Missioni",
+      "description": "Vai alle missioni giornaliere",
+      "url": "/?tab=missioni",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Il mio Tesoro",
+      "short_name": "Tesoro",
+      "description": "Controlla i tuoi Semi",
+      "url": "/?tab=tesoro",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Mercato Finanziario",
+      "short_name": "Mercato",
+      "description": "Azioni, Obbligazioni, Banca",
+      "url": "/?tab=mercato",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Pannello Genitore",
+      "short_name": "Genitore",
+      "description": "Approva missioni e monitora",
+      "url": "/?tab=genitore",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+
+  "related_applications": [],
+  "prefer_related_applications": false,
+
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+
+  "protocol_handlers": [
+    {
+      "protocol": "finanzaland",
+      "url": "/?deeplink=%s"
+    }
+  ]
 }
