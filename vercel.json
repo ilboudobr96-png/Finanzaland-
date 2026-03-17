@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/FinanzaLand_v19_DEFINITIVA_FINALE.html" },
+    { "source": "/(.*)", "destination": "/FinanzaLand_v19_DEFINITIVA_FINALE.html" }
+  ]
+}
