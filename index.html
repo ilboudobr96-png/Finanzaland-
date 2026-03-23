@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="description" content="FinanzaLand — Gioco educativo finanziario per bambini e adulti">
+<meta name="theme-color" content="#FFD700">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta property="og:title" content="FinanzaLand — L Accademia del Risparmio">
+<meta property="og:description" content="Impara la finanza giocando — per bambini e adulti — offline e gratuito">
+<meta property="og:image" content="https://finanzaland-yurn.vercel.app/icon-512.png">
+<title>FinanzaLand</title>
+<style>
+/* ══════════════════════════════════════════
+   FINANZALAND — SHELL LEGGERO
+   Immagini da CDN, lezioni da AI
+   ══════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#FFD700;--gold2:#d97706;--teal:#06b6d4;
+  --green:#4ade80;--purple:#a78bfa;--red:#f87171;
+  --orange:#fb923c;--bg:#020010;--bg2:#08001a;
+  --card:rgba(255,255,255,.04);--border:rgba(255,255,255,.1);
+  --txt:rgba(255,255,255,.88);--muted:#64748b;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
+  font-family:system-ui,-apple-system,sans-serif;color:var(--txt)}
+#app{width:100%;height:100%;display:flex;flex-direction:column}
+
+/* ── HUD ── */
+#hud{display:flex;align-items:center;gap:8px;padding:8px 12px;
+  background:rgba(0,0,8,.9);border-bottom:2px solid var(--gold);
+  flex-shrink:0;z-index:50}
+.hud-logo{font-size:1.5rem;filter:drop-shadow(0 0 6px var(--gold))}
+.hud-title{font-weight:900;color:var(--gold);font-size:.9rem;flex:1}
+.hud-coins{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.4);
+  border-radius:20px;padding:3px 10px;color:var(--gold);font-weight:800;font-size:.82rem}
+.hud-btn{background:rgba(255,255,255,.08);border:1px solid var(--border);
+  border-radius:16px;padding:4px 10px;color:#fff;font-size:.74rem;
+  font-weight:700;cursor:pointer;white-space:nowrap}
+#xpbar{height:4px;background:rgba(255,255,255,.08);flex-shrink:0}
+#xpfill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--green));
+  transition:width .6s;border-radius:0 2px 2px 0}
+
+/* ── SCREENS ── */
+#content{flex:1;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}
+
+/* ── HOME ── */
+#home{background:linear-gradient(160deg,#02001a,#080028)}
+.home-hero{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:20px;position:relative;overflow:hidden}
+.hero-dragon{font-size:5rem;animation:drFloat 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 20px var(--gold));margin-bottom:12px}
+@keyframes drFloat{0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-12px) rotate(3deg)}}
+.hero-title{font-size:2rem;font-weight:900;color:var(--gold);font-family:serif;
+  text-align:center;margin-bottom:6px;text-shadow:0 0 30px rgba(255,215,0,.5)}
+.hero-sub{font-size:.85rem;color:rgba(255,255,255,.6);text-align:center;
+  margin-bottom:24px;line-height:1.6;max-width:300px}
+.home-stats{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;justify-content:center}
+.home-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:8px 14px;text-align:center}
+.home-stat-val{font-size:1.2rem;font-weight:900;color:var(--gold)}
+.home-stat-lbl{font-size:.65rem;color:var(--muted);margin-top:1px}
+.home-btns{display:flex;flex-direction:column;gap:9px;width:100%;max-width:300px}
+.home-btn{border:none;border-radius:16px;padding:14px;font-weight:900;
+  font-size:.9rem;cursor:pointer;transition:transform .15s;text-align:center}
+.home-btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00}
+.btn-secondary{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:#fff}
+.btn-3d{background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(139,92,246,.15));
+  border:1.5px solid rgba(167,139,250,.5);color:var(--purple)}
+.btn-adult{background:linear-gradient(135deg,rgba(6,182,212,.15),rgba(6,182,212,.08));
+  border:1.5px solid rgba(6,182,212,.4);color:var(--teal)}
+
+/* ── ACCADEMIA AI ── */
+#accademia{background:var(--bg2)}
+.acc-header{padding:12px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+  background:rgba(0,0,0,.4)}
+.acc-back{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);
+  border-radius:8px;padding:5px 12px;color:var(--gold);font-size:.78rem;
+  font-weight:700;cursor:pointer}
+.acc-title{font-weight:900;color:var(--gold);font-size:.92rem;flex:1}
+.acc-ai-badge{background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);
+  border-radius:10px;padding:3px 8px;font-size:.66rem;color:var(--green);font-weight:700}
+.acc-percorsi{display:flex;gap:7px;overflow-x:auto;padding:10px 14px;
+  flex-shrink:0;scrollbar-width:none}
+.acc-percorsi::-webkit-scrollbar{display:none}
+.perc-tab{background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:20px;padding:5px 14px;font-size:.72rem;font-weight:700;
+  color:rgba(255,255,255,.45);white-space:nowrap;cursor:pointer;flex-shrink:0}
+.perc-tab.active{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.4);
+  color:var(--gold)}
+.acc-livelli{display:flex;gap:6px;padding:6px 14px 10px;flex-shrink:0;overflow-x:auto}
+.lv-tab{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:5px 12px;font-size:.71rem;font-weight:700;
+  color:rgba(255,255,255,.4);cursor:pointer;flex-shrink:0;white-space:nowrap}
+.lv-tab.active{color:#1c0a00;font-weight:900}
+.acc-body{flex:1;overflow-y:auto;padding:10px 14px 80px}
+
+/* CARD LEZIONE */
+.lez-card{border-radius:16px;padding:14px;margin-bottom:10px;cursor:pointer;
+  transition:all .2s;position:relative;overflow:hidden}
+.lez-card:active{transform:scale(.98)}
+.lez-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+.lez-icon{font-size:2.2rem;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.lez-info{flex:1}
+.lez-percorso{font-size:.62rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.lez-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:4px}
+.lez-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}
+.lez-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:8px}
+.lv-base    {background:rgba(74,222,128,.12);color:var(--green)}
+.lv-medio   {background:rgba(255,215,0,.12);color:var(--gold)}
+.lv-avanzato{background:rgba(251,146,60,.12);color:var(--orange)}
+.lv-esperto {background:rgba(248,113,113,.12);color:var(--red)}
+.lv-master  {background:rgba(167,139,250,.18);color:var(--purple)}
+.lez-footer{display:flex;align-items:center;justify-content:space-between}
+.lez-reward{font-size:.74rem;font-weight:700;color:var(--green)}
+.lez-status{font-size:.8rem}
+
+/* GENERATORE AI */
+.ai-gen-card{background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(74,222,128,.05));
+  border:1.5px solid rgba(255,215,0,.25);border-radius:14px;
+  padding:14px;margin-bottom:14px;cursor:pointer;transition:all .2s}
+.ai-gen-card:active{transform:scale(.98)}
+.ai-gen-title{font-size:.85rem;font-weight:800;color:var(--gold);margin-bottom:4px}
+.ai-gen-sub{font-size:.74rem;color:var(--muted);line-height:1.5}
+.ai-gen-input{width:100%;background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(255,255,255,.15);border-radius:10px;
+  padding:10px 12px;color:#fff;font-family:system-ui;font-size:.86rem;
+  outline:none;margin-top:10px;margin-bottom:8px}
+.ai-gen-input:focus{border-color:rgba(255,215,0,.5)}
+.ai-gen-input::placeholder{color:rgba(255,255,255,.25)}
+.ai-gen-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:10px;padding:10px;color:#1c0a00;
+  font-weight:900;font-size:.85rem;cursor:pointer}
+.ai-gen-spinning{display:none;text-align:center;padding:16px;
+  font-size:.82rem;color:var(--teal)}
+
+/* LEZIONE APERTA */
+#lezione-view{background:linear-gradient(160deg,#04001a,#080028)}
+.lv-header{padding:12px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;flex-shrink:0;background:rgba(0,0,0,.5)}
+.lv-back{background:rgba(255,255,255,.08);border:1px solid var(--border);
+  border-radius:8px;padding:5px 12px;color:#fff;font-size:.78rem;
+  font-weight:700;cursor:pointer}
+.lv-body{flex:1;overflow-y:auto;padding:14px 14px 80px}
+.lv-hero{text-align:center;padding:16px 0 20px;margin-bottom:16px;
+  border-bottom:1px solid var(--border)}
+.lv-hero-icon{font-size:4rem;margin-bottom:8px;
+  filter:drop-shadow(0 0 16px var(--gold))}
+.lv-hero-title{font-size:1.1rem;font-weight:900;color:var(--gold);margin-bottom:4px}
+.lv-hero-sub{font-size:.78rem;color:var(--muted)}
+.lv-section{margin-bottom:16px}
+.lv-section-title{font-size:.72rem;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.lv-punto{background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:11px 13px;margin-bottom:7px;
+  font-size:.83rem;line-height:1.6;display:flex;gap:10px}
+.lv-punto-num{color:var(--gold);font-weight:900;font-size:.78rem;flex-shrink:0;
+  width:20px;margin-top:1px}
+.lv-esempio{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);
+  border-radius:12px;padding:12px 13px;font-size:.83rem;
+  line-height:1.65;color:rgba(255,255,255,.88)}
+.lv-dato{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);
+  border-radius:12px;padding:10px 13px;font-size:.8rem;
+  color:rgba(255,255,255,.8);line-height:1.5}
+.lv-africa{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);
+  border-radius:12px;padding:10px 13px;font-size:.8rem;
+  color:var(--green);line-height:1.5;display:none}
+.lv-africa.show{display:block}
+.lv-sfida{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);
+  border-radius:12px;padding:11px 13px;font-size:.82rem;line-height:1.6}
+.lv-start-quiz{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:14px;padding:13px;color:#1c0a00;
+  font-weight:900;font-size:.92rem;cursor:pointer;margin-top:14px}
+.lv-disclaimer{font-size:.68rem;color:var(--muted);text-align:center;
+  padding:10px;line-height:1.5}
+
+/* QUIZ */
+#quiz-view{background:linear-gradient(160deg,#06001a,#0e0028)}
+.qv-header{padding:12px 14px;border-bottom:1px solid rgba(255,215,0,.2);
+  flex-shrink:0;background:rgba(0,0,0,.5)}
+.qv-progress{height:5px;background:rgba(255,255,255,.08);border-radius:3px;
+  overflow:hidden;margin-bottom:10px}
+.qv-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+  border-radius:3px;transition:width .5s}
+.qv-info{display:flex;justify-content:space-between;align-items:center}
+.qv-counter{font-size:.78rem;color:var(--muted)}
+.qv-score{font-size:.78rem;font-weight:700;color:var(--gold)}
+.qv-body{flex:1;overflow-y:auto;padding:16px 14px 20px}
+.qv-icon{font-size:3rem;text-align:center;margin-bottom:12px}
+.qv-q{font-size:.96rem;font-weight:700;color:#fff;line-height:1.55;
+  margin-bottom:18px;text-align:center}
+.qv-opt{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:13px 15px;margin-bottom:9px;cursor:pointer;
+  font-size:.86rem;color:rgba(255,255,255,.87);transition:all .2s;
+  display:flex;align-items:center;gap:12px;font-weight:600}
+.qv-opt:active{transform:scale(.98)}
+.qv-opt.correct{border-color:var(--green);background:rgba(74,222,128,.1);color:var(--green)}
+.qv-opt.wrong{border-color:var(--red);background:rgba(248,113,113,.08);color:var(--red)}
+.qv-letter{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:.78rem;flex-shrink:0}
+.qv-spieg{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.18);
+  border-radius:12px;padding:12px;font-size:.8rem;
+  color:rgba(255,255,255,.85);line-height:1.6;margin-top:12px;display:none}
+.qv-spieg.show{display:block}
+.qv-next{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:14px;padding:13px;color:#1c0a00;
+  font-weight:900;font-size:.9rem;cursor:pointer;margin-top:12px;display:none}
+.qv-next.show{display:block}
+
+/* RISULTATO QUIZ */
+.qr-wrap{text-align:center;padding:20px 10px}
+.qr-icon{font-size:5rem;margin-bottom:12px}
+.qr-title{font-size:1.2rem;font-weight:900;margin-bottom:6px}
+.qr-score{font-size:.9rem;color:rgba(255,255,255,.7);margin-bottom:14px}
+.qr-stars{font-size:2rem;margin-bottom:16px}
+.qr-reward{font-size:.92rem;font-weight:800;color:var(--green);margin-bottom:18px}
+.qr-btns{display:flex;gap:8px}
+.qr-btn{flex:1;border:none;border-radius:14px;padding:12px;
+  font-weight:900;font-size:.86rem;cursor:pointer}
+
+/* BOTTOM NAV */
+#bnav{display:flex;background:rgba(0,0,8,.95);
+  border-top:1.5px solid rgba(255,215,0,.2);flex-shrink:0;z-index:50}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:6px 0;cursor:pointer;border:none;
+  background:transparent;color:rgba(255,255,255,.3);transition:all .2s}
+.bn.active,.bn:active{color:var(--gold)}
+.bn-icon{font-size:1.3rem;margin-bottom:1px}
+.bn-lbl{font-size:.58rem;font-weight:700}
+
+/* POPUP / MODAL GENERICI */
+.popup-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.88);
+  display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex}
+.popup-box{background:linear-gradient(170deg,#060018,#0e0030);
+  border-top:3px solid var(--gold);border-radius:24px 24px 0 0;
+  width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.popup-hdr{display:flex;align-items:center;gap:10px;padding:14px 16px;
+  border-bottom:1px solid rgba(255,215,0,.15);
+  position:sticky;top:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px)}
+.popup-title{font-weight:900;color:var(--gold);font-size:.95rem;flex:1}
+.popup-x{background:rgba(255,255,255,.1);border:none;border-radius:50%;
+  width:30px;height:30px;color:#fff;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.popup-body{padding:14px 16px 24px}
+
+/* PIANO CARD */
+.piano-card{border-radius:16px;padding:14px;margin-bottom:10px;
+  cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
+.piano-card:active{transform:scale(.98)}
+.piano-badge{position:absolute;top:-6px;right:14px;font-size:.62rem;font-weight:900;
+  padding:2px 8px;border-radius:8px;background:var(--gold);color:#1c0a00}
+.piano-icon{font-size:2.2rem;display:block;margin-bottom:5px;text-align:center}
+.piano-nome{font-size:.92rem;font-weight:900;text-align:center;margin-bottom:2px}
+.piano-prezzo{font-size:1.5rem;font-weight:900;text-align:center;margin-bottom:2px}
+.piano-periodo{font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:8px}
+.piano-feat{font-size:.74rem;line-height:1.8;margin-bottom:10px}
+.piano-btn{width:100%;border:none;border-radius:10px;padding:10px;
+  font-weight:900;font-size:.84rem;cursor:pointer}
+
+/* TOAST */
+#toast{position:fixed;top:66px;left:50%;transform:translateX(-50%) translateY(-12px);
+  background:rgba(255,215,0,.96);color:#1c0a00;font-weight:900;font-size:.82rem;
+  padding:8px 20px;border-radius:20px;opacity:0;transition:all .28s;
+  pointer-events:none;white-space:nowrap;z-index:700;
+  max-width:92vw;text-align:center;box-shadow:0 4px 16px rgba(255,215,0,.35)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* PARTICELLE */
+.pfx{position:fixed;pointer-events:none;font-size:1.5rem;z-index:800;
+  animation:pfx 1.1s ease-out forwards}
+@keyframes pfx{0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-80px) scale(.2);opacity:0}}
+
+/* DISCLAIMER BANNER */
+.edu-banner{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);
+  border-radius:10px;padding:8px 12px;font-size:.72rem;color:#93c5fd;
+  line-height:1.5;text-align:center;margin-bottom:12px}
+
+/* ADULT MODE */
+.adult-section-title{font-size:.65rem;font-weight:700;letter-spacing:2px;
+  color:var(--muted);text-transform:uppercase;
+  padding:10px 0 7px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:8px}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.kpi-card{background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:10px;text-align:center}
+.kpi-val{font-size:1.1rem;font-weight:900;color:var(--green)}
+.kpi-lbl{font-size:.65rem;color:var(--muted);margin-top:2px}
+
+/* AI CHAT */
+#ai-fab{position:fixed;bottom:70px;right:14px;z-index:200;
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;cursor:pointer;font-size:1.4rem;
+  box-shadow:0 4px 20px rgba(255,215,0,.4);
+  display:none;align-items:center;justify-content:center}
+#ai-panel{position:fixed;bottom:0;left:0;right:0;z-index:500;
+  background:linear-gradient(170deg,rgba(5,0,18,.99),rgba(10,0,30,.99));
+  border-top:2px solid var(--gold);border-radius:22px 22px 0 0;
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  max-height:72vh;display:flex;flex-direction:column}
+#ai-panel.open{transform:translateY(0)}
+.ai-hdr{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  border-bottom:1px solid rgba(255,215,0,.15);
+  background:rgba(0,0,0,.5);flex-shrink:0}
+.ai-msgs{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.ai-msg-b{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.14);
+  border-radius:0 14px 14px 14px;padding:10px 12px;font-size:.82rem;
+  color:rgba(255,255,255,.9);line-height:1.65;max-width:90%;align-self:flex-start}
+.ai-who{font-size:.65rem;color:var(--gold);font-weight:700;margin-bottom:4px}
+.ai-msg-u{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.22);
+  border-radius:14px 0 14px 14px;padding:10px 12px;font-size:.82rem;
+  color:rgba(255,255,255,.85);max-width:85%;align-self:flex-end}
+.ai-chips{display:flex;gap:6px;overflow-x:auto;padding:7px 12px;flex-shrink:0}
+.ai-chips::-webkit-scrollbar{display:none}
+.ai-chip{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);
+  border-radius:20px;padding:5px 11px;font-size:.72rem;color:var(--gold);
+  white-space:nowrap;cursor:pointer;flex-shrink:0}
+.ai-bar{display:flex;gap:8px;padding:9px 12px;
+  border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:rgba(0,0,0,.3)}
+.ai-inp{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;padding:8px 14px;color:#fff;font-size:.84rem;outline:none;font-family:system-ui}
+.ai-inp:focus{border-color:rgba(255,215,0,.5)}
+.ai-send{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;
+  border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:.9rem;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.ai-typing{display:none;align-items:center;gap:4px;padding:8px 12px}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);
+  animation:aiD .8s ease-in-out infinite}
+.ai-dot:nth-child(2){animation-delay:.15s}.ai-dot:nth-child(3){animation-delay:.3s}
+@keyframes aiD{0%,80%,100%{transform:scale(.8);opacity:.5}40%{transform:scale(1.2);opacity:1}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-logo">🐉</div>
+    <div class="hud-title">FinanzaLand</div>
+    <div class="hud-coins">🪙 <span id="cc">0</span></div>
+    <div class="hud-btn" id="btn-account" onclick="openPopup('account')">👤</div>
+  </div>
+  <div id="xpbar"><div id="xpfill"></div></div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <!-- HOME -->
+    <div class="screen active" id="home">
+      <div class="home-hero">
+        <div class="hero-dragon">🐉</div>
+        <div class="hero-title">FinanzaLand</div>
+        <div class="hero-sub">L Accademia del Risparmio<br>Per bambini e adulti — sempre gratis</div>
+        <div class="home-stats">
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-lezioni">∞</div>
+            <div class="home-stat-lbl">Lezioni AI</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-coins">0</div>
+            <div class="home-stat-lbl">Semi</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-lv">1</div>
+            <div class="home-stat-lbl">Livello</div>
+          </div>
+        </div>
+        <div class="home-btns">
+          <button class="home-btn btn-primary" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
+          <button class="home-btn btn-3d" onclick="window.location.href='FinanzaLand_3D_Game.html'">🎮 Gioco 3D Bambini</button>
+          <button class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti Adulti</button>
+          <button class="home-btn btn-secondary" onclick="openPopup('piani')">👑 Diventa PRO</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCADEMIA AI -->
+    <div class="screen" id="accademia">
+      <div class="acc-header">
+        <button class="acc-back" onclick="showScreen('home')">← Home</button>
+        <div class="acc-title">📚 Accademia</div>
+        <div class="acc-ai-badge">🤖 AI</div>
+      </div>
+      <!-- Percorsi -->
+      <div class="acc-percorsi" id="acc-percorsi"></div>
+      <!-- Livelli -->
+      <div class="acc-livelli" id="acc-livelli"></div>
+      <!-- Body lezioni -->
+      <div class="acc-body" id="acc-body"></div>
+    </div>
+
+    <!-- LEZIONE APERTA -->
+    <div class="screen" id="lezione-view">
+      <div class="lv-header">
+        <button class="lv-back" id="lv-back-btn">← Accademia</button>
+        <div style="flex:1;font-weight:800;color:var(--gold);font-size:.88rem" id="lv-header-title"></div>
+      </div>
+      <div class="lv-body" id="lv-body"></div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="screen" id="quiz-view">
+      <div class="qv-header">
+        <div class="qv-progress"><div class="qv-prog-fill" id="qv-fill"></div></div>
+        <div class="qv-info">
+          <div class="qv-counter" id="qv-counter">Domanda 1/3</div>
+          <div class="qv-score" id="qv-score">0 ✓</div>
+        </div>
+      </div>
+      <div class="qv-body" id="qv-body"></div>
+    </div>
+
+    <!-- ADULTI -->
+    <div class="screen" id="adulti">
+      <div class="acc-header">
+        <button class="acc-back" onclick="showScreen('home')">← Home</button>
+        <div class="acc-title">💎 Strumenti Adulti</div>
+      </div>
+      <div class="acc-body" id="adulti-body"></div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div id="bnav">
+    <button class="bn active" id="bn-home" onclick="showScreen('home');setNav('bn-home')">
+      <div class="bn-icon">🏠</div><div class="bn-lbl">Home</div>
+    </button>
+    <button class="bn" id="bn-acc" onclick="showScreen('accademia');setNav('bn-acc')">
+      <div class="bn-icon">📚</div><div class="bn-lbl">Lezioni</div>
+    </button>
+    <button class="bn" id="bn-mercati" onclick="openPopup('mercati');setNav('bn-mercati')">
+      <div class="bn-icon">🌍</div><div class="bn-lbl">Mercati</div>
+    </button>
+    <button class="bn" id="bn-premi" onclick="openPopup('premi')">
+      <div class="bn-icon">🏆</div><div class="bn-lbl">Premi</div>
+    </button>
+    <button class="bn" id="bn-family" onclick="openPopup('famiglia')">
+      <div class="bn-icon">👨‍👩‍👧</div><div class="bn-lbl">Famiglia</div>
+    </button>
+  </div>
+
+</div>
+
+<!-- AI FAB -->
+<button id="ai-fab" onclick="toggleAI()">🦉</button>
+
+<!-- AI CHAT PANEL -->
+<div id="ai-panel">
+  <div class="ai-hdr">
+    <div style="flex:1">
+      <div style="font-weight:800;color:var(--gold);font-size:.9rem">🦉 Civetta AI</div>
+      <div style="font-size:.68rem;color:var(--muted)">Powered by Claude — Solo a scopo educativo</div>
+    </div>
+    <button class="popup-x" onclick="toggleAI()">✕</button>
+  </div>
+  <div class="ai-chips" id="ai-chips">
+    <div class="ai-chip" data-q="Come risparmio meglio?">💰 Risparmio</div>
+    <div class="ai-chip" data-q="Cos e il P/E ratio?">📊 P/E ratio</div>
+    <div class="ai-chip" data-q="BRVM Africa 2025?">🌍 BRVM</div>
+    <div class="ai-chip" data-q="ETF UCITS irlandesi?">🇮🇪 ETF</div>
+    <div class="ai-chip" data-q="Spiegami i soldi per bambini">👶 Bambini</div>
+  </div>
+  <div class="ai-msgs" id="ai-msgs">
+    <div class="ai-msg-b">
+      <div class="ai-who">🦉 Civetta AI</div>
+      Ciao! Sono la tua guida finanziaria. Chiedimi qualsiasi cosa — dalla regola 50-30-20 agli ETF, dai mercati africani ai derivati. Tutto a scopo educativo!
+    </div>
+  </div>
+  <div id="ai-typing" class="ai-typing">
+    <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+  </div>
+  <div class="ai-bar">
+    <input class="ai-inp" id="ai-inp" type="text" placeholder="Chiedimi di finanza...">
+    <button class="ai-send" id="ai-send">➤</button>
+  </div>
+</div>
+
+<!-- POPUP GENERICO -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-box">
+    <div class="popup-hdr">
+      <div class="popup-title" id="popup-title">Titolo</div>
+      <button class="popup-x" onclick="closePopup()">✕</button>
+    </div>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════
+// STATO GLOBALE
+// ═══════════════════════════════════════════════════════
+var S = {
+  coins: parseInt(localStorage.getItem('fl_coins')||'0'),
+  level: parseInt(localStorage.getItem('fl_level')||'1'),
+  xp:    parseInt(localStorage.getItem('fl_xp')||'0'),
+  isPro: localStorage.getItem('fl_pro')==='1',
+  lang:  localStorage.getItem('fl_lang')||'it',
+  eta:   localStorage.getItem('fl_eta')||'adulto',
+  completate: JSON.parse(localStorage.getItem('fl_completate')||'{}'),
+  account: JSON.parse(localStorage.getItem('fl_account')||'null'),
+};
+
+function saveS() {
+  localStorage.setItem('fl_coins', S.coins);
+  localStorage.setItem('fl_level', S.level);
+  localStorage.setItem('fl_xp', S.xp);
+  localStorage.setItem('fl_pro', S.isPro?'1':'0');
+  localStorage.setItem('fl_completate', JSON.stringify(S.completate));
+  if (S.account) localStorage.setItem('fl_account', JSON.stringify(S.account));
+}
+
+// ═══════════════════════════════════════════════════════
+// PERCORSI E LIVELLI
+// ═══════════════════════════════════════════════════════
+var PERCORSI = [
+  {id:'risparmio',     label:'💰 Risparmio',      col:'#4ade80'},
+  {id:'investimenti',  label:'📈 Investimenti',    col:'#FFD700'},
+  {id:'mercati',       label:'🌍 Mercati',         col:'#06b6d4'},
+  {id:'immobiliare',   label:'🏠 Immobiliare',     col:'#fb923c'},
+  {id:'tasse',         label:'📋 Tasse',           col:'#a78bfa'},
+  {id:'obbligazioni',  label:'🏛️ Obbligazioni',    col:'#f87171'},
+  {id:'pensione',      label:'🧓 Pensione',        col:'#4ade80'},
+  {id:'africa',        label:'🌍 Africa & BRVM',   col:'#4ade80'},
+  {id:'bambini',       label:'👶 Bambini',         col:'#06b6d4'},
+  {id:'crypto',        label:'₿ Crypto',           col:'#fb923c'},
+  {id:'derivati',      label:'🎯 Derivati',        col:'#f87171'},
+  {id:'psicologia',    label:'🧠 Psicologia',      col:'#a78bfa'},
+];
+
+var LIVELLI = [
+  {id:'base',     label:'🌱 Base',     cls:'lv-base',     minPro:false},
+  {id:'medio',    label:'📚 Medio',    cls:'lv-medio',    minPro:false},
+  {id:'avanzato', label:'🎓 Avanzato', cls:'lv-avanzato', minPro:true},
+  {id:'esperto',  label:'🔬 Esperto',  cls:'lv-esperto',  minPro:true},
+  {id:'master',   label:'💎 Master',   cls:'lv-master',   minPro:true},
+];
+
+var currentPercorso = PERCORSI[0];
+var currentLivello  = LIVELLI[0];
+var currentLezione  = null;
+var currentQuiz     = null;
+var quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+// CACHE lezioni generate da AI
+var LESSON_CACHE = JSON.parse(localStorage.getItem('fl_lesson_cache')||'{}');
+
+// Argomenti predefiniti per ogni percorso (seed per AI)
+var TOPICS = {
+  risparmio:    ['Regola 50-30-20','Fondo di emergenza','Pagati prima','Obiettivi SMART','Budget mensile','Risparmio automatico','Psicologia del risparmio'],
+  investimenti: ['Interesse composto','ETF cosa sono','Diversificazione','PAC mensile','Risk/reward','S&P500','Dividendi e cedole'],
+  mercati:      ['Come funziona la borsa','Banche centrali','Inflazione','Cicli economici','Crisi del 2008','BRVM Africa','Carry trade'],
+  immobiliare:  ['Comprare o affittare','Calcolo mutuo','Price-to-Rent','Rendita affitto','REIT','Mercati globali','Superbonus'],
+  tasse:        ['IRPEF scaglioni','Capital gain 26%','Forfettario 15%','ETF UCITS irlanda','Dichiarazione redditi','IMU','Ottimizzazione fiscale'],
+  obbligazioni: ['Cosa e un obbligazione','BTP italiano','Duration','Rating credito','Yield curve','Obbligazioni corporate','High yield'],
+  pensione:     ['Perche pensare ora','PAC per la pensione','Regola del 4%','Pensione complementare','FIRE','TFR','Pilastri pensionistici'],
+  africa:       ['Economia africana','Franco CFA','BRVM borsa','M-Pesa Kenya','Sonatel Senegal','Rimesse diaspora','Investire in Africa'],
+  bambini:      ['Cosa sono i soldi','Bisogno vs desiderio','Il mio salvadanaio','Come guadagnare','Dare risparmiare spendere','Il prezzo delle cose','Obiettivi di risparmio'],
+  crypto:       ['Cos e Bitcoin','Blockchain','Ethereum','Rischi crypto','DeFi','NFT','Regolamentazione'],
+  derivati:     ['Cosa sono i derivati','Futures','Opzioni call put','Leva finanziaria','Hedging','Black-Scholes','Gestione rischio'],
+  psicologia:   ['Bias cognitivi finanziari','Avversione alla perdita','FOMO investimenti','Nudge theory','Paura e avidita','Disciplina finanziaria','Mindset ricchezza'],
+};
+
+// ═══════════════════════════════════════════════════════
+// AI LESSON GENERATOR
+// ═══════════════════════════════════════════════════════
+async function generateLesson(topic, percorso, livello, eta, forceNew) {
+  var cacheKey = `${topic}_${livello}_${eta}_${S.lang}`;
+  
+  // Controlla cache (validita 7 giorni)
+  if (!forceNew && LESSON_CACHE[cacheKey]) {
+    var cached = LESSON_CACHE[cacheKey];
+    var age = Date.now() - (cached.cached_at || 0);
+    if (age < 7 * 86400000) return cached;
+  }
+
+  try {
+    var resp = await fetch('/api/lesson', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        topic, percorso, livello,
+        eta: eta || S.eta,
+        lingua: S.lang,
+        lessonId: cacheKey,
+      })
+    });
+    var data = await resp.json();
+    if (data.success && data.lesson) {
+      data.lesson.cached_at = Date.now();
+      LESSON_CACHE[cacheKey] = data.lesson;
+      localStorage.setItem('fl_lesson_cache', JSON.stringify(LESSON_CACHE));
+      return data.lesson;
+    }
+  } catch(e) {
+    console.log('Lesson API error:', e);
+  }
+  
+  // Fallback locale se API non disponibile
+  return makeFallbackLesson(topic, percorso, livello);
+}
+
+function makeFallbackLesson(topic, percorso, livello) {
+  return {
+    id: topic.toLowerCase().replace(/\s+/g,'-'),
+    titolo: topic,
+    sottotitolo: 'Impara ' + topic + ' con FinanzaLand',
+    emoji: '📚',
+    colore: '#FFD700',
+    livello: livello,
+    tempo_minuti: 5,
+    punti_chiave: [
+      topic + ' e un concetto fondamentale della finanza personale.',
+      'Comprendere ' + topic + ' ti aiuta a gestire meglio i tuoi soldi.',
+      'Applica questo concetto nella tua vita quotidiana per vedere i risultati.',
+    ],
+    esempio_pratico: 'Pensa a come ' + topic + ' si applica nella tua vita di tutti i giorni.',
+    dato_reale: 'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
+    collegamento_africa: null,
+    quiz: [
+      {domanda:'Hai capito il concetto di '+topic+'?',opzioni:['Si, molto bene','Abbastanza','Poco','No'],risposta_corretta:0,spiegazione:'Ottimo! Continua a studiare per approfondire.'},
+      {domanda:'Come applicheresti '+topic+' nella vita reale?',opzioni:['Subito','Tra qualche giorno','Non so','Non mi serve'],risposta_corretta:0,spiegazione:'Applicare subito quello che impari e il modo migliore per imparare davvero.'},
+      {domanda:'Quanto e importante '+topic+' per la tua salute finanziaria?',opzioni:['Fondamentale','Utile','Poco utile','Non utile'],risposta_corretta:0,spiegazione:topic+' e uno dei pilastri della liberta finanziaria.'},
+    ],
+    sfida_vita_reale: 'Questa settimana: rifletti su come ' + topic + ' influenza le tue decisioni finanziarie quotidiane.',
+    semi_reward: 80,
+    disclaimer: 'Solo a scopo educativo — non e un consiglio finanziario',
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// BUILD ACCADEMIA
+// ═══════════════════════════════════════════════════════
+function buildAccademia() {
+  // Percorsi tabs
+  var percorsiEl = document.getElementById('acc-percorsi');
+  percorsiEl.innerHTML = '';
+  PERCORSI.forEach(function(p) {
+    var t = document.createElement('div');
+    t.className = 'perc-tab' + (p.id===currentPercorso.id?' active':'');
+    t.textContent = p.label;
+    t.addEventListener('click', function(){
+      currentPercorso = p;
+      document.querySelectorAll('.perc-tab').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active');
+      renderLezioniList();
+    });
+    percorsiEl.appendChild(t);
+  });
+
+  // Livelli tabs
+  var livelliEl = document.getElementById('acc-livelli');
+  livelliEl.innerHTML = '';
+  LIVELLI.forEach(function(l) {
+    var t = document.createElement('div');
+    t.className = 'lv-tab' + (l.id===currentLivello.id?' active':'');
+    t.textContent = l.label;
+    if (t.classList.contains('active')) {
+      t.style.background = 'var(--gold)';
+      t.style.borderColor = 'var(--gold)';
+      t.style.color = '#1c0a00';
+    }
+    t.addEventListener('click', function(){
+      currentLivello = l;
+      document.querySelectorAll('.lv-tab').forEach(function(x){
+        x.classList.remove('active');
+        x.style.background='';x.style.borderColor='';x.style.color='';
+      });
+      t.classList.add('active');
+      t.style.background='var(--gold)';t.style.borderColor='var(--gold)';t.style.color='#1c0a00';
+      renderLezioniList();
+    });
+    livelliEl.appendChild(t);
+  });
+
+  renderLezioniList();
+}
+
+function renderLezioniList() {
+  var body = document.getElementById('acc-body');
+  body.innerHTML = '';
+
+  // Banner disclaimer
+  var banner = document.createElement('div');
+  banner.className = 'edu-banner';
+  banner.textContent = '📚 Solo a scopo educativo — Le lezioni sono generate da AI (Claude) e non costituiscono consigli finanziari';
+  body.appendChild(banner);
+
+  // Box genera lezione personalizzata
+  var genBox = document.createElement('div');
+  genBox.className = 'ai-gen-card';
+  genBox.innerHTML = '<div class="ai-gen-title">🤖 Genera Lezione Personalizzata</div>' +
+    '<div class="ai-gen-sub">Scrivi qualsiasi argomento — Claude genera una lezione completa con quiz in pochi secondi</div>' +
+    '<input class="ai-gen-input" id="gen-topic-inp" type="text" placeholder="es. come funziona un mutuo, criptovalute per principianti...">' +
+    '<div class="ai-gen-spinning" id="gen-spinning">🤖 Claude sta generando la tua lezione...</div>' +
+    '<button class="ai-gen-btn" id="gen-btn">🚀 Genera Lezione con AI</button>';
+  body.appendChild(genBox);
+
+  document.getElementById('gen-btn').addEventListener('click', function(){
+    var topic = document.getElementById('gen-topic-inp').value.trim();
+    if (!topic) { toast('Scrivi un argomento!'); return; }
+    document.getElementById('gen-spinning').style.display = 'block';
+    document.getElementById('gen-btn').style.display = 'none';
+    generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, true).then(function(lez){
+      document.getElementById('gen-spinning').style.display = 'none';
+      document.getElementById('gen-btn').style.display = 'block';
+      document.getElementById('gen-topic-inp').value = '';
+      openLezione(lez);
+    });
+  });
+
+  // Lista topic predefiniti
+  var topics = TOPICS[currentPercorso.id] || [];
+  var secTitle = document.createElement('div');
+  secTitle.className = 'adult-section-title';
+  secTitle.textContent = currentPercorso.label + ' — ' + currentLivello.label;
+  body.appendChild(secTitle);
+
+  topics.forEach(function(topic, i) {
+    var key = topic + '_' + currentLivello.id + '_' + S.eta + '_' + S.lang;
+    var cached = LESSON_CACHE[key];
+    var done = S.completate[key];
+    var locked = currentLivello.minPro && !S.isPro;
+
+    var card = document.createElement('div');
+    card.className = 'lez-card';
+    card.style.cssText = 'background:' + (done?'rgba(74,222,128,.05)':locked?'rgba(255,255,255,.02)':'var(--card)') + ';' +
+      'border:1.5px solid ' + (done?'rgba(74,222,128,.3)':locked?'rgba(255,255,255,.06)':currentPercorso.col+'44') + ';';
+
+    var reward = cached ? (cached.semi_reward||80) : (50 + i*20);
+    card.innerHTML = '<div class="lez-card-top">' +
+      '<div class="lez-icon">' + (locked?'🔒':done?'✅':cached?(cached.emoji||'📚'):'📖') + '</div>' +
+      '<div class="lez-info">' +
+        '<div class="lez-percorso">' + currentPercorso.label + '</div>' +
+        '<div class="lez-title">' + (cached?cached.titolo:topic) + '</div>' +
+        '<div class="lez-badges">' +
+          '<span class="lez-badge ' + currentLivello.cls + '">' + currentLivello.label + '</span>' +
+          (locked?'<span class="lez-badge" style="background:rgba(248,113,113,.1);color:var(--red)">👑 PRO</span>':'') +
+          (cached?'<span class="lez-badge" style="background:rgba(74,222,128,.1);color:var(--green)">✓ Pronta</span>':'') +
+        '</div>' +
+      '</div>' +
+      '</div>' +
+      '<div class="lez-footer">' +
+        '<div class="lez-reward">' + (locked?'Attiva PRO':done?'Completata':'+ '+reward+' Semi') + '</div>' +
+        '<div class="lez-status">' + (locked?'🔒':done?'⭐':'→') + '</div>' +
+      '</div>';
+
+    card.addEventListener('click', function(){
+      if (locked) { openPopup('piani'); toast('Livello '+currentLivello.label+' richiede PRO 👑'); return; }
+      // Mostra spinner e carica
+      card.style.opacity = '.6';
+      generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, false).then(function(lez){
+        card.style.opacity = '1';
+        openLezione(lez);
+      });
+    });
+    body.appendChild(card);
+  });
+
+  // Footer
+  var footer = document.createElement('div');
+  footer.style.cssText = 'text-align:center;padding:14px;font-size:.72rem;color:var(--muted);line-height:1.6';
+  footer.innerHTML = '🤖 Le lezioni sono generate in tempo reale da Claude AI<br>Aggiornate automaticamente — nessuna codifica manuale';
+  body.appendChild(footer);
+}
+
+// ═══════════════════════════════════════════════════════
+// APRI LEZIONE
+// ═══════════════════════════════════════════════════════
+function openLezione(lez) {
+  currentLezione = lez;
+  document.getElementById('lv-header-title').textContent = lez.titolo;
+
+  var body = document.getElementById('lv-body');
+  body.innerHTML = '';
+
+  // Hero
+  var hero = document.createElement('div');
+  hero.className = 'lv-hero';
+  hero.innerHTML = '<div class="lv-hero-icon">' + (lez.emoji||'📚') + '</div>' +
+    '<div class="lv-hero-title" style="color:' + (lez.colore||'var(--gold)') + '">' + lez.titolo + '</div>' +
+    '<div class="lv-hero-sub">' + (lez.sottotitolo||'') + '</div>';
+  body.appendChild(hero);
+
+  // Punti chiave
+  if (lez.punti_chiave && lez.punti_chiave.length) {
+    var sec = document.createElement('div');
+    sec.className = 'lv-section';
+    sec.innerHTML = '<div class="lv-section-title">Cosa Impari</div>';
+    lez.punti_chiave.forEach(function(punto, i) {
+      var el = document.createElement('div');
+      el.className = 'lv-punto';
+      el.innerHTML = '<div class="lv-punto-num">' + (i+1) + '</div><div>' + punto + '</div>';
+      sec.appendChild(el);
+    });
+    body.appendChild(sec);
+  }
+
+  // Esempio pratico
+  if (lez.esempio_pratico) {
+    var ex = document.createElement('div');
+    ex.className = 'lv-section';
+    ex.innerHTML = '<div class="lv-section-title">Esempio Pratico</div>' +
+      '<div class="lv-esempio">💡 ' + lez.esempio_pratico + '</div>';
+    body.appendChild(ex);
+  }
+
+  // Dato reale
+  if (lez.dato_reale) {
+    var dr = document.createElement('div');
+    dr.className = 'lv-section';
+    dr.innerHTML = '<div class="lv-section-title">Dato Reale</div>' +
+      '<div class="lv-dato">📊 ' + lez.dato_reale + '</div>';
+    body.appendChild(dr);
+  }
+
+  // Collegamento Africa
+  if (lez.collegamento_africa) {
+    var af = document.createElement('div');
+    af.className = 'lv-section';
+    af.innerHTML = '<div class="lv-section-title">Mercati Africani</div>' +
+      '<div class="lv-africa show">🌍 ' + lez.collegamento_africa + '</div>';
+    body.appendChild(af);
+  }
+
+  // Sfida vita reale
+  if (lez.sfida_vita_reale) {
+    var sfida = document.createElement('div');
+    sfida.className = 'lv-section';
+    sfida.innerHTML = '<div class="lv-section-title">Sfida Vita Reale</div>' +
+      '<div class="lv-sfida">🎯 ' + lez.sfida_vita_reale + '</div>';
+    body.appendChild(sfida);
+  }
+
+  // Disclaimer
+  var disc = document.createElement('div');
+  disc.className = 'lv-disclaimer';
+  disc.textContent = '⚠️ ' + (lez.disclaimer || 'Solo a scopo educativo — non e un consiglio finanziario');
+  body.appendChild(disc);
+
+  // Bottone start quiz
+  var startBtn = document.createElement('button');
+  startBtn.className = 'lv-start-quiz';
+  startBtn.textContent = '🎯 Inizia Quiz (' + (lez.quiz?lez.quiz.length:3) + ' domande)';
+  startBtn.addEventListener('click', function() { startQuiz(lez); });
+  body.appendChild(startBtn);
+
+  document.getElementById('lv-back-btn').onclick = function(){ showScreen('accademia'); };
+  showScreen('lezione-view');
+  playS('click');
+}
+
+// ═══════════════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════════════
+function startQuiz(lez) {
+  currentQuiz = lez.quiz || [];
+  quizIdx = 0; quizScore = 0; quizAnswered = false;
+  showScreen('quiz-view');
+  renderQuizQ();
+}
+
+function renderQuizQ() {
+  if (quizIdx >= currentQuiz.length) { finishQuiz(); return; }
+  var q = currentQuiz[quizIdx];
+  quizAnswered = false;
+  var pct = Math.round((quizIdx/currentQuiz.length)*100);
+  document.getElementById('qv-fill').style.width = pct + '%';
+  document.getElementById('qv-counter').textContent = 'Domanda ' + (quizIdx+1) + '/' + currentQuiz.length;
+  document.getElementById('qv-score').textContent = quizScore + ' ✓';
+
+  var body = document.getElementById('qv-body');
+  body.innerHTML = '';
+
+  var icon = document.createElement('div');
+  icon.className = 'qv-icon';
+  icon.textContent = currentLezione ? (currentLezione.emoji||'📚') : '📚';
+  body.appendChild(icon);
+
+  var qEl = document.createElement('div');
+  qEl.className = 'qv-q';
+  qEl.textContent = q.domanda;
+  body.appendChild(qEl);
+
+  (q.opzioni||[]).forEach(function(opt, i) {
+    var el = document.createElement('div');
+    el.className = 'qv-opt';
+    el.innerHTML = '<div class="qv-letter">' + ['A','B','C','D'][i] + '</div>' + opt;
+    el.addEventListener('click', function(){
+      if (quizAnswered) return;
+      quizAnswered = true;
+      var correct = q.risposta_corretta;
+      if (i === correct) quizScore++;
+      document.querySelectorAll('.qv-opt').forEach(function(o,j){
+        if (j===correct) o.classList.add('correct');
+        else if (j===i && i!==correct) o.classList.add('wrong');
+      });
+      spiegEl.classList.add('show');
+      nextBtn.classList.add('show');
+      playS(i===correct?'success':'error');
+      if (navigator.vibrate) navigator.vibrate(i===correct?[20,10,40]:[80]);
+    });
+    body.appendChild(el);
+  });
+
+  var spiegEl = document.createElement('div');
+  spiegEl.className = 'qv-spieg';
+  spiegEl.textContent = q.spiegazione || '';
+  body.appendChild(spiegEl);
+
+  var nextBtn = document.createElement('button');
+  nextBtn.className = 'qv-next';
+  nextBtn.textContent = quizIdx < currentQuiz.length-1 ? 'Prossima →' : 'Risultato 🎯';
+  nextBtn.addEventListener('click', function(){ quizIdx++; renderQuizQ(); });
+  body.appendChild(nextBtn);
+}
+
+function finishQuiz() {
+  var tot = currentQuiz.length;
+  var pct = Math.round((quizScore/tot)*100);
+  var passed = pct >= 60;
+  var stelle = pct>=100?3:pct>=80?2:pct>=60?1:0;
+  var semiBase = currentLezione ? (currentLezione.semi_reward||80) : 80;
+  var semi = passed ? Math.round(semiBase * (pct>=100?2:pct>=80?1.5:1)) : 20;
+
+  // Salva completamento
+  if (passed && currentLezione) {
+    var key = currentLezione.id;
+    S.completate[key] = {stelle:stelle,data:new Date().toISOString()};
+    S.coins += semi;
+    S.xp += 25;
+    checkLevel();
+    saveS();
+    updateHUD();
+    if (typeof PROGRESS_PREMI !== 'undefined') {
+      PROGRESS_PREMI.lezioni = (PROGRESS_PREMI.lezioni||0)+1;
+    }
+  }
+
+  document.getElementById('qv-fill').style.width = '100%';
+  var body = document.getElementById('qv-body');
+  body.innerHTML = '';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'qr-wrap';
+  wrap.innerHTML = '<div class="qr-icon">' + (passed?'🎉':'📚') + '</div>' +
+    '<div class="qr-title" style="color:' + (passed?'var(--gold)':'var(--red)') + '">' +
+      (passed?'Fantastico!':'Riprova!') + '</div>' +
+    '<div class="qr-score">' + quizScore + '/' + tot + ' — ' + pct + '%</div>' +
+    '<div class="qr-stars">' + [1,2,3].map(function(s){return s<=stelle?'⭐':'☆';}).join('') + '</div>' +
+    '<div class="qr-reward">' + (passed?'+'+semi+' Semi 🪙':'Non abbastanza — riprova!') + '</div>';
+
+  var btns = document.createElement('div');
+  btns.className = 'qr-btns';
+
+  var b1 = document.createElement('button');
+  b1.className = 'qr-btn';
+  b1.style.cssText = 'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff';
+  b1.textContent = '← Lezione';
+  b1.addEventListener('click', function(){ showScreen('lezione-view'); });
+
+  var b2 = document.createElement('button');
+  b2.className = 'qr-btn';
+  b2.style.cssText = 'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00';
+  b2.textContent = passed ? 'Avanti! →' : 'Riprova 🔄';
+  b2.addEventListener('click', function(){
+    if (passed) showScreen('accademia');
+    else startQuiz(currentLezione);
+  });
+
+  btns.appendChild(b1); btns.appendChild(b2);
+  wrap.appendChild(btns);
+  body.appendChild(wrap);
+
+  if (passed) {
+    playS('success');
+    if (navigator.vibrate) navigator.vibrate([50,30,50,30,100]);
+    spawnParticles();
+    buildAccademia(); // Aggiorna lista con checkmark
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// MERCATI GLOBALI
+// ═══════════════════════════════════════════════════════
+var MERCATI_DATA = {
+  'Italia':    [{f:'🇮🇹',s:'FTSE MIB',v:'33.847',c:'+0.8%',u:true},{f:'🇮🇹',s:'BTP 10Y',v:'3.85%',c:'-0.05',u:false}],
+  'Europa':    [{f:'🇩🇪',s:'DAX',v:'18.492',c:'+0.6%',u:true},{f:'🇫🇷',s:'CAC40',v:'8.103',c:'+0.4%',u:true},{f:'🇬🇧',s:'FTSE100',v:'8.247',c:'-0.2%',u:false}],
+  'USA':       [{f:'🇺🇸',s:'S&P500',v:'5.892',c:'+0.5%',u:true},{f:'🇺🇸',s:'Nasdaq',v:'20.847',c:'+0.8%',u:true},{f:'🇺🇸',s:'NVDA',v:'892',c:'+2.4%',u:true}],
+  'Asia':      [{f:'🇯🇵',s:'Nikkei',v:'39.847',c:'+0.4%',u:true},{f:'🇮🇳',s:'Sensex',v:'80.247',c:'+0.7%',u:true},{f:'🇨🇳',s:'Shanghai',v:'3.247',c:'-0.6%',u:false}],
+  'Africa':    [{f:'🌍',s:'BRVM',v:'416.63',c:'+25.3%',u:true},{f:'🇿🇦',s:'JSE',v:'80.247',c:'+4.2%',u:true},{f:'🇳🇬',s:'NGX',v:'97.432',c:'+8.7%',u:true},{f:'🇰🇪',s:'NSE',v:'2.847',c:'+6.1%',u:true}],
+  'Americhe':  [{f:'🇧🇷',s:'Ibovespa',v:'128.247',c:'+2.1%',u:true},{f:'🇲🇽',s:'IPC',v:'51.892',c:'+1.3%',u:true}],
+  'Commodities':[{f:'🪙',s:'Oro',v:'2.387',c:'+0.6%',u:true},{f:'🛢️',s:'Petrolio',v:'82.47',c:'-0.8%',u:false}],
+  'Crypto':    [{f:'₿',s:'Bitcoin',v:'67.432',c:'+3.2%',u:true},{f:'Ξ',s:'Ethereum',v:'3.847',c:'+2.8%',u:true}],
+};
+// Ticker live simulato
+setInterval(function(){
+  Object.values(MERCATI_DATA).forEach(function(items){
+    items.forEach(function(item){
+      var d=(Math.random()-0.48)*0.4;
+      var v=parseFloat(item.v.replace(/[^0-9.]/g,''))||100;
+      item.v=(v*(1+d/100)).toFixed(2);
+      item.c=(d>=0?'+':'')+d.toFixed(2)+'%';
+      item.u=d>=0;
+    });
+  });
+}, 8000);
+
+// ═══════════════════════════════════════════════════════
+// ADULTI
+// ═══════════════════════════════════════════════════════
+function buildAdulti() {
+  var body = document.getElementById('adulti-body');
+  body.innerHTML = '';
+
+  // KPI
+  var kpiTitle = document.createElement('div');
+  kpiTitle.className = 'adult-section-title';
+  kpiTitle.textContent = 'Il tuo Quadro Finanziario';
+  body.appendChild(kpiTitle);
+
+  var kpiGrid = document.createElement('div');
+  kpiGrid.className = 'kpi-grid';
+  var kpis = [
+    {val:S.coins.toLocaleString('it'),lbl:'Semi Totali'},
+    {val:'Lv.'+S.level,lbl:'Livello'},
+    {val:Object.keys(S.completate).length,lbl:'Lezioni Completate'},
+    {val:S.isPro?'PRO':'Free',lbl:'Piano'},
+  ];
+  kpis.forEach(function(k){
+    kpiGrid.innerHTML += '<div class="kpi-card"><div class="kpi-val">'+k.val+'</div><div class="kpi-lbl">'+k.lbl+'</div></div>';
+  });
+  body.appendChild(kpiGrid);
+
+  // Calcolatori
+  var calcTitle = document.createElement('div');
+  calcTitle.className = 'adult-section-title';
+  calcTitle.textContent = 'Calcolatori Finanziari';
+  body.appendChild(calcTitle);
+
+  var calcs = [
+    {em:'🏠',t:'Calcolatore Mutuo',d:'Calcola rata, interessi e costo totale'},
+    {em:'🧓',t:'Simulatore Pensione',d:'Regola del 4% — quanti anni per FIRE?'},
+    {em:'📈',t:'Interesse Composto',d:'Come crescono i tuoi investimenti nel tempo'},
+    {em:'📋',t:'Ottimizzatore Tasse',d:'IRPEF, forfettario, ETF irlandesi'},
+  ];
+  calcs.forEach(function(c){
+    var el = document.createElement('div');
+    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;';
+    el.innerHTML = '<div style="font-size:1.8rem">'+c.em+'</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">'+c.t+'</div><div style="font-size:.74rem;color:var(--muted)">'+c.d+'</div></div><div style="margin-left:auto;color:var(--muted);font-size:1rem">›</div>';
+    el.addEventListener('click', function(){
+      // Genera lezione sul calcolatore con AI
+      showScreen('accademia');
+      var topic = c.t;
+      generateLesson(topic, 'risparmio', 'avanzato', 'adulto', false).then(function(lez){
+        openLezione(lez);
+      });
+    });
+    body.appendChild(el);
+  });
+
+  // Lezioni adulti rapide
+  var lezTitle = document.createElement('div');
+  lezTitle.className = 'adult-section-title';
+  lezTitle.textContent = 'Lezioni Adulti Avanzate';
+  body.appendChild(lezTitle);
+
+  var temi_adulti = ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obbligazioni','ETF UCITS irlandesi','BRVM e mercati africani','Factor investing','FIRE Financial Independence'];
+  temi_adulti.forEach(function(t){
+    var el = document.createElement('div');
+    el.style.cssText = 'background:var(--card);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:11px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px;';
+    el.innerHTML = '<div style="font-size:1.4rem">📊</div><div style="flex:1;font-size:.84rem;font-weight:700;color:var(--gold)">'+t+'</div><div style="font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3);border-radius:7px;padding:2px 7px">AI</div>';
+    el.addEventListener('click', function(){
+      if (!S.isPro) { openPopup('piani'); toast('Lezione avanzata — attiva PRO!'); return; }
+      generateLesson(t, 'investimenti', 'esperto', 'adulto', false).then(function(lez){
+        openLezione(lez);
+      });
+    });
+    body.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// POPUP SYSTEM
+// ═══════════════════════════════════════════════════════
+function openPopup(tipo) {
+  var titles = {
+    piani:'👑 Piani Abbonamento', account:'👤 Account', mercati:'🌍 Mercati Globali',
+    premi:'🏆 Premi', famiglia:'👨‍👩‍👧 Pannello Famiglia',
+  };
+  document.getElementById('popup-title').textContent = titles[tipo]||tipo;
+  var body = document.getElementById('popup-body');
+  body.innerHTML = '';
+
+  if (tipo==='piani') buildPopupPiani(body);
+  else if (tipo==='mercati') buildPopupMercati(body);
+  else if (tipo==='account') buildPopupAccount(body);
+  else if (tipo==='premi') buildPopupPremi(body);
+  else if (tipo==='famiglia') buildPopupFamiglia(body);
+
+  document.getElementById('popup-overlay').classList.add('show');
+}
+function closePopup() { document.getElementById('popup-overlay').classList.remove('show'); }
+window.closePopup = closePopup;
+window.openPopup = openPopup;
+
+function buildPopupPiani(body) {
+  var piani = [
+    {id:'free',icon:'🌱',nome:'Gratis',prezzo:'€0',periodo:'per sempre',
+     feat:'✅ 9 lezioni base\n✅ Missioni quotidiane\n✅ Semi e XP\n✅ Mappa Island\n❌ Lezioni avanzate\n❌ AI illimitata',
+     btn:'Piano attuale',cls:'background:rgba(74,222,128,.08);border:1.5px solid rgba(74,222,128,.3)',
+     btnCls:'background:rgba(74,222,128,.2);color:var(--green)'},
+    {id:'trial',icon:'⚡',nome:'Trial PRO',prezzo:'Gratis',periodo:'7 giorni — poi €4.99/mese',badge:'PROVA GRATIS',
+     feat:'✅ Tutto del piano Gratis\n✅ Lezioni AI infinite\n✅ 5 livelli difficolta\n✅ Calcolatori avanzati\n✅ AI Chat illimitata\n✅ Dashboard famiglia',
+     btn:'⚡ Inizia 7 giorni gratis',cls:'background:rgba(255,215,0,.08);border:2px solid rgba(255,215,0,.5)',
+     btnCls:'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00'},
+    {id:'pro_m',icon:'👑',nome:'PRO Mensile',prezzo:'€4.99',periodo:'al mese',
+     feat:'✅ Tutto del Trial\n✅ Storico permanente\n✅ Sync cloud\n✅ Badge PRO',
+     btn:'👑 €4.99/mese',cls:'background:rgba(255,215,0,.06);border:1.5px solid rgba(255,215,0,.4)',
+     btnCls:'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00'},
+    {id:'pro_y',icon:'💎',nome:'PRO Annuale',prezzo:'€39.99',periodo:'anno — risparmia 33%',badge:'MIGLIOR VALORE',
+     feat:'✅ Tutto PRO Mensile\n✅ 2 mesi gratis\n✅ Accesso anticipato',
+     btn:'💎 €39.99/anno',cls:'background:rgba(167,139,250,.07);border:1.5px solid rgba(167,139,250,.4)',
+     btnCls:'background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff'},
+    {id:'famiglia',icon:'👨‍👩‍👧',nome:'Famiglia',prezzo:'€7.99',periodo:'mese — 4 profili',
+     feat:'✅ PRO per ogni membro\n✅ Dashboard genitori\n✅ Sfide famiglia\n✅ Report bambini',
+     btn:'👨‍👩‍👧 €7.99/mese',cls:'background:rgba(167,139,250,.06);border:1.5px solid rgba(167,139,250,.35)',
+     btnCls:'background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff'},
+    {id:'scuola',icon:'🏫',nome:'Scuola',prezzo:'€99',periodo:'anno — 35 studenti',badge:'ISTITUZIONI',
+     feat:'✅ PRO per 35 studenti\n✅ Pannello insegnante\n✅ Report classe\n✅ Legge 30/2023',
+     btn:'🏫 Usa codice SCUOLA2025',cls:'background:rgba(6,182,212,.06);border:1.5px solid rgba(6,182,212,.35)',
+     btnCls:'background:linear-gradient(135deg,var(--teal),#0284c7);color:#fff'},
+  ];
+
+  // Input codice
+  var codeDiv = document.createElement('div');
+  codeDiv.style.cssText = 'margin-bottom:14px';
+  codeDiv.innerHTML = '<div style="font-size:.75rem;color:var(--muted);margin-bottom:6px">Hai un codice istituzionale?</div>' +
+    '<div style="display:flex;gap:7px">' +
+    '<input id="code-inp" style="flex:1;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;color:#fff;font-family:system-ui;font-size:.84rem;outline:none;text-transform:uppercase;letter-spacing:2px" placeholder="es. SCUOLA2025">' +
+    '<button onclick="attivaCode()" style="background:linear-gradient(135deg,var(--green),#16a34a);border:none;border-radius:10px;padding:8px 14px;color:#fff;font-weight:700;font-size:.8rem;cursor:pointer">Attiva</button>' +
+    '</div>';
+  body.appendChild(codeDiv);
+
+  piani.forEach(function(p) {
+    var el = document.createElement('div');
+    el.className = 'piano-card';
+    el.style.cssText = p.cls;
+    var badgeHtml = p.badge ? '<div class="piano-badge">' + p.badge + '</div>' : '';
+    el.innerHTML = badgeHtml +
+      '<span class="piano-icon">' + p.icon + '</span>' +
+      '<div class="piano-nome">' + p.nome + '</div>' +
+      '<div class="piano-prezzo">' + p.prezzo + '</div>' +
+      '<div class="piano-periodo">' + p.periodo + '</div>' +
+      '<div class="piano-feat" style="white-space:pre-line">' + p.feat + '</div>' +
+      '<button class="piano-btn" style="' + p.btnCls + '">' + p.btn + '</button>';
+    el.querySelector('.piano-btn').addEventListener('click', function(){
+      attivaPiano(p.id);
+    });
+    body.appendChild(el);
+  });
+
+  var disclaimer = document.createElement('div');
+  disclaimer.style.cssText = 'font-size:.68rem;color:var(--muted);text-align:center;padding:10px;line-height:1.5';
+  disclaimer.textContent = 'FinanzaLand e solo a scopo educativo. I pagamenti saranno attivi prossimamente via Stripe.';
+  body.appendChild(disclaimer);
+}
+
+var CODICI = {
+  'DEMO2025':   {nome:'Demo',durata:30},
+  'SCUOLA2025': {nome:'Scuola Partner',durata:365},
+  'COMUNE2025': {nome:'Comune Partner',durata:365},
+  'BRVM2025':   {nome:'BRVM Partner',durata:365},
+  'CARIPLO25':  {nome:'Cariplo',durata:365},
+  'UNICEF25':   {nome:'UNICEF',durata:365},
+  'DAKAR2025':  {nome:'Scuola Dakar',durata:365},
+  'OUAGA2025':  {nome:'Scuola Ouagadougou',durata:365},
+  'INVEST25':   {nome:'Demo Investitori',durata:30},
+  'PRESS2025':  {nome:'Media',durata:30},
+};
+
+window.attivaCode = function() {
+  var code = (document.getElementById('code-inp')||{}).value;
+  if (!code) return;
+  var info = CODICI[code.trim().toUpperCase()];
+  if (info) {
+    S.isPro = true; saveS(); updateHUD();
+    closePopup();
+    toast('Codice ' + info.nome + ' attivato! ' + info.durata + ' giorni PRO 🎉');
+    playS('success');
+    if (navigator.vibrate) navigator.vibrate([50,30,100]);
+  } else {
+    toast('Codice non valido — contatta FinanzaLand');
+    playS('error');
+  }
+};
+
+function attivaPiano(id) {
+  if (id==='trial') {
+    S.isPro = true; saveS(); updateHUD(); closePopup();
+    toast('Trial PRO attivato! 7 giorni completi 🎉');
+    playS('success'); if(navigator.vibrate) navigator.vibrate([50,30,100]);
+  } else if (id==='scuola') {
+    closePopup(); toast('Usa il codice SCUOLA2025 nel campo codice!');
+  } else {
+    toast('Stripe in arrivo! Usa DEMO2025 per accesso completo.');
+  }
+}
+
+function buildPopupMercati(body) {
+  var tabs = document.createElement('div');
+  tabs.style.cssText = 'display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none';
+  var mbody = document.createElement('div');
+  Object.keys(MERCATI_DATA).forEach(function(k, i){
+    var t = document.createElement('div');
+    t.style.cssText = 'background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.45);white-space:nowrap;cursor:pointer;flex-shrink:0';
+    if (i===0) { t.style.background='rgba(255,215,0,.12)';t.style.borderColor='rgba(255,215,0,.4)';t.style.color='var(--gold)'; }
+    t.textContent = k;
+    t.addEventListener('click', function(){
+      tabs.querySelectorAll('div').forEach(function(x){x.style.background='rgba(255,255,255,.05)';x.style.color='rgba(255,255,255,.45)';x.style.borderColor='var(--border)';});
+      t.style.background='rgba(255,215,0,.12)';t.style.color='var(--gold)';t.style.borderColor='rgba(255,215,0,.4)';
+      showMktData(k, mbody);
+    });
+    tabs.appendChild(t);
+  });
+  body.appendChild(tabs);
+  body.appendChild(mbody);
+  showMktData(Object.keys(MERCATI_DATA)[0], mbody);
+
+  var disc = document.createElement('div');
+  disc.style.cssText = 'font-size:.66rem;color:var(--muted);text-align:center;padding:10px;line-height:1.5';
+  disc.textContent = 'Dati simulativi — Solo a scopo educativo — Non sono un consiglio finanziario';
+  body.appendChild(disc);
+}
+
+function showMktData(key, container) {
+  container.innerHTML = '';
+  (MERCATI_DATA[key]||[]).forEach(function(item){
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:10px;cursor:pointer';
+    row.innerHTML = '<div style="font-size:1.3rem;width:30px">' + item.f + '</div>' +
+      '<div style="flex:1;font-size:.84rem;font-weight:700;color:#fff">' + item.s + '</div>' +
+      '<div style="text-align:right">' +
+        '<div style="font-size:.88rem;font-weight:800;color:' + (item.u?'var(--green)':'var(--red)') + '">' + item.v + '</div>' +
+        '<div style="font-size:.72rem;font-weight:700;color:' + (item.u?'var(--green)':'var(--red)') + '">' + (item.u?'▲':'▼') + ' ' + item.c + '</div>' +
+      '</div>';
+    row.addEventListener('click', function(){ toast(item.s+': '+item.v+' ('+item.c+')'); playS('click'); });
+    container.appendChild(row);
+  });
+}
+
+function buildPopupAccount(body) {
+  if (S.account) {
+    body.innerHTML = '<div style="text-align:center;padding:16px">' +
+      '<div style="font-size:3rem;margin-bottom:8px">👤</div>' +
+      '<div style="font-weight:800;color:var(--gold);font-size:.95rem;margin-bottom:4px">' + S.account.nome + '</div>' +
+      '<div style="font-size:.78rem;color:var(--muted);margin-bottom:14px">' + S.account.email + '</div>' +
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;font-size:.8rem;line-height:1.8;text-align:left">' +
+        '👑 Piano: ' + (S.isPro?'PRO':'Gratis') + '<br>' +
+        '📚 Lezioni: ' + Object.keys(S.completate).length + '<br>' +
+        '🪙 Semi: ' + S.coins.toLocaleString('it') +
+      '</div>' +
+      '<button onclick="logoutAcc()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:12px;padding:10px 20px;color:var(--red);font-weight:700;font-size:.84rem;cursor:pointer">Disconnetti</button>' +
+      '</div>';
+    return;
+  }
+  var msgId = 'acc-msg-' + Date.now();
+  body.innerHTML = '<div id="' + msgId + '" style="display:none;padding:8px 10px;border-radius:10px;font-size:.78rem;margin-bottom:8px;text-align:center"></div>' +
+    '<div style="display:flex;background:rgba(255,255,255,.05);border-radius:10px;padding:3px;margin-bottom:14px">' +
+      '<button id="tab-r" style="flex:1;padding:8px;border-radius:8px;border:none;background:rgba(255,215,0,.9);color:#1c0a00;font-weight:700;font-size:.78rem;cursor:pointer">Registrati</button>' +
+      '<button id="tab-l" style="flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:rgba(255,255,255,.4);font-weight:700;font-size:.78rem;cursor:pointer">Accedi</button>' +
+    '</div>' +
+    '<div id="f-reg">' +
+      '<input id="a-nome" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:8px" placeholder="Il tuo nome">' +
+      '<input id="a-email" type="email" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:8px" placeholder="Email">' +
+      '<input id="a-pass" type="password" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:12px" placeholder="Password (min 8)">' +
+      '<button onclick="doReg(\'' + msgId + '\')" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:12px;padding:12px;color:#1c0a00;font-weight:900;font-size:.88rem;cursor:pointer">🚀 Crea account gratuito</button>' +
+    '</div>' +
+    '<div id="f-log" style="display:none">' +
+      '<input id="a-email-l" type="email" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:8px" placeholder="Email">' +
+      '<input id="a-pass-l" type="password" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:12px" placeholder="Password">' +
+      '<button onclick="doLog(\'' + msgId + '\')" style="width:100%;background:linear-gradient(135deg,var(--green),#16a34a);border:none;border-radius:12px;padding:12px;color:#fff;font-weight:900;font-size:.88rem;cursor:pointer">🔑 Accedi</button>' +
+    '</div>' +
+    '<div style="text-align:center;margin-top:10px;font-size:.74rem;color:var(--muted)">Oppure <span onclick="closePopup()" style="color:var(--gold);cursor:pointer">continua senza account</span></div>';
+
+  document.getElementById('tab-r').addEventListener('click',function(){
+    document.getElementById('tab-r').style.background='rgba(255,215,0,.9)';document.getElementById('tab-r').style.color='#1c0a00';
+    document.getElementById('tab-l').style.background='transparent';document.getElementById('tab-l').style.color='rgba(255,255,255,.4)';
+    document.getElementById('f-reg').style.display='block';document.getElementById('f-log').style.display='none';
+  });
+  document.getElementById('tab-l').addEventListener('click',function(){
+    document.getElementById('tab-l').style.background='rgba(255,215,0,.9)';document.getElementById('tab-l').style.color='#1c0a00';
+    document.getElementById('tab-r').style.background='transparent';document.getElementById('tab-r').style.color='rgba(255,255,255,.4)';
+    document.getElementById('f-log').style.display='block';document.getElementById('f-reg').style.display='none';
+  });
+}
+
+window.doReg = function(msgId) {
+  var nome=(document.getElementById('a-nome')||{}).value||'';
+  var email=(document.getElementById('a-email')||{}).value||'';
+  var pass=(document.getElementById('a-pass')||{}).value||'';
+  var msg=document.getElementById(msgId);
+  if (nome.trim().length<2){showMsg(msg,'Inserisci il tuo nome','var(--red)');return;}
+  if (!email.includes('@')){showMsg(msg,'Email non valida','var(--red)');return;}
+  if (pass.length<8){showMsg(msg,'Password: almeno 8 caratteri','var(--red)');return;}
+  S.account={nome:nome.trim(),email:email.trim(),data:new Date().toLocaleDateString('it')};
+  saveS(); closePopup();
+  toast('Benvenuto ' + nome.trim() + '! Account creato 🎉');
+  playS('success');
+};
+window.doLog = function(msgId) {
+  var email=(document.getElementById('a-email-l')||{}).value||'';
+  var pass=(document.getElementById('a-pass-l')||{}).value||'';
+  var msg=document.getElementById(msgId);
+  if (!email.includes('@')){showMsg(msg,'Email non valida','var(--red)');return;}
+  if (!pass){showMsg(msg,'Inserisci la password','var(--red)');return;}
+  S.account={nome:email.split('@')[0],email:email.trim(),data:'Esistente'};
+  saveS(); closePopup();
+  toast('Accesso effettuato! 🦉');playS('success');
+};
+window.logoutAcc = function() {
+  S.account=null;saveS();closePopup();toast('Disconnesso.');
+};
+function showMsg(el,txt,col){if(!el)return;el.textContent=txt;el.style.cssText='display:block;padding:8px 10px;border-radius:10px;font-size:.78rem;margin-bottom:8px;text-align:center;background:rgba(248,113,113,.1);color:'+col;}
+
+function buildPopupPremi(body) {
+  var done = Object.keys(S.completate).length;
+  body.innerHTML = '<div style="text-align:center;padding:10px 0 16px">' +
+    '<div style="font-size:3rem;margin-bottom:8px">🏆</div>' +
+    '<div style="font-size:.88rem;color:rgba(255,255,255,.7)">'+done+' lezioni completate — continua!</div></div>';
+  var premi = [
+    {icon:'🌱',nome:'Primo Seme',desc:'Completa la prima lezione',done:done>=1,col:'var(--green)'},
+    {icon:'🥉',nome:'Bronzo',desc:'5 lezioni completate',done:done>=5,col:'#cd7f32'},
+    {icon:'🥈',nome:'Argento',desc:'10 lezioni + KYC',done:done>=10,col:'#94a3b8'},
+    {icon:'🥇',nome:'Oro',desc:'27 lezioni completate',done:done>=27,col:'var(--gold)'},
+    {icon:'💎',nome:'Drago Master',desc:'50+ lezioni completate',done:done>=50,col:'var(--purple)'},
+    {icon:'🔥',nome:'Streak 7',desc:'7 giorni consecutivi',done:false,col:'var(--red)'},
+    {icon:'👨‍👩‍👧',nome:'Famiglia Unita',desc:'Completa sfide famiglia',done:false,col:'var(--purple)'},
+  ];
+  premi.forEach(function(p){
+    var el = document.createElement('div');
+    el.style.cssText = 'border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;' +
+      'background:' + (p.done?'rgba(74,222,128,.06)':'rgba(255,255,255,.03)') + ';' +
+      'border:1.5px solid ' + (p.done?'rgba(74,222,128,.3)':'rgba(255,255,255,.07)') + ';' +
+      'opacity:' + (p.done?'1':'.6') + ';';
+    el.innerHTML = '<div style="font-size:2rem">' + (p.done?p.icon:'🔒') + '</div>' +
+      '<div style="flex:1"><div style="font-size:.86rem;font-weight:700;color:' + (p.done?p.col:'#64748b') + '">' + p.nome + '</div>' +
+      '<div style="font-size:.74rem;color:var(--muted)">' + p.desc + '</div></div>' +
+      '<div>' + (p.done?'✅':'') + '</div>';
+    body.appendChild(el);
+  });
+}
+
+function buildPopupFamiglia(body) {
+  body.innerHTML = '<div style="text-align:center;padding:10px 0 14px">' +
+    '<div style="font-size:3rem;margin-bottom:8px">👨‍👩‍👧</div>' +
+    '<div style="font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.6">' +
+      'Il pannello famiglia ti permette di monitorare i progressi dei tuoi figli, assegnare doveri con premi Semi e gestire i controlli parentali.' +
+    '</div></div>';
+  var features = [
+    {em:'📊',t:'Report progressi figli',d:'Lezioni, Semi, streak'},
+    {em:'✅',t:'Doveri con premi',d:'Compiti, lettura, sport = Semi'},
+    {em:'🔒',t:'Controlli parentali',d:'Limite ore, contenuto approvato'},
+    {em:'🎯',t:'Sfide famiglia',d:'Obiettivi condivisi con premi'},
+    {em:'📧',t:'Report settimanale',d:'Riepilogo via email ogni lunedi'},
+  ];
+  features.forEach(function(f){
+    var el = document.createElement('div');
+    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;';
+    el.innerHTML = '<div style="font-size:1.8rem">' + f.em + '</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">' + f.t + '</div><div style="font-size:.74rem;color:var(--muted)">' + f.d + '</div></div><div style="margin-left:auto;font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:2px 7px">' + (S.isPro?'→':'👑 PRO') + '</div>';
+    el.addEventListener('click', function(){ if(!S.isPro){closePopup();openPopup('piani');toast('Piano Famiglia — attiva PRO!');}else{toast(f.t+' — disponibile prossimamente!');} });
+    body.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// AI CHAT
+// ═══════════════════════════════════════════════════════
+var aiOpen = false, aiHistory = [];
+function toggleAI() {
+  aiOpen = !aiOpen;
+  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
+  document.getElementById('ai-fab').style.display = aiOpen?'none':'flex';
+  if (aiOpen && document.getElementById('ai-inp')) {
+    setTimeout(function(){document.getElementById('ai-inp').focus();},400);
+  }
+}
+window.toggleAI = toggleAI;
+
+document.getElementById('ai-send').addEventListener('click', sendAI);
+document.getElementById('ai-inp').addEventListener('keydown', function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}
+});
+document.querySelectorAll('.ai-chip').forEach(function(c){
+  c.addEventListener('click',function(){
+    document.getElementById('ai-inp').value=c.getAttribute('data-q');
+    sendAI();
+  });
+});
+
+async function sendAI() {
+  var inp = document.getElementById('ai-inp');
+  if (!inp||!inp.value.trim()) return;
+  var msg = inp.value.trim(); inp.value='';
+  addAIMsg(msg,'u');
+  aiHistory.push({role:'user',content:msg});
+  document.getElementById('ai-typing').style.display='flex';
+  scrollAI();
+
+  var system = 'Sei la Civetta AI di FinanzaLand. Rispondi in italiano, massimo 4 frasi concise. ' +
+    'Tono amichevole ed educativo. Dato reale sempre incluso. ' +
+    'Africa/BRVM quando rilevante. Fine: "Solo a scopo educativo."';
+
+  try {
+    var resp = await fetch('/api/chat',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:system,messages:aiHistory.slice(-6)})
+    });
+    var data = await resp.json();
+    document.getElementById('ai-typing').style.display='none';
+    var reply=(data.content&&data.content[0]&&data.content[0].text)||'Riprova!';
+    addAIMsg(reply,'b');
+    aiHistory.push({role:'assistant',content:reply});
+    S.coins+=3;saveS();updateHUD();
+  } catch(e){
+    document.getElementById('ai-typing').style.display='none';
+    var fallback=['Regola 50-30-20: 50% bisogni, 30% desideri, 20% risparmio. Solo a scopo educativo.','La BRVM ha reso +25.3% nel 2025. Solo a scopo educativo.','ETF UCITS irlandesi: ritenuta 15% invece del 30%. Solo a scopo educativo.'];
+    var r=fallback[Math.floor(Math.random()*fallback.length)];
+    addAIMsg(r,'b');aiHistory.push({role:'assistant',content:r});
+  }
+}
+
+function addAIMsg(txt,type){
+  var box=document.getElementById('ai-msgs');if(!box)return;
+  var el=document.createElement('div');
+  if(type==='u'){el.className='ai-msg-u';el.textContent=txt;}
+  else{el.className='ai-msg-b';el.innerHTML='<div class="ai-who">🦉 Civetta AI</div>'+txt.replace(/</g,'&lt;');}
+  box.appendChild(el);scrollAI();
+}
+function scrollAI(){var b=document.getElementById('ai-msgs');if(b)setTimeout(function(){b.scrollTop=b.scrollHeight;},50);}
+
+// ═══════════════════════════════════════════════════════
+// NAVIGAZIONE
+// ═══════════════════════════════════════════════════════
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  var el=document.getElementById(name);
+  if(el){el.classList.add('active');}
+  if(name==='accademia') buildAccademia();
+  if(name==='adulti') buildAdulti();
+}
+window.showScreen=showScreen;
+
+function setNav(id){
+  document.querySelectorAll('.bn').forEach(function(b){b.classList.remove('active');});
+  var el=document.getElementById(id);if(el)el.classList.add('active');
+}
+window.setNav=setNav;
+
+// ═══════════════════════════════════════════════════════
+// HUD + LIVELLI + PARTICELLE + SUONI
+// ═══════════════════════════════════════════════════════
+function updateHUD(){
+  document.getElementById('cc').textContent=S.coins.toLocaleString('it');
+  document.getElementById('stat-coins').textContent=S.coins.toLocaleString('it');
+  document.getElementById('stat-lv').textContent=S.level;
+  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate).length+'+';;
+  var xpPct=Math.min(100,Math.round((S.xp/(S.level*150))*100));
+  document.getElementById('xpfill').style.width=xpPct+'%';
+}
+function checkLevel(){
+  var needed=S.level*150;
+  while(S.xp>=needed){S.xp-=needed;S.level++;needed=S.level*150;
+    toast('🎉 Livello '+S.level+'!');spawnParticles();playS('success');}
+}
+function toast(msg){
+  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2800);
+}
+window.toast=toast;
+function spawnParticles(){
+  ['🪙','⭐','✨','💰'].forEach(function(ch,i){
+    var el=document.createElement('div');el.className='pfx';el.textContent=ch;
+    el.style.left=(window.innerWidth/2+(Math.random()-.5)*80)+'px';
+    el.style.top=(window.innerHeight/2)+'px';
+    el.style.animationDelay=(i*.08)+'s';
+    document.body.appendChild(el);
+    setTimeout(function(){if(el.parentNode)el.remove();},1300);
+  });
+}
+var _ac=null;
+function getAC(){if(!_ac){try{_ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}return _ac;}
+function playS(t){
+  var a=getAC();if(!a)return;
+  try{var s={coin:[523,659],success:[523,659,784,1047],click:[440],error:[220,180]};
+    var ff=s[t]||s.click;var now=a.currentTime;
+    ff.forEach(function(f,i){var o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);
+      o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.18,now+i*.08);
+      g.gain.exponentialRampToValueAtTime(.001,now+i*.08+.09);o.start(now+i*.08);o.stop(now+i*.08+.12);});}catch(e){}
+}
+['touchstart','click'].forEach(function(ev){
+  document.addEventListener(ev,function(){var a=getAC();if(a&&a.state==='suspended')a.resume();},{once:true,passive:true});
+});
+
+// ═══════════════════════════════════════════════════════
+// DISCLAIMER PRIMO AVVIO
+// ═══════════════════════════════════════════════════════
+function showDisclaimer(){
+  if(localStorage.getItem('fl_disc_ok')) return;
+  var ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;padding:20px';
+  ov.innerHTML='<div style="max-width:360px;text-align:center">'+
+    '<div style="font-size:4rem;margin-bottom:12px">🐉</div>'+
+    '<div style="font-size:1.2rem;font-weight:900;color:var(--gold);margin-bottom:10px;font-family:serif">FinanzaLand</div>'+
+    '<div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:14px;margin-bottom:14px;font-size:.8rem;color:rgba(255,255,255,.82);line-height:1.7;text-align:left">'+
+      '<strong style="color:var(--gold)">📚 Solo a scopo educativo</strong><br>'+
+      'FinanzaLand e un gioco educativo sulla finanza personale. Tutti i contenuti sono SOLO A SCOPO INFORMATIVO ED EDUCATIVO.<br><br>'+
+      '<strong style="color:var(--red)">⚠️ Non e un consiglio finanziario</strong><br>'+
+      'Nessun contenuto costituisce consulenza finanziaria, di investimento, fiscale o legale. Per decisioni reali consulta un professionista.<br><br>'+
+      '<strong style="color:var(--green)">🎮 Gratis per tutti</strong><br>'+
+      'Bambini da 6 anni, adulti, famiglie. Il gioco non finisce mai — lezioni nuove ogni giorno generate da AI.'+
+    '</div>'+
+    '<button onclick="localStorage.setItem(\'fl_disc_ok\',\'1\');this.parentElement.parentElement.remove()" '+
+      'style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:14px;padding:13px;color:#1c0a00;font-weight:900;font-size:.92rem;cursor:pointer">'+
+      '✅ Ho capito — Gioca Gratis!'+
+    '</button>'+
+    '<div style="font-size:.65rem;color:var(--muted);margin-top:8px">Per bambini con supervisione genitoriale</div>'+
+    '</div>';
+  document.body.appendChild(ov);
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+function init(){
+  updateHUD();
+  setTimeout(function(){
+    document.getElementById('ai-fab').style.display='flex';
+  },3000);
+  setTimeout(showDisclaimer, 600);
+}
+init();
+</script>
+</body>
+</html>
