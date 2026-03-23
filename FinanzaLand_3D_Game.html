@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>FinanzaLand 3D — Il Gioco dei Draghi</title>
+<meta name="description" content="Gioco 3D educativo per bambini — impara la finanza con il Drago Finan">
+<meta property="og:title" content="FinanzaLand 3D — Il Gioco dei Draghi">
+<meta property="og:description" content="Esplora l isola 3D, tocca gli edifici e impara come funzionano i soldi!">
+<meta name="theme-color" content="#FFD700">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- Solo a scopo educativo — non e un consiglio finanziario -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:system-ui,sans-serif}
+#canvas-wrap{position:fixed;inset:0;z-index:0}
+canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
+
+/* HUD BAMBINI */
+#hud{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:env(safe-area-inset-top,8px) 14px 8px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent);
+  pointer-events:none}
+#hud > *{pointer-events:all}
+.hud-coins{background:rgba(255,215,0,.2);border:2px solid rgba(255,215,0,.6);
+  border-radius:24px;padding:5px 14px;color:#FFD700;font-weight:900;font-size:.9rem;
+  display:flex;align-items:center;gap:5px;box-shadow:0 0 12px rgba(255,215,0,.3)}
+.hud-level{background:rgba(167,139,250,.2);border:2px solid rgba(167,139,250,.6);
+  border-radius:24px;padding:5px 14px;color:#a78bfa;font-weight:900;font-size:.9rem}
+.hud-btn{background:rgba(0,0,0,.5);border:1.5px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:6px 14px;color:#fff;font-weight:700;font-size:.78rem;
+  cursor:pointer;backdrop-filter:blur(4px)}
+
+/* XP BAR */
+#xpbar{position:fixed;top:52px;left:0;right:0;z-index:100;
+  height:5px;background:rgba(255,255,255,.1)}
+#xpfill{height:100%;width:0%;background:linear-gradient(90deg,#FFD700,#4ade80);
+  transition:width .6s ease;border-radius:0 3px 3px 0}
+
+/* JOYSTICK MOBILE */
+#joystick-zone{position:fixed;bottom:100px;left:20px;z-index:100;
+  width:120px;height:120px;display:none}
+#joystick-base{width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center}
+#joystick-knob{width:48px;height:48px;border-radius:50%;
+  background:rgba(255,215,0,.7);border:2px solid #FFD700;
+  position:absolute;transition:none;box-shadow:0 0 16px rgba(255,215,0,.4)}
+
+/* AZIONE BUTTONS MOBILE */
+#action-btns{position:fixed;bottom:100px;right:16px;z-index:100;
+  display:none;flex-direction:column;gap:10px}
+.act-btn{width:56px;height:56px;border-radius:50%;border:none;
+  font-size:1.5rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.act-btn:active{transform:scale(.9)}
+.act-a{background:linear-gradient(135deg,#FFD700,#d97706)}
+.act-b{background:linear-gradient(135deg,#4ade80,#16a34a)}
+
+/* DIALOGO DRAGO */
+#dragon-dialog{position:fixed;bottom:0;left:0;right:0;z-index:200;
+  transform:translateY(110%);transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+#dragon-dialog.show{transform:translateY(0)}
+.dd-inner{background:linear-gradient(170deg,rgba(5,0,20,.97),rgba(12,0,35,.97));
+  border-top:3px solid #FFD700;border-radius:24px 24px 0 0;padding:0 0 env(safe-area-inset-bottom,0);
+  max-height:65vh;overflow-y:auto}
+.dd-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;
+  border-bottom:1px solid rgba(255,215,0,.15);position:sticky;top:0;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(8px)}
+.dd-avatar{font-size:2.8rem;filter:drop-shadow(0 0 12px rgba(255,215,0,.6));
+  animation:dragonFloat 3s ease-in-out infinite}
+@keyframes dragonFloat{0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-8px) rotate(3deg)}}
+.dd-name{font-weight:900;color:#FFD700;font-size:1rem}
+.dd-subtitle{font-size:.72rem;color:#94a3b8;margin-top:1px}
+.dd-x{margin-left:auto;background:rgba(255,255,255,.1);border:none;
+  border-radius:50%;width:32px;height:32px;color:#fff;font-size:1.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dd-body{padding:14px 16px 18px}
+.dd-msg{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.18);
+  border-radius:16px;padding:12px 14px;font-size:.88rem;
+  color:rgba(255,255,255,.92);line-height:1.7;margin-bottom:12px}
+.dd-tip{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);
+  border-radius:10px;padding:8px 12px;font-size:.78rem;color:#93c5fd;margin-bottom:12px}
+.dd-actions{display:flex;gap:8px;flex-wrap:wrap}
+.dd-btn{border:2px solid;border-radius:14px;padding:9px 16px;font-size:.8rem;
+  font-weight:800;cursor:pointer;background:transparent;transition:all .18s;flex:1;
+  min-width:80px;text-align:center}
+.dd-btn:active{transform:scale(.95)}
+.dd-gold{color:#FFD700;border-color:rgba(255,215,0,.5)}
+.dd-gold:active{background:rgba(255,215,0,.15)}
+.dd-green{color:#4ade80;border-color:rgba(74,222,128,.5)}
+.dd-green:active{background:rgba(74,222,128,.15)}
+.dd-teal{color:#06b6d4;border-color:rgba(6,182,212,.5)}
+.dd-teal:active{background:rgba(6,182,212,.15)}
+.dd-red{color:#f87171;border-color:rgba(248,113,113,.5)}
+.dd-red:active{background:rgba(248,113,113,.15)}
+
+/* QUIZ 3D */
+#quiz-overlay{position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
+  display:none;flex-direction:column;align-items:center;justify-content:flex-end;padding:0}
+#quiz-overlay.show{display:flex}
+.quiz-card{background:linear-gradient(170deg,#060018,#0e0030);
+  border-top:3px solid #FFD700;border-radius:24px 24px 0 0;
+  width:100%;max-height:80vh;overflow-y:auto;padding:16px 16px 32px}
+.quiz-qbar{height:5px;background:rgba(255,255,255,.08);border-radius:3px;
+  overflow:hidden;margin-bottom:16px}
+.quiz-qbar-fill{height:100%;background:linear-gradient(90deg,#FFD700,#4ade80);
+  border-radius:3px;transition:width .5s}
+.quiz-icon{font-size:3.5rem;text-align:center;margin-bottom:10px;
+  animation:dragonFloat 2s ease-in-out infinite}
+.quiz-q{font-size:1rem;font-weight:800;color:#fff;line-height:1.55;
+  text-align:center;margin-bottom:18px;padding:0 4px}
+.quiz-opt{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);
+  border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;
+  font-size:.88rem;color:rgba(255,255,255,.88);transition:all .2s;
+  display:flex;align-items:center;gap:12px;font-weight:600}
+.quiz-opt:active{transform:scale(.98)}
+.quiz-opt.correct{border-color:#4ade80;background:rgba(74,222,128,.12);color:#4ade80}
+.quiz-opt.wrong  {border-color:#f87171;background:rgba(248,113,113,.1);color:#f87171}
+.quiz-opt-letter{width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:.82rem;flex-shrink:0}
+.quiz-spieg{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);
+  border-radius:12px;padding:12px;font-size:.82rem;color:rgba(255,255,255,.85);
+  line-height:1.6;margin-top:12px;display:none}
+.quiz-spieg.show{display:block}
+.quiz-next{width:100%;background:linear-gradient(135deg,#FFD700,#d97706);
+  border:none;border-radius:16px;padding:14px;color:#1c0a00;
+  font-weight:900;font-size:.92rem;cursor:pointer;margin-top:14px;display:none}
+.quiz-next.show{display:block}
+
+/* TOAST */
+#toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-12px);
+  background:rgba(255,215,0,.96);color:#1c0a00;font-weight:900;font-size:.85rem;
+  padding:9px 22px;border-radius:22px;opacity:0;transition:all .28s;
+  pointer-events:none;white-space:nowrap;z-index:500;
+  max-width:92vw;text-align:center;box-shadow:0 4px 20px rgba(255,215,0,.4)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* PARTICELLE */
+.pfx{position:fixed;pointer-events:none;font-size:1.6rem;z-index:400;
+  animation:pfx-float 1.2s ease-out forwards}
+@keyframes pfx-float{0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-90px) scale(.2);opacity:0}}
+
+/* LOADING */
+#loading{position:fixed;inset:0;z-index:1000;
+  background:linear-gradient(135deg,#020010,#08002a);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.loading-dragon{font-size:6rem;animation:dragonFloat 1.5s ease-in-out infinite}
+.loading-title{font-size:1.4rem;font-weight:900;color:#FFD700;font-family:serif}
+.loading-sub{font-size:.82rem;color:#94a3b8}
+.loading-bar{width:220px;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.loading-fill{height:100%;background:linear-gradient(90deg,#FFD700,#4ade80);
+  width:0%;transition:width .3s;border-radius:3px}
+
+/* REWARD POPUP */
+#reward-popup{position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.88);display:none;
+  align-items:center;justify-content:center;padding:20px}
+#reward-popup.show{display:flex}
+.rp-inner{text-align:center;max-width:320px}
+.rp-icon{font-size:5rem;margin-bottom:12px;
+  animation:glowPulse 1.5s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 8px gold)}
+  50%{filter:drop-shadow(0 0 24px gold) drop-shadow(0 0 40px gold)}}
+.rp-title{font-family:serif;font-size:1.3rem;font-weight:900;color:#FFD700;margin-bottom:8px}
+.rp-desc{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.6;margin-bottom:18px}
+.rp-btn{width:100%;background:linear-gradient(135deg,#FFD700,#d97706);
+  border:none;border-radius:16px;padding:13px;color:#1c0a00;
+  font-weight:900;font-size:.92rem;cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loading-dragon">🐉</div>
+  <div class="loading-title">FinanzaLand 3D</div>
+  <div class="loading-sub" id="loading-txt">Preparando il mondo...</div>
+  <div class="loading-bar"><div class="loading-fill" id="loading-fill"></div></div>
+</div>
+
+<!-- CANVAS 3D -->
+<div id="canvas-wrap"><canvas id="c3d"></canvas></div>
+
+<!-- HUD -->
+<div id="hud">
+  <div class="hud-coins">🪙 <span id="coins-hud">0</span></div>
+  <div class="hud-btn" onclick="showDragonDialog()">🐉 Finan</div>
+  <div class="hud-btn" onclick="window.location.href='index.html'" style="color:#4ade80;border-color:rgba(74,222,128,.35)">🏠 Gioco</div>
+  <div class="hud-level">Lv.<span id="level-hud">1</span></div>
+</div>
+<div id="xpbar"><div id="xpfill"></div></div>
+
+<!-- JOYSTICK MOBILE -->
+<div id="joystick-zone">
+  <div id="joystick-base">
+    <div id="joystick-knob"></div>
+  </div>
+</div>
+
+<!-- ACTION BUTTONS MOBILE -->
+<div id="action-btns">
+  <button class="act-btn act-a" id="btn-action-a">⚡</button>
+  <button class="act-btn act-b" id="btn-action-b">🎯</button>
+</div>
+
+<!-- DIALOGO DRAGO -->
+<div id="dragon-dialog">
+  <div class="dd-inner">
+    <div class="dd-hdr">
+      <div class="dd-avatar" id="dd-avatar">🐉</div>
+      <div>
+        <div class="dd-name" id="dd-name">Finan — Il Drago Saggio</div>
+        <div class="dd-subtitle" id="dd-subtitle">Il tuo mentore finanziario</div>
+        <div style="font-size:.62rem;color:#64748b;margin-top:1px">Solo a scopo educativo</div>
+      </div>
+      <button class="dd-x" id="dd-close">✕</button>
+    </div>
+    <div class="dd-body">
+      <div class="dd-msg" id="dd-msg">
+        Ciao avventuriero! Benvenuto nell isola di FinanzaLand!
+        Esplora il mondo, raccogli Semi e impara come funzionano i soldi.
+        Tocca gli edifici per iniziare le avventure!
+      </div>
+      <div class="dd-tip" id="dd-tip">💡 Tocca il Castello per la prima lezione!</div>
+      <div class="dd-actions">
+        <button class="dd-btn dd-gold" onclick="dragonAsk('lezione')">📚 Lezione</button>
+        <button class="dd-btn dd-green" onclick="dragonAsk('consiglio')">💡 Consiglio</button>
+        <button class="dd-btn dd-teal" onclick="dragonAsk('sfida')">⚔️ Sfida</button>
+        <button class="dd-btn dd-red" onclick="openQuiz()">🎯 Quiz!</button>
+        <button class="dd-btn dd-teal" onclick="window.location.href='index.html'" style="font-size:.72rem">📚 Tutte le Lezioni</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ OVERLAY -->
+<div id="quiz-overlay">
+  <div class="quiz-card" id="quiz-card"></div>
+</div>
+
+<!-- REWARD POPUP -->
+<div id="reward-popup">
+  <div class="rp-inner">
+    <div class="rp-icon" id="rp-icon">🏆</div>
+    <div class="rp-title" id="rp-title">Premio!</div>
+    <div class="rp-desc" id="rp-desc"></div>
+    <button class="rp-btn" id="rp-btn">Continua l avventura →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- Three.js r128 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+(function(){
+'use strict';
+
+// ═══════════════════════════════════════════════════════
+// STATO GIOCO
+// ═══════════════════════════════════════════════════════
+var G = {
+  coins: 0, level: 1, xp: 0,
+  streak: 0, totalLezioni: 0,
+  buildingsTouched: {},
+  dragonMessages: 0,
+};
+
+// ═══════════════════════════════════════════════════════
+// EDIFICI DELL ISOLA
+// ═══════════════════════════════════════════════════════
+var BUILDINGS = [
+  {
+    id: 'castello', name: 'Castello dei Semi', emoji: '🏰',
+    color: 0xa78bfa, pos: [-3, 0, -2], scale: 1.4,
+    msg: 'Il Castello e il posto dove nascono i tuoi Semi! Ogni castello costruito ti da Semi automaticamente. I ricchi costruiscono castelli — i castelli lavorano per loro anche di notte!',
+    tip: 'Costruisci 3 castelli per il reddito passivo',
+    reward: 80, quiz: 'risparmio'
+  },
+  {
+    id: 'tempio', name: 'Tempio dell Accademia', emoji: '🏛',
+    color: 0xFFD700, pos: [3, 0, -3], scale: 1.3,
+    msg: 'Il Tempio e il cuore del sapere! Qui trovi 27 lezioni su tutto — dalla regola 50-30-20 agli ETF. Ogni lezione ha un quiz: devi rispondere bene per andare avanti!',
+    tip: 'Inizia dalla Lezione I: Regola 50-30-20',
+    reward: 100, quiz: 'regola'
+  },
+  {
+    id: 'borsa', name: 'Borsa Globale', emoji: '📈',
+    color: 0x4ade80, pos: [4, 0, 1], scale: 1.1,
+    msg: 'La Borsa ti permette di investire in tutto il mondo! S&P500, FTSE MIB Italia, BRVM Africa, Nikkei Giappone. Impara come funzionano i mercati prima di usare soldi veri!',
+    tip: 'BRVM Africa ha reso +25% nel 2025!',
+    reward: 120, quiz: 'borsa'
+  },
+  {
+    id: 'casa', name: 'La mia Casa', emoji: '🏠',
+    color: 0xfb923c, pos: [-4, 0, 2], scale: 1.0,
+    msg: 'La tua casa e il punto di partenza! Qui trovi i tuoi trofei, il tuo livello e la storia di tutto quello che hai imparato. Ogni trofeo e una competenza finanziaria reale acquisita.',
+    tip: 'Hai 12 trofei da sbloccare!',
+    reward: 60, quiz: 'casa'
+  },
+  {
+    id: 'salvadanaio', name: 'Il Salvadanaio', emoji: '🐷',
+    color: 0xf87171, pos: [0, 0, 3], scale: 1.0,
+    msg: 'Il Salvadanaio custodisce tutti i tuoi Semi! Ricorda: ogni guadagno si divide — 50% bisogni, 30% desideri, 20% risparmio. Questa e la regola magica dei soldi!',
+    tip: 'Regola 50-30-20: la base di tutto',
+    reward: 70, quiz: 'risparmio'
+  },
+  {
+    id: 'drago_tower', name: 'Torre del Drago', emoji: '🗼',
+    color: 0x06b6d4, pos: [0, 0, -5], scale: 1.6,
+    msg: 'La Torre del Drago e il luogo piu potente dell isola! Da qui il Drago Finan osserva tutto il mondo finanziario. Vieni qui per le lezioni piu difficili e i quiz speciali!',
+    tip: 'Sblocca nuovi draghi completando le lezioni',
+    reward: 150, quiz: 'avanzato'
+  },
+];
+
+// ═══════════════════════════════════════════════════════
+// QUIZ BAMBINI — 5 categorie, difficolta progressiva
+// ═══════════════════════════════════════════════════════
+var QUIZ_POOL = {
+  risparmio: [
+    {q:'Hai 10 euro. Quanto dovresti risparmiare secondo la regola 50-30-20?',
+     opts:['1 euro','2 euro','5 euro','8 euro'], ok:1,
+     spieg:'Il 20% di 10 euro e 2 euro. Sempre metti da parte il 20% prima di spendere!',
+     icon:'🐷'},
+    {q:'Cosa e un fondo di emergenza?',
+     opts:['Soldi per le vacanze','Soldi per quando succede qualcosa di brutto','Soldi per i videogiochi','Soldi per il compleanno'], ok:1,
+     spieg:'Il fondo di emergenza protegge quando succede qualcosa di inaspettato — macchina rotta, dottore, ecc. Bisogna averne per 3-6 mesi di spese.',
+     icon:'🛡️'},
+    {q:'Qual e la cosa piu importante da fare appena ricevi la paghetta?',
+     opts:['Comprare subito qualcosa','Dare tutto ai genitori','Mettere da parte una parte prima di spendere','Aspettare'], ok:2,
+     spieg:'Pagati prima! Appena ricevi i soldi, metti da parte la tua percentuale di risparmio PRIMA di fare qualsiasi cosa.',
+     icon:'💰'},
+  ],
+  regola: [
+    {q:'Nella regola 50-30-20, il 50% va per:',
+     opts:['I giochi','Le cose necessarie come cibo e casa','I risparmi','I regali'], ok:1,
+     spieg:'Il 50% va per i BISOGNI — cose che non puoi evitare come cibo, casa, scuola, trasporti.',
+     icon:'🍕'},
+    {q:'Se hai 100 euro al mese, quanto puoi spendere per i desideri?',
+     opts:['10 euro','20 euro','30 euro','50 euro'], ok:2,
+     spieg:'Il 30% di 100 euro e 30 euro per i desideri. I desideri sono cose belle ma non necessarie: giochi, uscite, dolci.',
+     icon:'🎮'},
+    {q:'Cos e un BISOGNO?',
+     opts:['Un videogioco nuovo','Pizza con gli amici','Il cibo e i vestiti necessari','Un film al cinema'], ok:2,
+     spieg:'I BISOGNI sono cose senza cui non puoi vivere: cibo, vestiti, casa, cure mediche. I DESIDERI sono cose belle ma opzionali.',
+     icon:'🏠'},
+  ],
+  borsa: [
+    {q:'Cosa e un ETF?',
+     opts:['Un videogioco','Un tipo di panino','Un cesto di molte azioni diverse','Una banca'], ok:2,
+     spieg:'Un ETF e come un cesto che contiene tantissime azioni diverse. Se una va male, le altre compensano. E piu sicuro delle singole azioni!',
+     icon:'📦'},
+    {q:'Se compri azioni Apple a 100 euro e vendono a 120 euro, quanto guadagni?',
+     opts:['10 euro','20 euro','100 euro','220 euro'], ok:1,
+     spieg:'120 - 100 = 20 euro di guadagno. Questo si chiama plusvalenza. Ricorda: i prezzi possono anche scendere!',
+     icon:'📈'},
+    {q:'Perche diversificare gli investimenti e importante?',
+     opts:['Per risparmiare le commissioni','Per non perdere tutto se un investimento va male','Per pagare meno tasse','Per guadagnare di piu'], ok:1,
+     spieg:'Se metti tutti i soldi in un posto solo e quel posto va male, perdi tutto. Con la diversificazione, sprechi il rischio su tanti posti diversi.',
+     icon:'🌍'},
+  ],
+  casa: [
+    {q:'Cos e il reddito passivo?',
+     opts:['I soldi che guadagni lavorando','I soldi che arrivano anche quando dormi','I soldi che spendi','I risparmi'], ok:1,
+     spieg:'Il reddito passivo sono soldi che arrivano automaticamente — affitti di case, dividendi di azioni, interessi bancari. I ricchi costruiscono fonti di reddito passivo!',
+     icon:'😴'},
+    {q:'Qual e la differenza tra un asset e una passivita?',
+     opts:['Nessuna differenza','Un asset ti fa guadagnare, una passivita ti fa spendere','Un asset e grande, una passivita e piccola','Un asset e vecchio, una passivita e nuova'], ok:1,
+     spieg:'Un ASSET e qualcosa che mette soldi in tasca (casa in affitto, azioni). Una PASSIVITA e qualcosa che toglie soldi (mutuo, auto). Costruisci asset, evita passivita!',
+     icon:'⚖️'},
+    {q:'Se hai 50 euro, cosa fa crescere i tuoi soldi di piu nel tempo?',
+     opts:['Tenerli sotto il materasso','Spenderli subito','Investirli con interesse composto','Darli a un amico'], ok:2,
+     spieg:'L interesse composto e la magia dei soldi! I tuoi 50 euro guadagnano interessi, e quegli interessi guadagnano altri interessi. Einstein lo chiamo la piu grande forza dell universo!',
+     icon:'✨'},
+  ],
+  avanzato: [
+    {q:'Cosa misura il P/E ratio di un azione?',
+     opts:['Il prezzo di vendita','Quante volte il prezzo e maggiore degli utili','Il dividendo pagato','La dimensione dell azienda'], ok:1,
+     spieg:'P/E = Prezzo / Utile per azione. P/E 20 significa che paghi 20 anni di utili per comprare quell azione. Utile per confrontare se un azione e cara o economica.',
+     icon:'🔬'},
+    {q:'Cos e l inflazione?',
+     opts:['Quando i prezzi scendono','Quando i prezzi salgono nel tempo','Quando le banche chiudono','Quando le azioni crollano'], ok:1,
+     spieg:'L inflazione e quando i prezzi salgono nel tempo. Con 3% di inflazione, quello che costa 100 euro oggi costera 103 euro l anno prossimo. Per questo bisogna investire!',
+     icon:'💸'},
+    {q:'Cosa fa la Banca Centrale Europea?',
+     opts:['Presta soldi alle persone','Controlla i tassi di interesse e l inflazione in Europa','Compra e vende azioni','Gestisce il tuo conto corrente'], ok:1,
+     spieg:'La BCE (Banca Centrale Europea) controlla i tassi di interesse e cerca di mantenere l inflazione intorno al 2% in Europa. Le sue decisioni influenzano tutti i mercati!',
+     icon:'🏛'},
+  ],
+};
+
+// ═══════════════════════════════════════════════════════
+// RISPOSTE DRAGO AI (fallback locale)
+// ═══════════════════════════════════════════════════════
+var DRAGON_REPLIES = {
+  lezione: [
+    'Lezione 1: La Regola 50-30-20! Ogni volta che ricevi dei soldi, dividili in 3 parti — 50% per le cose necessarie, 30% per i tuoi desideri, 20% per risparmiare. Semplice ma magica!',
+    'Lezione 2: L interesse composto! Se metti 100 euro in banca con il 5% di interessi, dopo 1 anno hai 105, dopo 2 anni hai 110,25... i soldi crescono sempre di piu! Einstein lo chiamava la forza piu potente dell universo.',
+    'Lezione 3: Asset vs Passivita! Un asset ti mette soldi in tasca automaticamente — come una casa in affitto. Una passivita toglie soldi — come un auto che consuma carburante. Costruisci asset!',
+    'Lezione 4: Diversificazione! Non mettere tutti i tuoi Semi in un solo castello. Se quel castello crolla, perdi tutto. Con tanti castelli diversi, sei sempre al sicuro.',
+  ],
+  consiglio: [
+    'Il mio consiglio: inizia SUBITO a risparmiare, anche 1 euro al giorno. In 1 anno hai 365 euro! La magia e iniziare presto — il tempo e il tuo migliore amico quando si tratta di soldi.',
+    'Ogni volta che vuoi comprare qualcosa, aspetta 24 ore. Se dopo 24 ore lo vuoi ancora davvero, allora compralo. Se no, hai appena risparmiato dei Semi! Questo si chiama impulse control.',
+    'Parla con i tuoi genitori dei soldi! Chiedete insieme: quante spese abbiamo ogni mese? Possiamo risparmiare qualcosa? Le famiglie che parlano di finanza insieme stanno meglio.',
+    'La parola magica della ricchezza e: AUTOMATICO. Fai si che i risparmi vengano messi da parte automaticamente ogni mese, senza doverci pensare. Cosi non puoi spendere quello che non vedi!',
+  ],
+  sfida: [
+    'Sfida del giorno: conta tutte le spese che hai fatto questa settimana. Quante erano bisogni? Quante erano desideri? Eri nella regola 50-30-20?',
+    'Sfida famiglia: questa sera a cena, chiedi ai tuoi genitori di spiegare una bolletta o una spesa della casa. Capirai come funziona la finanza vera!',
+    'Sfida risparmio: per 7 giorni, ogni volta che vuoi comprare qualcosa scrivi su un foglio il nome e il prezzo. Alla fine della settimana, guarda cosa hai scritto. Quante cose hai davvero comprato?',
+    'Sfida mercati: cerca online il prezzo di 3 azioni che conosci — Apple, Ferrari, Juventus. Torna domani e guarda se sono cambiate. I mercati si muovono ogni secondo!',
+  ],
+};
+
+// ═══════════════════════════════════════════════════════
+// THREE.JS — MOTORE 3D
+// ═══════════════════════════════════════════════════════
+var scene, camera, renderer, clock;
+var island, dragon3d, buildings3d = [], clouds = [];
+var mouseX = 0, mouseY = 0;
+var camAngle = 0, camRadius = 18, camHeight = 10;
+var autoRotate = true;
+var touchStart = null;
+var keys = {};
+var playerPos = new THREE.Vector3(0, 0, 0);
+var joystick = {active:false, dx:0, dy:0};
+var selectedBuilding = null;
+var isMobile = /Mobi|Android/i.test(navigator.userAgent);
+var loadingProgress = 0;
+
+function initThree() {
+  var canvas = document.getElementById('c3d');
+  var W = window.innerWidth, H = window.innerHeight;
+
+  // SCENE
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x020020);
+  scene.fog = new THREE.FogExp2(0x020020, 0.018);
+
+  // CAMERA
+  camera = new THREE.PerspectiveCamera(55, W/H, 0.1, 200);
+  camera.position.set(0, 10, 18);
+  camera.lookAt(0, 0, 0);
+
+  // RENDERER
+  renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+
+  clock = new THREE.Clock();
+
+  // LIGHTS
+  var ambient = new THREE.AmbientLight(0x334466, 0.8);
+  scene.add(ambient);
+
+  var sun = new THREE.DirectionalLight(0xffeedd, 2.0);
+  sun.position.set(10, 20, 10);
+  sun.castShadow = true;
+  sun.shadow.mapSize.width = 1024;
+  sun.shadow.mapSize.height = 1024;
+  sun.shadow.camera.near = 0.5;
+  sun.shadow.camera.far = 100;
+  sun.shadow.camera.left = -20;
+  sun.shadow.camera.right = 20;
+  sun.shadow.camera.top = 20;
+  sun.shadow.camera.bottom = -20;
+  scene.add(sun);
+
+  var fill = new THREE.DirectionalLight(0x4466cc, 0.5);
+  fill.position.set(-8, 5, -5);
+  scene.add(fill);
+
+  // Luce magica gialla dal basso
+  var magic = new THREE.PointLight(0xFFD700, 1.5, 20);
+  magic.position.set(0, -2, 0);
+  scene.add(magic);
+
+  setLoading('Creando l isola...', 20);
+  buildIsland();
+  setLoading('Costruendo gli edifici...', 45);
+  buildBuildings();
+  setLoading('Aggiungendo il drago...', 65);
+  buildDragon();
+  setLoading('Decorando il cielo...', 80);
+  buildSky();
+  buildClouds();
+  setLoading('Pronti per l avventura!', 100);
+
+  // Responsive
+  window.addEventListener('resize', function(){
+    var w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+
+  setTimeout(function(){
+    document.getElementById('loading').style.opacity = '0';
+    document.getElementById('loading').style.transition = 'opacity .8s';
+    setTimeout(function(){
+      document.getElementById('loading').style.display = 'none';
+      showDragonDialog();
+      if (isMobile) {
+        document.getElementById('joystick-zone').style.display = 'block';
+        document.getElementById('action-btns').style.display = 'flex';
+      }
+      playS('success');
+    }, 800);
+  }, 500);
+
+  setupInput();
+  animate();
+}
+
+function setLoading(txt, pct) {
+  var el = document.getElementById('loading-txt');
+  var fill = document.getElementById('loading-fill');
+  if (el) el.textContent = txt;
+  if (fill) fill.style.width = pct + '%';
+}
+
+// ── ISOLA ────────────────────────────────────────────────
+function buildIsland() {
+  // Base isola — forma organica
+  var islandGeo = new THREE.CylinderGeometry(8, 6, 2.5, 7, 1);
+  // Sposta un po i vertici per renderla organica
+  var pos = islandGeo.attributes.position;
+  for (var i = 0; i < pos.count; i++) {
+    var y = pos.getY(i);
+    if (y > 0) {
+      var x = pos.getX(i), z = pos.getZ(i);
+      pos.setX(i, x + (Math.random()-0.5)*0.8);
+      pos.setZ(i, z + (Math.random()-0.5)*0.8);
+    }
+  }
+  pos.needsUpdate = true;
+  islandGeo.computeVertexNormals();
+
+  var islandMat = new THREE.MeshLambertMaterial({color: 0x2d5a1b});
+  island = new THREE.Mesh(islandGeo, islandMat);
+  island.position.y = -1.2;
+  island.receiveShadow = true;
+  scene.add(island);
+
+  // Bordo roccia
+  var rockGeo = new THREE.CylinderGeometry(6.2, 8.5, 2, 7, 1);
+  var rockMat = new THREE.MeshLambertMaterial({color: 0x5c4a2a});
+  var rock = new THREE.Mesh(rockGeo, rockMat);
+  rock.position.y = -3.0;
+  rock.receiveShadow = true;
+  scene.add(rock);
+
+  // Acqua circostante — piano animato
+  var waterGeo = new THREE.PlaneGeometry(80, 80, 32, 32);
+  var waterMat = new THREE.MeshLambertMaterial({color:0x0a2a6e, transparent:true, opacity:0.75});
+  var water = new THREE.Mesh(waterGeo, waterMat);
+  water.rotation.x = -Math.PI/2;
+  water.position.y = -4.5;
+  water.receiveShadow = true;
+  scene.add(water);
+  scene.userData.water = water;
+
+  // Alberi decorativi
+  var treePositions = [
+    [-5,0,-5],[-6,0,0],[-5,0,4],[5,0,-6],[6,0,1],[5,0,5],[0,0,-7],
+    [-2,0,6],[3,0,7],[-7,0,-3],[7,0,-2],[-3,0,-6],
+  ];
+  treePositions.forEach(function(p){
+    var dist = Math.sqrt(p[0]*p[0]+p[2]*p[2]);
+    if (dist < 8.5) buildTree(p[0],p[2]);
+  });
+
+  // Sentieri
+  buildPath();
+}
+
+function buildTree(x, z) {
+  var h = 1.0 + Math.random()*0.8;
+  var trunkGeo = new THREE.CylinderGeometry(0.08, 0.12, h, 6);
+  var trunkMat = new THREE.MeshLambertMaterial({color:0x6b4226});
+  var trunk = new THREE.Mesh(trunkGeo, trunkMat);
+  trunk.position.set(x, h/2, z);
+  trunk.castShadow = true;
+  scene.add(trunk);
+
+  var leafColors = [0x1a5c2a, 0x2d7a3a, 0x1e6b2e, 0x246b3a];
+  var leafCol = leafColors[Math.floor(Math.random()*leafColors.length)];
+  var leafGeo = new THREE.SphereGeometry(0.4+Math.random()*0.3, 6, 5);
+  var leafMat = new THREE.MeshLambertMaterial({color:leafCol});
+  var leaf = new THREE.Mesh(leafGeo, leafMat);
+  leaf.position.set(x, h+0.3, z);
+  leaf.castShadow = true;
+  scene.add(leaf);
+  scene.userData['tree_'+x+'_'+z] = {trunk, leaf};
+}
+
+function buildPath() {
+  var pathMat = new THREE.MeshLambertMaterial({color:0xd4a853});
+  BUILDINGS.forEach(function(b){
+    var segments = 8;
+    for(var i=0;i<segments;i++){
+      var t = i/segments;
+      var px = b.pos[0]*t;
+      var pz = b.pos[2]*t;
+      var pGeo = new THREE.CylinderGeometry(0.15,0.15,0.05,6);
+      var pMesh = new THREE.Mesh(pGeo,pathMat);
+      pMesh.position.set(px, 0.05, pz);
+      scene.add(pMesh);
+    }
+  });
+}
+
+// ── EDIFICI ──────────────────────────────────────────────
+function buildBuildings() {
+  BUILDINGS.forEach(function(b, idx) {
+    var group = new THREE.Group();
+    group.position.set(b.pos[0], b.pos[1], b.pos[2]);
+    group.userData = {buildingId: b.id, buildingIdx: idx};
+
+    var sc = b.scale;
+
+    // Base edificio
+    var baseGeo = new THREE.BoxGeometry(sc*0.9, sc*0.2, sc*0.9);
+    var baseMat = new THREE.MeshLambertMaterial({color:0x8b7355});
+    var base = new THREE.Mesh(baseGeo, baseMat);
+    base.position.y = sc*0.1;
+    base.receiveShadow = true;
+    group.add(base);
+
+    // Corpo principale
+    var bodyGeo, bodyMat;
+    if (b.id === 'castello') {
+      // Torre con merli
+      bodyGeo = new THREE.CylinderGeometry(sc*0.3, sc*0.35, sc*1.4, 8);
+    } else if (b.id === 'tempio') {
+      bodyGeo = new THREE.BoxGeometry(sc*0.8, sc*1.0, sc*0.8);
+    } else if (b.id === 'borsa') {
+      bodyGeo = new THREE.BoxGeometry(sc*0.7, sc*0.9, sc*0.7);
+    } else if (b.id === 'drago_tower') {
+      bodyGeo = new THREE.CylinderGeometry(sc*0.2, sc*0.4, sc*2.0, 6);
+    } else {
+      bodyGeo = new THREE.BoxGeometry(sc*0.75, sc*0.8, sc*0.75);
+    }
+    bodyMat = new THREE.MeshLambertMaterial({color: b.color});
+    var body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = sc*0.5 + sc*0.2;
+    body.castShadow = true;
+    body.receiveShadow = true;
+    group.add(body);
+
+    // Tetto / cappello
+    if (b.id !== 'borsa') {
+      var roofGeo = new THREE.ConeGeometry(sc*0.55, sc*0.7, b.id==='castello'?8:4);
+      var roofMat = new THREE.MeshLambertMaterial({
+        color: b.id==='tempio' ? 0xcc9900 : b.id==='castello' ? 0x7c3aed : 0x8b4513
+      });
+      var roof = new THREE.Mesh(roofGeo, roofMat);
+      roof.position.y = sc + sc*0.55;
+      if (b.id==='tempio') {
+        // Colonne
+        for(var c=0;c<4;c++){
+          var cx = (c<2?-1:1)*sc*0.3;
+          var cz = (c%2===0?-1:1)*sc*0.3;
+          var colGeo = new THREE.CylinderGeometry(0.05,0.05,sc*0.9,6);
+          var colMesh = new THREE.Mesh(colGeo, new THREE.MeshLambertMaterial({color:0xfff8dc}));
+          colMesh.position.set(cx, sc*0.5+sc*0.2, cz);
+          group.add(colMesh);
+        }
+      }
+      group.add(roof);
+    }
+
+    // Luce magica sopra edificio
+    var light = new THREE.PointLight(b.color, 0.8, 5);
+    light.position.y = sc*1.8;
+    group.add(light);
+    group.userData.light = light;
+
+    // Glow sphere
+    var glowGeo = new THREE.SphereGeometry(0.25, 8, 8);
+    var glowMat = new THREE.MeshBasicMaterial({color:b.color, transparent:true, opacity:0.6});
+    var glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.y = sc*2.0;
+    group.add(glow);
+    group.userData.glow = glow;
+    group.userData.glowMat = glowMat;
+
+    scene.add(group);
+    buildings3d.push(group);
+    group.userData.originalY = group.position.y;
+  });
+}
+
+// ── DRAGO 3D ────────────────────────────────────────────
+function buildDragon() {
+  var dragonGroup = new THREE.Group();
+
+  // Corpo
+  var bodyGeo = new THREE.SphereGeometry(0.6, 10, 8);
+  bodyGeo.scale(1.4, 0.9, 0.9);
+  var bodyMat = new THREE.MeshLambertMaterial({color: 0x1a8c1a});
+  var body = new THREE.Mesh(bodyGeo, bodyMat);
+  dragonGroup.add(body);
+
+  // Testa
+  var headGeo = new THREE.SphereGeometry(0.4, 10, 8);
+  var headMat = new THREE.MeshLambertMaterial({color: 0x1a8c1a});
+  var head = new THREE.Mesh(headGeo, headMat);
+  head.position.set(0.7, 0.3, 0);
+  dragonGroup.add(head);
+
+  // Occhi
+  var eyeGeo = new THREE.SphereGeometry(0.08, 6, 6);
+  var eyeMat = new THREE.MeshBasicMaterial({color: 0xFFD700});
+  [-0.15, 0.15].forEach(function(ez){
+    var eye = new THREE.Mesh(eyeGeo, eyeMat);
+    eye.position.set(1.0, 0.4, ez);
+    dragonGroup.add(eye);
+  });
+
+  // Ali
+  var wingShape = new THREE.Shape();
+  wingShape.moveTo(0, 0);
+  wingShape.quadraticCurveTo(0.8, 1.2, 1.6, 0.4);
+  wingShape.quadraticCurveTo(0.8, 0.2, 0, 0);
+  var wingGeo = new THREE.ShapeGeometry(wingShape);
+  var wingMat = new THREE.MeshLambertMaterial({
+    color: 0x0d5c0d, side: THREE.DoubleSide, transparent:true, opacity:0.85
+  });
+
+  var wingL = new THREE.Mesh(wingGeo, wingMat);
+  wingL.position.set(-0.2, 0.4, 0);
+  wingL.rotation.y = 0.3;
+  wingL.userData.isWing = true;
+  wingL.userData.side = 1;
+  dragonGroup.add(wingL);
+
+  var wingR = new THREE.Mesh(wingGeo, wingMat);
+  wingR.position.set(-0.2, 0.4, 0);
+  wingR.rotation.y = -0.3;
+  wingR.scale.z = -1;
+  wingR.userData.isWing = true;
+  wingR.userData.side = -1;
+  dragonGroup.add(wingR);
+
+  // Coda
+  var tailGeo = new THREE.CylinderGeometry(0.05, 0.2, 1.0, 6);
+  var tailMat = new THREE.MeshLambertMaterial({color: 0x1a8c1a});
+  var tail = new THREE.Mesh(tailGeo, tailMat);
+  tail.position.set(-0.8, -0.1, 0);
+  tail.rotation.z = 0.4;
+  dragonGroup.add(tail);
+
+  // Luce drago
+  var dragLight = new THREE.PointLight(0xFFD700, 1.2, 8);
+  dragonGroup.add(dragLight);
+
+  dragonGroup.position.set(0, 5, 0);
+  dragonGroup.scale.setScalar(0.9);
+  scene.add(dragonGroup);
+  dragon3d = dragonGroup;
+  dragon3d.userData.wings = [wingL, wingR];
+  dragon3d.userData.angle = 0;
+  dragon3d.userData.bobAngle = 0;
+}
+
+// ── CIELO E STELLE ───────────────────────────────────────
+function buildSky() {
+  // Stelle
+  var starsGeo = new THREE.BufferGeometry();
+  var starVerts = [];
+  for(var i=0;i<600;i++){
+    var r = 60 + Math.random()*40;
+    var theta = Math.random()*Math.PI*2;
+    var phi = Math.acos(2*Math.random()-1);
+    starVerts.push(
+      r*Math.sin(phi)*Math.cos(theta),
+      r*Math.cos(phi),
+      r*Math.sin(phi)*Math.sin(theta)
+    );
+  }
+  starsGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVerts,3));
+  var starsMat = new THREE.PointsMaterial({color:0xffffff, size:0.25, transparent:true, opacity:0.8});
+  var stars = new THREE.Points(starsGeo, starsMat);
+  scene.add(stars);
+  scene.userData.stars = stars;
+
+  // Luna
+  var moonGeo = new THREE.SphereGeometry(1.5, 12, 10);
+  var moonMat = new THREE.MeshLambertMaterial({color:0xfff8dc, emissive:0xfff0a0, emissiveIntensity:0.3});
+  var moon = new THREE.Mesh(moonGeo, moonMat);
+  moon.position.set(20, 30, -40);
+  scene.add(moon);
+
+  // Aurora boreale semplificata
+  var auroraGeo = new THREE.PlaneGeometry(120, 30);
+  var auroraMat = new THREE.MeshBasicMaterial({
+    color:0x004422, transparent:true, opacity:0.08, side:THREE.DoubleSide
+  });
+  var aurora = new THREE.Mesh(auroraGeo, auroraMat);
+  aurora.position.set(0, 20, -50);
+  aurora.rotation.x = 0.2;
+  scene.add(aurora);
+  scene.userData.aurora = aurora;
+}
+
+function buildClouds() {
+  for(var c=0;c<8;c++){
+    var cloudGroup = new THREE.Group();
+    var numBalls = 3 + Math.floor(Math.random()*3);
+    for(var b=0;b<numBalls;b++){
+      var r = 0.8 + Math.random()*0.7;
+      var sGeo = new THREE.SphereGeometry(r, 8, 6);
+      var sMat = new THREE.MeshLambertMaterial({
+        color:0xffffff, transparent:true, opacity:0.5+Math.random()*0.3
+      });
+      var s = new THREE.Mesh(sGeo, sMat);
+      s.position.set((Math.random()-0.5)*3, (Math.random()-0.5)*0.5, (Math.random()-0.5)*1);
+      cloudGroup.add(s);
+    }
+    var angle = (c/8)*Math.PI*2;
+    var rad = 15+Math.random()*10;
+    cloudGroup.position.set(
+      Math.cos(angle)*rad,
+      8 + Math.random()*6,
+      Math.sin(angle)*rad
+    );
+    cloudGroup.userData.speed = 0.0002+Math.random()*0.0003;
+    cloudGroup.userData.angle = angle;
+    cloudGroup.userData.rad = rad;
+    scene.add(cloudGroup);
+    clouds.push(cloudGroup);
+  }
+}
+
+// ── LOOP ANIMAZIONE ──────────────────────────────────────
+var frame = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  var delta = clock.getDelta();
+  frame++;
+
+  // Drago vola in cerchio
+  if (dragon3d) {
+    dragon3d.userData.angle += delta * 0.4;
+    dragon3d.userData.bobAngle += delta * 1.5;
+    var da = dragon3d.userData.angle;
+    var rad = 7 + Math.sin(da*0.3)*1.5;
+    dragon3d.position.x = Math.cos(da)*rad;
+    dragon3d.position.z = Math.sin(da)*rad;
+    dragon3d.position.y = 5 + Math.sin(dragon3d.userData.bobAngle)*1.2;
+    dragon3d.rotation.y = -da + Math.PI/2;
+    // Ali sbattono
+    dragon3d.userData.wings.forEach(function(w){
+      w.rotation.z = w.userData.side * (0.3 + Math.sin(frame*0.2)*0.5);
+    });
+  }
+
+  // Edifici pulsano e bob
+  buildings3d.forEach(function(b, i){
+    var t = frame*0.02 + i*0.8;
+    b.position.y = b.userData.originalY + Math.sin(t)*0.08;
+    if (b.userData.glow) {
+      b.userData.glowMat.opacity = 0.4 + Math.sin(frame*0.05+i)*0.3;
+      var gs = 0.8 + Math.sin(frame*0.05+i)*0.3;
+      b.userData.glow.scale.setScalar(gs);
+    }
+    if (b.userData.light) {
+      b.userData.light.intensity = 0.6 + Math.sin(frame*0.04+i)*0.4;
+    }
+  });
+
+  // Nuvole si muovono
+  clouds.forEach(function(c){
+    c.userData.angle += c.userData.speed;
+    var a = c.userData.angle, r = c.userData.rad;
+    c.position.x = Math.cos(a)*r;
+    c.position.z = Math.sin(a)*r;
+  });
+
+  // Acqua ondeggia
+  if (scene.userData.water) {
+    scene.userData.water.position.y = -4.5 + Math.sin(frame*0.02)*0.15;
+  }
+
+  // Aurora
+  if (scene.userData.aurora) {
+    scene.userData.aurora.material.opacity = 0.05+Math.sin(frame*0.01)*0.04;
+  }
+
+  // Camera orbita auto
+  if (autoRotate) {
+    camAngle += delta * 0.12;
+  }
+  // Input WASD/joystick
+  if (keys['ArrowLeft'] || keys['a'] || keys['A']) camAngle -= delta*0.8;
+  if (keys['ArrowRight'] || keys['d'] || keys['D']) camAngle += delta*0.8;
+  if (joystick.active) {
+    camAngle += joystick.dx * delta * 0.015;
+    camHeight = Math.max(4, Math.min(18, camHeight - joystick.dy*delta*0.3));
+  }
+
+  var cx = Math.cos(camAngle)*camRadius;
+  var cz = Math.sin(camAngle)*camRadius;
+  camera.position.lerp(new THREE.Vector3(cx, camHeight, cz), 0.05);
+  camera.lookAt(0, 0, 0);
+
+  renderer.render(scene, camera);
+}
+
+// ── INPUT ────────────────────────────────────────────────
+function setupInput() {
+  var canvas = document.getElementById('c3d');
+
+  // Touch — click su edificio
+  canvas.addEventListener('touchend', function(e){
+    if (e.changedTouches.length === 0) return;
+    var t = e.changedTouches[0];
+    var r = canvas.getBoundingClientRect();
+    var tx = t.clientX - r.left, ty = t.clientY - r.top;
+    checkBuildingClick(tx, ty, canvas);
+    autoRotate = false;
+    setTimeout(function(){ autoRotate = true; }, 4000);
+  }, {passive:true});
+
+  // Mouse click
+  canvas.addEventListener('click', function(e){
+    var r = canvas.getBoundingClientRect();
+    checkBuildingClick(e.clientX-r.left, e.clientY-r.top, canvas);
+    autoRotate = false;
+    setTimeout(function(){ autoRotate = true; }, 4000);
+  });
+
+  // Mouse drag per camera
+  var dragging = false, lastMouseX = 0;
+  canvas.addEventListener('mousedown', function(e){ dragging=true; lastMouseX=e.clientX; autoRotate=false; });
+  window.addEventListener('mouseup', function(){ dragging=false; setTimeout(function(){autoRotate=true;},3000); });
+  canvas.addEventListener('mousemove', function(e){
+    if (dragging) camAngle += (e.clientX-lastMouseX)*0.005;
+    lastMouseX = e.clientX;
+  });
+
+  // Touch drag
+  var touchDrag = false, lastTouchX = 0, lastTouchY = 0;
+  canvas.addEventListener('touchstart', function(e){
+    if (e.touches.length===1) {
+      touchDrag=true;
+      lastTouchX=e.touches[0].clientX;
+      lastTouchY=e.touches[0].clientY;
+      autoRotate=false;
+    }
+  },{passive:true});
+  canvas.addEventListener('touchmove', function(e){
+    if (touchDrag && e.touches.length===1) {
+      var dx = e.touches[0].clientX-lastTouchX;
+      var dy = e.touches[0].clientY-lastTouchY;
+      camAngle += dx*0.006;
+      camHeight = Math.max(4, Math.min(18, camHeight-dy*0.04));
+      lastTouchX=e.touches[0].clientX;
+      lastTouchY=e.touches[0].clientY;
+    }
+  },{passive:true});
+  canvas.addEventListener('touchend', function(){ touchDrag=false; setTimeout(function(){autoRotate=true;},3000); },{passive:true});
+
+  // Pinch zoom
+  var pinch0 = 0, radius0 = camRadius;
+  canvas.addEventListener('touchstart', function(e){
+    if(e.touches.length===2){
+      var dx=e.touches[0].clientX-e.touches[1].clientX;
+      var dy=e.touches[0].clientY-e.touches[1].clientY;
+      pinch0=Math.sqrt(dx*dx+dy*dy); radius0=camRadius;
+    }
+  },{passive:true});
+  canvas.addEventListener('touchmove', function(e){
+    if(e.touches.length===2){
+      var dx=e.touches[0].clientX-e.touches[1].clientX;
+      var dy=e.touches[0].clientY-e.touches[1].clientY;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      camRadius = Math.max(8, Math.min(28, radius0*(pinch0/d)));
+    }
+  },{passive:true});
+
+  // Scroll zoom desktop
+  canvas.addEventListener('wheel', function(e){
+    camRadius = Math.max(8, Math.min(28, camRadius + e.deltaY*0.02));
+    e.preventDefault();
+  },{passive:false});
+
+  // Keyboard
+  window.addEventListener('keydown', function(e){ keys[e.key]=true; });
+  window.addEventListener('keyup', function(e){ keys[e.key]=false; });
+
+  // Joystick mobile
+  setupJoystick();
+
+  // Action buttons
+  document.getElementById('btn-action-a').addEventListener('click', function(){
+    openQuiz(); playS('click');
+  });
+  document.getElementById('btn-action-b').addEventListener('click', function(){
+    showDragonDialog(); playS('click');
+  });
+
+  document.getElementById('dd-close').addEventListener('click', closeDragonDialog);
+}
+
+function checkBuildingClick(sx, sy, canvas) {
+  var raycaster = new THREE.Raycaster();
+  var mouse = new THREE.Vector2(
+    (sx/canvas.clientWidth)*2-1,
+    -(sy/canvas.clientHeight)*2+1
+  );
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(buildings3d, true);
+  if (intersects.length > 0) {
+    var obj = intersects[0].object;
+    while (obj.parent && !obj.userData.buildingId) obj = obj.parent;
+    if (obj.userData.buildingIdx !== undefined) {
+      var b = BUILDINGS[obj.userData.buildingIdx];
+      selectedBuilding = b;
+      onBuildingSelected(b);
+    }
+  }
+}
+
+// ── JOYSTICK ─────────────────────────────────────────────
+function setupJoystick() {
+  var zone = document.getElementById('joystick-zone');
+  var base = document.getElementById('joystick-base');
+  var knob = document.getElementById('joystick-knob');
+  var baseRect, centerX, centerY;
+  var maxDist = 36;
+
+  function getCenter(){
+    baseRect = base.getBoundingClientRect();
+    centerX = baseRect.left + baseRect.width/2;
+    centerY = baseRect.top + baseRect.height/2;
+  }
+
+  zone.addEventListener('touchstart', function(e){
+    joystick.active = true;
+    getCenter();
+    e.stopPropagation();
+    e.preventDefault();
+  },{passive:false});
+
+  zone.addEventListener('touchmove', function(e){
+    if (!joystick.active) return;
+    var t = e.touches[0];
+    var dx = t.clientX-centerX, dy = t.clientY-centerY;
+    var dist = Math.min(Math.sqrt(dx*dx+dy*dy), maxDist);
+    var angle = Math.atan2(dy,dx);
+    var kx = Math.cos(angle)*dist;
+    var ky = Math.sin(angle)*dist;
+    knob.style.transform = 'translate('+kx+'px,'+ky+'px)';
+    joystick.dx = kx/maxDist;
+    joystick.dy = ky/maxDist;
+    e.stopPropagation();
+    e.preventDefault();
+  },{passive:false});
+
+  var resetJoy = function(){
+    joystick.active=false; joystick.dx=0; joystick.dy=0;
+    knob.style.transform='translate(0,0)';
+  };
+  zone.addEventListener('touchend', resetJoy, {passive:true});
+  zone.addEventListener('touchcancel', resetJoy, {passive:true});
+}
+
+// ── LOGICA GIOCO ─────────────────────────────────────────
+function onBuildingSelected(b) {
+  if (G.buildingsTouched[b.id]) {
+    // Gia visitato — mostra quiz direttamente
+    showDragonDialogForBuilding(b);
+  } else {
+    G.buildingsTouched[b.id] = true;
+    G.coins += b.reward;
+    G.xp += 20;
+    checkLevel();
+    updateHUD();
+    spawnParticles();
+    playS('coin');
+    if (navigator.vibrate) navigator.vibrate(30);
+    showDragonDialogForBuilding(b);
+    if (Object.keys(G.buildingsTouched).length === BUILDINGS.length) {
+      setTimeout(function(){
+        showReward('🌟','Isola Esplorata!',
+          'Hai visitato tutti gli edifici! Sei un vero esploratore finanziario. +500 Semi bonus!');
+        G.coins += 500;
+        updateHUD();
+      }, 1500);
+    }
+  }
+}
+
+function showDragonDialogForBuilding(b) {
+  document.getElementById('dd-avatar').textContent = b.emoji;
+  document.getElementById('dd-name').textContent = b.name;
+  document.getElementById('dd-subtitle').textContent = 'Edificio dell isola';
+  document.getElementById('dd-msg').textContent = b.msg;
+  document.getElementById('dd-tip').textContent = '💡 ' + b.tip;
+  document.getElementById('dragon-dialog').classList.add('show');
+}
+
+function showDragonDialog() {
+  document.getElementById('dd-avatar').textContent = '🐉';
+  document.getElementById('dd-name').textContent = 'Finan — Il Drago Saggio';
+  document.getElementById('dd-subtitle').textContent = 'Il tuo mentore finanziario';
+  document.getElementById('dd-msg').textContent =
+    'Ciao! Sono Finan, il tuo drago mentore! Esplora l isola toccando gli edifici. ' +
+    'Ogni edificio ha una storia e dei Semi da guadagnare. Tocca i bottoni qui sotto per imparare!';
+  document.getElementById('dd-tip').textContent = '💡 Tocca gli edifici per guadagnare Semi!';
+  document.getElementById('dragon-dialog').classList.add('show');
+}
+
+function closeDragonDialog() {
+  document.getElementById('dragon-dialog').classList.remove('show');
+}
+
+function dragonAsk(type) {
+  var replies = DRAGON_REPLIES[type] || DRAGON_REPLIES.lezione;
+  var msg = replies[Math.floor(Math.random()*replies.length)];
+  document.getElementById('dd-msg').textContent = msg;
+  document.getElementById('dd-avatar').textContent = '🐉';
+  document.getElementById('dd-name').textContent = 'Finan — Il Drago Saggio';
+  G.coins += 5; updateHUD();
+  playS('click');
+  if (navigator.vibrate) navigator.vibrate(15);
+}
+window.dragonAsk = dragonAsk;
+
+// ── QUIZ ─────────────────────────────────────────────────
+var currentQuizCategory = 'risparmio';
+var currentQuizIndex = 0;
+var quizAnswered = false;
+var quizScore = 0;
+var quizTotal = 3;
+
+function openQuiz(category) {
+  currentQuizCategory = category || (selectedBuilding ? selectedBuilding.quiz : 'risparmio');
+  var pool = QUIZ_POOL[currentQuizCategory] || QUIZ_POOL.risparmio;
+  currentQuizIndex = 0;
+  quizScore = 0;
+  quizTotal = pool.length;
+  closeDragonDialog();
+  renderQuiz();
+  document.getElementById('quiz-overlay').classList.add('show');
+  playS('click');
+}
+window.openQuiz = openQuiz;
+
+function renderQuiz() {
+  var pool = QUIZ_POOL[currentQuizCategory] || QUIZ_POOL.risparmio;
+  if (currentQuizIndex >= pool.length) {
+    finishQuiz(); return;
+  }
+  var q = pool[currentQuizIndex];
+  var pct = Math.round((currentQuizIndex/quizTotal)*100);
+  quizAnswered = false;
+
+  var card = document.getElementById('quiz-card');
+  card.innerHTML =
+    '<div class="quiz-qbar"><div class="quiz-qbar-fill" style="width:'+pct+'%"></div></div>' +
+    '<div class="quiz-icon">'+q.icon+'</div>' +
+    '<div class="quiz-q">'+q.q+'</div>' +
+    q.opts.map(function(opt,i){
+      return '<div class="quiz-opt" id="qo'+i+'" onclick="selectQ('+i+','+q.ok+')">' +
+        '<div class="quiz-opt-letter">'+['A','B','C','D'][i]+'</div>'+opt+'</div>';
+    }).join('') +
+    '<div class="quiz-spieg" id="qspieg">'+q.spieg+'</div>' +
+    '<button class="quiz-next" id="qnext" onclick="nextQ()">'+
+      (currentQuizIndex<quizTotal-1?'Prossima domanda →':'Vedi risultato 🎯')+'</button>';
+}
+
+window.selectQ = function(chosen, correct) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  if (chosen === correct) quizScore++;
+  var opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(function(o,i){
+    if (i===correct) o.classList.add('correct');
+    else if (i===chosen && chosen!==correct) o.classList.add('wrong');
+  });
+  document.getElementById('qspieg').classList.add('show');
+  document.getElementById('qnext').classList.add('show');
+  playS(chosen===correct?'success':'error');
+  if (navigator.vibrate) navigator.vibrate(chosen===correct?[20,10,40]:[80]);
+};
+
+window.nextQ = function() {
+  currentQuizIndex++;
+  renderQuiz();
+};
+
+function finishQuiz() {
+  var pct = Math.round((quizScore/quizTotal)*100);
+  var passed = pct >= 60;
+  var semi = passed ? 100 + quizScore*30 : 20;
+  var stelle = pct>=100?3:pct>=80?2:pct>=60?1:0;
+  G.coins += semi; G.xp += passed ? 30 : 5; G.totalLezioni++;
+  checkLevel(); updateHUD();
+  var card = document.getElementById('quiz-card');
+  card.innerHTML = '';
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'text-align:center;padding:10px 0';
+  var ic = document.createElement('div');
+  ic.style.cssText = 'font-size:4rem;margin-bottom:10px';
+  ic.textContent = passed ? '🎉' : '📚';
+  wrap.appendChild(ic);
+  var tl = document.createElement('div');
+  tl.style.cssText = 'font-size:1.1rem;font-weight:900;color:' + (passed ? '#FFD700' : '#f87171') + ';margin-bottom:6px';
+  tl.textContent = passed ? 'Ottimo lavoro!' : 'Riprova ancora!';
+  wrap.appendChild(tl);
+  var sc = document.createElement('div');
+  sc.style.cssText = 'font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:12px';
+  sc.textContent = quizScore + '/' + quizTotal + ' corrette - ' + pct + '%';
+  wrap.appendChild(sc);
+  var st = document.createElement('div');
+  st.style.cssText = 'font-size:1.8rem;margin-bottom:14px';
+  st.textContent = [1,2,3].map(function(s){return s<=stelle?'⭐':'☆';}).join('');
+  wrap.appendChild(st);
+  var rw = document.createElement('div');
+  rw.style.cssText = 'font-size:.88rem;color:#4ade80;font-weight:800;margin-bottom:16px';
+  rw.textContent = '+' + semi + ' Semi 🪙';
+  wrap.appendChild(rw);
+  var br = document.createElement('div');
+  br.style.cssText = 'display:flex;gap:8px';
+  var b1 = document.createElement('button');
+  b1.style.cssText = 'flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px;color:#fff;font-weight:700;font-size:.86rem;cursor:pointer';
+  b1.textContent = 'Chiudi';
+  b1.addEventListener('click',function(){document.getElementById('quiz-overlay').classList.remove('show');});
+  var b2 = document.createElement('button');
+  b2.style.cssText = 'flex:1;background:linear-gradient(135deg,#FFD700,#d97706);border:none;border-radius:14px;padding:12px;color:#1c0a00;font-weight:900;font-size:.86rem;cursor:pointer';
+  b2.textContent = passed ? 'Avanti!' : 'Riprova!';
+  b2.addEventListener('click',function(){openQuiz(currentQuizCategory);});
+  br.appendChild(b1); br.appendChild(b2); wrap.appendChild(br);
+  card.appendChild(wrap);
+  if (passed) {
+    playS('success');
+    if (navigator.vibrate) navigator.vibrate([50,30,50,30,100]);
+    if (G.totalLezioni % 3 === 0) {
+      setTimeout(function(){
+        showReward('🏆','Trofeo Sbloccato!','Hai completato '+G.totalLezioni+' quiz! Continua per sbloccare nuovi premi!');
+      }, 1000);
+    }
+  }
+}
+
+function checkLevel() {
+  var needed = G.level * 150;
+  while (G.xp >= needed) {
+    G.xp -= needed;
+    G.level++;
+    needed = G.level * 150;
+    toast('🎉 LIVELLO ' + G.level + '! Nuovi poteri sbloccati!');
+    spawnParticles();
+    playS('success');
+    if (navigator.vibrate) navigator.vibrate([50,30,100,30,150]);
+  }
+}
+
+function showReward(icon, title, desc) {
+  document.getElementById('rp-icon').textContent = icon;
+  document.getElementById('rp-title').textContent = title;
+  document.getElementById('rp-desc').textContent = desc;
+  document.getElementById('reward-popup').classList.add('show');
+  playS('success');
+  if (navigator.vibrate) navigator.vibrate([50,30,50,30,100]);
+}
+
+document.getElementById('rp-btn').addEventListener('click', function(){
+  document.getElementById('reward-popup').classList.remove('show');
+});
+
+// ── PARTICELLE ───────────────────────────────────────────
+function spawnParticles() {
+  var chars = ['🪙','⭐','✨','💰','🎯','🐉'];
+  var cx = window.innerWidth/2, cy = window.innerHeight/2;
+  for(var i=0;i<6;i++){
+    var el = document.createElement('div');
+    el.className = 'pfx';
+    el.textContent = chars[i%chars.length];
+    el.style.left = (cx + (Math.random()-0.5)*100-12) + 'px';
+    el.style.top  = (cy + (Math.random()-0.5)*60) + 'px';
+    el.style.animationDelay = (i*0.08)+'s';
+    document.body.appendChild(el);
+    setTimeout(function(){if(el.parentNode)el.remove();},1400);
+  }
+}
+
+// ── HUD & TOAST ──────────────────────────────────────────
+function updateHUD() {
+  document.getElementById('coins-hud').textContent = G.coins.toLocaleString('it');
+  document.getElementById('level-hud').textContent = G.level;
+  var xpPct = Math.min(100, Math.round((G.xp/(G.level*150))*100));
+  document.getElementById('xpfill').style.width = xpPct+'%';
+}
+
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+window.toast = toast;
+
+// ── AUDIO ────────────────────────────────────────────────
+var _ac = null;
+function getAC(){
+  if(!_ac){try{_ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  return _ac;
+}
+function playS(type){
+  var a=getAC(); if(!a)return;
+  try{
+    var sounds={
+      coin:[523,659], success:[523,659,784,1047],
+      click:[440], error:[220,180]
+    };
+    var freqs = sounds[type]||sounds.click;
+    var now=a.currentTime;
+    freqs.forEach(function(f,i){
+      var o=a.createOscillator(),g=a.createGain();
+      o.connect(g); g.connect(a.destination);
+      o.type='sine'; o.frequency.value=f;
+      g.gain.setValueAtTime(0.18,now+i*0.08);
+      g.gain.exponentialRampToValueAtTime(0.001,now+i*0.08+0.09);
+      o.start(now+i*0.08); o.stop(now+i*0.08+0.12);
+    });
+  }catch(e){}
+}
+['touchstart','click'].forEach(function(ev){
+  document.addEventListener(ev,function(){
+    var a=getAC(); if(a&&a.state==='suspended')a.resume();
+  },{once:true,passive:true});
+});
+
+// ── AVVIO ────────────────────────────────────────────────
+function start(){
+  if(typeof THREE === 'undefined'){
+    setTimeout(start, 200); return;
+  }
+  initThree();
+  updateHUD();
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', start);
+} else {
+  start();
+}
+
+})();
+</script>
+</body>
+</html>
