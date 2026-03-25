@@ -1,7 +1,13 @@
 {
   "rewrites": [
-    { "source": "/api/chat", "destination": "/api/chat.js" },
-    { "source": "/api/lesson", "destination": "/api/lesson.js" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api/chat",   "destination": "/API/chat.js"   },
+    { "source": "/api/lesson", "destination": "/API/lesson.js" }
+  ],
+  "routes": [
+    { "src": "/FinanzaLand_3D_Game.html",    "dest": "/FinanzaLand_3D_Game.html"    },
+    { "src": "/FinanzaLand_Investor_Page.html", "dest": "/FinanzaLand_Investor_Page.html" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "/sw.js",         "dest": "/sw.js"         },
+    { "src": "/(.*)",          "dest": "/index.html"    }
   ]
 }
