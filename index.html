@@ -1176,6 +1176,7 @@ var PERCORSI = [
   {id:'pensione',      label:'🧓 Pensione',        col:'#4ade80'},
   {id:'africa',        label:'🌍 Africa & BRVM',   col:'#4ade80'},
   {id:'bambini',       label:'👶 Bambini',         col:'#06b6d4'},
+  {id:'figli',         label:'🍼 Per i Tuoi Figli', col:'#f472b6'},
   {id:'crypto',        label:'₿ Crypto',           col:'#fb923c'},
   {id:'derivati',      label:'🎯 Derivati',        col:'#f87171'},
   {id:'psicologia',    label:'🧠 Psicologia',      col:'#a78bfa'},
@@ -2005,25 +2006,446 @@ function buildPopupPremiBase(body) {
 }
 
 function buildPopupFamiglia(body) {
-  body.innerHTML = '<div style="text-align:center;padding:10px 0 14px">' +
+
+  // ── TABS ──────────────────────────────────────────────
+  body.innerHTML = '';
+  var tabs = [
+    {id:'dashboard', label:'📊 Dashboard'},
+    {id:'figli',     label:'🍼 Risparmia per i Figli'},
+  ];
+  var activeTab = 'figli'; // apri direttamente sul nuovo modulo
+
+  function renderTab(tabId) {
+    activeTab = tabId;
+    tabBar.querySelectorAll('.fam-tab').forEach(function(t){
+      t.style.background = t.dataset.tab === tabId
+        ? 'rgba(255,215,0,.18)' : 'rgba(255,255,255,.05)';
+      t.style.color = t.dataset.tab === tabId ? 'var(--gold)' : 'rgba(255,255,255,.5)';
+      t.style.borderColor = t.dataset.tab === tabId
+        ? 'rgba(255,215,0,.4)' : 'rgba(255,255,255,.08)';
+    });
+    tabContent.innerHTML = '';
+    if (tabId === 'dashboard') buildFamDashboard(tabContent);
+    else buildFiglioCalc(tabContent);
+  }
+
+  var tabBar = document.createElement('div');
+  tabBar.style.cssText = 'display:flex;gap:6px;margin-bottom:14px';
+  tabs.forEach(function(tab){
+    var btn = document.createElement('button');
+    btn.className = 'fam-tab';
+    btn.dataset.tab = tab.id;
+    btn.textContent = tab.label;
+    btn.style.cssText = 'flex:1;padding:8px 4px;border-radius:10px;border:1px solid;' +
+      'font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.05);' +
+      'color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.08)';
+    btn.onclick = function(){ renderTab(tab.id); };
+    tabBar.appendChild(btn);
+  });
+  body.appendChild(tabBar);
+
+  var tabContent = document.createElement('div');
+  body.appendChild(tabContent);
+  renderTab(activeTab);
+}
+
+// ── DASHBOARD FAMIGLIA (versione compatta) ────────────────────
+function buildFamDashboard(container) {
+  container.innerHTML = '<div style="text-align:center;padding:10px 0 14px">' +
     '<div style="font-size:3rem;margin-bottom:8px">👨‍👩‍👧</div>' +
     '<div style="font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.6">' +
-      'Il pannello famiglia ti permette di monitorare i progressi dei tuoi figli, assegnare doveri con premi Semi e gestire i controlli parentali.' +
+    'Monitora i progressi dei tuoi figli, assegna doveri con premi Semi e gestisci i controlli parentali.' +
     '</div></div>';
   var features = [
     {em:'📊',t:'Report progressi figli',d:'Lezioni, Semi, streak'},
     {em:'✅',t:'Doveri con premi',d:'Compiti, lettura, sport = Semi'},
     {em:'🔒',t:'Controlli parentali',d:'Limite ore, contenuto approvato'},
     {em:'🎯',t:'Sfide famiglia',d:'Obiettivi condivisi con premi'},
-    {em:'📧',t:'Report settimanale',d:'Riepilogo via email ogni lunedi'},
+    {em:'📧',t:'Report settimanale',d:'Riepilogo via email ogni lunedì'},
   ];
   features.forEach(function(f){
     var el = document.createElement('div');
-    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;';
-    el.innerHTML = '<div style="font-size:1.8rem">' + f.em + '</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">' + f.t + '</div><div style="font-size:.74rem;color:var(--muted)">' + f.d + '</div></div><div style="margin-left:auto;font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:2px 7px">' + (S.isPro?'→':'👑 PRO') + '</div>';
-    el.addEventListener('click', function(){ if(!S.isPro){closePopup();openPopup('piani');toast('Piano Famiglia — attiva PRO!');}else{toast(f.t+' — disponibile prossimamente!');} });
-    body.appendChild(el);
+    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;' +
+      'padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;';
+    el.innerHTML = '<div style="font-size:1.8rem">' + f.em + '</div>' +
+      '<div><div style="font-size:.86rem;font-weight:700;color:#fff">' + f.t + '</div>' +
+      '<div style="font-size:.74rem;color:var(--muted)">' + f.d + '</div></div>' +
+      '<div style="margin-left:auto;font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);' +
+      'border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:2px 7px">' +
+      (S.isPro ? '→' : '👑 PRO') + '</div>';
+    el.addEventListener('click', function(){
+      if(!S.isPro){ closePopup(); openPopup('piani'); toast('Piano Famiglia — attiva PRO!'); }
+      else { toast(f.t + ' — disponibile prossimamente!'); }
+    });
+    container.appendChild(el);
   });
+}
+
+// ── MODULO RISPARMIA PER I FIGLI ──────────────────────────────
+function buildFiglioCalc(container) {
+
+  // Stato calcolatore
+  var calc = {
+    versamento: 100,
+    anni: 18,
+    tasso: 7,
+    tipo: 'etf',
+    risultato: 0,
+    versato: 0,
+    guadagno: 0,
+  };
+
+  function calcola() {
+    var n = calc.anni * 12;
+    var r = calc.tasso / 100 / 12;
+    if (r === 0) {
+      calc.risultato = calc.versamento * n;
+    } else {
+      calc.risultato = calc.versamento * (Math.pow(1 + r, n) - 1) / r;
+    }
+    calc.versato = calc.versamento * n;
+    calc.guadagno = calc.risultato - calc.versato;
+  }
+
+  function fmt(n) {
+    return new Intl.NumberFormat('it-IT', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(n);
+  }
+
+  calcola();
+
+  // ── RENDER ──────────────────────────────────────────────────
+  function render() {
+    calcola();
+    container.innerHTML = '';
+
+    // Titolo
+    var title = document.createElement('div');
+    title.style.cssText = 'text-align:center;margin-bottom:14px';
+    title.innerHTML =
+      '<div style="font-size:2.2rem">🍼</div>' +
+      '<div style="font-size:1rem;font-weight:900;color:var(--gold);margin:4px 0">Risparmia per i Tuoi Figli</div>' +
+      '<div style="font-size:.78rem;color:rgba(255,255,255,.6)">Costruisci il loro futuro fin da oggi</div>';
+    container.appendChild(title);
+
+    // ── SELETTORE STRUMENTO ──────────────────────────────────
+    var strumentiLabel = document.createElement('div');
+    strumentiLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
+      'letter-spacing:1px;margin-bottom:6px';
+    strumentiLabel.textContent = 'STRUMENTO DI INVESTIMENTO';
+    container.appendChild(strumentiLabel);
+
+    var strumenti = [
+      {id:'etf',    label:'📦 ETF Mondiale',   tasso:7,  desc:'iShares MSCI World, Vanguard All-World'},
+      {id:'pac',    label:'📈 PAC Fondi',       tasso:5,  desc:'Piano Accumulo Capitale — banca o broker'},
+      {id:'brvm',   label:'🌍 BRVM Africa',     tasso:9,  desc:'Borsa Africa Occidentale — alto potenziale'},
+      {id:'cd',     label:'🏦 Conto Deposito',  tasso:3,  desc:'Banca — sicuro, rendimento basso'},
+    ];
+
+    var strGrid = document.createElement('div');
+    strGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px';
+    strumenti.forEach(function(s){
+      var btn = document.createElement('div');
+      var isActive = calc.tipo === s.id;
+      btn.style.cssText = 'padding:9px 10px;border-radius:12px;cursor:pointer;' +
+        'border:2px solid ' + (isActive ? 'var(--gold)' : 'rgba(255,255,255,.1)') + ';' +
+        'background:' + (isActive ? 'rgba(255,215,0,.1)' : 'rgba(255,255,255,.04)') + ';' +
+        'transition:all .2s';
+      btn.innerHTML =
+        '<div style="font-size:.82rem;font-weight:800;color:' + (isActive?'var(--gold)':'#fff') + '">' + s.label + '</div>' +
+        '<div style="font-size:.65rem;color:var(--muted);margin-top:2px">' + s.desc + '</div>' +
+        '<div style="font-size:.72rem;color:' + (isActive?'var(--gold)':'#4ade80') + ';font-weight:700;margin-top:3px">~' + s.tasso + '%/anno</div>';
+      btn.onclick = function(){
+        calc.tipo = s.id;
+        calc.tasso = s.tasso;
+        render();
+      };
+      strGrid.appendChild(btn);
+    });
+    container.appendChild(strGrid);
+
+    // ── SLIDER VERSAMENTO MENSILE ────────────────────────────
+    function makeSlider(labelText, key, min, max, step, unit) {
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'margin-bottom:12px';
+
+      var labelRow = document.createElement('div');
+      labelRow.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:6px';
+      var lbl = document.createElement('span');
+      lbl.style.cssText = 'font-size:.72rem;font-weight:700;color:rgba(255,255,255,.7)';
+      lbl.textContent = labelText;
+      var val = document.createElement('span');
+      val.style.cssText = 'font-size:.85rem;font-weight:900;color:var(--gold)';
+      val.textContent = unit === '€' ? fmt(calc[key]).replace('€','') + ' €' : calc[key] + ' ' + unit;
+      labelRow.appendChild(lbl);
+      labelRow.appendChild(val);
+      wrap.appendChild(labelRow);
+
+      var slider = document.createElement('input');
+      slider.type = 'range';
+      slider.min = min; slider.max = max; slider.step = step;
+      slider.value = calc[key];
+      slider.style.cssText = 'width:100%;accent-color:var(--gold);height:4px;cursor:pointer';
+      slider.oninput = function(){
+        calc[key] = parseFloat(this.value);
+        val.textContent = unit === '€'
+          ? new Intl.NumberFormat('it-IT').format(calc[key]) + ' €'
+          : calc[key] + ' ' + unit;
+        updateResults();
+      };
+      wrap.appendChild(slider);
+      container.appendChild(wrap);
+    }
+
+    makeSlider('Versamento mensile', 'versamento', 10, 500, 10, '€');
+    makeSlider('Durata (anni)', 'anni', 1, 25, 1, 'anni');
+    makeSlider('Rendimento annuo stimato (%)', 'tasso', 1, 15, 0.5, '%');
+
+    // ── RISULTATO ────────────────────────────────────────────
+    var resultBox = document.createElement('div');
+    resultBox.id = 'calc-result-box';
+
+    function updateResults() {
+      calcola();
+      var esistente = document.getElementById('calc-result-box');
+      if (!esistente) return;
+      renderResults(esistente);
+    }
+
+    function renderResults(box) {
+      box.innerHTML = '';
+      box.style.cssText =
+        'background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));' +
+        'border:2px solid rgba(255,215,0,.3);border-radius:16px;padding:14px;' +
+        'margin-top:12px;text-align:center';
+
+      var emoji = calc.risultato > 50000 ? '🏆' : calc.risultato > 20000 ? '🌟' : '🌱';
+      box.innerHTML =
+        '<div style="font-size:2rem;margin-bottom:4px">' + emoji + '</div>' +
+        '<div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-bottom:6px">' +
+          'Capitale stimato dopo ' + calc.anni + ' anni' +
+        '</div>' +
+        '<div style="font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:10px">' +
+          fmt(calc.risultato) +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+          '<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:8px">' +
+            '<div style="font-size:.65rem;color:var(--muted)">💰 Versato</div>' +
+            '<div style="font-size:.88rem;font-weight:800;color:#fff">' + fmt(calc.versato) + '</div>' +
+          '</div>' +
+          '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px">' +
+            '<div style="font-size:.65rem;color:var(--muted)">✨ Interesse composto</div>' +
+            '<div style="font-size:.88rem;font-weight:800;color:#4ade80">' + fmt(calc.guadagno) + '</div>' +
+          '</div>' +
+        '</div>' +
+        // Barra visiva versato vs guadagno
+        (function(){
+          var pct = Math.round((calc.versato / calc.risultato) * 100);
+          return '<div style="height:8px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;margin-bottom:8px">' +
+            '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#60a5fa,#a78bfa);border-radius:6px;transition:width .5s"></div>' +
+          '</div>' +
+          '<div style="font-size:.65rem;color:rgba(255,255,255,.5)">' +
+            '<span style="color:#60a5fa">■</span> Versato ' + pct + '% &nbsp;' +
+            '<span style="color:#4ade80">■</span> Interessi ' + (100-pct) + '%' +
+          '</div>';
+        })() +
+        '<div style="margin-top:10px;font-size:.72rem;color:rgba(255,255,255,.4);font-style:italic">' +
+          'Solo a scopo educativo — non è un consiglio finanziario' +
+        '</div>';
+    }
+
+    renderResults(resultBox);
+    container.appendChild(resultBox);
+
+    // Aggiorna risultato sui slider
+    var sliders = container.querySelectorAll('input[type=range]');
+    sliders.forEach(function(sl){
+      var origInput = sl.oninput;
+      sl.oninput = function(){
+        if (origInput) origInput.call(this);
+        renderResults(document.getElementById('calc-result-box'));
+      };
+    });
+
+    // ── LEZIONI RAPIDE ───────────────────────────────────────
+    var lessonsLabel = document.createElement('div');
+    lessonsLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
+      'letter-spacing:1px;margin:14px 0 8px';
+    lessonsLabel.textContent = 'IMPARA CON L\'AI';
+    container.appendChild(lessonsLabel);
+
+    var lezioni = [
+      {icon:'📦', titolo:'ETF per bambini',       topic:'come aprire un ETF per i propri figli, iShares MSCI World, rendimenti storici'},
+      {icon:'📈', titolo:'PAC — Piano di Accumulo', topic:'cos\'è un PAC Piano Accumulo Capitale, come funziona, broker consigliati'},
+      {icon:'🌍', titolo:'BRVM per i figli',        topic:'come investire in azioni BRVM Africa per i propri figli, rendimenti storici Africa Occidentale'},
+      {icon:'🧮', titolo:'Regola delle 72',          topic:'regola del 72 spiegata semplice, quanto tempo raddoppia il capitale, esempi pratici'},
+    ];
+
+    lezioni.forEach(function(l){
+      var card = document.createElement('div');
+      card.style.cssText =
+        'background:var(--card);border:1px solid var(--border);border-radius:12px;' +
+        'padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;' +
+        'transition:border-color .2s';
+      card.innerHTML =
+        '<div style="font-size:1.6rem">' + l.icon + '</div>' +
+        '<div style="flex:1">' +
+          '<div style="font-size:.86rem;font-weight:700;color:#fff">' + l.titolo + '</div>' +
+          '<div style="font-size:.7rem;color:var(--muted)">Tocca per generare lezione AI</div>' +
+        '</div>' +
+        '<div style="font-size:.75rem;color:var(--gold);font-weight:700">→</div>';
+      card.onmouseenter = function(){ this.style.borderColor = 'rgba(255,215,0,.3)'; };
+      card.onmouseleave = function(){ this.style.borderColor = 'var(--border)'; };
+      card.onclick = function(){
+        closePopup();
+        // Imposta percorso "Per i Tuoi Figli" e vai all'Accademia
+        var percFigli = PERCORSI.find(function(p){ return p.id === 'figli'; });
+        if (percFigli) currentPercorso = percFigli;
+        showScreen('accademia');
+        setNav('bn-acc');
+        buildAccademia();
+        setTimeout(function(){
+          // Pre-compila il campo di ricerca con l'argomento
+          var inp = document.getElementById('gen-topic-inp');
+          if (inp) {
+            inp.value = l.topic;
+            inp.dispatchEvent(new Event('input'));
+          }
+          toast('🍼 Argomento selezionato: ' + l.titolo);
+        }, 400);
+      };
+      container.appendChild(card);
+    });
+
+    // ── CONSIGLIO FINALE ─────────────────────────────────────
+    var tip = document.createElement('div');
+    tip.style.cssText =
+      'background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);' +
+      'border-radius:12px;padding:12px;margin-top:8px;font-size:.78rem;' +
+      'color:rgba(255,255,255,.8);line-height:1.6';
+    tip.innerHTML =
+      '💡 <b>Il segreto dell\'interesse composto:</b> iniziare presto conta più di quanto ' +
+      'si versa. 50€/mese per 18 anni a 7% = circa 21.000€. Aspettare 5 anni in più ' +
+      'significa perdere migliaia di euro in interessi. <i>Inizia oggi, anche con poco.</i>';
+    container.appendChild(tip);
+
+    // ── INFLAZIONE — BANCA vs BORSA ──────────────────────────
+    var infLabel = document.createElement('div');
+    infLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
+      'letter-spacing:1px;margin:14px 0 8px';
+    infLabel.textContent = '⚠️ PERCHÉ LA BANCA NON BASTA';
+    container.appendChild(infLabel);
+
+    // Comparazione visiva 3 scenari su 18 anni
+    var scenari = [
+      {
+        label:'🏦 Banca / Conto deposito',
+        tasso: 2.5,
+        inflazione: 3.0,
+        colore:'#f87171',
+        rischio:'PERDE potere d\'acquisto',
+        spieg:'Interessi: ~2.5%/anno. Inflazione: ~3%/anno. Il risultato? I tuoi soldi valgono MENO ogni anno. Con 100€/mese per 18 anni ottieni ~24.000€ ma ci compri meno di oggi.',
+      },
+      {
+        label:'📋 Assicurazione Vita Mista',
+        tasso: 2.0,
+        inflazione: 3.0,
+        colore:'#fb923c',
+        rischio:'COSTI NASCOSTI elevati',
+        spieg:'Rendimento lordo ~2-3% ma dopo commissioni, caricamenti e premi assicurativi il rendimento NETTO scende spesso a 1-1.5%. Inoltre il capitale è bloccato per anni. Utile solo in casi specifici.',
+      },
+      {
+        label:'📦 ETF Mondiale (borsa)',
+        tasso: 7.0,
+        inflazione: 3.0,
+        colore:'#4ade80',
+        rischio:'BATTE l\'inflazione nel tempo',
+        spieg:'Storico S&P 500 / MSCI World: ~7-10%/anno medio su 20+ anni. Con 100€/mese per 18 anni → ~43.000€. La borsa ha periodi negativi ma nel LUNGO TERMINE ha sempre recuperato e superato inflazione.',
+      },
+    ];
+
+    scenari.forEach(function(s) {
+      // Calcola risultato reale (corretto per inflazione)
+      var n = 18 * 12;
+      var r = s.tasso / 100 / 12;
+      var nominale = r === 0 ? 100*n : 100 * (Math.pow(1+r,n)-1)/r;
+      var rReale = (s.tasso - s.inflazione) / 100 / 12;
+      var reale = rReale <= 0 ? 100*n*(1 - s.inflazione/100*18) : 100 * (Math.pow(1+rReale,n)-1)/rReale;
+
+      var card = document.createElement('div');
+      card.style.cssText =
+        'background:rgba(255,255,255,.04);border:2px solid ' + s.colore + '33;' +
+        'border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer;' +
+        'transition:all .2s';
+      card.innerHTML =
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
+          '<div style="font-size:.85rem;font-weight:800;color:#fff">' + s.label + '</div>' +
+          '<div style="font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:8px;' +
+            'background:' + s.colore + '22;color:' + s.colore + ';border:1px solid ' + s.colore + '44">' +
+            s.rischio +
+          '</div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">' +
+          '<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:7px;text-align:center">' +
+            '<div style="font-size:.62rem;color:var(--muted)">100€/mese × 18 anni</div>' +
+            '<div style="font-size:.95rem;font-weight:900;color:' + s.colore + '">' +
+              new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(nominale) +
+            '</div>' +
+            '<div style="font-size:.6rem;color:var(--muted)">valore nominale</div>' +
+          '</div>' +
+          '<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:7px;text-align:center">' +
+            '<div style="font-size:.62rem;color:var(--muted)">Potere d\'acquisto reale</div>' +
+            '<div style="font-size:.95rem;font-weight:900;color:' + (reale > 100*n ? '#4ade80' : '#f87171') + '">' +
+              new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Math.max(reale,0)) +
+            '</div>' +
+            '<div style="font-size:.6rem;color:var(--muted)">dopo inflazione ' + s.inflazione + '%</div>' +
+          '</div>' +
+        '</div>' +
+        // Barra rendimento
+        '<div style="height:6px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin-bottom:6px">' +
+          '<div style="height:100%;width:' + Math.min(Math.max(s.tasso/12*100,5),100) + '%;' +
+            'background:' + s.colore + ';border-radius:4px;transition:width .6s"></div>' +
+        '</div>' +
+        // Spiegazione (toggle)
+        '<div class="inf-spieg" style="display:none;font-size:.75rem;color:rgba(255,255,255,.75);' +
+          'line-height:1.55;margin-top:4px;border-top:1px solid rgba(255,255,255,.08);padding-top:8px">' +
+          s.spieg +
+        '</div>' +
+        '<div style="font-size:.68rem;color:var(--muted);text-align:right">Tocca per dettagli ↓</div>';
+
+      card.onclick = function() {
+        var spieg = this.querySelector('.inf-spieg');
+        var isOpen = spieg.style.display !== 'none';
+        spieg.style.display = isOpen ? 'none' : 'block';
+        this.querySelector(':last-child').textContent = isOpen ? 'Tocca per dettagli ↓' : 'Chiudi ↑';
+        this.style.borderColor = isOpen ? s.colore + '33' : s.colore;
+      };
+      container.appendChild(card);
+    });
+
+    // Box conclusione
+    var conclusione = document.createElement('div');
+    conclusione.style.cssText =
+      'background:linear-gradient(135deg,rgba(74,222,128,.1),rgba(255,215,0,.06));' +
+      'border:2px solid rgba(74,222,128,.3);border-radius:14px;padding:12px;margin-bottom:10px';
+    conclusione.innerHTML =
+      '<div style="font-size:.85rem;font-weight:900;color:#4ade80;margin-bottom:6px">' +
+        '✅ La vera sicurezza = battere l\'inflazione' +
+      '</div>' +
+      '<div style="font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.6">' +
+        'Non tenere soldi fermi in banca <b>non è sicuro</b> — è il modo più lento di perdere soldi. ' +
+        'La vera sicurezza è che i tuoi risparmi crescano <b>più velocemente dell\'inflazione</b>. ' +
+        'Sul lungo termine (10+ anni), un ETF diversificato ha sempre battuto l\'inflazione. ' +
+        '<b>Per i figli, il tempo è il tuo miglior alleato.</b>' +
+      '</div>';
+    container.appendChild(conclusione);
+
+    var disclaimer = document.createElement('div');
+    disclaimer.style.cssText = 'font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:10px';
+    disclaimer.textContent = 'Solo a scopo educativo — non è un consiglio finanziario o di investimento';
+    container.appendChild(disclaimer);
+  }
+
+  render();
 }
 
 // ═══════════════════════════════════════════════════════
