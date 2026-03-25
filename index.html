@@ -744,30 +744,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
         <div class="home-stats">
           <div class="home-stat">
             <div class="home-stat-val" id="stat-lezioni">∞</div>
-            <div class="home-stat-lbl">Lezioni AI</div>
+            <div class="home-stat-lbl" id="lbl-lezioni">Lezioni AI</div>
           </div>
           <div class="home-stat">
             <div class="home-stat-val" id="stat-streak">0🔥</div>
-            <div class="home-stat-lbl">Streak</div>
+            <div class="home-stat-lbl" id="lbl-streak">Streak</div>
           </div>
           <div class="home-stat">
             <div class="home-stat-val" id="stat-coins">0</div>
-            <div class="home-stat-lbl">Semi</div>
+            <div class="home-stat-lbl" id="lbl-semi">Semi</div>
           </div>
           <div class="home-stat">
             <div class="home-stat-val" id="stat-lv">1</div>
-            <div class="home-stat-lbl">Livello</div>
+            <div class="home-stat-lbl" id="lbl-livello">Livello</div>
           </div>
         </div>
         <div class="home-btns">
-          <button class="home-btn btn-primary" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
-          <button class="home-btn btn-3d" onclick="window.location.href='FinanzaLand_3D_Game.html'">🎮 Gioco Avventura Bambini</button>
-          <button class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(6,182,212,.2),rgba(167,139,250,.15));border:2px solid rgba(6,182,212,.5);color:#fff;font-size:.95rem">👶 Zona Bambini — Tocca e Gioca!</button>
-          <button class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti Adulti</button>
-          <button class="home-btn btn-secondary" onclick="showScreen('academy');setNav('bn-academy');buildAcademy('live')" style="background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(6,182,212,.08));border:1.5px solid rgba(74,222,128,.4);color:var(--green)">🎓 Academy — Professori Live</button>
-          <button class="home-btn btn-secondary" onclick="openPopup('piani')">👑 Diventa PRO</button>
-          <button class="home-btn" onclick="showScreen('muro-sociale');setNav('bn-muro')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(74,222,128,.1));border:2px solid rgba(6,182,212,.45);color:var(--teal);font-size:.95rem">🌍 Muro Sociale — Gioca con il Mondo</button>
-          <button class="home-btn btn-secondary" onclick="shareApp()"  style="background:rgba(96,165,250,.1);border:1.5px solid rgba(96,165,250,.3);color:#60a5fa">↗️ Condividi FinanzaLand</button>
+          <button id="btn-accademia" class="home-btn btn-primary" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
+          <button id="btn-3d" class="home-btn btn-3d" onclick="window.location.href='FinanzaLand_3D_Game.html'">🎮 Gioco Avventura Bambini</button>
+          <button id="btn-kids" class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(6,182,212,.2),rgba(167,139,250,.15));border:2px solid rgba(6,182,212,.5);color:#fff;font-size:.95rem">👶 Zona Bambini — Tocca e Gioca!</button>
+          <button id="btn-adulti" class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti Adulti</button>
+          <button id="btn-academy-main" class="home-btn btn-secondary" onclick="showScreen('academy');setNav('bn-academy');buildAcademy('live')" style="background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(6,182,212,.08));border:1.5px solid rgba(74,222,128,.4);color:var(--green)">🎓 Academy — Professori Live</button>
+          <button id="btn-pro" class="home-btn btn-secondary" onclick="openPopup('piani')">👑 Diventa PRO</button>
+          <button id="btn-muro" class="home-btn" onclick="showScreen('muro-sociale');setNav('bn-muro')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(74,222,128,.1));border:2px solid rgba(6,182,212,.45);color:var(--teal);font-size:.95rem">🌍 Muro Sociale — Gioca con il Mondo</button>
+          <button id="btn-share" class="home-btn btn-secondary" onclick="shareApp()"  style="background:rgba(96,165,250,.1);border:1.5px solid rgba(96,165,250,.3);color:#60a5fa">↗️ Condividi FinanzaLand</button>
         </div>
       </div>
     </div>
@@ -3403,6 +3403,8 @@ var TRANSLATIONS = {
     /* NAV */
     nav_home:'Home', nav_lezioni:'Lezioni', nav_mercati:'Mercati',
     nav_premi:'Premi', nav_famiglia:'Famiglia', nav_academy:'Academy', nav_muro:'Muro',
+    /* STATS */
+    lbl_lezioni:'Lezioni AI', lbl_streak:'Streak', lbl_semi:'Semi', lbl_livello:'Livello',
     /* LEZIONI */
     acc_title:'📚 Accademia', acc_ai:'🤖 AI',
     gen_placeholder:'es. come funziona un mutuo, criptovalute...',
@@ -3466,6 +3468,8 @@ var TRANSLATIONS = {
     btn_share:'↗️ Partager FinanzaLand',
     nav_home:'Accueil', nav_lezioni:'Cours', nav_mercati:'Marches',
     nav_premi:'Prix', nav_famille:'Famille', nav_academy:'Academy', nav_muro:'Mur',
+    /* STATS */
+    lbl_lezioni:'Leçons IA', lbl_streak:'Série', lbl_semi:'Graines', lbl_livello:'Niveau',
     acc_title:'📚 Academie', acc_ai:'🤖 IA',
     gen_placeholder:'ex. comment fonctionne un pret, crypto...',
     gen_btn:'🚀 Generer Cours avec IA',
@@ -3520,6 +3524,8 @@ var TRANSLATIONS = {
     btn_share:'↗️ Share FinanzaLand',
     nav_home:'Home', nav_lezioni:'Lessons', nav_mercati:'Markets',
     nav_premi:'Prizes', nav_famiglia:'Family', nav_academy:'Academy', nav_muro:'Wall',
+    /* STATS */
+    lbl_lezioni:'AI Lessons', lbl_streak:'Streak', lbl_semi:'Seeds', lbl_livello:'Level',
     acc_title:'📚 Academy', acc_ai:'🤖 AI',
     gen_placeholder:'e.g. how does a mortgage work, crypto basics...',
     gen_btn:'🚀 Generate Lesson with AI',
@@ -3574,6 +3580,8 @@ var TRANSLATIONS = {
     btn_share:'↗️ Compartir FinanzaLand',
     nav_home:'Inicio', nav_lezioni:'Lecciones', nav_mercati:'Mercados',
     nav_premi:'Premios', nav_famiglia:'Familia', nav_academy:'Academy', nav_muro:'Muro',
+    /* STATS */
+    lbl_lezioni:'Lecciones IA', lbl_streak:'Racha', lbl_semi:'Semillas', lbl_livello:'Nivel',
     acc_title:'📚 Academia', acc_ai:'🤖 IA',
     gen_placeholder:'ej. como funciona una hipoteca, cripto...',
     gen_btn:'🚀 Generar Leccion con IA',
@@ -3628,6 +3636,8 @@ var TRANSLATIONS = {
     btn_share:'↗️ Samp FinanzaLand',
     nav_home:'Keur', nav_lezioni:'Cosaan', nav_mercati:'Marche',
     nav_premi:'Njariign', nav_famille:'Mbokk', nav_academy:'Academy', nav_muro:'Ndar',
+    /* STATS */
+    lbl_lezioni:'Jàng IA', lbl_streak:'Suite', lbl_semi:'Gerte', lbl_livello:'Nivo',
     acc_title:'📚 Cosaan', acc_ai:'🤖 IA',
     gen_placeholder:'lox ci xaalis, jariign...',
     gen_btn:'🚀 Def Cosaan ak IA',
@@ -3697,22 +3707,43 @@ function setLang(lang, btnEl) {
 
   // Aggiorna bottoni home
   var btnMap = {
-    'accademia-main-btn':  t.btn_accademia,
-    'btn3d-main':          t.btn_3d,
+    'btn-accademia':      t.btn_accademia,
+    'btn-3d':             t.btn_3d,
+    'btn-kids':           t.btn_kids,
+    'btn-adulti':         t.btn_adulti,
+    'btn-academy-main':   t.btn_academy,
+    'btn-pro':            t.btn_pro,
+    'btn-muro':           t.btn_muro,
+    'btn-share':          t.btn_share || '↗️ Condividi FinanzaLand',
+    'accademia-main-btn': t.btn_accademia,
+    'btn3d-main':         t.btn_3d,
   };
   Object.keys(btnMap).forEach(function(id){
     var el = document.getElementById(id);
     if (el) el.textContent = btnMap[id];
   });
 
+  // Aggiorna label statistiche home
+  var statMap = {
+    'lbl-lezioni': t.lbl_lezioni || 'Lezioni AI',
+    'lbl-streak':  t.lbl_streak  || 'Streak',
+    'lbl-semi':    t.lbl_semi    || 'Semi',
+    'lbl-livello': t.lbl_livello || 'Livello',
+  };
+  Object.keys(statMap).forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = statMap[id];
+  });
+
   // Aggiorna nav labels
   var navMap = {
-    'bn-home':    '🏠 ' + t.nav_home,
-    'bn-acc':     '📚 ' + (t.nav_lezioni||t.acc_title||'Lezioni'),
-    'bn-mercati': '🌍 ' + t.nav_mercati,
-    'bn-premi':   '🏆 ' + t.nav_premi,
-    'bn-academy': '🎓 ' + t.nav_academy,
-    'bn-muro':    '🌍 ' + t.nav_muro,
+    'bn-home':     '🏠 ' + t.nav_home,
+    'bn-acc':      '📚 ' + (t.nav_lezioni||t.acc_title||'Lezioni'),
+    'bn-mercati':  '🌍 ' + t.nav_mercati,
+    'bn-premi':    '🏆 ' + t.nav_premi,
+    'bn-famiglia': '👪 ' + (t.nav_famiglia || t.nav_famille || 'Famiglia'),
+    'bn-academy':  '🎓 ' + t.nav_academy,
+    'bn-muro':     '🌍 ' + t.nav_muro,
   };
   Object.keys(navMap).forEach(function(id){
     var el = document.getElementById(id);
