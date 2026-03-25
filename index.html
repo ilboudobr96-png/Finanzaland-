@@ -3723,6 +3723,26 @@ function setLang(lang, btnEl) {
     if (el) el.textContent = btnMap[id];
   });
 
+  // FALLBACK ROBUSTO — funziona anche senza ID
+  // Seleziona i bottoni per ordine dentro .home-btns
+  var homeContainer = document.querySelector('.home-btns');
+  if (homeContainer) {
+    var allBtns = homeContainer.querySelectorAll('button, .home-btn');
+    var btnTexts = [
+      t.btn_accademia,
+      t.btn_3d,
+      t.btn_kids,
+      t.btn_adulti,
+      t.btn_academy,
+      t.btn_pro,
+      t.btn_muro,
+      t.btn_share || '↗️ Condividi FinanzaLand',
+    ];
+    allBtns.forEach(function(btn, i) {
+      if (btnTexts[i]) btn.textContent = btnTexts[i];
+    });
+  }
+
   // Aggiorna label statistiche home
   var statMap = {
     'lbl-lezioni': t.lbl_lezioni || 'Lezioni AI',
@@ -3733,6 +3753,17 @@ function setLang(lang, btnEl) {
   Object.keys(statMap).forEach(function(id){
     var el = document.getElementById(id);
     if (el) el.textContent = statMap[id];
+  });
+  // Fallback stat labels per ordine
+  var statLabels = document.querySelectorAll('.home-stat-lbl');
+  var statTexts = [
+    t.lbl_lezioni || 'Lezioni AI',
+    t.lbl_streak  || 'Streak',
+    t.lbl_semi    || 'Semi',
+    t.lbl_livello || 'Livello',
+  ];
+  statLabels.forEach(function(el, i) {
+    if (statTexts[i]) el.textContent = statTexts[i];
   });
 
   // Aggiorna nav labels
@@ -3755,6 +3786,16 @@ function setLang(lang, btnEl) {
         if (icon) icon.textContent = parts[0];
         lbl.textContent = parts.slice(1).join(' ');
       }
+    }
+  });
+  // Fallback nav — cerca per contenuto attuale se ID non trovato
+  document.querySelectorAll('.bottom-nav .bn-lbl, .nav-bar .bn-lbl').forEach(function(lbl) {
+    var parent = lbl.closest('[id]');
+    if (!parent) return;
+    var pid = parent.id;
+    if (navMap[pid]) {
+      var parts = navMap[pid].split(' ');
+      lbl.textContent = parts.slice(1).join(' ');
     }
   });
 
