@@ -945,7 +945,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
           style="background:rgba(255,255,255,.1);border:none;border-radius:8px;
           padding:5px 12px;color:#fff;font-size:.78rem;cursor:pointer">← Torna</button>
         <div style="flex:1;font-weight:900;color:var(--gold);font-size:1rem">
-          🐉 Ciao! Cosa vuoi fare?</div>
+          <span data-i18n="kids_cosa_fare">🐉 Ciao! Cosa vuoi fare?</span></div>
         <div id="kids-coins" style="background:rgba(255,215,0,.15);border:1.5px solid rgba(255,215,0,.5);
           border-radius:20px;padding:4px 12px;color:var(--gold);font-weight:900;font-size:.9rem">🪙 0</div>
       </div>
@@ -965,7 +965,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
         <div style="margin-top:12px">
           <div style="font-size:.72rem;font-weight:800;letter-spacing:2px;
             color:var(--muted);text-transform:uppercase;margin-bottom:10px">
-            🎮 Cosa vuoi fare oggi?</div>
+            <span data-i18n="kids_oggi">🎮 Cosa vuoi fare oggi?</span></div>
           <div class="minigame-grid" id="kids-sections-grid"></div>
         </div>
 
@@ -1291,30 +1291,32 @@ async function generateLesson(topic, percorso, livello, eta, forceNew) {
 }
 
 function makeFallbackLesson(topic, percorso, livello) {
+  var tf = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  function t(key){ return (tf[key]||'').replace(/{topic}/g, topic); }
   return {
     id: topic.toLowerCase().replace(/\s+/g,'-'),
     titolo: topic,
-    sottotitolo: 'Impara ' + topic + ' con FinanzaLand',
+    sottotitolo: t('fallback_sottotitolo') || ('Impara ' + topic + ' con FinanzaLand'),
     emoji: '📚',
     colore: '#FFD700',
     livello: livello,
     tempo_minuti: 5,
     punti_chiave: [
-      topic + ' e un concetto fondamentale della finanza personale.',
-      'Comprendere ' + topic + ' ti aiuta a gestire meglio i tuoi soldi.',
-      'Applica questo concetto nella tua vita quotidiana per vedere i risultati.',
+      t('fallback_chiave1') || (topic + ' è un concetto fondamentale della finanza personale.'),
+      t('fallback_chiave2') || ('Comprendere ' + topic + ' ti aiuta a gestire meglio i tuoi soldi.'),
+      t('fallback_chiave3') || ('Applica questo concetto nella tua vita quotidiana per vedere i risultati.'),
     ],
-    esempio_pratico: 'Pensa a come ' + topic + ' si applica nella tua vita di tutti i giorni.',
-    dato_reale: 'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
+    esempio_pratico: t('fallback_esempio') || ('Pensa a come ' + topic + ' si applica nella tua vita di tutti i giorni.'),
+    dato_reale: t('fallback_dato') || 'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
     collegamento_africa: null,
     quiz: [
       {domanda:'Hai capito il concetto di '+topic+'?',opzioni:['Si, molto bene','Abbastanza','Poco','No'],risposta_corretta:0,spiegazione:'Ottimo! Continua a studiare per approfondire.'},
       {domanda:'Come applicheresti '+topic+' nella vita reale?',opzioni:['Subito','Tra qualche giorno','Non so','Non mi serve'],risposta_corretta:0,spiegazione:'Applicare subito quello che impari e il modo migliore per imparare davvero.'},
       {domanda:'Quanto e importante '+topic+' per la tua salute finanziaria?',opzioni:['Fondamentale','Utile','Poco utile','Non utile'],risposta_corretta:0,spiegazione:topic+' e uno dei pilastri della liberta finanziaria.'},
     ],
-    sfida_vita_reale: 'Questa settimana: rifletti su come ' + topic + ' influenza le tue decisioni finanziarie quotidiane.',
+    sfida_vita_reale: t('fallback_sfida') || ('Questa settimana: rifletti su come ' + topic + ' influenza le tue decisioni finanziarie quotidiane.'),
     semi_reward: 80,
-    disclaimer: 'Solo a scopo educativo — non è un consiglio finanziario',
+    disclaimer: tf.disclaimer || 'Solo a scopo educativo — non è un consiglio finanziario',
   };
 }
 
@@ -1792,9 +1794,13 @@ function buildAdulti() {
 // POPUP SYSTEM
 // ═══════════════════════════════════════════════════════
 function openPopup(tipo) {
+  var tpop = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
   var titles = {
-    piani:'👑 Piani Abbonamento', account:'👤 Account', mercati:'🌍 Mercati Globali',
-    premi:'🏆 Premi', famiglia:'👨‍👩‍👧 Pannello Famiglia',
+    piani:    '👑 '+(tpop.popup_piani   ||'Piani Abbonamento'),
+    account:  '👤 '+(tpop.popup_account ||'Account'),
+    mercati:  '🌍 '+(tpop.popup_mercati ||'Mercati Globali'),
+    premi:    '🏆 '+(tpop.popup_premi   ||'Premi'),
+    famiglia: '👨‍👩‍👧 '+(tpop.popup_famiglia||'Pannello Famiglia'),
   };
   document.getElementById('popup-title').textContent = titles[tipo]||tipo;
   var body = document.getElementById('popup-body');
@@ -2771,6 +2777,23 @@ var TRANSLATIONS = {
     sec_dato:'Dato Reale', sec_africa:'Mercati Africani',
     sec_sfida:'Sfida Vita Reale',
     footer_ai:'🤖 Lezioni generate da Claude AI in tempo reale — non sono consigli finanziari',
+    kids_sec_memoria:'🎴 Memoria dei Soldi', kids_sec_memoria_desc:'Abbina le coppie!',
+    kids_sec_quiz:'⚡ Quiz Veloce', kids_sec_quiz_desc:'Rispondi in 10 sec!',
+    kids_sec_impara:'📚 Impara', kids_sec_impara_desc:'Lezioni con AI',
+    kids_sec_drago:'🐉 Il mio Drago', kids_sec_drago_desc:'Personalizza!',
+    kids_sec_avventura:'🎮 Gioco Avventura', kids_sec_avventura_desc:'Isola Avventura',
+    kids_sec_trofei:'🏆 I miei Trofei', kids_sec_trofei_desc:'Cosa hai vinto',
+    kids_personalizza:(TRANSLATIONS[S.lang]||TRANSLATIONS['it']).kids_personalizza||'Tocca per personalizzare!',
+    kids_cosa_fare:'🐉 Ciao! Cosa vuoi fare?',
+    kids_oggi:'🎮 Cosa vuoi fare oggi?',
+    fallback_sottotitolo:'Impara {topic} con FinanzaLand',
+    fallback_chiave1:'{topic} è un concetto fondamentale della finanza personale.',
+    fallback_chiave2:'Comprendere {topic} ti aiuta a gestire meglio i tuoi soldi.',
+    fallback_chiave3:'Applica questo concetto nella tua vita quotidiana per vedere i risultati.',
+    fallback_esempio:'Pensa a come {topic} si applica nella tua vita di tutti i giorni.',
+    fallback_dato:'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
+    fallback_sfida:'Questa settimana: rifletti su come {topic} influenza le tue decisioni finanziarie quotidiane.',
+    popup_piani:'Piani Abbonamento', popup_account:'Account', popup_mercati:'Mercati Globali', popup_premi:'Premi', popup_famiglia:'Pannello Famiglia',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -2852,6 +2875,23 @@ var TRANSLATIONS = {
     sec_dato:'Donnée Réelle', sec_africa:'Marchés Africains',
     sec_sfida:'Défi Vie Réelle',
     footer_ai:'🤖 Cours générés par Claude IA en temps réel — pas des conseils financiers',
+    kids_sec_memoria:'🎴 Mémoire de l\'Argent', kids_sec_memoria_desc:'Trouve les paires !',
+    kids_sec_quiz:'⚡ Quiz Rapide', kids_sec_quiz_desc:'Réponds en 10 sec !',
+    kids_sec_impara:'📚 Apprendre', kids_sec_impara_desc:'Cours avec IA',
+    kids_sec_drago:'🐉 Mon Dragon', kids_sec_drago_desc:'Personnalise !',
+    kids_sec_avventura:'🎮 Jeu Aventure', kids_sec_avventura_desc:'Île Aventure',
+    kids_sec_trofei:'🏆 Mes Trophées', kids_sec_trofei_desc:'Ce que tu as gagné',
+    kids_personalizza:'Touche pour personnaliser !',
+    kids_cosa_fare:'🐉 Salut ! Que veux-tu faire ?',
+    kids_oggi:'🎮 Que veux-tu faire aujourd\'hui ?',
+    fallback_sottotitolo:'Apprends {topic} avec FinanzaLand',
+    fallback_chiave1:'{topic} est un concept fondamental des finances personnelles.',
+    fallback_chiave2:'Comprendre {topic} t\'aide à mieux gérer ton argent.',
+    fallback_chiave3:'Applique ce concept dans ta vie quotidienne pour voir les résultats.',
+    fallback_esempio:'Pense à comment {topic} s\'applique dans ta vie de tous les jours.',
+    fallback_dato:'63 % des Français ne connaissent pas les bases des finances personnelles (OCDE 2023).',
+    fallback_sfida:'Cette semaine : réfléchis à comment {topic} influence tes décisions financières quotidiennes.',
+    popup_piani:'Plans Abonnement', popup_account:'Compte', popup_mercati:'Marchés Mondiaux', popup_premi:'Prix', popup_famiglia:'Espace Famille',
   },
   en: {
     home_title:'The Savings Academy',
@@ -2933,6 +2973,23 @@ var TRANSLATIONS = {
     sec_dato:'Real Data', sec_africa:'African Markets',
     sec_sfida:'Real Life Challenge',
     footer_ai:'🤖 Lessons generated by Claude AI in real time — not financial advice',
+    kids_sec_memoria:'🎴 Money Memory', kids_sec_memoria_desc:'Match the pairs!',
+    kids_sec_quiz:'⚡ Speed Quiz', kids_sec_quiz_desc:'Answer in 10 sec!',
+    kids_sec_impara:'📚 Learn', kids_sec_impara_desc:'AI Lessons',
+    kids_sec_drago:'🐉 My Dragon', kids_sec_drago_desc:'Customise!',
+    kids_sec_avventura:'🎮 Adventure Game', kids_sec_avventura_desc:'Adventure Island',
+    kids_sec_trofei:'🏆 My Trophies', kids_sec_trofei_desc:'What you won',
+    kids_personalizza:'Tap to customise!',
+    kids_cosa_fare:'🐉 Hi! What do you want to do?',
+    kids_oggi:'🎮 What do you want to do today?',
+    fallback_sottotitolo:'Learn {topic} with FinanzaLand',
+    fallback_chiave1:'{topic} is a fundamental concept of personal finance.',
+    fallback_chiave2:'Understanding {topic} helps you manage your money better.',
+    fallback_chiave3:'Apply this concept in your daily life to see results.',
+    fallback_esempio:'Think about how {topic} applies in your everyday life.',
+    fallback_dato:'63% of adults don\'t know the basics of personal finance (OECD 2023).',
+    fallback_sfida:'This week: reflect on how {topic} influences your daily financial decisions.',
+    popup_piani:'Subscription Plans', popup_account:'Account', popup_mercati:'Global Markets', popup_premi:'Prizes', popup_famiglia:'Family Panel',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3014,6 +3071,23 @@ var TRANSLATIONS = {
     sec_dato:'Dato Real', sec_africa:'Mercados Africanos',
     sec_sfida:'Desafío Vida Real',
     footer_ai:'🤖 Lecciones generadas por Claude IA en tiempo real — no son consejos financieros',
+    kids_sec_memoria:'🎴 Memoria del Dinero', kids_sec_memoria_desc:'¡Encuentra las parejas!',
+    kids_sec_quiz:'⚡ Quiz Rápido', kids_sec_quiz_desc:'¡Responde en 10 seg!',
+    kids_sec_impara:'📚 Aprender', kids_sec_impara_desc:'Lecciones con IA',
+    kids_sec_drago:'🐉 Mi Dragón', kids_sec_drago_desc:'¡Personaliza!',
+    kids_sec_avventura:'🎮 Juego Aventura', kids_sec_avventura_desc:'Isla Aventura',
+    kids_sec_trofei:'🏆 Mis Trofeos', kids_sec_trofei_desc:'Lo que has ganado',
+    kids_personalizza:'¡Toca para personalizar!',
+    kids_cosa_fare:'🐉 ¡Hola! ¿Qué quieres hacer?',
+    kids_oggi:'🎮 ¿Qué quieres hacer hoy?',
+    fallback_sottotitolo:'Aprende {topic} con FinanzaLand',
+    fallback_chiave1:'{topic} es un concepto fundamental de las finanzas personales.',
+    fallback_chiave2:'Entender {topic} te ayuda a gestionar mejor tu dinero.',
+    fallback_chiave3:'Aplica este concepto en tu vida cotidiana para ver resultados.',
+    fallback_esempio:'Piensa en cómo {topic} se aplica en tu vida diaria.',
+    fallback_dato:'El 63 % de los adultos no conoce los fundamentos de las finanzas personales (OCDE 2023).',
+    fallback_sfida:'Esta semana: reflexiona sobre cómo {topic} influye en tus decisiones financieras diarias.',
+    popup_piani:'Planes Suscripción', popup_account:'Cuenta', popup_mercati:'Mercados Globales', popup_premi:'Premios', popup_famiglia:'Panel Familia',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3095,6 +3169,23 @@ var TRANSLATIONS = {
     sec_dato:'Xam-xam bu dëkk', sec_africa:'Marché Afrique',
     sec_sfida:'Defi bëjjël',
     footer_ai:'🤖 Cosaan yi def leen Claude IA — dañu jàng rekk, du xam-xam bu xaalis',
+    kids_sec_memoria:'🎴 Xaalis bu Wëltan', kids_sec_memoria_desc:'Seetlu kart yi!',
+    kids_sec_quiz:'⚡ Quiz bu gaaw', kids_sec_quiz_desc:'Tontu ci 10 simili!',
+    kids_sec_impara:'📚 Jàng', kids_sec_impara_desc:'Cosaan ak IA',
+    kids_sec_drago:'🐉 Sa Dragon', kids_sec_drago_desc:'Soppaliku!',
+    kids_sec_avventura:'🎮 Fecc Aventure', kids_sec_avventura_desc:'Dëkk bu Fecc',
+    kids_sec_trofei:'🏆 Sama Trophées', kids_sec_trofei_desc:'Lan nga doxe',
+    kids_personalizza:'Tannal ngir soppaliku!',
+    kids_cosa_fare:'🐉 Salaam! Lan nga buga def?',
+    kids_oggi:'🎮 Lan nga buga def tey?',
+    fallback_sottotitolo:'Jàng {topic} ak FinanzaLand',
+    fallback_chiave1:'{topic} dafa am solo ci xaalis bu dëkk.',
+    fallback_chiave2:'Xam {topic} dafa jëfandikoo ngir yëgël sa xaalis.',
+    fallback_chiave3:'Seeti jëfandikoo ci sa mbedd bu saa si.',
+    fallback_esempio:'Xool ni {topic} jëfandikoo ci sa mbedd bu saa si.',
+    fallback_dato:'63% nit ñu fi dëkk dañu xam finanse (OCDE 2023).',
+    fallback_sfida:'Bes bii: xoolal ni {topic} jëfandikoo ci sa xaalis.',
+    popup_piani:'Yëgël Xaalis', popup_account:'Konte', popup_mercati:'Marché bu Aduna', popup_premi:'Njariign', popup_famiglia:'Mbokk yi',
   },
 };
 
@@ -5608,14 +5699,27 @@ function buildKidsSections() {
   var grid = document.getElementById('kids-sections-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  KIDS_SECTIONS.forEach(function(s) {
+  var tk = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  // Mappa id → chiavi traduzione
+  var secKeys = [
+    {key:'memoria', tit:'kids_sec_memoria', desc:'kids_sec_memoria_desc'},
+    {key:'quiz',    tit:'kids_sec_quiz',    desc:'kids_sec_quiz_desc'},
+    {key:'impara',  tit:'kids_sec_impara',  desc:'kids_sec_impara_desc'},
+    {key:'drago',   tit:'kids_sec_drago',   desc:'kids_sec_drago_desc'},
+    {key:'avv',     tit:'kids_sec_avventura',desc:'kids_sec_avventura_desc'},
+    {key:'trofei',  tit:'kids_sec_trofei',  desc:'kids_sec_trofei_desc'},
+  ];
+  KIDS_SECTIONS.forEach(function(s, i) {
     var el = document.createElement('div');
     el.className = 'minigame-card';
     el.style.cssText = 'background:'+s.bg+';border:2px solid '+s.border;
+    var sk = secKeys[i] || {};
+    var titolo = (sk.tit && tk[sk.tit]) ? tk[sk.tit] : s.titolo;
+    var desc   = (sk.desc && tk[sk.desc]) ? tk[sk.desc] : s.desc;
     el.innerHTML =
       '<div class="minigame-icon">'+s.icon+'</div>'+
-      '<div class="minigame-title" style="color:'+s.col+'">'+s.titolo+'</div>'+
-      '<div class="minigame-desc">'+s.desc+'</div>';
+      '<div class="minigame-title" style="color:'+s.col+'">'+titolo+'</div>'+
+      '<div class="minigame-desc">'+desc+'</div>';
     el.addEventListener('click', s.action);
     grid.appendChild(el);
   });
