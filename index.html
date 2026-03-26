@@ -1105,7 +1105,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
   </div>
   <div class="ai-bar">
-    <input class="ai-inp" id="ai-inp" type="text" placeholder="Chiedimi di finanza...">
+    <input class="ai-inp" id="ai-inp" type="text" id="ai-inp-placeholder" placeholder="Chiedimi di finanza...">
     <button class="ai-send" id="ai-send">➤</button>
   </div>
 </div>
@@ -2546,26 +2546,69 @@ async function sendAI() {
   document.getElementById('ai-typing').style.display='flex';
   scrollAI();
 
-  var system = 'Sei la Civetta AI di FinanzaLand. Rispondi in italiano, massimo 4 frasi concise. ' +
-    'Tono amichevole ed educativo. Dato reale sempre incluso. ' +
-    'Africa/BRVM quando rilevante. Fine: "Solo a scopo educativo."';
+  // Sistema prompt multilingua
+  var langNames = {it:'italiano',fr:'français',en:'English',es:'español',wo:'wolof'};
+  var langName = langNames[S.lang] || 'italiano';
+  var langDisclaimer = {
+    it:'Solo a scopo educativo.',
+    fr:'À des fins éducatives uniquement.',
+    en:'For educational purposes only.',
+    es:'Solo con fines educativos.',
+    wo:'Ci koolug jang rekk.'
+  };
+  var disclaimer = langDisclaimer[S.lang] || langDisclaimer.it;
+
+  var system = 'Sei la Civetta AI di FinanzaLand, guida finanziaria educativa. ' +
+    'IMPORTANTE: Rispondi SEMPRE in ' + langName + '. ' +
+    'Struttura la risposta in 3-5 punti chiari con emoji. ' +
+    'Includi sempre un dato reale o statistico. ' +
+    'Collega ai mercati africani (BRVM) quando rilevante. ' +
+    'Concludi con: "' + disclaimer + '" ' +
+    'Non troncare mai la risposta — completa sempre il pensiero.';
 
   try {
     var resp = await fetch('/api/chat',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:system,messages:aiHistory.slice(-6)})
+      body:JSON.stringify({
+        model:'claude-sonnet-4-5',
+        max_tokens:800,
+        system:system,
+        messages:aiHistory.slice(-8)
+      })
     });
     var data = await resp.json();
     document.getElementById('ai-typing').style.display='none';
-    var reply=(data.content&&data.content[0]&&data.content[0].text)||'Riprova!';
-    addAIMsg(reply,'b');
+    // Gestione errori API
+    if (data.error) {
+      var apiErr = {
+        it:'⚠️ ' + (data.error.message || 'Errore API. Riprova.'),
+        fr:'⚠️ ' + (data.error.message || 'Erreur API. Réessaie.'),
+        en:'⚠️ ' + (data.error.message || 'API Error. Try again.'),
+        es:'⚠️ ' + (data.error.message || 'Error API. Inténtalo de nuevo.'),
+        wo:'⚠️ Erreur. Dellali.'
+      };
+      addAIMsg(apiErr[S.lang]||apiErr.it, 'b');
+      return;
+    }
+    var reply = (data.content && data.content[0] && data.content[0].text) || '';
+    if (!reply) reply = '⚠️ Risposta vuota — riprova.';
+    // Formatta la risposta — converti newline in <br>
+    var replyHtml = reply.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    addAIMsg(replyHtml,'b');
     aiHistory.push({role:'assistant',content:reply});
     S.coins+=3;saveS();updateHUD();
   } catch(e){
     document.getElementById('ai-typing').style.display='none';
-    var fallback=['Regola 50-30-20: 50% bisogni, 30% desideri, 20% risparmio. Solo a scopo educativo.','La BRVM ha reso +25.3% nel 2025. Solo a scopo educativo.','ETF UCITS irlandesi: ritenuta 15% invece del 30%. Solo a scopo educativo.'];
-    var r=fallback[Math.floor(Math.random()*fallback.length)];
-    addAIMsg(r,'b');aiHistory.push({role:'assistant',content:r});
+    console.error('Civetta AI error:', e.message);
+    // Prova a leggere errore specifico dalla risposta
+    var errMsg = {
+      it:'⚠️ Civetta AI non disponibile al momento.<br>Controlla la connessione o riprova tra qualche secondo.',
+      fr:'⚠️ Civetta IA indisponible pour le moment.<br>Vérifie ta connexion ou réessaie dans quelques secondes.',
+      en:'⚠️ Civetta AI is unavailable right now.<br>Check your connection or try again in a few seconds.',
+      es:'⚠️ Civetta IA no disponible en este momento.<br>Comprueba tu conexión o inténtalo de nuevo.',
+      wo:'⚠️ Civetta IA du am leegi.<br>Xool sa connexion walla dellali.'
+    };
+    addAIMsg(errMsg[S.lang]||errMsg.it, 'b');
   }
 }
 
@@ -2573,7 +2616,15 @@ function addAIMsg(txt,type){
   var box=document.getElementById('ai-msgs');if(!box)return;
   var el=document.createElement('div');
   if(type==='u'){el.className='ai-msg-u';el.textContent=txt;}
-  else{el.className='ai-msg-b';el.innerHTML='<div class="ai-who">🦉 Civetta AI</div>'+txt.replace(/</g,'&lt;');}
+  else{
+    el.className='ai-msg-b';
+    // Se il testo contiene già HTML (<br> etc), usalo direttamente
+    // Altrimenti escape e converti newline
+    var htmlContent = txt.indexOf('<br') >= 0 || txt.indexOf('<b>') >= 0
+      ? txt
+      : txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+    el.innerHTML='<div class="ai-who">🦉 Civetta AI</div>' + htmlContent;
+  }
   box.appendChild(el);scrollAI();
 }
 function scrollAI(){var b=document.getElementById('ai-msgs');if(b)setTimeout(function(){b.scrollTop=b.scrollHeight;},50);}
@@ -2798,6 +2849,7 @@ var TRANSLATIONS = {
     fallback_dato:'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
     fallback_sfida:'Questa settimana: rifletti su come {topic} influenza le tue decisioni finanziarie quotidiane.',
     popup_piani:'Piani Abbonamento', popup_account:'Account', popup_mercati:'Mercati Globali', popup_premi:'Premi', popup_famiglia:'Pannello Famiglia',
+    ai_placeholder:'Chiedimi di finanza...',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -2896,6 +2948,7 @@ var TRANSLATIONS = {
     fallback_dato:'63 % des Français ne connaissent pas les bases des finances personnelles (OCDE 2023).',
     fallback_sfida:'Cette semaine : réfléchis à comment {topic} influence tes décisions financières quotidiennes.',
     popup_piani:'Plans Abonnement', popup_account:'Compte', popup_mercati:'Marchés Mondiaux', popup_premi:'Prix', popup_famiglia:'Espace Famille',
+    ai_placeholder:'Pose-moi une question...',
   },
   en: {
     home_title:'The Savings Academy',
@@ -2994,6 +3047,7 @@ var TRANSLATIONS = {
     fallback_dato:'63% of adults don\'t know the basics of personal finance (OECD 2023).',
     fallback_sfida:'This week: reflect on how {topic} influences your daily financial decisions.',
     popup_piani:'Subscription Plans', popup_account:'Account', popup_mercati:'Global Markets', popup_premi:'Prizes', popup_famiglia:'Family Panel',
+    ai_placeholder:'Ask me anything...',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3092,6 +3146,7 @@ var TRANSLATIONS = {
     fallback_dato:'El 63 % de los adultos no conoce los fundamentos de las finanzas personales (OCDE 2023).',
     fallback_sfida:'Esta semana: reflexiona sobre cómo {topic} influye en tus decisiones financieras diarias.',
     popup_piani:'Planes Suscripción', popup_account:'Cuenta', popup_mercati:'Mercados Globales', popup_premi:'Premios', popup_famiglia:'Panel Familia',
+    ai_placeholder:'Pregúntame algo...',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3190,6 +3245,7 @@ var TRANSLATIONS = {
     fallback_dato:'63% nit ñu fi dëkk dañu xam finanse (OCDE 2023).',
     fallback_sfida:'Bes bii: xoolal ni {topic} jëfandikoo ci sa xaalis.',
     popup_piani:'Yëgël Xaalis', popup_account:'Konte', popup_mercati:'Marché bu Aduna', popup_premi:'Njariign', popup_famiglia:'Mbokk yi',
+    ai_placeholder:'Laaj ma...',
   },
 };
 
@@ -3253,6 +3309,9 @@ function setLang(lang, btnEl) {
   if (genBtn && t.gen_btn) genBtn.textContent = t.gen_btn;
   var wallInp = document.getElementById('wall-new-inp');
   if (wallInp && t.wall_placeholder) wallInp.placeholder = t.wall_placeholder;
+  // Aggiorna placeholder Civetta AI
+  var aiInp = document.getElementById('ai-inp');
+  if (aiInp && t.ai_placeholder) aiInp.placeholder = t.ai_placeholder;
 
   // ── 5. Ricostruisce SEMPRE le schermate dinamiche ─────
   // Accademia: percorsi e livelli devono aggiornarsi sempre
