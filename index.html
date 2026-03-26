@@ -2609,8 +2609,38 @@ function toggleAI() {
   aiOpen = !aiOpen;
   document.getElementById('ai-panel').classList.toggle('open', aiOpen);
   document.getElementById('ai-fab').style.display = aiOpen?'none':'flex';
-  if (aiOpen && document.getElementById('ai-inp')) {
-    setTimeout(function(){document.getElementById('ai-inp').focus();},400);
+  if (aiOpen) {
+    var t = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    // Aggiorna subtitle
+    try {
+      var sub = document.querySelector('#ai-panel .ai-hdr [style*="font-size:.68rem"]');
+      if (sub && t.civetta_subtitle) sub.textContent = t.civetta_subtitle;
+    } catch(e) {}
+    // Aggiorna chips
+    var chips = document.getElementById('ai-chips');
+    if (chips && t.civetta_chips) {
+      chips.innerHTML = '';
+      t.civetta_chips.forEach(function(chip) {
+        var el = document.createElement('div');
+        el.className = 'ai-chip';
+        el.setAttribute('data-q', chip.q);
+        el.textContent = chip.label;
+        el.addEventListener('click', function(){
+          var inp = document.getElementById('ai-inp');
+          if (inp) { inp.value = chip.q; sendAI(); }
+        });
+        chips.appendChild(el);
+      });
+    }
+    // Aggiorna messaggio benvenuto se chat vuota
+    var msgs = document.getElementById('ai-msgs');
+    if (msgs && t.civetta_benvenuto && aiHistory.length === 0) {
+      msgs.innerHTML = '<div class="ai-msg-b"><div class="ai-who">🦉 Civetta AI</div>' + t.civetta_benvenuto + '</div>';
+    }
+    // Aggiorna placeholder input
+    var inp = document.getElementById('ai-inp');
+    if (inp && t.ai_placeholder) inp.placeholder = t.ai_placeholder;
+    setTimeout(function(){ if(inp) inp.focus(); }, 400);
   }
 }
 window.toggleAI = toggleAI;
@@ -2949,6 +2979,18 @@ var TRANSLATIONS = {
     quiz_q3_opts:['Fondamentale','Utile','Poco utile','Non utile'],
     quiz_q3_spieg:'{topic} è uno dei pilastri della libertà finanziaria.',
     quiz_domanda:'Domanda', quiz_non_abbastanza:'Non abbastanza — riprova!', quiz_torna_lezione:'← Lezione', quiz_riprova_btn:'Riprova 🔄',
+    civetta_subtitle:'Powered by Claude · Solo a scopo educativo',
+    civetta_benvenuto:'Ciao! Sono la tua guida finanziaria. Chiedimi qualsiasi cosa — dalla regola 50-30-20 agli ETF, dai mercati africani ai derivati. Tutto a scopo educativo!',
+    civetta_chips:[
+      {label:'💰 Risparmio',       q:'Come risparmio meglio?'},
+      {label:'📊 P/E ratio',       q:'Cos è il P/E ratio?'},
+      {label:'🇮🇪 ETF',            q:'ETF UCITS irlandesi?'},
+      {label:'🌍 BRVM',            q:'Come funziona la BRVM Africa?'},
+      {label:'🇺🇸 NYSE',           q:'Come investire sul NYSE?'},
+      {label:'🇬🇧 LSE',            q:'Come funziona la Borsa di Londra?'},
+      {label:'👶 Bambini',         q:'Spiegami i soldi per bambini'},
+      {label:'₿ Bitcoin',         q:'Come funziona Bitcoin?'},
+    ],
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3058,6 +3100,18 @@ var TRANSLATIONS = {
     quiz_q3_opts:['Fondamental','Utile','Peu utile','Inutile'],
     quiz_q3_spieg:'{topic} est l\'un des piliers de la liberté financière.',
     quiz_domanda:'Question', quiz_non_abbastanza:'Pas assez — réessaie !', quiz_torna_lezione:'← Cours', quiz_riprova_btn:'Réessayer 🔄',
+    civetta_subtitle:'Propulsé par Claude · À des fins éducatives',
+    civetta_benvenuto:'Salut ! Je suis ta guide financière. Pose-moi n\'importe quelle question — de la règle 50-30-20 aux ETF, des marchés africains aux dérivés. Tout à des fins éducatives !',
+    civetta_chips:[
+      {label:'💰 Épargne',         q:'Comment mieux épargner ?'},
+      {label:'📊 Ratio P/E',       q:'Qu\'est-ce que le ratio P/E ?'},
+      {label:'🇮🇪 ETF',            q:'ETF UCITS irlandais ?'},
+      {label:'🌍 BRVM',            q:'Comment fonctionne la BRVM Afrique ?'},
+      {label:'🇺🇸 NYSE',           q:'Comment investir sur le NYSE ?'},
+      {label:'🇬🇧 LSE',            q:'Comment fonctionne la Bourse de Londres ?'},
+      {label:'👶 Enfants',         q:'Explique-moi l\'argent pour les enfants'},
+      {label:'₿ Bitcoin',         q:'Comment fonctionne Bitcoin ?'},
+    ],
   },
   en: {
     home_title:'The Savings Academy',
@@ -3167,6 +3221,18 @@ var TRANSLATIONS = {
     quiz_q3_opts:['Fundamental','Useful','Not very useful','Useless'],
     quiz_q3_spieg:'{topic} is one of the pillars of financial freedom.',
     quiz_domanda:'Question', quiz_non_abbastanza:'Not enough — try again!', quiz_torna_lezione:'← Lesson', quiz_riprova_btn:'Try again 🔄',
+    civetta_subtitle:'Powered by Claude · For educational purposes',
+    civetta_benvenuto:'Hi! I am your financial guide. Ask me anything — from the 50-30-20 rule to ETFs, from African markets to derivatives. All for educational purposes!',
+    civetta_chips:[
+      {label:'💰 Savings',         q:'How can I save better?'},
+      {label:'📊 P/E ratio',       q:'What is the P/E ratio?'},
+      {label:'🇮🇪 ETF',            q:'Irish UCITS ETFs?'},
+      {label:'🌍 BRVM',            q:'How does the BRVM Africa work?'},
+      {label:'🇺🇸 NYSE',           q:'How to invest on the NYSE?'},
+      {label:'🇬🇧 LSE',            q:'How does the London Stock Exchange work?'},
+      {label:'👶 Kids',            q:'Explain money to kids'},
+      {label:'₿ Bitcoin',         q:'How does Bitcoin work?'},
+    ],
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3276,6 +3342,18 @@ var TRANSLATIONS = {
     quiz_q3_opts:['Fundamental','Útil','Poco útil','Inútil'],
     quiz_q3_spieg:'{topic} es uno de los pilares de la libertad financiera.',
     quiz_domanda:'Pregunta', quiz_non_abbastanza:'No es suficiente — inténtalo de nuevo.', quiz_torna_lezione:'← Lección', quiz_riprova_btn:'Reintentar 🔄',
+    civetta_subtitle:'Impulsado por Claude · Con fines educativos',
+    civetta_benvenuto:'¡Hola! Soy tu guía financiera. Pregúntame lo que quieras — de la regla 50-30-20 a los ETF, de los mercados africanos a los derivados. ¡Todo con fines educativos!',
+    civetta_chips:[
+      {label:'💰 Ahorro',          q:'¿Cómo ahorrar mejor?'},
+      {label:'📊 Ratio P/E',       q:'¿Qué es el ratio P/E?'},
+      {label:'🇮🇪 ETF',            q:'¿ETF UCITS irlandeses?'},
+      {label:'🌍 BRVM',            q:'¿Cómo funciona la BRVM África?'},
+      {label:'🇺🇸 NYSE',           q:'¿Cómo invertir en el NYSE?'},
+      {label:'🇬🇧 LSE',            q:'¿Cómo funciona la Bolsa de Londres?'},
+      {label:'👶 Niños',           q:'Explícame el dinero para niños'},
+      {label:'₿ Bitcoin',         q:'¿Cómo funciona Bitcoin?'},
+    ],
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3385,6 +3463,16 @@ var TRANSLATIONS = {
     quiz_q3_opts:['Am solo lool','Am solo','Am solo dëkk','Amul solo'],
     quiz_q3_spieg:'{topic} mooy benn ci dëkkandoo yu am solo ci xaalis bu dëkk.',
     quiz_domanda:'Laaj', quiz_non_abbastanza:'Du dëkk — dellali !', quiz_torna_lezione:'← Cosaan', quiz_riprova_btn:'Dellali 🔄',
+    civetta_subtitle:'Claude la def · Ci koolug jàng rekk',
+    civetta_benvenuto:'Salaam ! Maa ngi dem sa waxtu ci xaalis. Laaj ma bëgg bëgg — ci régle 50-30-20 ñu des ci ETF, ci marché Afrique ñu des ci dérivés. Ci koolug jàng rekk !',
+    civetta_chips:[
+      {label:'💰 Mës',             q:'Naka mësum xaalis ?'},
+      {label:'📊 P/E',             q:'Ana ratio P/E ?'},
+      {label:'🇮🇪 ETF',            q:'ETF UCITS irlandais ?'},
+      {label:'🌍 BRVM',            q:'Naka BRVM Afrique def ?'},
+      {label:'₿ Bitcoin',         q:'Naka Bitcoin def ?'},
+      {label:'👶 Jiit yi',         q:'Wax ma xaalis ci jiit yi'},
+    ],
   },
 };
 
@@ -3451,6 +3539,32 @@ function setLang(lang, btnEl) {
   // Aggiorna placeholder Civetta AI
   var aiInp = document.getElementById('ai-inp');
   if (aiInp && t.ai_placeholder) aiInp.placeholder = t.ai_placeholder;
+  // Aggiorna intestazione Civetta AI
+  try {
+    var aiSub = document.querySelector('#ai-panel .ai-hdr [style*="font-size:.68rem"]');
+    if (aiSub && t.civetta_subtitle) aiSub.textContent = t.civetta_subtitle;
+  } catch(e2) {}
+  // Aggiorna chips Civetta AI
+  var chipsEl = document.getElementById('ai-chips');
+  if (chipsEl && t.civetta_chips) {
+    chipsEl.innerHTML = '';
+    t.civetta_chips.forEach(function(chip) {
+      var el = document.createElement('div');
+      el.className = 'ai-chip';
+      el.setAttribute('data-q', chip.q);
+      el.textContent = chip.label;
+      el.addEventListener('click', function() {
+        var inp = document.getElementById('ai-inp');
+        if (inp) { inp.value = chip.q; sendAI(); }
+      });
+      chipsEl.appendChild(el);
+    });
+  }
+  // Aggiorna messaggio benvenuto Civetta
+  var aiMsgs = document.getElementById('ai-msgs');
+  if (aiMsgs && t.civetta_benvenuto && aiHistory.length === 0) {
+    aiMsgs.innerHTML = '<div class="ai-msg-b"><div class="ai-who">🦉 Civetta AI</div>' + t.civetta_benvenuto + '</div>';
+  }
 
   // ── 5. Ricostruisce SEMPRE le schermate dinamiche ─────
   // Accademia: percorsi e livelli devono aggiornarsi sempre
