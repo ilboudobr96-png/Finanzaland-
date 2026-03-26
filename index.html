@@ -1380,11 +1380,30 @@ function makeFallbackLesson(topic, percorso, livello) {
     esempio_pratico: t('fallback_esempio') || ('Pensa a come ' + topic + ' si applica nella tua vita di tutti i giorni.'),
     dato_reale: t('fallback_dato') || 'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
     collegamento_africa: null,
-    quiz: [
-      {domanda:'Hai capito il concetto di '+topic+'?',opzioni:['Si, molto bene','Abbastanza','Poco','No'],risposta_corretta:0,spiegazione:'Ottimo! Continua a studiare per approfondire.'},
-      {domanda:'Come applicheresti '+topic+' nella vita reale?',opzioni:['Subito','Tra qualche giorno','Non so','Non mi serve'],risposta_corretta:0,spiegazione:'Applicare subito quello che impari e il modo migliore per imparare davvero.'},
-      {domanda:'Quanto e importante '+topic+' per la tua salute finanziaria?',opzioni:['Fondamentale','Utile','Poco utile','Non utile'],risposta_corretta:0,spiegazione:topic+' e uno dei pilastri della liberta finanziaria.'},
-    ],
+    quiz: (function(){
+      function q(key, fallback){ return (tf[key]||fallback).replace(/{topic}/g,topic); }
+      function opts(key, fallback){ return (tf[key]||fallback); }
+      return [
+        {
+          domanda: q('quiz_q1','Hai capito il concetto di '+topic+'?'),
+          opzioni:  opts('quiz_q1_opts',['Sì, molto bene','Abbastanza','Poco','No']),
+          risposta_corretta:0,
+          spiegazione: q('quiz_q1_spieg','Ottimo! Continua a studiare.')
+        },
+        {
+          domanda: q('quiz_q2','Come applicheresti '+topic+' nella vita reale?'),
+          opzioni:  opts('quiz_q2_opts',['Subito','Tra qualche giorno','Non so','Non mi serve']),
+          risposta_corretta:0,
+          spiegazione: q('quiz_q2_spieg','Applicare subito quello che impari è il modo migliore.')
+        },
+        {
+          domanda: q('quiz_q3','Quanto è importante '+topic+' per la tua salute finanziaria?'),
+          opzioni:  opts('quiz_q3_opts',['Fondamentale','Utile','Poco utile','Non utile']),
+          risposta_corretta:0,
+          spiegazione: q('quiz_q3_spieg',topic+' è uno dei pilastri della libertà finanziaria.')
+        },
+      ];
+    })(),
     sfida_vita_reale: t('fallback_sfida') || ('Questa settimana: rifletti su come ' + topic + ' influenza le tue decisioni finanziarie quotidiane.'),
     semi_reward: 80,
     disclaimer: tf.disclaimer || 'Solo a scopo educativo — non è un consiglio finanziario',
@@ -1647,7 +1666,8 @@ function renderQuizQ() {
   quizAnswered = false;
   var pct = Math.round((quizIdx/currentQuiz.length)*100);
   document.getElementById('qv-fill').style.width = pct + '%';
-  document.getElementById('qv-counter').textContent = 'Domanda ' + (quizIdx+1) + '/' + currentQuiz.length;
+  var tqc = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  document.getElementById('qv-counter').textContent = (tqc.quiz_domanda||'Domanda') + ' ' + (quizIdx+1) + '/' + currentQuiz.length;
   document.getElementById('qv-score').textContent = quizScore + ' ✓';
 
   var body = document.getElementById('qv-body');
@@ -1691,7 +1711,8 @@ function renderQuizQ() {
 
   var nextBtn = document.createElement('button');
   nextBtn.className = 'qv-next';
-  nextBtn.textContent = quizIdx < currentQuiz.length-1 ? 'Prossima →' : 'Risultato 🎯';
+  var tqn = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  nextBtn.textContent = quizIdx < currentQuiz.length-1 ? (tqn.quiz_prossima||'Prossima →') : (tqn.quiz_risultato||'Risultato 🎯');
   nextBtn.addEventListener('click', function(){ quizIdx++; renderQuizQ(); });
   body.appendChild(nextBtn);
 }
@@ -1722,14 +1743,15 @@ function finishQuiz() {
   var body = document.getElementById('qv-body');
   body.innerHTML = '';
 
+  var tqr = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
   var wrap = document.createElement('div');
   wrap.className = 'qr-wrap';
   wrap.innerHTML = '<div class="qr-icon">' + (passed?'🎉':'📚') + '</div>' +
     '<div class="qr-title" style="color:' + (passed?'var(--gold)':'var(--red)') + '">' +
-      (passed?'¡Fantástico!':'Riprova!') + '</div>' +
+      (passed ? (tqr.quiz_ottimo||'Fantastico!') : (tqr.quiz_riprova||'Riprova!')) + '</div>' +
     '<div class="qr-score">' + quizScore + '/' + tot + ' — ' + pct + '%</div>' +
     '<div class="qr-stars">' + [1,2,3].map(function(s){return s<=stelle?'⭐':'☆';}).join('') + '</div>' +
-    '<div class="qr-reward">' + (passed?'+'+semi+' Semi 🪙':'Non abbastanza — riprova!') + '</div>';
+    '<div class="qr-reward">' + (passed ? '+'+semi+' '+(tqr.card_semi||'Semi')+' 🪙' : (tqr.quiz_non_abbastanza||'Non abbastanza — riprova!')) + '</div>';
 
   var btns = document.createElement('div');
   btns.className = 'qr-btns';
@@ -1737,13 +1759,13 @@ function finishQuiz() {
   var b1 = document.createElement('button');
   b1.className = 'qr-btn';
   b1.style.cssText = 'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff';
-  b1.textContent = '← Lezione';
+  b1.textContent = (tqr.quiz_torna_lezione||'← Lezione');
   b1.addEventListener('click', function(){ showScreen('lezione-view'); });
 
   var b2 = document.createElement('button');
   b2.className = 'qr-btn';
   b2.style.cssText = 'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00';
-  b2.textContent = passed ? 'Avanti! →' : 'Riprova 🔄';
+  b2.textContent = passed ? (tqr.quiz_avanti||'Avanti! →') : (tqr.quiz_riprova_btn||'Riprova 🔄');
   b2.addEventListener('click', function(){
     if (passed) showScreen('accademia');
     else startQuiz(currentLezione);
@@ -2917,6 +2939,16 @@ var TRANSLATIONS = {
     fallback_sfida:'Questa settimana: rifletti su come {topic} influenza le tue decisioni finanziarie quotidiane.',
     popup_piani:'Piani Abbonamento', popup_account:'Account', popup_mercati:'Mercati Globali', popup_premi:'Premi', popup_famiglia:'Pannello Famiglia',
     ai_placeholder:'Chiedimi di finanza...',
+    quiz_q1:'Hai capito il concetto di {topic}?',
+    quiz_q1_opts:['Sì, molto bene','Abbastanza','Poco','No'],
+    quiz_q1_spieg:'Ottimo! Continua a studiare per approfondire.',
+    quiz_q2:'Come applicheresti {topic} nella vita reale?',
+    quiz_q2_opts:['Subito','Tra qualche giorno','Non so','Non mi serve'],
+    quiz_q2_spieg:'Applicare subito quello che impari è il modo migliore per imparare davvero.',
+    quiz_q3:'Quanto è importante {topic} per la tua salute finanziaria?',
+    quiz_q3_opts:['Fondamentale','Utile','Poco utile','Non utile'],
+    quiz_q3_spieg:'{topic} è uno dei pilastri della libertà finanziaria.',
+    quiz_domanda:'Domanda', quiz_non_abbastanza:'Non abbastanza — riprova!', quiz_torna_lezione:'← Lezione', quiz_riprova_btn:'Riprova 🔄',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3016,6 +3048,16 @@ var TRANSLATIONS = {
     fallback_sfida:'Cette semaine : réfléchis à comment {topic} influence tes décisions financières quotidiennes.',
     popup_piani:'Plans Abonnement', popup_account:'Compte', popup_mercati:'Marchés Mondiaux', popup_premi:'Prix', popup_famiglia:'Espace Famille',
     ai_placeholder:'Pose-moi une question...',
+    quiz_q1:'As-tu compris le concept de {topic} ?',
+    quiz_q1_opts:['Oui, très bien','Assez bien','Un peu','Non'],
+    quiz_q1_spieg:'Excellent ! Continue à étudier pour approfondir.',
+    quiz_q2:'Comment appliquerais-tu {topic} dans la vie réelle ?',
+    quiz_q2_opts:['Tout de suite','Dans quelques jours','Je ne sais pas','Ça ne me sert pas'],
+    quiz_q2_spieg:'Appliquer immédiatement ce que tu apprends est la meilleure façon d\'apprendre vraiment.',
+    quiz_q3:'À quel point {topic} est-il important pour ta santé financière ?',
+    quiz_q3_opts:['Fondamental','Utile','Peu utile','Inutile'],
+    quiz_q3_spieg:'{topic} est l\'un des piliers de la liberté financière.',
+    quiz_domanda:'Question', quiz_non_abbastanza:'Pas assez — réessaie !', quiz_torna_lezione:'← Cours', quiz_riprova_btn:'Réessayer 🔄',
   },
   en: {
     home_title:'The Savings Academy',
@@ -3115,6 +3157,16 @@ var TRANSLATIONS = {
     fallback_sfida:'This week: reflect on how {topic} influences your daily financial decisions.',
     popup_piani:'Subscription Plans', popup_account:'Account', popup_mercati:'Global Markets', popup_premi:'Prizes', popup_famiglia:'Family Panel',
     ai_placeholder:'Ask me anything...',
+    quiz_q1:'Did you understand the concept of {topic}?',
+    quiz_q1_opts:['Yes, very well','Pretty well','A little','No'],
+    quiz_q1_spieg:'Great! Keep studying to go deeper.',
+    quiz_q2:'How would you apply {topic} in real life?',
+    quiz_q2_opts:['Right away','In a few days','Not sure','I don\'t need it'],
+    quiz_q2_spieg:'Applying what you learn immediately is the best way to truly master it.',
+    quiz_q3:'How important is {topic} for your financial health?',
+    quiz_q3_opts:['Fundamental','Useful','Not very useful','Useless'],
+    quiz_q3_spieg:'{topic} is one of the pillars of financial freedom.',
+    quiz_domanda:'Question', quiz_non_abbastanza:'Not enough — try again!', quiz_torna_lezione:'← Lesson', quiz_riprova_btn:'Try again 🔄',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3214,6 +3266,16 @@ var TRANSLATIONS = {
     fallback_sfida:'Esta semana: reflexiona sobre cómo {topic} influye en tus decisiones financieras diarias.',
     popup_piani:'Planes Suscripción', popup_account:'Cuenta', popup_mercati:'Mercados Globales', popup_premi:'Premios', popup_famiglia:'Panel Familia',
     ai_placeholder:'Pregúntame algo...',
+    quiz_q1:'¿Has entendido el concepto de {topic}?',
+    quiz_q1_opts:['Sí, muy bien','Bastante bien','Un poco','No'],
+    quiz_q1_spieg:'¡Excelente! Sigue estudiando para profundizar.',
+    quiz_q2:'¿Cómo aplicarías {topic} en la vida real?',
+    quiz_q2_opts:['De inmediato','En unos días','No sé','No lo necesito'],
+    quiz_q2_spieg:'Aplicar inmediatamente lo que aprendes es la mejor manera de aprender de verdad.',
+    quiz_q3:'¿Qué tan importante es {topic} para tu salud financiera?',
+    quiz_q3_opts:['Fundamental','Útil','Poco útil','Inútil'],
+    quiz_q3_spieg:'{topic} es uno de los pilares de la libertad financiera.',
+    quiz_domanda:'Pregunta', quiz_non_abbastanza:'No es suficiente — inténtalo de nuevo.', quiz_torna_lezione:'← Lección', quiz_riprova_btn:'Reintentar 🔄',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3313,6 +3375,16 @@ var TRANSLATIONS = {
     fallback_sfida:'Bes bii: xoolal ni {topic} jëfandikoo ci sa xaalis.',
     popup_piani:'Yëgël Xaalis', popup_account:'Konte', popup_mercati:'Marché bu Aduna', popup_premi:'Njariign', popup_famiglia:'Mbokk yi',
     ai_placeholder:'Laaj ma...',
+    quiz_q1:'Xam nga {topic} ?',
+    quiz_q1_opts:['Waaw, baax na','Ndaw si','Dafa yomb','Deedeet'],
+    quiz_q1_spieg:'Baax na ! Dellali jàng ngir xam ci tëj.',
+    quiz_q2:'Lan nga def ak {topic} ci sa mbedd ?',
+    quiz_q2_opts:['Leegi rekk','Ci kanam','Xam uma','Mana ko doon'],
+    quiz_q2_spieg:'Seeti jëfandikoo ci kanam mooy yëgël jàng bu dëkk.',
+    quiz_q3:'Lou am solo {topic} ci sa xaalis ?',
+    quiz_q3_opts:['Am solo lool','Am solo','Am solo dëkk','Amul solo'],
+    quiz_q3_spieg:'{topic} mooy benn ci dëkkandoo yu am solo ci xaalis bu dëkk.',
+    quiz_domanda:'Laaj', quiz_non_abbastanza:'Du dëkk — dellali !', quiz_torna_lezione:'← Cosaan', quiz_riprova_btn:'Dellali 🔄',
   },
 };
 
