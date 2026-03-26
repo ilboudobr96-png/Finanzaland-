@@ -3,11 +3,35 @@
     { "source": "/api/chat",   "destination": "/API/chat.js"   },
     { "source": "/api/lesson", "destination": "/API/lesson.js" }
   ],
+  "headers": [
+    {
+      "source": "/index.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate, max-age=0" },
+        { "key": "Pragma",        "value": "no-cache" },
+        { "key": "Expires",       "value": "0" }
+      ]
+    },
+    {
+      "source": "/(.*).html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate, max-age=0" },
+        { "key": "Pragma",        "value": "no-cache" },
+        { "key": "Expires",       "value": "0" }
+      ]
+    },
+    {
+      "source": "/API/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate, max-age=0" }
+      ]
+    }
+  ],
   "routes": [
-    { "src": "/FinanzaLand_3D_Game.html",    "dest": "/FinanzaLand_3D_Game.html"    },
+    { "src": "/FinanzaLand_3D_Game.html",      "dest": "/FinanzaLand_3D_Game.html"      },
     { "src": "/FinanzaLand_Investor_Page.html", "dest": "/FinanzaLand_Investor_Page.html" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/sw.js",         "dest": "/sw.js"         },
-    { "src": "/(.*)",          "dest": "/index.html"    }
+    { "src": "/manifest.json",                  "dest": "/manifest.json"                  },
+    { "src": "/sw.js",                          "dest": "/sw.js"                          },
+    { "src": "/(.*)",                           "dest": "/index.html"                     }
   ]
 }
