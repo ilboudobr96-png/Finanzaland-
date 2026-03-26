@@ -1427,20 +1427,23 @@ function renderLezioniList() {
       'border:1.5px solid ' + (done?'rgba(74,222,128,.3)':locked?'rgba(255,255,255,.06)':currentPercorso.col+'44') + ';';
 
     var reward = cached ? (cached.semi_reward||80) : (50 + i*20);
+    var tcard = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    var percLabel = (tcard.perc_labels||{})[currentPercorso.id] || currentPercorso.label;
+    var livLabel  = (tcard.liv_labels||{})[currentLivello.id]   || currentLivello.label;
     card.innerHTML = '<div class="lez-card-top">' +
       '<div class="lez-icon">' + (locked?'🔒':done?'✅':cached?(cached.emoji||'📚'):'📖') + '</div>' +
       '<div class="lez-info">' +
-        '<div class="lez-percorso">' + currentPercorso.label + '</div>' +
+        '<div class="lez-percorso">' + percLabel + '</div>' +
         '<div class="lez-title">' + (cached?cached.titolo:topic) + '</div>' +
         '<div class="lez-badges">' +
-          '<span class="lez-badge ' + currentLivello.cls + '">' + currentLivello.label + '</span>' +
+          '<span class="lez-badge ' + currentLivello.cls + '">' + livLabel + '</span>' +
           (locked?'<span class="lez-badge" style="background:rgba(248,113,113,.1);color:var(--red)">👑 PRO</span>':'') +
-          (cached?'<span class="lez-badge" style="background:rgba(74,222,128,.1);color:var(--green)">✓ Pronta</span>':'') +
+          (cached?'<span class="lez-badge" style="background:rgba(74,222,128,.1);color:var(--green)">'+(tcard.card_pronta||'✓')+'</span>':'') +
         '</div>' +
       '</div>' +
       '</div>' +
       '<div class="lez-footer">' +
-        '<div class="lez-reward">' + (locked?'Attiva PRO':done?'Completata':'+ '+reward+' Semi') + '</div>' +
+        '<div class="lez-reward">' + (locked?(tcard.card_attiva_pro||'Attiva PRO'):done?(tcard.card_completata||'✅'):('+ '+reward+' '+(tcard.card_semi||'Semi'))) + '</div>' +
         '<div class="lez-status">' + (locked?'🔒':done?'⭐':'→') + '</div>' +
       '</div>';
 
@@ -1459,7 +1462,8 @@ function renderLezioniList() {
   // Footer
   var footer = document.createElement('div');
   footer.style.cssText = 'text-align:center;padding:14px;font-size:.72rem;color:var(--muted);line-height:1.6';
-  footer.innerHTML = '🤖 Le lezioni sono generate in tempo reale da Claude AI<br>Aggiornate automaticamente — nessuna codifica manuale';
+  var tf = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  footer.innerHTML = tf.footer_ai || '🤖 Lezioni generate da Claude AI in tempo reale — non sono consigli finanziari';
   body.appendChild(footer);
 }
 
@@ -1485,7 +1489,8 @@ function openLezione(lez) {
   if (lez.punti_chiave && lez.punti_chiave.length) {
     var sec = document.createElement('div');
     sec.className = 'lv-section';
-    sec.innerHTML = '<div class="lv-section-title">Cosa Impari</div>';
+    var tlez = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    sec.innerHTML = '<div class="lv-section-title">'+(tlez.sec_cosa_impari||'Cosa Impari')+'</div>';
     lez.punti_chiave.forEach(function(punto, i) {
       var el = document.createElement('div');
       el.className = 'lv-punto';
@@ -1499,7 +1504,8 @@ function openLezione(lez) {
   if (lez.esempio_pratico) {
     var ex = document.createElement('div');
     ex.className = 'lv-section';
-    ex.innerHTML = '<div class="lv-section-title">Esempio Pratico</div>' +
+    var tex = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    ex.innerHTML = '<div class="lv-section-title">'+(tex.sec_esempio||'Esempio Pratico')+'</div>' +
       '<div class="lv-esempio">💡 ' + lez.esempio_pratico + '</div>';
     body.appendChild(ex);
   }
@@ -1508,7 +1514,8 @@ function openLezione(lez) {
   if (lez.dato_reale) {
     var dr = document.createElement('div');
     dr.className = 'lv-section';
-    dr.innerHTML = '<div class="lv-section-title">Dato Reale</div>' +
+    var tdr = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    dr.innerHTML = '<div class="lv-section-title">'+(tdr.sec_dato||'Dato Reale')+'</div>' +
       '<div class="lv-dato">📊 ' + lez.dato_reale + '</div>';
     body.appendChild(dr);
   }
@@ -1517,7 +1524,8 @@ function openLezione(lez) {
   if (lez.collegamento_africa) {
     var af = document.createElement('div');
     af.className = 'lv-section';
-    af.innerHTML = '<div class="lv-section-title">Mercati Africani</div>' +
+    var taf = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    af.innerHTML = '<div class="lv-section-title">'+(taf.sec_africa||'Mercati Africani')+'</div>' +
       '<div class="lv-africa show">🌍 ' + lez.collegamento_africa + '</div>';
     body.appendChild(af);
   }
@@ -1526,7 +1534,8 @@ function openLezione(lez) {
   if (lez.sfida_vita_reale) {
     var sfida = document.createElement('div');
     sfida.className = 'lv-section';
-    sfida.innerHTML = '<div class="lv-section-title">Sfida Vita Reale</div>' +
+    var tsfida = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    sfida.innerHTML = '<div class="lv-section-title">'+(tsfida.sec_sfida||'Sfida Vita Reale')+'</div>' +
       '<div class="lv-sfida">🎯 ' + lez.sfida_vita_reale + '</div>';
     body.appendChild(sfida);
   }
@@ -2753,6 +2762,15 @@ var TRANSLATIONS = {
     toast_trial:'Trial PRO attivato! 7 giorni completi 🎉',
     /* DISCLAIMER */
     disclaimer:'Solo a scopo educativo — non è un consiglio finanziario',
+    /* CARD LEZIONI */
+    card_percorso_lbl: function(p){ return p; },
+    card_semi:'Semi', card_completata:'✅ Completata', card_attiva_pro:'Attiva PRO',
+    card_pronta:'✓ Pronta',
+    /* LEZIONE APERTA */
+    sec_cosa_impari:'Cosa Impari', sec_esempio:'Esempio Pratico',
+    sec_dato:'Dato Reale', sec_africa:'Mercati Africani',
+    sec_sfida:'Sfida Vita Reale',
+    footer_ai:'🤖 Lezioni generate da Claude AI in tempo reale — non sono consigli finanziari',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -2826,6 +2844,14 @@ var TRANSLATIONS = {
     toast_cert:'Certificat généré ! 📜',
     toast_trial:'Essai PRO activé ! 7 jours complets 🎉',
     disclaimer:'À des fins éducatives uniquement',
+    /* CARDS COURS */
+    card_semi:'Graines', card_completata:'✅ Terminé', card_attiva_pro:'Activer PRO',
+    card_pronta:'✓ Prêt',
+    /* COURS OUVERT */
+    sec_cosa_impari:'Ce que tu apprends', sec_esempio:'Exemple Pratique',
+    sec_dato:'Donnée Réelle', sec_africa:'Marchés Africains',
+    sec_sfida:'Défi Vie Réelle',
+    footer_ai:'🤖 Cours générés par Claude IA en temps réel — pas des conseils financiers',
   },
   en: {
     home_title:'The Savings Academy',
@@ -2899,6 +2925,14 @@ var TRANSLATIONS = {
     toast_cert:'Certificate generated! 📜',
     toast_trial:'PRO Trial activated! 7 full days 🎉',
     disclaimer:'For educational purposes only',
+    /* LESSON CARDS */
+    card_semi:'Seeds', card_completata:'✅ Completed', card_attiva_pro:'Activate PRO',
+    card_pronta:'✓ Ready',
+    /* LESSON OPEN */
+    sec_cosa_impari:'What You Learn', sec_esempio:'Practical Example',
+    sec_dato:'Real Data', sec_africa:'African Markets',
+    sec_sfida:'Real Life Challenge',
+    footer_ai:'🤖 Lessons generated by Claude AI in real time — not financial advice',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -2972,6 +3006,14 @@ var TRANSLATIONS = {
     toast_cert:'Certificado generado! 📜',
     toast_trial:'Trial PRO activado! 7 días completos 🎉',
     disclaimer:'Solo con fines educativos',
+    /* TARJETAS LECCIONES */
+    card_semi:'Semillas', card_completata:'✅ Completado', card_attiva_pro:'Activar PRO',
+    card_pronta:'✓ Lista',
+    /* LECCIÓN ABIERTA */
+    sec_cosa_impari:'Qué Aprendes', sec_esempio:'Ejemplo Práctico',
+    sec_dato:'Dato Real', sec_africa:'Mercados Africanos',
+    sec_sfida:'Desafío Vida Real',
+    footer_ai:'🤖 Lecciones generadas por Claude IA en tiempo real — no son consejos financieros',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3045,6 +3087,14 @@ var TRANSLATIONS = {
     toast_cert:'Certificat am! 📜',
     toast_trial:'Trial PRO dox na! 7 fan 🎉',
     disclaimer:'Ci koolug jang rekk',
+    /* KARTI COSAAN */
+    card_semi:'Gerte', card_completata:'✅ Jeex', card_attiva_pro:'Seetlu PRO',
+    card_pronta:'✓ Dëkk',
+    /* COSAAN BI */
+    sec_cosa_impari:'Lan nga jàng', sec_esempio:'Misaal bu dëkk',
+    sec_dato:'Xam-xam bu dëkk', sec_africa:'Marché Afrique',
+    sec_sfida:'Defi bëjjël',
+    footer_ai:'🤖 Cosaan yi def leen Claude IA — dañu jàng rekk, du xam-xam bu xaalis',
   },
 };
 
