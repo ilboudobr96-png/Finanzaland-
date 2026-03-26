@@ -779,9 +779,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <!-- ACCADEMIA AI -->
     <div class="screen" id="accademia">
       <div class="acc-header">
-        <button class="acc-back" onclick="showScreen('home')">← Home</button>
-        <div class="acc-title">📚 Accademia</div>
-        <div class="acc-ai-badge">🤖 AI</div>
+        <button class="acc-back" data-i18n="acc_back" onclick="showScreen('home')">← Home</button>
+        <div class="acc-title" data-i18n="acc_title">📚 Accademia</div>
+        <div class="acc-ai-badge" data-i18n="acc_ai">🤖 AI</div>
       </div>
       <!-- Percorsi -->
       <div class="acc-percorsi" id="acc-percorsi"></div>
@@ -1328,7 +1328,9 @@ function buildAccademia() {
   PERCORSI.forEach(function(p) {
     var t = document.createElement('div');
     t.className = 'perc-tab' + (p.id===currentPercorso.id?' active':'');
-    t.textContent = p.label;
+    var tl = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    var percLabels = tl.perc_labels || {};
+    t.textContent = percLabels[p.id] || p.label;
     t.addEventListener('click', function(){
       currentPercorso = p;
       document.querySelectorAll('.perc-tab').forEach(function(x){x.classList.remove('active');});
@@ -1344,7 +1346,9 @@ function buildAccademia() {
   LIVELLI.forEach(function(l) {
     var t = document.createElement('div');
     t.className = 'lv-tab' + (l.id===currentLivello.id?' active':'');
-    t.textContent = l.label;
+    var tl2 = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    var livLabels = tl2.liv_labels || {};
+    t.textContent = livLabels[l.id] || l.label;
     if (t.classList.contains('active')) {
       t.style.background = 'var(--gold)';
       t.style.borderColor = 'var(--gold)';
@@ -1373,22 +1377,24 @@ function renderLezioniList() {
   // Banner disclaimer
   var banner = document.createElement('div');
   banner.className = 'edu-banner';
-  banner.textContent = '📚 Solo a scopo educativo — Le lezioni sono generate da AI (Claude) e non costituiscono consigli finanziari';
+  var t_now = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  banner.textContent = t_now.acc_banner || '📚 Solo a scopo educativo — Le lezioni sono generate da AI e non costituiscono consigli finanziari';
   body.appendChild(banner);
 
   // Box genera lezione personalizzata
   var genBox = document.createElement('div');
   genBox.className = 'ai-gen-card';
-  genBox.innerHTML = '<div class="ai-gen-title">🤖 Genera Lezione Personalizzata</div>' +
-    '<div class="ai-gen-sub">Scrivi qualsiasi argomento — Claude genera una lezione completa con quiz in pochi secondi</div>' +
-    '<input class="ai-gen-input" id="gen-topic-inp" type="text" placeholder="es. come funziona un mutuo, criptovalute per principianti...">' +
-    '<div class="ai-gen-spinning" id="gen-spinning">🤖 Claude sta generando la tua lezione...</div>' +
-    '<button class="ai-gen-btn" id="gen-btn">🚀 Genera Lezione con AI</button>';
+  var tg = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  genBox.innerHTML = '<div class="ai-gen-title">🤖 ' + (tg.gen_title||'Genera Lezione Personalizzata') + '</div>' +
+    '<div class="ai-gen-sub">' + (tg.gen_sub||'Scrivi qualsiasi argomento — Claude genera una lezione completa con quiz') + '</div>' +
+    '<input class="ai-gen-input" id="gen-topic-inp" type="text" placeholder="' + (tg.gen_placeholder||'Es. come funziona un mutuo...') + '">' +
+    '<div class="ai-gen-spinning" id="gen-spinning">' + (tg.gen_loading||'🤖 Generando...') + '</div>' +
+    '<button class="ai-gen-btn" id="gen-btn">' + (tg.gen_btn||'🚀 Genera Lezione') + '</button>';
   body.appendChild(genBox);
 
   document.getElementById('gen-btn').addEventListener('click', function(){
     var topic = document.getElementById('gen-topic-inp').value.trim();
-    if (!topic) { toast('Scrivi un argomento!'); return; }
+    if (!topic) { var tw=TRANSLATIONS[S.lang]||TRANSLATIONS['it']; toast(tw.gen_write_topic||'Scrivi un argomento!'); return; }
     document.getElementById('gen-spinning').style.display = 'block';
     document.getElementById('gen-btn').style.display = 'none';
     generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, true).then(function(lez){
@@ -1403,7 +1409,10 @@ function renderLezioniList() {
   var topics = TOPICS[currentPercorso.id] || [];
   var secTitle = document.createElement('div');
   secTitle.className = 'adult-section-title';
-  secTitle.textContent = currentPercorso.label + ' — ' + currentLivello.label;
+  var ts = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  var pl = (ts.perc_labels||{})[currentPercorso.id] || currentPercorso.label;
+  var ll = (ts.liv_labels||{})[currentLivello.id] || currentLivello.label;
+  secTitle.textContent = pl + ' — ' + ll;
   body.appendChild(secTitle);
 
   topics.forEach(function(topic, i) {
@@ -2672,6 +2681,25 @@ var TRANSLATIONS = {
     btn_kids:'👶 Zona Bambini — Tocca e Gioca!',
     btn_share:'↗️ Condividi FinanzaLand',
     /* NAV */
+    /* ACCADEMIA — chiavi mancanti */
+    acc_back:'← Home',
+    acc_banner:'📚 Solo a scopo educativo — Lezioni generate da AI, non consigli finanziari',
+    gen_title:'Genera Lezione Personalizzata',
+    gen_sub:'Scrivi qualsiasi argomento — Claude genera una lezione completa con quiz',
+    gen_write_topic:'Scrivi un argomento!',
+    /* PERCORSI */
+    perc_labels:{
+      risparmio:'💰 Risparmio', investimenti:'📈 Investimenti', mercati:'🌍 Mercati',
+      immobiliare:'🏠 Immobiliare', tasse:'📋 Tasse', obbligazioni:'🏛️ Obbligazioni',
+      pensione:'🧓 Pensione', africa:'🌍 Africa & BRVM', bambini:'👶 Bambini',
+      figli:'🍼 Per i Tuoi Figli', crypto:'₿ Crypto', derivati:'🎯 Derivati',
+      psicologia:'🧠 Psicologia',
+    },
+    /* LIVELLI */
+    liv_labels:{
+      base:'🌱 Base', medio:'📚 Medio', avanzato:'🎓 Avanzato',
+      esperto:'🔬 Esperto', master:'💎 Master',
+    },
     nav_home:'Home', nav_lezioni:'Lezioni', nav_mercati:'Mercati',
     nav_premi:'Premi', nav_famiglia:'Famiglia', nav_academy:'Academy', nav_muro:'Muro',
     /* STATS */
@@ -2737,6 +2765,23 @@ var TRANSLATIONS = {
     btn_muro:'🌍 Mur Social — Joue avec le Monde',
     btn_kids:'👶 Zone Enfants — Touche et Joue!',
     btn_share:'↗️ Partager FinanzaLand',
+    /* ACCADEMIA */
+    acc_back:'← Accueil',
+    acc_banner:'📚 À des fins éducatives uniquement — Cours générés par IA, pas des conseils financiers',
+    gen_title:'Générer un Cours Personnalisé',
+    gen_sub:'Écris n\'importe quel sujet — Claude génère un cours complet avec quiz',
+    gen_write_topic:'Écris un sujet !',
+    perc_labels:{
+      risparmio:'💰 Épargne', investimenti:'📈 Investissements', mercati:'🌍 Marchés',
+      immobiliare:'🏠 Immobilier', tasse:'📋 Fiscalité', obbligazioni:'🏛️ Obligations',
+      pensione:'🧓 Retraite', africa:'🌍 Afrique & BRVM', bambini:'👶 Enfants',
+      figli:'🍼 Pour tes Enfants', crypto:'₿ Crypto', derivati:'🎯 Produits dérivés',
+      psicologia:'🧠 Psychologie',
+    },
+    liv_labels:{
+      base:'🌱 Débutant', medio:'📚 Intermédiaire', avanzato:'🎓 Avancé',
+      esperto:'🔬 Expert', master:'💎 Master',
+    },
     nav_home:'Accueil', nav_lezioni:'Cours', nav_mercati:'Marchés',
     nav_premi:'Prix', nav_famille:'Famille', nav_famiglia:'Famille', nav_academy:'Academy', nav_muro:'Mur',
     /* STATS */
@@ -2793,6 +2838,23 @@ var TRANSLATIONS = {
     btn_muro:'🌍 Social Wall — Play with the World',
     btn_kids:'👶 Kids Zone — Touch and Play!',
     btn_share:'↗️ Share FinanzaLand',
+    /* ACADEMY */
+    acc_back:'← Home',
+    acc_banner:'📚 For educational purposes only — AI-generated lessons, not financial advice',
+    gen_title:'Generate a Personalised Lesson',
+    gen_sub:'Write any topic — Claude generates a full lesson with quiz in seconds',
+    gen_write_topic:'Write a topic!',
+    perc_labels:{
+      risparmio:'💰 Savings', investimenti:'📈 Investments', mercati:'🌍 Markets',
+      immobiliare:'🏠 Real Estate', tasse:'📋 Taxes', obbligazioni:'🏛️ Bonds',
+      pensione:'🧓 Retirement', africa:'🌍 Africa & BRVM', bambini:'👶 Kids',
+      figli:'🍼 For Your Children', crypto:'₿ Crypto', derivati:'🎯 Derivatives',
+      psicologia:'🧠 Psychology',
+    },
+    liv_labels:{
+      base:'🌱 Beginner', medio:'📚 Intermediate', avanzato:'🎓 Advanced',
+      esperto:'🔬 Expert', master:'💎 Master',
+    },
     nav_home:'Home', nav_lezioni:'Lessons', nav_mercati:'Markets',
     nav_premi:'Prizes', nav_famiglia:'Family', nav_academy:'Academy', nav_muro:'Wall',
     /* STATS */
@@ -2849,6 +2911,23 @@ var TRANSLATIONS = {
     btn_muro:'🌍 Muro Social — Juega con el Mundo',
     btn_kids:'👶 Zona Niños — ¡Toca y Juega!',
     btn_share:'↗️ Compartir FinanzaLand',
+    /* ACADEMIA */
+    acc_back:'← Inicio',
+    acc_banner:'📚 Solo con fines educativos — Lecciones generadas por IA, no consejos financieros',
+    gen_title:'Generar Lección Personalizada',
+    gen_sub:'Escribe cualquier tema — Claude genera una lección completa con quiz',
+    gen_write_topic:'¡Escribe un tema!',
+    perc_labels:{
+      risparmio:'💰 Ahorro', investimenti:'📈 Inversiones', mercati:'🌍 Mercados',
+      immobiliare:'🏠 Inmobiliario', tasse:'📋 Impuestos', obbligazioni:'🏛️ Bonos',
+      pensione:'🧓 Jubilación', africa:'🌍 África & BRVM', bambini:'👶 Niños',
+      figli:'🍼 Para tus Hijos', crypto:'₿ Crypto', derivati:'🎯 Derivados',
+      psicologia:'🧠 Psicología',
+    },
+    liv_labels:{
+      base:'🌱 Principiante', medio:'📚 Intermedio', avanzato:'🎓 Avanzado',
+      esperto:'🔬 Experto', master:'💎 Master',
+    },
     nav_home:'Inicio', nav_lezioni:'Lecciones', nav_mercati:'Mercados',
     nav_premi:'Premios', nav_famiglia:'Familia', nav_academy:'Academy', nav_muro:'Muro',
     /* STATS */
@@ -2905,6 +2984,23 @@ var TRANSLATIONS = {
     btn_muro:'🌍 Ndar bu Aduna — Fecc ak Aduna',
     btn_kids:'👶 Bunt Jiit yi — Tannal!',
     btn_share:'↗️ Samp FinanzaLand',
+    /* COSAAN */
+    acc_back:'← Keur',
+    acc_banner:'📚 Ci koolug jang rekk — Cosaan yi def ci IA, du ay xam-xam yu soxor',
+    gen_title:'Def Cosaan bu Yomb',
+    gen_sub:'Bind sa xam-xam bi — Claude di def cosaan ak quiz',
+    gen_write_topic:'Bindal xam-xam!',
+    perc_labels:{
+      risparmio:'💰 Bëgg Xaalis', investimenti:'📈 Jëfandikoo Xaalis', mercati:'🌍 Marché',
+      immobiliare:'🏠 Kër', tasse:'📋 Impôt', obbligazioni:'🏛️ Obligations',
+      pensione:'🧓 Retraite', africa:'🌍 Afrig & BRVM', bambini:'👶 Jiit yi',
+      figli:'🍼 Ci Jiit yi', crypto:'₿ Crypto', derivati:'🎯 Produits dérivés',
+      psicologia:'🧠 Xel ak Xaalis',
+    },
+    liv_labels:{
+      base:'🌱 Sàkk', medio:'📚 ci diggante', avanzato:'🎓 Ci kanam',
+      esperto:'🔬 Ñu xam', master:'💎 Master',
+    },
     nav_home:'Keur', nav_lezioni:'Cosaan', nav_mercati:'Marchés',
     nav_premi:'Njariign', nav_famille:'Mbokk', nav_famiglia:'Mbokk', nav_academy:'Academy', nav_muro:'Ndar',
     /* STATS */
@@ -2997,14 +3093,18 @@ function setLang(lang, btnEl) {
   var wallInp = document.getElementById('wall-new-inp');
   if (wallInp && t.wall_placeholder) wallInp.placeholder = t.wall_placeholder;
 
-  // ── 5. Ricostituisce schermata attiva ─────────────────
-  var activeScreen = document.querySelector('.screen.active');
-  if (activeScreen) {
-    var sid = activeScreen.id;
-    if (sid === 'accademia' && typeof buildAccademia === 'function') setTimeout(buildAccademia, 100);
-    else if (sid === 'muro-sociale' && typeof buildMuroSociale === 'function') setTimeout(buildMuroSociale, 100);
-    else if (sid === 'kids-home' && typeof buildKidsSections === 'function') setTimeout(buildKidsSections, 100);
-  }
+  // ── 5. Ricostruisce SEMPRE le schermate dinamiche ─────
+  // Accademia: percorsi e livelli devono aggiornarsi sempre
+  setTimeout(function() {
+    if (typeof buildAccademia === 'function') buildAccademia();
+    // Ricostruisce anche muro e kids se attivi
+    var activeScreen = document.querySelector('.screen.active');
+    if (activeScreen) {
+      var sid = activeScreen.id;
+      if (sid === 'muro-sociale' && typeof buildMuroSociale === 'function') buildMuroSociale();
+      if (sid === 'kids-home' && typeof buildKidsSections === 'function') buildKidsSections();
+    }
+  }, 80);
 
   // ── 6. Toast conferma ─────────────────────────────────
   try { toast(t.toast_lingua || ('Lingua: ' + lang.toUpperCase() + ' ✅')); } catch(e) {}
