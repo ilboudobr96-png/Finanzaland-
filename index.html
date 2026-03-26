@@ -1241,18 +1241,85 @@ var LESSON_CACHE = safeLS('fl_lesson_cache', {});
 
 // Argomenti predefiniti per ogni percorso (seed per AI)
 var TOPICS = {
-  risparmio:    ['Regola 50-30-20','Fondo di emergenza','Pagati prima','Obiettivi SMART','Budget mensile','Risparmio automatico','Psicologia del risparmio'],
-  investimenti: ['Interesse composto','ETF cosa sono','Diversificazione','PAC mensile','Risk/reward','S&P500','Dividendi e cedole'],
-  mercati:      ['Come funziona la borsa','Banche centrali','Inflazione','Cicli economici','Crisi del 2008','BRVM Africa','Carry trade'],
-  immobiliare:  ['Comprare o affittare','Calcolo mutuo','Price-to-Rent','Rendita affitto','REIT','Mercati globali','Superbonus'],
-  tasse:        ['IRPEF scaglioni','Capital gain 26%','Forfettario 15%','ETF UCITS irlanda','Dichiarazione redditi','IMU','Ottimizzazione fiscale'],
-  obbligazioni: ['Cosa e un obbligazione','BTP italiano','Duration','Rating credito','Yield curve','Obbligazioni corporate','High yield'],
-  pensione:     ['Perche pensare ora','PAC per la pensione','Regola del 4%','Pensione complementare','FIRE','TFR','Pilastri pensionistici'],
-  africa:       ['Economia africana','Franco CFA','BRVM borsa','M-Pesa Kenya','Sonatel Senegal','Rimesse diaspora','Investire in Africa'],
-  bambini:      ['Cosa sono i soldi','Bisogno vs desiderio','Il mio salvadanaio','Come guadagnare','Dare risparmiare spendere','Il prezzo delle cose','Obiettivi di risparmio'],
-  crypto:       ['Cos e Bitcoin','Blockchain','Ethereum','Rischi crypto','DeFi','NFT','Regolamentazione'],
-  derivati:     ['Cosa sono i derivati','Futures','Opzioni call put','Leva finanziaria','Hedging','Black-Scholes','Gestione rischio'],
-  psicologia:   ['Bias cognitivi finanziari','Avversione alla perdita','FOMO investimenti','Nudge theory','Paura e avidita','Disciplina finanziaria','Mindset ricchezza'],
+  risparmio:    [
+    'Regola 50-30-20','Fondo di emergenza','Pagati prima','Obiettivi SMART',
+    'Budget mensile','Risparmio automatico','Psicologia del risparmio',
+    'Conto corrente vs conto deposito','Risparmio per i figli','Regola delle 72',
+    'Spese fisse vs variabili','Zero-based budget','Il potere delle abitudini',
+  ],
+  investimenti: [
+    'Interesse composto','ETF cosa sono','Diversificazione','PAC mensile',
+    'Risk/reward','S&P500','Dividendi e cedole',
+    'Value investing','Growth investing','Dollar cost averaging',
+    'Portafoglio lazy','Small cap vs large cap','Rebalancing',
+  ],
+  mercati:      [
+    'Come funziona la borsa','Banche centrali','Inflazione','Cicli economici',
+    'Crisi del 2008','BRVM Africa','Carry trade',
+    'Come leggere un grafico','Analisi tecnica base','Analisi fondamentale',
+    'Indici globali','Spread BTP-Bund','Mercati emergenti',
+  ],
+  immobiliare:  [
+    'Comprare o affittare','Calcolo mutuo','Price-to-Rent','Rendita affitto',
+    'REIT','Mercati globali','Superbonus',
+    'Come scegliere un immobile','Crowdfunding immobiliare','Airbnb come investimento',
+    'Mutuo fisso vs variabile','Spese accessorie acquisto','Immobili in Africa',
+  ],
+  tasse:        [
+    'IRPEF scaglioni','Capital gain 26%','Forfettario 15%','ETF UCITS irlanda',
+    'Dichiarazione redditi','IMU','Ottimizzazione fiscale',
+    'Detrazioni e deduzioni','730 precompilato','Tasse sulle crypto',
+    'IVA come funziona','Tasse sugli affitti','Pianificazione fiscale',
+  ],
+  obbligazioni: [
+    'Cosa e un obbligazione','BTP italiano','Duration','Rating credito',
+    'Yield curve','Obbligazioni corporate','High yield',
+    'BOT e CCT','Inflation-linked bond','Eurobond',
+    'Obbligazioni africane','Default sovrano','Obbligazioni verdi ESG',
+  ],
+  pensione:     [
+    'Perche pensare ora','PAC per la pensione','Regola del 4%',
+    'Pensione complementare','FIRE','TFR','Pilastri pensionistici',
+    'Quando andare in pensione','Pensione anticipata','Coefficienti trasformazione',
+    'Pensione minima garantita','Investire il TFR','FIRE con 1000 euro al mese',
+  ],
+  africa:       [
+    'Economia africana','Franco CFA','BRVM borsa','M-Pesa Kenya',
+    'Sonatel Senegal','Rimesse diaspora','Investire in Africa',
+    'UEMOA zona economica','Banca mondiale Africa','Microfinanza Africa',
+    'ETF Africa','Enel Green Africa','Startup africane',
+  ],
+  bambini:      [
+    'Cosa sono i soldi','Bisogno vs desiderio','Il mio salvadanaio',
+    'Come guadagnare','Dare risparmiare spendere','Il prezzo delle cose',
+    'Obiettivi di risparmio','Cos e una banca','Come funziona la carta',
+    'I miei primi investimenti','Differenza ricchi e poveri',
+    'Il valore del lavoro','Commercio e baratto',
+  ],
+  figli:        [
+    'ETF per i figli','PAC dal primo giorno','BRVM per i tuoi figli',
+    'Regola delle 72 applicata','Conto deposito per bambini',
+    'Polizza vita mista pro e contro','Donazione ai figli legge italiana',
+    'Fondo universitario','Risparmio prima dei 5 anni',
+    'Piano 18 anni 100 euro al mese','Educazione finanziaria 0-6 anni',
+  ],
+  crypto:       [
+    'Cos e Bitcoin','Blockchain','Ethereum','Rischi crypto','DeFi','NFT','Regolamentazione',
+    'Stablecoin','Crypto e tasse','Hardware wallet','Solana vs Ethereum',
+    'Mining come funziona','Crypto in Africa',
+  ],
+  derivati:     [
+    'Cosa sono i derivati','Futures','Opzioni call put','Leva finanziaria',
+    'Hedging','Black-Scholes','Gestione rischio',
+    'Warrant','Covered warrant','Certificati strutturati',
+    'CFD trading','Spread betting','Opzioni su azioni italiane',
+  ],
+  psicologia:   [
+    'Bias cognitivi finanziari','Avversione alla perdita','FOMO investimenti',
+    'Nudge theory','Paura e avidita','Disciplina finanziaria','Mindset ricchezza',
+    'Effetto ancoraggio','Herd mentality','Ottimismo e pessimismo',
+    'Come smettere di procrastinare','Identita finanziaria','Relazione con il denaro',
+  ],
 };
 
 // ═══════════════════════════════════════════════════════
@@ -5832,52 +5899,104 @@ function entraModoBambini() {
 window.entraModoBambini = entraModoBambini;
 
 // ── GIOCO MEMORIA DEI SOLDI ───────────────────────────────
-var MEM_CARDS_DEF = [
-  {id:'a', em:'🪙', val:'Semi'},
-  {id:'b', em:'🐷', val:'Risparmio'},
-  {id:'c', em:'🏦', val:'Banca'},
-  {id:'d', em:'📈', val:'Crescita'},
-  {id:'e', em:'🎯', val:'Obiettivo'},
-  {id:'f', em:'💰', val:'Soldi'},
-  {id:'g', em:'🏰', val:'Castello'},
-  {id:'h', em:'🌱', val:'Seme'},
+// Tutte le carte disponibili per la memoria (24 totali)
+var MEM_CARDS_ALL = [
+  {id:'a', em:'🪙', val:'Semi'},       {id:'b', em:'🐷', val:'Risparmio'},
+  {id:'c', em:'🏦', val:'Banca'},      {id:'d', em:'📈', val:'Crescita'},
+  {id:'e', em:'🎯', val:'Obiettivo'},  {id:'f', em:'💰', val:'Soldi'},
+  {id:'g', em:'🏰', val:'Castello'},   {id:'h', em:'🌱', val:'Seme'},
+  {id:'i', em:'📊', val:'Grafici'},    {id:'j', em:'🦉', val:'Civetta'},
+  {id:'k', em:'💎', val:'Diamante'},   {id:'l', em:'🌍', val:'Africa'},
+  {id:'m', em:'🐉', val:'Drago'},      {id:'n', em:'⭐', val:'Stella'},
+  {id:'o', em:'🔥', val:'Streak'},     {id:'p', em:'📚', val:'Studio'},
+  {id:'q', em:'🏆', val:'Trofeo'},     {id:'r', em:'🎓', val:'Diploma'},
+  {id:'s', em:'💳', val:'Carta'},      {id:'t', em:'🏡', val:'Casa'},
+  {id:'u', em:'✈️', val:'Viaggio'},    {id:'v', em:'🌿', val:'ETF'},
+  {id:'w', em:'⚡', val:'Energia'},    {id:'x', em:'🎪', val:'Mercato'},
 ];
+
+// Livelli memoria: base=8 coppie, medio=12, avanzato=16
+var MEM_LIVELLI = [
+  {id:'base',     label:'🌱 Facile',    coppie:8,  semi:100},
+  {id:'medio',    label:'📚 Medio',     coppie:12, semi:200},
+  {id:'avanzato', label:'🎓 Difficile', coppie:16, semi:350},
+];
+var memLivelloAttuale = 0; // indice in MEM_LIVELLI
+
+function getMEMCards() {
+  var n = MEM_LIVELLI[memLivelloAttuale].coppie;
+  return MEM_CARDS_ALL.slice(0, n);
+}
+
+var MEM_CARDS_DEF = MEM_CARDS_ALL.slice(0,8); // backward compat
 var memState = {cards:[], flipped:[], matched:0, moves:0, timer:null};
 
-function buildMemoria() {
+function buildMemoria(livIdx) {
+  if (livIdx !== undefined) memLivelloAttuale = livIdx;
   var body = document.getElementById('kids-memoria-body');
   if (!body) return;
+  body.innerHTML = '';
+
+  var lv = MEM_LIVELLI[memLivelloAttuale];
+  var cardsToUse = MEM_CARDS_ALL.slice(0, lv.coppie);
+
+  // Selettore livello
+  var lvBar = document.createElement('div');
+  lvBar.style.cssText = 'display:flex;gap:6px;justify-content:center;margin-bottom:12px';
+  MEM_LIVELLI.forEach(function(l, i) {
+    var btn = document.createElement('button');
+    btn.textContent = l.label;
+    btn.style.cssText = 'padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer;border:2px solid;transition:all .2s;' +
+      (i===memLivelloAttuale
+        ? 'background:var(--gold);color:#1c0a00;border-color:var(--gold)'
+        : 'background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.15)');
+    btn.onclick = function(){ buildMemoria(i); };
+    lvBar.appendChild(btn);
+  });
+  body.appendChild(lvBar);
+
+  // Info
+  var info = document.createElement('div');
+  info.style.cssText = 'text-align:center;margin-bottom:10px';
+  info.innerHTML =
+    '<div style="font-size:.95rem;font-weight:800;color:#fff;margin-bottom:2px">Abbina le coppie! 🎴</div>' +
+    '<div style="font-size:.74rem;color:var(--muted)">' + lv.coppie + ' coppie · +' + lv.semi + ' Semi se completi</div>';
+  body.appendChild(info);
+
+  // Prepara carte
   var allCards = [];
-  MEM_CARDS_DEF.forEach(function(c){
+  cardsToUse.forEach(function(c){
     allCards.push({uid:c.id+'_1', id:c.id, em:c.em, val:c.val, flipped:false, matched:false});
     allCards.push({uid:c.id+'_2', id:c.id, em:c.em, val:c.val, flipped:false, matched:false});
   });
-  // Mescola
   for(var i=allCards.length-1;i>0;i--){
     var j=Math.floor(Math.random()*(i+1));
     var tmp=allCards[i];allCards[i]=allCards[j];allCards[j]=tmp;
   }
   memState.cards=allCards; memState.flipped=[]; memState.matched=0; memState.moves=0;
 
-  body.innerHTML = '';
-  var info = document.createElement('div');
-  info.style.cssText = 'text-align:center;margin-bottom:12px';
-  info.innerHTML = '<div style="font-size:1rem;font-weight:800;color:#fff;margin-bottom:4px">Abbina le coppie di soldi! 🎴</div>' +
-    '<div style="font-size:.78rem;color:var(--muted)">Tocca due carte — se sono uguali, hai vinto quella coppia!</div>';
-  body.appendChild(info);
-
+  var cols = lv.coppie <= 8 ? 4 : lv.coppie <= 12 ? 4 : 4;
   var grid = document.createElement('div');
   grid.className = 'memory-grid';
-  grid.style.gridTemplateColumns = 'repeat(4,1fr)';
+  grid.style.gridTemplateColumns = 'repeat(' + cols + ',1fr)';
+  grid.style.gap = lv.coppie > 12 ? '4px' : '6px';
   memState.cards.forEach(function(card, idx) {
     var el = document.createElement('div');
     el.className = 'mem-card';
     el.id = 'mem-' + idx;
+    el.style.fontSize = lv.coppie > 12 ? '1.4rem' : '1.8rem';
     el.textContent = '❓';
     el.addEventListener('click', function(){ flipCard(idx, el); });
     grid.appendChild(el);
   });
   body.appendChild(grid);
+
+  // Punteggio
+  var score = document.createElement('div');
+  score.id = 'mem-score';
+  score.style.cssText = 'text-align:center;margin-top:8px;font-size:.8rem;color:var(--muted)';
+  score.textContent = '0 coppie';
+  body.appendChild(score);
 }
 
 function flipCard(idx, el) {
@@ -5906,8 +6025,9 @@ function flipCard(idx, el) {
         if (navigator.vibrate) navigator.vibrate([20,10,40]);
         if(memState.matched===MEM_CARDS_DEF.length) {
           setTimeout(function(){
-            toast('🎉 Hai trovato tutte le coppie! +'+memState.matched*20+' Semi!');
-            S.coins+=100; updateHUD(); saveS();
+            var memLv = MEM_LIVELLI[memLivelloAttuale];
+            toast('🎉 Tutte le coppie! +'+memLv.semi+' Semi!');
+            S.coins+=memLv.semi; updateHUD(); saveS();
             if(navigator.vibrate) navigator.vibrate([50,30,100,30,150]);
           },500);
         }
@@ -5927,23 +6047,85 @@ function flipCard(idx, el) {
 window.buildMemoria = buildMemoria;
 
 // ── QUIZ VELOCE BAMBINI ───────────────────────────────────
-var SPEED_QUIZ = [
-  {q:'Cos e il risparmio?',  opts:['Spendere tutto','Mettere da parte','Buttare via','Giocare'], ok:1, em:'🐷'},
-  {q:'Se hai 10 euro e ne spendi 3, quanti rimangono?', opts:['5','8','7','6'], ok:2, em:'🪙'},
+// Quiz per livello: base=bambini, medio=ragazzi, avanzato=adulti
+var SPEED_QUIZ_BASE = [
+  {q:'Cos è il risparmio?', opts:['Spendere tutto','Mettere da parte','Buttare via','Giocare'], ok:1, em:'🐷'},
+  {q:'Se hai 10€ e ne spendi 3, quanti rimangono?', opts:['5','8','7','6'], ok:2, em:'🪙'},
   {q:'Cosa fa una banca?', opts:['Vende pizze','Custodisce i soldi','Gioca','Vola'], ok:1, em:'🏦'},
-  {q:'La parola magica del risparmio e:', opts:['Spendi!','Compra!','Risparmia!','Corri!'], ok:2, em:'✨'},
-  {q:'Il salvadanaio serve per:', opts:['Dormire','Raccogliere Semi','Cucinare','Cantare'], ok:1, em:'🐷'},
+  {q:'Il salvadanaio serve per:', opts:['Dormire','Raccogliere soldi','Cucinare','Cantare'], ok:1, em:'🐷'},
   {q:'50-30-20: il 20% va al:', opts:['Cinema','Risparmio','Ristorante','Giochi'], ok:1, em:'📊'},
-  {q:'Un asset mette soldi in tasca?', opts:['Si, sempre!','No mai','A volte','Non so'], ok:0, em:'🏰'},
-  {q:'Cosa significa investire?', opts:['Spendere tutto subito','Far crescere i soldi','Regalare tutto','Perdere soldi'], ok:1, em:'📈'},
+  {q:'Cosa significa investire?', opts:['Spendere tutto','Far crescere i soldi','Regalare','Perdere'], ok:1, em:'📈'},
   {q:'Il drago Finan insegna la:', opts:['Magia','Finanza','Cucina','Musica'], ok:1, em:'🐉'},
-  {q:'Semi in FinanzaLand si guadagnano:', opts:['Dormendo','Imparando','Piangendo','Niente'], ok:1, em:'🌱'},
+  {q:'Semi si guadagnano:', opts:['Dormendo','Imparando','Piangendo','Niente'], ok:1, em:'🌱'},
+  {q:'Un bisogno è:', opts:['Un gioco nuovo','Il cibo','Un vestito di lusso','Una vacanza'], ok:1, em:'🍎'},
+  {q:'Chi custodisce i tuoi risparmi?', opts:['Il gatto','La banca','Il vicino','La scuola'], ok:1, em:'🏦'},
 ];
+var SPEED_QUIZ_MEDIO = [
+  {q:'Cos è la regola 50-30-20?', opts:['Risparmio 50%','Bisogni 50% Desideri 30% Risparmio 20%','Spendi tutto','Investi il 50%'], ok:1, em:'📊'},
+  {q:'Cos è un ETF?', opts:['Un videogioco','Fondo che replica un indice','Una banca','Una crypto'], ok:1, em:'📈'},
+  {q:'L interesse composto funziona:', opts:['Solo per i ricchi','Sugli interessi degli interessi','Solo in banca','Non esiste'], ok:1, em:'💎'},
+  {q:'La BRVM è la borsa di:', opts:['Brasile','Africa Occidentale','Russia','Messico'], ok:1, em:'🌍'},
+  {q:'Un fondo di emergenza copre:', opts:['1 giorno','3-6 mesi di spese','10 anni','Solo l affitto'], ok:1, em:'🛡️'},
+  {q:'Il PAC significa:', opts:['Piano Alto Capitale','Piano Accumulo Capitale','Prestito A Costo','Polizza Assicurativa Cumulativa'], ok:1, em:'📅'},
+  {q:'L inflazione al 3% significa:', opts:['I prezzi scendono del 3%','I prezzi salgono del 3%','La borsa sale del 3%','Il PIL cresce del 3%'], ok:1, em:'📉'},
+  {q:'Diversificare significa:', opts:['Comprare solo Bitcoin','Investire in molti asset diversi','Tenere tutto in banca','Comprare solo oro'], ok:1, em:'🎯'},
+  {q:'Un ETF UCITS irlandese ha ritenuta:', opts:['30%','26%','15%','0%'], ok:2, em:'🇮🇪'},
+  {q:'La regola del 72 serve per:', opts:['Fare la pizza','Calcolare quando raddoppia il capitale','Fare la dichiarazione','Comprare BTP'], ok:1, em:'🔢'},
+];
+var SPEED_QUIZ_AVANZATO = [
+  {q:'Il P/E ratio misura:', opts:['Il peso delle azioni','Prezzo/Utile per azione','Profitto Estero','Percentuale Europea'], ok:1, em:'📊'},
+  {q:'Cosa è la duration di un obbligazione?', opts:['Quanto dura il contratto','Sensibilità al tasso di interesse','Il rating','La cedola'], ok:1, em:'🏛️'},
+  {q:'Il Sharpe ratio misura:', opts:['La volatilità','Rendimento/rischio','Il momentum','Il dividendo'], ok:1, em:'📐'},
+  {q:'In un opzione call, guadagni se:', opts:['Il prezzo scende','Il prezzo sale oltre lo strike','Il prezzo rimane fermo','Sempre'], ok:1, em:'📈'},
+  {q:'Il QE (Quantitative Easing) è:', opts:['Una tassa','La banca centrale che compra asset','Un fondo pensione','Una crypto'], ok:1, em:'🏦'},
+  {q:'Lo yield spread indica:', opts:['Differenza di rendimento tra 2 bond','Il dividendo totale','L indice di borsa','La volatilità'], ok:0, em:'📉'},
+  {q:'Il Beta di un azione misura:', opts:['Il profitto','La volatilità rispetto al mercato','Il dividendo','Il fatturato'], ok:1, em:'β'},
+  {q:'DCA sta per:', opts:['Derivati Contratti Azioni','Dollar Cost Averaging','Dividendi Cumulativi Annui','Debito Corrente Aziendale'], ok:1, em:'💰'},
+  {q:'Un REITs è:', opts:['Una crypto','Fondo immobiliare quotato','Una banca africana','Un derivato'], ok:1, em:'🏢'},
+  {q:'Il VIX misura:', opts:['Il valore dell oro','La paura del mercato','Il PIL USA','Il tasso BCE'], ok:1, em:'😰'},
+];
+
+var SPEED_QUIZ_LIVELLI = [
+  {id:'base',     label:'🌱 Facile',    questions: SPEED_QUIZ_BASE,     semi:30,  tempo:10},
+  {id:'medio',    label:'📚 Medio',     questions: SPEED_QUIZ_MEDIO,    semi:60,  tempo:12},
+  {id:'avanzato', label:'🎓 Difficile', questions: SPEED_QUIZ_AVANZATO, semi:100, tempo:15},
+];
+var speedLivelloAttuale = 0;
+var SPEED_QUIZ = SPEED_QUIZ_BASE; // backward compat
+var speedState = {qIdx:0, score:0, timer:null, answered:false};
 var speedState = {qIdx:0, score:0, timer:null, answered:false};
 
-function buildSpeedQuiz() {
+function buildSpeedQuiz(livIdx) {
+  if (livIdx !== undefined) speedLivelloAttuale = livIdx;
+  var lv = SPEED_QUIZ_LIVELLI[speedLivelloAttuale];
+  SPEED_QUIZ = lv.questions;
   var body = document.getElementById('kids-speed-body');
   if (!body) return;
+
+  // Schermata selezione livello prima di iniziare
+  if (livIdx === undefined && speedState.qIdx === 0) {
+    body.innerHTML = '';
+    var lvDiv = document.createElement('div');
+    lvDiv.style.cssText = 'padding:20px 0;text-align:center';
+    lvDiv.innerHTML = '<div style="font-size:1rem;font-weight:900;color:#fff;margin-bottom:16px">⚡ Scegli il livello</div>';
+    SPEED_QUIZ_LIVELLI.forEach(function(l, i) {
+      var btn = document.createElement('button');
+      btn.style.cssText = 'display:block;width:100%;margin-bottom:10px;padding:14px;border-radius:14px;border:2px solid;' +
+        'font-size:.9rem;font-weight:800;cursor:pointer;transition:all .2s;' +
+        ['background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80',
+         'background:rgba(255,215,0,.1);color:var(--gold);border-color:var(--gold)',
+         'background:rgba(248,113,113,.1);color:#f87171;border-color:#f87171'][i];
+      btn.innerHTML = l.label + '<br><span style="font-size:.72rem;font-weight:400;opacity:.7">+' + l.semi + ' Semi per risposta giusta · ' + l.tempo + 'sec</span>';
+      btn.onclick = function() {
+        speedLivelloAttuale = i;
+        buildSpeedQuiz(i);
+      };
+      lvDiv.appendChild(btn);
+    });
+    body.appendChild(lvDiv);
+    return;
+  }
+
   speedState = {qIdx:0, score:0, timer:null, answered:false};
   renderSpeedQ(body);
 }
