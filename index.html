@@ -798,7 +798,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <!-- LEZIONE APERTA -->
     <div class="screen" id="lezione-view">
       <div class="lv-header">
-        <button class="lv-back" id="lv-back-btn">← Accademia</button>
+        <button class="lv-back" id="lv-back-btn" data-i18n="acc_back_lez">← Accademia</button>
         <div style="flex:1;font-weight:800;color:var(--gold);font-size:.88rem" id="lv-header-title"></div>
       </div>
       <div class="lv-body" id="lv-body"></div>
@@ -1564,6 +1564,12 @@ function renderLezioniList() {
 // ═══════════════════════════════════════════════════════
 function openLezione(lez) {
   currentLezione = lez;
+  // Aggiorna bottone back con lingua corrente
+  var backBtn = document.getElementById('lv-back-btn');
+  if (backBtn) {
+    var tlv = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    backBtn.textContent = tlv.acc_back_lez || '← Accademia';
+  }
   document.getElementById('lv-header-title').textContent = lez.titolo;
 
   var body = document.getElementById('lv-body');
@@ -2991,6 +2997,11 @@ var TRANSLATIONS = {
       {label:'👶 Bambini',         q:'Spiegami i soldi per bambini'},
       {label:'₿ Bitcoin',         q:'Come funziona Bitcoin?'},
     ],
+    acc_back_lez:'← Accademia',
+    chat_inizio:'Inizio conversazione con',
+    chat_placeholder:'Scrivi un messaggio...',
+    chat_risposte:['Ottima domanda! Approfondiremo nella prossima sessione.','Grazie! Controlla il materiale del corso.','Unisciti alla prossima live per domande dal vivo!','Ho aggiornato il corso con nuovi materiali.'],
+    chat_azioni:[{icon:'📎',txt:'File'},{icon:'🎁',txt:'Dona Semi'},{icon:'📹',txt:'Video'},{icon:'❓',txt:'Domanda AI'}],
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3112,6 +3123,11 @@ var TRANSLATIONS = {
       {label:'👶 Enfants',         q:'Explique-moi l\'argent pour les enfants'},
       {label:'₿ Bitcoin',         q:'Comment fonctionne Bitcoin ?'},
     ],
+    acc_back_lez:'← Académie',
+    chat_inizio:'Début de conversation avec',
+    chat_placeholder:'Écris un message...',
+    chat_risposte:['Bonne question ! Nous approfondirons lors de la prochaine session.','Merci ! Consulte le matériel du cours.','Rejoins le prochain live pour poser des questions !','J\'ai mis à jour le cours avec de nouveaux contenus.'],
+    chat_azioni:[{icon:'📎',txt:'Fichier'},{icon:'🎁',txt:'Donner Graines'},{icon:'📹',txt:'Vidéo'},{icon:'❓',txt:'Question IA'}],
   },
   en: {
     home_title:'The Savings Academy',
@@ -3233,6 +3249,11 @@ var TRANSLATIONS = {
       {label:'👶 Kids',            q:'Explain money to kids'},
       {label:'₿ Bitcoin',         q:'How does Bitcoin work?'},
     ],
+    acc_back_lez:'← Academy',
+    chat_inizio:'Start of conversation with',
+    chat_placeholder:'Write a message...',
+    chat_risposte:['Great question! We\'ll cover this in the next session.','Thanks! Check the course materials for this.','Join the next live to ask questions directly!','I\'ve updated the course with new materials.'],
+    chat_azioni:[{icon:'📎',txt:'File'},{icon:'🎁',txt:'Gift Seeds'},{icon:'📹',txt:'Video'},{icon:'❓',txt:'AI Question'}],
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3354,6 +3375,11 @@ var TRANSLATIONS = {
       {label:'👶 Niños',           q:'Explícame el dinero para niños'},
       {label:'₿ Bitcoin',         q:'¿Cómo funciona Bitcoin?'},
     ],
+    acc_back_lez:'← Academia',
+    chat_inizio:'Inicio de conversación con',
+    chat_placeholder:'Escribe un mensaje...',
+    chat_risposte:['¡Buena pregunta! Lo veremos en la próxima sesión.','¡Gracias! Consulta el material del curso.','¡Únete al próximo live para hacer preguntas!','He actualizado el curso con nuevos materiales.'],
+    chat_azioni:[{icon:'📎',txt:'Archivo'},{icon:'🎁',txt:'Donar Semillas'},{icon:'📹',txt:'Video'},{icon:'❓',txt:'Pregunta IA'}],
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3473,6 +3499,11 @@ var TRANSLATIONS = {
       {label:'₿ Bitcoin',         q:'Naka Bitcoin def ?'},
       {label:'👶 Jiit yi',         q:'Wax ma xaalis ci jiit yi'},
     ],
+    acc_back_lez:'← Cosaan',
+    chat_inizio:'Tambali wax ak',
+    chat_placeholder:'Bind sa xar-xar...',
+    chat_risposte:['Laaj bu baax! Dangay xool ci kanam.','Jërejëf! Xool karti cosaan bi.','Dugal ci live bi kanam!','Dama soppiku cosaan bi.'],
+    chat_azioni:[{icon:'📎',txt:'Dosier'},{icon:'🎁',txt:'Dox Gerte'},{icon:'📹',txt:'Vidéo'},{icon:'❓',txt:'Laaj IA'}],
   },
 };
 
@@ -3567,15 +3598,18 @@ function setLang(lang, btnEl) {
   }
 
   // ── 5. Ricostruisce SEMPRE le schermate dinamiche ─────
-  // Accademia: percorsi e livelli devono aggiornarsi sempre
   setTimeout(function() {
     if (typeof buildAccademia === 'function') buildAccademia();
-    // Ricostruisce anche muro e kids se attivi
     var activeScreen = document.querySelector('.screen.active');
     if (activeScreen) {
       var sid = activeScreen.id;
       if (sid === 'muro-sociale' && typeof buildMuroSociale === 'function') buildMuroSociale();
       if (sid === 'kids-home' && typeof buildKidsSections === 'function') buildKidsSections();
+      // Aggiorna bottone back nella lezione
+      if (sid === 'lezione-view' || sid === 'quiz-view') {
+        var backBtn = document.getElementById('lv-back-btn');
+        if (backBtn) backBtn.textContent = t.acc_back_lez || '← Accademia';
+      }
     }
   }, 80);
 
@@ -4800,6 +4834,7 @@ function openChatWith(nome, avatar) {
 
   var chatBox = document.createElement('div');
   chatBox.className = 'chat-box';
+  chatBox.style.cssText = 'display:flex;flex-direction:column;height:100%;';
 
   // Messaggi
   var msgsDiv = document.createElement('div');
@@ -4810,7 +4845,8 @@ function openChatWith(nome, avatar) {
   if (history.length === 0) {
     var sys = document.createElement('div');
     sys.className = 'chat-bubble-sys';
-    sys.textContent = 'Inizio conversazione con ' + nome;
+    var tc = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+    sys.textContent = (tc.chat_inizio||'Inizio conversazione con') + ' ' + nome;
     msgsDiv.appendChild(sys);
   }
   history.forEach(function(m){
@@ -4824,12 +4860,14 @@ function openChatWith(nome, avatar) {
   // Azioni rapide
   var actDiv = document.createElement('div');
   actDiv.className = 'chat-actions';
-  [
+  var tact = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  var azioniChat = tact.chat_azioni || [
     {icon:'📎',txt:'File'},
     {icon:'🎁',txt:'Dona Semi'},
     {icon:'📹',txt:'Video'},
     {icon:'❓',txt:'Domanda AI'},
-  ].forEach(function(a){
+  ];
+  azioniChat.forEach(function(a){
     var btn = document.createElement('div');
     btn.className = 'chat-act-btn';
     btn.innerHTML = a.icon + ' ' + a.txt;
@@ -4848,7 +4886,8 @@ function openChatWith(nome, avatar) {
   barDiv.className = 'chat-input-bar';
   var inp = document.createElement('input');
   inp.className = 'chat-inp';
-  inp.placeholder = 'Scrivi un messaggio...';
+  var tci = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+  inp.placeholder = tci.chat_placeholder || 'Scrivi un messaggio...';
   inp.setAttribute('type','text');
   var sendBtn = document.createElement('button');
   sendBtn.className = 'chat-send-btn';
@@ -4870,10 +4909,11 @@ function openChatWith(nome, avatar) {
     S.coins += 1; updateHUD(); saveS();
     // Risposta automatica professore
     setTimeout(function(){
-      var risposte = [
+      var tpr = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
+      var risposte = tpr.chat_risposte || [
         'Ottima domanda! Approfondiremo questo nella prossima sessione.',
-        'Grazie per il messaggio. Controlla il materiale del corso per questa risposta.',
-        'Puoi unirti alla prossima live per fare domande dal vivo!',
+        'Grazie per il messaggio. Controlla il materiale del corso.',
+        'Unisciti alla prossima live per fare domande dal vivo!',
         'Ho aggiornato il corso con nuovi materiali. Dai un occhio!',
       ];
       var r = risposte[Math.floor(Math.random()*risposte.length)];
