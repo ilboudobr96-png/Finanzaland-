@@ -721,6 +721,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <div class="hud-btn" id="btn-notif" onclick="showScreen('notifiche')" style="padding:4px 8px;position:relative">
       🔔<div class="notif-dot" id="notif-hud-dot" style="display:none">0</div>
     </div>
+    <div class="hud-btn user-avatar-display" id="btn-avatar-hud"
+      onclick="openAvatarPopup()"
+      style="font-size:1.1rem;padding:3px 8px;cursor:pointer;min-width:36px;text-align:center"
+      title="Personalizza il tuo Avatar">🐉</div>
     <div class="hud-btn" id="btn-account" onclick="openPopup('account')">👤</div>
   </div>
   <div id="xpbar"><div id="xpfill"></div></div>
@@ -873,7 +877,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <!-- ══ VIDEOCALL ══ -->
     <div class="vcall-container" id="vcall-container">
       <div class="vcall-hdr">
-        <div class="vcall-title" id="vcall-title">Aula Virtuale</div>
+        <div class="vcall-title" id="vcall-title">Aula virtuale</div>
         <div style="font-size:.72rem;color:var(--muted)" id="vcall-sub">FinanzaLand Academy</div>
       </div>
       <iframe id="vcall-iframe" class="vcall-iframe" allow="camera;microphone;fullscreen;display-capture" allowfullscreen></iframe>
@@ -901,7 +905,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
       <div class="acc-header">
         <button class="acc-back" onclick="showScreen('home')">← Home</button>
         <div class="acc-title">🔔 Notifiche</div>
-        <button class="acc-ai-badge" onclick="segnaLette()" style="cursor:pointer">Lette tutte</button>
+        <button class="acc-ai-badge" onclick="segnaLette()" style="cursor:pointer">Segna tutte come lette</button>
       </div>
       <div class="acc-body" id="notifiche-body"></div>
     </div>
@@ -928,7 +932,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
       </div>
       <div class="acc-body" id="search-results-body">
         <div style="text-align:center;padding:30px;color:var(--muted);font-size:.84rem">
-          Scrivi per cercare professori, corsi e argomenti
+          Cerca professori, corsi o argomenti...
         </div>
       </div>
     </div>
@@ -1071,7 +1075,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   <div class="ai-hdr">
     <div style="flex:1">
       <div style="font-weight:800;color:var(--gold);font-size:.9rem">🦉 Civetta AI</div>
-      <div style="font-size:.68rem;color:var(--muted)">Powered by Claude — Solo a scopo educativo</div>
+      <div style="font-size:.68rem;color:var(--muted)">Powered by Claude · Solo a scopo educativo</div>
     </div>
     <button class="popup-x" onclick="toggleAI()">✕</button>
   </div>
@@ -1121,6 +1125,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
 <script>
 'use strict';
 
+// ── LETTURA SICURA LOCALSTORAGE ──────────────────────────
+function safeLS(key, fallback) {
+  try {
+    var val = localStorage.getItem(key);
+    if (val === null || val === undefined || val === 'undefined' || val === 'null') {
+      return fallback;
+    }
+    return JSON.parse(val);
+  } catch(e) {
+    try { localStorage.removeItem(key); } catch(e2) {}
+    return fallback;
+  }
+}
+function safeLSStr(key, fallback) {
+  try {
+    var val = localStorage.getItem(key);
+    if (val === null || val === undefined || val === 'undefined') return fallback;
+    return val;
+  } catch(e) { return fallback; }
+}
+
 // ═══════════════════════════════════════════════════════
 // STATO GLOBALE
 // ═══════════════════════════════════════════════════════
@@ -1129,12 +1154,12 @@ var S = {
   level: parseInt(localStorage.getItem('fl_level')||'1'),
   xp:    parseInt(localStorage.getItem('fl_xp')||'0'),
   isPro: localStorage.getItem('fl_pro')==='1',
-  lang:  localStorage.getItem('fl_lang')||'it',
-  eta:   localStorage.getItem('fl_eta')||'adulto',
+  lang:  safeLSStr('fl_lang','it'),
+  eta:   safeLSStr('fl_eta','adulto'),
   streak: parseInt(localStorage.getItem('fl_streak')||'0'),
-  lastPlay: localStorage.getItem('fl_lastplay')||'',
-  completate: JSON.parse(localStorage.getItem('fl_completate')||'{}'),
-  account: JSON.parse(localStorage.getItem('fl_account')||'null'),
+  lastPlay: safeLSStr('fl_lastplay',''),
+  completate: safeLS('fl_completate', {}),
+  account: safeLS('fl_account', null),
 };
 
 // Auto streak giornaliero
@@ -1197,7 +1222,7 @@ var currentQuiz     = null;
 var quizIdx = 0, quizScore = 0, quizAnswered = false;
 
 // CACHE lezioni generate da AI
-var LESSON_CACHE = JSON.parse(localStorage.getItem('fl_lesson_cache')||'{}');
+var LESSON_CACHE = safeLS('fl_lesson_cache', {});
 
 // Argomenti predefiniti per ogni percorso (seed per AI)
 var TOPICS = {
@@ -2540,12 +2565,23 @@ function updateHUD(){
   document.getElementById('cc').textContent=S.coins.toLocaleString('it');
   document.getElementById('stat-coins').textContent=S.coins.toLocaleString('it');
   document.getElementById('stat-lv').textContent=S.level;
-  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate).length+'+';;
+  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate).length+'+';
   var streakEl=document.getElementById('stat-streak');
-  if(streakEl) streakEl.textContent=(S.streak||0)+'🔥';;
+  if(streakEl) streakEl.textContent=(S.streak||0)+'🔥';
   var xpPct=Math.min(100,Math.round((S.xp/(S.level*150))*100));
   document.getElementById('xpfill').style.width=xpPct+'%';
+  // Aggiorna avatar — con guard completo
+  try {
+    var av = (typeof getDragonDisplay === 'function') ? getDragonDisplay() : '🐉';
+    var avatarHud = document.getElementById('btn-avatar-hud');
+    if (avatarHud) avatarHud.textContent = av;
+    document.querySelectorAll('.user-avatar-display').forEach(function(el){ el.textContent = av; });
+  } catch(e) {
+    var avatarHud2 = document.getElementById('btn-avatar-hud');
+    if (avatarHud2) avatarHud2.textContent = '🐉';
+  }
 }
+
 function checkLevel(){
   var needed=S.level*150;
   while(S.xp>=needed){S.xp-=needed;S.level++;needed=S.level*150;
@@ -2593,7 +2629,7 @@ function showDisclaimer(){
     '<div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:14px;margin-bottom:14px;font-size:.8rem;color:rgba(255,255,255,.82);line-height:1.7;text-align:left">'+
       '<strong style="color:var(--gold)">📚 Solo a scopo educativo</strong><br>'+
       'FinanzaLand e un gioco educativo sulla finanza personale. Tutti i contenuti sono SOLO A SCOPO INFORMATIVO ED EDUCATIVO.<br><br>'+
-      '<strong style="color:var(--red)">⚠️ Non e un consiglio finanziario</strong><br>'+
+      '<strong style="color:var(--red)">⚠️ Non è un consiglio finanziario</strong><br>'+
       'Nessun contenuto costituisce consulenza finanziaria, di investimento, fiscale o legale. Per decisioni reali consulta un professionista.<br><br>'+
       '<strong style="color:var(--green)">🎮 Gratis per tutti</strong><br>'+
       'Bambini da 6 anni, adulti, famiglie. Il gioco non finisce mai — lezioni nuove ogni giorno generate da AI.'+
@@ -2611,6 +2647,31 @@ function showDisclaimer(){
 // INIT
 // ═══════════════════════════════════════════════════════
 function init(){
+  // Pulizia localStorage — rimuove chiavi con valore "undefined" (stringa)
+  try {
+    var flKeys = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (k && k.startsWith('fl_')) flKeys.push(k);
+    }
+    flKeys.forEach(function(k) {
+      var v = localStorage.getItem(k);
+      if (v === 'undefined' || v === 'null' && k !== 'fl_account') {
+        localStorage.removeItem(k);
+      }
+    });
+  } catch(e) {}
+
+  // Sicurezza DRAGON_STATE — resetta se corrotto
+  try {
+    if (!DRAGON_STATE || typeof DRAGON_STATE !== 'object' ||
+        DRAGON_STATE.hat === undefined || DRAGON_STATE.emoji === undefined) {
+      DRAGON_STATE = JSON.parse(JSON.stringify(DRAGON_DEFAULT));
+      localStorage.removeItem('fl_dragon');
+    }
+  } catch(e) {
+    DRAGON_STATE = JSON.parse(JSON.stringify(DRAGON_DEFAULT));
+  }
   updateHUD();
   setTimeout(function(){
     document.getElementById('ai-fab').style.display='flex';
@@ -3196,7 +3257,7 @@ function openCorsoBase(corso) {
     '<button onclick="iscrivitiCorso()" style="width:100%;background:linear-gradient(135deg,'+(corso.prezzo===0?'var(--green),#16a34a':'var(--gold),var(--gold2)')+');border:none;border-radius:14px;padding:13px;color:'+(corso.prezzo===0?'#fff':'#1c0a00')+';font-weight:900;font-size:.92rem;cursor:pointer">' +
       (corso.prezzo===0?'✅ Iscriviti Gratis':'💳 Acquista '+corso.prezzo_label) +
     '</button>' +
-    '<div style="font-size:.68rem;color:var(--muted);text-align:center;margin-top:8px">Solo a scopo educativo — non e un consiglio finanziario</div>' +
+    '<div style="font-size:.68rem;color:var(--muted);text-align:center;margin-top:8px">Solo a scopo educativo — non è un consiglio finanziario</div>' +
     '</div>';
   body.innerHTML = html;
   document.getElementById('popup-overlay').classList.add('show');
@@ -3829,7 +3890,7 @@ var TRANSLATIONS = {
     lbl_lezioni:'Lezioni AI', lbl_streak:'Streak', lbl_semi:'Semi', lbl_livello:'Livello',
     /* LEZIONI */
     acc_title:'📚 Accademia', acc_ai:'🤖 AI',
-    gen_placeholder:'es. come funziona un mutuo, criptovalute...',
+    gen_placeholder:'Es. come funziona un mutuo, criptovalute, ETF...',
     gen_btn:'🚀 Genera Lezione con AI',
     gen_loading:'🤖 Claude sta generando la tua lezione...',
     lv_start_quiz:'🎯 Inizia Quiz',
@@ -3838,7 +3899,7 @@ var TRANSLATIONS = {
     quiz_ottimo:'Fantastico!', quiz_riprova:'Riprova!',
     quiz_chiudi:'Chiudi', quiz_avanti:'Avanti! →',
     /* MURO */
-    wall_placeholder:'Condividi qualcosa con il mondo... Hai imparato qualcosa? Sfida qualcuno!',
+    wall_placeholder:'Condividi qualcosa con il mondo... Hai imparato qualcosa? Sfida qualcuno! 🌍',
 
     wall_pubblica:'🌍 Pubblica nel Mondo!',
     wall_rispondi:'↩️ Rispondi',
@@ -3875,11 +3936,11 @@ var TRANSLATIONS = {
     toast_cert:'Certificato generato! 📜',
     toast_trial:'Trial PRO attivato! 7 giorni completi 🎉',
     /* DISCLAIMER */
-    disclaimer:'Solo a scopo educativo — non e un consiglio finanziario',
+    disclaimer:'Solo a scopo educativo — non è un consiglio finanziario',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
-    home_sub:'Pour les enfants et les adultes — Essai 7 jours gratuit',
+    home_sub:'Pour les enfants et adultes — Essai 7 jours gratuit',
     btn_accademia:'📚 Académie Infinie',
     btn_3d:'🎮 Jeu d\'Aventure pour Enfants',
     btn_adulti:'💎 Outils Adultes',
@@ -3893,7 +3954,7 @@ var TRANSLATIONS = {
     /* STATS */
     lbl_lezioni:'Leçons IA', lbl_streak:'Série', lbl_semi:'Graines', lbl_livello:'Niveau',
     acc_title:'📚 Académie', acc_ai:'🤖 IA',
-    gen_placeholder:'ex. comment fonctionne un prêt, crypto...',
+    gen_placeholder:'Ex. comment fonctionne un prêt immobilier, crypto, ETF...',
     gen_btn:'🚀 Générer Cours avec IA',
     gen_loading:'🤖 Claude génère votre cours...',
     lv_start_quiz:'🎯 Commencer Quiz',
@@ -3903,20 +3964,20 @@ var TRANSLATIONS = {
     wall_placeholder:'Partage quelque chose avec le monde... 🌍',
     wall_pubblica:'🌍 Publier dans le Monde!',
     wall_rispondi:'↩️ Répondre',
-    wall_risposta_placeholder:'Écrire une réponse... (sois gentil ! 😊)',
+    wall_risposta_placeholder:'Écris une réponse... (sois gentil·le ! 😊)',
     wall_online:'🟢 En ligne:',
-    wall_sfida_titolo:'Défi Mondial en Cours',
+    wall_sfida_titolo:'Défi mondial en cours',
     wall_partecipa:'⚔️ Participer au Défi Mondial !',
-    wall_classifica:'Top Joueurs du Monde',
-    kids_title:'🐉 Salut! Que veux-tu faire?',
+    wall_classifica:'Meilleurs joueurs du monde',
+    kids_title:'🐉 Salut ! Que veux-tu faire ?',
     kids_sezioni:'🎮 Que veux-tu faire aujourd\'hui?',
     kids_drago:'🐉 Ton Dragon',
     kids_mem_title:'Trouve les paires! 🎴',
-    kids_mem_sub:'Touche deux cartes — si elles sont pareilles, tu gagnes!',
+    kids_mem_sub:'Touche deux cartes — si elles sont identiques, tu gagnes !',
     kids_speed_title:'Réponds en 10 secondes !',
     acc_login:'Connexion', acc_reg:'S\'inscrire',
     acc_nome_ph:'Ton prénom', acc_email_ph:'Email',
-    acc_pass_ph:'Mot de passe (min 8)',
+    acc_pass_ph:'Mot de passe (min. 8 caractères)',
     acc_crea:'🚀 Créer compte gratuit',
     acc_entra:'🔑 Se connecter',
     acc_codice_ph:'Saisir le code (ex. SCUOLA2025)',
@@ -4005,7 +4066,7 @@ var TRANSLATIONS = {
     /* STATS */
     lbl_lezioni:'Lecciones IA', lbl_streak:'Racha', lbl_semi:'Semillas', lbl_livello:'Nivel',
     acc_title:'📚 Academia', acc_ai:'🤖 IA',
-    gen_placeholder:'ej. como funciona una hipoteca, cripto...',
+    gen_placeholder:'Ej. cómo funciona una hipoteca, cripto, ETF...',
     gen_btn:'🚀 Generar Lección con IA',
     gen_loading:'🤖 Claude está generando tu lección...',
     lv_start_quiz:'🎯 Iniciar Quiz',
@@ -4015,20 +4076,20 @@ var TRANSLATIONS = {
     wall_placeholder:'Comparte algo con el mundo... 🌍',
     wall_pubblica:'🌍 Publicar en el Mundo!',
     wall_rispondi:'↩️ Responder',
-    wall_risposta_placeholder:'Escribe una respuesta... (se amable! 😊)',
+    wall_risposta_placeholder:'Escribe una respuesta... (¡sé amable! 😊)',
     wall_online:'🟢 En línea:',
-    wall_sfida_titolo:'Desafío Mundial en Curso',
+    wall_sfida_titolo:'Desafío mundial en curso',
     wall_partecipa:'⚔️ Participar en el Desafío Global!',
-    wall_classifica:'Top Jugadores del Mundo',
+    wall_classifica:'Mejores jugadores del mundo',
     kids_title:'🐉 ¡Hola! ¿Qué quieres hacer?',
     kids_sezioni:'🎮 ¿Qué quieres hacer hoy?',
     kids_drago:'🐉 Tu Dragón',
     kids_mem_title:'¡Encuentra las parejas! 🎴',
-    kids_mem_sub:'Toca dos cartas — si son iguales, ganas!',
+    kids_mem_sub:'Toca dos cartas — si son iguales, ¡ganas!',
     kids_speed_title:'¡Responde en 10 segundos!',
     acc_login:'Entrar', acc_reg:'Registrarse',
     acc_nome_ph:'Tu nombre', acc_email_ph:'Email',
-    acc_pass_ph:'Contraseña (min 8)',
+    acc_pass_ph:'Contraseña (mín. 8 caracteres)',
     acc_crea:'🚀 Crear cuenta gratis',
     acc_entra:'🔑 Iniciar sesión',
     acc_codice_ph:'Introducir código (ej. SCUOLA2025)',
@@ -4047,7 +4108,7 @@ var TRANSLATIONS = {
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
-    home_sub:'Ci ndaw yi ak jilit yi — dafa yomb',
+    home_sub:'Ci jiit yi ak jilit yi — yomb, yomb',
     btn_accademia:'📚 Cosaan bu dekk',
     btn_3d:'🎮 Fecc Aventure ci jiit yi',
     btn_adulti:'💎 Jumtukaay yu mag',
@@ -4084,7 +4145,7 @@ var TRANSLATIONS = {
     kids_speed_title:'Tontu ci 10 simili!',
     acc_login:'Dugal', acc_reg:'Bind sa tur',
     acc_nome_ph:'Sa tur', acc_email_ph:'Email',
-    acc_pass_ph:'Mot de passe (8+ xam)',
+    acc_pass_ph:'Mot de passe (8 xam bu ma doy)',
     acc_crea:'🚀 Def compte bu yomb',
     acc_entra:'🔑 Dugal',
     acc_codice_ph:'Bindal code (ex. SCUOLA2025)',
@@ -4541,7 +4602,7 @@ function buildPopupPremiConCert(body) {
 // PROGRESSO CORSI
 // ════════════════════════════════════════════════════════
 
-var CORSO_PROGRESS = JSON.parse(localStorage.getItem('fl_corso_progress')||'{}');
+var CORSO_PROGRESS = safeLS('fl_corso_progress', {});
 
 function updateCorsoProgress(corsoId, lezioneIdx, totale) {
   var pct = Math.round((lezioneIdx/totale)*100);
@@ -4640,28 +4701,765 @@ window.showScreen = showScreen;
 // ════════════════════════════════════════════════════════
 
 // ── STATO DRAGO PERSONALIZZATO ───────────────────────────
-var DRAGON_STATE = JSON.parse(localStorage.getItem('fl_dragon')||'{"emoji":"🐉","hat":"","name":"Finan","color":"verde"}');
+// ── DRAGON_STATE — inizializzazione sicura con fallback completo ──
+var DRAGON_DEFAULT = {emoji:'🐉', hat:'', name:'Finan', color:'verde', bg:'#0d6e3f', frame:'gold', badge:'', svgId:'verde'};
+var DRAGON_STATE = (function(){
+  try {
+    var saved = safeLS('fl_dragon', null);
+    if (!saved || typeof saved !== 'object') return JSON.parse(JSON.stringify(DRAGON_DEFAULT));
+    // Merge con i default — garantisce che tutti i campi esistano
+    return {
+      emoji:  saved.emoji  || DRAGON_DEFAULT.emoji,
+      hat:    saved.hat    !== undefined ? saved.hat : DRAGON_DEFAULT.hat,
+      name:   saved.name   || DRAGON_DEFAULT.name,
+      color:  saved.color  || DRAGON_DEFAULT.color,
+      bg:     saved.bg     || DRAGON_DEFAULT.bg,
+      frame:  saved.frame  || DRAGON_DEFAULT.frame,
+      badge:  saved.badge  !== undefined ? saved.badge : DRAGON_DEFAULT.badge,
+      svgId:  saved.svgId  || DRAGON_DEFAULT.svgId,
+    };
+  } catch(e) {
+    return JSON.parse(JSON.stringify(DRAGON_DEFAULT));
+  }
+})();
+
+// ── SVG AVATAR DRAGHI — disegno unico per ognuno ──────────
+var DRAGON_SVG = {
+  verde: function(c){
+    c=c||'#0d6e3f';
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#0a1628"/>' +
+      // corpo
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="'+c+'"/>' +
+      // testa
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="'+c+'"/>' +
+      // muso
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="'+c+'"/>' +
+      // occhi
+      '<circle cx="44" cy="34" r="4" fill="#111"/>' +
+      '<circle cx="44" cy="34" r="2.5" fill="#FFD700"/>' +
+      '<circle cx="43" cy="33" r="1" fill="#111"/>' +
+      '<circle cx="56" cy="36" r="4" fill="#111"/>' +
+      '<circle cx="56" cy="36" r="2.5" fill="#FFD700"/>' +
+      '<circle cx="55" cy="35" r="1" fill="#111"/>' +
+      // corna
+      '<polygon points="40,28 37,18 43,25" fill="#c9a130"/>' +
+      '<polygon points="52,26 52,15 56,23" fill="#c9a130"/>' +
+      // ala sinistra
+      '<path d="M28,52 Q18,38 24,28 Q32,40 35,50" fill="'+c+'" opacity=".85"/>' +
+      // ala destra
+      '<path d="M72,52 Q82,38 76,28 Q68,40 65,50" fill="'+c+'" opacity=".85"/>' +
+      // ventre
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#1aaa60" opacity=".6"/>' +
+      // coda
+      '<path d="M38,66 Q28,78 32,86 Q40,80 42,70" fill="'+c+'"/>' +
+      // zampe
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="'+c+'"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="'+c+'"/>' +
+      // collare oro
+      '<rect x="40" y="46" width="20" height="5" rx="3" fill="#FFD700" opacity=".85"/>' +
+      '<circle cx="50" cy="48" r="3" fill="#4ade80"/>' +
+      // glow occhi
+      '<circle cx="44" cy="34" r="6" fill="#FFD700" opacity=".12"/>' +
+      '<circle cx="56" cy="36" r="6" fill="#FFD700" opacity=".12"/>' +
+    '</svg>';
+  },
+  fuoco: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#1a0808"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#b91c1c"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#dc2626"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#dc2626"/>' +
+      // fiamme sulla schiena
+      '<path d="M35,40 Q30,25 38,18 Q36,30 44,32" fill="#f97316" opacity=".9"/>' +
+      '<path d="M50,35 Q48,18 56,12 Q52,26 60,28" fill="#fbbf24" opacity=".9"/>' +
+      '<path d="M62,40 Q68,26 62,16 Q66,28 58,34" fill="#f97316" opacity=".9"/>' +
+      // occhi rosso fuoco
+      '<circle cx="44" cy="34" r="4" fill="#111"/>' +
+      '<circle cx="44" cy="34" r="2.5" fill="#ef4444"/>' +
+      '<circle cx="43" cy="33" r="1" fill="#fff" opacity=".8"/>' +
+      '<circle cx="56" cy="36" r="4" fill="#111"/>' +
+      '<circle cx="56" cy="36" r="2.5" fill="#ef4444"/>' +
+      '<circle cx="55" cy="35" r="1" fill="#fff" opacity=".8"/>' +
+      // corna
+      '<polygon points="40,28 36,14 44,24" fill="#7f1d1d"/>' +
+      '<polygon points="52,26 53,13 57,23" fill="#7f1d1d"/>' +
+      // ali
+      '<path d="M28,52 Q14,36 22,22 Q32,38 35,50" fill="#b91c1c" opacity=".8"/>' +
+      '<path d="M72,52 Q86,36 78,22 Q68,38 65,50" fill="#b91c1c" opacity=".8"/>' +
+      // ventre
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#f97316" opacity=".4"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#b91c1c"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#b91c1c"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#b91c1c"/>' +
+      // glow
+      '<circle cx="50" cy="50" r="30" fill="#ef4444" opacity=".06"/>' +
+    '</svg>';
+  },
+  ghiaccio: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#050c1a"/>' +
+      // cristalli sfondo
+      '<polygon points="20,30 24,20 28,30" fill="#bae6fd" opacity=".3"/>' +
+      '<polygon points="72,60 76,48 80,60" fill="#bae6fd" opacity=".25"/>' +
+      '<polygon points="15,65 18,55 21,65" fill="#e0f2fe" opacity=".2"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#0ea5e9"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#38bdf8"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#38bdf8"/>' +
+      // cristalli sulla testa
+      '<polygon points="42,25 40,14 46,22" fill="#e0f2fe"/>' +
+      '<polygon points="50,23 50,11 54,22" fill="#bae6fd"/>' +
+      '<polygon points="58,25 61,13 64,24" fill="#e0f2fe"/>' +
+      // occhi azzurri
+      '<circle cx="44" cy="34" r="4" fill="#082f49"/>' +
+      '<circle cx="44" cy="34" r="2.5" fill="#7dd3fc"/>' +
+      '<circle cx="43" cy="33" r="1" fill="#fff"/>' +
+      '<circle cx="56" cy="36" r="4" fill="#082f49"/>' +
+      '<circle cx="56" cy="36" r="2.5" fill="#7dd3fc"/>' +
+      '<circle cx="55" cy="35" r="1" fill="#fff"/>' +
+      // ali trasparenti
+      '<path d="M28,52 Q12,38 20,22 Q32,40 36,50" fill="#bae6fd" opacity=".6"/>' +
+      '<path d="M72,52 Q88,38 80,22 Q68,40 64,50" fill="#bae6fd" opacity=".6"/>' +
+      // ventre
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#7dd3fc" opacity=".5"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#0ea5e9"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#0ea5e9"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#0ea5e9"/>' +
+      '<circle cx="50" cy="44" r="3" fill="#e0f2fe" opacity=".8"/>' +
+    '</svg>';
+  },
+  viola: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#0d0018"/>' +
+      // stelle
+      '<circle cx="20" cy="20" r="1.5" fill="#fff" opacity=".6"/>' +
+      '<circle cx="80" cy="15" r="1" fill="#fff" opacity=".4"/>' +
+      '<circle cx="15" cy="70" r="1" fill="#fff" opacity=".5"/>' +
+      '<circle cx="85" cy="75" r="1.5" fill="#fff" opacity=".3"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#7c3aed"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#8b5cf6"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#8b5cf6"/>' +
+      // corna lunari
+      '<path d="M38,28 Q32,16 40,12 Q36,22 44,24" fill="#c4b5fd"/>' +
+      '<path d="M56,25 Q62,12 68,16 Q60,20 58,28" fill="#c4b5fd"/>' +
+      // occhi viola brillanti
+      '<circle cx="44" cy="34" r="4.5" fill="#1e0040"/>' +
+      '<circle cx="44" cy="34" r="3" fill="#a855f7"/>' +
+      '<circle cx="43" cy="33" r="1.2" fill="#fff"/>' +
+      '<circle cx="56" cy="36" r="4.5" fill="#1e0040"/>' +
+      '<circle cx="56" cy="36" r="3" fill="#a855f7"/>' +
+      '<circle cx="55" cy="35" r="1.2" fill="#fff"/>' +
+      // ali stellate
+      '<path d="M28,52 Q12,36 18,20 Q32,38 36,52" fill="#7c3aed" opacity=".8"/>' +
+      '<circle cx="22" cy="34" r="2" fill="#c4b5fd" opacity=".8"/>' +
+      '<circle cx="18" cy="28" r="1.5" fill="#fff" opacity=".6"/>' +
+      '<path d="M72,52 Q88,36 82,20 Q68,38 64,52" fill="#7c3aed" opacity=".8"/>' +
+      '<circle cx="78" cy="34" r="2" fill="#c4b5fd" opacity=".8"/>' +
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#a855f7" opacity=".4"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#7c3aed"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#7c3aed"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#7c3aed"/>' +
+      // gemma
+      '<polygon points="50,44 54,50 50,56 46,50" fill="#f0abfc" opacity=".9"/>' +
+      '<circle cx="50" cy="50" r="25" fill="#7c3aed" opacity=".06"/>' +
+    '</svg>';
+  },
+  dorato: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#1a0f00"/>' +
+      // raggi oro sfondo
+      '<line x1="50" y1="2" x2="50" y2="98" stroke="#FFD700" stroke-width=".3" opacity=".15"/>' +
+      '<line x1="2" y1="50" x2="98" y2="50" stroke="#FFD700" stroke-width=".3" opacity=".15"/>' +
+      '<line x1="15" y1="15" x2="85" y2="85" stroke="#FFD700" stroke-width=".3" opacity=".1"/>' +
+      '<line x1="85" y1="15" x2="15" y2="85" stroke="#FFD700" stroke-width=".3" opacity=".1"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#d97706"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#f59e0b"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#f59e0b"/>' +
+      // corona
+      '<polygon points="36,28 38,16 42,22 46,14 50,22 54,14 58,22 62,16 64,28" fill="#FFD700"/>' +
+      '<circle cx="46" cy="16" r="2.5" fill="#dc2626"/>' +
+      '<circle cx="54" cy="16" r="2.5" fill="#3b82f6"/>' +
+      '<circle cx="50" cy="14" r="2.5" fill="#22c55e"/>' +
+      // occhi oro
+      '<circle cx="44" cy="34" r="4.5" fill="#1c0a00"/>' +
+      '<circle cx="44" cy="34" r="3" fill="#FFD700"/>' +
+      '<circle cx="43" cy="33" r="1.2" fill="#1c0a00"/>' +
+      '<circle cx="56" cy="36" r="4.5" fill="#1c0a00"/>' +
+      '<circle cx="56" cy="36" r="3" fill="#FFD700"/>' +
+      '<circle cx="55" cy="35" r="1.2" fill="#1c0a00"/>' +
+      // ali dorate
+      '<path d="M28,52 Q12,34 20,18 Q34,38 36,52" fill="#d97706" opacity=".85"/>' +
+      '<path d="M72,52 Q88,34 80,18 Q66,38 64,52" fill="#d97706" opacity=".85"/>' +
+      // scaglie oro
+      '<ellipse cx="44" cy="55" rx="4" ry="2.5" fill="#FFD700" opacity=".5"/>' +
+      '<ellipse cx="50" cy="57" rx="4" ry="2.5" fill="#FFD700" opacity=".5"/>' +
+      '<ellipse cx="56" cy="55" rx="4" ry="2.5" fill="#FFD700" opacity=".5"/>' +
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#fbbf24" opacity=".4"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#d97706"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#d97706"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#d97706"/>' +
+      '<circle cx="50" cy="50" r="28" fill="#FFD700" opacity=".07"/>' +
+    '</svg>';
+  },
+  rosa: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#1a0010"/>' +
+      // cuori sfondo
+      '<text x="18" y="22" font-size="8" fill="#f472b6" opacity=".3">♥</text>' +
+      '<text x="74" y="30" font-size="6" fill="#f472b6" opacity=".2">♥</text>' +
+      '<text x="12" y="80" font-size="5" fill="#f472b6" opacity=".25">♥</text>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#db2777"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#ec4899"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#ec4899"/>' +
+      // fiocchi
+      '<path d="M36,26 Q32,18 38,16 Q36,22 42,24" fill="#f9a8d4"/>' +
+      '<path d="M42,24 Q46,16 50,18 Q46,22 46,26" fill="#fbcfe8"/>' +
+      '<path d="M56,24 Q60,16 64,18 Q62,24 58,26" fill="#f9a8d4"/>' +
+      // occhi rosa
+      '<circle cx="44" cy="34" r="4.5" fill="#4a0020"/>' +
+      '<circle cx="44" cy="34" r="3" fill="#f472b6"/>' +
+      '<circle cx="43" cy="33" r="1.2" fill="#fff"/>' +
+      '<circle cx="56" cy="36" r="4.5" fill="#4a0020"/>' +
+      '<circle cx="56" cy="36" r="3" fill="#f472b6"/>' +
+      '<circle cx="55" cy="35" r="1.2" fill="#fff"/>' +
+      // ali
+      '<path d="M28,52 Q10,38 18,20 Q32,40 36,52" fill="#db2777" opacity=".8"/>' +
+      '<circle cx="20" cy="32" r="3" fill="#fbcfe8" opacity=".7"/>' +
+      '<path d="M72,52 Q90,38 82,20 Q68,40 64,52" fill="#db2777" opacity=".8"/>' +
+      '<circle cx="80" cy="32" r="3" fill="#fbcfe8" opacity=".7"/>' +
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#f9a8d4" opacity=".4"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#db2777"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#db2777"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#db2777"/>' +
+      '<text x="44" y="52" font-size="8" fill="#fbcfe8" opacity=".8">♥</text>' +
+    '</svg>';
+  },
+  oceano: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#020c1a"/>' +
+      // onde sfondo
+      '<path d="M0,70 Q25,60 50,70 Q75,80 100,70" fill="none" stroke="#1d4ed8" stroke-width="1" opacity=".3"/>' +
+      '<path d="M0,80 Q25,70 50,80 Q75,90 100,80" fill="none" stroke="#3b82f6" stroke-width="1" opacity=".2"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#1d4ed8"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#2563eb"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#2563eb"/>' +
+      // cresta
+      '<path d="M36,28 Q34,16 40,12 Q38,22 44,26" fill="#60a5fa"/>' +
+      '<path d="M46,24 Q46,11 52,12 Q50,22 52,26" fill="#93c5fd"/>' +
+      '<path d="M56,26 Q60,14 66,16 Q62,24 60,28" fill="#60a5fa"/>' +
+      // occhi blu
+      '<circle cx="44" cy="34" r="4.5" fill="#001a40"/>' +
+      '<circle cx="44" cy="34" r="3" fill="#3b82f6"/>' +
+      '<circle cx="43" cy="33" r="1.2" fill="#fff"/>' +
+      '<circle cx="56" cy="36" r="4.5" fill="#001a40"/>' +
+      '<circle cx="56" cy="36" r="3" fill="#3b82f6"/>' +
+      '<circle cx="55" cy="35" r="1.2" fill="#fff"/>' +
+      // ali membranose
+      '<path d="M28,52 Q10,40 16,22 Q30,40 36,52" fill="#1d4ed8" opacity=".8"/>' +
+      '<path d="M22,38 Q14,30 18,22" stroke="#60a5fa" stroke-width="1" fill="none" opacity=".6"/>' +
+      '<path d="M72,52 Q90,40 84,22 Q70,40 64,52" fill="#1d4ed8" opacity=".8"/>' +
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#60a5fa" opacity=".35"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#1d4ed8"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#1d4ed8"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#1d4ed8"/>' +
+      // perla sul collare
+      '<rect x="42" y="46" width="16" height="4" rx="2" fill="#93c5fd" opacity=".7"/>' +
+      '<circle cx="50" cy="48" r="3" fill="#e0f2fe"/>' +
+    '</svg>';
+  },
+  notte: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#010108"/>' +
+      // stelle
+      '<circle cx="20" cy="18" r="1.5" fill="#fff" opacity=".8"/>' +
+      '<circle cx="35" cy="12" r="1" fill="#fff" opacity=".6"/>' +
+      '<circle cx="65" cy="10" r="1.2" fill="#fff" opacity=".7"/>' +
+      '<circle cx="80" cy="22" r="1" fill="#fff" opacity=".5"/>' +
+      '<circle cx="12" cy="40" r="1" fill="#fff" opacity=".4"/>' +
+      '<circle cx="88" cy="60" r="1.5" fill="#fff" opacity=".6"/>' +
+      '<circle cx="22" cy="75" r="1" fill="#fff" opacity=".5"/>' +
+      '<circle cx="78" cy="80" r="1.2" fill="#fff" opacity=".4"/>' +
+      // luna
+      '<path d="M72,15 Q80,15 82,22 Q76,20 70,25 Q65,18 72,15" fill="#fef9c3"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#1e1b4b"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#312e81"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#312e81"/>' +
+      // corna lunari
+      '<path d="M38,28 Q30,14 38,10 Q34,22 44,26" fill="#818cf8"/>' +
+      '<path d="M60,26 Q68,12 74,16 Q66,22 60,28" fill="#818cf8"/>' +
+      // occhi viola notte
+      '<circle cx="44" cy="34" r="4.5" fill="#0f0020"/>' +
+      '<circle cx="44" cy="34" r="3" fill="#818cf8"/>' +
+      '<circle cx="43" cy="33" r="1.2" fill="#c7d2fe"/>' +
+      '<circle cx="56" cy="36" r="4.5" fill="#0f0020"/>' +
+      '<circle cx="56" cy="36" r="3" fill="#818cf8"/>' +
+      '<circle cx="55" cy="35" r="1.2" fill="#c7d2fe"/>' +
+      // ali notte con stelle
+      '<path d="M28,52 Q8,38 14,18 Q32,40 36,52" fill="#1e1b4b" opacity=".9"/>' +
+      '<circle cx="16" cy="28" r="1.5" fill="#fff" opacity=".8"/>' +
+      '<circle cx="20" cy="36" r="1" fill="#a5b4fc" opacity=".8"/>' +
+      '<path d="M72,52 Q92,38 86,18 Q68,40 64,52" fill="#1e1b4b" opacity=".9"/>' +
+      '<circle cx="84" cy="28" r="1.5" fill="#fff" opacity=".8"/>' +
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#4338ca" opacity=".4"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#1e1b4b"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#1e1b4b"/>' +
+      '<path d="M38,66 Q26,82 30,90 Q40,82 42,70" fill="#1e1b4b"/>' +
+      // luna gemma
+      '<path d="M48,46 Q50,42 52,46 Q50,50 48,46" fill="#fef9c3" opacity=".9"/>' +
+    '</svg>';
+  },
+  cristallo: function(){
+    return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="50" cy="50" r="48" fill="#06050f"/>' +
+      // prismi sfondo
+      '<polygon points="10,20 16,10 22,20" fill="#f0abfc" opacity=".2"/>' +
+      '<polygon points="78,70 84,58 90,70" fill="#e879f9" opacity=".15"/>' +
+      '<polygon points="5,60 9,50 13,60" fill="#c084fc" opacity=".2"/>' +
+      '<ellipse cx="50" cy="58" rx="22" ry="16" fill="#7e22ce"/>' +
+      '<ellipse cx="50" cy="38" rx="16" ry="14" fill="#9333ea"/>' +
+      '<ellipse cx="58" cy="42" rx="8" ry="6" fill="#9333ea"/>' +
+      // cristalli testa
+      '<polygon points="38,26 36,12 42,22" fill="#f0abfc"/>' +
+      '<polygon points="46,22 46,8 52,20" fill="#e879f9"/>' +
+      '<polygon points="56,24 60,10 64,22" fill="#f0abfc"/>' +
+      // riflessi cristallo sul corpo
+      '<polygon points="44,52 48,44 52,52 48,60" fill="#e879f9" opacity=".6"/>' +
+      '<polygon points="36,58 40,52 44,58 40,64" fill="#c084fc" opacity=".4"/>' +
+      '<polygon points="54,56 58,50 62,56 58,62" fill="#e879f9" opacity=".4"/>' +
+      // occhi iridescenti
+      '<circle cx="44" cy="34" r="4.5" fill="#1a0030"/>' +
+      '<circle cx="44" cy="34" r="3" fill="#e879f9"/>' +
+      '<circle cx="43" cy="33" r="1.2" fill="#fff"/>' +
+      '<circle cx="56" cy="36" r="4.5" fill="#1a0030"/>' +
+      '<circle cx="56" cy="36" r="3" fill="#a855f7"/>' +
+      '<circle cx="55" cy="35" r="1.2" fill="#fff"/>' +
+      // ali cristallo
+      '<path d="M28,52 Q8,36 16,16 Q32,38 36,52" fill="#7e22ce" opacity=".8"/>' +
+      '<polygon points="14,24 18,18 22,24 18,30" fill="#f0abfc" opacity=".5"/>' +
+      '<path d="M72,52 Q92,36 84,16 Q68,38 64,52" fill="#7e22ce" opacity=".8"/>' +
+      '<polygon points="82,24 86,18 90,24 86,30" fill="#e879f9" opacity=".5"/>' +
+      '<ellipse cx="50" cy="62" rx="14" ry="9" fill="#c084fc" opacity=".3"/>' +
+      '<ellipse cx="40" cy="72" rx="6" ry="4" fill="#7e22ce"/>' +
+      '<ellipse cx="60" cy="72" rx="6" ry="4" fill="#7e22ce"/>' +
+      '<path d="M38,66 Q26,80 30,88 Q40,80 42,70" fill="#7e22ce"/>' +
+      '<circle cx="50" cy="50" r="28" fill="#e879f9" opacity=".05"/>' +
+    '</svg>';
+  },
+};
+
+// ── DRAGHI CON PERSONALITÀ ────────────────────────────────
+var DRAGON_CATALOG = [
+  // Comuni — disponibili subito
+  { em:'🐉', svgId:'verde',    name:'Finan',     desc:'Il Drago Saggio',        rarity:'comune',     col:'#4ade80', req:0  },
+  { em:'🔥', svgId:'fuoco',    name:'Fiamma',    desc:'Il Drago del Fuoco',     rarity:'comune',     col:'#ef4444', req:0  },
+  { em:'❄️', svgId:'ghiaccio', name:'Gelo',      desc:'Il Drago di Ghiaccio',   rarity:'comune',     col:'#67e8f9', req:0  },
+  { em:'🌊', svgId:'oceano',   name:'Oceano',    desc:'Il Drago del Mare',      rarity:'comune',     col:'#3b82f6', req:0  },
+  // Rari — si sbloccano con i livelli
+  { em:'🌙', svgId:'notte',    name:'Notte',     desc:'Il Drago Lunare',        rarity:'raro',       col:'#818cf8', req:5  },
+  { em:'🐲', svgId:'dorato',   name:'Aureo',     desc:'Il Drago Imperiale',     rarity:'raro',       col:'#FFD700', req:5  },
+  { em:'🦋', svgId:'rosa',     name:'Aurora',    desc:'La Creatura di Luce',    rarity:'raro',       col:'#f472b6', req:8  },
+  { em:'⚡', svgId:'viola',    name:'Fulmine',   desc:'Il Drago del Tuono',     rarity:'raro',       col:'#a855f7', req:10 },
+  // Leggendari — traguardi speciali
+  { em:'💎', svgId:'cristallo',name:'Cristallo', desc:'Il Drago Supremo',       rarity:'leggendario', col:'#e879f9', req:15 },
+  { em:'🌟', svgId:'dorato',   name:'Stella',    desc:'Il Drago delle Stelle',  rarity:'leggendario', col:'#fbbf24', req:20 },
+];
 
 var DRAGON_OPTIONS = {
-  dragons: ['🐉','🦖','🦕','🐲','🐊','🦎'],
-  hats:    ['','🎩','👑','🎓','⛑️','🪖','🌟','🎪'],
+  dragons: DRAGON_CATALOG.map(function(d){ return d.em; }),
+  hats:    ['','🎩','👑','🎓','⛑️','🪖','🌟','🎪','🧢','🪄','💫','🏆'],
   colors:  [
-    {label:'Verde',  val:'verde',  col:'#4ade80'},
-    {label:'Oro',    val:'oro',    col:'#FFD700'},
-    {label:'Viola',  val:'viola',  col:'#a78bfa'},
-    {label:'Blu',    val:'blu',    col:'#60a5fa'},
-    {label:'Rosa',   val:'rosa',   col:'#f472b6'},
-    {label:'Arancio',val:'arancio',col:'#fb923c'},
+    {label:'Verde',   val:'verde',   col:'#4ade80'},
+    {label:'Oro',     val:'oro',     col:'#FFD700'},
+    {label:'Viola',   val:'viola',   col:'#a78bfa'},
+    {label:'Blu',     val:'blu',     col:'#60a5fa'},
+    {label:'Rosa',    val:'rosa',    col:'#f472b6'},
+    {label:'Arancio', val:'arancio', col:'#fb923c'},
+    {label:'Rosso',   val:'rosso',   col:'#f87171'},
+    {label:'Teal',    val:'teal',    col:'#06b6d4'},
   ],
+  frames: [
+    {id:'none',  label:'Nessuno', style:'none'},
+    {id:'gold',  label:'Oro',     style:'2px solid #FFD700'},
+    {id:'fire',  label:'Fuoco',   style:'2px solid #ef4444'},
+    {id:'ice',   label:'Ghiaccio',style:'2px solid #67e8f9'},
+    {id:'magic', label:'Magico',  style:'2px solid #a78bfa'},
+  ],
+  badges: ['','⭐','🏆','🔥','💎','🌍','📚','🧠','💰'],
 };
 
 function saveDragon() {
-  localStorage.setItem('fl_dragon', JSON.stringify(DRAGON_STATE));
+  // Guard prima di salvare
+  if (!DRAGON_STATE || typeof DRAGON_STATE !== 'object') {
+    DRAGON_STATE = JSON.parse(JSON.stringify(DRAGON_DEFAULT));
+  }
+  try {
+    localStorage.setItem('fl_dragon', JSON.stringify(DRAGON_STATE));
+  } catch(e) {}
+  // Aggiorna HUD emoji
+  try {
+    document.querySelectorAll('.user-avatar-display').forEach(function(el){
+      el.textContent = DRAGON_STATE.emoji || '🐉';
+    });
+    // Aggiorna tutti gli SVG avatar nel DOM
+    document.querySelectorAll('.dragon-avatar-svg').forEach(function(el){
+      var svgFn = DRAGON_SVG[DRAGON_STATE.svgId || 'verde'];
+      if (svgFn) el.innerHTML = svgFn();
+    });
+    // Aggiorna profilo se aperto
+    var profPreview = document.getElementById('profile-avatar-big');
+    if (profPreview) {
+      var svgFn2 = DRAGON_SVG[DRAGON_STATE.svgId || 'verde'];
+      if (svgFn2) profPreview.innerHTML = svgFn2();
+    }
+  } catch(e) {}
 }
 
 function getDragonDisplay() {
-  return DRAGON_STATE.hat + DRAGON_STATE.emoji;
+  return (DRAGON_STATE.hat || '') + (DRAGON_STATE.emoji || '🐉');
 }
+
+function getDragonSVG(size) {
+  size = size || 60;
+  var svgFn = DRAGON_SVG[DRAGON_STATE.svgId || 'verde'];
+  var html = svgFn ? svgFn() : '🐉';
+  return '<div class="dragon-avatar-svg" style="width:'+size+'px;height:'+size+'px;border-radius:50%;overflow:hidden">'+html+'</div>';
+}
+
+function getDragonInfo() {
+  return DRAGON_CATALOG.find(function(d){ return d.em === DRAGON_STATE.emoji; }) || DRAGON_CATALOG[0];
+}
+
+// ── SCHERMATA AVATAR COMPLETA ─────────────────────────────
+function buildAvatarSelector(containerEl, onSave) {
+  containerEl.innerHTML = '';
+  // Guard — assicura che DRAGON_STATE sia sempre valido
+  if (!DRAGON_STATE || typeof DRAGON_STATE !== 'object') {
+    DRAGON_STATE = JSON.parse(JSON.stringify(DRAGON_DEFAULT));
+  }
+  if (!DRAGON_STATE.hat) DRAGON_STATE.hat = '';
+  if (!DRAGON_STATE.badge) DRAGON_STATE.badge = '';
+  if (!DRAGON_STATE.emoji) DRAGON_STATE.emoji = '🐉';
+  if (!DRAGON_STATE.svgId) DRAGON_STATE.svgId = 'verde';
+  if (!DRAGON_STATE.name) DRAGON_STATE.name = 'Finan';
+  if (!DRAGON_STATE.frame) DRAGON_STATE.frame = 'gold';
+  var lvl = (typeof G !== 'undefined' && G) ? (G.level || 1) : (S.level || 1);
+
+  function makeSection(title) {
+    var s = document.createElement('div');
+    s.style.cssText = 'font-size:.72rem;font-weight:800;letter-spacing:2px;' +
+      'color:var(--muted);text-transform:uppercase;margin:14px 0 8px';
+    s.textContent = title;
+    containerEl.appendChild(s);
+  }
+
+  // PREVIEW GRANDE SVG
+  var previewWrap = document.createElement('div');
+  previewWrap.style.cssText = 'text-align:center;margin-bottom:16px;position:relative';
+
+  var previewCircle = document.createElement('div');
+  previewCircle.style.cssText =
+    'width:100px;height:100px;border-radius:50%;margin:0 auto 10px;' +
+    'display:flex;align-items:center;justify-content:center;overflow:hidden;' +
+    'background:rgba(0,0,0,.3);position:relative;' +
+    'box-shadow:0 0 28px rgba(255,215,0,.35);' +
+    'border:' + (DRAGON_OPTIONS.frames.find(function(f){return f.id===DRAGON_STATE.frame;})||{style:'3px solid #FFD700'}).style;
+  previewCircle.id = 'avatar-preview-circle';
+
+  // SVG dentro il cerchio
+  var svgFnPrev = DRAGON_SVG[DRAGON_STATE.svgId || 'verde'];
+  previewCircle.innerHTML = svgFnPrev ? svgFnPrev() : DRAGON_STATE.emoji;
+
+  var previewBadge = document.createElement('span');
+  previewBadge.id = 'avatar-preview-badge';
+  previewBadge.style.cssText = 'position:absolute;bottom:-2px;right:-2px;font-size:1.1rem';
+  previewBadge.textContent = DRAGON_STATE.badge || '';
+  previewCircle.appendChild(previewBadge);
+  previewWrap.appendChild(previewCircle);
+
+  var previewName = document.createElement('div');
+  previewName.id = 'avatar-preview-name';
+  previewName.style.cssText = 'font-size:.95rem;font-weight:900;color:var(--gold)';
+  var info = getDragonInfo();
+  previewName.textContent = DRAGON_STATE.name + ' · ' + info.desc;
+  previewWrap.appendChild(previewName);
+
+  var rarityColors = {comune:'#4ade80', raro:'#60a5fa', leggendario:'#f0abfc'};
+  var previewRarity = document.createElement('div');
+  previewRarity.id = 'avatar-preview-rarity';
+  previewRarity.style.cssText = 'font-size:.72rem;font-weight:800;color:' +
+    (rarityColors[info.rarity]||'#4ade80') + ';margin-top:3px;letter-spacing:1px';
+  previewRarity.textContent = (info.rarity||'comune').toUpperCase();
+  previewWrap.appendChild(previewRarity);
+  containerEl.appendChild(previewWrap);
+
+  function updatePreview() {
+    var circle = document.getElementById('avatar-preview-circle');
+    var badge  = document.getElementById('avatar-preview-badge');
+    var name   = document.getElementById('avatar-preview-name');
+    var rar    = document.getElementById('avatar-preview-rarity');
+    if (circle) {
+      var svgFn = DRAGON_SVG[DRAGON_STATE.svgId || 'verde'];
+      circle.innerHTML = svgFn ? svgFn() : DRAGON_STATE.emoji;
+      // ri-aggiungi badge
+      var newBadge = document.createElement('span');
+      newBadge.id = 'avatar-preview-badge';
+      newBadge.style.cssText = 'position:absolute;bottom:-2px;right:-2px;font-size:1.1rem';
+      newBadge.textContent = DRAGON_STATE.badge || '';
+      circle.appendChild(newBadge);
+      var fr = DRAGON_OPTIONS.frames.find(function(f){return f.id===DRAGON_STATE.frame;});
+      circle.style.border = fr ? fr.style : '3px solid #FFD700';
+    }
+    var inf = getDragonInfo();
+    if (name) name.textContent = DRAGON_STATE.name + ' · ' + inf.desc;
+    if (rar) {
+      rar.textContent = (inf.rarity||'comune').toUpperCase();
+      rar.style.color = rarityColors[inf.rarity]||'#4ade80';
+    }
+  }
+
+  // NOME DRAGO
+  makeSection('🏷️ Nome del tuo Drago');
+  var nameInp = document.createElement('input');
+  nameInp.style.cssText = 'background:rgba(255,255,255,.08);border:1.5px solid rgba(255,215,0,.3);' +
+    'border-radius:10px;padding:8px 14px;color:#fff;font-size:.88rem;font-family:system-ui;' +
+    'outline:none;width:100%;margin-bottom:4px';
+  nameInp.value = DRAGON_STATE.name || 'Finan';
+  nameInp.maxLength = 14;
+  nameInp.placeholder = 'Nome del tuo drago...';
+  nameInp.oninput = function(){
+    DRAGON_STATE.name = this.value || 'Finan';
+    updatePreview();
+  };
+  containerEl.appendChild(nameInp);
+
+  // SCEGLI DRAGO — griglia con rarità
+  makeSection('🐉 Scegli il tuo Drago');
+
+  var rarGroups = ['comune','raro','leggendario'];
+  var rarLabels = {comune:'🟢 Comuni — subito disponibili', raro:'🔵 Rari — Lv.5+', leggendario:'✨ Leggendari — Lv.15+'};
+
+  rarGroups.forEach(function(rar){
+    var dragons = DRAGON_CATALOG.filter(function(d){ return d.rarity === rar; });
+    var groupLabel = document.createElement('div');
+    groupLabel.style.cssText = 'font-size:.68rem;font-weight:700;color:' +
+      (rarityColors[rar]||'#4ade80') + ';margin:10px 0 8px;letter-spacing:1px;' +
+      'padding:6px 10px;background:rgba(255,255,255,.04);border-radius:8px;' +
+      'border-left:3px solid ' + (rarityColors[rar]||'#4ade80');
+    groupLabel.textContent = rarLabels[rar];
+    containerEl.appendChild(groupLabel);
+
+    // Griglia 3 colonne — card SVG visive
+    var grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px';
+
+    dragons.forEach(function(drag){
+      var unlocked = lvl >= drag.req;
+      var isActive = DRAGON_STATE.svgId === drag.svgId && DRAGON_STATE.emoji === drag.em;
+      var svgFn = DRAGON_SVG[drag.svgId];
+
+      var card = document.createElement('div');
+      card.style.cssText =
+        'border-radius:16px;padding:10px 8px 8px;text-align:center;' +
+        'cursor:' + (unlocked ? 'pointer' : 'not-allowed') + ';' +
+        'transition:all .2s;position:relative;overflow:hidden;' +
+        'background:' + (isActive ? 'rgba(255,215,0,.12)' : 'rgba(255,255,255,.04)') + ';' +
+        'border:2px solid ' + (isActive ? drag.col : 'rgba(255,255,255,.08)') + ';' +
+        'opacity:' + (unlocked ? '1' : '0.4') + ';' +
+        'box-shadow:' + (isActive ? '0 0 16px ' + drag.col + '44' : 'none');
+
+      // SVG avatar nella card
+      var svgWrap = document.createElement('div');
+      svgWrap.style.cssText = 'width:64px;height:64px;border-radius:50%;overflow:hidden;margin:0 auto 6px;' +
+        'border:2px solid ' + drag.col + (unlocked ? '' : ';filter:grayscale(100%) brightness(.5)');
+      if (svgFn) svgWrap.innerHTML = svgFn();
+      else { svgWrap.style.fontSize = '2.5rem'; svgWrap.style.display = 'flex'; svgWrap.style.alignItems = 'center'; svgWrap.style.justifyContent = 'center'; svgWrap.textContent = drag.em; }
+      card.appendChild(svgWrap);
+
+      // Nome drago
+      var nm = document.createElement('div');
+      nm.style.cssText = 'font-size:.72rem;font-weight:800;color:' + (isActive ? drag.col : '#fff') + ';margin-bottom:2px';
+      nm.textContent = drag.name;
+      card.appendChild(nm);
+
+      // Rarità / lock
+      var sub = document.createElement('div');
+      sub.style.cssText = 'font-size:.6rem;color:' + (unlocked ? rarityColors[rar] : 'var(--muted)');
+      sub.textContent = unlocked ? drag.rarity : '🔒 Lv.' + drag.req;
+      card.appendChild(sub);
+
+      // Checkmark se attivo
+      if (isActive) {
+        var check = document.createElement('div');
+        check.style.cssText = 'position:absolute;top:4px;right:4px;font-size:.9rem';
+        check.textContent = '✅';
+        card.appendChild(check);
+      }
+
+      if (unlocked) {
+        card.onclick = function(){
+          DRAGON_STATE.emoji = drag.em;
+          DRAGON_STATE.svgId = drag.svgId;
+          DRAGON_STATE.name  = DRAGON_STATE.name || drag.name;
+          // reset stili tutte le card
+          grid.querySelectorAll('div').forEach(function(c){
+            c.style.background = 'rgba(255,255,255,.04)';
+            c.style.borderColor = 'rgba(255,255,255,.08)';
+            c.style.boxShadow = 'none';
+          });
+          card.style.background  = 'rgba(255,215,0,.12)';
+          card.style.borderColor = drag.col;
+          card.style.boxShadow   = '0 0 16px ' + drag.col + '44';
+          updatePreview();
+          playS('click');
+          if (navigator.vibrate) navigator.vibrate(20);
+        };
+      }
+      grid.appendChild(card);
+    });
+    containerEl.appendChild(grid);
+  });
+
+  // CAPPELLI/ACCESSORI
+  makeSection('🎩 Accessorio');
+  var hatGrid = document.createElement('div');
+  hatGrid.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px';
+  DRAGON_OPTIONS.hats.forEach(function(hat){
+    var isActive = DRAGON_STATE.hat === hat;
+    var btn = document.createElement('div');
+    btn.style.cssText =
+      'width:44px;height:44px;border-radius:12px;display:flex;align-items:center;' +
+      'justify-content:center;font-size:1.4rem;cursor:pointer;transition:all .2s;' +
+      'background:' + (isActive?'rgba(255,215,0,.18)':'rgba(255,255,255,.06)') + ';' +
+      'border:2px solid ' + (isActive?'rgba(255,215,0,.6)':'rgba(255,255,255,.1)');
+    btn.textContent = hat || '✕';
+    btn.onclick = function(){
+      DRAGON_STATE.hat = hat;
+      hatGrid.querySelectorAll('div').forEach(function(b){
+        b.style.background = 'rgba(255,255,255,.06)';
+        b.style.borderColor = 'rgba(255,255,255,.1)';
+      });
+      btn.style.background = 'rgba(255,215,0,.18)';
+      btn.style.borderColor = 'rgba(255,215,0,.6)';
+      updatePreview();
+    };
+    hatGrid.appendChild(btn);
+  });
+  containerEl.appendChild(hatGrid);
+
+  // CORNICE PROFILO
+  makeSection('🖼️ Cornice Profilo');
+  var frameGrid = document.createElement('div');
+  frameGrid.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px';
+  DRAGON_OPTIONS.frames.forEach(function(fr){
+    var isActive = DRAGON_STATE.frame === fr.id;
+    var btn = document.createElement('div');
+    btn.style.cssText =
+      'padding:6px 12px;border-radius:10px;cursor:pointer;font-size:.75rem;font-weight:700;' +
+      'transition:all .2s;' +
+      'background:' + (isActive?'rgba(255,215,0,.15)':'rgba(255,255,255,.05)') + ';' +
+      'border:' + (isActive ? fr.style : '1px solid rgba(255,255,255,.1)') + ';' +
+      'color:' + (isActive?'var(--gold)':'rgba(255,255,255,.6)');
+    btn.textContent = fr.label;
+    btn.onclick = function(){
+      DRAGON_STATE.frame = fr.id;
+      frameGrid.querySelectorAll('div').forEach(function(b){
+        b.style.background = 'rgba(255,255,255,.05)';
+        b.style.color = 'rgba(255,255,255,.6)';
+      });
+      btn.style.background = 'rgba(255,215,0,.15)';
+      btn.style.color = 'var(--gold)';
+      updatePreview();
+    };
+    frameGrid.appendChild(btn);
+  });
+  containerEl.appendChild(frameGrid);
+
+  // BADGE
+  makeSection('🏅 Badge');
+  var badgeGrid = document.createElement('div');
+  badgeGrid.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px';
+  DRAGON_OPTIONS.badges.forEach(function(badge){
+    var isActive = DRAGON_STATE.badge === badge;
+    var btn = document.createElement('div');
+    btn.style.cssText =
+      'width:40px;height:40px;border-radius:10px;display:flex;align-items:center;' +
+      'justify-content:center;font-size:1.3rem;cursor:pointer;transition:all .2s;' +
+      'background:' + (isActive?'rgba(255,215,0,.18)':'rgba(255,255,255,.06)') + ';' +
+      'border:2px solid ' + (isActive?'rgba(255,215,0,.6)':'rgba(255,255,255,.1)');
+    btn.textContent = badge || '✕';
+    btn.onclick = function(){
+      DRAGON_STATE.badge = badge;
+      badgeGrid.querySelectorAll('div').forEach(function(b){
+        b.style.background = 'rgba(255,255,255,.06)';
+        b.style.borderColor = 'rgba(255,255,255,.1)';
+      });
+      btn.style.background = 'rgba(255,215,0,.18)';
+      btn.style.borderColor = 'rgba(255,215,0,.6)';
+      updatePreview();
+    };
+    badgeGrid.appendChild(btn);
+  });
+  containerEl.appendChild(badgeGrid);
+
+  // PULSANTE SALVA
+  var saveBtn = document.createElement('button');
+  saveBtn.style.cssText =
+    'width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));' +
+    'border:none;border-radius:16px;padding:14px;color:#1c0a00;font-weight:900;' +
+    'font-size:.95rem;cursor:pointer;margin-top:16px;transition:all .2s';
+  saveBtn.textContent = '💾 Salva il tuo Avatar!';
+  saveBtn.onclick = function(){
+    saveDragon();
+    toast('🐉 Avatar salvato! Ciao ' + DRAGON_STATE.name + '!');
+    playS('success'); spawnParticles();
+    if (navigator.vibrate) navigator.vibrate([30,15,60]);
+    if (typeof onSave === 'function') onSave();
+  };
+  containerEl.appendChild(saveBtn);
+}
+
+// ── POPUP AVATAR per utenti adulti ────────────────────────
+function openAvatarPopup() {
+  var overlay = document.createElement('div');
+  overlay.id = 'avatar-popup-overlay';
+  overlay.style.cssText =
+    'position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.9);' +
+    'display:flex;flex-direction:column;align-items:center;justify-content:flex-end';
+
+  var box = document.createElement('div');
+  box.style.cssText =
+    'background:linear-gradient(170deg,#060018,#0e0030);' +
+    'border-top:3px solid var(--gold);border-radius:24px 24px 0 0;' +
+    'width:100%;max-width:500px;max-height:90vh;display:flex;flex-direction:column';
+
+  var hdr = document.createElement('div');
+  hdr.style.cssText =
+    'display:flex;align-items:center;padding:14px 16px;' +
+    'border-bottom:1px solid rgba(255,215,0,.15);flex-shrink:0;' +
+    'background:rgba(0,0,0,.4);position:sticky;top:0;backdrop-filter:blur(8px)';
+  hdr.innerHTML =
+    '<div style="font-size:1rem;font-weight:900;color:var(--gold);flex:1">🐉 Personalizza Avatar</div>' +
+    '<button onclick="document.getElementById(\'avatar-popup-overlay\').remove()" ' +
+    'style="background:rgba(255,255,255,.1);border:none;border-radius:50%;' +
+    'width:30px;height:30px;color:#fff;font-size:1rem;cursor:pointer">✕</button>';
+  box.appendChild(hdr);
+
+  var body = document.createElement('div');
+  body.style.cssText = 'flex:1;overflow-y:auto;padding:14px 16px 24px';
+
+  buildAvatarSelector(body, function(){
+    overlay.remove();
+    // Aggiorna HUD
+    var hudAvatar = document.querySelector('.hud-user-avatar');
+    if (hudAvatar) hudAvatar.textContent = getDragonDisplay();
+  });
+
+  box.appendChild(body);
+  overlay.appendChild(box);
+  overlay.onclick = function(e){ if(e.target===overlay) overlay.remove(); };
+  document.body.appendChild(overlay);
+}
+window.openAvatarPopup = openAvatarPopup;
 
 // ── HOTSPOT ISOLA ─────────────────────────────────────────
 var KIDS_HOTSPOTS = [
@@ -4986,35 +5784,16 @@ function buildDragonCustom() {
   var body = document.getElementById('kids-dragon-body');
   if (!body) return;
   body.innerHTML = '';
-
+  buildAvatarSelector(body, function(){
+    var drArea = document.getElementById('kids-dragon-preview-area');
+    if (drArea) buildKidsSections();
+    showScreen('kids-home');
+  });
+}
+// legacy stub — rimpiazzato da buildAvatarSelector
+function _buildDragonCustomLEGACY() {
   var wrap = document.createElement('div');
   wrap.className = 'dragon-custom-wrap';
-
-  // Preview
-  var preview = document.createElement('div');
-  preview.className = 'dragon-preview';
-  preview.id = 'dragon-custom-preview';
-  preview.textContent = getDragonDisplay();
-  wrap.appendChild(preview);
-
-  var nameLine = document.createElement('div');
-  nameLine.className = 'dragon-name-big';
-  nameLine.id = 'dragon-custom-name';
-  nameLine.textContent = DRAGON_STATE.name;
-  wrap.appendChild(nameLine);
-
-  // Nome personalizzato
-  var nameInp = document.createElement('input');
-  nameInp.style.cssText = 'background:rgba(255,255,255,.08);border:1.5px solid rgba(255,215,0,.3);border-radius:10px;padding:8px 14px;color:#fff;font-size:.88rem;font-family:system-ui;outline:none;width:100%;max-width:200px;text-align:center;margin-bottom:12px';
-  nameInp.value = DRAGON_STATE.name;
-  nameInp.maxLength = 12;
-  nameInp.placeholder = 'Nome del tuo drago';
-  nameInp.addEventListener('input', function(){
-    DRAGON_STATE.name = nameInp.value || 'Finan';
-    var nd = document.getElementById('dragon-custom-name');
-    if (nd) nd.textContent = DRAGON_STATE.name;
-  });
-  wrap.appendChild(nameInp);
 
   // Scegli drago
   var drLbl = document.createElement('div');
@@ -5836,13 +6615,10 @@ function hideOnboardingTip() {
 function updateHomeDragon() {
   var el = document.getElementById('home-dragon-display');
   if (!el) return;
-  var saved = localStorage.getItem('fl_dragon');
-  if (saved) {
-    try {
-      var d = JSON.parse(saved);
-      el.textContent = (d.hat||'') + (d.emoji||'🐉');
-    } catch(e) { el.textContent = '🐉'; }
-  }
+  try {
+    var d = safeLS('fl_dragon', null);
+    el.textContent = d ? ((d.hat||'') + (d.emoji||'🐉')) : '🐉';
+  } catch(e) { el.textContent = '🐉'; }
 }
 
 // ── TRANSIZIONE SCHERMATA FLUIDA ─────────────────────────
