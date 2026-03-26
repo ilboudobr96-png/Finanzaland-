@@ -2804,7 +2804,7 @@ var TRANSLATIONS = {
     btn_pro:'👑 Devenir PRO',
     btn_academy:'🎓 Academy — Professeurs Live',
     btn_muro:'🌍 Mur Social — Joue avec le Monde',
-    btn_kids:'👶 Zone Enfants — Touche et Joue!',
+    btn_kids:'👶 Zone Enfants — Touche et Joue !',
     btn_share:'↗️ Partager FinanzaLand',
     /* ACCADEMIA */
     acc_back:'← Accueil',
@@ -3192,6 +3192,22 @@ var TRANSLATIONS = {
 function setLang(lang, btnEl) {
   // Validazione lingua
   if (!TRANSLATIONS[lang]) lang = 'it';
+  
+  // Se la lingua cambia, svuota la cache lezioni vecchia
+  // (erano salvate in italiano, non vanno bene per la nuova lingua)
+  if (S.lang && S.lang !== lang) {
+    try {
+      // Rimuovi dalla memoria le lezioni della vecchia lingua
+      var oldLang = S.lang;
+      Object.keys(LESSON_CACHE).forEach(function(k) {
+        if (k.indexOf('_' + oldLang) >= 0 && k.indexOf('_' + lang) < 0) {
+          delete LESSON_CACHE[k];
+        }
+      });
+      safeSetItem('fl_lesson_cache', LESSON_CACHE || {});
+    } catch(e) {}
+  }
+  
   S.lang = lang;
   try { localStorage.setItem('fl_lang', lang); } catch(e) {}
   saveS();
