@@ -711,6 +711,63 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   border-radius:14px;padding:3px 10px;font-size:.68rem;font-weight:700;
   color:rgba(255,255,255,.35);cursor:pointer;transition:all .15s;white-space:nowrap}
 .lang-btn.active{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4);color:var(--gold)}
+
+/* ── MONDO GLOBALE v7.0 ──────────────────────────────── */
+.mondo-zone-card{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:18px;cursor:pointer;transition:all .25s;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:8px}
+.mondo-zone-card:hover,.mondo-zone-card.active{border-color:var(--gold);
+  background:rgba(255,215,0,.08);transform:translateY(-2px)}
+.mondo-zone-icon{font-size:2.8rem}
+.mondo-zone-name{font-size:.8rem;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.mondo-zone-law{font-size:.62rem;color:var(--muted);font-style:italic}
+.mondo-zone-cur{font-size:.7rem;font-weight:700;color:var(--gold)}
+.mondo-role-card{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);
+  border-radius:24px;padding:22px;cursor:pointer;text-align:center;transition:all .25s}
+.mondo-role-card:hover{border-color:var(--gold);background:rgba(255,215,0,.06)}
+.mondo-role-icon{font-size:3rem;margin-bottom:8px}
+.mondo-role-title{font-size:.9rem;font-weight:900;text-transform:uppercase}
+.mondo-role-sub{font-size:.65rem;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.privacy-shield{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);
+  border-radius:10px;padding:8px 12px;font-size:.65rem;color:var(--green);font-weight:700;
+  display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.module-card-v7{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.06);
+  border-radius:18px;padding:14px;cursor:pointer;transition:all .2s}
+.module-card-v7:hover{border-color:rgba(255,215,0,.3);background:rgba(255,215,0,.04)}
+.module-v7-icon{font-size:1.8rem;margin-bottom:6px}
+.module-v7-title{font-size:.82rem;font-weight:800;text-transform:uppercase;font-style:italic}
+.module-v7-desc{font-size:.66rem;color:var(--muted);margin-top:2px}
+.module-v7-trend{font-size:.7rem;font-weight:800;color:var(--green);margin-top:8px}
+
+/* ── PUNTO ABLA ──────────────────────────────────────── */
+.abla-card{background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(167,139,250,.03));
+  border:1.5px solid rgba(167,139,250,.2);border-radius:20px;padding:16px;margin-bottom:12px}
+.abla-quote{font-style:italic;font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;
+  border-left:3px solid var(--purple);padding-left:12px}
+.abla-missione{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);
+  border-radius:14px;padding:12px;margin-top:10px;display:flex;gap:10px;align-items:center}
+.abla-miss-icon{font-size:1.6rem;flex-shrink:0}
+.abla-miss-txt{font-size:.78rem;font-weight:700}
+.abla-miss-reward{font-size:.7rem;color:var(--gold);margin-top:2px}
+.abla-btn{width:100%;background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(167,139,250,.1));
+  border:1.5px solid rgba(167,139,250,.3);border-radius:14px;padding:12px;
+  color:#a78bfa;font-weight:800;font-size:.82rem;cursor:pointer;margin-top:8px;text-transform:uppercase}
+
+/* ── LANDA CARD ─────────────────────────────────────── */
+.landa-card-visual{background:linear-gradient(135deg,#1e293b,#0f172a);
+  border:2px solid rgba(255,215,0,.3);border-radius:24px;padding:22px;
+  margin-bottom:16px;position:relative;overflow:hidden;min-height:160px}
+.landa-card-logo{font-size:.65rem;font-weight:900;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase}
+.landa-card-number{font-family:monospace;font-size:1rem;letter-spacing:.3em;
+  margin-top:24px;color:rgba(255,255,255,.8)}
+.landa-card-merito{position:absolute;top:14px;right:14px;background:rgba(74,222,128,.15);
+  border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:4px 10px;
+  font-size:.65rem;font-weight:900;color:var(--green)}
+.landa-card-currency{font-size:.7rem;color:var(--muted);margin-top:4px}
+.merito-bar-wrap{background:rgba(255,255,255,.06);border-radius:8px;height:8px;margin-top:6px;overflow:hidden}
+.merito-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--gold),var(--teal));transition:width .5s}
+
 </style>
 </head>
 <body>
@@ -775,6 +832,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
           <button id="btn-academy-main" data-i18n="btn_academy" class="home-btn btn-secondary" onclick="showScreen('academy');setNav('bn-academy');buildAcademy('live')" style="background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(6,182,212,.08));border:1.5px solid rgba(74,222,128,.4);color:var(--green)">🎓 Academy — Professori Live</button>
           <button id="btn-pro" data-i18n="btn_pro" class="home-btn btn-secondary" onclick="openPopup('piani')">👑 Diventa PRO</button>
           <button id="btn-muro" data-i18n="btn_muro" class="home-btn" onclick="showScreen('muro-sociale');setNav('bn-muro')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(74,222,128,.1));border:2px solid rgba(6,182,212,.45);color:var(--teal);font-size:.95rem">🌍 Muro Sociale — Gioca con il Mondo</button>
+          <button id="btn-mondo" data-i18n="btn_mondo" class="home-btn" onclick="showScreen('mondo-globale')" style="background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(6,182,212,.15));border:2px solid rgba(99,102,241,.4);color:#fff;font-size:.95rem">🌐 Landa Global — Mondo</button>
           <button id="btn-share" data-i18n="btn_share" class="home-btn btn-secondary" onclick="shareApp()" style="background:rgba(96,165,250,.1);border:1.5px solid rgba(96,165,250,.3);color:#60a5fa">↗️ Condividi FinanzaLand</button>
         </div>
       </div>
@@ -851,7 +909,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <!-- ══ MESSAGGI ══ -->
     <div class="screen" id="messaggi">
       <div class="acc-header">
-        <button class="acc-back" onclick="showScreen('academy')">← Academy</button>
+        <button class="acc-back" onclick="showScreen(\'academy\')">← Academy</button>
         <div class="acc-title">💬 Messaggi</div>
         <button class="acc-ai-badge" onclick="openNuovoMsg()" style="cursor:pointer;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.3);color:var(--gold)">+ Nuovo</button>
       </div>
@@ -868,10 +926,38 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
       <div id="chat-privata-body" style="flex:1;display:flex;flex-direction:column;overflow:hidden"></div>
     </div>
 
+
+    <!-- ══ MONDO GLOBALE v7.0 Omnia ══ -->
+    <div class="screen" id="mondo-globale">
+      <div class="acc-header">
+        <button class="acc-back" data-i18n="btn_mondo_back" onclick="showScreen('home')">← Home</button>
+        <div class="acc-title" data-i18n="mondo_titolo">🌐 Mondo</div>
+      </div>
+      <div id="mondo-body" style="flex:1;overflow-y:auto;padding:14px"></div>
+    </div>
+
+    <!-- ══ PUNTO ABLA — Saggezza ══ -->
+    <div class="screen" id="punto-abla">
+      <div class="acc-header">
+        <button class="acc-back" onclick="showScreen('kids-home')">← Indietro</button>
+        <div class="acc-title">📚 Punto Abla</div>
+      </div>
+      <div id="abla-body" style="flex:1;overflow-y:auto;padding:14px"></div>
+    </div>
+
+    <!-- ══ LANDA CARD ══ -->
+    <div class="screen" id="landa-card">
+      <div class="acc-header">
+        <button class="acc-back" onclick="showScreen('home')">← Home</button>
+        <div class="acc-title">💳 Landa Card</div>
+      </div>
+      <div id="card-body" style="flex:1;overflow-y:auto;padding:14px"></div>
+    </div>
+
     <!-- ══ PROFILO PROFESSORE ══ -->
     <div class="screen" id="prof-view">
       <div class="acc-header">
-        <button class="acc-back" onclick="showScreen('academy')">← Academy</button>
+        <button class="acc-back" onclick="showScreen(\'academy\')">← Academy</button>
         <div class="acc-title" id="prof-view-title">Profilo</div>
         <button class="acc-ai-badge" onclick="openGiftModal(currentProf)" style="cursor:pointer;background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3);color:var(--gold)">🎁 Dona</button>
       </div>
@@ -897,7 +983,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <!-- ══ DIVENTA PROFESSORE ══ -->
     <div class="screen" id="diventa-prof">
       <div class="acc-header">
-        <button class="acc-back" onclick="showScreen('academy')">← Academy</button>
+        <button class="acc-back" onclick="showScreen(\'academy\')">← Academy</button>
         <div class="acc-title">👨‍🏫 Diventa Professore</div>
       </div>
       <div class="acc-body" id="diventa-prof-body"></div>
@@ -917,7 +1003,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <!-- ══ CALENDARIO ══ -->
     <div class="screen" id="calendario">
       <div class="acc-header">
-        <button class="acc-back" onclick="showScreen('academy')">← Academy</button>
+        <button class="acc-back" onclick="showScreen(\'academy\')">← Academy</button>
         <div class="acc-title">📅 Calendario Live</div>
       </div>
       <div class="acc-body" id="calendario-body"></div>
@@ -979,6 +1065,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
             color:var(--muted);text-transform:uppercase;margin-bottom:10px">
             🐉 Il tuo Drago</div>
           <div id="kids-dragon-preview-area"></div>
+          <!-- Punto Abla shortcut kids -->
+          <div id="abla-shortcut" onclick="showScreen('punto-abla')" style="background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(167,139,250,.05));border:1.5px solid rgba(167,139,250,.3);border-radius:18px;padding:14px;margin:10px 0;cursor:pointer;display:flex;align-items:center;gap:12px">
+            <div style="font-size:2rem">📚</div>
+            <div>
+              <div style="font-weight:900;color:#a78bfa;font-size:.85rem">Punto Abla — Missioni Saggezza</div>
+              <div style="font-size:.7rem;color:var(--muted);margin-top:2px">Completa compiti e libri → Semi + Monete Argento</div>
+            </div>
+            <div style="margin-left:auto;font-size:.8rem;color:#a78bfa">→</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1035,10 +1130,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
       </div>
       <!-- Sub-tabs -->
       <div style="display:flex;background:rgba(255,255,255,.04);margin:8px 12px;border-radius:12px;padding:3px;flex-shrink:0">
-        <button class="lv-tab active" id="wtab-tutti" onclick="switchWallTab('tutti',this)" style="flex:1;border-radius:9px;font-size:.75rem">🌍 Tutti</button>
-        <button class="lv-tab" id="wtab-bambini" onclick="switchWallTab('bambini',this)" style="flex:1;border-radius:9px;font-size:.75rem">👶 Bambini</button>
-        <button class="lv-tab" id="wtab-sfide" onclick="switchWallTab('sfide',this)" style="flex:1;border-radius:9px;font-size:.75rem">⚔️ Sfide</button>
-        <button class="lv-tab" id="wtab-classifica" onclick="switchWallTab('classifica',this)" style="flex:1;border-radius:9px;font-size:.75rem">🏆 Top</button>
+        <button class="lv-tab active" id="wtab-tutti" data-i18n-prefix="🌍 " data-i18n="wall_tab_tutti" onclick="switchWallTab('tutti',this)" style="flex:1;border-radius:9px;font-size:.75rem">🌍 Tutti</button>
+        <button class="lv-tab" id="wtab-bambini" data-i18n-prefix="👶 " data-i18n="wall_tab_bambini" onclick="switchWallTab('bambini',this)" style="flex:1;border-radius:9px;font-size:.75rem">👶 Bambini</button>
+        <button class="lv-tab" id="wtab-sfide" data-i18n-prefix="⚔️ " data-i18n="wall_tab_sfide" onclick="switchWallTab('sfide',this)" style="flex:1;border-radius:9px;font-size:.75rem">⚔️ Sfide</button>
+        <button class="lv-tab" id="wtab-classifica" data-i18n-prefix="🏆 " data-i18n="wall_tab_classifica" onclick="switchWallTab('classifica',this)" style="flex:1;border-radius:9px;font-size:.75rem">🏆 Top</button>
       </div>
       <div style="flex:1;overflow-y:auto;padding:0 12px 80px" id="wall-body"></div>
     </div>
@@ -1737,6 +1832,9 @@ function finishQuiz() {
     S.completate[key] = {stelle:stelle,data:new Date().toISOString()};
     S.coins += semi;
     S.xp += 25;
+    // Monete Argento per quiz completato
+    var silverNow = safeLS('fl_silver_semi',0)||0;
+    safeSetItem('fl_silver_semi', silverNow + 10);
     checkLevel();
     saveS();
     updateHUD();
@@ -2136,11 +2234,43 @@ window.logoutAcc = function() {
 };
 function showMsg(el,txt,col){if(!el)return;el.textContent=txt;el.style.cssText='display:block;padding:8px 10px;border-radius:10px;font-size:.78rem;margin-bottom:8px;text-align:center;background:rgba(248,113,113,.1);color:'+col;}
 
+function makeTaskCard(icon, label, reward, done) {
+  return '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px;text-align:center;opacity:'+(done?1:.5)+'">' +
+    '<div style="font-size:1.4rem">'+(done?icon:'🔒')+'</div>' +
+    '<div style="font-size:.7rem;color:#fff;font-weight:700;margin:2px 0">'+label+'</div>' +
+    '<div style="font-size:.72rem;color:#94a3b8">'+reward+'</div>' +
+  '</div>';
+}
+
 function buildPopupPremiBase(body) {
   var done = Object.keys(S.completate).length;
-  body.innerHTML = '<div style="text-align:center;padding:10px 0 16px">' +
+  var tp = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+
+  // ── SEZIONE MONETE D'ARGENTO BAMBINI ──────────────────
+  var silverBox = document.createElement('div');
+  silverBox.style.cssText = 'background:linear-gradient(135deg,rgba(148,163,184,.1),rgba(148,163,184,.05));border:2px solid rgba(148,163,184,.3);border-radius:16px;padding:14px;margin-bottom:14px;';
+  var silverSemi = safeLS('fl_silver_semi', 0) || 0;
+  silverBox.innerHTML =
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
+      '<div style="font-size:2.5rem">🥈</div>' +
+      '<div>' +
+        '<div style="font-size:.9rem;font-weight:900;color:#94a3b8">'+(tp.silver_titolo||'Monete d\'Argento Bambini')+'</div>' +
+        '<div style="font-size:.75rem;color:rgba(255,255,255,.5)">'+(tp.silver_desc||'Guadagnate completando quiz, compiti e lezioni')+'</div>' +
+      '</div>' +
+      '<div style="margin-left:auto;font-size:1.4rem;font-weight:900;color:#94a3b8">🥈 '+silverSemi+'</div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+      makeTaskCard('📝', tp.task_quiz||'Quiz completato', '+10 🥈', S.completate ? Object.keys(S.completate).filter(function(k){return S.completate[k];}).length > 0 : false) +
+      makeTaskCard('📚', tp.task_lezione||'Lezione completata', '+20 🥈', done >= 1) +
+      makeTaskCard('🔥', tp.task_streak||'Streak 7 giorni', '+50 🥈', S.streak >= 7) +
+      makeTaskCard('🌍', tp.task_muro||'Post sul Muro', '+5 🥈', safeLS('fl_wall_posted', false)) +
+    '</div>' +
+    '<div style="margin-top:10px;font-size:.7rem;color:rgba(255,255,255,.4);text-align:center">'+(tp.silver_nota||'Le Monete d\'Argento sono premi virtuali educativi. Solo a scopo educativo.')+'</div>';
+  body.appendChild(silverBox);
+
+  body.innerHTML += '<div style="text-align:center;padding:10px 0 16px">' +
     '<div style="font-size:3rem;margin-bottom:8px">🏆</div>' +
-    '<div style="font-size:.88rem;color:rgba(255,255,255,.7)">'+done+' lezioni completate — continua!</div></div>';
+    '<div style="font-size:.88rem;color:rgba(255,255,255,.7)">'+done+' '+(tp.premi_lezioni||'lezioni completate')+'</div></div>';
   var premi = [
     {icon:'🌱',nome:'Primo Seme',desc:'Completa la prima lezione',done:done>=1,col:'var(--green)'},
     {icon:'🥉',nome:'Bronzo',desc:'5 lezioni completate',done:done>=5,col:'#cd7f32'},
@@ -2290,7 +2420,7 @@ function buildFiglioCalc(container) {
     var strumentiLabel = document.createElement('div');
     strumentiLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
       'letter-spacing:1px;margin-bottom:6px';
-    strumentiLabel.textContent = 'STRUMENTO DI INVESTIMENTO';
+    strumentiLabel.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_strumento||'STRUMENTO DI INVESTIMENTO';
     container.appendChild(strumentiLabel);
 
     var strumenti = [
@@ -2355,9 +2485,9 @@ function buildFiglioCalc(container) {
       container.appendChild(wrap);
     }
 
-    makeSlider('Versamento mensile', 'versamento', 10, 500, 10, '€');
-    makeSlider('Durata (anni)', 'anni', 1, 25, 1, 'anni');
-    makeSlider('Rendimento annuo stimato (%)', 'tasso', 1, 15, 0.5, '%');
+    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_versamento||'Versamento mensile', 'versamento', 10, 500, 10, '€');
+    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_durata||'Durata (anni)', (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_anni||'anni', 1, 25, 1, 'anni');
+    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_rendimento||'Rendimento annuo stimato (%)', 'tasso', 1, 15, 0.5, '%');
 
     // ── RISULTATO ────────────────────────────────────────────
     var resultBox = document.createElement('div');
@@ -2381,7 +2511,7 @@ function buildFiglioCalc(container) {
       box.innerHTML =
         '<div style="font-size:2rem;margin-bottom:4px">' + emoji + '</div>' +
         '<div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-bottom:6px">' +
-          'Capitale stimato dopo ' + calc.anni + ' anni' +
+          (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_capitale||'Capitale stimato dopo ' + calc.anni + ' anni' +
         '</div>' +
         '<div style="font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:10px">' +
           fmt(calc.risultato) +
@@ -2429,7 +2559,7 @@ function buildFiglioCalc(container) {
     var lessonsLabel = document.createElement('div');
     lessonsLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
       'letter-spacing:1px;margin:14px 0 8px';
-    lessonsLabel.textContent = 'IMPARA CON L\'AI';
+    lessonsLabel.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_impara_ai||'IMPARA CON L\'AI';
     container.appendChild(lessonsLabel);
 
     var lezioni = [
@@ -2766,6 +2896,391 @@ function showScreen(name){
 }
 window.showScreen=showScreen;
 
+// ════════════════════════════════════════════════════════
+// FINANZA LANDA OMNIA v7.0 — World Selector + Punto Abla + Landa Card
+// ════════════════════════════════════════════════════════
+
+var worldData = {
+  EUROPE:  { lang:'IT/FR/EN', law:'GDPR Art.8 — Legge 2023', icon:'🇪🇺', color:'#3b82f6', cur:'EUR €', currencies:['EUR','CHF','GBP'] },
+  AFRICA:  { lang:'FR/EN/WO', law:'Digital Rights Africa — UEMOA', icon:'🌍', color:'#10b981', cur:'XOF/NGN', currencies:['XOF','NGN','KES'] },
+  ASIA:    { lang:'CN/JP/KO', law:'Cyber-Security Act 2017', icon:'🏮', color:'#ef4444', cur:'CNY/JPY', currencies:['CNY','JPY','KRW'] },
+  AMERICA: { lang:'EN/ES/PT', law:'COPPA — Privacy Act USA', icon:'🗽', color:'#6366f1', cur:'USD/BRL', currencies:['USD','CAD','BRL'] },
+  RUSSIA:  { lang:'RU/KZ',   law:'Federal Law 152-FZ', icon:'❄️', color:'#64748b', cur:'RUB/KZT', currencies:['RUB','KZT'] },
+};
+var currentRegion = null;
+var currentRole   = null; // 'comandante' | 'mentore' | 'saggio'
+
+// ── Missioni Punto Abla (saggezza/libri) ─────────────────
+var ABLA_MISSIONI = [
+  {id:'etf_read',   icon:'📖', titolo:'Leggi: "ETF spiegati ai bambini"', desc:'5 pagine sulla diversificazione', semi:150, argento:30, done:false, categoria:'libro'},
+  {id:'inflation',  icon:'📰', titolo:'Articolo: Cos\u0027è l\u0027inflazione?', desc:'Spiega ai tuoi genitori il concetto', semi:100, argento:20, done:false, categoria:'studio'},
+  {id:'budget',     icon:'✏️', titolo:'Esercizio: Budget settimanale', desc:'Scrivi le tue spese per 7 giorni', semi:120, argento:25, done:false, categoria:'compito'},
+  {id:'invest_real',icon:'🎯', titolo:'Sfida: Investi 100€ in ETF', desc:'Scegli 3 ETF e motiva la scelta', semi:200, argento:50, done:false, categoria:'sfida'},
+  {id:'brvm_news',  icon:'🌍', titolo:'Ricerca: BRVM Africa Occidentale', desc:'Trova 2 azioni africane promettenti', semi:180, argento:40, done:false, categoria:'ricerca'},
+  {id:'immob',      icon:'🏠', titolo:'Calcola: Affitto vs Acquisto', desc:'Usa il calcolatore FinanzaLand', semi:130, argento:25, done:false, categoria:'calcolo'},
+  {id:'condotta',   icon:'⭐', titolo:'Voto in Condotta ≥ 9', desc:'Comportamento esemplare = premi reali', semi:300, argento:75, done:false, categoria:'scuola'},
+  {id:'risparmio10',icon:'🐷', titolo:'Risparmia per 10 giorni di fila', desc:'Metti da parte almeno 50 Semi/giorno', semi:250, argento:60, done:false, categoria:'abitudine'},
+];
+
+// ── Moduli Accademia Omnia ───────────────────────────────
+var MODULI_OMNIA = [
+  {icon:'📊', titolo:'Mercato ETF', desc:'Cesto magico diversificato — bassa volatilità, alta diversificazione', trend:'+4% medio annuo', percorso:'investimenti', livello:'base', colore:'#3b82f6'},
+  {icon:'🏠', titolo:'Immobiliare',  desc:'Rendita dei Mattoni — affitto passivo, REIT, crowdfunding', trend:'Affitto ~5%', percorso:'immobiliare', livello:'medio', colore:'#fb923c'},
+  {icon:'⚡', titolo:'Pale e Picconi', desc:'Investi nelle Fabbriche — utility, infrastrutture, energia', trend:'Utility +3%', percorso:'investimenti', livello:'avanzato', colore:'#facc15'},
+  {icon:'👾', titolo:'Mostro Inflazione', desc:'Sconfiggi il mangia-semi - battere l inflazione', trend:'Difesa CPI', percorso:'mercati', livello:'base', colore:'#f87171'},
+  {icon:'🔧', titolo:'Compliance 2023', desc:'Voto in Condotta collegato ai premi in gioco', trend:'Legge 2023', percorso:'tasse', livello:'esperto', colore:'#a78bfa'},
+  {icon:'🏛️', titolo:'Infrastrutture', desc:'Autostrade, aeroporti, reti idriche come investimento', trend:'Stabile', percorso:'investimenti', livello:'master', colore:'#06b6d4'},
+];
+
+// ─────────────────────────────────────────────────────────
+// buildMondo — Selettore Mondiale v7.0
+// ─────────────────────────────────────────────────────────
+function buildMondo() {
+  var body = document.getElementById('mondo-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+
+  // Titolo
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'text-align:center;padding:8px 0 20px';
+  hdr.innerHTML =
+    '<div style="font-size:3rem;margin-bottom:6px">🌐</div>' +
+    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);letter-spacing:2px;text-transform:uppercase">'+(t.mondo_titolo||'Landa Global Ecosystem')+'</div>' +
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">'+(t.mondo_sub||'Seleziona la tua Terra Sovrana')+'</div>';
+  body.appendChild(hdr);
+
+  // Griglia zone mondiali
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px';
+  Object.keys(worldData).forEach(function(zone) {
+    var z = worldData[zone];
+    var card = document.createElement('div');
+    card.className = 'mondo-zone-card' + (currentRegion===zone?' active':'');
+    card.innerHTML =
+      '<div class="mondo-zone-icon">'+z.icon+'</div>' +
+      '<div class="mondo-zone-name">'+zone+'</div>' +
+      '<div class="mondo-zone-cur">'+z.cur+'</div>' +
+      '<div class="mondo-zone-law">🛡️ '+z.law+'</div>';
+    card.addEventListener('click', function(){
+      currentRegion = zone;
+      // Aggiorna selezione visiva
+      grid.querySelectorAll('.mondo-zone-card').forEach(function(c){c.classList.remove('active');});
+      card.classList.add('active');
+      renderMondoDetail(body, zone, t);
+    });
+    grid.appendChild(card);
+  });
+  body.appendChild(grid);
+
+  // Se già selezionata una regione
+  if (currentRegion) renderMondoDetail(body, currentRegion, t);
+  else {
+    var hint = document.createElement('div');
+    hint.style.cssText = 'text-align:center;color:var(--muted);font-size:.75rem;padding:20px';
+    hint.textContent = t.mondo_hint || 'Tocca una zona per vedere dettagli e moduli';
+    body.appendChild(hint);
+  }
+}
+
+function renderMondoDetail(body, zone, t) {
+  // Rimuovi detail vecchio
+  var old = body.querySelector('.mondo-detail');
+  if (old) old.remove();
+
+  var z = worldData[zone];
+  var detail = document.createElement('div');
+  detail.className = 'mondo-detail';
+
+  // Privacy Shield
+  detail.innerHTML =
+    '<div class="privacy-shield">🛡️ Privacy: '+z.law+' &nbsp;|&nbsp; 💬 '+z.lang+' &nbsp;|&nbsp; 💰 '+z.cur+'</div>';
+
+  // Selezione Ruolo
+  var roleTitle = document.createElement('div');
+  roleTitle.style.cssText = 'font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:14px 0 10px';
+  roleTitle.textContent = t.mondo_ruolo || 'Scegli il tuo Destino';
+  detail.appendChild(roleTitle);
+
+  var roles = [
+    {id:'comandante', icon:'🐉', title:t.ruolo_comandante||'Comandante', sub:t.ruolo_comandante_sub||'Bambino · Gioco'},
+    {id:'mentore',    icon:'🛡️', title:t.ruolo_mentore||'Mentore',    sub:t.ruolo_mentore_sub||'Genitore · Card'},
+    {id:'saggio',     icon:'🎓', title:t.ruolo_saggio||'Saggio',     sub:t.ruolo_saggio_sub||'Coach · Sapere'},
+  ];
+  var roleGrid = document.createElement('div');
+  roleGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px';
+  roles.forEach(function(r) {
+    var card = document.createElement('div');
+    card.className = 'mondo-role-card' + (currentRole===r.id?' active':'');
+    if (currentRole===r.id) card.style.borderColor = 'var(--gold)';
+    card.innerHTML = '<div class="mondo-role-icon">'+r.icon+'</div><div class="mondo-role-title">'+r.title+'</div><div class="mondo-role-sub">'+r.sub+'</div>';
+    card.addEventListener('click', function(){
+      currentRole = r.id;
+      roleGrid.querySelectorAll('.mondo-role-card').forEach(function(c){c.style.borderColor='rgba(255,255,255,.08)';});
+      card.style.borderColor = 'var(--gold)';
+      renderRoleContent(detail, r.id, zone, t);
+    });
+    roleGrid.appendChild(card);
+  });
+  detail.appendChild(roleGrid);
+
+  var roleContent = document.createElement('div');
+  roleContent.id = 'mondo-role-content';
+  detail.appendChild(roleContent);
+
+  body.appendChild(detail);
+
+  if (currentRole) renderRoleContent(detail, currentRole, zone, t);
+}
+
+function renderRoleContent(detail, role, zone, t) {
+  var el = detail.querySelector('#mondo-role-content');
+  if (!el) return;
+  el.innerHTML = '';
+  var z = worldData[zone];
+
+  if (role === 'comandante') {
+    // Moduli Accademia Omnia
+    var title = document.createElement('div');
+    title.style.cssText = 'font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:8px 0 10px';
+    title.textContent = t.mondo_moduli || '📚 Moduli Accademia Omnia';
+    el.appendChild(title);
+
+    var mg = document.createElement('div');
+    mg.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px';
+    MODULI_OMNIA.forEach(function(m) {
+      var c = document.createElement('div');
+      c.className = 'module-card-v7';
+      c.innerHTML = '<div class="module-v7-icon">'+m.icon+'</div>' +
+        '<div class="module-v7-title">'+m.titolo+'</div>' +
+        '<div class="module-v7-desc">'+m.desc+'</div>' +
+        '<div class="module-v7-trend">'+m.trend+'</div>';
+      c.addEventListener('click', function(){
+        currentPercorso = PERCORSI.find(function(p){return p.id===m.percorso;})||PERCORSI[0];
+        currentLivello  = LIVELLI.find(function(l){return l.id===m.livello;})||LIVELLI[0];
+        showScreen('accademia'); buildAccademia();
+        toast('📚 '+m.titolo+' — '+m.desc);
+      });
+      mg.appendChild(c);
+    });
+    el.appendChild(mg);
+
+    // Punto Abla shortcut
+    var ablaBtn = document.createElement('button');
+    ablaBtn.style.cssText = 'width:100%;background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(167,139,250,.08));border:2px solid rgba(167,139,250,.3);border-radius:16px;padding:14px;cursor:pointer;margin-bottom:10px;text-align:left';
+    ablaBtn.innerHTML = '<div style="font-size:1.2rem;margin-bottom:4px">📚 '+(t.puntoabla_titolo||'Punto Abla — Saggezza')+' <span style="font-size:.65rem;color:#a78bfa">→</span></div><div style="font-size:.7rem;color:var(--muted)">'+(t.puntoabla_sub||'Completa missioni di studio per sbloccare premi epici')+'</div>';
+    ablaBtn.addEventListener('click', function(){ showScreen('punto-abla'); buildPuntoAbla(); });
+    el.appendChild(ablaBtn);
+
+  } else if (role === 'mentore') {
+    // Landa Card
+    var cardBtn = document.createElement('button');
+    cardBtn.style.cssText = 'width:100%;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,215,0,.3);border-radius:16px;padding:14px;cursor:pointer;margin-bottom:10px;text-align:left';
+    cardBtn.innerHTML = '<div style="font-size:1.2rem;margin-bottom:4px">💳 '+(t.landacard_titolo||'Landa Card — Paghetta Meritocratica')+' <span style="font-size:.65rem;color:var(--gold)">→</span></div><div style="font-size:.7rem;color:var(--muted)">'+(t.landacard_sub||'Gestisci i premi reali dei tuoi figli. Valuta: '+z.cur)+'</div>';
+    cardBtn.addEventListener('click', function(){ showScreen('landa-card'); buildLandaCard(zone); });
+    el.appendChild(cardBtn);
+
+    // Compliance 2023
+    var comp = document.createElement('div');
+    comp.style.cssText = 'background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:12px;margin-bottom:10px';
+    comp.innerHTML = '<div style="font-size:.8rem;font-weight:800;color:#a78bfa;margin-bottom:6px">⭐ '+(t.compliance_titolo||'Compliance Scolastica 2023')+'</div>' +
+      '<div style="font-size:.72rem;color:var(--muted);line-height:1.6">'+(t.compliance_desc||'Il voto in condotta ≥ 9 sblocca premi reali nel gioco. Collega comportamento e finanza.')+'</div>' +
+      '<div style="margin-top:8px;display:flex;gap:6px">' +
+        '<span style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:3px 8px;font-size:.65rem;color:var(--green)">⭐ 9+ = +300 Semi</span>' +
+        '<span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:8px;padding:3px 8px;font-size:.65rem;color:var(--gold)">💳 10/10 = Landa Card PRO</span>' +
+      '</div>';
+    el.appendChild(comp);
+
+  } else if (role === 'saggio') {
+    // Marketplace Saggi
+    var saggi = document.createElement('div');
+    saggi.style.cssText = 'background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:12px;margin-bottom:10px';
+    saggi.innerHTML = '<div style="font-size:.8rem;font-weight:800;color:var(--gold);margin-bottom:6px">🎓 '+(t.saggi_titolo||'Marketplace Saggi')+'</div>' +
+      '<div style="font-size:.72rem;color:var(--muted);line-height:1.6">'+(t.saggi_desc||'I Coach guadagnano Semi validando il sapere dei Comandanti. Ogni missione completata genera valore per il Saggio.')+'</div>' +
+      '<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">' +
+        '<div style="text-align:center;background:rgba(255,255,255,.04);border-radius:10px;padding:8px"><div style="font-size:.9rem">📖</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">'+(t.saggi_valida||'Valida')+'</div></div>' +
+        '<div style="text-align:center;background:rgba(255,255,255,.04);border-radius:10px;padding:8px"><div style="font-size:.9rem">🏆</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">'+(t.saggi_premia||'Premia')+'</div></div>' +
+        '<div style="text-align:center;background:rgba(255,255,255,.04);border-radius:10px;padding:8px"><div style="font-size:.9rem">💰</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">'+(t.saggi_guadagna||'Guadagna')+'</div></div>' +
+      '</div>';
+    var saggiGoBtn = document.createElement('button');
+    saggiGoBtn.style.cssText = 'width:100%;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:12px;padding:10px;color:var(--gold);font-weight:800;font-size:.75rem;cursor:pointer;margin-top:10px;text-transform:uppercase';
+    saggiGoBtn.textContent = t.saggi_entra||'Entra come Saggio';
+    saggiGoBtn.addEventListener('click', function(){ showScreen('academy'); });
+    saggi.appendChild(saggiGoBtn);
+    el.appendChild(saggi);
+  }
+}
+window.buildMondo = buildMondo;
+
+// ─────────────────────────────────────────────────────────
+// buildPuntoAbla — Sistema Saggezza/Compiti
+// ─────────────────────────────────────────────────────────
+function buildPuntoAbla() {
+  var body = document.getElementById('abla-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+
+  // Header Abla
+  var hdr = document.createElement('div');
+  hdr.className = 'abla-card';
+  hdr.style.textAlign = 'center';
+  hdr.innerHTML =
+    '<div style="font-size:2.8rem;margin-bottom:6px">📚</div>' +
+    '<div style="font-size:1.1rem;font-weight:900;color:#a78bfa">'+(t.puntoabla_titolo||'Punto Abla')+'</div>' +
+    '<div class="abla-quote" style="margin-top:10px;text-align:left">' +
+      '"Comandante, hai letto il libro sulla Diversificazione? Spiegami cos\u0027è un ETF per sbloccare la tua Card!"' +
+    '</div>';
+  body.appendChild(hdr);
+
+  // Contatore missioni completate
+  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
+  var abl_total = ABLA_MISSIONI.length;
+  var ablaPct = Math.round((ablaDone/abl_total)*100);
+
+  var progress = document.createElement('div');
+  progress.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center';
+  progress.innerHTML =
+    '<div style="font-size:.78rem;font-weight:800;margin-bottom:6px">'+ablaDone+'/'+abl_total+' '+(t.abla_missioni_completate||'missioni completate')+'</div>' +
+    '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:8px;overflow:hidden">' +
+      '<div style="width:'+ablaPct+'%;height:100%;background:linear-gradient(90deg,#a78bfa,var(--gold));transition:width .5s"></div>' +
+    '</div>' +
+    '<div style="font-size:.65rem;color:var(--muted);margin-top:6px">'+(t.abla_sblocca||'Completa 5 missioni → sblocca Landa Card PRO')+'</div>';
+  body.appendChild(progress);
+
+  // Lista missioni
+  var catTitle = document.createElement('div');
+  catTitle.style.cssText = 'font-size:.72rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px';
+  catTitle.textContent = t.abla_missioni || '📋 Missioni del Saggio';
+  body.appendChild(catTitle);
+
+  ABLA_MISSIONI.forEach(function(m, i) {
+    var card = document.createElement('div');
+    card.className = 'abla-missione';
+    card.style.opacity = m.done ? '1' : '0.85';
+    card.style.border = m.done ? '1px solid rgba(74,222,128,.3)' : '1px solid rgba(255,215,0,.2)';
+    card.style.background = m.done ? 'rgba(74,222,128,.05)' : 'rgba(255,215,0,.04)';
+    card.innerHTML =
+      '<div class="abla-miss-icon">'+(m.done?'✅':m.icon)+'</div>' +
+      '<div style="flex:1">' +
+        '<div class="abla-miss-txt">'+m.titolo+'</div>' +
+        '<div style="font-size:.66rem;color:var(--muted);margin-top:2px">'+m.desc+'</div>' +
+        '<div class="abla-miss-reward">+'+m.semi+' 🪙 Semi &nbsp;·&nbsp; +'+m.argento+' 🥈 Argento</div>' +
+      '</div>' +
+      '<div style="font-size:.65rem;background:rgba(255,255,255,.06);border-radius:8px;padding:4px 8px;text-transform:uppercase;font-weight:800">'+m.categoria+'</div>';
+
+    if (!m.done) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(){
+        m.done = true;
+        S.coins   += m.semi;
+        var silver = safeLS('fl_silver_semi',0)||0;
+        safeSetItem('fl_silver_semi', silver + m.argento);
+        updateHUD(); saveS();
+        toast('🎓 '+m.titolo+' completata! +'+m.semi+' Semi +'+m.argento+' 🥈');
+        spawnParticles(); playS('success');
+        buildPuntoAbla(); // ricostruisci
+      });
+    }
+    body.appendChild(card);
+  });
+
+  // Footer
+  var foot = document.createElement('div');
+  foot.style.cssText = 'text-align:center;padding:16px;font-size:.68rem;color:var(--muted);line-height:1.7';
+  foot.innerHTML = '🎓 '+(t.abla_footer||'Il Saggio conosce ciò che non si vede nei grafici.<br>La vera ricchezza è la saggezza.');
+  body.appendChild(foot);
+}
+window.buildPuntoAbla = buildPuntoAbla;
+
+// ─────────────────────────────────────────────────────────
+// buildLandaCard — Paghetta Meritocratica
+// ─────────────────────────────────────────────────────────
+function buildLandaCard(zone) {
+  var body = document.getElementById('card-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t  = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+  var z  = worldData[zone||currentRegion||'EUROPE'];
+  var merito = Math.min(100, Math.round((Object.keys(S.completate).length * 4) + (S.streak * 2)));
+  var ablaDone = ABLA_MISSIONI.filter(function(m){return m.done;}).length;
+
+  // Card visuale
+  var cardViz = document.createElement('div');
+  cardViz.className = 'landa-card-visual';
+  cardViz.innerHTML =
+    '<div class="landa-card-merito">Merito '+merito+'%</div>' +
+    '<div class="landa-card-logo">FinanzaLand · Omnia</div>' +
+    '<div class="landa-card-number">**** **** **** '+(1000+S.level)+'</div>' +
+    '<div class="landa-card-currency">'+z.cur+' · '+(z.icon||'🌐')+' '+z.law+'</div>' +
+    '<div class="merito-bar-wrap"><div class="merito-bar-fill" style="width:'+merito+'%"></div></div>' +
+    '<div style="position:absolute;bottom:14px;right:18px;font-size:.65rem;color:rgba(255,215,0,.4);font-weight:900">'+S.level+'★</div>';
+  body.appendChild(cardViz);
+
+  // Stato sblocco
+  var locked = merito < 50 || ablaDone < 3;
+  var stato = document.createElement('div');
+  stato.style.cssText = 'background:'+(locked?'rgba(248,113,113,.07)':'rgba(74,222,128,.07)')+';border:1px solid '+(locked?'rgba(248,113,113,.3)':'rgba(74,222,128,.3)')+';border-radius:14px;padding:12px;margin-bottom:14px;text-align:center';
+  stato.innerHTML =
+    '<div style="font-size:1.6rem;margin-bottom:4px">'+(locked?'🔒':'💳')+'</div>' +
+    '<div style="font-size:.82rem;font-weight:800;color:'+(locked?'var(--red)':'var(--green)') +'">'+(locked ? (t.card_bloccata||'Card Bloccata — Completa più missioni!') : (t.card_sbloccata||'Card Attiva — Paghetta Meritocratica Sbloccata!'))+'</div>' +
+    '<div style="font-size:.7rem;color:var(--muted);margin-top:4px">'+(t.card_requisiti||'Requisiti: Merito ≥50% · 3+ Missioni Abla')+'</div>';
+  body.appendChild(stato);
+
+  // Requisiti progress
+  var reqs = [
+    {label:t.card_req_merito||'Merito', val:merito, target:50, icon:'🎯'},
+    {label:t.card_req_missioni||'Missioni Abla', val:ablaDone, target:3, icon:'📚'},
+    {label:t.card_req_lezioni||'Lezioni', val:Object.keys(S.completate).length, target:5, icon:'🏆'},
+    {label:t.card_req_streak||'Streak', val:S.streak||0, target:3, icon:'🔥'},
+  ];
+  reqs.forEach(function(req) {
+    var pct = Math.min(100, Math.round((req.val/req.target)*100));
+    var done = req.val >= req.target;
+    var r = document.createElement('div');
+    r.style.cssText = 'margin-bottom:10px';
+    r.innerHTML =
+      '<div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:3px">' +
+        '<span>'+req.icon+' '+req.label+'</span>' +
+        '<span style="font-weight:700;color:'+(done?'var(--green)':'var(--gold)')+'">'+req.val+'/'+req.target+(done?' ✅':'')+'</span>' +
+      '</div>' +
+      '<div style="background:rgba(255,255,255,.07);border-radius:6px;height:6px;overflow:hidden">' +
+        '<div style="width:'+pct+'%;height:100%;background:'+(done?'var(--green)':'var(--gold)')+';transition:width .5s"></div>' +
+      '</div>';
+    body.appendChild(r);
+  });
+
+  // Valute disponibili nella regione
+  var curDiv = document.createElement('div');
+  curDiv.style.cssText = 'background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-top:8px';
+  curDiv.innerHTML = '<div style="font-size:.72rem;font-weight:900;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">'+(t.card_valute||'Valute Disponibili')+'</div>';
+  (z.currencies||['EUR']).forEach(function(cur) {
+    var curEl = document.createElement('div');
+    curEl.style.cssText = 'display:inline-block;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:4px 10px;font-size:.72rem;font-weight:700;color:var(--gold);margin:3px';
+    curEl.textContent = cur;
+    curDiv.appendChild(curEl);
+  });
+  body.appendChild(curDiv);
+
+  // Privacy shield
+  var priv = document.createElement('div');
+  priv.className = 'privacy-shield';
+  priv.style.marginTop = '12px';
+  priv.innerHTML = '🛡️ '+z.law+' — '+(t.card_privacy||'Dati protetti per i minori')+'<br><span style="opacity:.6">'+z.icon+' Valuta: '+z.cur+'</span>';
+  body.appendChild(priv);
+}
+window.buildLandaCard = buildLandaCard;
+
+// ── Aggiorna showScreen per le nuove schermate ────────────
+var _origShowScreen = window.showScreen;
+window.showScreen = function(name) {
+  if (_origShowScreen) _origShowScreen(name);
+  if (name==='mondo-globale') setTimeout(buildMondo, 50);
+  else if (name==='punto-abla') setTimeout(buildPuntoAbla, 50);
+  else if (name==='landa-card') setTimeout(function(){ buildLandaCard(currentRegion||'EUROPE'); }, 50);
+};
+
+
 function setNav(id){
   document.querySelectorAll('.bn').forEach(function(b){b.classList.remove('active');});
   var el=document.getElementById(id);if(el)el.classList.add('active');
@@ -3002,6 +3517,16 @@ var TRANSLATIONS = {
     chat_placeholder:'Scrivi un messaggio...',
     chat_risposte:['Ottima domanda! Approfondiremo nella prossima sessione.','Grazie! Controlla il materiale del corso.','Unisciti alla prossima live per domande dal vivo!','Ho aggiornato il corso con nuovi materiali.'],
     chat_azioni:[{icon:'📎',txt:'File'},{icon:'🎁',txt:'Dona Semi'},{icon:'📹',txt:'Video'},{icon:'❓',txt:'Domanda AI'}],
+    wall_in_corso:'IN CORSO', wall_partecipanti:'partecipanti', wall_premio:'Premio', wall_online_count:'online', wall_tab_tutti:'Tutti', wall_tab_bambini:'Bambini', wall_tab_sfide:'Sfide', wall_tab_lezioni:'Lezioni', wall_tab_vicini:'Stesso paese', wall_tab_classifica:'Top', wall_footer:'🌍 Bambini e adulti da Italia, Senegal, Costa d Avorio, Mali, Francia, Ghana',
+    academy_sei_prof:'Sei un insegnante?', academy_crea_corsi:'Crea corsi, tieni lezioni live, guadagna Semi', academy_live_adesso:'🔴 LIVE ADESSO', academy_guardano:'guardano', academy_ricordami:'🔔 Ricordami', academy_prossime:'📅 PROSSIME SESSIONI', academy_cerca:'🔍 Cerca per nome, materia, lingua...', academy_studenti:'Studenti', academy_corsi:'Corsi', academy_ore:'Ore', academy_profilo:'👁 Profilo', academy_scrivi:'💬 Scrivi', academy_entra_live:'🔴 Entra Live',
+    fam_versamento:'Versamento mensile', fam_durata:'Durata (anni)', fam_rendimento:'Rendimento annuo stimato (%)', fam_anni:'anni', card_versato:'Versato', fam_interesse:'Interesse composto', fam_capitale:'Capitale stimato dopo ', fam_tocca_lezione:'Tocca per generare lezione AI', fam_strumento:'STRUMENTO DI INVESTIMENTO', fam_impara_ai:'IMPARA CON L\'AI', fam_sottotitolo:'Costruisci il loro futuro fin da oggi',
+    silver_titolo:'🥈 Monete d\'Argento Bambini', silver_desc:'Guadagnate completando quiz, compiti e lezioni', silver_nota:'Premi virtuali educativi — Solo a scopo educativo.', task_quiz:'Quiz completato', task_lezione:'Lezione completata', task_streak:'Streak 7 giorni', task_muro:'Post sul Muro', premi_lezioni:'lezioni completate',
+    btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Home', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Seleziona la tua Terra Sovrana', mondo_hint:'Tocca una zona per vedere dettagli', mondo_ruolo:'Scegli il tuo Destino', mondo_moduli:'📚 Moduli Accademia Omnia',
+    ruolo_comandante:'Comandante', ruolo_comandante_sub:'Bambino · Gioco', ruolo_mentore:'Mentore', ruolo_mentore_sub:'Genitore · Card', ruolo_saggio:'Saggio', ruolo_saggio_sub:'Coach · Sapere',
+    puntoabla_titolo:'Punto Abla — Saggezza', puntoabla_sub:'Missioni di studio per premi epici', abla_missioni:'📋 Missioni del Saggio', abla_sblocca:'Completa 5 missioni → sblocca Landa Card PRO', abla_missioni_completate:'missioni completate', abla_footer:'Il Saggio conosce ciò che non si vede nei grafici.',
+    landacard_titolo:'Landa Card — Paghetta Meritocratica', landacard_sub:'Gestisci i premi reali', card_bloccata:'Card Bloccata — Completa più missioni!', card_sbloccata:'Card Attiva — Paghetta Sbloccata!', card_requisiti:'Merito ≥50% · 3+ Missioni Abla', card_req_merito:'Merito', card_req_missioni:'Missioni Abla', card_req_lezioni:'Lezioni', card_req_streak:'Streak', card_valute:'Valute Disponibili', card_privacy:'Dati protetti minori',
+    compliance_titolo:'Compliance Scolastica 2023', compliance_desc:'Il voto in condotta ≥ 9 sblocca premi reali nel gioco.',
+    saggi_titolo:'Marketplace Saggi', saggi_desc:'I Coach guadagnano validando il sapere dei Comandanti.', saggi_valida:'Valida', saggi_premia:'Premia', saggi_guadagna:'Guadagna', saggi_entra:'Entra come Saggio →',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3128,6 +3653,16 @@ var TRANSLATIONS = {
     chat_placeholder:'Écris un message...',
     chat_risposte:['Bonne question ! Nous approfondirons lors de la prochaine session.','Merci ! Consulte le matériel du cours.','Rejoins le prochain live pour poser des questions !','J\'ai mis à jour le cours avec de nouveaux contenus.'],
     chat_azioni:[{icon:'📎',txt:'Fichier'},{icon:'🎁',txt:'Donner Graines'},{icon:'📹',txt:'Vidéo'},{icon:'❓',txt:'Question IA'}],
+    wall_in_corso:'EN COURS', wall_partecipanti:'participants', wall_premio:'Prix', wall_online_count:'en ligne', wall_tab_tutti:'Tous', wall_tab_bambini:'Enfants', wall_tab_sfide:'Défis', wall_tab_lezioni:'Cours', wall_tab_vicini:'Même pays', wall_tab_classifica:'Top', wall_footer:'🌍 Enfants et adultes d\'Italie, Sénégal, Côte d\'Ivoire, Mali, France, Ghana',
+    academy_sei_prof:'Vous êtes enseignant ?', academy_crea_corsi:'Créez des cours, tenez des lives, gagnez des Graines', academy_live_adesso:'🔴 EN DIRECT', academy_guardano:'regardent', academy_ricordami:'🔔 Me rappeler', academy_prossime:'📅 PROCHAINES SESSIONS', academy_cerca:'🔍 Chercher par nom, matière, langue...', academy_studenti:'Étudiants', academy_corsi:'Cours', academy_ore:'Heures', academy_profilo:'👁 Profil', academy_scrivi:'💬 Écrire', academy_entra_live:'🔴 Rejoindre Live',
+    fam_versamento:'Versement mensuel', fam_durata:'Durée (années)', fam_rendimento:'Rendement annuel estimé (%)', fam_anni:'ans', card_versato:'Versé', fam_interesse:'Intérêts composés', fam_capitale:'Capital estimé après ', fam_tocca_lezione:'Touche pour générer un cours IA', fam_strumento:'OUTIL D\'INVESTISSEMENT', fam_impara_ai:'APPRENDS AVEC L\'IA', fam_sottotitolo:'Construis leur avenir dès aujourd\'hui',
+    silver_titolo:'🥈 Pièces d\'Argent Enfants', silver_desc:'Gagnées en complétant quiz, devoirs et cours', silver_nota:'Récompenses virtuelles éducatives — À des fins éducatives.', task_quiz:'Quiz terminé', task_lezione:'Cours terminé', task_streak:'Série de 7 jours', task_muro:'Post sur le Mur', premi_lezioni:'cours terminés',
+    btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Accueil', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Sélectionne ta Terre Souveraine', mondo_hint:'Touche une zone pour voir les détails', mondo_ruolo:'Choisis ton Destin', mondo_moduli:'📚 Modules Académie Omnia',
+    ruolo_comandante:'Commandant', ruolo_comandante_sub:'Enfant · Jeu', ruolo_mentore:'Mentor', ruolo_mentore_sub:'Parent · Carte', ruolo_saggio:'Sage', ruolo_saggio_sub:'Coach · Savoir',
+    puntoabla_titolo:'Point Abla — Sagesse', puntoabla_sub:'Missions d\'étude pour des récompenses épiques', abla_missioni:'📋 Missions du Sage', abla_sblocca:'Complète 5 missions → débloque Landa Card PRO', abla_missioni_completate:'missions terminées', abla_footer:'Le Sage connaît ce qu\'on ne voit pas dans les graphiques.',
+    landacard_titolo:'Landa Card — Argent de Poche Méritocratie', landacard_sub:'Gérer les vraies récompenses', card_bloccata:'Carte Bloquée — Complète plus de missions !', card_sbloccata:'Carte Active — Argent de Poche Débloqué !', card_requisiti:'Mérite ≥50% · 3+ Missions Abla', card_req_merito:'Mérite', card_req_missioni:'Missions Abla', card_req_lezioni:'Cours', card_req_streak:'Série', card_valute:'Devises Disponibles', card_privacy:'Données protégées mineurs',
+    compliance_titolo:'Conformité Scolaire 2023', compliance_desc:'Note de conduite ≥ 9 débloque de vraies récompenses dans le jeu.',
+    saggi_titolo:'Marché des Sages', saggi_desc:'Les Coachs gagnent en validant le savoir des Commandants.', saggi_valida:'Valider', saggi_premia:'Récompenser', saggi_guadagna:'Gagner', saggi_entra:'Entrer comme Sage →',
   },
   en: {
     home_title:'The Savings Academy',
@@ -3254,6 +3789,16 @@ var TRANSLATIONS = {
     chat_placeholder:'Write a message...',
     chat_risposte:['Great question! We\'ll cover this in the next session.','Thanks! Check the course materials for this.','Join the next live to ask questions directly!','I\'ve updated the course with new materials.'],
     chat_azioni:[{icon:'📎',txt:'File'},{icon:'🎁',txt:'Gift Seeds'},{icon:'📹',txt:'Video'},{icon:'❓',txt:'AI Question'}],
+    wall_in_corso:'LIVE', wall_partecipanti:'participants', wall_premio:'Prize', wall_online_count:'online', wall_tab_tutti:'All', wall_tab_bambini:'Kids', wall_tab_sfide:'Challenges', wall_tab_lezioni:'Lessons', wall_tab_vicini:'Same country', wall_tab_classifica:'Top', wall_footer:'🌍 Kids and adults from Italy, Senegal, Ivory Coast, Mali, France, Ghana',
+    academy_sei_prof:'Are you a teacher?', academy_crea_corsi:'Create courses, hold live lessons, earn Seeds', academy_live_adesso:'🔴 LIVE NOW', academy_guardano:'watching', academy_ricordami:'🔔 Remind me', academy_prossime:'📅 UPCOMING SESSIONS', academy_cerca:'🔍 Search by name, subject, language...', academy_studenti:'Students', academy_corsi:'Courses', academy_ore:'Hours', academy_profilo:'👁 Profile', academy_scrivi:'💬 Message', academy_entra_live:'🔴 Join Live',
+    fam_versamento:'Monthly deposit', fam_durata:'Duration (years)', fam_rendimento:'Estimated annual return (%)', fam_anni:'years', card_versato:'Deposited', fam_interesse:'Compound interest', fam_capitale:'Estimated capital after ', fam_tocca_lezione:'Tap to generate AI lesson', fam_strumento:'INVESTMENT TOOL', fam_impara_ai:'LEARN WITH AI', fam_sottotitolo:'Build their future starting today',
+    silver_titolo:'🥈 Kids Silver Coins', silver_desc:'Earned by completing quizzes, homework and lessons', silver_nota:'Virtual educational rewards — For educational purposes only.', task_quiz:'Quiz completed', task_lezione:'Lesson completed', task_streak:'7-day streak', task_muro:'Wall post', premi_lezioni:'lessons completed',
+    btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Home', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Select your Sovereign Land', mondo_hint:'Tap a zone to see details', mondo_ruolo:'Choose your Destiny', mondo_moduli:'📚 Omnia Academy Modules',
+    ruolo_comandante:'Commander', ruolo_comandante_sub:'Child · Game', ruolo_mentore:'Mentor', ruolo_mentore_sub:'Parent · Card', ruolo_saggio:'Sage', ruolo_saggio_sub:'Coach · Knowledge',
+    puntoabla_titolo:'Abla Point — Wisdom', puntoabla_sub:'Study missions for epic rewards', abla_missioni:'📋 Sage Missions', abla_sblocca:'Complete 5 missions → unlock Landa Card PRO', abla_missioni_completate:'missions completed', abla_footer:'The Sage knows what charts cannot show.',
+    landacard_titolo:'Landa Card — Meritocratic Allowance', landacard_sub:'Manage real rewards', card_bloccata:'Card Locked — Complete more missions!', card_sbloccata:'Card Active — Allowance Unlocked!', card_requisiti:'Merit ≥50% · 3+ Abla Missions', card_req_merito:'Merit', card_req_missioni:'Abla Missions', card_req_lezioni:'Lessons', card_req_streak:'Streak', card_valute:'Available Currencies', card_privacy:'Protected minor data',
+    compliance_titolo:'School Compliance 2023', compliance_desc:'Conduct grade ≥ 9 unlocks real in-game rewards.',
+    saggi_titolo:'Sages Marketplace', saggi_desc:'Coaches earn by validating Commanders\' knowledge.', saggi_valida:'Validate', saggi_premia:'Reward', saggi_guadagna:'Earn', saggi_entra:'Enter as Sage →',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3380,6 +3925,16 @@ var TRANSLATIONS = {
     chat_placeholder:'Escribe un mensaje...',
     chat_risposte:['¡Buena pregunta! Lo veremos en la próxima sesión.','¡Gracias! Consulta el material del curso.','¡Únete al próximo live para hacer preguntas!','He actualizado el curso con nuevos materiales.'],
     chat_azioni:[{icon:'📎',txt:'Archivo'},{icon:'🎁',txt:'Donar Semillas'},{icon:'📹',txt:'Video'},{icon:'❓',txt:'Pregunta IA'}],
+    wall_in_corso:'EN CURSO', wall_partecipanti:'participantes', wall_premio:'Premio', wall_online_count:'en línea', wall_tab_tutti:'Todos', wall_tab_bambini:'Niños', wall_tab_sfide:'Desafíos', wall_tab_lezioni:'Lecciones', wall_tab_vicini:'Mismo país', wall_tab_classifica:'Top', wall_footer:'🌍 Niños y adultos de Italia, Senegal, Costa de Marfil, Mali, Francia, Ghana',
+    academy_sei_prof:'¿Eres profesor?', academy_crea_corsi:'Crea cursos, da clases en vivo, gana Semillas', academy_live_adesso:'🔴 EN VIVO', academy_guardano:'viendo', academy_ricordami:'🔔 Recordarme', academy_prossime:'📅 PRÓXIMAS SESIONES', academy_cerca:'🔍 Buscar por nombre, materia, idioma...', academy_studenti:'Estudiantes', academy_corsi:'Cursos', academy_ore:'Horas', academy_profilo:'👁 Perfil', academy_scrivi:'💬 Escribir', academy_entra_live:'🔴 Entrar al Live',
+    fam_versamento:'Aportación mensual', fam_durata:'Duración (años)', fam_rendimento:'Rendimiento anual estimado (%)', fam_anni:'años', card_versato:'Aportado', fam_interesse:'Interés compuesto', fam_capitale:'Capital estimado después de ', fam_tocca_lezione:'Toca para generar lección IA', fam_strumento:'HERRAMIENTA DE INVERSIÓN', fam_impara_ai:'APRENDE CON LA IA', fam_sottotitolo:'Construye su futuro desde hoy',
+    silver_titolo:'🥈 Monedas de Plata Niños', silver_desc:'Ganadas completando quizzes, deberes y lecciones', silver_nota:'Recompensas virtuales educativas — Solo con fines educativos.', task_quiz:'Quiz completado', task_lezione:'Lección completada', task_streak:'Racha 7 días', task_muro:'Post en el Muro', premi_lezioni:'lecciones completadas',
+    btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Inicio', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Selecciona tu Tierra Soberana', mondo_hint:'Toca una zona para ver detalles', mondo_ruolo:'Elige tu Destino', mondo_moduli:'📚 Módulos Academia Omnia',
+    ruolo_comandante:'Comandante', ruolo_comandante_sub:'Niño · Juego', ruolo_mentore:'Mentor', ruolo_mentore_sub:'Padre · Tarjeta', ruolo_saggio:'Sabio', ruolo_saggio_sub:'Coach · Saber',
+    puntoabla_titolo:'Punto Abla — Sabiduría', puntoabla_sub:'Misiones de estudio para recompensas épicas', abla_missioni:'📋 Misiones del Sabio', abla_sblocca:'Completa 5 misiones → desbloquea Landa Card PRO', abla_missioni_completate:'misiones completadas', abla_footer:'El Sabio conoce lo que los gráficos no muestran.',
+    landacard_titolo:'Landa Card — Paga Meritocrática', landacard_sub:'Gestiona las recompensas reales', card_bloccata:'Tarjeta Bloqueada — ¡Completa más misiones!', card_sbloccata:'Tarjeta Activa — ¡Paga Desbloqueada!', card_requisiti:'Mérito ≥50% · 3+ Misiones Abla', card_req_merito:'Mérito', card_req_missioni:'Misiones Abla', card_req_lezioni:'Lecciones', card_req_streak:'Racha', card_valute:'Divisas Disponibles', card_privacy:'Datos protegidos menores',
+    compliance_titolo:'Cumplimiento Escolar 2023', compliance_desc:'Nota de conducta ≥ 9 desbloquea recompensas reales en el juego.',
+    saggi_titolo:'Mercado de Sabios', saggi_desc:'Los Coaches ganan validando el saber de los Comandantes.', saggi_valida:'Validar', saggi_premia:'Premiar', saggi_guadagna:'Ganar', saggi_entra:'Entrar como Sabio →',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -3504,6 +4059,16 @@ var TRANSLATIONS = {
     chat_placeholder:'Bind sa xar-xar...',
     chat_risposte:['Laaj bu baax! Dangay xool ci kanam.','Jërejëf! Xool karti cosaan bi.','Dugal ci live bi kanam!','Dama soppiku cosaan bi.'],
     chat_azioni:[{icon:'📎',txt:'Dosier'},{icon:'🎁',txt:'Dox Gerte'},{icon:'📹',txt:'Vidéo'},{icon:'❓',txt:'Laaj IA'}],
+    wall_in_corso:'CI KANAM', wall_partecipanti:'dëkk', wall_premio:'Njariign', wall_online_count:'ci internet', wall_tab_tutti:'Yépp', wall_tab_bambini:'Jiit yi', wall_tab_sfide:'Défi yi', wall_tab_lezioni:'Cosaan yi', wall_tab_vicini:'Sa réew', wall_tab_classifica:'Top', wall_footer:'🌍 Jiit yi ak jilit yi ci Itali, Sénégal, Afrika',
+    academy_sei_prof:'Danga jangalekat ?', academy_crea_corsi:'Def cosaan yi, jangal ci internet, dox Gerte', academy_live_adesso:'🔴 CI KANAM', academy_guardano:'xoolante', academy_ricordami:'🔔 Bégal ma', academy_prossime:'📅 COSAAN YI CI KANAM', academy_cerca:'🔍 Seet ci tur, xam-xam, làkk...', academy_studenti:'Jàng yi', academy_corsi:'Cosaan yi', academy_ore:'Waxtaan', academy_profilo:'👁 Profil', academy_scrivi:'💬 Bindal', academy_entra_live:'🔴 Dugal Live',
+    fam_versamento:'Xaalis bu wëltan', fam_durata:'Yoon (fan)', fam_rendimento:'Njariign bu ñëwaat (%)', fam_anni:'fan', card_versato:'Bindal', fam_interesse:'Xaalis bu yokk', fam_capitale:'Xaalis bu ñëw ci kanam ', fam_tocca_lezione:'Tannal ngir def cosaan IA', fam_strumento:'JUMTUKAAY XAALIS', fam_impara_ai:'JÀNG AK IA', fam_sottotitolo:'Dëkk sa ndey ak sa baay dëkk ci kanam',
+    silver_titolo:'🥈 Monii Xaalis Jiit yi', silver_desc:'Dañu jot ci quiz, devoirs ak cosaan', silver_nota:'Njariign yu jàng rekk.', task_quiz:'Quiz jeex', task_lezione:'Cosaan jeex', task_streak:'7 fan ci kanam', task_muro:'Post ci Ndar', premi_lezioni:'cosaan jeex',
+    btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Dëkk', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Tann sa Réew', mondo_hint:'Tannal seen bëgg ngir xool', mondo_ruolo:'Tann sa Yoon', mondo_moduli:'📚 Modul Cosaan Omnia',
+    ruolo_comandante:'Comandant', ruolo_comandante_sub:'Jiit · Fecc', ruolo_mentore:'Mentor', ruolo_mentore_sub:'Baay/Yaay · Karte', ruolo_saggio:'Gëlëm', ruolo_saggio_sub:'Coach · Xam-Xam',
+    puntoabla_titolo:'Abla — Xam-Xam', puntoabla_sub:'Misión jàng ngir njariign yu baax', abla_missioni:'📋 Misión Gëlëm', abla_sblocca:'Jeex 5 misión → lakk Landa Card PRO', abla_missioni_completate:'misión jeex', abla_footer:'Gëlëm bi xam lan gisul ci grafik.',
+    landacard_titolo:'Landa Card — Xaalis Merito', landacard_sub:'Toppal njariign yu dëkk', card_bloccata:'Karte Dëkk — Jeex njariijn yu des!', card_sbloccata:'Karte Dëkk — Xaalis Lakk!', card_requisiti:'Merito ≥50% · 3+ Misión Abla', card_req_merito:'Merito', card_req_missioni:'Misión Abla', card_req_lezioni:'Cosaan', card_req_streak:'Yoon', card_valute:'Xaalis yi', card_privacy:'Xam-xam jiit yi defar',
+    compliance_titolo:'Yool Scolair 2023', compliance_desc:'Jëf bu baax ≥ 9 lakk njariign ci fecc bi.',
+    saggi_titolo:'Marché Gëlëm yi', saggi_desc:'Coach yi dox Gerte ci toppandiku xam-xam Comandant yi.', saggi_valida:'Jëfandiku', saggi_premia:'Dox njariign', saggi_guadagna:'Jot', saggi_entra:'Dugal Gëlëm →',
   },
 };
 
@@ -4398,7 +4963,7 @@ function buildAcademyLive(body) {
   // Sessioni live
   var liveTitle = document.createElement('div');
   liveTitle.className = 'adult-section-title';
-  liveTitle.innerHTML = '<span style="color:var(--red)">🔴 LIVE ADESSO</span>';
+  liveTitle.innerHTML = '<span style="color:var(--red)">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_live_adesso+'</span>';
   body.appendChild(liveTitle);
 
   LIVE_SESSIONS.forEach(function(sess) {
@@ -4457,7 +5022,7 @@ function buildAcademyLive(body) {
 function buildAcademyProf(body) {
   var searchDiv = document.createElement('div');
   searchDiv.style.cssText = 'margin-bottom:12px';
-  searchDiv.innerHTML = '<input placeholder="🔍 Cerca per nome, materia, lingua..." ' +
+  searchDiv.innerHTML = '<input placeholder="'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_cerca+'" ' +
     'style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);' +
     'border-radius:12px;padding:10px 14px;color:#fff;font-family:system-ui;font-size:.85rem;outline:none" ' +
     'oninput="filterProfessori(this.value)">';
@@ -4502,20 +5067,20 @@ function renderProfList(profs, container) {
       '</div>' +
       '<div class="prof-bio">' + prof.bio + '</div>' +
       '<div class="prof-stats">' +
-        '<div class="prof-stat"><div class="prof-stat-val">' + prof.studenti + '</div><div class="prof-stat-lbl">Studenti</div></div>' +
+        '<div class="prof-stat"><div class="prof-stat-val">' + prof.studenti + '</div><div class="prof-stat-lbl">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_studenti+'</div></div>' +
         '<div class="prof-stat"><div class="prof-stat-val">' + prof.corsi + '</div><div class="prof-stat-lbl">Corsi</div></div>' +
         '<div class="prof-stat"><div class="prof-stat-val">' + prof.valutazione + '</div><div class="prof-stat-lbl">Rating</div></div>' +
-        '<div class="prof-stat"><div class="prof-stat-val">' + prof.ore + 'h</div><div class="prof-stat-lbl">Ore</div></div>' +
+        '<div class="prof-stat"><div class="prof-stat-val">' + prof.ore + 'h</div><div class="prof-stat-lbl">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_ore+'</div></div>' +
       '</div>' +
       (prof.prossima_live ?
         '<div style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:8px 10px;margin-bottom:10px;font-size:.76rem;color:var(--red)">' +
           '🔴 <strong>' + prof.prossima_live.titolo + '</strong> — ' + prof.prossima_live.data + ' (' + prof.prossima_live.durata + ')' +
         '</div>' : '') +
       '<div class="prof-actions">' +
-        '<button class="prof-btn" onclick="openProfView(\'' + prof.id + '\')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff">👁 Profilo</button>' +
-        '<button class="prof-btn" onclick="openChatWith(\'' + prof.nome + '\',\'' + prof.emoji + '\')" style="background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3);color:var(--gold)">💬 Scrivi</button>' +
+        '<button class="prof-btn" onclick="openProfView(\'' + prof.id + '\')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_profilo+'</button>' +
+        '<button class="prof-btn" onclick="openChatWith(\'' + prof.nome + '\',\'' + prof.emoji + '\')" style="background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3);color:var(--gold)">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_scrivi+'</button>' +
         (prof.prossima_live ?
-          '<button class="prof-btn" onclick="joinLiveSession(\'FL-'+prof.id.toUpperCase()+'\',\''+prof.prossima_live.titolo+'\',\''+prof.nome+'\')" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);color:var(--red)">🔴 Entra Live</button>' :
+          '<button class="prof-btn" onclick="joinLiveSession(\'FL-'+prof.id.toUpperCase()+'\',\''+prof.prossima_live.titolo+'\',\''+prof.nome+'\')" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);color:var(--red)">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_entra_live+'</button>' :
           '<button class="prof-btn" onclick="openGiftModal({nome:\''+prof.nome+'\',emoji:\''+prof.emoji+'\'})" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:var(--green)">🎁 Dona</button>'
         ) +
       '</div>';
@@ -6686,7 +7251,7 @@ function buildMuroSociale() {
   // Online players bar
   var onlineBar = document.createElement('div');
   onlineBar.className = 'online-bar';
-  onlineBar.innerHTML = '<div style="font-size:.7rem;font-weight:800;color:var(--green);white-space:nowrap">🟢 Online ora:</div>';
+  onlineBar.innerHTML = '<div style="font-size:.7rem;font-weight:800;color:var(--green);white-space:nowrap">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).wall_online+'</div>';
   activeOnlinePlayers.forEach(function(p){
     var playerEl = document.createElement('div');
     playerEl.className = 'online-player';
@@ -6702,7 +7267,8 @@ function buildMuroSociale() {
   });
   var countEl = document.createElement('div');
   countEl.className = 'online-count';
-  countEl.textContent = (activeOnlinePlayers.length + 14) + ' online';
+  var twm = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+  countEl.textContent = (activeOnlinePlayers.length + 14) + ' ' + (twm.wall_online_count||'online');
   countEl.id = 'wall-online-count';
   onlineBar.appendChild(countEl);
   body.appendChild(onlineBar);
@@ -6713,19 +7279,19 @@ function buildMuroSociale() {
   sfidaCard.className = 'sfida-globale-card';
   var pct = Math.round((sfidaEv.completati/sfidaEv.target)*100);
   sfidaCard.innerHTML =
-    '<div style="position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:.6rem;font-weight:900;padding:2px 8px;border-radius:8px">🔥 IN CORSO</div>' +
+    '<div style="position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:.6rem;font-weight:900;padding:2px 8px;border-radius:8px">🔥 '+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).wall_in_corso+'</div>' +
     '<div class="sfida-glob-title">' + sfidaEv.emoji + ' ' + sfidaEv.titolo + '</div>' +
     '<div class="sfida-glob-desc">' + sfidaEv.desc + '</div>' +
     '<div class="sfida-glob-progress"><div class="sfida-glob-fill" style="width:'+pct+'%"></div></div>' +
     '<div class="sfida-glob-meta">' +
-      '<span>' + sfidaEv.completati + '/' + sfidaEv.target + ' partecipanti</span>' +
+      '<span>' + sfidaEv.completati + '/' + sfidaEv.target + ' '+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).wall_partecipanti+'</span>' +
       '<span>⏱ ' + sfidaEv.scadenza + '</span>' +
     '</div>' +
-    '<div style="margin-top:8px;font-size:.76rem;font-weight:800;color:var(--gold)">Premio: ' + sfidaEv.premio + '</div>' +
+    '<div style="margin-top:8px;font-size:.76rem;font-weight:800;color:var(--gold)">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).wall_premio+': ' + sfidaEv.premio + '</div>' +
     '<button onclick="partecipasfidaGlobale(\''+sfidaEv.id+'\')" ' +
       'style="width:100%;background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);' +
       'border-radius:10px;padding:8px;color:var(--red);font-weight:800;font-size:.8rem;cursor:pointer;margin-top:8px">' +
-      '⚔️ Partecipa alla Sfida Globale!' +
+      (TRANSLATIONS[S.lang]||TRANSLATIONS.it).wall_partecipa +
     '</button>';
   body.appendChild(sfidaCard);
 
@@ -6736,12 +7302,13 @@ function buildMuroSociale() {
   // Filtri
   var filtersDiv = document.createElement('div');
   filtersDiv.className = 'wall-filters';
+  var twf = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
   var filtri = [
-    {id:'tutti',   label:'🌍 Tutti'},
-    {id:'bambini', label:'👶 Bambini'},
-    {id:'sfide',   label:'⚔️ Sfide'},
-    {id:'lezioni', label:'📚 Lezioni'},
-    {id:'vicini',  label:'🗺️ Stesso paese'},
+    {id:'tutti',   label:'🌍 '+(twf.wall_tab_tutti||'Tutti')},
+    {id:'bambini', label:'👶 '+(twf.wall_tab_bambini||'Bambini')},
+    {id:'sfide',   label:'⚔️ '+(twf.wall_tab_sfide||'Sfide')},
+    {id:'lezioni', label:'📚 '+(twf.wall_tab_lezioni||'Lezioni')},
+    {id:'vicini',  label:'🗺️ '+(twf.wall_tab_vicini||'Stesso paese')},
   ];
   filtri.forEach(function(f, i){
     var btn = document.createElement('div');
@@ -6783,7 +7350,7 @@ function renderWallPosts(body, filter, newPostBox, filtersDiv, onlineBar, sfidaC
   // Footer
   var footer = document.createElement('div');
   footer.style.cssText = 'text-align:center;padding:14px;font-size:.72rem;color:var(--muted);line-height:1.6';
-  footer.innerHTML = '🌍 Bambini e adulti da Italia, Senegal, Costa d Avorio, Mali, Francia, Ghana e altri paesi<br><strong style="color:var(--teal)">Insieme si impara meglio</strong>';
+  footer.innerHTML = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).wall_footer||'🌍 Bambini e adulti da tutto il mondo';
   body.appendChild(footer);
 }
 
