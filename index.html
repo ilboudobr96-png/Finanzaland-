@@ -1416,6 +1416,33 @@ var TOPICS = {
     'Come smettere di procrastinare','Identita finanziaria','Relazione con il denaro',
   ],
 };
+// ── TOPICS MULTILINGUA — nomi lezioni per lingua ─────────────
+var TOPICS_LANG = {
+  fr: {
+    risparmio:    ['Règle 50-30-20','Fonds d urgence','Payez-vous d abord','Objectifs SMART','Budget mensuel','Épargne automatique','Psychologie de l épargne','Compte courant vs dépôt','Épargner pour ses enfants','Règle des 72','Dépenses fixes','Budget zéro','Le pouvoir des habitudes'],
+    investimenti: ['Intérêts composés','Qu est-ce qu un ETF','Diversification','PAC mensuel','Risque/rendement','S&P500','Dividendes','Value investing','Growth investing','Dollar cost averaging','Portefeuille lazy','Small cap vs large cap','Rééquilibrage'],
+    mercati:      ['Comment fonctionne la bourse','Banques centrales','Inflation','Cycles économiques','Crise 2008','BRVM Afrique','Carry trade','Lire un graphique','Analyse technique','Analyse fondamentale','Indices mondiaux','Spread BTP','Marchés émergents'],
+    bambini:      ['C est quoi l argent','Besoin vs désir','Ma tirelire','Comment gagner','Donner épargner dépenser','Le prix des choses','Objectifs épargne','C est quoi une banque','Comment fonctionne la carte','Mes premiers investissements','Différence riches et pauvres','La valeur du travail','Commerce et troc'],
+  },
+  en: {
+    risparmio:    ['50-30-20 Rule','Emergency Fund','Pay Yourself First','SMART Goals','Monthly Budget','Automatic Savings','Psychology of Saving','Checking vs Savings','Saving for Kids','Rule of 72','Fixed vs Variable Expenses','Zero-based Budget','Power of Habits'],
+    investimenti: ['Compound Interest','What is an ETF','Diversification','Monthly DCA','Risk/reward','S&P500','Dividends','Value investing','Growth investing','Dollar cost averaging','Lazy portfolio','Small cap vs large cap','Rebalancing'],
+    mercati:      ['How the stock market works','Central banks','Inflation','Economic cycles','2008 Crisis','BRVM Africa','Carry trade','Reading charts','Technical analysis','Fundamental analysis','Global indices','Yield spread','Emerging markets'],
+    bambini:      ['What is money','Need vs want','My piggy bank','How to earn','Give save spend','Price of things','Savings goals','What is a bank','How cards work','My first investments','Rich vs poor','Value of work','Trade and barter'],
+  }
+};
+// Per ES e WO usa IT (accettabile per ora)
+TOPICS_LANG.es = TOPICS_LANG.it || null;
+TOPICS_LANG.wo = TOPICS_LANG.it || null;
+
+// Funzione per ottenere i topic nella lingua corrente
+function getTopicsForPercorso(percorsoId) {
+  var lang = S.lang;
+  var langData = TOPICS_LANG[lang];
+  if (langData && langData[percorsoId]) return langData[percorsoId];
+  return TOPICS[percorsoId] || [];
+}
+
 
 // ═══════════════════════════════════════════════════════
 // AI LESSON GENERATOR
@@ -1439,6 +1466,7 @@ async function generateLesson(topic, percorso, livello, eta, forceNew) {
         eta: eta || S.eta,
         lingua: S.lang,
         lessonId: cacheKey,
+        stream: false,
       })
     });
     var data = await resp.json();
@@ -1593,7 +1621,7 @@ function renderLezioniList() {
   });
 
   // Lista topic predefiniti
-  var topics = TOPICS[currentPercorso.id] || [];
+  var topics = getTopicsForPercorso(currentPercorso.id);
   var secTitle = document.createElement('div');
   secTitle.className = 'adult-section-title';
   var ts = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
@@ -1923,16 +1951,18 @@ function buildAdulti() {
   // KPI
   var kpiTitle = document.createElement('div');
   kpiTitle.className = 'adult-section-title';
-  kpiTitle.textContent = 'Il tuo Quadro Finanziario';
+  var tad = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+  kpiTitle.textContent = tad.adulti_quadro||'Il tuo Quadro Finanziario';
   body.appendChild(kpiTitle);
 
   var kpiGrid = document.createElement('div');
   kpiGrid.className = 'kpi-grid';
+  var tad = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
   var kpis = [
-    {val:S.coins.toLocaleString('it'),lbl:'Semi Totali'},
-    {val:'Lv.'+S.level,lbl:'Livello'},
-    {val:Object.keys(S.completate).length,lbl:'Lezioni Completate'},
-    {val:S.isPro?'PRO':'Free',lbl:'Piano'},
+    {val:S.coins.toLocaleString(),lbl:tad.lbl_semi||'Semi'},
+    {val:'Lv.'+S.level,lbl:tad.lbl_livello||'Livello'},
+    {val:Object.keys(S.completate).length,lbl:tad.adulti_lezioni_comp||'Lezioni'},
+    {val:S.isPro?'PRO':(tad.adulti_free||'Free'),lbl:tad.adulti_piano||'Piano'},
   ];
   kpis.forEach(function(k){
     kpiGrid.innerHTML += '<div class="kpi-card"><div class="kpi-val">'+k.val+'</div><div class="kpi-lbl">'+k.lbl+'</div></div>';
@@ -1942,14 +1972,14 @@ function buildAdulti() {
   // Calcolatori
   var calcTitle = document.createElement('div');
   calcTitle.className = 'adult-section-title';
-  calcTitle.textContent = 'Calcolatori Finanziari';
+  calcTitle.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_calcolatori||'Calcolatori Finanziari';
   body.appendChild(calcTitle);
 
   var calcs = [
-    {em:'🏠',t:'Calcolatore Mutuo',d:'Calcola rata, interessi e costo totale'},
-    {em:'🧓',t:'Simulatore Pensione',d:'Regola del 4% — quanti anni per FIRE?'},
-    {em:'📈',t:'Interesse Composto',d:'Come crescono i tuoi investimenti nel tempo'},
-    {em:'📋',t:'Ottimizzatore Tasse',d:'IRPEF, forfettario, ETF irlandesi'},
+    {em:'🏠',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_mutuo||'Calcolatore Mutuo',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_mutuo_desc||'Calcola rata, interessi e costo totale'},
+    {em:'🧓',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_pensione||'Simulatore Pensione',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_pensione_desc||'Regola del 4% — quanti anni per FIRE?'},
+    {em:'📈',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_interessi||'Interesse Composto',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_interessi_desc||'Come crescono i tuoi investimenti nel tempo'},
+    {em:'📋',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_tasse||'Ottimizzatore Tasse',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_tasse_desc||'IRPEF, forfettario, ETF irlandesi'},
   ];
   calcs.forEach(function(c){
     var el = document.createElement('div');
@@ -1969,7 +1999,7 @@ function buildAdulti() {
   // Lezioni adulti rapide
   var lezTitle = document.createElement('div');
   lezTitle.className = 'adult-section-title';
-  lezTitle.textContent = 'Lezioni Adulti Avanzate';
+  lezTitle.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_lezioni_avanzate||'Lezioni Adulti Avanzate';
   body.appendChild(lezTitle);
 
   var temi_adulti = ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obbligazioni','ETF UCITS irlandesi','BRVM e mercati africani','Factor investing','FIRE Financial Independence'];
@@ -2486,7 +2516,7 @@ function buildFiglioCalc(container) {
     }
 
     makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_versamento||'Versamento mensile', 'versamento', 10, 500, 10, '€');
-    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_durata||'Durata (anni)', (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_anni||'anni', 1, 25, 1, 'anni');
+    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_durata||'Durata (anni)', 'anni', 1, 25, 1, (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_anni||'anni');
     makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_rendimento||'Rendimento annuo stimato (%)', 'tasso', 1, 15, 0.5, '%');
 
     // ── RISULTATO ────────────────────────────────────────────
@@ -3527,6 +3557,15 @@ var TRANSLATIONS = {
     landacard_titolo:'Landa Card — Paghetta Meritocratica', landacard_sub:'Gestisci i premi reali', card_bloccata:'Card Bloccata — Completa più missioni!', card_sbloccata:'Card Attiva — Paghetta Sbloccata!', card_requisiti:'Merito ≥50% · 3+ Missioni Abla', card_req_merito:'Merito', card_req_missioni:'Missioni Abla', card_req_lezioni:'Lezioni', card_req_streak:'Streak', card_valute:'Valute Disponibili', card_privacy:'Dati protetti minori',
     compliance_titolo:'Compliance Scolastica 2023', compliance_desc:'Il voto in condotta ≥ 9 sblocca premi reali nel gioco.',
     saggi_titolo:'Marketplace Saggi', saggi_desc:'I Coach guadagnano validando il sapere dei Comandanti.', saggi_valida:'Valida', saggi_premia:'Premia', saggi_guadagna:'Guadagna', saggi_entra:'Entra come Saggio →',
+    adulti_quadro:'Il tuo Quadro Finanziario', adulti_calcolatori:'Calcolatori Finanziari',
+    adulti_lezioni_comp:'Lezioni', adulti_free:'Free', adulti_piano:'Piano',
+    adulti_lezioni_avanzate:'Lezioni Adulti Avanzate',
+    adulti_mutuo:'Calcolatore Mutuo', adulti_mutuo_desc:'Calcola rata, interessi e costo totale',
+    adulti_pensione:'Simulatore Pensione', adulti_pensione_desc:'Regola del 4% — quanti anni per FIRE?',
+    adulti_interessi:'Interesse Composto', adulti_interessi_desc:'Come crescono i tuoi investimenti',
+    adulti_tasse:'Ottimizzatore Tasse', adulti_tasse_desc:'IRPEF, forfettario, ETF irlandesi',
+    quiz_scegli_livello:'Scegli il livello', quiz_per_risposta:'per risposta giusta',
+    quiz_lv_facile:'🌱 Facile', quiz_lv_medio:'📚 Medio', quiz_lv_difficile:'🎓 Difficile',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3663,6 +3702,15 @@ var TRANSLATIONS = {
     landacard_titolo:'Landa Card — Argent de Poche Méritocratie', landacard_sub:'Gérer les vraies récompenses', card_bloccata:'Carte Bloquée — Complète plus de missions !', card_sbloccata:'Carte Active — Argent de Poche Débloqué !', card_requisiti:'Mérite ≥50% · 3+ Missions Abla', card_req_merito:'Mérite', card_req_missioni:'Missions Abla', card_req_lezioni:'Cours', card_req_streak:'Série', card_valute:'Devises Disponibles', card_privacy:'Données protégées mineurs',
     compliance_titolo:'Conformité Scolaire 2023', compliance_desc:'Note de conduite ≥ 9 débloque de vraies récompenses dans le jeu.',
     saggi_titolo:'Marché des Sages', saggi_desc:'Les Coachs gagnent en validant le savoir des Commandants.', saggi_valida:'Valider', saggi_premia:'Récompenser', saggi_guadagna:'Gagner', saggi_entra:'Entrer comme Sage →',
+    adulti_quadro:'Ton Tableau Financier', adulti_calcolatori:'Calculatrices Financières',
+    adulti_lezioni_comp:'Cours', adulti_free:'Gratuit', adulti_piano:'Plan',
+    adulti_lezioni_avanzate:'Cours Adultes Avancés',
+    adulti_mutuo:'Calculateur Prêt', adulti_mutuo_desc:'Calcule mensualités, intérêts et coût total',
+    adulti_pensione:'Simulateur Retraite', adulti_pensione_desc:'Règle des 4% — combien d\'années pour FIRE?',
+    adulti_interessi:'Intérêts Composés', adulti_interessi_desc:'Comment tes investissements croissent',
+    adulti_tasse:'Optimiseur Fiscal', adulti_tasse_desc:'Fiscalité, ETF irlandais',
+    quiz_scegli_livello:'Choisis le niveau', quiz_per_risposta:'par bonne réponse',
+    quiz_lv_facile:'🌱 Facile', quiz_lv_medio:'📚 Intermédiaire', quiz_lv_difficile:'🎓 Difficile',
   },
   en: {
     home_title:'The Savings Academy',
@@ -3799,6 +3847,15 @@ var TRANSLATIONS = {
     landacard_titolo:'Landa Card — Meritocratic Allowance', landacard_sub:'Manage real rewards', card_bloccata:'Card Locked — Complete more missions!', card_sbloccata:'Card Active — Allowance Unlocked!', card_requisiti:'Merit ≥50% · 3+ Abla Missions', card_req_merito:'Merit', card_req_missioni:'Abla Missions', card_req_lezioni:'Lessons', card_req_streak:'Streak', card_valute:'Available Currencies', card_privacy:'Protected minor data',
     compliance_titolo:'School Compliance 2023', compliance_desc:'Conduct grade ≥ 9 unlocks real in-game rewards.',
     saggi_titolo:'Sages Marketplace', saggi_desc:'Coaches earn by validating Commanders\' knowledge.', saggi_valida:'Validate', saggi_premia:'Reward', saggi_guadagna:'Earn', saggi_entra:'Enter as Sage →',
+    adulti_quadro:'Your Financial Overview', adulti_calcolatori:'Financial Calculators',
+    adulti_lezioni_comp:'Lessons', adulti_free:'Free', adulti_piano:'Plan',
+    adulti_lezioni_avanzate:'Advanced Adult Lessons',
+    adulti_mutuo:'Mortgage Calculator', adulti_mutuo_desc:'Calculate payments, interest and total cost',
+    adulti_pensione:'Retirement Simulator', adulti_pensione_desc:'4% rule — how many years to FIRE?',
+    adulti_interessi:'Compound Interest', adulti_interessi_desc:'How your investments grow over time',
+    adulti_tasse:'Tax Optimizer', adulti_tasse_desc:'Income tax, Irish ETFs',
+    quiz_scegli_livello:'Choose level', quiz_per_risposta:'per correct answer',
+    quiz_lv_facile:'🌱 Easy', quiz_lv_medio:'📚 Medium', quiz_lv_difficile:'🎓 Hard',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -3935,6 +3992,15 @@ var TRANSLATIONS = {
     landacard_titolo:'Landa Card — Paga Meritocrática', landacard_sub:'Gestiona las recompensas reales', card_bloccata:'Tarjeta Bloqueada — ¡Completa más misiones!', card_sbloccata:'Tarjeta Activa — ¡Paga Desbloqueada!', card_requisiti:'Mérito ≥50% · 3+ Misiones Abla', card_req_merito:'Mérito', card_req_missioni:'Misiones Abla', card_req_lezioni:'Lecciones', card_req_streak:'Racha', card_valute:'Divisas Disponibles', card_privacy:'Datos protegidos menores',
     compliance_titolo:'Cumplimiento Escolar 2023', compliance_desc:'Nota de conducta ≥ 9 desbloquea recompensas reales en el juego.',
     saggi_titolo:'Mercado de Sabios', saggi_desc:'Los Coaches ganan validando el saber de los Comandantes.', saggi_valida:'Validar', saggi_premia:'Premiar', saggi_guadagna:'Ganar', saggi_entra:'Entrar como Sabio →',
+    adulti_quadro:'Tu Cuadro Financiero', adulti_calcolatori:'Calculadoras Financieras',
+    adulti_lezioni_comp:'Lecciones', adulti_free:'Gratis', adulti_piano:'Plan',
+    adulti_lezioni_avanzate:'Lecciones Adultos Avanzadas',
+    adulti_mutuo:'Calculadora Hipoteca', adulti_mutuo_desc:'Calcula cuota, intereses y costo total',
+    adulti_pensione:'Simulador Jubilación', adulti_pensione_desc:'Regla del 4% — ¿cuántos años para FIRE?',
+    adulti_interessi:'Interés Compuesto', adulti_interessi_desc:'Cómo crecen tus inversiones',
+    adulti_tasse:'Optimizador Fiscal', adulti_tasse_desc:'IRPF, ETF irlandeses',
+    quiz_scegli_livello:'Elige el nivel', quiz_per_risposta:'por respuesta correcta',
+    quiz_lv_facile:'🌱 Fácil', quiz_lv_medio:'📚 Medio', quiz_lv_difficile:'🎓 Difícil',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -4069,6 +4135,15 @@ var TRANSLATIONS = {
     landacard_titolo:'Landa Card — Xaalis Merito', landacard_sub:'Toppal njariign yu dëkk', card_bloccata:'Karte Dëkk — Jeex njariijn yu des!', card_sbloccata:'Karte Dëkk — Xaalis Lakk!', card_requisiti:'Merito ≥50% · 3+ Misión Abla', card_req_merito:'Merito', card_req_missioni:'Misión Abla', card_req_lezioni:'Cosaan', card_req_streak:'Yoon', card_valute:'Xaalis yi', card_privacy:'Xam-xam jiit yi defar',
     compliance_titolo:'Yool Scolair 2023', compliance_desc:'Jëf bu baax ≥ 9 lakk njariign ci fecc bi.',
     saggi_titolo:'Marché Gëlëm yi', saggi_desc:'Coach yi dox Gerte ci toppandiku xam-xam Comandant yi.', saggi_valida:'Jëfandiku', saggi_premia:'Dox njariign', saggi_guadagna:'Jot', saggi_entra:'Dugal Gëlëm →',
+    adulti_quadro:'Sa Xaalis Tableau', adulti_calcolatori:'Calcul Xaalis',
+    adulti_lezioni_comp:'Cosaan', adulti_free:'Yomb', adulti_piano:'Yëgël',
+    adulti_lezioni_avanzate:'Cosaan Jilit Avancé',
+    adulti_mutuo:'Calcul Crédit', adulti_mutuo_desc:'Xool xaalis bi ak jumtukaay',
+    adulti_pensione:'Simul Retraite', adulti_pensione_desc:'Régle 4% — fan yi ngir FIRE?',
+    adulti_interessi:'Xaalis bu Yokk', adulti_interessi_desc:'Naka xaalis bi dafa yokk',
+    adulti_tasse:'Yëgël Impôt', adulti_tasse_desc:'Impôt, ETF irlandais',
+    quiz_scegli_livello:'Tann niveau bi', quiz_per_risposta:'ci tontu bu dëkk',
+    quiz_lv_facile:'🌱 Yomb', quiz_lv_medio:'📚 Ci diggante', quiz_lv_difficile:'🎓 Dafa dëgël',
   },
 };
 
@@ -6876,10 +6951,108 @@ var SPEED_QUIZ_AVANZATO = [
   {q:'Il VIX misura:', opts:['Il valore dell oro','La paura del mercato','Il PIL USA','Il tasso BCE'], ok:1, em:'😰'},
 ];
 
+
+// ── SPEED QUIZ MULTILINGUA ─────────────────────────────────────
+var SPEED_QUIZ_LANG = {
+  fr: {
+    base: [
+      {q:"Qu'est-ce que l'épargne ?", opts:["Tout dépenser","Mettre de côté","Jeter","Jouer"], ok:1, em:'🐷'},
+      {q:"Si tu as 10€ et dépenses 3€, il reste :", opts:["5","8","7","6"], ok:2, em:'🪙'},
+      {q:"Que fait une banque ?", opts:["Vend des pizzas","Garde ton argent","Joue","Vole"], ok:1, em:'🏦'},
+      {q:"Le mot magique de l'épargne est :", opts:["Dépense!","Achète!","Épargne!","Cours!"], ok:2, em:'✨'},
+      {q:"La tirelire sert à :", opts:["Dormir","Mettre l'argent","Cuisiner","Chanter"], ok:1, em:'🐷'},
+      {q:"50-30-20 : les 20% vont à :", opts:["Cinéma","Épargne","Restaurant","Jeux"], ok:1, em:'📊'},
+      {q:"Un actif met de l'argent dans ta poche ?", opts:["Oui, toujours!","Non jamais","Parfois","Je sais pas"], ok:0, em:'🏰'},
+      {q:"Qu'est-ce qu'investir ?", opts:["Tout dépenser","Faire croître son argent","Tout donner","Perdre"], ok:1, em:'📈'},
+      {q:"Le Dragon Finan enseigne :", opts:["La magie","La finance","La cuisine","La musique"], ok:1, em:'🐉'},
+      {q:"Les Graines se gagnent :", opts:["En dormant","En apprenant","En pleurant","Rien"], ok:1, em:'🌱'},
+    ],
+    medio: [
+      {q:"Qu'est-ce que la règle 50-30-20 ?", opts:["Épargner 50%","Besoins 50% Envies 30% Épargne 20%","Tout dépenser","Investir 50%"], ok:1, em:'📊'},
+      {q:"Qu'est-ce qu'un ETF ?", opts:["Un jeu vidéo","Fonds qui réplique un indice","Une banque","Une crypto"], ok:1, em:'📈'},
+      {q:"Les intérêts composés fonctionnent :", opts:["Seulement pour les riches","Sur les intérêts des intérêts","Seulement en banque","N'existe pas"], ok:1, em:'💎'},
+      {q:"La BRVM est la bourse de :", opts:["Brésil","Afrique de l'Ouest","Russie","Mexique"], ok:1, em:'🌍'},
+      {q:"Un fonds d'urgence couvre :", opts:["1 jour","3-6 mois de dépenses","10 ans","Que le loyer"], ok:1, em:'🛡️'},
+      {q:"PAC signifie :", opts:["Plan Alto Capital","Plan d'Accumulation de Capital","Prêt À Coût","Police Assurance Cumulative"], ok:1, em:'📅'},
+      {q:"L'inflation à 3% signifie :", opts:["Les prix baissent de 3%","Les prix montent de 3%","La bourse monte de 3%","Le PIB croît de 3%"], ok:1, em:'📉'},
+      {q:"Diversifier signifie :", opts:["Acheter que du Bitcoin","Investir dans divers actifs","Tout mettre en banque","Acheter que de l'or"], ok:1, em:'🎯'},
+      {q:"Un ETF UCITS irlandais a une retenue de :", opts:["30%","26%","15%","0%"], ok:2, em:'🇮🇪'},
+      {q:"La règle des 72 sert à :", opts:["Faire une pizza","Calculer quand le capital double","La déclaration","Acheter des obligations"], ok:1, em:'🔢'},
+    ],
+    avanzato: [
+      {q:"Le ratio P/E mesure :", opts:["Le poids des actions","Prix/Bénéfice par action","Profit Étranger","Pourcentage Européen"], ok:1, em:'📊'},
+      {q:"La duration d'une obligation ?", opts:["Durée du contrat","Sensibilité au taux d'intérêt","Le rating","Le coupon"], ok:1, em:'🏛️'},
+      {q:"Le ratio de Sharpe mesure :", opts:["La volatilité","Rendement/risque","Le momentum","Le dividende"], ok:1, em:'📐'},
+      {q:"Dans un call, tu gagnes si :", opts:["Le prix baisse","Le prix monte au-delà du strike","Le prix reste stable","Toujours"], ok:1, em:'📈'},
+      {q:"Le QE (Assouplissement quantitatif) est :", opts:["Une taxe","La BC qui achète des actifs","Un fonds de pension","Une crypto"], ok:1, em:'🏦'},
+      {q:"Le spread de rendement indique :", opts:["Différence de rendement entre 2 obligations","Le dividende total","L'indice boursier","La volatilité"], ok:0, em:'📉'},
+      {q:"Le Beta d'une action mesure :", opts:["Le profit","La volatilité par rapport au marché","Le dividende","Le chiffre d'affaires"], ok:1, em:'β'},
+      {q:"DCA signifie :", opts:["Dérivés Contrats Actions","Dollar Cost Averaging","Dividendes Cumulatifs Annuels","Dette Courante d'Entreprise"], ok:1, em:'💰'},
+      {q:"Un REIT est :", opts:["Une crypto","Fonds immobilier coté","Une banque africaine","Un dérivé"], ok:1, em:'🏢'},
+      {q:"Le VIX mesure :", opts:["La valeur de l'or","La peur du marché","Le PIB US","Le taux BCE"], ok:1, em:'😰'},
+    ]
+  },
+  en: {
+    base: [
+      {q:"What is saving?", opts:["Spend everything","Put money aside","Throw away","Play"], ok:1, em:'🐷'},
+      {q:"If you have 10€ and spend 3€, how much is left?", opts:["5","8","7","6"], ok:2, em:'🪙'},
+      {q:"What does a bank do?", opts:["Sells pizza","Keeps your money","Plays","Flies"], ok:1, em:'🏦'},
+      {q:"The magic word of saving is:", opts:["Spend!","Buy!","Save!","Run!"], ok:2, em:'✨'},
+      {q:"A piggy bank is for:", opts:["Sleeping","Collecting money","Cooking","Singing"], ok:1, em:'🐷'},
+      {q:"50-30-20: the 20% goes to:", opts:["Cinema","Savings","Restaurant","Games"], ok:1, em:'📊'},
+      {q:"Does an asset put money in your pocket?", opts:["Yes, always!","Never","Sometimes","I don't know"], ok:0, em:'🏰'},
+      {q:"What does investing mean?", opts:["Spend everything","Grow your money","Give it all away","Lose it"], ok:1, em:'📈'},
+      {q:"Dragon Finan teaches:", opts:["Magic","Finance","Cooking","Music"], ok:1, em:'🐉'},
+      {q:"Seeds are earned by:", opts:["Sleeping","Learning","Crying","Nothing"], ok:1, em:'🌱'},
+    ],
+    medio: [
+      {q:"What is the 50-30-20 rule?", opts:["Save 50%","Needs 50% Wants 30% Savings 20%","Spend all","Invest 50%"], ok:1, em:'📊'},
+      {q:"What is an ETF?", opts:["A video game","Fund tracking an index","A bank","A crypto"], ok:1, em:'📈'},
+      {q:"Compound interest works:", opts:["Only for the rich","On interest of interest","Only in banks","Doesn't exist"], ok:1, em:'💎'},
+      {q:"BRVM is the stock exchange of:", opts:["Brazil","West Africa","Russia","Mexico"], ok:1, em:'🌍'},
+      {q:"An emergency fund covers:", opts:["1 day","3-6 months of expenses","10 years","Only rent"], ok:1, em:'🛡️'},
+      {q:"DCA stands for:", opts:["Daily Cash Acquisition","Dollar Cost Averaging","Direct Capital Allocation","Dividend Credit Account"], ok:1, em:'📅'},
+      {q:"3% inflation means:", opts:["Prices fall 3%","Prices rise 3%","Market rises 3%","GDP grows 3%"], ok:1, em:'📉'},
+      {q:"Diversifying means:", opts:["Buy only Bitcoin","Invest in many different assets","Keep everything in bank","Buy only gold"], ok:1, em:'🎯'},
+      {q:"An Irish UCITS ETF has withholding tax of:", opts:["30%","26%","15%","0%"], ok:2, em:'🇮🇪'},
+      {q:"The rule of 72 is used to:", opts:["Make pizza","Calculate when capital doubles","File taxes","Buy bonds"], ok:1, em:'🔢'},
+    ],
+    avanzato: [
+      {q:"P/E ratio measures:", opts:["Weight of shares","Price/Earnings per share","Foreign profit","European percentage"], ok:1, em:'📊'},
+      {q:"Bond duration is:", opts:["Contract length","Interest rate sensitivity","Rating","Coupon"], ok:1, em:'🏛️'},
+      {q:"Sharpe ratio measures:", opts:["Volatility","Return/risk","Momentum","Dividend"], ok:1, em:'📐'},
+      {q:"With a call option, you profit if:", opts:["Price falls","Price rises above strike","Price stays flat","Always"], ok:1, em:'📈'},
+      {q:"QE (Quantitative Easing) is:", opts:["A tax","Central bank buying assets","A pension fund","A crypto"], ok:1, em:'🏦'},
+      {q:"Yield spread indicates:", opts:["Difference in yield between 2 bonds","Total dividend","Stock index","Volatility"], ok:0, em:'📉'},
+      {q:"Beta of a stock measures:", opts:["Profit","Volatility vs market","Dividend","Revenue"], ok:1, em:'β'},
+      {q:"DCA stands for:", opts:["Derivatives Contract Agreement","Dollar Cost Averaging","Daily Capital Allocation","Direct Credit Account"], ok:1, em:'💰'},
+      {q:"A REIT is:", opts:["A crypto","Listed real estate fund","An African bank","A derivative"], ok:1, em:'🏢'},
+      {q:"VIX measures:", opts:["Gold value","Market fear","US GDP","ECB rate"], ok:1, em:'😰'},
+    ]
+  }
+};
+// Lingue senza traduzione specifica usano IT per base/medio, avanzato IT
+SPEED_QUIZ_LANG.es = {
+  base: SPEED_QUIZ_BASE, medio: SPEED_QUIZ_MEDIO, avanzato: SPEED_QUIZ_AVANZATO
+};
+SPEED_QUIZ_LANG.wo = {
+  base: SPEED_QUIZ_BASE, medio: SPEED_QUIZ_MEDIO, avanzato: SPEED_QUIZ_AVANZATO
+};
+SPEED_QUIZ_LANG.it = {
+  base: SPEED_QUIZ_BASE, medio: SPEED_QUIZ_MEDIO, avanzato: SPEED_QUIZ_AVANZATO
+};
+
+// Funzione per ottenere le domande nella lingua corrente
+function getSpeedQuizForLang(livIdx) {
+  var langData = SPEED_QUIZ_LANG[S.lang] || SPEED_QUIZ_LANG.it;
+  var levels = ['base','medio','avanzato'];
+  return langData[levels[livIdx||speedLivelloAttuale||0]] || SPEED_QUIZ_BASE;
+}
+
 var SPEED_QUIZ_LIVELLI = [
-  {id:'base',     label:'🌱 Facile',    questions: SPEED_QUIZ_BASE,     semi:30,  tempo:10},
-  {id:'medio',    label:'📚 Medio',     questions: SPEED_QUIZ_MEDIO,    semi:60,  tempo:12},
-  {id:'avanzato', label:'🎓 Difficile', questions: SPEED_QUIZ_AVANZATO, semi:100, tempo:15},
+  {id:'base',     label:'🌱 Facile',    labelKey:'quiz_lv_facile',    questions: SPEED_QUIZ_BASE,     semi:30,  tempo:10},
+  {id:'medio',    label:'📚 Medio',     labelKey:'quiz_lv_medio',     questions: SPEED_QUIZ_MEDIO,    semi:60,  tempo:12},
+  {id:'avanzato', label:'🎓 Difficile', labelKey:'quiz_lv_difficile', questions: SPEED_QUIZ_AVANZATO, semi:100, tempo:15},
 ];
 var speedLivelloAttuale = 0;
 var SPEED_QUIZ = SPEED_QUIZ_BASE; // backward compat
@@ -6889,7 +7062,7 @@ var speedState = {qIdx:0, score:0, timer:null, answered:false};
 function buildSpeedQuiz(livIdx) {
   if (livIdx !== undefined) speedLivelloAttuale = livIdx;
   var lv = SPEED_QUIZ_LIVELLI[speedLivelloAttuale];
-  SPEED_QUIZ = lv.questions;
+  SPEED_QUIZ = getSpeedQuizForLang(speedLivelloAttuale);
   var body = document.getElementById('kids-speed-body');
   if (!body) return;
 
@@ -6906,7 +7079,7 @@ function buildSpeedQuiz(livIdx) {
         ['background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80',
          'background:rgba(255,215,0,.1);color:var(--gold);border-color:var(--gold)',
          'background:rgba(248,113,113,.1);color:#f87171;border-color:#f87171'][i];
-      btn.innerHTML = l.label + '<br><span style="font-size:.72rem;font-weight:400;opacity:.7">+' + l.semi + ' Semi per risposta giusta · ' + l.tempo + 'sec</span>';
+      btn.innerHTML = ((TRANSLATIONS[S.lang]||TRANSLATIONS.it)[l.labelKey]||l.label) + '<br><span style="font-size:.72rem;font-weight:400;opacity:.7">+' + l.semi + ' Semi per risposta giusta · ' + l.tempo + 'sec</span>';
       btn.onclick = function() {
         speedLivelloAttuale = i;
         buildSpeedQuiz(i);
