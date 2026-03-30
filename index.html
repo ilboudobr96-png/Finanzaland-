@@ -1416,1737 +1416,58 @@ var TOPICS = {
     'Come smettere di procrastinare','Identita finanziaria','Relazione con il denaro',
   ],
 };
-// ── TOPICS MULTILINGUA — nomi lezioni per lingua ─────────────
+// ── TOPICS MULTILINGUA — nomi lezioni per TUTTI i 13 percorsi ───────────────
 var TOPICS_LANG = {
   fr: {
-    risparmio:    ['Règle 50-30-20','Fonds d urgence','Payez-vous d abord','Objectifs SMART','Budget mensuel','Épargne automatique','Psychologie de l épargne','Compte courant vs dépôt','Épargner pour ses enfants','Règle des 72','Dépenses fixes','Budget zéro','Le pouvoir des habitudes'],
-    investimenti: ['Intérêts composés','Qu est-ce qu un ETF','Diversification','PAC mensuel','Risque/rendement','S&P500','Dividendes','Value investing','Growth investing','Dollar cost averaging','Portefeuille lazy','Small cap vs large cap','Rééquilibrage'],
-    mercati:      ['Comment fonctionne la bourse','Banques centrales','Inflation','Cycles économiques','Crise 2008','BRVM Afrique','Carry trade','Lire un graphique','Analyse technique','Analyse fondamentale','Indices mondiaux','Spread BTP','Marchés émergents'],
-    bambini:      ['C est quoi l argent','Besoin vs désir','Ma tirelire','Comment gagner','Donner épargner dépenser','Le prix des choses','Objectifs épargne','C est quoi une banque','Comment fonctionne la carte','Mes premiers investissements','Différence riches et pauvres','La valeur du travail','Commerce et troc'],
+    risparmio:    ['Regle 50-30-20','Fonds urgence','Payez-vous d abord','Objectifs SMART','Budget mensuel','Epargne automatique','Psychologie epargne','Compte courant vs depot','Epargner pour enfants','Regle des 72','Depenses fixes','Budget zero','Puissance des habitudes'],
+    investimenti: ['Interets composes','Qu est-ce qu un ETF','Diversification','PAC mensuel','Risque et rendement','S&P500','Dividendes','Value investing','Growth investing','Dollar cost averaging','Portefeuille lazy','Small cap vs large cap','Reequilibrage'],
+    mercati:      ['Comment fonctionne la bourse','Banques centrales','Inflation','Cycles economiques','Crise 2008','BRVM Afrique','Carry trade','Lire un graphique','Analyse technique','Analyse fondamentale','Indices mondiaux','Spread obligations','Marches emergents'],
+    immobiliare:  ['Acheter ou louer','Prix immobilier','Pret immobilier','REITs fonds immobiliers','Rendement locatif','Crowdfunding immobilier','Charges propriete','Plus-value immobiliere','Location saisonniere','Marche immobilier mondial','Hypotheque taux fixe vs variable','Investir avec peu','Foncier africain'],
+    tasse:        ['Impot sur revenu','TVA taxe consommation','Fiscalite ETF irlandais','Impot sur capital','Deductions fiscales','Regime forfaitaire','Impot societes','Fiscalite crypto','Planification fiscale','Conventions fiscales','Impots locaux','Succession heritage','Optimisation legale'],
+    obbligazioni: ['Qu est-ce qu une obligation','Taux d interet','Duration','Notation credit','Obligations d Etat','Obligations entreprises','Obligations indexees inflation','Marche obligataire','Rendement vs risque','Obligations africaines','High yield','ETF obligataires','Strategie laddering'],
+    pensione:     ['Pourquoi y penser maintenant','Retraite par repartition','Fonds de pension','Regle des 4 pourcent','FIRE independance financiere','Rente viagere','Investir tot vs tard','Calcul retraite','Retraite diaspora africaine','Systeme retraite europeen','Epargne retraite','Piliers retraite','Simulation retraite'],
+    africa:       ['Economie africaine','BRVM bourse africaine','Mobile money M-Pesa','Franc CFA UEMOA','Agriculture investissement','Infrastructure Afrique','Diaspora et transferts','Startups africaines','Microfinance','Marches frontaliers','Tourisme economique','Ressources naturelles','Integration regionale'],
+    bambini:      ['Qu est-ce que l argent','Besoin vs desir','Ma tirelire','Comment gagner de l argent','Donner epargner depenser','Le prix des choses','Mes objectifs epargne','Qu est-ce qu une banque','Comment fonctionne la carte','Mes premiers investissements','Difference riches et pauvres','La valeur du travail','Commerce et troc'],
+    figli:        ['ETF pour enfants','Compte epargne enfant','Education financiere','Landa Card','Missions etude','Cadeaux vs epargne','Objectifs long terme','Allowance meritocratique','Jeux financiers','Habitudes argent','Drago et Graines'],
+    crypto:       ['Qu est-ce que Bitcoin','Blockchain','Ethereum smart contracts','DeFi finance decentralisee','NFT tokens non fongibles','Stablecoins','Mining crypto','Portefeuille crypto','Fiscalite crypto','Risques crypto','Altcoins','Crypto et Afrique','Avenir crypto'],
+    derivati:     ['Qu est-ce que les derives','Options call et put','Futures contrats a terme','Leverage effet de levier','Hedging couverture','Swap','Warrants','CFD','Marche derives Afrique','Derives sur matieres premieres','Volatilite','Gestion risque','Derives pour debutants'],
+    psicologia:   ['Biais cognitifs','Peur et avidite','Investissement emotionnel','Biais de confirmation','Aversion aux pertes','FOMO','Patience investisseur','Discipline financiere','Erreurs communes','Mindset richesse','Psychologie des prix','Comportement gregaire','Resilience financiere'],
+    mindset_domanda_titolo:'Moment Mindset', mindset_scrivi:'Ecris ta reponse...', mindset_salta:'Passer', mindset_continua:'Continuer la Lecon →', mindset_chip:'🧠 Mindset',
+    lv_mindset:'🧠 Esprit', perc_labels_mindset:'Esprit du Commandant',
+    mindset_bonus:'Reflexion completee! +30 Graines',
+    civetta_system:'Tu es Civetta IA de FinanzaLand, assistante d education financiere. Reponds toujours en francais. A des fins educatives uniquement.',
   },
   en: {
     risparmio:    ['50-30-20 Rule','Emergency Fund','Pay Yourself First','SMART Goals','Monthly Budget','Automatic Savings','Psychology of Saving','Checking vs Savings','Saving for Kids','Rule of 72','Fixed vs Variable Expenses','Zero-based Budget','Power of Habits'],
-    investimenti: ['Compound Interest','What is an ETF','Diversification','Monthly DCA','Risk/reward','S&P500','Dividends','Value investing','Growth investing','Dollar cost averaging','Lazy portfolio','Small cap vs large cap','Rebalancing'],
+    investimenti: ['Compound Interest','What is an ETF','Diversification','Monthly DCA','Risk and reward','S&P500','Dividends','Value investing','Growth investing','Dollar cost averaging','Lazy portfolio','Small cap vs large cap','Rebalancing'],
     mercati:      ['How the stock market works','Central banks','Inflation','Economic cycles','2008 Crisis','BRVM Africa','Carry trade','Reading charts','Technical analysis','Fundamental analysis','Global indices','Yield spread','Emerging markets'],
-    bambini:      ['What is money','Need vs want','My piggy bank','How to earn','Give save spend','Price of things','Savings goals','What is a bank','How cards work','My first investments','Rich vs poor','Value of work','Trade and barter'],
+    immobiliare:  ['Buy or rent','Real estate prices','Mortgage loans','REITs real estate funds','Rental yield','Real estate crowdfunding','Property costs','Capital gains','Short term rental','Global real estate market','Fixed vs variable mortgage','Invest with little money','African land market'],
+    tasse:        ['Income tax','VAT consumption tax','Irish ETF taxation','Capital gains tax','Tax deductions','Self-employment regime','Corporate tax','Crypto taxation','Tax planning','Tax treaties','Local taxes','Inheritance tax','Legal optimization'],
+    obbligazioni: ['What is a bond','Interest rates','Duration','Credit rating','Government bonds','Corporate bonds','Inflation-linked bonds','Bond market','Yield vs risk','African bonds','High yield','Bond ETFs','Laddering strategy'],
+    pensione:     ['Why think now','Pay-as-you-go pension','Pension funds','4 percent rule','FIRE financial independence','Annuity','Invest early vs late','Retirement calculation','Diaspora retirement','European pension system','Retirement savings','Pension pillars','Retirement simulation'],
+    africa:       ['African economy','BRVM stock exchange','Mobile money M-Pesa','CFA Franc UEMOA','Agriculture investment','Africa infrastructure','Diaspora remittances','African startups','Microfinance','Border markets','Economic tourism','Natural resources','Regional integration'],
+    bambini:      ['What is money','Need vs want','My piggy bank','How to earn money','Give save spend','Price of things','My savings goals','What is a bank','How cards work','My first investments','Rich vs poor','Value of work','Trade and barter'],
+    figli:        ['ETF for kids','Kids savings account','Financial education','Landa Card','Study missions','Gifts vs savings','Long term goals','Meritocratic allowance','Financial games','Money habits','Dragon and Seeds'],
+    crypto:       ['What is Bitcoin','Blockchain','Ethereum smart contracts','DeFi decentralized finance','NFT non-fungible tokens','Stablecoins','Crypto mining','Crypto wallet','Crypto taxation','Crypto risks','Altcoins','Crypto and Africa','Future of crypto'],
+    derivati:     ['What are derivatives','Call and put options','Futures contracts','Leverage','Hedging','Swaps','Warrants','CFDs','African derivatives market','Commodity derivatives','Volatility','Risk management','Derivatives for beginners'],
+    psicologia:   ['Cognitive biases','Fear and greed','Emotional investing','Confirmation bias','Loss aversion','FOMO','Investor patience','Financial discipline','Common mistakes','Wealth mindset','Price psychology','Herd behavior','Financial resilience'],
   }
 };
-// Per ES e WO usa IT (accettabile per ora)
-TOPICS_LANG.es = TOPICS_LANG.it || null;
-TOPICS_LANG.wo = TOPICS_LANG.it || null;
+TOPICS_LANG.es = TOPICS_LANG.it || {};
+TOPICS_LANG.wo = TOPICS_LANG.it || {};
+TOPICS_LANG.it = null; // IT usa TOPICS direttamente — nessuna traduzione necessaria
 
-// Funzione per ottenere i topic nella lingua corrente
+// Ottieni topics nella lingua corrente per un percorso
 function getTopicsForPercorso(percorsoId) {
   var lang = S.lang;
+  if (lang === 'it') return TOPICS[percorsoId] || [];
   var langData = TOPICS_LANG[lang];
-  if (langData && langData[percorsoId]) return langData[percorsoId];
+  if (langData && langData[percorsoId] && langData[percorsoId].length > 0) {
+    return langData[percorsoId];
+  }
   return TOPICS[percorsoId] || [];
 }
 
-
-// ═══════════════════════════════════════════════════════
-// AI LESSON GENERATOR
-// ═══════════════════════════════════════════════════════
-async function generateLesson(topic, percorso, livello, eta, forceNew) {
-  var cacheKey = `${topic}_${livello}_${eta}_${S.lang}`;
-  
-  // Controlla cache (validita 7 giorni)
-  if (!forceNew && LESSON_CACHE[cacheKey]) {
-    var cached = LESSON_CACHE[cacheKey];
-    var age = Date.now() - (cached.cached_at || 0);
-    if (age < 7 * 86400000) return cached;
-  }
-
-  // Forza rigenerazione se la lingua nella cache non corrisponde
-  if (!forceNew && LESSON_CACHE[cacheKey] && LESSON_CACHE[cacheKey].lingua && 
-      LESSON_CACHE[cacheKey].lingua !== S.lang) {
-    delete LESSON_CACHE[cacheKey];
-  }
-
-  try {
-    var resp = await fetch('/api/lesson', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        topic, percorso, livello,
-        eta: eta || S.eta,
-        lingua: S.lang,
-        lessonId: cacheKey,
-        stream: false,
-      })
-    });
-    var data = await resp.json();
-    if (data.success && data.lesson) {
-      data.lesson.cached_at = Date.now();
-      data.lesson.lingua = S.lang;
-      LESSON_CACHE[cacheKey] = data.lesson;
-      safeSetItem('fl_lesson_cache', LESSON_CACHE || {});
-      return data.lesson;
-    }
-  } catch(e) {
-    console.log('Lesson API error:', e);
-  }
-  
-  // Fallback locale se API non disponibile
-  return makeFallbackLesson(topic, percorso, livello);
-}
-
-function makeFallbackLesson(topic, percorso, livello) {
-  var tf = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  function t(key){ return (tf[key]||'').replace(/{topic}/g, topic); }
-  return {
-    id: topic.toLowerCase().replace(/\s+/g,'-'),
-    titolo: topic,
-    sottotitolo: t('fallback_sottotitolo') || ('Impara ' + topic + ' con FinanzaLand'),
-    emoji: '📚',
-    colore: '#FFD700',
-    livello: livello,
-    tempo_minuti: 5,
-    punti_chiave: [
-      t('fallback_chiave1') || (topic + ' è un concetto fondamentale della finanza personale.'),
-      t('fallback_chiave2') || ('Comprendere ' + topic + ' ti aiuta a gestire meglio i tuoi soldi.'),
-      t('fallback_chiave3') || ('Applica questo concetto nella tua vita quotidiana per vedere i risultati.'),
-    ],
-    esempio_pratico: t('fallback_esempio') || ('Pensa a come ' + topic + ' si applica nella tua vita di tutti i giorni.'),
-    dato_reale: t('fallback_dato') || 'Il 63% degli italiani non conosce i fondamentali della finanza personale (OCSE 2023).',
-    collegamento_africa: null,
-    quiz: (function(){
-      function q(key, fallback){ return (tf[key]||fallback).replace(/{topic}/g,topic); }
-      function opts(key, fallback){ return (tf[key]||fallback); }
-      return [
-        {
-          domanda: q('quiz_q1','Hai capito il concetto di '+topic+'?'),
-          opzioni:  opts('quiz_q1_opts',['Sì, molto bene','Abbastanza','Poco','No']),
-          risposta_corretta:0,
-          spiegazione: q('quiz_q1_spieg','Ottimo! Continua a studiare.')
-        },
-        {
-          domanda: q('quiz_q2','Come applicheresti '+topic+' nella vita reale?'),
-          opzioni:  opts('quiz_q2_opts',['Subito','Tra qualche giorno','Non so','Non mi serve']),
-          risposta_corretta:0,
-          spiegazione: q('quiz_q2_spieg','Applicare subito quello che impari è il modo migliore.')
-        },
-        {
-          domanda: q('quiz_q3','Quanto è importante '+topic+' per la tua salute finanziaria?'),
-          opzioni:  opts('quiz_q3_opts',['Fondamentale','Utile','Poco utile','Non utile']),
-          risposta_corretta:0,
-          spiegazione: q('quiz_q3_spieg',topic+' è uno dei pilastri della libertà finanziaria.')
-        },
-      ];
-    })(),
-    sfida_vita_reale: t('fallback_sfida') || ('Questa settimana: rifletti su come ' + topic + ' influenza le tue decisioni finanziarie quotidiane.'),
-    semi_reward: 80,
-    disclaimer: tf.disclaimer || 'Solo a scopo educativo — non è un consiglio finanziario',
-  };
-}
-
-// ═══════════════════════════════════════════════════════
-// BUILD ACCADEMIA
-// ═══════════════════════════════════════════════════════
-function buildAccademia() {
-  // Percorsi tabs
-  var percorsiEl = document.getElementById('acc-percorsi');
-  percorsiEl.innerHTML = '';
-  PERCORSI.forEach(function(p) {
-    var t = document.createElement('div');
-    t.className = 'perc-tab' + (p.id===currentPercorso.id?' active':'');
-    var tl = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    var percLabels = tl.perc_labels || {};
-    t.textContent = percLabels[p.id] || p.label;
-    t.addEventListener('click', function(){
-      currentPercorso = p;
-      document.querySelectorAll('.perc-tab').forEach(function(x){x.classList.remove('active');});
-      t.classList.add('active');
-      renderLezioniList();
-    });
-    percorsiEl.appendChild(t);
-  });
-
-  // Livelli tabs
-  var livelliEl = document.getElementById('acc-livelli');
-  livelliEl.innerHTML = '';
-  LIVELLI.forEach(function(l) {
-    var t = document.createElement('div');
-    t.className = 'lv-tab' + (l.id===currentLivello.id?' active':'');
-    var tl2 = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    var livLabels = tl2.liv_labels || {};
-    t.textContent = livLabels[l.id] || l.label;
-    if (t.classList.contains('active')) {
-      t.style.background = 'var(--gold)';
-      t.style.borderColor = 'var(--gold)';
-      t.style.color = '#1c0a00';
-    }
-    t.addEventListener('click', function(){
-      currentLivello = l;
-      document.querySelectorAll('.lv-tab').forEach(function(x){
-        x.classList.remove('active');
-        x.style.background='';x.style.borderColor='';x.style.color='';
-      });
-      t.classList.add('active');
-      t.style.background='var(--gold)';t.style.borderColor='var(--gold)';t.style.color='#1c0a00';
-      renderLezioniList();
-    });
-    livelliEl.appendChild(t);
-  });
-
-  renderLezioniList();
-}
-
-function renderLezioniList() {
-  var body = document.getElementById('acc-body');
-  body.innerHTML = '';
-
-  // Banner disclaimer
-  var banner = document.createElement('div');
-  banner.className = 'edu-banner';
-  var t_now = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  banner.textContent = t_now.acc_banner || '📚 Solo a scopo educativo — Le lezioni sono generate da AI e non costituiscono consigli finanziari';
-  body.appendChild(banner);
-
-  // Box genera lezione personalizzata
-  var genBox = document.createElement('div');
-  genBox.className = 'ai-gen-card';
-  var tg = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  genBox.innerHTML = '<div class="ai-gen-title">🤖 ' + (tg.gen_title||'Genera Lezione Personalizzata') + '</div>' +
-    '<div class="ai-gen-sub">' + (tg.gen_sub||'Scrivi qualsiasi argomento — Claude genera una lezione completa con quiz') + '</div>' +
-    '<input class="ai-gen-input" id="gen-topic-inp" type="text" placeholder="' + (tg.gen_placeholder||'Es. come funziona un mutuo...') + '">' +
-    '<div class="ai-gen-spinning" id="gen-spinning">' + (tg.gen_loading||'🤖 Generando...') + '</div>' +
-    '<button class="ai-gen-btn" id="gen-btn">' + (tg.gen_btn||'🚀 Genera Lezione') + '</button>';
-  body.appendChild(genBox);
-
-  document.getElementById('gen-btn').addEventListener('click', function(){
-    var topic = document.getElementById('gen-topic-inp').value.trim();
-    if (!topic) { var tw=TRANSLATIONS[S.lang]||TRANSLATIONS['it']; toast(tw.gen_write_topic||'Scrivi un argomento!'); return; }
-    document.getElementById('gen-spinning').style.display = 'block';
-    document.getElementById('gen-btn').style.display = 'none';
-    generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, true).then(function(lez){
-      document.getElementById('gen-spinning').style.display = 'none';
-      document.getElementById('gen-btn').style.display = 'block';
-      document.getElementById('gen-topic-inp').value = '';
-      openLezione(lez);
-    });
-  });
-
-  // Lista topic predefiniti
-  var topics = getTopicsForPercorso(currentPercorso.id);
-  var secTitle = document.createElement('div');
-  secTitle.className = 'adult-section-title';
-  var ts = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  var pl = (ts.perc_labels||{})[currentPercorso.id] || currentPercorso.label;
-  var ll = (ts.liv_labels||{})[currentLivello.id] || currentLivello.label;
-  secTitle.textContent = pl + ' — ' + ll;
-  body.appendChild(secTitle);
-
-  topics.forEach(function(topic, i) {
-    var key = topic + '_' + currentLivello.id + '_' + S.eta + '_' + S.lang;
-    var cached = LESSON_CACHE[key];
-    var done = S.completate[key];
-    var locked = currentLivello.minPro && !S.isPro;
-
-    var card = document.createElement('div');
-    card.className = 'lez-card';
-    card.style.cssText = 'background:' + (done?'rgba(74,222,128,.05)':locked?'rgba(255,255,255,.02)':'var(--card)') + ';' +
-      'border:1.5px solid ' + (done?'rgba(74,222,128,.3)':locked?'rgba(255,255,255,.06)':currentPercorso.col+'44') + ';';
-
-    var reward = cached ? (cached.semi_reward||80) : (50 + i*20);
-    var tcard = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    var percLabel = (tcard.perc_labels||{})[currentPercorso.id] || currentPercorso.label;
-    var livLabel  = (tcard.liv_labels||{})[currentLivello.id]   || currentLivello.label;
-    card.innerHTML = '<div class="lez-card-top">' +
-      '<div class="lez-icon">' + (locked?'🔒':done?'✅':cached?(cached.emoji||'📚'):'📖') + '</div>' +
-      '<div class="lez-info">' +
-        '<div class="lez-percorso">' + percLabel + '</div>' +
-        '<div class="lez-title">' + (cached?cached.titolo:topic) + '</div>' +
-        '<div class="lez-badges">' +
-          '<span class="lez-badge ' + currentLivello.cls + '">' + livLabel + '</span>' +
-          (locked?'<span class="lez-badge" style="background:rgba(248,113,113,.1);color:var(--red)">👑 PRO</span>':'') +
-          (cached?'<span class="lez-badge" style="background:rgba(74,222,128,.1);color:var(--green)">'+(tcard.card_pronta||'✓')+'</span>':'') +
-        '</div>' +
-      '</div>' +
-      '</div>' +
-      '<div class="lez-footer">' +
-        '<div class="lez-reward">' + (locked?(tcard.card_attiva_pro||'Attiva PRO'):done?(tcard.card_completata||'✅'):('+ '+reward+' '+(tcard.card_semi||'Semi'))) + '</div>' +
-        '<div class="lez-status">' + (locked?'🔒':done?'⭐':'→') + '</div>' +
-      '</div>';
-
-    card.addEventListener('click', function(){
-      if (locked) { openPopup('piani'); toast('Livello '+currentLivello.label+' richiede PRO 👑'); return; }
-      // Mostra spinner e carica
-      card.style.opacity = '.6';
-      generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, false).then(function(lez){
-        card.style.opacity = '1';
-        openLezione(lez);
-      });
-    });
-    body.appendChild(card);
-  });
-
-  // Footer
-  var footer = document.createElement('div');
-  footer.style.cssText = 'text-align:center;padding:14px;font-size:.72rem;color:var(--muted);line-height:1.6';
-  var tf = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  footer.innerHTML = tf.footer_ai || '🤖 Lezioni generate da Claude AI in tempo reale — non sono consigli finanziari';
-  body.appendChild(footer);
-}
-
-// ═══════════════════════════════════════════════════════
-// APRI LEZIONE
-// ═══════════════════════════════════════════════════════
-function openLezione(lez) {
-  currentLezione = lez;
-  // Aggiorna bottone back con lingua corrente
-  var backBtn = document.getElementById('lv-back-btn');
-  if (backBtn) {
-    var tlv = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    backBtn.textContent = tlv.acc_back_lez || '← Accademia';
-  }
-  document.getElementById('lv-header-title').textContent = lez.titolo;
-
-  var body = document.getElementById('lv-body');
-  body.innerHTML = '';
-
-  // Hero
-  var hero = document.createElement('div');
-  hero.className = 'lv-hero';
-  hero.innerHTML = '<div class="lv-hero-icon">' + (lez.emoji||'📚') + '</div>' +
-    '<div class="lv-hero-title" style="color:' + (lez.colore||'var(--gold)') + '">' + lez.titolo + '</div>' +
-    '<div class="lv-hero-sub">' + (lez.sottotitolo||'') + '</div>';
-  body.appendChild(hero);
-
-  // Punti chiave
-  if (lez.punti_chiave && lez.punti_chiave.length) {
-    var sec = document.createElement('div');
-    sec.className = 'lv-section';
-    var tlez = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    sec.innerHTML = '<div class="lv-section-title">'+(tlez.sec_cosa_impari||'Cosa Impari')+'</div>';
-    lez.punti_chiave.forEach(function(punto, i) {
-      var el = document.createElement('div');
-      el.className = 'lv-punto';
-      el.innerHTML = '<div class="lv-punto-num">' + (i+1) + '</div><div>' + punto + '</div>';
-      sec.appendChild(el);
-    });
-    body.appendChild(sec);
-  }
-
-  // Esempio pratico
-  if (lez.esempio_pratico) {
-    var ex = document.createElement('div');
-    ex.className = 'lv-section';
-    var tex = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    ex.innerHTML = '<div class="lv-section-title">'+(tex.sec_esempio||'Esempio Pratico')+'</div>' +
-      '<div class="lv-esempio">💡 ' + lez.esempio_pratico + '</div>';
-    body.appendChild(ex);
-  }
-
-  // Dato reale
-  if (lez.dato_reale) {
-    var dr = document.createElement('div');
-    dr.className = 'lv-section';
-    var tdr = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    dr.innerHTML = '<div class="lv-section-title">'+(tdr.sec_dato||'Dato Reale')+'</div>' +
-      '<div class="lv-dato">📊 ' + lez.dato_reale + '</div>';
-    body.appendChild(dr);
-  }
-
-  // Collegamento Africa
-  if (lez.collegamento_africa) {
-    var af = document.createElement('div');
-    af.className = 'lv-section';
-    var taf = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    af.innerHTML = '<div class="lv-section-title">'+(taf.sec_africa||'Mercati Africani')+'</div>' +
-      '<div class="lv-africa show">🌍 ' + lez.collegamento_africa + '</div>';
-    body.appendChild(af);
-  }
-
-  // Sfida vita reale
-  if (lez.sfida_vita_reale) {
-    var sfida = document.createElement('div');
-    sfida.className = 'lv-section';
-    var tsfida = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    sfida.innerHTML = '<div class="lv-section-title">'+(tsfida.sec_sfida||'Sfida Vita Reale')+'</div>' +
-      '<div class="lv-sfida">🎯 ' + lez.sfida_vita_reale + '</div>';
-    body.appendChild(sfida);
-  }
-
-  // Disclaimer
-  var disc = document.createElement('div');
-  disc.className = 'lv-disclaimer';
-  disc.textContent = '⚠️ ' + (lez.disclaimer || 'Solo a scopo educativo — non è un consiglio finanziario');
-  body.appendChild(disc);
-
-  // Bottone start quiz
-  var startBtn = document.createElement('button');
-  startBtn.className = 'lv-start-quiz';
-  startBtn.textContent = '🎯 Inizia Quiz (' + (lez.quiz?lez.quiz.length:3) + ' domande)';
-  startBtn.addEventListener('click', function() { startQuiz(lez); });
-  body.appendChild(startBtn);
-
-  document.getElementById('lv-back-btn').onclick = function(){ showScreen('accademia'); };
-  showScreen('lezione-view');
-  playS('click');
-}
-
-// ═══════════════════════════════════════════════════════
-// QUIZ
-// ═══════════════════════════════════════════════════════
-function startQuiz(lez) {
-  currentQuiz = lez.quiz || [];
-  quizIdx = 0; quizScore = 0; quizAnswered = false;
-  showScreen('quiz-view');
-  renderQuizQ();
-}
-
-function renderQuizQ() {
-  if (quizIdx >= currentQuiz.length) { finishQuiz(); return; }
-  var q = currentQuiz[quizIdx];
-  quizAnswered = false;
-  var pct = Math.round((quizIdx/currentQuiz.length)*100);
-  document.getElementById('qv-fill').style.width = pct + '%';
-  var tqc = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  document.getElementById('qv-counter').textContent = (tqc.quiz_domanda||'Domanda') + ' ' + (quizIdx+1) + '/' + currentQuiz.length;
-  document.getElementById('qv-score').textContent = quizScore + ' ✓';
-
-  var body = document.getElementById('qv-body');
-  body.innerHTML = '';
-
-  var icon = document.createElement('div');
-  icon.className = 'qv-icon';
-  icon.textContent = currentLezione ? (currentLezione.emoji||'📚') : '📚';
-  body.appendChild(icon);
-
-  var qEl = document.createElement('div');
-  qEl.className = 'qv-q';
-  qEl.textContent = q.domanda;
-  body.appendChild(qEl);
-
-  (q.opzioni||[]).forEach(function(opt, i) {
-    var el = document.createElement('div');
-    el.className = 'qv-opt';
-    el.innerHTML = '<div class="qv-letter">' + ['A','B','C','D'][i] + '</div>' + opt;
-    el.addEventListener('click', function(){
-      if (quizAnswered) return;
-      quizAnswered = true;
-      var correct = q.risposta_corretta;
-      if (i === correct) quizScore++;
-      document.querySelectorAll('.qv-opt').forEach(function(o,j){
-        if (j===correct) o.classList.add('correct');
-        else if (j===i && i!==correct) o.classList.add('wrong');
-      });
-      spiegEl.classList.add('show');
-      nextBtn.classList.add('show');
-      playS(i===correct?'success':'error');
-      if (navigator.vibrate) navigator.vibrate(i===correct?[20,10,40]:[80]);
-    });
-    body.appendChild(el);
-  });
-
-  var spiegEl = document.createElement('div');
-  spiegEl.className = 'qv-spieg';
-  spiegEl.textContent = q.spiegazione || '';
-  body.appendChild(spiegEl);
-
-  var nextBtn = document.createElement('button');
-  nextBtn.className = 'qv-next';
-  var tqn = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  nextBtn.textContent = quizIdx < currentQuiz.length-1 ? (tqn.quiz_prossima||'Prossima →') : (tqn.quiz_risultato||'Risultato 🎯');
-  nextBtn.addEventListener('click', function(){ quizIdx++; renderQuizQ(); });
-  body.appendChild(nextBtn);
-}
-
-function finishQuiz() {
-  var tot = currentQuiz.length;
-  var pct = Math.round((quizScore/tot)*100);
-  var passed = pct >= 60;
-  var stelle = pct>=100?3:pct>=80?2:pct>=60?1:0;
-  var semiBase = currentLezione ? (currentLezione.semi_reward||80) : 80;
-  var semi = passed ? Math.round(semiBase * (pct>=100?2:pct>=80?1.5:1)) : 20;
-
-  // Salva completamento
-  if (passed && currentLezione) {
-    var key = currentLezione.id;
-    S.completate[key] = {stelle:stelle,data:new Date().toISOString()};
-    S.coins += semi;
-    S.xp += 25;
-    // Monete Argento per quiz completato
-    var silverNow = safeLS('fl_silver_semi',0)||0;
-    safeSetItem('fl_silver_semi', silverNow + 10);
-    checkLevel();
-    saveS();
-    updateHUD();
-    if (typeof PROGRESS_PREMI !== 'undefined') {
-      PROGRESS_PREMI.lezioni = (PROGRESS_PREMI.lezioni||0)+1;
-    }
-  }
-
-  document.getElementById('qv-fill').style.width = '100%';
-  var body = document.getElementById('qv-body');
-  body.innerHTML = '';
-
-  var tqr = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  var wrap = document.createElement('div');
-  wrap.className = 'qr-wrap';
-  wrap.innerHTML = '<div class="qr-icon">' + (passed?'🎉':'📚') + '</div>' +
-    '<div class="qr-title" style="color:' + (passed?'var(--gold)':'var(--red)') + '">' +
-      (passed ? (tqr.quiz_ottimo||'Fantastico!') : (tqr.quiz_riprova||'Riprova!')) + '</div>' +
-    '<div class="qr-score">' + quizScore + '/' + tot + ' — ' + pct + '%</div>' +
-    '<div class="qr-stars">' + [1,2,3].map(function(s){return s<=stelle?'⭐':'☆';}).join('') + '</div>' +
-    '<div class="qr-reward">' + (passed ? '+'+semi+' '+(tqr.card_semi||'Semi')+' 🪙' : (tqr.quiz_non_abbastanza||'Non abbastanza — riprova!')) + '</div>';
-
-  var btns = document.createElement('div');
-  btns.className = 'qr-btns';
-
-  var b1 = document.createElement('button');
-  b1.className = 'qr-btn';
-  b1.style.cssText = 'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff';
-  b1.textContent = (tqr.quiz_torna_lezione||'← Lezione');
-  b1.addEventListener('click', function(){ showScreen('lezione-view'); });
-
-  var b2 = document.createElement('button');
-  b2.className = 'qr-btn';
-  b2.style.cssText = 'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00';
-  b2.textContent = passed ? (tqr.quiz_avanti||'Avanti! →') : (tqr.quiz_riprova_btn||'Riprova 🔄');
-  b2.addEventListener('click', function(){
-    if (passed) showScreen('accademia');
-    else startQuiz(currentLezione);
-  });
-
-  btns.appendChild(b1); btns.appendChild(b2);
-  wrap.appendChild(btns);
-  body.appendChild(wrap);
-
-  if (passed) {
-    playS('success');
-    if (navigator.vibrate) navigator.vibrate([50,30,50,30,100]);
-    spawnParticles();
-    buildAccademia(); // Aggiorna lista con checkmark
-  }
-}
-
-// ═══════════════════════════════════════════════════════
-// MERCATI GLOBALI
-// ═══════════════════════════════════════════════════════
-var MERCATI_DATA = {
-  'Italia':    [{f:'🇮🇹',s:'FTSE MIB',v:'33.847',c:'+0.8%',u:true},{f:'🇮🇹',s:'BTP 10Y',v:'3.85%',c:'-0.05',u:false}],
-  'Europa':    [{f:'🇩🇪',s:'DAX',v:'18.492',c:'+0.6%',u:true},{f:'🇫🇷',s:'CAC40',v:'8.103',c:'+0.4%',u:true},{f:'🇬🇧',s:'FTSE100',v:'8.247',c:'-0.2%',u:false}],
-  'USA':       [{f:'🇺🇸',s:'S&P500',v:'5.892',c:'+0.5%',u:true},{f:'🇺🇸',s:'Nasdaq',v:'20.847',c:'+0.8%',u:true},{f:'🇺🇸',s:'NVDA',v:'892',c:'+2.4%',u:true}],
-  'Asia':      [{f:'🇯🇵',s:'Nikkei',v:'39.847',c:'+0.4%',u:true},{f:'🇮🇳',s:'Sensex',v:'80.247',c:'+0.7%',u:true},{f:'🇨🇳',s:'Shanghai',v:'3.247',c:'-0.6%',u:false}],
-  'Africa':    [{f:'🌍',s:'BRVM',v:'416.63',c:'+25.3%',u:true},{f:'🇿🇦',s:'JSE',v:'80.247',c:'+4.2%',u:true},{f:'🇳🇬',s:'NGX',v:'97.432',c:'+8.7%',u:true},{f:'🇰🇪',s:'NSE',v:'2.847',c:'+6.1%',u:true}],
-  'Americhe':  [{f:'🇧🇷',s:'Ibovespa',v:'128.247',c:'+2.1%',u:true},{f:'🇲🇽',s:'IPC',v:'51.892',c:'+1.3%',u:true}],
-  'Commodities':[{f:'🪙',s:'Oro',v:'2.387',c:'+0.6%',u:true},{f:'🛢️',s:'Petrolio',v:'82.47',c:'-0.8%',u:false}],
-  'Crypto':    [{f:'₿',s:'Bitcoin',v:'67.432',c:'+3.2%',u:true},{f:'Ξ',s:'Ethereum',v:'3.847',c:'+2.8%',u:true}],
-};
-// Ticker live simulato
-setInterval(function(){
-  Object.values(MERCATI_DATA).forEach(function(items){
-    items.forEach(function(item){
-      var d=(Math.random()-0.48)*0.4;
-      var v=parseFloat(item.v.replace(/[^0-9.]/g,''))||100;
-      item.v=(v*(1+d/100)).toFixed(2);
-      item.c=(d>=0?'+':'')+d.toFixed(2)+'%';
-      item.u=d>=0;
-    });
-  });
-}, 8000);
-
-// ═══════════════════════════════════════════════════════
-// ADULTI
-// ═══════════════════════════════════════════════════════
-function buildAdulti() {
-  var body = document.getElementById('adulti-body');
-  body.innerHTML = '';
-
-  // KPI
-  var kpiTitle = document.createElement('div');
-  kpiTitle.className = 'adult-section-title';
-  var tad = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
-  kpiTitle.textContent = tad.adulti_quadro||'Il tuo Quadro Finanziario';
-  body.appendChild(kpiTitle);
-
-  var kpiGrid = document.createElement('div');
-  kpiGrid.className = 'kpi-grid';
-  var tad = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
-  var kpis = [
-    {val:S.coins.toLocaleString(),lbl:tad.lbl_semi||'Semi'},
-    {val:'Lv.'+S.level,lbl:tad.lbl_livello||'Livello'},
-    {val:Object.keys(S.completate).length,lbl:tad.adulti_lezioni_comp||'Lezioni'},
-    {val:S.isPro?'PRO':(tad.adulti_free||'Free'),lbl:tad.adulti_piano||'Piano'},
-  ];
-  kpis.forEach(function(k){
-    kpiGrid.innerHTML += '<div class="kpi-card"><div class="kpi-val">'+k.val+'</div><div class="kpi-lbl">'+k.lbl+'</div></div>';
-  });
-  body.appendChild(kpiGrid);
-
-  // Calcolatori
-  var calcTitle = document.createElement('div');
-  calcTitle.className = 'adult-section-title';
-  calcTitle.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_calcolatori||'Calcolatori Finanziari';
-  body.appendChild(calcTitle);
-
-  var calcs = [
-    {em:'🏠',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_mutuo||'Calcolatore Mutuo',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_mutuo_desc||'Calcola rata, interessi e costo totale'},
-    {em:'🧓',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_pensione||'Simulatore Pensione',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_pensione_desc||'Regola del 4% — quanti anni per FIRE?'},
-    {em:'📈',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_interessi||'Interesse Composto',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_interessi_desc||'Come crescono i tuoi investimenti nel tempo'},
-    {em:'📋',t:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_tasse||'Ottimizzatore Tasse',d:(TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_tasse_desc||'IRPEF, forfettario, ETF irlandesi'},
-  ];
-  calcs.forEach(function(c){
-    var el = document.createElement('div');
-    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;';
-    el.innerHTML = '<div style="font-size:1.8rem">'+c.em+'</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">'+c.t+'</div><div style="font-size:.74rem;color:var(--muted)">'+c.d+'</div></div><div style="margin-left:auto;color:var(--muted);font-size:1rem">›</div>';
-    el.addEventListener('click', function(){
-      // Genera lezione sul calcolatore con AI
-      showScreen('accademia');
-      var topic = c.t;
-      generateLesson(topic, 'risparmio', 'avanzato', 'adulto', false).then(function(lez){
-        openLezione(lez);
-      });
-    });
-    body.appendChild(el);
-  });
-
-  // Lezioni adulti rapide
-  var lezTitle = document.createElement('div');
-  lezTitle.className = 'adult-section-title';
-  lezTitle.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).adulti_lezioni_avanzate||'Lezioni Adulti Avanzate';
-  body.appendChild(lezTitle);
-
-  var temi_adulti = ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obbligazioni','ETF UCITS irlandesi','BRVM e mercati africani','Factor investing','FIRE Financial Independence'];
-  temi_adulti.forEach(function(t){
-    var el = document.createElement('div');
-    el.style.cssText = 'background:var(--card);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:11px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px;';
-    el.innerHTML = '<div style="font-size:1.4rem">📊</div><div style="flex:1;font-size:.84rem;font-weight:700;color:var(--gold)">'+t+'</div><div style="font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3);border-radius:7px;padding:2px 7px">AI</div>';
-    el.addEventListener('click', function(){
-      if (!S.isPro) { openPopup('piani'); toast('Lezione avanzata — attiva PRO!'); return; }
-      generateLesson(t, 'investimenti', 'esperto', 'adulto', false).then(function(lez){
-        openLezione(lez);
-      });
-    });
-    body.appendChild(el);
-  });
-}
-
-// ═══════════════════════════════════════════════════════
-// POPUP SYSTEM
-// ═══════════════════════════════════════════════════════
-function openPopup(tipo) {
-  var tpop = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-  var titles = {
-    piani:    '👑 '+(tpop.popup_piani   ||'Piani Abbonamento'),
-    account:  '👤 '+(tpop.popup_account ||'Account'),
-    mercati:  '🌍 '+(tpop.popup_mercati ||'Mercati Globali'),
-    premi:    '🏆 '+(tpop.popup_premi   ||'Premi'),
-    famiglia: '👨‍👩‍👧 '+(tpop.popup_famiglia||'Pannello Famiglia'),
-  };
-  document.getElementById('popup-title').textContent = titles[tipo]||tipo;
-  var body = document.getElementById('popup-body');
-  body.innerHTML = '';
-
-  if (tipo==='piani') buildPopupPiani(body);
-  else if (tipo==='mercati') buildPopupMercati(body);
-  else if (tipo==='account') buildPopupAccount(body);
-  else if (tipo==='premi') { buildPopupPremiBase(body); setTimeout(function(){ buildPopupPremiConCert(document.getElementById('popup-body')); },50); }
-  else if (tipo==='famiglia') buildPopupFamiglia(body);
-
-  document.getElementById('popup-overlay').classList.add('show');
-}
-function closePopup() { document.getElementById('popup-overlay').classList.remove('show'); }
-window.closePopup = closePopup;
-window.openPopup = openPopup;
-
-function buildPopupPiani(body) {
-  var piani = [
-    {id:'free',icon:'🌱',nome:'Gratis',prezzo:'€0',periodo:'per sempre',
-     feat:'✅ 9 lezioni base\n✅ Missioni quotidiane\n✅ Semi e XP\n✅ Mappa Island\n❌ Lezioni avanzate\n❌ AI illimitata',
-     btn:'Piano attuale',cls:'background:rgba(74,222,128,.08);border:1.5px solid rgba(74,222,128,.3)',
-     btnCls:'background:rgba(74,222,128,.2);color:var(--green)'},
-    {id:'trial',icon:'⚡',nome:'Trial PRO',prezzo:'Gratis',periodo:'7 giorni — poi €4.99/mese',badge:'PROVA GRATIS',
-     feat:'✅ Tutto del piano Gratis\n✅ Lezioni AI infinite\n✅ 5 livelli difficolta\n✅ Calcolatori avanzati\n✅ AI Chat illimitata\n✅ Dashboard famiglia',
-     btn:'⚡ Inizia 7 giorni gratis',cls:'background:rgba(255,215,0,.08);border:2px solid rgba(255,215,0,.5)',
-     btnCls:'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00'},
-    {id:'pro_m',icon:'👑',nome:'PRO Mensile',prezzo:'€4.99',periodo:'al mese',
-     feat:'✅ Tutto del Trial\n✅ Storico permanente\n✅ Sync cloud\n✅ Badge PRO',
-     btn:'👑 €4.99/mese',cls:'background:rgba(255,215,0,.06);border:1.5px solid rgba(255,215,0,.4)',
-     btnCls:'background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00'},
-    {id:'pro_y',icon:'💎',nome:'PRO Annuale',prezzo:'€39.99',periodo:'anno — risparmia 33%',badge:'MIGLIOR VALORE',
-     feat:'✅ Tutto PRO Mensile\n✅ 2 mesi gratis\n✅ Accesso anticipato',
-     btn:'💎 €39.99/anno',cls:'background:rgba(167,139,250,.07);border:1.5px solid rgba(167,139,250,.4)',
-     btnCls:'background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff'},
-    {id:'famiglia',icon:'👨‍👩‍👧',nome:'Famiglia',prezzo:'€7.99',periodo:'mese — 4 profili',
-     feat:'✅ PRO per ogni membro\n✅ Dashboard genitori\n✅ Sfide famiglia\n✅ Report bambini',
-     btn:'👨‍👩‍👧 €7.99/mese',cls:'background:rgba(167,139,250,.06);border:1.5px solid rgba(167,139,250,.35)',
-     btnCls:'background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff'},
-    {id:'scuola',icon:'🏫',nome:'Scuola',prezzo:'€99',periodo:'anno — 35 studenti',badge:'ISTITUZIONI',
-     feat:'✅ PRO per 35 studenti\n✅ Pannello insegnante\n✅ Report classe\n✅ Legge 30/2023',
-     btn:'🏫 Usa codice SCUOLA2025',cls:'background:rgba(6,182,212,.06);border:1.5px solid rgba(6,182,212,.35)',
-     btnCls:'background:linear-gradient(135deg,var(--teal),#0284c7);color:#fff'},
-  ];
-
-  // Input codice
-  var codeDiv = document.createElement('div');
-  codeDiv.style.cssText = 'margin-bottom:14px';
-  codeDiv.innerHTML = '<div style="font-size:.75rem;color:var(--muted);margin-bottom:6px">Hai un codice istituzionale?</div>' +
-    '<div style="display:flex;gap:7px">' +
-    '<input id="code-inp" style="flex:1;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;color:#fff;font-family:system-ui;font-size:.84rem;outline:none;text-transform:uppercase;letter-spacing:2px" placeholder="es. SCUOLA2025">' +
-    '<button onclick="attivaCode()" style="background:linear-gradient(135deg,var(--green),#16a34a);border:none;border-radius:10px;padding:8px 14px;color:#fff;font-weight:700;font-size:.8rem;cursor:pointer">Attiva</button>' +
-    '</div>';
-  body.appendChild(codeDiv);
-
-  piani.forEach(function(p) {
-    var el = document.createElement('div');
-    el.className = 'piano-card';
-    el.style.cssText = p.cls;
-    var badgeHtml = p.badge ? '<div class="piano-badge">' + p.badge + '</div>' : '';
-    el.innerHTML = badgeHtml +
-      '<span class="piano-icon">' + p.icon + '</span>' +
-      '<div class="piano-nome">' + p.nome + '</div>' +
-      '<div class="piano-prezzo">' + p.prezzo + '</div>' +
-      '<div class="piano-periodo">' + p.periodo + '</div>' +
-      '<div class="piano-feat" style="white-space:pre-line">' + p.feat + '</div>' +
-      '<button class="piano-btn" style="' + p.btnCls + '">' + p.btn + '</button>';
-    el.querySelector('.piano-btn').addEventListener('click', function(){
-      attivaPiano(p.id);
-    });
-    body.appendChild(el);
-  });
-
-  var disclaimer = document.createElement('div');
-  disclaimer.style.cssText = 'font-size:.68rem;color:var(--muted);text-align:center;padding:10px;line-height:1.5';
-  disclaimer.textContent = 'FinanzaLand e solo a scopo educativo. I pagamenti saranno attivi prossimamente via Stripe.';
-  body.appendChild(disclaimer);
-}
-
-var CODICI = {
-  'INVEST25':   {nome:'Demo',durata:30},
-  'SCUOLA2025': {nome:'Scuola Partner',durata:365},
-  'COMUNE2025': {nome:'Comune Partner',durata:365},
-  'BRVM2025':   {nome:'BRVM Partner',durata:365},
-  'CARIPLO25':  {nome:'Cariplo',durata:365},
-  'UNICEF25':   {nome:'UNICEF',durata:365},
-  'DAKAR2025':  {nome:'Scuola Dakar',durata:365},
-  'OUAGA2025':  {nome:'Scuola Ouagadougou',durata:365},
-  'INVEST25':   {nome:'Demo Investitori',durata:30},
-  'PRESS2025':  {nome:'Media',durata:30},
-};
-
-window.attivaCode = function() {
-  var code = (document.getElementById('code-inp')||{}).value;
-  if (!code) return;
-  var info = CODICI[code.trim().toUpperCase()];
-  if (info) {
-    S.isPro = true; saveS(); updateHUD();
-    closePopup();
-    toast('Codice ' + info.nome + ' attivato! ' + info.durata + ' giorni PRO 🎉');
-    playS('success');
-    if (navigator.vibrate) navigator.vibrate([50,30,100]);
-  } else {
-    toast('Codice non valido — contatta FinanzaLand');
-    playS('error');
-  }
-};
-
-function attivaPiano(id) {
-  if (id==='trial') {
-    S.isPro = true; saveS(); updateHUD(); closePopup();
-    toast('Trial PRO attivato! 7 giorni completi 🎉');
-    playS('success'); if(navigator.vibrate) navigator.vibrate([50,30,100]);
-  } else if (id==='scuola') {
-    closePopup(); toast('Usa il codice SCUOLA2025 nel campo codice!');
-  } else {
-    toast('Stripe in arrivo! Usa INVEST25 per accesso completo.');
-  }
-}
-
-function buildPopupMercati(body) {
-  var tabs = document.createElement('div');
-  tabs.style.cssText = 'display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none';
-  var mbody = document.createElement('div');
-  Object.keys(MERCATI_DATA).forEach(function(k, i){
-    var t = document.createElement('div');
-    t.style.cssText = 'background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.45);white-space:nowrap;cursor:pointer;flex-shrink:0';
-    if (i===0) { t.style.background='rgba(255,215,0,.12)';t.style.borderColor='rgba(255,215,0,.4)';t.style.color='var(--gold)'; }
-    t.textContent = k;
-    t.addEventListener('click', function(){
-      tabs.querySelectorAll('div').forEach(function(x){x.style.background='rgba(255,255,255,.05)';x.style.color='rgba(255,255,255,.45)';x.style.borderColor='var(--border)';});
-      t.style.background='rgba(255,215,0,.12)';t.style.color='var(--gold)';t.style.borderColor='rgba(255,215,0,.4)';
-      showMktData(k, mbody);
-    });
-    tabs.appendChild(t);
-  });
-  body.appendChild(tabs);
-  body.appendChild(mbody);
-  showMktData(Object.keys(MERCATI_DATA)[0], mbody);
-
-  var disc = document.createElement('div');
-  disc.style.cssText = 'font-size:.66rem;color:var(--muted);text-align:center;padding:10px;line-height:1.5';
-  disc.textContent = 'Dati simulativi — Solo a scopo educativo — Non sono un consiglio finanziario';
-  body.appendChild(disc);
-}
-
-function showMktData(key, container) {
-  container.innerHTML = '';
-  (MERCATI_DATA[key]||[]).forEach(function(item){
-    var row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:10px;cursor:pointer';
-    row.innerHTML = '<div style="font-size:1.3rem;width:30px">' + item.f + '</div>' +
-      '<div style="flex:1;font-size:.84rem;font-weight:700;color:#fff">' + item.s + '</div>' +
-      '<div style="text-align:right">' +
-        '<div style="font-size:.88rem;font-weight:800;color:' + (item.u?'var(--green)':'var(--red)') + '">' + item.v + '</div>' +
-        '<div style="font-size:.72rem;font-weight:700;color:' + (item.u?'var(--green)':'var(--red)') + '">' + (item.u?'▲':'▼') + ' ' + item.c + '</div>' +
-      '</div>';
-    row.addEventListener('click', function(){ toast(item.s+': '+item.v+' ('+item.c+')'); playS('click'); });
-    container.appendChild(row);
-  });
-}
-
-function buildPopupAccount(body) {
-  if (S.account) {
-    body.innerHTML = '<div style="text-align:center;padding:16px">' +
-      '<div style="font-size:3rem;margin-bottom:8px">👤</div>' +
-      '<div style="font-weight:800;color:var(--gold);font-size:.95rem;margin-bottom:4px">' + S.account.nome + '</div>' +
-      '<div style="font-size:.78rem;color:var(--muted);margin-bottom:14px">' + S.account.email + '</div>' +
-      '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;font-size:.8rem;line-height:1.8;text-align:left">' +
-        '👑 Piano: ' + (S.isPro?'PRO':'Gratis') + '<br>' +
-        '📚 Lezioni: ' + Object.keys(S.completate).length + '<br>' +
-        '🪙 Semi: ' + S.coins.toLocaleString('it') +
-      '</div>' +
-      '<button onclick="logoutAcc()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:12px;padding:10px 20px;color:var(--red);font-weight:700;font-size:.84rem;cursor:pointer">Disconnetti</button>' +
-      '</div>';
-    return;
-  }
-  var msgId = 'acc-msg-' + Date.now();
-  body.innerHTML = '<div id="' + msgId + '" style="display:none;padding:8px 10px;border-radius:10px;font-size:.78rem;margin-bottom:8px;text-align:center"></div>' +
-    '<div style="display:flex;background:rgba(255,255,255,.05);border-radius:10px;padding:3px;margin-bottom:14px">' +
-      '<button id="tab-r" style="flex:1;padding:8px;border-radius:8px;border:none;background:rgba(255,215,0,.9);color:#1c0a00;font-weight:700;font-size:.78rem;cursor:pointer">Registrati</button>' +
-      '<button id="tab-l" style="flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:rgba(255,255,255,.4);font-weight:700;font-size:.78rem;cursor:pointer">Accedi</button>' +
-    '</div>' +
-    '<div id="f-reg">' +
-      '<input id="a-nome" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:8px" placeholder="Il tuo nome">' +
-      '<input id="a-email" type="email" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:8px" placeholder="Email">' +
-      '<input id="a-pass" type="password" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:12px" placeholder="Password (min 8)">' +
-      '<button onclick="doReg(\'' + msgId + '\')" style="width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:12px;padding:12px;color:#1c0a00;font-weight:900;font-size:.88rem;cursor:pointer">🚀 Crea account gratuito</button>' +
-    '</div>' +
-    '<div id="f-log" style="display:none">' +
-      '<input id="a-email-l" type="email" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:8px" placeholder="Email">' +
-      '<input id="a-pass-l" type="password" style="width:100%;background:rgba(255,255,255,.08);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:system-ui;font-size:.88rem;outline:none;margin-bottom:12px" placeholder="Password">' +
-      '<button onclick="doLog(\'' + msgId + '\')" style="width:100%;background:linear-gradient(135deg,var(--green),#16a34a);border:none;border-radius:12px;padding:12px;color:#fff;font-weight:900;font-size:.88rem;cursor:pointer">🔑 Accedi</button>' +
-    '</div>' +
-    '<div style="text-align:center;margin-top:10px;font-size:.74rem;color:var(--muted)">Oppure <span onclick="closePopup()" style="color:var(--gold);cursor:pointer">continua senza account</span></div>';
-
-  document.getElementById('tab-r').addEventListener('click',function(){
-    document.getElementById('tab-r').style.background='rgba(255,215,0,.9)';document.getElementById('tab-r').style.color='#1c0a00';
-    document.getElementById('tab-l').style.background='transparent';document.getElementById('tab-l').style.color='rgba(255,255,255,.4)';
-    document.getElementById('f-reg').style.display='block';document.getElementById('f-log').style.display='none';
-  });
-  document.getElementById('tab-l').addEventListener('click',function(){
-    document.getElementById('tab-l').style.background='rgba(255,215,0,.9)';document.getElementById('tab-l').style.color='#1c0a00';
-    document.getElementById('tab-r').style.background='transparent';document.getElementById('tab-r').style.color='rgba(255,255,255,.4)';
-    document.getElementById('f-log').style.display='block';document.getElementById('f-reg').style.display='none';
-  });
-}
-
-window.doReg = function(msgId) {
-  var nome=(document.getElementById('a-nome')||{}).value||'';
-  var email=(document.getElementById('a-email')||{}).value||'';
-  var pass=(document.getElementById('a-pass')||{}).value||'';
-  var msg=document.getElementById(msgId);
-  if (nome.trim().length<2){showMsg(msg,'Inserisci il tuo nome','var(--red)');return;}
-  if (!email.includes('@')){showMsg(msg,'Email non valida','var(--red)');return;}
-  if (pass.length<8){showMsg(msg,'Password: almeno 8 caratteri','var(--red)');return;}
-  S.account={nome:nome.trim(),email:email.trim(),data:new Date().toLocaleDateString('it')};
-  saveS(); closePopup();
-  toast('Benvenuto ' + nome.trim() + '! Account creato 🎉');
-  playS('success');
-};
-window.doLog = function(msgId) {
-  var email=(document.getElementById('a-email-l')||{}).value||'';
-  var pass=(document.getElementById('a-pass-l')||{}).value||'';
-  var msg=document.getElementById(msgId);
-  if (!email.includes('@')){showMsg(msg,'Email non valida','var(--red)');return;}
-  if (!pass){showMsg(msg,'Inserisci la password','var(--red)');return;}
-  S.account={nome:email.split('@')[0],email:email.trim(),data:'Esistente'};
-  saveS(); closePopup();
-  toast('Accesso effettuato! 🦉');playS('success');
-};
-window.logoutAcc = function() {
-  S.account=null;saveS();closePopup();toast('Disconnesso.');
-};
-function showMsg(el,txt,col){if(!el)return;el.textContent=txt;el.style.cssText='display:block;padding:8px 10px;border-radius:10px;font-size:.78rem;margin-bottom:8px;text-align:center;background:rgba(248,113,113,.1);color:'+col;}
-
-function makeTaskCard(icon, label, reward, done) {
-  return '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px;text-align:center;opacity:'+(done?1:.5)+'">' +
-    '<div style="font-size:1.4rem">'+(done?icon:'🔒')+'</div>' +
-    '<div style="font-size:.7rem;color:#fff;font-weight:700;margin:2px 0">'+label+'</div>' +
-    '<div style="font-size:.72rem;color:#94a3b8">'+reward+'</div>' +
-  '</div>';
-}
-
-function buildPopupPremiBase(body) {
-  var done = Object.keys(S.completate).length;
-  var tp = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
-
-  // ── SEZIONE MONETE D'ARGENTO BAMBINI ──────────────────
-  var silverBox = document.createElement('div');
-  silverBox.style.cssText = 'background:linear-gradient(135deg,rgba(148,163,184,.1),rgba(148,163,184,.05));border:2px solid rgba(148,163,184,.3);border-radius:16px;padding:14px;margin-bottom:14px;';
-  var silverSemi = safeLS('fl_silver_semi', 0) || 0;
-  silverBox.innerHTML =
-    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
-      '<div style="font-size:2.5rem">🥈</div>' +
-      '<div>' +
-        '<div style="font-size:.9rem;font-weight:900;color:#94a3b8">'+(tp.silver_titolo||'Monete d\'Argento Bambini')+'</div>' +
-        '<div style="font-size:.75rem;color:rgba(255,255,255,.5)">'+(tp.silver_desc||'Guadagnate completando quiz, compiti e lezioni')+'</div>' +
-      '</div>' +
-      '<div style="margin-left:auto;font-size:1.4rem;font-weight:900;color:#94a3b8">🥈 '+silverSemi+'</div>' +
-    '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
-      makeTaskCard('📝', tp.task_quiz||'Quiz completato', '+10 🥈', S.completate ? Object.keys(S.completate).filter(function(k){return S.completate[k];}).length > 0 : false) +
-      makeTaskCard('📚', tp.task_lezione||'Lezione completata', '+20 🥈', done >= 1) +
-      makeTaskCard('🔥', tp.task_streak||'Streak 7 giorni', '+50 🥈', S.streak >= 7) +
-      makeTaskCard('🌍', tp.task_muro||'Post sul Muro', '+5 🥈', safeLS('fl_wall_posted', false)) +
-    '</div>' +
-    '<div style="margin-top:10px;font-size:.7rem;color:rgba(255,255,255,.4);text-align:center">'+(tp.silver_nota||'Le Monete d\'Argento sono premi virtuali educativi. Solo a scopo educativo.')+'</div>';
-  body.appendChild(silverBox);
-
-  body.innerHTML += '<div style="text-align:center;padding:10px 0 16px">' +
-    '<div style="font-size:3rem;margin-bottom:8px">🏆</div>' +
-    '<div style="font-size:.88rem;color:rgba(255,255,255,.7)">'+done+' '+(tp.premi_lezioni||'lezioni completate')+'</div></div>';
-  var premi = [
-    {icon:'🌱',nome:'Primo Seme',desc:'Completa la prima lezione',done:done>=1,col:'var(--green)'},
-    {icon:'🥉',nome:'Bronzo',desc:'5 lezioni completate',done:done>=5,col:'#cd7f32'},
-    {icon:'🥈',nome:'Argento',desc:'10 lezioni + KYC',done:done>=10,col:'#94a3b8'},
-    {icon:'🥇',nome:'Oro',desc:'27 lezioni completate',done:done>=27,col:'var(--gold)'},
-    {icon:'💎',nome:'Drago Master',desc:'50+ lezioni completate',done:done>=50,col:'var(--purple)'},
-    {icon:'🔥',nome:'Streak 7',desc:'7 giorni consecutivi',done:false,col:'var(--red)'},
-    {icon:'👨‍👩‍👧',nome:'Famiglia Unita',desc:'Completa sfide famiglia',done:false,col:'var(--purple)'},
-  ];
-  premi.forEach(function(p){
-    var el = document.createElement('div');
-    el.style.cssText = 'border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;' +
-      'background:' + (p.done?'rgba(74,222,128,.06)':'rgba(255,255,255,.03)') + ';' +
-      'border:1.5px solid ' + (p.done?'rgba(74,222,128,.3)':'rgba(255,255,255,.07)') + ';' +
-      'opacity:' + (p.done?'1':'.6') + ';';
-    el.innerHTML = '<div style="font-size:2rem">' + (p.done?p.icon:'🔒') + '</div>' +
-      '<div style="flex:1"><div style="font-size:.86rem;font-weight:700;color:' + (p.done?p.col:'#64748b') + '">' + p.nome + '</div>' +
-      '<div style="font-size:.74rem;color:var(--muted)">' + p.desc + '</div></div>' +
-      '<div>' + (p.done?'✅':'') + '</div>';
-    body.appendChild(el);
-  });
-}
-
-function buildPopupFamiglia(body) {
-
-  // ── TABS ──────────────────────────────────────────────
-  body.innerHTML = '';
-  var tabs = [
-    {id:'dashboard', label:'📊 Dashboard'},
-    {id:'figli',     label:'🍼 Risparmia per i Figli'},
-  ];
-  var activeTab = 'figli'; // apri direttamente sul nuovo modulo
-
-  function renderTab(tabId) {
-    activeTab = tabId;
-    tabBar.querySelectorAll('.fam-tab').forEach(function(t){
-      t.style.background = t.dataset.tab === tabId
-        ? 'rgba(255,215,0,.18)' : 'rgba(255,255,255,.05)';
-      t.style.color = t.dataset.tab === tabId ? 'var(--gold)' : 'rgba(255,255,255,.5)';
-      t.style.borderColor = t.dataset.tab === tabId
-        ? 'rgba(255,215,0,.4)' : 'rgba(255,255,255,.08)';
-    });
-    tabContent.innerHTML = '';
-    if (tabId === 'dashboard') buildFamDashboard(tabContent);
-    else buildFiglioCalc(tabContent);
-  }
-
-  var tabBar = document.createElement('div');
-  tabBar.style.cssText = 'display:flex;gap:6px;margin-bottom:14px';
-  tabs.forEach(function(tab){
-    var btn = document.createElement('button');
-    btn.className = 'fam-tab';
-    btn.dataset.tab = tab.id;
-    btn.textContent = tab.label;
-    btn.style.cssText = 'flex:1;padding:8px 4px;border-radius:10px;border:1px solid;' +
-      'font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.05);' +
-      'color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.08)';
-    btn.onclick = function(){ renderTab(tab.id); };
-    tabBar.appendChild(btn);
-  });
-  body.appendChild(tabBar);
-
-  var tabContent = document.createElement('div');
-  body.appendChild(tabContent);
-  renderTab(activeTab);
-}
-
-// ── DASHBOARD FAMIGLIA (versione compatta) ────────────────────
-function buildFamDashboard(container) {
-  container.innerHTML = '<div style="text-align:center;padding:10px 0 14px">' +
-    '<div style="font-size:3rem;margin-bottom:8px">👨‍👩‍👧</div>' +
-    '<div style="font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.6">' +
-    'Monitora i progressi dei tuoi figli, assegna doveri con premi Semi e gestisci i controlli parentali.' +
-    '</div></div>';
-  var features = [
-    {em:'📊',t:'Report progressi figli',d:'Lezioni, Semi, streak'},
-    {em:'✅',t:'Doveri con premi',d:'Compiti, lettura, sport = Semi'},
-    {em:'🔒',t:'Controlli parentali',d:'Limite ore, contenuto approvato'},
-    {em:'🎯',t:'Sfide famiglia',d:'Obiettivi condivisi con premi'},
-    {em:'📧',t:'Report settimanale',d:'Riepilogo via email ogni lunedì'},
-  ];
-  features.forEach(function(f){
-    var el = document.createElement('div');
-    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;' +
-      'padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;';
-    el.innerHTML = '<div style="font-size:1.8rem">' + f.em + '</div>' +
-      '<div><div style="font-size:.86rem;font-weight:700;color:#fff">' + f.t + '</div>' +
-      '<div style="font-size:.74rem;color:var(--muted)">' + f.d + '</div></div>' +
-      '<div style="margin-left:auto;font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);' +
-      'border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:2px 7px">' +
-      (S.isPro ? '→' : '👑 PRO') + '</div>';
-    el.addEventListener('click', function(){
-      if(!S.isPro){ closePopup(); openPopup('piani'); toast('Piano Famiglia — attiva PRO!'); }
-      else { toast(f.t + ' — disponibile prossimamente!'); }
-    });
-    container.appendChild(el);
-  });
-}
-
-// ── MODULO RISPARMIA PER I FIGLI ──────────────────────────────
-function buildFiglioCalc(container) {
-
-  // Stato calcolatore
-  var calc = {
-    versamento: 100,
-    anni: 18,
-    tasso: 7,
-    tipo: 'etf',
-    risultato: 0,
-    versato: 0,
-    guadagno: 0,
-  };
-
-  function calcola() {
-    var n = calc.anni * 12;
-    var r = calc.tasso / 100 / 12;
-    if (r === 0) {
-      calc.risultato = calc.versamento * n;
-    } else {
-      calc.risultato = calc.versamento * (Math.pow(1 + r, n) - 1) / r;
-    }
-    calc.versato = calc.versamento * n;
-    calc.guadagno = calc.risultato - calc.versato;
-  }
-
-  function fmt(n) {
-    return new Intl.NumberFormat('it-IT', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(n);
-  }
-
-  calcola();
-
-  // ── RENDER ──────────────────────────────────────────────────
-  function render() {
-    calcola();
-    container.innerHTML = '';
-
-    // Titolo
-    var title = document.createElement('div');
-    title.style.cssText = 'text-align:center;margin-bottom:14px';
-    title.innerHTML =
-      '<div style="font-size:2.2rem">🍼</div>' +
-      '<div style="font-size:1rem;font-weight:900;color:var(--gold);margin:4px 0">Risparmia per i Tuoi Figli</div>' +
-      '<div style="font-size:.78rem;color:rgba(255,255,255,.6)">Costruisci il loro futuro fin da oggi</div>';
-    container.appendChild(title);
-
-    // ── SELETTORE STRUMENTO ──────────────────────────────────
-    var strumentiLabel = document.createElement('div');
-    strumentiLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
-      'letter-spacing:1px;margin-bottom:6px';
-    strumentiLabel.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_strumento||'STRUMENTO DI INVESTIMENTO';
-    container.appendChild(strumentiLabel);
-
-    var strumenti = [
-      {id:'etf',    label:'📦 ETF Mondiale',   tasso:7,  desc:'iShares MSCI World, Vanguard All-World'},
-      {id:'pac',    label:'📈 PAC Fondi',       tasso:5,  desc:'Piano Accumulo Capitale — banca o broker'},
-      {id:'brvm',   label:'🌍 BRVM Africa',     tasso:9,  desc:'Borsa Africa Occidentale — alto potenziale'},
-      {id:'cd',     label:'🏦 Conto Deposito',  tasso:3,  desc:'Banca — sicuro, rendimento basso'},
-    ];
-
-    var strGrid = document.createElement('div');
-    strGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px';
-    strumenti.forEach(function(s){
-      var btn = document.createElement('div');
-      var isActive = calc.tipo === s.id;
-      btn.style.cssText = 'padding:9px 10px;border-radius:12px;cursor:pointer;' +
-        'border:2px solid ' + (isActive ? 'var(--gold)' : 'rgba(255,255,255,.1)') + ';' +
-        'background:' + (isActive ? 'rgba(255,215,0,.1)' : 'rgba(255,255,255,.04)') + ';' +
-        'transition:all .2s';
-      btn.innerHTML =
-        '<div style="font-size:.82rem;font-weight:800;color:' + (isActive?'var(--gold)':'#fff') + '">' + s.label + '</div>' +
-        '<div style="font-size:.65rem;color:var(--muted);margin-top:2px">' + s.desc + '</div>' +
-        '<div style="font-size:.72rem;color:' + (isActive?'var(--gold)':'#4ade80') + ';font-weight:700;margin-top:3px">~' + s.tasso + '%/anno</div>';
-      btn.onclick = function(){
-        calc.tipo = s.id;
-        calc.tasso = s.tasso;
-        render();
-      };
-      strGrid.appendChild(btn);
-    });
-    container.appendChild(strGrid);
-
-    // ── SLIDER VERSAMENTO MENSILE ────────────────────────────
-    function makeSlider(labelText, key, min, max, step, unit) {
-      var wrap = document.createElement('div');
-      wrap.style.cssText = 'margin-bottom:12px';
-
-      var labelRow = document.createElement('div');
-      labelRow.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:6px';
-      var lbl = document.createElement('span');
-      lbl.style.cssText = 'font-size:.72rem;font-weight:700;color:rgba(255,255,255,.7)';
-      lbl.textContent = labelText;
-      var val = document.createElement('span');
-      val.style.cssText = 'font-size:.85rem;font-weight:900;color:var(--gold)';
-      val.textContent = unit === '€' ? fmt(calc[key]).replace('€','') + ' €' : calc[key] + ' ' + unit;
-      labelRow.appendChild(lbl);
-      labelRow.appendChild(val);
-      wrap.appendChild(labelRow);
-
-      var slider = document.createElement('input');
-      slider.type = 'range';
-      slider.min = min; slider.max = max; slider.step = step;
-      slider.value = calc[key];
-      slider.style.cssText = 'width:100%;accent-color:var(--gold);height:4px;cursor:pointer';
-      slider.oninput = function(){
-        calc[key] = parseFloat(this.value);
-        val.textContent = unit === '€'
-          ? new Intl.NumberFormat('it-IT').format(calc[key]) + ' €'
-          : calc[key] + ' ' + unit;
-        updateResults();
-      };
-      wrap.appendChild(slider);
-      container.appendChild(wrap);
-    }
-
-    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_versamento||'Versamento mensile', 'versamento', 10, 500, 10, '€');
-    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_durata||'Durata (anni)', 'anni', 1, 25, 1, (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_anni||'anni');
-    makeSlider((TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_rendimento||'Rendimento annuo stimato (%)', 'tasso', 1, 15, 0.5, '%');
-
-    // ── RISULTATO ────────────────────────────────────────────
-    var resultBox = document.createElement('div');
-    resultBox.id = 'calc-result-box';
-
-    function updateResults() {
-      calcola();
-      var esistente = document.getElementById('calc-result-box');
-      if (!esistente) return;
-      renderResults(esistente);
-    }
-
-    function renderResults(box) {
-      box.innerHTML = '';
-      box.style.cssText =
-        'background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,215,0,.04));' +
-        'border:2px solid rgba(255,215,0,.3);border-radius:16px;padding:14px;' +
-        'margin-top:12px;text-align:center';
-
-      var emoji = calc.risultato > 50000 ? '🏆' : calc.risultato > 20000 ? '🌟' : '🌱';
-      box.innerHTML =
-        '<div style="font-size:2rem;margin-bottom:4px">' + emoji + '</div>' +
-        '<div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-bottom:6px">' +
-          (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_capitale||'Capitale stimato dopo ' + calc.anni + ' anni' +
-        '</div>' +
-        '<div style="font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:10px">' +
-          fmt(calc.risultato) +
-        '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
-          '<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:8px">' +
-            '<div style="font-size:.65rem;color:var(--muted)">💰 Versato</div>' +
-            '<div style="font-size:.88rem;font-weight:800;color:#fff">' + fmt(calc.versato) + '</div>' +
-          '</div>' +
-          '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px">' +
-            '<div style="font-size:.65rem;color:var(--muted)">✨ Interesse composto</div>' +
-            '<div style="font-size:.88rem;font-weight:800;color:#4ade80">' + fmt(calc.guadagno) + '</div>' +
-          '</div>' +
-        '</div>' +
-        // Barra visiva versato vs guadagno
-        (function(){
-          var pct = Math.round((calc.versato / calc.risultato) * 100);
-          return '<div style="height:8px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;margin-bottom:8px">' +
-            '<div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#60a5fa,#a78bfa);border-radius:6px;transition:width .5s"></div>' +
-          '</div>' +
-          '<div style="font-size:.65rem;color:rgba(255,255,255,.5)">' +
-            '<span style="color:#60a5fa">■</span> Versato ' + pct + '% &nbsp;' +
-            '<span style="color:#4ade80">■</span> Interessi ' + (100-pct) + '%' +
-          '</div>';
-        })() +
-        '<div style="margin-top:10px;font-size:.72rem;color:rgba(255,255,255,.4);font-style:italic">' +
-          'Solo a scopo educativo — non è un consiglio finanziario' +
-        '</div>';
-    }
-
-    renderResults(resultBox);
-    container.appendChild(resultBox);
-
-    // Aggiorna risultato sui slider
-    var sliders = container.querySelectorAll('input[type=range]');
-    sliders.forEach(function(sl){
-      var origInput = sl.oninput;
-      sl.oninput = function(){
-        if (origInput) origInput.call(this);
-        renderResults(document.getElementById('calc-result-box'));
-      };
-    });
-
-    // ── LEZIONI RAPIDE ───────────────────────────────────────
-    var lessonsLabel = document.createElement('div');
-    lessonsLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
-      'letter-spacing:1px;margin:14px 0 8px';
-    lessonsLabel.textContent = (TRANSLATIONS[S.lang]||TRANSLATIONS.it).fam_impara_ai||'IMPARA CON L\'AI';
-    container.appendChild(lessonsLabel);
-
-    var lezioni = [
-      {icon:'📦', titolo:'ETF per bambini',       topic:'come aprire un ETF per i propri figli, iShares MSCI World, rendimenti storici'},
-      {icon:'📈', titolo:'PAC — Piano di Accumulo', topic:'cos\'è un PAC Piano Accumulo Capitale, come funziona, broker consigliati'},
-      {icon:'🌍', titolo:'BRVM per i figli',        topic:'come investire in azioni BRVM Africa per i propri figli, rendimenti storici Africa Occidentale'},
-      {icon:'🧮', titolo:'Regola delle 72',          topic:'regola del 72 spiegata semplice, quanto tempo raddoppia il capitale, esempi pratici'},
-    ];
-
-    lezioni.forEach(function(l){
-      var card = document.createElement('div');
-      card.style.cssText =
-        'background:var(--card);border:1px solid var(--border);border-radius:12px;' +
-        'padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer;' +
-        'transition:border-color .2s';
-      card.innerHTML =
-        '<div style="font-size:1.6rem">' + l.icon + '</div>' +
-        '<div style="flex:1">' +
-          '<div style="font-size:.86rem;font-weight:700;color:#fff">' + l.titolo + '</div>' +
-          '<div style="font-size:.7rem;color:var(--muted)">Tocca per generare lezione AI</div>' +
-        '</div>' +
-        '<div style="font-size:.75rem;color:var(--gold);font-weight:700">→</div>';
-      card.onmouseenter = function(){ this.style.borderColor = 'rgba(255,215,0,.3)'; };
-      card.onmouseleave = function(){ this.style.borderColor = 'var(--border)'; };
-      card.onclick = function(){
-        closePopup();
-        // Imposta percorso "Per i Tuoi Figli" e vai all'Accademia
-        var percFigli = PERCORSI.find(function(p){ return p.id === 'figli'; });
-        if (percFigli) currentPercorso = percFigli;
-        showScreen('accademia');
-        setNav('bn-acc');
-        buildAccademia();
-        setTimeout(function(){
-          // Pre-compila il campo di ricerca con l'argomento
-          var inp = document.getElementById('gen-topic-inp');
-          if (inp) {
-            inp.value = l.topic;
-            inp.dispatchEvent(new Event('input'));
-          }
-          toast('🍼 Argomento selezionato: ' + l.titolo);
-        }, 400);
-      };
-      container.appendChild(card);
-    });
-
-    // ── CONSIGLIO FINALE ─────────────────────────────────────
-    var tip = document.createElement('div');
-    tip.style.cssText =
-      'background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.25);' +
-      'border-radius:12px;padding:12px;margin-top:8px;font-size:.78rem;' +
-      'color:rgba(255,255,255,.8);line-height:1.6';
-    tip.innerHTML =
-      '💡 <b>Il segreto dell\'interesse composto:</b> iniziare presto conta più di quanto ' +
-      'si versa. 50€/mese per 18 anni a 7% = circa 21.000€. Aspettare 5 anni in più ' +
-      'significa perdere migliaia di euro in interessi. <i>Inizia oggi, anche con poco.</i>';
-    container.appendChild(tip);
-
-    // ── INFLAZIONE — BANCA vs BORSA ──────────────────────────
-    var infLabel = document.createElement('div');
-    infLabel.style.cssText = 'font-size:.72rem;font-weight:700;color:var(--gold);' +
-      'letter-spacing:1px;margin:14px 0 8px';
-    infLabel.textContent = '⚠️ PERCHÉ LA BANCA NON BASTA';
-    container.appendChild(infLabel);
-
-    // Comparazione visiva 3 scenari su 18 anni
-    var scenari = [
-      {
-        label:'🏦 Banca / Conto deposito',
-        tasso: 2.5,
-        inflazione: 3.0,
-        colore:'#f87171',
-        rischio:'PERDE potere d\'acquisto',
-        spieg:'Interessi: ~2.5%/anno. Inflazione: ~3%/anno. Il risultato? I tuoi soldi valgono MENO ogni anno. Con 100€/mese per 18 anni ottieni ~24.000€ ma ci compri meno di oggi.',
-      },
-      {
-        label:'📋 Assicurazione Vita Mista',
-        tasso: 2.0,
-        inflazione: 3.0,
-        colore:'#fb923c',
-        rischio:'COSTI NASCOSTI elevati',
-        spieg:'Rendimento lordo ~2-3% ma dopo commissioni, caricamenti e premi assicurativi il rendimento NETTO scende spesso a 1-1.5%. Inoltre il capitale è bloccato per anni. Utile solo in casi specifici.',
-      },
-      {
-        label:'📦 ETF Mondiale (borsa)',
-        tasso: 7.0,
-        inflazione: 3.0,
-        colore:'#4ade80',
-        rischio:'BATTE l\'inflazione nel tempo',
-        spieg:'Storico S&P 500 / MSCI World: ~7-10%/anno medio su 20+ anni. Con 100€/mese per 18 anni → ~43.000€. La borsa ha periodi negativi ma nel LUNGO TERMINE ha sempre recuperato e superato inflazione.',
-      },
-    ];
-
-    scenari.forEach(function(s) {
-      // Calcola risultato reale (corretto per inflazione)
-      var n = 18 * 12;
-      var r = s.tasso / 100 / 12;
-      var nominale = r === 0 ? 100*n : 100 * (Math.pow(1+r,n)-1)/r;
-      var rReale = (s.tasso - s.inflazione) / 100 / 12;
-      var reale = rReale <= 0 ? 100*n*(1 - s.inflazione/100*18) : 100 * (Math.pow(1+rReale,n)-1)/rReale;
-
-      var card = document.createElement('div');
-      card.style.cssText =
-        'background:rgba(255,255,255,.04);border:2px solid ' + s.colore + '33;' +
-        'border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer;' +
-        'transition:all .2s';
-      card.innerHTML =
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
-          '<div style="font-size:.85rem;font-weight:800;color:#fff">' + s.label + '</div>' +
-          '<div style="font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:8px;' +
-            'background:' + s.colore + '22;color:' + s.colore + ';border:1px solid ' + s.colore + '44">' +
-            s.rischio +
-          '</div>' +
-        '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">' +
-          '<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:7px;text-align:center">' +
-            '<div style="font-size:.62rem;color:var(--muted)">100€/mese × 18 anni</div>' +
-            '<div style="font-size:.95rem;font-weight:900;color:' + s.colore + '">' +
-              new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(nominale) +
-            '</div>' +
-            '<div style="font-size:.6rem;color:var(--muted)">valore nominale</div>' +
-          '</div>' +
-          '<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:7px;text-align:center">' +
-            '<div style="font-size:.62rem;color:var(--muted)">Potere d\'acquisto reale</div>' +
-            '<div style="font-size:.95rem;font-weight:900;color:' + (reale > 100*n ? '#4ade80' : '#f87171') + '">' +
-              new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Math.max(reale,0)) +
-            '</div>' +
-            '<div style="font-size:.6rem;color:var(--muted)">dopo inflazione ' + s.inflazione + '%</div>' +
-          '</div>' +
-        '</div>' +
-        // Barra rendimento
-        '<div style="height:6px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin-bottom:6px">' +
-          '<div style="height:100%;width:' + Math.min(Math.max(s.tasso/12*100,5),100) + '%;' +
-            'background:' + s.colore + ';border-radius:4px;transition:width .6s"></div>' +
-        '</div>' +
-        // Spiegazione (toggle)
-        '<div class="inf-spieg" style="display:none;font-size:.75rem;color:rgba(255,255,255,.75);' +
-          'line-height:1.55;margin-top:4px;border-top:1px solid rgba(255,255,255,.08);padding-top:8px">' +
-          s.spieg +
-        '</div>' +
-        '<div style="font-size:.68rem;color:var(--muted);text-align:right">Tocca per dettagli ↓</div>';
-
-      card.onclick = function() {
-        var spieg = this.querySelector('.inf-spieg');
-        var isOpen = spieg.style.display !== 'none';
-        spieg.style.display = isOpen ? 'none' : 'block';
-        this.querySelector(':last-child').textContent = isOpen ? 'Tocca per dettagli ↓' : 'Chiudi ↑';
-        this.style.borderColor = isOpen ? s.colore + '33' : s.colore;
-      };
-      container.appendChild(card);
-    });
-
-    // Box conclusione
-    var conclusione = document.createElement('div');
-    conclusione.style.cssText =
-      'background:linear-gradient(135deg,rgba(74,222,128,.1),rgba(255,215,0,.06));' +
-      'border:2px solid rgba(74,222,128,.3);border-radius:14px;padding:12px;margin-bottom:10px';
-    conclusione.innerHTML =
-      '<div style="font-size:.85rem;font-weight:900;color:#4ade80;margin-bottom:6px">' +
-        '✅ La vera sicurezza = battere l\'inflazione' +
-      '</div>' +
-      '<div style="font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.6">' +
-        'Non tenere soldi fermi in banca <b>non è sicuro</b> — è il modo più lento di perdere soldi. ' +
-        'La vera sicurezza è che i tuoi risparmi crescano <b>più velocemente dell\'inflazione</b>. ' +
-        'Sul lungo termine (10+ anni), un ETF diversificato ha sempre battuto l\'inflazione. ' +
-        '<b>Per i figli, il tempo è il tuo miglior alleato.</b>' +
-      '</div>';
-    container.appendChild(conclusione);
-
-    var disclaimer = document.createElement('div');
-    disclaimer.style.cssText = 'font-size:.65rem;color:rgba(255,255,255,.3);text-align:center;margin-top:10px';
-    disclaimer.textContent = 'Solo a scopo educativo — non è un consiglio finanziario o di investimento';
-    container.appendChild(disclaimer);
-  }
-
-  render();
-}
-
-// ═══════════════════════════════════════════════════════
-// AI CHAT
-// ═══════════════════════════════════════════════════════
-var aiOpen = false, aiHistory = [];
-function toggleAI() {
-  aiOpen = !aiOpen;
-  document.getElementById('ai-panel').classList.toggle('open', aiOpen);
-  document.getElementById('ai-fab').style.display = aiOpen?'none':'flex';
-  if (aiOpen) {
-    var t = TRANSLATIONS[S.lang]||TRANSLATIONS['it'];
-    // Aggiorna subtitle
-    try {
-      var sub = document.querySelector('#ai-panel .ai-hdr [style*="font-size:.68rem"]');
-      if (sub && t.civetta_subtitle) sub.textContent = t.civetta_subtitle;
-    } catch(e) {}
-    // Aggiorna chips
-    var chips = document.getElementById('ai-chips');
-    if (chips && t.civetta_chips) {
-      chips.innerHTML = '';
-      t.civetta_chips.forEach(function(chip) {
-        var el = document.createElement('div');
-        el.className = 'ai-chip';
-        el.setAttribute('data-q', chip.q);
-        el.textContent = chip.label;
-        el.addEventListener('click', function(){
-          var inp = document.getElementById('ai-inp');
-          if (inp) { inp.value = chip.q; sendAI(); }
-        });
-        chips.appendChild(el);
-      });
-    }
-    // Aggiorna messaggio benvenuto se chat vuota
-    var msgs = document.getElementById('ai-msgs');
-    if (msgs && t.civetta_benvenuto && aiHistory.length === 0) {
-      msgs.innerHTML = '<div class="ai-msg-b"><div class="ai-who">🦉 Civetta AI</div>' + t.civetta_benvenuto + '</div>';
-    }
-    // Aggiorna placeholder input
-    var inp = document.getElementById('ai-inp');
-    if (inp && t.ai_placeholder) inp.placeholder = t.ai_placeholder;
-    setTimeout(function(){ if(inp) inp.focus(); }, 400);
-  }
-}
-window.toggleAI = toggleAI;
-
-document.getElementById('ai-send').addEventListener('click', sendAI);
-document.getElementById('ai-inp').addEventListener('keydown', function(e){
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}
-});
-document.querySelectorAll('.ai-chip').forEach(function(c){
-  c.addEventListener('click',function(){
-    document.getElementById('ai-inp').value=c.getAttribute('data-q');
-    sendAI();
-  });
-});
-
-async function sendAI() {
-  var inp = document.getElementById('ai-inp');
-  if (!inp||!inp.value.trim()) return;
-  var msg = inp.value.trim(); inp.value='';
-  addAIMsg(msg,'u');
-  aiHistory.push({role:'user',content:msg});
-  document.getElementById('ai-typing').style.display='flex';
-  scrollAI();
-
-  // Sistema prompt multilingua
-  var langNames = {it:'italiano',fr:'français',en:'English',es:'español',wo:'wolof'};
-  var langName = langNames[S.lang] || 'italiano';
-  var langDisclaimer = {
-    it:'Solo a scopo educativo.',
-    fr:'À des fins éducatives uniquement.',
-    en:'For educational purposes only.',
-    es:'Solo con fines educativos.',
-    wo:'Ci koolug jang rekk.'
-  };
-  var disclaimer = langDisclaimer[S.lang] || langDisclaimer.it;
-
-  var system = 'Sei la Civetta AI di FinanzaLand, guida finanziaria educativa. ' +
-    'IMPORTANTE: Rispondi SEMPRE in ' + langName + '. ' +
-    'Struttura la risposta in 3-5 punti chiari con emoji. ' +
-    'Includi sempre un dato reale o statistico. ' +
-    'Collega ai mercati africani (BRVM) quando rilevante. ' +
-    'Concludi con: "' + disclaimer + '" ' +
-    'Non troncare mai la risposta — completa sempre il pensiero.';
-
-  try {
-    var resp = await fetch('/api/chat',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-5',
-        max_tokens:800,
-        system:system,
-        messages:aiHistory.slice(-8)
-      })
-    });
-    var data = await resp.json();
-    document.getElementById('ai-typing').style.display='none';
-    // Gestione errori API
-    if (data.error) {
-      var apiErr = {
-        it:'⚠️ ' + (data.error.message || 'Errore API. Riprova.'),
-        fr:'⚠️ ' + (data.error.message || 'Erreur API. Réessaie.'),
-        en:'⚠️ ' + (data.error.message || 'API Error. Try again.'),
-        es:'⚠️ ' + (data.error.message || 'Error API. Inténtalo de nuevo.'),
-        wo:'⚠️ Erreur. Dellali.'
-      };
-      addAIMsg(apiErr[S.lang]||apiErr.it, 'b');
-      return;
-    }
-    var reply = (data.content && data.content[0] && data.content[0].text) || '';
-    if (!reply) reply = '⚠️ Risposta vuota — riprova.';
-    // Formatta la risposta — converti newline in <br>
-    var replyHtml = reply.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-    addAIMsg(replyHtml,'b');
-    aiHistory.push({role:'assistant',content:reply});
-    S.coins+=3;saveS();updateHUD();
-  } catch(e){
-    document.getElementById('ai-typing').style.display='none';
-    console.error('Civetta AI error:', e.message);
-    // Prova a leggere errore specifico dalla risposta
-    var errMsg = {
-      it:'⚠️ Civetta AI non disponibile al momento.<br>Controlla la connessione o riprova tra qualche secondo.',
-      fr:'⚠️ Civetta IA indisponible pour le moment.<br>Vérifie ta connexion ou réessaie dans quelques secondes.',
-      en:'⚠️ Civetta AI is unavailable right now.<br>Check your connection or try again in a few seconds.',
-      es:'⚠️ Civetta IA no disponible en este momento.<br>Comprueba tu conexión o inténtalo de nuevo.',
-      wo:'⚠️ Civetta IA du am leegi.<br>Xool sa connexion walla dellali.'
-    };
-    addAIMsg(errMsg[S.lang]||errMsg.it, 'b');
-  }
-}
-
-function addAIMsg(txt,type){
-  var box=document.getElementById('ai-msgs');if(!box)return;
-  var el=document.createElement('div');
-  if(type==='u'){el.className='ai-msg-u';el.textContent=txt;}
-  else{
-    el.className='ai-msg-b';
-    // Se il testo contiene già HTML (<br> etc), usalo direttamente
-    // Altrimenti escape e converti newline
-    var htmlContent = txt.indexOf('<br') >= 0 || txt.indexOf('<b>') >= 0
-      ? txt
-      : txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
-    el.innerHTML='<div class="ai-who">🦉 Civetta AI</div>' + htmlContent;
-  }
-  box.appendChild(el);scrollAI();
-}
-function scrollAI(){var b=document.getElementById('ai-msgs');if(b)setTimeout(function(){b.scrollTop=b.scrollHeight;},50);}
-
-// ═══════════════════════════════════════════════════════
-// NAVIGAZIONE
-// ═══════════════════════════════════════════════════════
-function showScreen(name){
-  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
-  var el=document.getElementById(name);
-  if(el){el.classList.add('active');}
-  if(name==='accademia') buildAccademia();
-  if(name==='adulti') buildAdulti();
-}
-window.showScreen=showScreen;
-
-// ════════════════════════════════════════════════════════
-// FINANZA LANDA OMNIA v7.0 — World Selector + Punto Abla + Landa Card
-// ════════════════════════════════════════════════════════
-
-var worldData = {
-  EUROPE:  { lang:'IT/FR/EN', law:'GDPR Art.8 — Legge 2023', icon:'🇪🇺', color:'#3b82f6', cur:'EUR €', currencies:['EUR','CHF','GBP'] },
-  AFRICA:  { lang:'FR/EN/WO', law:'Digital Rights Africa — UEMOA', icon:'🌍', color:'#10b981', cur:'XOF/NGN', currencies:['XOF','NGN','KES'] },
-  ASIA:    { lang:'CN/JP/KO', law:'Cyber-Security Act 2017', icon:'🏮', color:'#ef4444', cur:'CNY/JPY', currencies:['CNY','JPY','KRW'] },
-  AMERICA: { lang:'EN/ES/PT', law:'COPPA — Privacy Act USA', icon:'🗽', color:'#6366f1', cur:'USD/BRL', currencies:['USD','CAD','BRL'] },
-  RUSSIA:  { lang:'RU/KZ',   law:'Federal Law 152-FZ', icon:'❄️', color:'#64748b', cur:'RUB/KZT', currencies:['RUB','KZT'] },
-};
-var currentRegion = null;
-var currentRole   = null; // 'comandante' | 'mentore' | 'saggio'
-
-// ── Missioni Punto Abla (saggezza/libri) ─────────────────
-var ABLA_MISSIONI = [
-  {id:'etf_read',   icon:'📖', titolo:'Leggi: "ETF spiegati ai bambini"', desc:'5 pagine sulla diversificazione', semi:150, argento:30, done:false, categoria:'libro'},
-  {id:'inflation',  icon:'📰', titolo:'Articolo: Cos\u0027è l\u0027inflazione?', desc:'Spiega ai tuoi genitori il concetto', semi:100, argento:20, done:false, categoria:'studio'},
-  {id:'budget',     icon:'✏️', titolo:'Esercizio: Budget settimanale', desc:'Scrivi le tue spese per 7 giorni', semi:120, argento:25, done:false, categoria:'compito'},
-  {id:'invest_real',icon:'🎯', titolo:'Sfida: Investi 100€ in ETF', desc:'Scegli 3 ETF e motiva la scelta', semi:200, argento:50, done:false, categoria:'sfida'},
-  {id:'brvm_news',  icon:'🌍', titolo:'Ricerca: BRVM Africa Occidentale', desc:'Trova 2 azioni africane promettenti', semi:180, argento:40, done:false, categoria:'ricerca'},
-  {id:'immob',      icon:'🏠', titolo:'Calcola: Affitto vs Acquisto', desc:'Usa il calcolatore FinanzaLand', semi:130, argento:25, done:false, categoria:'calcolo'},
-  {id:'condotta',   icon:'⭐', titolo:'Voto in Condotta ≥ 9', desc:'Comportamento esemplare = premi reali', semi:300, argento:75, done:false, categoria:'scuola'},
-  {id:'risparmio10',icon:'🐷', titolo:'Risparmia per 10 giorni di fila', desc:'Metti da parte almeno 50 Semi/giorno', semi:250, argento:60, done:false, categoria:'abitudine'},
-];
-
-// ── Moduli Accademia Omnia ───────────────────────────────
-var MODULI_OMNIA = [
-  {icon:'📊', titolo:'Mercato ETF', desc:'Cesto magico diversificato — bassa volatilità, alta diversificazione', trend:'+4% medio annuo', percorso:'investimenti', livello:'base', colore:'#3b82f6'},
-  {icon:'🏠', titolo:'Immobiliare',  desc:'Rendita dei Mattoni — affitto passivo, REIT, crowdfunding', trend:'Affitto ~5%', percorso:'immobiliare', livello:'medio', colore:'#fb923c'},
-  {icon:'⚡', titolo:'Pale e Picconi', desc:'Investi nelle Fabbriche — utility, infrastrutture, energia', trend:'Utility +3%', percorso:'investimenti', livello:'avanzato', colore:'#facc15'},
-  {icon:'👾', titolo:'Mostro Inflazione', desc:'Sconfiggi il mangia-semi - battere l inflazione', trend:'Difesa CPI', percorso:'mercati', livello:'base', colore:'#f87171'},
-  {icon:'🔧', titolo:'Compliance 2023', desc:'Voto in Condotta collegato ai premi in gioco', trend:'Legge 2023', percorso:'tasse', livello:'esperto', colore:'#a78bfa'},
-  {icon:'🏛️', titolo:'Infrastrutture', desc:'Autostrade, aeroporti, reti idriche come investimento', trend:'Stabile', percorso:'investimenti', livello:'master', colore:'#06b6d4'},
-];
-
-// ─────────────────────────────────────────────────────────
-// buildMondo — Selettore Mondiale v7.0
-// ─────────────────────────────────────────────────────────
-function buildMondo() {
-  var body = document.getElementById('mondo-body');
-  if (!body) return;
-  body.innerHTML = '';
-  var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
-
-  // Titolo
-  var hdr = document.createElement('div');
-  hdr.style.cssText = 'text-align:center;padding:8px 0 20px';
-  hdr.innerHTML =
-    '<div style="font-size:3rem;margin-bottom:6px">🌐</div>' +
-    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);letter-spacing:2px;text-transform:uppercase">'+(t.mondo_titolo||'Landa Global Ecosystem')+'</div>' +
-    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">'+(t.mondo_sub||'Seleziona la tua Terra Sovrana')+'</div>';
-  body.appendChild(hdr);
-
-  // Griglia zone mondiali
-  var grid = document.createElement('div');
-  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px';
-  Object.keys(worldData).forEach(function(zone) {
-    var z = worldData[zone];
-    var card = document.createElement('div');
-    card.className = 'mondo-zone-card' + (currentRegion===zone?' active':'');
-    card.innerHTML =
-      '<div class="mondo-zone-icon">'+z.icon+'</div>' +
-      '<div class="mondo-zone-name">'+zone+'</div>' +
-      '<div class="mondo-zone-cur">'+z.cur+'</div>' +
-      '<div class="mondo-zone-law">🛡️ '+z.law+'</div>';
-    card.addEventListener('click', function(){
-      currentRegion = zone;
-      // Aggiorna selezione visiva
-      grid.querySelectorAll('.mondo-zone-card').forEach(function(c){c.classList.remove('active');});
-      card.classList.add('active');
-      renderMondoDetail(body, zone, t);
-    });
-    grid.appendChild(card);
-  });
-  body.appendChild(grid);
-
-  // Se già selezionata una regione
-  if (currentRegion) renderMondoDetail(body, currentRegion, t);
-  else {
-    var hint = document.createElement('div');
-    hint.style.cssText = 'text-align:center;color:var(--muted);font-size:.75rem;padding:20px';
-    hint.textContent = t.mondo_hint || 'Tocca una zona per vedere dettagli e moduli';
-    body.appendChild(hint);
-  }
-}
-
-function renderMondoDetail(body, zone, t) {
-  // Rimuovi detail vecchio
-  var old = body.querySelector('.mondo-detail');
-  if (old) old.remove();
-
-  var z = worldData[zone];
-  var detail = document.createElement('div');
-  detail.className = 'mondo-detail';
-
-  // Privacy Shield
-  detail.innerHTML =
-    '<div class="privacy-shield">🛡️ Privacy: '+z.law+' &nbsp;|&nbsp; 💬 '+z.lang+' &nbsp;|&nbsp; 💰 '+z.cur+'</div>';
-
-  // Selezione Ruolo
-  var roleTitle = document.createElement('div');
-  roleTitle.style.cssText = 'font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:14px 0 10px';
-  roleTitle.textContent = t.mondo_ruolo || 'Scegli il tuo Destino';
-  detail.appendChild(roleTitle);
-
-  var roles = [
-    {id:'comandante', icon:'🐉', title:t.ruolo_comandante||'Comandante', sub:t.ruolo_comandante_sub||'Bambino · Gioco'},
-    {id:'mentore',    icon:'🛡️', title:t.ruolo_mentore||'Mentore',    sub:t.ruolo_mentore_sub||'Genitore · Card'},
-    {id:'saggio',     icon:'🎓', title:t.ruolo_saggio||'Saggio',     sub:t.ruolo_saggio_sub||'Coach · Sapere'},
-  ];
-  var roleGrid = document.createElement('div');
-  roleGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px';
-  roles.forEach(function(r) {
-    var card = document.createElement('div');
-    card.className = 'mondo-role-card' + (currentRole===r.id?' active':'');
-    if (currentRole===r.id) card.style.borderColor = 'var(--gold)';
-    card.innerHTML = '<div class="mondo-role-icon">'+r.icon+'</div><div class="mondo-role-title">'+r.title+'</div><div class="mondo-role-sub">'+r.sub+'</div>';
-    card.addEventListener('click', function(){
-      currentRole = r.id;
-      roleGrid.querySelectorAll('.mondo-role-card').forEach(function(c){c.style.borderColor='rgba(255,255,255,.08)';});
-      card.style.borderColor = 'var(--gold)';
-      renderRoleContent(detail, r.id, zone, t);
-    });
-    roleGrid.appendChild(card);
-  });
-  detail.appendChild(roleGrid);
-
-  var roleContent = document.createElement('div');
-  roleContent.id = 'mondo-role-content';
-  detail.appendChild(roleContent);
-
-  body.appendChild(detail);
-
-  if (currentRole) renderRoleContent(detail, currentRole, zone, t);
-}
-
-function renderRoleContent(detail, role, zone, t) {
-  var el = detail.querySelector('#mondo-role-content');
-  if (!el) return;
-  el.innerHTML = '';
-  var z = worldData[zone];
-
-  if (role === 'comandante') {
-    // Moduli Accademia Omnia
-    var title = document.createElement('div');
-    title.style.cssText = 'font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:8px 0 10px';
-    title.textContent = t.mondo_moduli || '📚 Moduli Accademia Omnia';
-    el.appendChild(title);
-
-    var mg = document.createElement('div');
-    mg.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px';
-    MODULI_OMNIA.forEach(function(m) {
-      var c = document.createElement('div');
-      c.className = 'module-card-v7';
-      c.innerHTML = '<div class="module-v7-icon">'+m.icon+'</div>' +
-        '<div class="module-v7-title">'+m.titolo+'</div>' +
-        '<div class="module-v7-desc">'+m.desc+'</div>' +
-        '<div class="module-v7-trend">'+m.trend+'</div>';
-      c.addEventListener('click', function(){
-        currentPercorso = PERCORSI.find(function(p){return p.id===m.percorso;})||PERCORSI[0];
-        currentLivello  = LIVELLI.find(function(l){return l.id===m.livello;})||LIVELLI[0];
-        showScreen('accademia'); buildAccademia();
-        toast('📚 '+m.titolo+' — '+m.desc);
-      });
-      mg.appendChild(c);
-    });
-    el.appendChild(mg);
-
-    // Punto Abla shortcut
-    var ablaBtn = document.createElement('button');
-    ablaBtn.style.cssText = 'width:100%;background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(167,139,250,.08));border:2px solid rgba(167,139,250,.3);border-radius:16px;padding:14px;cursor:pointer;margin-bottom:10px;text-align:left';
-    ablaBtn.innerHTML = '<div style="font-size:1.2rem;margin-bottom:4px">📚 '+(t.puntoabla_titolo||'Punto Abla — Saggezza')+' <span style="font-size:.65rem;color:#a78bfa">→</span></div><div style="font-size:.7rem;color:var(--muted)">'+(t.puntoabla_sub||'Completa missioni di studio per sbloccare premi epici')+'</div>';
-    ablaBtn.addEventListener('click', function(){ showScreen('punto-abla'); buildPuntoAbla(); });
-    el.appendChild(ablaBtn);
-
-  } else if (role === 'mentore') {
-    // Landa Card
-    var cardBtn = document.createElement('button');
-    cardBtn.style.cssText = 'width:100%;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,215,0,.3);border-radius:16px;padding:14px;cursor:pointer;margin-bottom:10px;text-align:left';
-    cardBtn.innerHTML = '<div style="font-size:1.2rem;margin-bottom:4px">💳 '+(t.landacard_titolo||'Landa Card — Paghetta Meritocratica')+' <span style="font-size:.65rem;color:var(--gold)">→</span></div><div style="font-size:.7rem;color:var(--muted)">'+(t.landacard_sub||'Gestisci i premi reali dei tuoi figli. Valuta: '+z.cur)+'</div>';
-    cardBtn.addEventListener('click', function(){ showScreen('landa-card'); buildLandaCard(zone); });
-    el.appendChild(cardBtn);
-
-    // Compliance 2023
-    var comp = document.createElement('div');
-    comp.style.cssText = 'background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.2);border-radius:14px;padding:12px;margin-bottom:10px';
-    comp.innerHTML = '<div style="font-size:.8rem;font-weight:800;color:#a78bfa;margin-bottom:6px">⭐ '+(t.compliance_titolo||'Compliance Scolastica 2023')+'</div>' +
-      '<div style="font-size:.72rem;color:var(--muted);line-height:1.6">'+(t.compliance_desc||'Il voto in condotta ≥ 9 sblocca premi reali nel gioco. Collega comportamento e finanza.')+'</div>' +
-      '<div style="margin-top:8px;display:flex;gap:6px">' +
-        '<span style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:3px 8px;font-size:.65rem;color:var(--green)">⭐ 9+ = +300 Semi</span>' +
-        '<span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:8px;padding:3px 8px;font-size:.65rem;color:var(--gold)">💳 10/10 = Landa Card PRO</span>' +
-      '</div>';
-    el.appendChild(comp);
-
-  } else if (role === 'saggio') {
-    // Marketplace Saggi
-    var saggi = document.createElement('div');
-    saggi.style.cssText = 'background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.2);border-radius:14px;padding:12px;margin-bottom:10px';
-    saggi.innerHTML = '<div style="font-size:.8rem;font-weight:800;color:var(--gold);margin-bottom:6px">🎓 '+(t.saggi_titolo||'Marketplace Saggi')+'</div>' +
-      '<div style="font-size:.72rem;color:var(--muted);line-height:1.6">'+(t.saggi_desc||'I Coach guadagnano Semi validando il sapere dei Comandanti. Ogni missione completata genera valore per il Saggio.')+'</div>' +
-      '<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">' +
-        '<div style="text-align:center;background:rgba(255,255,255,.04);border-radius:10px;padding:8px"><div style="font-size:.9rem">📖</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">'+(t.saggi_valida||'Valida')+'</div></div>' +
-        '<div style="text-align:center;background:rgba(255,255,255,.04);border-radius:10px;padding:8px"><div style="font-size:.9rem">🏆</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">'+(t.saggi_premia||'Premia')+'</div></div>' +
-        '<div style="text-align:center;background:rgba(255,255,255,.04);border-radius:10px;padding:8px"><div style="font-size:.9rem">💰</div><div style="font-size:.6rem;color:var(--muted);margin-top:2px">'+(t.saggi_guadagna||'Guadagna')+'</div></div>' +
-      '</div>';
-    var saggiGoBtn = document.createElement('button');
-    saggiGoBtn.style.cssText = 'width:100%;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:12px;padding:10px;color:var(--gold);font-weight:800;font-size:.75rem;cursor:pointer;margin-top:10px;text-transform:uppercase';
-    saggiGoBtn.textContent = t.saggi_entra||'Entra come Saggio';
-    saggiGoBtn.addEventListener('click', function(){ showScreen('academy'); });
-    saggi.appendChild(saggiGoBtn);
-    el.appendChild(saggi);
-  }
-}
 window.buildMondo = buildMondo;
 
 // ─────────────────────────────────────────────────────────
@@ -3573,6 +1894,14 @@ var TRANSLATIONS = {
     adulti_tasse:'Ottimizzatore Tasse', adulti_tasse_desc:'IRPEF, forfettario, ETF irlandesi',
     quiz_scegli_livello:'Scegli il livello', quiz_per_risposta:'per risposta giusta',
     quiz_lv_facile:'🌱 Facile', quiz_lv_medio:'📚 Medio', quiz_lv_difficile:'🎓 Difficile',
+    mindset_domanda_titolo:'Momento Mindset', mindset_scrivi:'Scrivi la tua risposta...', mindset_salta:'Salta', mindset_continua:'Continua la Lezione →', mindset_chip:'🧠 Mindset',
+    lv_mindset:'🧠 Mente', perc_labels_mindset:'Mente del Comandante',
+    mindset_bonus:'Riflessione completata! +30 Semi',
+    mindset_domanda_titolo:'Mindset Moment', mindset_scrivi:'Write your answer...', mindset_salta:'Skip', mindset_continua:'Continue the Lesson →', mindset_chip:'🧠 Mindset',
+    lv_mindset:'🧠 Mind', perc_labels_mindset:'Commander Mind',
+    mindset_bonus:'Reflection done! +30 Seeds',
+    civetta_system:'Sei Civetta AI di FinanzaLand, assistente di educazione finanziaria. Rispondi sempre in italiano. Solo a scopo educativo.',
+    civetta_system:'You are Civetta AI from FinanzaLand, a financial education assistant. Always reply in English. For educational purposes only.',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3718,6 +2047,8 @@ var TRANSLATIONS = {
     adulti_tasse:'Optimiseur Fiscal', adulti_tasse_desc:'Fiscalité, ETF irlandais',
     quiz_scegli_livello:'Choisis le niveau', quiz_per_risposta:'par bonne réponse',
     quiz_lv_facile:'🌱 Facile', quiz_lv_medio:'📚 Intermédiaire', quiz_lv_difficile:'🎓 Difficile',
+    mindset_domanda_titolo:'Moment Mindset', mindset_scrivi:'Ecris ta reponse...', mindset_salta:'Passer', mindset_continua:'Continuer la Lecon', mindset_chip:'🧠 Mindset',
+    civetta_system:'Tu es Civetta IA de FinanzaLand, assistante education financiere. Reponds toujours en francais. A des fins educatives uniquement.',
   },
   en: {
     home_title:'The Savings Academy',
@@ -3863,6 +2194,8 @@ var TRANSLATIONS = {
     adulti_tasse:'Tax Optimizer', adulti_tasse_desc:'Income tax, Irish ETFs',
     quiz_scegli_livello:'Choose level', quiz_per_risposta:'per correct answer',
     quiz_lv_facile:'🌱 Easy', quiz_lv_medio:'📚 Medium', quiz_lv_difficile:'🎓 Hard',
+    mindset_domanda_titolo:'Mindset Moment', mindset_scrivi:'Write your answer...', mindset_salta:'Skip', mindset_continua:'Continue the Lesson', mindset_chip:'🧠 Mindset',
+    civetta_system:'You are Civetta AI from FinanzaLand, financial education assistant. Always reply in English. For educational purposes only.',
   },
   es: {
     home_title:'La Academia del Ahorro',
@@ -4008,6 +2341,10 @@ var TRANSLATIONS = {
     adulti_tasse:'Optimizador Fiscal', adulti_tasse_desc:'IRPF, ETF irlandeses',
     quiz_scegli_livello:'Elige el nivel', quiz_per_risposta:'por respuesta correcta',
     quiz_lv_facile:'🌱 Fácil', quiz_lv_medio:'📚 Medio', quiz_lv_difficile:'🎓 Difícil',
+    mindset_domanda_titolo:'Momento Mindset', mindset_scrivi:'Escribe tu respuesta...', mindset_salta:'Omitir', mindset_continua:'Continuar la Leccion →', mindset_chip:'🧠 Mindset',
+    lv_mindset:'🧠 Mente', perc_labels_mindset:'Mente del Comandante',
+    mindset_bonus:'Reflexion completada! +30 Semillas',
+    civetta_system:'Eres Civetta IA de FinanzaLand, asistente de educacion financiera. Responde siempre en espanol. Solo con fines educativos.',
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -4151,6 +2488,10 @@ var TRANSLATIONS = {
     adulti_tasse:'Yëgël Impôt', adulti_tasse_desc:'Impôt, ETF irlandais',
     quiz_scegli_livello:'Tann niveau bi', quiz_per_risposta:'ci tontu bu dëkk',
     quiz_lv_facile:'🌱 Yomb', quiz_lv_medio:'📚 Ci diggante', quiz_lv_difficile:'🎓 Dafa dëgël',
+    mindset_domanda_titolo:'Xelam Mindset', mindset_scrivi:'Bindal sa tontu...', mindset_salta:'Yaqq', mindset_continua:'Jokk Cosaan →', mindset_chip:'🧠 Mindset',
+    lv_mindset:'🧠 Xelam', perc_labels_mindset:'Xelam Comandant',
+    mindset_bonus:'Xelam jeex! +30 Jemm',
+    civetta_system:'Yaa Civetta IA bu FinanzaLand, jangalekat xaalis. Tontu ci Wolof dina. Jang rekk.',
   },
 };
 
@@ -8083,6 +6424,843 @@ init = function() {
     updateSocialProof();
   }, 300);
 };
+
+// ════════════════════════════════════════════════════════════════════════
+// FUNZIONI CORE RICOSTRUITE — generateLesson, buildAccademia, openLezione
+// ════════════════════════════════════════════════════════════════════════
+
+// ── CACHE LEZIONI ───────────────────────────────────────────────────────
+var LESSON_CACHE = safeLS('fl_lesson_cache', {}) || {};
+
+// ── GENERATE LESSON ─────────────────────────────────────────────────────
+async function generateLesson(topic, percorso, livello, eta, forceNew) {
+  var cacheKey = topic + '_' + livello + '_' + (eta||S.eta) + '_' + S.lang;
+  if (!forceNew && LESSON_CACHE[cacheKey]) {
+    var cached = LESSON_CACHE[cacheKey];
+    var age = Date.now() - (cached.cached_at || 0);
+    if (age < 24 * 3600000) {
+      var isItContent = cached.punti_chiave && cached.punti_chiave[0] &&
+        (cached.punti_chiave[0].indexOf(' e ') >= 0 ||
+         cached.punti_chiave[0].indexOf('concetto') >= 0 ||
+         cached.punti_chiave[0].indexOf('fondamentale') >= 0);
+      if (!isItContent || S.lang === 'it') return cached;
+    }
+  }
+  try {
+    var resp = await fetch('/api/lesson', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        topic: topic, percorso: percorso, livello: livello,
+        eta: eta || S.eta, lingua: S.lang, lessonId: cacheKey, stream: false,
+      })
+    });
+    var data = await resp.json();
+    if (data.success && data.lesson) {
+      data.lesson.cached_at = Date.now();
+      LESSON_CACHE[cacheKey] = data.lesson;
+      safeSetItem('fl_lesson_cache', LESSON_CACHE);
+      return data.lesson;
+    }
+  } catch(e) { console.warn('Lesson API:', e.message); }
+  return makeFallbackLesson(topic, percorso, livello);
+}
+
+// ── FALLBACK LESSON ─────────────────────────────────────────────────────
+function makeFallbackLesson(topic, percorso, livello) {
+  var tf = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+  function t(key){ return (tf[key]||'').replace(/{topic}/g, topic); }
+  return {
+    id: topic.toLowerCase().replace(/\s+/g,'-'),
+    titolo: topic,
+    sottotitolo: t('fallback_sottotitolo'),
+    emoji: '📚', colore: '#FFD700', livello: livello, tempo_minuti: 5,
+    punti_chiave: [
+      t('fallback_chiave1'), t('fallback_chiave2'), t('fallback_chiave3'),
+    ],
+    esempio_pratico: t('fallback_esempio'),
+    dato_reale: t('fallback_dato'),
+    collegamento_africa: null,
+    quiz: [
+      { domanda: t('quiz_q1'),
+        opzioni: tf['quiz_q1_opts'] || ['A','B','C','D'],
+        risposta_corretta: 0,
+        spiegazione: t('quiz_q1_spieg') },
+      { domanda: t('quiz_q2'),
+        opzioni: tf['quiz_q2_opts'] || ['A','B','C','D'],
+        risposta_corretta: 0,
+        spiegazione: t('quiz_q2_spieg') },
+      { domanda: t('quiz_q3'),
+        opzioni: tf['quiz_q3_opts'] || ['A','B','C','D'],
+        risposta_corretta: 0,
+        spiegazione: t('quiz_q3_spieg') },
+    ],
+    sfida_vita_reale: t('fallback_sfida'),
+    semi_reward: 80,
+    disclaimer: tf.disclaimer || 'Solo a scopo educativo',
+  };
+}
+
+// ── OPEN LEZIONE ────────────────────────────────────────────────────────
+function openLezione(lez) {
+  currentLezione = lez;
+  showScreen('lezione-view');
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+  var backBtn = document.getElementById('lv-back-btn');
+  if (backBtn) backBtn.textContent = t.acc_back_lez || '<- Accademia';
+  var titleEl = document.getElementById('lv-header-title');
+  if (titleEl) titleEl.textContent = lez.titolo || '';
+  var body = document.getElementById('lv-body');
+  if (!body) return;
+  body.innerHTML = '';
+
+  // Hero
+  var hero = document.createElement('div');
+  hero.className = 'lv-hero';
+  hero.innerHTML =
+    '<div class="lv-hero-icon">'+(lez.emoji||'📚')+'</div>' +
+    '<div class="lv-hero-title" style="color:'+(lez.colore||'var(--gold)')+'">'+lez.titolo+'</div>' +
+    '<div class="lv-hero-sub">'+(lez.sottotitolo||'')+'</div>';
+  body.appendChild(hero);
+
+  // Punti chiave
+  if (lez.punti_chiave && lez.punti_chiave.length) {
+    var sec = document.createElement('div'); sec.className = 'lv-section';
+    sec.innerHTML = '<div class="lv-section-title">'+(t.sec_cosa_impari||'Cosa Impari')+'</div>';
+    lez.punti_chiave.forEach(function(punto, i) {
+      var el = document.createElement('div'); el.className = 'lv-punto';
+      el.innerHTML = '<div class="lv-punto-num">'+(i+1)+'</div><div>'+punto+'</div>';
+      sec.appendChild(el);
+    });
+    body.appendChild(sec);
+  }
+
+  // Esempio pratico
+  if (lez.esempio_pratico) {
+    var ex = document.createElement('div'); ex.className = 'lv-section';
+    ex.innerHTML = '<div class="lv-section-title">'+(t.sec_esempio||'Esempio Pratico')+'</div>' +
+      '<div class="lv-esempio">💡 '+lez.esempio_pratico+'</div>';
+    body.appendChild(ex);
+  }
+
+  // Dato reale
+  if (lez.dato_reale) {
+    var dr = document.createElement('div'); dr.className = 'lv-section';
+    dr.innerHTML = '<div class="lv-section-title">'+(t.sec_dato||'Dato Reale')+'</div>' +
+      '<div class="lv-dato">📊 '+lez.dato_reale+'</div>';
+    body.appendChild(dr);
+  }
+
+  // Collegamento Africa
+  if (lez.collegamento_africa) {
+    var af = document.createElement('div'); af.className = 'lv-section';
+    af.innerHTML = '<div class="lv-section-title">'+(t.sec_africa||'Mercati Africani')+'</div>' +
+      '<div class="lv-africa show">🌍 '+lez.collegamento_africa+'</div>';
+    body.appendChild(af);
+  }
+
+  // Sfida vita reale
+  if (lez.sfida_vita_reale) {
+    var sfida = document.createElement('div'); sfida.className = 'lv-section';
+    sfida.innerHTML = '<div class="lv-section-title">'+(t.sec_sfida||'Sfida Vita Reale')+'</div>' +
+      '<div class="lv-sfida">🎯 '+lez.sfida_vita_reale+'</div>';
+    body.appendChild(sfida);
+  }
+
+  // Quiz
+  if (lez.quiz && lez.quiz.length) {
+    var qSec = document.createElement('div'); qSec.className = 'lv-section';
+    qSec.innerHTML = '<div class="lv-section-title">'+( t.quiz_titolo||'Quiz')+'</div>';
+    var quizDone = false;
+    lez.quiz.forEach(function(q, qi) {
+      var qEl = document.createElement('div'); qEl.className = 'lv-quiz-q';
+      qEl.innerHTML = '<div class="lv-qdomanda"><span class="lv-qnum">'+(qi+1)+'.</span> '+q.domanda+'</div>';
+      var optsEl = document.createElement('div'); optsEl.className = 'lv-opts';
+      (q.opzioni||[]).forEach(function(opt, oi) {
+        var btn = document.createElement('button'); btn.className = 'lv-opt-btn';
+        btn.textContent = opt;
+        btn.addEventListener('click', function() {
+          if (btn.disabled) return;
+          optsEl.querySelectorAll('.lv-opt-btn').forEach(function(b){b.disabled=true;});
+          if (oi === q.risposta_corretta) {
+            btn.classList.add('correct');
+            toast('✅ '+(q.spiegazione||'Corretto!'));
+            if (!quizDone) {
+              quizDone = true;
+              S.coins += Math.floor((lez.semi_reward||80)/lez.quiz.length);
+              updateHUD(); saveS();
+            }
+          } else {
+            btn.classList.add('wrong');
+            optsEl.querySelectorAll('.lv-opt-btn')[q.risposta_corretta].classList.add('correct');
+            toast('❌ '+(q.spiegazione||'Riprova!'));
+          }
+        });
+        optsEl.appendChild(btn);
+      });
+      qEl.appendChild(optsEl);
+      qSec.appendChild(qEl);
+    });
+    body.appendChild(qSec);
+  }
+
+  // Bottone completa
+  var complBtn = document.createElement('button');
+  complBtn.className = 'btn-primary';
+  complBtn.style.cssText = 'width:100%;margin-top:16px;padding:14px;font-size:.95rem';
+  complBtn.textContent = t.lv_completa || 'Completa Lezione';
+  var cacheKey = lez.id || (lez.titolo+'_'+S.lang);
+  if (S.completate[cacheKey]) {
+    complBtn.textContent = t.lv_gia_fatta || 'Lezione Completata ✅';
+    complBtn.disabled = true; complBtn.style.opacity = '0.6';
+  }
+  complBtn.addEventListener('click', function() {
+    if (S.completate[cacheKey]) return;
+    S.completate[cacheKey] = Date.now();
+    S.coins += lez.semi_reward || 80;
+    S.xp = (S.xp||0) + 30;
+    checkLevelUp();
+    updateHUD(); saveS();
+    complBtn.textContent = t.lv_gia_fatta || 'Lezione Completata ✅';
+    complBtn.disabled = true; complBtn.style.opacity = '0.6';
+    addSilverCoins(20);
+    toast('🎉 +'+(lez.semi_reward||80)+' Semi! +20 🥈');
+    spawnParticles(); playS('success');
+  });
+  body.appendChild(complBtn);
+
+  // Back button
+  var lbBtn = document.getElementById('lv-back-btn');
+  if (lbBtn) lbBtn.onclick = function(){ showScreen('accademia'); buildAccademia(); };
+}
+
+// ── BUILD ACCADEMIA ─────────────────────────────────────────────────────
+function buildAccademia() {
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+
+  // Percorsi tabs
+  var percorsiEl = document.getElementById('acc-percorsi');
+  if (percorsiEl) {
+    percorsiEl.innerHTML = '';
+    PERCORSI.forEach(function(perc) {
+      var tab = document.createElement('div');
+      tab.className = 'perc-tab' + (perc.id === currentPercorso.id ? ' active' : '');
+      var percLabels = t.perc_labels || {};
+      tab.textContent = percLabels[perc.id] || perc.label;
+      tab.addEventListener('click', function() {
+        currentPercorso = perc;
+        buildAccademia();
+      });
+      percorsiEl.appendChild(tab);
+    });
+  }
+
+  // Livelli tabs
+  var livelliEl = document.getElementById('acc-livelli');
+  if (livelliEl) {
+    livelliEl.innerHTML = '';
+    LIVELLI.forEach(function(lv) {
+      var tab = document.createElement('div');
+      tab.className = 'lv-tab' + (lv.id === currentLivello.id ? ' active' : '');
+      tab.textContent = (t['lv_'+lv.id]) || lv.label;
+      tab.addEventListener('click', function() {
+        currentLivello = lv;
+        buildAccademia();
+      });
+      livelliEl.appendChild(tab);
+    });
+  }
+
+  renderLezioniList();
+}
+
+// ── RENDER LEZIONI LIST ─────────────────────────────────────────────────
+function renderLezioniList() {
+  var body = document.getElementById('acc-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+
+  // Banner educativo
+  var banner = document.createElement('div');
+  banner.className = 'edu-banner';
+  banner.textContent = t.acc_banner || 'Solo a scopo educativo — Le lezioni sono generate da AI';
+  body.appendChild(banner);
+
+  // Box genera lezione personalizzata
+  var genBox = document.createElement('div');
+  genBox.className = 'ai-gen-card';
+  genBox.innerHTML =
+    '<div class="ai-gen-title">🤖 '+(t.gen_title||'Genera Lezione')+'</div>' +
+    '<div class="ai-gen-sub">'+(t.gen_sub||'Scrivi qualsiasi argomento finanziario')+'</div>' +
+    '<input type="text" id="gen-input" placeholder="'+(t.gen_placeholder||'es. come funzionano i fondi pensione')+'" class="ai-gen-input">' +
+    '<button id="gen-btn" class="ai-gen-btn">🚀 '+(t.gen_btn||'Genera Lezione con IA')+'</button>';
+  body.appendChild(genBox);
+
+  var genBtn = document.getElementById('gen-btn');
+  var genInput = document.getElementById('gen-input');
+  if (genBtn && genInput) {
+    genBtn.addEventListener('click', function() {
+      var topic = genInput.value.trim();
+      if (!topic) return;
+      genBtn.textContent = '⏳ ' + (t.gen_loading||'Generando...');
+      genBtn.disabled = true;
+      generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, true)
+        .then(function(lez) {
+          openLezione(lez);
+          genBtn.textContent = '🚀 '+(t.gen_btn||'Genera Lezione con IA');
+          genBtn.disabled = false;
+        });
+    });
+  }
+
+  // Titolo sezione
+  var secTitle = document.createElement('div');
+  secTitle.className = 'acc-section-title';
+  var percLabel = (t.perc_labels || {})[currentPercorso.id] || currentPercorso.label;
+  var livLabel = t['lv_'+currentLivello.id] || currentLivello.label;
+  secTitle.textContent = percLabel + ' — ' + livLabel;
+  body.appendChild(secTitle);
+
+  // Lista topics
+  var topics = getTopicsForPercorso(currentPercorso.id);
+  topics.forEach(function(topic, i) {
+    var topicTranslated = topic;
+    if (S.lang !== 'it') {
+      var langData = TOPICS_LANG[S.lang];
+      if (langData && langData[currentPercorso.id]) {
+        var itTopics = TOPICS[currentPercorso.id] || [];
+        var idx = itTopics.indexOf(topic);
+        if (idx < 0) idx = i; // se già tradotto, usa indice
+        if (langData[currentPercorso.id][idx]) topicTranslated = langData[currentPercorso.id][idx];
+      }
+    }
+    var cacheKey = topicTranslated + '_' + currentLivello.id + '_' + S.eta + '_' + S.lang;
+    var done = S.completate[cacheKey];
+    var semiEarned = LIVELLI.find(function(l){return l.id===currentLivello.id;});
+    var semi = semiEarned ? semiEarned.semi : 80;
+
+    var card = document.createElement('div');
+    card.className = 'lesson-card' + (done ? ' done' : '');
+    card.innerHTML =
+      '<div class="lesson-card-icon">📖</div>' +
+      '<div class="lesson-card-body">' +
+        '<div class="lesson-card-perc">💰 '+percLabel.toUpperCase()+'</div>' +
+        '<div class="lesson-card-title">'+(done?'✅ ':'')+topicTranslated+'</div>' +
+        '<div class="lesson-card-lv">'+livLabel+'</div>' +
+        '<div class="lesson-card-semi">+ '+semi+' '+(t.card_semi||'Semi')+'</div>' +
+      '</div>' +
+      '<div class="lesson-card-arrow">→</div>';
+
+    card.addEventListener('click', function() {
+      card.style.opacity = '0.6';
+      generateLesson(topicTranslated, currentPercorso.id, currentLivello.id, S.eta, false)
+        .then(function(lez) {
+          card.style.opacity = '1';
+          openLezione(lez);
+        });
+    });
+    body.appendChild(card);
+  });
+}
+
+// ── BUILD ADULTI ────────────────────────────────────────────────────────
+function buildAdulti() {
+  var body = document.getElementById('adulti-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+
+  // KPI
+  var kpiTitle = document.createElement('div');
+  kpiTitle.className = 'adult-section-title';
+  kpiTitle.textContent = t.adulti_quadro || 'Il tuo Quadro Finanziario';
+  body.appendChild(kpiTitle);
+
+  var kpiGrid = document.createElement('div');
+  kpiGrid.className = 'kpi-grid';
+  var kpis = [
+    {val: S.coins.toLocaleString(), lbl: t.lbl_semi||'Semi'},
+    {val: 'Lv.'+S.level, lbl: t.lbl_livello||'Livello'},
+    {val: Object.keys(S.completate).length, lbl: t.adulti_lezioni_comp||'Lezioni'},
+    {val: S.isPro ? 'PRO' : (t.adulti_free||'Free'), lbl: t.adulti_piano||'Piano'},
+  ];
+  kpis.forEach(function(k) {
+    kpiGrid.innerHTML += '<div class="kpi-card"><div class="kpi-val">'+k.val+'</div><div class="kpi-lbl">'+k.lbl+'</div></div>';
+  });
+  body.appendChild(kpiGrid);
+
+  // Calcolatori
+  var calcTitle = document.createElement('div');
+  calcTitle.className = 'adult-section-title';
+  calcTitle.textContent = t.adulti_calcolatori || 'Calcolatori Finanziari';
+  body.appendChild(calcTitle);
+
+  var calcs = [
+    {em:'🏠', t:t.adulti_mutuo||'Calcolatore Mutuo', d:t.adulti_mutuo_desc||'Calcola rata, interessi e costo totale'},
+    {em:'🧓', t:t.adulti_pensione||'Simulatore Pensione', d:t.adulti_pensione_desc||'Regola del 4% — quanti anni per FIRE?'},
+    {em:'📈', t:t.adulti_interessi||'Interesse Composto', d:t.adulti_interessi_desc||'Come crescono i tuoi investimenti'},
+    {em:'📋', t:t.adulti_tasse||'Ottimizzatore Tasse', d:t.adulti_tasse_desc||'IRPEF, forfettario, ETF irlandesi'},
+  ];
+  calcs.forEach(function(c) {
+    var el = document.createElement('div');
+    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer';
+    el.innerHTML = '<div style="font-size:1.8rem">'+c.em+'</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">'+c.t+'</div><div style="font-size:.74rem;color:var(--muted)">'+c.d+'</div></div><div style="margin-left:auto;color:var(--muted)">›</div>';
+    el.addEventListener('click', function() {
+      showScreen('accademia');
+      generateLesson(c.t, 'risparmio', 'avanzato', 'adulto', false).then(function(lez){ openLezione(lez); });
+    });
+    body.appendChild(el);
+  });
+
+  // Lezioni avanzate
+  var lezTitle = document.createElement('div');
+  lezTitle.className = 'adult-section-title';
+  lezTitle.textContent = t.adulti_lezioni_avanzate || 'Lezioni Adulti Avanzate';
+  body.appendChild(lezTitle);
+
+  var temi = ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obbligazioni','ETF UCITS irlandesi','BRVM e mercati africani','Factor investing','FIRE Financial Independence'];
+  temi.forEach(function(tema) {
+    var el = document.createElement('div');
+    el.style.cssText = 'background:var(--card);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:11px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px';
+    el.innerHTML = '<div style="font-size:1.4rem">📊</div><div style="flex:1;font-size:.84rem;font-weight:700;color:var(--gold)">'+tema+'</div><div style="font-size:.65rem;background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.3);border-radius:7px;padding:2px 7px">AI</div>';
+    el.addEventListener('click', function() {
+      showScreen('accademia');
+      generateLesson(tema, 'investimenti', 'esperto', 'adulto', false).then(function(lez){ openLezione(lez); });
+    });
+    body.appendChild(el);
+  });
+}
+
+// ── CIVETTA AI LOCALE ───────────────────────────────────────────────────
+function getLocalAIReply(msg, lang) {
+  var m = (msg||'').toLowerCase();
+  var t = TRANSLATIONS[lang] || TRANSLATIONS['it'];
+  var R = {
+    it: {
+      risparmio: '💰 Risparmio: regola 50-30-20 = 50% bisogni + 30% desideri + 20% risparmio. Con 100 EUR/mese per 18 anni al 7% = circa 43.000 EUR. <br><small>Solo a scopo educativo.</small>',
+      etf: '📈 ETF: replica un indice di borsa. MSCI World copre 1.500 aziende. Costo circa 0.2% annuo. ETF UCITS irlandesi: ritenuta al 15% invece del 30%. <br><small>Solo a scopo educativo.</small>',
+      brvm: '🌍 BRVM: Borsa Africa Occidentale per 8 paesi UEMOA. +25% nel 2024. Sonatel e ONATEL sono le principali azioni. <br><small>Solo a scopo educativo.</small>',
+      inflazione: '📉 Inflazione al 3%: 100 EUR oggi = 97 EUR il prossimo anno. I conti correnti perdono potere di acquisto. ETF e BTP inflation-linked proteggono. <br><small>Solo a scopo educativo.</small>',
+      pensione: '🧓 Regola del 4%: preleva il 4% del capitale ogni anno. Per 2.000 EUR/mese servono 600.000 EUR. Inizia a 25 anni con 200 EUR/mese. <br><small>Solo a scopo educativo.</small>',
+      bitcoin: '₿ Bitcoin: prima criptovaluta, supply massima 21M. Alta volatilita. Max 5% del portafoglio. Tassazione Italia: 26% sulle plusvalenze. <br><small>Solo a scopo educativo.</small>',
+      mindset: '🧠 Mindset finanziario: il 63% degli adulti non investe per paura, non per mancanza di soldi. La regola n.1: inizia oggi con qualsiasi cifra. Il tempo e il tuo miglior alleato. <br><small>Solo a scopo educativo.</small>',
+      default: '🦉 Ciao! Sono la Civetta AI di FinanzaLand. Premi i chip qui sopra per risposte su ETF, BRVM, risparmio e altro! <br><small>Solo a scopo educativo.</small>',
+    },
+    fr: {
+      risparmio: '💰 Epargne: regle 50-30-20 = 50% besoins + 30% envies + 20% epargne. Avec 100 EUR/mois pendant 18 ans a 7% = environ 43.000 EUR. <br><small>A des fins educatives uniquement.</small>',
+      etf: '📈 ETF: fonds qui replique un indice. MSCI World: 1.500 entreprises. ETF UCITS irlandais: retenue a 15%. <br><small>A des fins educatives uniquement.</small>',
+      brvm: '🌍 BRVM: Bourse Afrique Occidentale, 8 pays UEMOA. +25% en 2024. Sonatel et ONATEL sont les principales actions. <br><small>A des fins educatives uniquement.</small>',
+      mindset: '🧠 Mindset financier: 63% des adultes n investissent pas par peur, pas par manque d argent. Regle n.1: commencer aujourd hui avec n importe quelle somme. <br><small>A des fins educatives uniquement.</small>',
+      default: '🦉 Salut! Je suis Civetta IA de FinanzaLand. Appuie sur les chips pour ETF, BRVM, epargne! <br><small>A des fins educatives uniquement.</small>',
+    },
+    en: {
+      risparmio: '💰 Savings: 50-30-20 rule = 50% needs + 30% wants + 20% savings. With 100 EUR/month for 18 years at 7% = about 43,000 EUR. <br><small>For educational purposes only.</small>',
+      etf: '📈 ETF: tracks a stock index. MSCI World: 1,500 global companies. Irish UCITS ETFs: 15% withholding tax. <br><small>For educational purposes only.</small>',
+      brvm: '🌍 BRVM: West African Stock Exchange, 8 UEMOA countries. +25% in 2024. Sonatel and ONATEL are the main stocks. <br><small>For educational purposes only.</small>',
+      mindset: '🧠 Financial mindset: 63% of adults do not invest because of fear, not lack of money. Rule n.1: start today with any amount. Time is your best ally. <br><small>For educational purposes only.</small>',
+      default: '🦉 Hi! I am Civetta AI from FinanzaLand. Press the chips above for ETF, BRVM, savings! <br><small>For educational purposes only.</small>',
+    },
+  };
+  var langR = R[lang] || R['it'];
+  if (m.indexOf('risparm') >= 0 || m.indexOf('pargne') >= 0 || m.indexOf('saving') >= 0 || m.indexOf('50') >= 0) return langR.risparmio || langR.default;
+  if (m.indexOf('etf') >= 0 || m.indexOf('fondo') >= 0 || m.indexOf('fund') >= 0) return langR.etf || langR.default;
+  if (m.indexOf('brvm') >= 0 || m.indexOf('africa') >= 0) return langR.brvm || langR.default;
+  if (m.indexOf('inflaz') >= 0 || m.indexOf('inflat') >= 0) return (langR.inflazione || langR.default);
+  if (m.indexOf('pension') >= 0 || m.indexOf('retraite') >= 0 || m.indexOf('retirement') >= 0) return (langR.pensione || langR.default);
+  if (m.indexOf('bitcoin') >= 0 || m.indexOf('crypto') >= 0) return (langR.bitcoin || langR.default);
+  if (m.indexOf('mindset') >= 0 || m.indexOf('paura') >= 0 || m.indexOf('peur') >= 0 || m.indexOf('fear') >= 0) return (langR.mindset || langR.default);
+  return langR.default;
+}
+
+// ── BUILD MONDO (Landa Global) ──────────────────────────────────────────
+function buildMondo() {
+  var body = document.getElementById('mondo-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'text-align:center;padding:8px 0 20px';
+  hdr.innerHTML =
+    '<div style="font-size:3rem;margin-bottom:6px">🌐</div>' +
+    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);letter-spacing:2px;text-transform:uppercase">'+(t.mondo_titolo||'Landa Global Ecosystem')+'</div>' +
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">'+(t.mondo_sub||'Seleziona la tua Terra Sovrana')+'</div>';
+  body.appendChild(hdr);
+
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px';
+  Object.keys(worldData).forEach(function(zone) {
+    var z = worldData[zone];
+    var card = document.createElement('div');
+    card.className = 'mondo-zone-card' + (currentRegion===zone?' active':'');
+    card.innerHTML =
+      '<div class="mondo-zone-icon">'+z.icon+'</div>' +
+      '<div class="mondo-zone-name">'+zone+'</div>' +
+      '<div class="mondo-zone-cur">'+z.cur+'</div>' +
+      '<div class="mondo-zone-law">🛡️ '+z.law+'</div>';
+    card.addEventListener('click', function() {
+      currentRegion = zone;
+      grid.querySelectorAll('.mondo-zone-card').forEach(function(c){c.classList.remove('active');});
+      card.classList.add('active');
+      renderMondoDetail(body, zone, t);
+    });
+    grid.appendChild(card);
+  });
+  body.appendChild(grid);
+
+  if (currentRegion) renderMondoDetail(body, currentRegion, t);
+  else {
+    var hint = document.createElement('div');
+    hint.style.cssText = 'text-align:center;color:var(--muted);font-size:.75rem;padding:20px';
+    hint.textContent = t.mondo_hint || 'Tocca una zona per vedere dettagli';
+    body.appendChild(hint);
+  }
+}
+window.buildMondo = buildMondo;
+
+function renderMondoDetail(body, zone, t) {
+  var old = body.querySelector('.mondo-detail');
+  if (old) old.remove();
+  var z = worldData[zone];
+  var detail = document.createElement('div');
+  detail.className = 'mondo-detail';
+  detail.innerHTML = '<div class="privacy-shield">🛡️ '+z.law+' | 💬 '+z.lang+' | 💰 '+z.cur+'</div>';
+  body.appendChild(detail);
+}
+
+// ── BUILD PUNTO ABLA ────────────────────────────────────────────────────
+function buildPuntoAbla() {
+  var body = document.getElementById('abla-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+
+  var hdr = document.createElement('div');
+  hdr.className = 'abla-card';
+  hdr.style.textAlign = 'center';
+  hdr.innerHTML =
+    '<div style="font-size:2.8rem;margin-bottom:6px">📚</div>' +
+    '<div style="font-size:1.1rem;font-weight:900;color:#a78bfa">'+(t.puntoabla_titolo||'Punto Abla')+'</div>' +
+    '<div class="abla-quote" style="margin-top:10px;text-align:left">' +
+    (t.abla_quote||'"Comandante, completa le missioni di studio per sbloccare premi epici!"')+'</div>';
+  body.appendChild(hdr);
+
+  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
+  var pct = Math.round((ablaDone/ABLA_MISSIONI.length)*100);
+  var progress = document.createElement('div');
+  progress.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center';
+  progress.innerHTML =
+    '<div style="font-size:.78rem;font-weight:800;margin-bottom:6px">'+ablaDone+'/'+ABLA_MISSIONI.length+' '+(t.abla_missioni_completate||'missioni completate')+'</div>' +
+    '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:8px;overflow:hidden"><div style="width:'+pct+'%;height:100%;background:linear-gradient(90deg,#a78bfa,var(--gold));transition:width .5s"></div></div>';
+  body.appendChild(progress);
+
+  ABLA_MISSIONI.forEach(function(m) {
+    var card = document.createElement('div');
+    card.className = 'abla-missione';
+    card.style.border = m.done ? '1px solid rgba(74,222,128,.3)' : '1px solid rgba(255,215,0,.2)';
+    card.style.background = m.done ? 'rgba(74,222,128,.05)' : 'rgba(255,215,0,.04)';
+    card.innerHTML =
+      '<div class="abla-miss-icon">'+(m.done?'✅':m.icon)+'</div>' +
+      '<div style="flex:1"><div class="abla-miss-txt">'+m.titolo+'</div>' +
+      '<div style="font-size:.66rem;color:var(--muted);margin-top:2px">'+m.desc+'</div>' +
+      '<div class="abla-miss-reward">+'+m.semi+' 🪙 +'+m.argento+' 🥈</div></div>';
+    if (!m.done) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function() {
+        m.done = true;
+        S.coins += m.semi;
+        addSilverCoins(m.argento);
+        updateHUD(); saveS();
+        toast('🎓 '+m.titolo+' +'+m.semi+' Semi');
+        spawnParticles(); playS('success');
+        buildPuntoAbla();
+      });
+    }
+    body.appendChild(card);
+  });
+}
+window.buildPuntoAbla = buildPuntoAbla;
+
+function buildLandaCard(zone) {
+  var body = document.getElementById('card-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+  var z = worldData[zone || currentRegion || 'EUROPE'];
+  var merito = Math.min(100, Math.round((Object.keys(S.completate).length * 4) + ((S.streak||0) * 2)));
+
+  var cardViz = document.createElement('div');
+  cardViz.className = 'landa-card-visual';
+  cardViz.innerHTML =
+    '<div class="landa-card-merito">'+(t.card_merito||'Merito')+' '+merito+'%</div>' +
+    '<div class="landa-card-logo">FinanzaLand · Omnia</div>' +
+    '<div class="landa-card-number">**** **** **** '+(1000+S.level)+'</div>' +
+    '<div class="landa-card-currency">'+z.cur+' · '+z.icon+' '+z.law+'</div>' +
+    '<div class="merito-bar-wrap"><div class="merito-bar-fill" style="width:'+merito+'%"></div></div>';
+  body.appendChild(cardViz);
+
+  var info = document.createElement('div');
+  info.style.cssText = 'text-align:center;padding:14px;font-size:.78rem;color:var(--muted)';
+  info.textContent = t.card_requisiti || 'Merito >=50% · 3+ Missioni Abla per sbloccare';
+  body.appendChild(info);
+}
+window.buildLandaCard = buildLandaCard;
+
+// ── OVERRIDE showScreen per nuove schermate ─────────────────────────────
+var _ss = window.showScreen;
+window.showScreen = function(name) {
+  if (_ss) _ss(name);
+  if (name==='mondo-globale')   setTimeout(buildMondo, 50);
+  if (name==='punto-abla')      setTimeout(buildPuntoAbla, 50);
+  if (name==='landa-card')      setTimeout(function(){ buildLandaCard(currentRegion||'EUROPE'); }, 50);
+  if (name==='accademia')       setTimeout(buildAccademia, 50);
+  if (name==='adulti')          setTimeout(buildAdulti, 50);
+};
+
+
+
+// ════════════════════════════════════════════════════════════════════════
+// MINDSET FINANZIARIO — Mente del Comandante
+// ════════════════════════════════════════════════════════════════════════
+
+// Topics mindset in tutti i percorsi già supportati via TOPICS e TOPICS_LANG
+// Aggiungi percorso mindset alle TRANSLATIONS
+
+// Missioni mindset speciali per Punto Abla
+var MINDSET_MISSIONI = [
+  {id:'bias_conferma', icon:'🧠', titolo:'Identifica il tuo Bias di Conferma', desc:'Scrivi una credenza sul denaro che hai da sempre. Da dove viene?', semi:200, argento:50, done:false, categoria:'riflessione'},
+  {id:'paura_perdita', icon:'😨', titolo:'Sfida la Paura di Perdere', desc:'Calcola: cosa perdi NON investendo rispetto a investendo', semi:250, argento:60, done:false, categoria:'calcolo'},
+  {id:'fomo_test',     icon:'📱', titolo:'Test FOMO: hai comprato per paura di perdere?', desc:'Pensa a un acquisto recente. Era FOMO o decisione consapevole?', semi:180, argento:45, done:false, categoria:'riflessione'},
+  {id:'dialogo_soldi', icon:'💬', titolo:'Il Dialogo con i Soldi', desc:'Scrivi 3 frasi che hai sentito sui soldi da bambino', semi:150, argento:35, done:false, categoria:'storia'},
+  {id:'obiettivo_5',   icon:'🎯', titolo:'Obiettivo a 5 Anni', desc:'Scrivi dove vuoi essere finanziariamente tra 5 anni. Sii specifico.', semi:220, argento:55, done:false, categoria:'pianificazione'},
+  {id:'abitudine_1',   icon:'🔄', titolo:'Abitudine Finanziaria per 21 Giorni', desc:'Scegli: risparmia 1 EUR al giorno, o traccia ogni spesa per 21 giorni', semi:300, argento:75, done:false, categoria:'abitudine'},
+];
+// Unisci alle missioni Abla esistenti
+if (typeof ABLA_MISSIONI !== 'undefined') {
+  MINDSET_MISSIONI.forEach(function(m) {
+    if (!ABLA_MISSIONI.find(function(a){return a.id===m.id;})) {
+      ABLA_MISSIONI.push(m);
+    }
+  });
+}
+
+// Pre-lesson mindset question — appare prima di ogni lezione
+function showMindsetQuestion(topic, lang, onContinue) {
+  var t = TRANSLATIONS[lang] || TRANSLATIONS['it'];
+  var questions = {
+    it: [
+      'Hai mai rimandato una decisione finanziaria per paura? Quale?',
+      'Cosa ti ha insegnato la tua famiglia sui soldi?',
+      'Se potessi tornare indietro, quale decisione finanziaria cambieresti?',
+      'Quale emozione senti quando pensi a investire?',
+      'Hai mai comprato qualcosa per FOMO (paura di perdere)?',
+    ],
+    fr: [
+      'As-tu deja reporte une decision financiere par peur? Laquelle?',
+      'Que t a appris ta famille sur l argent?',
+      'Si tu pouvais revenir en arriere, quelle decision financiere changerais-tu?',
+      'Quelle emotion ressens-tu quand tu penses a investir?',
+      'As-tu deja achete quelque chose par FOMO?',
+    ],
+    en: [
+      'Have you ever postponed a financial decision out of fear? Which one?',
+      'What did your family teach you about money?',
+      'If you could go back, which financial decision would you change?',
+      'What emotion do you feel when you think about investing?',
+      'Have you ever bought something because of FOMO?',
+    ],
+    es: [
+      'Has pospuesto alguna decision financiera por miedo? Cual?',
+      'Que te enseno tu familia sobre el dinero?',
+      'Si pudieras volver atras, que decision financiera cambiarias?',
+      'Que emocion sientes cuando piensas en invertir?',
+      'Has comprado algo por FOMO alguna vez?',
+    ],
+    wo: [
+      'Yagul nga ci kanam ci xaalis bu am ay xelam?',
+      'Lan moo sa keur deftoon jangale la ci xaalis?',
+      'Bu nga delliku kanam, fan moo ngay soppi ci xaalis?',
+      'Ana sa xelam bi ngay xam-xam xaalis?',
+      'Jaamu nga yenn benn jumtukaay ci FOMO?',
+    ],
+  };
+  var qs = questions[lang] || questions['it'];
+  var q = qs[Math.floor(Math.random() * qs.length)];
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  var box = document.createElement('div');
+  box.style.cssText = 'background:var(--card);border:2px solid rgba(167,139,250,.4);border-radius:24px;padding:24px;max-width:380px;width:100%;text-align:center';
+  box.innerHTML =
+    '<div style="font-size:2.5rem;margin-bottom:12px">🧠</div>' +
+    '<div style="font-size:.78rem;font-weight:900;color:#a78bfa;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">'+(t.mindset_domanda_titolo||'Momento Mindset')+'</div>' +
+    '<div style="font-size:.9rem;color:rgba(255,255,255,.85);line-height:1.6;margin-bottom:16px">'+q+'</div>' +
+    '<textarea placeholder="'+(t.mindset_scrivi||'Scrivi la tua risposta...')+'" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:10px;color:#fff;font-size:.82rem;height:80px;resize:none;box-sizing:border-box;margin-bottom:14px"></textarea>' +
+    '<div style="display:flex;gap:8px">' +
+      '<button id="mindset-skip" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:10px;color:var(--muted);font-size:.8rem;cursor:pointer">'+(t.mindset_salta||'Salta')+'</button>' +
+      '<button id="mindset-ok" style="flex:2;background:linear-gradient(135deg,#a78bfa,var(--gold));border:none;border-radius:12px;padding:10px;color:#000;font-weight:900;font-size:.82rem;cursor:pointer">'+(t.mindset_continua||'Continua la Lezione →')+'</button>' +
+    '</div>';
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  box.querySelector('#mindset-ok').addEventListener('click', function() {
+    var ans = box.querySelector('textarea').value.trim();
+    if (ans) {
+      S.coins += 30; // bonus riflessione
+      updateHUD(); saveS();
+    }
+    overlay.remove();
+    if (onContinue) onContinue();
+  });
+  box.querySelector('#mindset-skip').addEventListener('click', function() {
+    overlay.remove();
+    if (onContinue) onContinue();
+  });
+}
+
+
+
+// ── VARIABILI CHAT AI ────────────────────────────────────────────────────
+var aiHistory = [];
+
+// ── ADD AI MESSAGE ────────────────────────────────────────────────────────
+function addAIMsg(text, who) {
+  var aiMsgs = document.getElementById('ai-msgs');
+  if (!aiMsgs) return;
+  var div = document.createElement('div');
+  div.className = who === 'b' ? 'ai-msg-b' : 'ai-msg-u';
+  if (who === 'b') {
+    div.innerHTML = '<div class="ai-who">🦉 Civetta AI</div>' + text;
+  } else {
+    div.innerHTML = text;
+  }
+  aiMsgs.appendChild(div);
+  aiMsgs.scrollTop = aiMsgs.scrollHeight;
+}
+
+// ── SEND AI ───────────────────────────────────────────────────────────────
+async function sendAI() {
+  var inp = document.getElementById('ai-inp');
+  if (!inp) return;
+  var msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+
+  addAIMsg(msg, 'u');
+  aiHistory.push({ role: 'user', content: msg });
+
+  var typing = document.getElementById('ai-typing');
+  if (typing) typing.style.display = 'block';
+
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+  var systemPrompt = t.civetta_system ||
+    'Sei Civetta AI di FinanzaLand, assistente di educazione finanziaria. Rispondi in modo semplice e chiaro. Solo a scopo educativo — non dare consigli finanziari personalizzati.';
+
+  try {
+    var resp = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: systemPrompt,
+        messages: aiHistory,
+        max_tokens: 800,
+      })
+    });
+    if (typing) typing.style.display = 'none';
+    var data = await resp.json();
+    var reply = '';
+    if (data && data.content && data.content[0]) {
+      reply = data.content[0].text || '';
+    } else if (data && data.error) {
+      throw new Error(data.error.message || 'API error');
+    }
+    if (reply) {
+      aiHistory.push({ role: 'assistant', content: reply });
+      addAIMsg(reply, 'b');
+    }
+  } catch(e) {
+    if (typing) typing.style.display = 'none';
+    var localReply = getLocalAIReply(msg, S.lang);
+    addAIMsg(localReply, 'b');
+  }
+}
+
+
+// ── PANNELLO FAMIGLIA — Risparmia per i Figli ────────────────────────────
+function buildFiglioCalc(container) {
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+  var calc = { versamento:100, anni:18, tasso:7, tipo:'etf' };
+
+  function calcola() {
+    var n = calc.anni * 12;
+    var r = calc.tasso / 100 / 12;
+    calc.risultato = r === 0 ? calc.versamento * n
+      : calc.versamento * (Math.pow(1+r,n)-1) / r;
+    calc.versato  = calc.versamento * n;
+    calc.guadagno = calc.risultato - calc.versato;
+  }
+  function fmt(n){ return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n); }
+
+  calcola();
+
+  function render() {
+    calcola();
+    container.innerHTML = '';
+
+    // Titolo
+    var title = document.createElement('div');
+    title.style.cssText = 'text-align:center;margin-bottom:14px';
+    title.innerHTML = '<div style="font-size:2.2rem">🍼</div>' +
+      '<div style="font-size:1rem;font-weight:900;color:var(--gold);margin:4px 0">' +
+        (t.fam_sottotitolo||'Risparmia per i Tuoi Figli') + '</div>';
+    container.appendChild(title);
+
+    // Strumenti
+    var stGrid = document.createElement('div');
+    stGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px';
+    [{id:'etf',label:'📦 ETF Mondiale',tasso:7},{id:'pac',label:'📈 PAC Fondi',tasso:5},{id:'brvm',label:'🌍 BRVM Africa',tasso:9},{id:'cd',label:'🏦 Conto Deposito',tasso:3}]
+    .forEach(function(s) {
+      var btn = document.createElement('div');
+      var active = calc.tipo === s.id;
+      btn.style.cssText = 'padding:9px;border-radius:12px;cursor:pointer;border:2px solid '+(active?'var(--gold)':'rgba(255,255,255,.1)')+';background:'+(active?'rgba(255,215,0,.1)':'rgba(255,255,255,.04)');
+      btn.innerHTML = '<div style="font-size:.82rem;font-weight:800;color:'+(active?'var(--gold)':'#fff')+'">'+s.label+'</div><div style="font-size:.72rem;color:'+(active?'var(--gold)':'#4ade80')+';font-weight:700;margin-top:3px">~'+s.tasso+'%/anno</div>';
+      btn.onclick = function(){ calc.tipo=s.id; calc.tasso=s.tasso; render(); };
+      stGrid.appendChild(btn);
+    });
+    container.appendChild(stGrid);
+
+    // Slider versamento
+    function makeSlider(label, key, min, max, step, unit) {
+      var wrap = document.createElement('div'); wrap.style.cssText = 'margin-bottom:12px';
+      var row = document.createElement('div'); row.style.cssText = 'display:flex;justify-content:space-between;margin-bottom:6px';
+      var lbl = document.createElement('span'); lbl.style.cssText = 'font-size:.72rem;font-weight:700;color:rgba(255,255,255,.7)'; lbl.textContent = label;
+      var val = document.createElement('span'); val.style.cssText = 'font-size:.85rem;font-weight:900;color:var(--gold)';
+      val.textContent = unit==='€' ? fmt(calc[key]).replace('€','').trim()+' €' : calc[key]+' '+(unit==='anni'?(t.fam_anni||'anni'):unit);
+      row.appendChild(lbl); row.appendChild(val); wrap.appendChild(row);
+      var sl = document.createElement('input'); sl.type='range'; sl.min=min; sl.max=max; sl.step=step; sl.value=calc[key];
+      sl.style.cssText = 'width:100%;accent-color:var(--gold);height:4px;cursor:pointer';
+      sl.oninput = function(){ calc[key]=parseFloat(this.value); val.textContent=unit==='€'?(new Intl.NumberFormat('it-IT').format(calc[key])+' €'):(calc[key]+' '+(unit==='anni'?(t.fam_anni||'anni'):unit)); updateRes(); };
+      wrap.appendChild(sl); container.appendChild(wrap);
+    }
+    makeSlider(t.fam_versamento||'Versamento mensile','versamento',10,500,10,'€');
+    makeSlider(t.fam_durata||'Durata (anni)','anni',1,25,1,'anni');
+    makeSlider(t.fam_rendimento||'Rendimento annuo (%)','tasso',1,15,0.5,'%');
+
+    // Risultato
+    var res = document.createElement('div'); res.id='fam-res';
+    renderRes(res); container.appendChild(res);
+
+    function updateRes(){ calcola(); var e=document.getElementById('fam-res'); if(e) renderRes(e); }
+    function renderRes(el) {
+      el.innerHTML = '<div style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.3);border-radius:16px;padding:14px;text-align:center;margin-top:4px">' +
+        '<div style="font-size:.72rem;color:var(--muted);margin-bottom:6px">'+(t.fam_capitale||'Capitale stimato dopo')+' '+calc.anni+' '+(t.fam_anni||'anni')+'</div>' +
+        '<div style="font-size:1.8rem;font-weight:900;color:var(--gold)">'+fmt(calc.risultato)+'</div>' +
+        '<div style="font-size:.72rem;color:var(--muted);margin-top:6px">'+(t.card_versato||'Versato')+': '+fmt(calc.versato)+' · '+(t.fam_interesse||'Interessi')+': '+fmt(calc.guadagno)+'</div>' +
+      '</div>';
+    }
+  }
+  render();
+}
+
 </script>
 </body>
 </html>
