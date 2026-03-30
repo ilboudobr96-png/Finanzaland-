@@ -1,7 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/chat", "destination": "/api/chat.js" },
-    { "source": "/api/lesson", "destination": "/api/lesson.js" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
