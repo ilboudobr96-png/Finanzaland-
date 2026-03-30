@@ -7135,6 +7135,13 @@ function showMindsetQuestion(topic, lang, onContinue) {
 
 
 
+// ── TOGGLE CIVETTA AI ─────────────────────────────────────────────────────
+function toggleAI() {
+  var panel = document.getElementById('ai-panel');
+  if (!panel) return;
+  panel.classList.toggle('open');
+}
+
 // ── VARIABILI CHAT AI ────────────────────────────────────────────────────
 var aiHistory = [];
 
