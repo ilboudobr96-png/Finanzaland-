@@ -878,7 +878,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
     <div class="screen" id="adulti">
       <div class="acc-header">
         <button class="acc-back" onclick="showScreen('home')">← Home</button>
-        <div class="acc-title">💎 Strumenti Adulti</div>
+        <div class="acc-title" data-i18n="btn_adulti">💎 Strumenti Adulti</div>
       </div>
       <div class="acc-body" id="adulti-body"></div>
     </div>
@@ -2605,6 +2605,11 @@ window.setLang = setLang;
 function autoDetectLang() {
   var saved = S.lang || safeLSStr('fl_lang','');
   if (saved && TRANSLATIONS[saved]) {
+    // Se la lingua salvata è diversa da IT, svuota cache lezioni
+    // per garantire che le lezioni siano nella lingua corretta
+    if (saved !== 'it') {
+      try { LESSON_CACHE = {}; safeSetItem('fl_lesson_cache', {}); } catch(e){}
+    }
     setLang(saved, null);
     return;
   }
@@ -6439,11 +6444,14 @@ async function generateLesson(topic, percorso, livello, eta, forceNew) {
     var cached = LESSON_CACHE[cacheKey];
     var age = Date.now() - (cached.cached_at || 0);
     if (age < 24 * 3600000) {
-      var isItContent = cached.punti_chiave && cached.punti_chiave[0] &&
-        (cached.punti_chiave[0].indexOf(' e ') >= 0 ||
-         cached.punti_chiave[0].indexOf('concetto') >= 0 ||
-         cached.punti_chiave[0].indexOf('fondamentale') >= 0);
-      if (!isItContent || S.lang === 'it') return cached;
+      // Controlla che il titolo cached sia nella lingua corrente
+      // Se il titolo è italiano ma la lingua è diversa, rigenera
+      var cachedTitle = (cached.titolo || '').toLowerCase();
+      var itWords = ['pagati','fondo','regola','risparmio','investimenti',
+                     'mercati','pensione','obbligazioni','derivati'];
+      var titleIsIT = itWords.some(function(w){ return cachedTitle.indexOf(w) >= 0; });
+      if (!titleIsIT || S.lang === 'it') return cached;
+      // Titolo IT con lingua non-IT: rigenera
     }
   }
   try {
@@ -6507,7 +6515,8 @@ function openLezione(lez) {
   showScreen('lezione-view');
   var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
   var backBtn = document.getElementById('lv-back-btn');
-  if (backBtn) backBtn.textContent = t.acc_back_lez || '<- Accademia';
+  var tlez = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+  if (backBtn) backBtn.textContent = tlez.acc_back_lez || '<- Accademia';
   var titleEl = document.getElementById('lv-header-title');
   if (titleEl) titleEl.textContent = lez.titolo || '';
   var body = document.getElementById('lv-body');
@@ -6819,7 +6828,14 @@ function buildAdulti() {
   lezTitle.textContent = t.adulti_lezioni_avanzate || 'Lezioni Adulti Avanzate';
   body.appendChild(lezTitle);
 
-  var temi = ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obbligazioni','ETF UCITS irlandesi','BRVM e mercati africani','Factor investing','FIRE Financial Independence'];
+  var temi_by_lang = {
+    it: ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obbligazioni','ETF UCITS irlandesi','BRVM e mercati africani','Factor investing','FIRE Financial Independence'],
+    fr: ['Allocation de Portefeuille Markowitz','Ratio P/E EV/EBITDA','Duration des obligations','ETF UCITS irlandais','BRVM et marches africains','Factor investing','FIRE Independance Financiere'],
+    en: ['Markowitz Portfolio Allocation','P/E ratio EV/EBITDA','Bond Duration','Irish UCITS ETFs','BRVM and African markets','Factor investing','FIRE Financial Independence'],
+    es: ['Asignacion Portafolio Markowitz','Ratio P/E EV/EBITDA','Duration de bonos','ETF UCITS irlandeses','BRVM y mercados africanos','Factor investing','FIRE Independencia Financiera'],
+    wo: ['Portfolio Allocation Markowitz','P/E ratio EV/EBITDA','Duration obligations','ETF UCITS irlandais','BRVM ak marches africains','Factor investing','FIRE Independence Financiere'],
+  };
+  var temi = temi_by_lang[S.lang] || temi_by_lang['it'];
   temi.forEach(function(tema) {
     var el = document.createElement('div');
     el.style.cssText = 'background:var(--card);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:11px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px';
