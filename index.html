@@ -18,7 +18,7 @@ if ('serviceWorker' in navigator) {
       "const CACHE='fl-v1';",
       "const ASSETS=['/'];",
       "self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));",
-      "self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/')))));",
+      "self.addEventListener('fetch',e=>{if(e.request.url.includes('/api/')){return;}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});",
     ].join('\n');
     var blob = new Blob([swCode], {type:'text/javascript'});
     var swUrl = URL.createObjectURL(blob);
@@ -70,7 +70,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
 /* ── SCREENS ── */
 #content{flex:1;position:relative;overflow:hidden}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
-.screen.active{display:flex}
+.screen.active{display:flex}#avatar-cultura.active{display:block;overflow-y:auto;padding-bottom:80px}
 
 /* ── HOME ── */
 #home{background:linear-gradient(160deg,#02001a,#080028)}
@@ -769,10 +769,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
 .merito-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--gold),var(--teal));transition:width .5s}
 
 
-/* ═══ CULTURA AVATAR ═══ */
-#avatar-cultura{font-family:'Nunito',sans-serif;background:#0F0A2E;color:#fff;}
+/* AVATAR CULTURA SCOPED */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+#avatar-cultura {
+  --cult-gold: #F5C842;
+  --cult-card: #1A1040;
+  --cult-purple: #4A2FA0;
+  --cult-purple2: #2D1B69;
+  --cult-green: #27AE60;
+  font-family: 'Nunito', sans-serif;
+  background: #0F0A2E;
+  color: #fff;
+}
 /* HEADER */
-.header{background:linear-gradient(135deg,#1A1040,#2D1B69);padding:16px 16px 14px;text-align:center;border-bottom:2px solid var(--purple);position:sticky;top:0;z-index:100;}
+#avatar-cultura .header {
+  background:linear-gradient(135deg,#1A1040,#2D1B69);padding:16px 16px 14px;text-align:center;border-bottom:2px solid var(--purple);position:sticky;top:0;z-index:100;
+}
 #avatar-cultura .header h1 {
   font-family:'Fredoka One',cursive;color:var(--gold);font-size:1.5rem;text-shadow:0 2px 10px rgba(245,200,66,0.4);
 }
@@ -783,7 +796,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   background:var(--purple2);color:var(--gold);font-family:'Fredoka One',cursive;font-size:0.95rem;padding:3px 14px;border-radius:20px;
 }
 /* LEVEL + DRAGON STAGE */
-.level-bar{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px 0;font-size:0.8rem;flex-wrap:wrap;}
+#avatar-cultura .level-bar {
+  display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px 0;font-size:0.8rem;flex-wrap:wrap;
+}
 #avatar-cultura .level-bar label {
   color:var(--gold);font-weight:800;
 }
@@ -797,9 +812,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   background:linear-gradient(135deg,#2D1B69,#4A2FA0);border:1px solid var(--gold);border-radius:12px;padding:3px 12px;font-size:0.72rem;font-weight:800;color:var(--gold);
 }
 /* SECTION */
-.section-title{font-family:'Fredoka One',cursive;color:var(--gold);font-size:1rem;padding:16px 16px 8px;}
+#avatar-cultura .section-title {
+  font-family:'Fredoka One',cursive;color:var(--gold);font-size:1rem;padding:16px 16px 8px;
+}
 /* AVATAR SCROLL */
-.avatar-scroll{display:flex;gap:10px;padding:4px 16px 14px;overflow-x:auto;scrollbar-width:none;}
+#avatar-cultura .avatar-scroll {
+  display:flex;gap:10px;padding:4px 16px 14px;overflow-x:auto;scrollbar-width:none;
+}
 #avatar-cultura .avatar-scroll::-webkit-scrollbar {
   display:none;
 }
@@ -831,12 +850,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   position:absolute;bottom:28px;right:3px;font-size:0.65rem;
 }
 /* CULTURE CARD */
-.culture-card{margin:0 16px 20px;background:var(--card);border:2px solid var(--purple);border-radius:20px;overflow:hidden;animation:fadeIn 0.3s ease;}
+#avatar-cultura .culture-card {
+  margin:0 16px 20px;background:var(--card);border:2px solid var(--purple);border-radius:20px;overflow:hidden;animation:fadeIn 0.3s ease;
+}
+@keyframes fadeIn{
 #avatar-cultura from {
   opacity:0;transform:translateY(8px)
 }
 #avatar-cultura to {
   opacity:1;transform:translateY(0)
+}
 }
 #avatar-cultura .culture-header {
   padding:16px 16px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--purple);
@@ -863,7 +886,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   border-color:var(--gold);color:var(--gold);
 }
 /* TABS */
-.learn-tabs{display:flex;border-bottom:1px solid var(--purple);}
+#avatar-cultura .learn-tabs {
+  display:flex;border-bottom:1px solid var(--purple);
+}
 #avatar-cultura .learn-tab {
   flex:1;text-align:center;padding:9px 4px;font-size:0.68rem;font-weight:800;color:#7760aa;cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;
 }
@@ -871,7 +896,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   color:var(--gold);border-bottom-color:var(--gold);background:rgba(245,200,66,0.05);
 }
 /* TAB CONTENT */
-.tab-content{display:none;padding:14px;}
+#avatar-cultura .tab-content {
+  display:none;padding:14px;
+}
 #avatar-cultura .tab-content.active {
   display:block;
 }
@@ -891,7 +918,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   background:var(--purple);color:#e0d8ff;font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:8px;
 }
 /* LINGUA */
-.phrase-list{display:flex;flex-direction:column;gap:7px;}
+#avatar-cultura .phrase-list {
+  display:flex;flex-direction:column;gap:7px;
+}
 #avatar-cultura .phrase-item {
   display:flex;align-items:center;justify-content:space-between;background:var(--purple2);border-radius:10px;padding:9px 12px;
 }
@@ -911,7 +940,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   background:var(--gold);color:#1A1040;
 }
 /* QUIZ */
-.quiz-box{background:var(--purple2);border-radius:14px;padding:14px;}
+#avatar-cultura .quiz-box {
+  background:var(--purple2);border-radius:14px;padding:14px;
+}
 #avatar-cultura .quiz-progress {
   font-size:0.68rem;color:#7760aa;margin-bottom:8px;font-weight:800;
 }
@@ -970,7 +1001,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   margin-top:12px;background:var(--purple);color:#fff;font-family:'Fredoka One',cursive;font-size:0.85rem;border:none;padding:8px 20px;border-radius:10px;cursor:pointer;
 }
 /* MISSIONI */
-.mission-list{display:flex;flex-direction:column;gap:9px;}
+#avatar-cultura .mission-list {
+  display:flex;flex-direction:column;gap:9px;
+}
 #avatar-cultura .mission-item {
   display:flex;align-items:center;gap:10px;background:var(--purple2);border-radius:12px;padding:11px 12px;border:1px solid var(--purple);transition:border-color 0.2s;
 }
@@ -1002,7 +1035,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   background:var(--green);cursor:default;
 }
 /* SAGGEZZA */
-.wisdom-box{background:var(--purple2);border-radius:16px;padding:16px;margin-bottom:12px;}
+#avatar-cultura .wisdom-box {
+  background:var(--purple2);border-radius:16px;padding:16px;margin-bottom:12px;
+}
 #avatar-cultura .wisdom-quote {
   font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--gold);line-height:1.5;margin-bottom:8px;
 }
@@ -1055,7 +1090,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   display:block;
 }
 /* ADULT MODE TOGGLE */
-.mode-bar {
+#avatar-cultura .mode-bar {
   display:flex; align-items:center; justify-content:center;
   gap:0; margin:12px 16px 0; border-radius:14px; overflow:hidden;
   border:2px solid var(--purple);
@@ -1073,14 +1108,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   border-right:1px solid var(--purple);
 }
 /* ADULT BADGE */
-.adult-badge {
+#avatar-cultura .adult-badge {
   display:inline-block; background:linear-gradient(135deg,#F5C842,#E67E22);
   color:#1A1040; font-size:0.55rem; font-weight:800;
   padding:2px 6px; border-radius:8px; margin-left:4px;
   vertical-align:middle; text-transform:uppercase;
 }
 /* ADULT CONTENT */
-.adult-block {
+#avatar-cultura .adult-block {
   background:linear-gradient(135deg,#1A1040,#2D1B69);
   border:1px solid var(--gold); border-radius:12px;
   padding:13px; margin-bottom:11px;
@@ -1100,7 +1135,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   padding:2px 8px; border-radius:8px; margin-top:7px; margin-right:4px;
 }
 /* INVESTMENT TABLE */
-.inv-table { width:100%; border-collapse:collapse; margin-top:10px; }
+#avatar-cultura .inv-table {
+  width:100%; border-collapse:collapse; margin-top:10px;
+}
 #avatar-cultura .inv-table th {
   background:var(--purple); color:var(--gold);
   font-family:'Fredoka One',cursive; font-size:0.72rem;
@@ -1120,7 +1157,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   color:#ff8a80; font-weight:800;
 }
 /* FAMILY LINK BOX */
-.family-link {
+#avatar-cultura .family-link {
   background:var(--purple2); border:2px solid var(--green);
   border-radius:14px; padding:14px; margin-bottom:12px;
   display:flex; align-items:center; gap:12px;
@@ -1135,14 +1172,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   font-size:0.72rem; color:#c0b8e8; line-height:1.5;
 }
 /* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-weight:800;font-size:0.82rem;padding:9px 22px;border-radius:18px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:999;white-space:nowrap;}
+#avatar-cultura .toast {
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-weight:800;font-size:0.82rem;padding:9px 22px;border-radius:18px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:999;white-space:nowrap;
+}
 #avatar-cultura .toast.show {
   opacity:1;
 }
-/* ═══ QUANTUM ═══ */
+/* QUANTUM */
 
 .card-quantum{background:linear-gradient(145deg,#111418,#1a1d22);border:1px solid rgba(245,200,66,0.2);box-shadow:0 0 20px rgba(245,200,66,0.05);border-radius:16px;}
-.quantum-canvas{width:100%;height:150px;background:#000;border-radius:12px;margin:10px 0;border:1px solid #333;display:block;}
+.quantum-canvas{width:100%;height:150px;background:#000;border-radius:12px;margin:10px 0;border:1px solid #333;}
 .btn-quantum{background:#F5C842;color:#000;font-weight:bold;width:100%;border-radius:12px;padding:12px;border:none;cursor:pointer;font-size:.95rem;transition:all 0.3s ease;}
 .btn-quantum.active{background:#ff4444;color:#fff;box-shadow:0 0 15px rgba(255,68,68,0.4);}
 
@@ -1204,13 +1243,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
         </div>
         <div class="home-btns">
           <button id="btn-accademia" data-i18n="btn_accademia" class="home-btn btn-primary" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
-          <button id="btn-3d" data-i18n="btn_3d" class="home-btn btn-3d" onclick="window.location.href='FinanzaLand_3D_Game.html'">🎮 Gioco Avventura Bambini</button>
+          <button id="btn-3d" data-i18n="btn_3d" class="home-btn btn-3d" onclick="entraModoBambini()">🎮 Gioco Avventura Bambini</button>
           <button id="btn-kids" data-i18n="btn_kids" class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(6,182,212,.2),rgba(167,139,250,.15));border:2px solid rgba(6,182,212,.5);color:#fff;font-size:.95rem">👶 Zona Bambini — Tocca e Gioca!</button>
           <button id="btn-adulti" data-i18n="btn_adulti" class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti Adulti</button>
           <button id="btn-academy-main" data-i18n="btn_academy" class="home-btn btn-secondary" onclick="showScreen('academy');setNav('bn-academy');buildAcademy('live')" style="background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(6,182,212,.08));border:1.5px solid rgba(74,222,128,.4);color:var(--green)">🎓 Academy — Professori Live</button>
           <button id="btn-pro" data-i18n="btn_pro" class="home-btn btn-secondary" onclick="openPopup('piani')">👑 Diventa PRO</button>
           <button id="btn-muro" data-i18n="btn_muro" class="home-btn" onclick="showScreen('muro-sociale');setNav('bn-muro')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(74,222,128,.1));border:2px solid rgba(6,182,212,.45);color:var(--teal);font-size:.95rem">🌍 Muro Sociale — Gioca con il Mondo</button>
           <button id="btn-mondo" data-i18n="btn_mondo" class="home-btn" onclick="showScreen('mondo-globale')" style="background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(6,182,212,.15));border:2px solid rgba(99,102,241,.4);color:#fff;font-size:.95rem">🌐 Landa Global — Mondo</button>
+                    <button id="btn-avatar" class="home-btn" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel()" style="background:linear-gradient(135deg,rgba(245,200,66,.15),rgba(245,200,66,.08));border:1.5px solid rgba(245,200,66,.5);color:#F5C842">&#x1F30D; Mondo degli Allevatori</button>
           <button id="btn-share" data-i18n="btn_share" class="home-btn btn-secondary" onclick="shareApp()" style="background:rgba(96,165,250,.1);border:1.5px solid rgba(96,165,250,.3);color:#60a5fa">↗️ Condividi FinanzaLand</button>
         </div>
       </div>
@@ -1516,12 +1556,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
       <div style="flex:1;overflow-y:auto;padding:0 12px 80px" id="wall-body"></div>
     </div>
 
-    <!-- AVATAR CULTURA SCREEN -->
+    <!-- AVATAR CULTURA -->
     <div class="screen" id="avatar-cultura">
-      <input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
-      <div id="lvVal" style="display:none">1</div>
-      <div id="stageBadge" style="display:none"></div>
-<div class="header">
+<input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
+<div id="lvVal" style="display:none">1</div>
+<div id="stageBadge" style="display:none"></div>
+<div class="header" style="position:relative">
+  <button onclick="showScreen('home')" style="position:absolute;top:10px;left:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:10px;padding:5px 12px;font-size:.8rem;cursor:pointer">← Home</button>
   <h1>🌍 Mondo degli Allevatori</h1>
   <div class="semi-bar">
     <span>🌱</span>
@@ -1529,11 +1570,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   </div>
 </div>
 
-<div class="level-bar">
-  <label>Livello:</label>
-  <input type="range" id="lvSlider" min="1" max="120" value="1">
-  <div class="level-val" id="lvVal">1</div>
-  <div class="dragon-stage-badge" id="stageBadge">🥚 Drago Cucciolo</div>
+<div class="dragon-stage-badge" id="stageBadge">🥚 Drago Cucciolo</div>
 </div>
 
 <div class="mode-bar">
@@ -2316,9 +2353,12 @@ var TRANSLATIONS = {
     civetta_system:'Sei Civetta AI di FinanzaLand, assistente di educazione finanziaria. Rispondi sempre in italiano. Solo a scopo educativo.',
     civetta_system:'You are Civetta AI from FinanzaLand, a financial education assistant. Always reply in English. For educational purposes only.',
     q_title:'Motore Quantistico',
-    q_desc:'Simulazione probabilistica Monte Carlo',
+    q_desc:'Simulazione Monte Carlo',
     q_observe:'Osserva il Mercato',
     q_reset:'Rilascia Funzione d\'Onda',
+    mondo_zone_uk:'Regno Unito',mondo_zone_china:'Cina',
+    mondo_zone_mena:'Medio Oriente',mondo_zone_nigeria:'Nigeria',
+    mondo_zone_eastafrica:'Africa Orientale',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3015,6 +3055,10 @@ function setLang(lang, btnEl) {
   // ── 6. Toast conferma ─────────────────────────────────
   try { toast(t.toast_lingua || ('Lingua: ' + lang.toUpperCase() + ' ✅')); } catch(e) {}
   try { playS('click'); } catch(e) {}
+
+
+  // Rebuild active screen after language change
+  rebuildActiveScreen();
 }
 window.setLang = setLang;
 
@@ -5465,7 +5509,7 @@ var KIDS_SECTIONS = [
    stars:0, action:function(){ showScreen('kids-dragon-custom'); buildDragonCustom(); }},
   {icon:'🎮', titolo:'Gioco Avventura',  desc:'Isola Avventura',
    col:'#06b6d4', bg:'rgba(6,182,212,.1)', border:'rgba(6,182,212,.3)',
-   stars:0, action:function(){ window.location.href='FinanzaLand_3D_Game.html'; }},
+   stars:0, action:function(){ entraModoBambini(); }},
   {icon:'🏆', titolo:'I miei Trofei',    desc:'Cosa hai vinto',
    col:'#fb923c', bg:'rgba(251,146,60,.1)', border:'rgba(251,146,60,.3)',
    stars:0, action:function(){ openPopup('premi'); }},
@@ -7308,19 +7352,19 @@ function getLocalAIReply(msg, lang) {
 
 // ── BUILD MONDO (Landa Global) ──────────────────────────────────────────
 
-var currentRegion = null;
-var worldData = {
-  EUROPE:    {icon:'EU',    name:'Europa',                cur:'EUR',     law:'MiFID II',   lang:'IT/FR/EN/DE', desc:'Mercato unico europeo. Euronext, DAX, Borsa Italiana, IBEX. 27 paesi.',                            rate:'BCE: 4.0%'},
-  UEMOA:     {icon:'UEMOA', name:'Africa Occ. (UEMOA)',   cur:'XOF',     law:'CREPMF',     lang:'FR/Wolof',    desc:'BRVM Abidjan: 45 aziende quotate. 8 paesi. Mercato in forte crescita.',                            rate:'BCEAO: 3.5%'},
-  USA:       {icon:'USA',   name:'Stati Uniti',           cur:'USD',     law:'SEC/FINRA',  lang:'English',     desc:'NYSE e NASDAQ: il piu grande mercato finanziario mondiale. S&P500, DOW JONES, NASDAQ 100.',         rate:'FED: 5.25%'},
-  UK:        {icon:'UK',    name:'Regno Unito',           cur:'GBP',     law:'FCA',        lang:'English',     desc:'London Stock Exchange (LSE): 3a borsa mondiale. FTSE 100 top 100 aziende UK.',                     rate:'BOE: 5.25%'},
-  ASIA:      {icon:'ASIA',  name:'Asia (JP/IN)',          cur:'JPY/INR', law:'FSA/SEBI',   lang:'JA/HI',       desc:'Nikkei 225 Giappone, BSE India Sensex. India economia in crescita al 6% PIL annuo.',               rate:'BOJ: 0.1%'},
-  CHINA:     {icon:'CN',    name:'Cina',                  cur:'CNY',     law:'CSRC',       lang:'ZH',          desc:'SSE Shanghai + SZSE Shenzhen: 2a economia mondiale. 5000+ aziende quotate.',                      rate:'PBOC: 3.45%'},
-  MENA:      {icon:'MENA',  name:'Medio Oriente & N. Africa', cur:'AED/SAR',law:'SCA/CMA',lang:'AR/EN',       desc:'Dubai FM, Tadawul Arabia Saudita, EGX Egitto. Finanza islamica: Sukuk (obbligazioni halal).',      rate:'SAMA: 6.0%'},
-  NIGERIA:   {icon:'NG',    name:'Nigeria',               cur:'NGN',     law:'SEC-NG',     lang:'EN/HA/YO',    desc:'NGX Lagos: la borsa piu grande Africa Sub-Sahariana. 160+ aziende. Economia in forte crescita.',   rate:'CBN: 18.75%'},
-  EASTAFRICA:{icon:'EA',    name:'Africa Orientale',      cur:'KES/TZS', law:'CMA/CMSA',  lang:'EN/SW',       desc:'NSE Kenya, DSE Tanzania, USE Uganda. M-Pesa: fintech leader mondiale. Mercati emergenti.',         rate:'CBK: 13.0%'},
-  LATAM:     {icon:'LATAM', name:'America Latina',        cur:'BRL/MXN', law:'CVM/CNBV',  lang:'PT/ES',       desc:'B3 Brasile piu grande borsa latinoamericana. BMV Messico, BVC Colombia. Mercati emergenti.',       rate:'BCB: 10.5%'},
-  AFRICA:    {icon:'SA',    name:'Africa Australe',       cur:'ZAR',     law:'FSCA',       lang:'EN/AF/ZU',    desc:'JSE Johannesburg: piu grande borsa africana per capitalizzazione. Risorse naturali enormi.',        rate:'SARB: 8.25%'}
+var currentRegion=null;
+var worldData={
+  EUROPE:{icon:'EU',name:'Europa',cur:'EUR',law:'MiFID II',lang:'IT/FR/EN/DE',desc:'Mercato unico europeo. Euronext, DAX, Borsa Italiana, IBEX. 27 paesi.',rate:'BCE: 4.0%'},
+  UEMOA:{icon:'UEMOA',name:'Africa Occ. (UEMOA)',cur:'XOF',law:'CREPMF',lang:'FR/Wolof/Moore',desc:'BRVM Abidjan: 45 aziende quotate. 8 paesi unione economica. Mercato in crescita.',rate:'BCEAO: 3.5%'},
+  USA:{icon:'USA',name:'Stati Uniti',cur:'USD',law:'SEC/FINRA',lang:'English',desc:'NYSE e NASDAQ: il piu grande mercato finanziario mondiale. S&P500, DOW JONES.',rate:'FED: 5.25%'},
+  UK:{icon:'UK',name:'Regno Unito',cur:'GBP',law:'FCA',lang:'English',desc:'London Stock Exchange (LSE): 3a borsa mondiale. FTSE 100 le 100 maggiori aziende UK.',rate:'BOE: 5.25%'},
+  ASIA:{icon:'ASIA',name:'Asia (Giappone/Cina/India)',cur:'JPY/CNY/INR',law:'FSA/CSRC/SEBI',lang:'JA/ZH/HI',desc:'Nikkei 225 Giappone, Hang Seng Hong Kong, BSE India. India cresce al 6% PIL.',rate:'BOJ: 0.1%'},
+  CHINA:{icon:'CN',name:'Cina',cur:'CNY',law:'CSRC',lang:'ZH',desc:'SSE Shanghai e SZSE Shenzhen: 2a economia mondiale. 5000+ aziende quotate. Mercato in rapida crescita.',rate:'PBOC: 3.45%'},
+  MENA:{icon:'MENA',name:'Medio Oriente & Nord Africa',cur:'AED/SAR/EGP',law:'SCA/CMA/EFSA',lang:'AR/EN',desc:'Dubai Financial Market, Tadawul Arabia Saudita, EGX Egitto. Finanza islamica (Sukuk, no interesse).',rate:'SAMA: 6.0%'},
+  NIGERIA:{icon:'NG',name:'Nigeria',cur:'NGN',law:'SEC Nigeria',lang:'EN/Hausa/Yoruba',desc:'NGX Lagos: la borsa piu grande dell Africa Sub-Sahariana. 160+ aziende quotate. Economia in forte crescita.',rate:'CBN: 18.75%'},
+  EASTAFRICA:{icon:'EA',name:'Africa Orientale',cur:'KES/TZS/UGX',law:'CMA/CMSA/USE',desc:'NSE Kenya, DSE Tanzania, USE Uganda. Mercati emergenti con crescita rapida. M-Pesa: fintech leader mondiale.',lang:'EN/SW',rate:'CBK: 13.0%'},
+  LATAM:{icon:'LATAM',name:'America Latina',cur:'BRL/ARS/MXN',law:'CVM/CNV/CNBV',lang:'PT/ES',desc:'B3 Brasile piu grande borsa latinoamericana. BMV Messico, BVC Colombia. Mercati emergenti.',rate:'BCB: 10.5%'},
+  AFRICA:{icon:'AFRICA',name:'Africa Australe & Meridionale',cur:'ZAR/BWP/ZMW',law:'FSCA/BSE/SEC',lang:'EN/AF/ZU',desc:'JSE Johannesburg: piu grande borsa africana. BSE Botswana, LUSAKA Zambia. Risorse naturali enormi.',rate:'SARB: 8.25%'}
 };
 
 function buildMondo() {
@@ -7718,7 +7762,7 @@ function buildFiglioCalc(container) {
 }
 
 
-// ═══ SISTEMA AVATAR CULTURA ═══════════════════════════════════════════════
+// ═══ AVATAR CULTURA ═══════════════════════════════════════════════
 // ═══════════════════════════════════════════════════════
 // DATI — 16 AVATAR (8M + 8F)
 // ═══════════════════════════════════════════════════════
@@ -8619,7 +8663,7 @@ function updateDragonBadge() {
 // ═══════════════════════════════════════════════════════
 // SLIDER
 // ═══════════════════════════════════════════════════════
-document.getElementById('lvSlider').addEventListener('input', function() {
+var _lvSlider = document.getElementById('lvSlider'); if(_lvSlider) _lvSlider.addEventListener('input', function() {
   currentLevel = parseInt(this.value);
   document.getElementById('lvVal').textContent = currentLevel;
   if(currentLevel < selectedAv.unlockLv) {
@@ -9291,48 +9335,60 @@ Rispondi in italiano, tono rispettoso e profondo — non infantile.
   }
 }
 
-// INIT
-updateDragonBadge();
-renderScroll();
-renderCultureCard();
+// INIT — deferred so DOM is ready
+(function() {
+  function cultInit() {
+    if (typeof updateDragonBadge === 'function') updateDragonBadge();
+    if (typeof renderScroll === 'function') renderScroll();
+    if (typeof renderCultureCard === 'function') renderCultureCard();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', cultInit);
+  } else {
+    setTimeout(cultInit, 100);
+  }
+})();
 
-// ═══ SYNC AVATAR CON LIVELLO REALE ════════════════════════════════════════
+// ═══ SYNC AVATAR LEVEL WITH GAME ════════════════════════════════════
+// Collega il livello reale del gioco al sistema avatar
 function syncAvatarLevel() {
   var gameLevel = (typeof S !== 'undefined' && S.level) ? S.level : 1;
   var slider = document.getElementById('lvSlider');
   var lvVal  = document.getElementById('lvVal');
-  if (slider) slider.value = gameLevel;
-  if (lvVal)  lvVal.textContent = gameLevel;
-  try { currentLevel = gameLevel; } catch(e) {}
+  var badge  = document.getElementById('stageBadge');
+  if (slider) { slider.value = gameLevel; }
+  if (lvVal)  { lvVal.textContent = gameLevel; }
+  if (typeof currentLevel !== 'undefined') {
+    // Update cultura system's currentLevel
+    currentLevel = gameLevel;
+  }
   if (typeof updateDragonBadge === 'function') updateDragonBadge();
   if (typeof renderScroll === 'function') renderScroll();
   if (typeof renderCultureCard === 'function') renderCultureCard();
 }
 window.syncAvatarLevel = syncAvatarLevel;
 
-// ═══ openPopup / closePopup ═══════════════════════════════════════════════
+// ═══ openPopup + closePopup ══════════════════════════════════════════
 function closePopup() {
   var el = document.getElementById('popup-overlay');
   if (el) el.classList.remove('show');
 }
-
-function _mkCell(label, val, col) {
+function _mc(l,v,col) {
   var d = document.createElement('div');
   d.style.cssText = 'background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.08)';
-  d.innerHTML = '<div style="font-size:1.3rem;font-weight:900;color:'+col+'">'+val+'</div><div style="font-size:.68rem;color:#888">'+label+'</div>';
+  d.innerHTML = '<div style="font-size:1.3rem;font-weight:900;color:'+col+'">'+v+'</div><div style="font-size:.68rem;color:#888">'+l+'</div>';
   return d;
 }
-
 function openPopup(id) {
   if (id === 'mercati') {
     if (typeof showScreen === 'function') showScreen('mondo-globale');
-    if (typeof setNav    === 'function') setNav('bn-mercati');
-    if (typeof buildMondo=== 'function') buildMondo();
+    if (typeof setNav === 'function') setNav('bn-mercati');
+    if (typeof buildMondo === 'function') buildMondo();
     return;
   }
   if (id === 'famiglia') {
-    if (typeof showScreen  === 'function') showScreen('adulti');
-    if (typeof setNav      === 'function') setNav('bn-family');
+    if (typeof showScreen === 'function') showScreen('adulti');
+    if (typeof setNav === 'function') setNav('bn-family');
     if (typeof buildAdulti === 'function') buildAdulti();
     return;
   }
@@ -9362,14 +9418,14 @@ function openPopup(id) {
     var lv  = S.level || Math.max(1, Math.floor(((S.xp || 0) / 100)) + 1);
     var h = document.createElement('div');
     h.style.cssText = 'text-align:center;padding:14px 0 10px';
-    h.innerHTML = '<div style="font-size:3rem">&#x1F409;</div><div style="font-size:1.2rem;font-weight:900;color:#F5C842">'+(S.isPro?'Account Pro':'Account Gratuito')+'</div>';
+    h.innerHTML = '<div style="font-size:3rem">&#x1F409;</div><div style="font-size:1.2rem;font-weight:900;color:#F5C842">'+(S.isPro ? 'Account Pro' : 'Account Gratuito')+'</div>';
     bEl.appendChild(h);
     var gr = document.createElement('div');
     gr.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px';
-    gr.appendChild(_mkCell('Semi', S.coins||0, '#F5C842'));
-    gr.appendChild(_mkCell('Streak', S.streak||0, '#06b6d4'));
-    gr.appendChild(_mkCell('Lezioni', dn2, '#4ade80'));
-    gr.appendChild(_mkCell('Livello', 'Lv '+lv, '#a78bfa'));
+    gr.appendChild(_mc('Semi', S.coins||0, '#F5C842'));
+    gr.appendChild(_mc('Streak', S.streak||0, '#06b6d4'));
+    gr.appendChild(_mc('Lezioni', dn2, '#4ade80'));
+    gr.appendChild(_mc('Livello', 'Lv '+lv, '#a78bfa'));
     bEl.appendChild(gr);
     var b1 = document.createElement('button');
     b1.style.cssText = 'width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1a1a2e;border:none;padding:11px;border-radius:11px;font-weight:800;cursor:pointer;margin-bottom:8px;display:block';
@@ -9377,14 +9433,14 @@ function openPopup(id) {
     b1.onclick = function() { closePopup(); openPopup('piani'); };
     bEl.appendChild(b1);
     var b2 = document.createElement('button');
-    b2.style.cssText = 'width:100%;background:rgba(245,200,66,.08);color:#F5C842;border:1px solid #F5C842;padding:9px;border-radius:11px;font-weight:700;cursor:pointer;display:block;margin-bottom:6px';
-    b2.textContent = '&#x1F409; Personalizza Drago';
-    b2.onclick = function() { if (typeof openAvatarPopup==='function') openAvatarPopup(); closePopup(); };
+    b2.style.cssText = 'width:100%;background:rgba(245,200,66,.08);color:#F5C842;border:1px solid #F5C842;padding:9px;border-radius:11px;font-weight:700;cursor:pointer;display:block';
+    b2.textContent = 'Personalizza Avatar Drago';
+    b2.onclick = function() { if (typeof openAvatarPopup === 'function') openAvatarPopup(); closePopup(); };
     bEl.appendChild(b2);
     var b3 = document.createElement('button');
-    b3.style.cssText = 'width:100%;background:rgba(245,200,66,.08);color:#F5C842;border:1px solid #F5C842;padding:9px;border-radius:11px;font-weight:700;cursor:pointer;display:block';
-    b3.textContent = '&#x1F30D; Avatar Culturali';
-    b3.onclick = function() { closePopup(); showScreen('avatar-cultura'); if(typeof syncAvatarLevel==='function')syncAvatarLevel(); };
+    b3.style.cssText = 'width:100%;background:rgba(245,200,66,.08);color:#F5C842;border:1px solid #F5C842;padding:9px;border-radius:11px;font-weight:700;cursor:pointer;display:block;margin-top:6px';
+    b3.textContent = '🌍 Allevatori — Avatar Culturali';
+    b3.onclick = function() { closePopup(); showScreen('avatar-cultura'); if(typeof syncAvatarLevel==='function') syncAvatarLevel(); };
     bEl.appendChild(b3);
     ov.classList.add('show'); return;
   }
@@ -9401,7 +9457,7 @@ function openPopup(id) {
     var bp = document.createElement('button');
     bp.style.cssText = 'width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1a1a2e;border:none;padding:11px;border-radius:11px;font-weight:800;cursor:pointer';
     bp.textContent = S.isPro ? 'Piano attuale' : 'Inizia Pro';
-    bp.onclick = function() { closePopup(); if(typeof toast==='function')toast('Scrivi a ilboudobr96@gmail.com'); };
+    bp.onclick = function() { closePopup(); if (typeof toast === 'function') toast('Scrivi a ilboudobr96@gmail.com'); };
     pr.appendChild(bp);
     bEl.appendChild(pr);
     var ft = document.createElement('div');
@@ -9418,7 +9474,7 @@ function openPopup(id) {
 window.openPopup  = openPopup;
 window.closePopup = closePopup;
 
-// ═══ MOTORE QUANTISTICO ═══════════════════════════════════════════════════
+// ═══ QUANTUM ═════════════════════════════════════════════════════════
 function initQuantum() {
   var t = (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[S.lang]) ? TRANSLATIONS[S.lang] : {};
   var container = document.getElementById('adulti-body');
@@ -9431,60 +9487,86 @@ function initQuantum() {
   hd.innerHTML = '<div style="font-size:1.6rem">&#x269B;</div><div><div style="font-size:1rem;font-weight:900;color:#F5C842">'+(t.q_title||'Motore Quantistico')+'</div><div style="font-size:.72rem;color:#888">'+(t.q_desc||'Simulazione Monte Carlo')+'</div></div>';
   qs.appendChild(hd);
   var cv = document.createElement('canvas');
-  cv.className = 'quantum-canvas'; cv.width = 340; cv.height = 150;
+  cv.id = 'quantumCanvas'; cv.className = 'quantum-canvas'; cv.width = 340; cv.height = 150;
   qs.appendChild(cv);
   var dd = document.createElement('div');
-  dd.style.cssText = 'text-align:center;margin-bottom:10px;font-family:monospace;color:#F5C842;font-size:1.2rem';
-  dd.textContent = '--.--'; qs.appendChild(dd);
+  dd.id = 'quantumData'; dd.style.cssText = 'text-align:center;margin-bottom:10px;font-family:monospace;color:#F5C842;font-size:1.2rem'; dd.textContent = '--.--';
+  qs.appendChild(dd);
   var btn = document.createElement('button');
-  btn.className = 'btn-quantum';
-  btn.textContent = t.q_observe || 'Osserva il Mercato';
+  btn.className = 'btn-quantum'; btn.textContent = t.q_observe || 'Osserva il Mercato';
   qs.appendChild(btn);
   container.insertBefore(qs, container.firstChild);
   var ctx = cv.getContext('2d'), isObs = false, fr = 0;
   function anim() {
     ctx.clearRect(0, 0, cv.width, cv.height);
     if (!isObs) {
-      dd.textContent = (Math.random()*1000).toFixed(2)+' ??'; dd.style.opacity='0.5';
-      for (var j=0;j<4;j++) {
-        ctx.beginPath(); ctx.strokeStyle=j===0?'#F5C842':'rgba(245,200,66,0.2)'; ctx.lineWidth=j===0?2:1;
-        ctx.moveTo(0,cv.height/2);
-        for (var i=0;i<cv.width;i+=5) { ctx.lineTo(i,cv.height/2+Math.sin(i*(0.02+j*0.01)+fr*0.1)*(20+j*10)+(Math.random()-0.5)*5); }
+      dd.textContent = (Math.random() * 1000).toFixed(2) + ' ??'; dd.style.opacity = '0.5';
+      for (var j = 0; j < 4; j++) {
+        ctx.beginPath(); ctx.strokeStyle = j === 0 ? '#F5C842' : 'rgba(245,200,66,0.2)'; ctx.lineWidth = j === 0 ? 2 : 1; ctx.moveTo(0, cv.height / 2);
+        for (var i = 0; i < cv.width; i += 5) { ctx.lineTo(i, cv.height / 2 + Math.sin(i * (0.02 + j * 0.01) + fr * 0.1) * (20 + j * 10) + (Math.random() - 0.5) * 5); }
         ctx.stroke();
       }
       fr++;
     } else {
-      dd.textContent='EUR 420.69'; dd.style.opacity='1';
-      ctx.beginPath(); ctx.strokeStyle='#F5C842'; ctx.lineWidth=3; ctx.shadowBlur=10; ctx.shadowColor='#F5C842';
-      ctx.moveTo(0,cv.height/2);
-      for (var k=0;k<cv.width;k++) { ctx.lineTo(k,cv.height/2+Math.sin(k*0.02)*5); }
-      ctx.stroke(); ctx.shadowBlur=0;
+      dd.textContent = 'EUR 420.69'; dd.style.opacity = '1';
+      ctx.beginPath(); ctx.strokeStyle = '#F5C842'; ctx.lineWidth = 3; ctx.shadowBlur = 10; ctx.shadowColor = '#F5C842';
+      ctx.moveTo(0, cv.height / 2);
+      for (var k = 0; k < cv.width; k++) { ctx.lineTo(k, cv.height / 2 + Math.sin(k * 0.02) * 5); }
+      ctx.stroke(); ctx.shadowBlur = 0;
     }
     requestAnimationFrame(anim);
   }
   btn.onclick = function() {
-    isObs=!isObs; btn.classList.toggle('active');
-    btn.textContent=isObs?(t.q_reset||'Rilascia'):(t.q_observe||'Osserva');
-    if(window.navigator&&window.navigator.vibrate)window.navigator.vibrate(50);
+    isObs = !isObs;
+    btn.classList.toggle('active');
+    btn.textContent = isObs ? (t.q_reset || 'Rilascia') : (t.q_observe || 'Osserva');
+    if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(50);
   };
   anim();
 }
 window.initQuantum = initQuantum;
 
-// ═══ GUARD addEventListener lvSlider ═════════════════════════════════════
-(function() {
-  var _lvSlider = document.getElementById('lvSlider');
-  if (_lvSlider) {
-    _lvSlider.addEventListener('input', function() {
-      if (typeof currentLevel !== 'undefined') currentLevel = parseInt(this.value);
-      var lvVal = document.getElementById('lvVal');
-      if (lvVal) lvVal.textContent = this.value;
-      if (typeof updateDragonBadge === 'function') updateDragonBadge();
-      if (typeof renderScroll === 'function') renderScroll();
-      if (typeof renderCultureCard === 'function') renderCultureCard();
-    });
+
+// ── REBUILD ACTIVE SCREEN (called on lang change) ────────────────────
+function rebuildActiveScreen() {
+  var active = document.querySelector('.screen.active');
+  if (!active) return;
+  var name = active.id;
+  var builders = {
+    'accademia':    function(){ if(typeof buildAccademia==='function')    buildAccademia(); },
+    'adulti':       function(){ if(typeof buildAdulti==='function')       buildAdulti(); },
+    'academy':      function(){ if(typeof buildAcademy==='function')      buildAcademy(typeof currentAcademyTab!=='undefined'?currentAcademyTab:'live'); },
+    'mondo-globale':function(){ if(typeof buildMondo==='function')        buildMondo(); },
+    'muro-sociale': function(){ if(typeof buildMuroSociale==='function')  buildMuroSociale(); },
+    'punto-abla':   function(){ if(typeof buildPuntoAbla==='function')    buildPuntoAbla(); },
+    'notifiche':    function(){ if(typeof buildNotifiche==='function')    buildNotifiche(); },
+    'calendario':   function(){ if(typeof buildCalendario==='function')   buildCalendario(); },
+    'kids-home':    function(){ if(typeof buildKidsIsland==='function')   buildKidsIsland(); if(typeof buildKidsSections==='function') buildKidsSections(); },
+  };
+  if (builders[name]) setTimeout(builders[name], 0);
+}
+window.rebuildActiveScreen = rebuildActiveScreen;
+
+// ── LESSON LOADING UX FIX ─────────────────────────────────────────────
+// Wrap lesson card click to show loading state
+var _origGenerateLesson = (typeof generateLesson !== 'undefined') ? generateLesson : null;
+function safeGenerateLesson(topic, percorso, livello, eta, forceNew) {
+  if (typeof generateLesson === 'function') {
+    return generateLesson(topic, percorso, livello, eta, forceNew)
+      .catch(function(err) {
+        console.warn('generateLesson error:', err);
+        if (typeof makeFallbackLesson === 'function') {
+          return makeFallbackLesson(topic, percorso, livello);
+        }
+        return null;
+      });
   }
-})();
+  if (typeof makeFallbackLesson === 'function') {
+    return Promise.resolve(makeFallbackLesson(topic, percorso, livello));
+  }
+  return Promise.resolve(null);
+}
+window.safeGenerateLesson = safeGenerateLesson;
 
 </script>
 </body>
