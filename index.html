@@ -50,9 +50,9 @@ if ('serviceWorker' in navigator) {
   --card:rgba(255,255,255,.04);--border:rgba(255,255,255,.1);
   --txt:rgba(255,255,255,.88);--muted:#64748b;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
+html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(--bg);
   font-family:system-ui,-apple-system,sans-serif;color:var(--txt)}
-#app{width:100%;height:100%;display:flex;flex-direction:column}
+#app{width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column}
 
 /* ── HUD ── */
 #hud{display:flex;align-items:center;gap:8px;padding:8px 12px;
@@ -70,12 +70,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
   transition:width .6s;border-radius:0 2px 2px 0}
 
 /* ── SCREENS ── */
-#content{flex:1;position:relative;overflow:hidden}
-.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+#content{flex:1;position:relative;overflow:hidden;padding-bottom:64px}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}.screen:not(.active){display:none!important;visibility:hidden!important;pointer-events:none!important}
 .screen.active{display:flex}#avatar-cultura.active{display:block;overflow-y:auto;padding-bottom:80px}
 
 /* ── HOME ── */
-#home{background:linear-gradient(160deg,#02001a,#080028)}
+#home{background:linear-gradient(160deg,#02001a,#080028);overflow:hidden}
 .home-hero{flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;padding:20px;position:relative;overflow:hidden}
 .hero-dragon{font-size:5rem;animation:drFloat 3s ease-in-out infinite;
@@ -255,7 +255,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
 
 /* BOTTOM NAV */
 #bnav{display:flex;background:rgba(0,0,8,.95);
-  border-top:1.5px solid rgba(255,215,0,.2);flex-shrink:0;z-index:50}
+  border-top:1.5px solid rgba(255,215,0,.2);flex-shrink:0;z-index:100;
+  position:fixed;bottom:0;left:0;right:0;width:100%}
 .bn{flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;padding:6px 0;cursor:pointer;border:none;
   background:transparent;color:rgba(255,255,255,.3);transition:all .2s}
@@ -1562,7 +1563,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);
 <input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
 <div id="lvVal" style="display:none">1</div>
 <div id="stageBadge" style="display:none"></div>
-<div style="background:#1A1040;padding:0;position:sticky;top:0;z-index:100;border-bottom:2px solid #F5C842">
+<div style="background:#1A1040;padding:0;position:relative;top:0;z-index:10;border-bottom:2px solid #F5C842">
   <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1a1a2e;border:none;padding:14px;font-size:1rem;font-weight:900;cursor:pointer;letter-spacing:1px">
     ← TORNA ALLA HOME
   </button>
@@ -2007,6 +2008,39 @@ function buildPuntoAbla() {
 window.buildPuntoAbla = buildPuntoAbla;
 
 // ─────────────────────────────────────────────────────────
+
+
+// addSilverCoins — aggiunge monete d'argento al profilo
+function addSilverCoins(amount) {
+  if (!amount || amount <= 0) return;
+  if (!S.silverCoins) S.silverCoins = 0;
+  S.silverCoins += amount;
+  saveS();
+  if (amount > 0) toast("🥈 +" + amount + " Moneta Argento!");
+}
+window.addSilverCoins = addSilverCoins;
+
+// ═══════════════════════════════════════════════════════
+// ABLA MISSIONI — Missioni di studio del Comandante
+// ═══════════════════════════════════════════════════════
+var ABLA_MISSIONI = [
+  {id:'etf_base',       icon:'📊', titolo:'Cos\u0027è un ETF?',                  desc:'Studia e spiega con parole tue cosa sono gli ETF e perché diversificano.',         semi:80,  argento:1, done:false},
+  {id:'regola_5030',    icon:'💰', titolo:'Regola 50-30-20',                       desc:'Applica la regola 50-30-20 al tuo budget mensile reale.',                           semi:100, argento:1, done:false},
+  {id:'interesse_comp', icon:'📈', titolo:'Interesse Composto',                    desc:'Calcola quanto crescono 100€ al 7% annuo per 10, 20, 30 anni.',                     semi:80,  argento:1, done:false},
+  {id:'fondo_emerg',    icon:'🛡️', titolo:'Fondo di Emergenza',                   desc:'Crea un piano per costruire un fondo di 3-6 mesi di spese.',                        semi:100, argento:2, done:false},
+  {id:'diversif',       icon:'🌍', titolo:'Diversificazione',                      desc:'Spiega perché non bisogna mettere tutti i semi in un solo castello.',               semi:80,  argento:1, done:false},
+  {id:'brvm_africa',    icon:'🌱', titolo:'Scopri la BRVM',                        desc:'Ricerca 3 aziende quotate alla BRVM di Abidjan e il loro settore.',                 semi:120, argento:2, done:false},
+  {id:'budget_fam',     icon:'👨‍👩‍👧', titolo:'Budget Familiare',                desc:'Crea un budget mensile completo per la tua famiglia.',                              semi:100, argento:2, done:false},
+  {id:'risparmio_auto', icon:'🤖', titolo:'Risparmio Automatico',                  desc:'Imposta un trasferimento automatico mensile verso i risparmi.',                     semi:80,  argento:1, done:false},
+  {id:'inflazione',     icon:'📉', titolo:'Capire l\u0027Inflazione',             desc:'Calcola come 1000€ si svalutano al 3% di inflazione in 10 anni.',                  semi:80,  argento:1, done:false},
+  {id:'pensione_base',  icon:'🧓', titolo:'Inizia a Pensare alla Pensione',        desc:'Calcola quanti anni mancano e quanto devi risparmiare ogni mese.',                  semi:120, argento:2, done:false},
+  {id:'crypto_rischio', icon:'₿',  titolo:'Crypto: Rischi e Opportunità',          desc:'Analizza i pro e contro delle criptovalute nel tuo portafoglio.',                   semi:100, argento:1, done:false},
+  {id:'libro_finanza',  icon:'📚', titolo:'Leggi un Libro di Finanza',             desc:'Leggi almeno 50 pagine di un libro di finanza personale e riassumi.',               semi:150, argento:3, done:false},
+  {id:'obiettivo_5y',   icon:'🎯', titolo:'Obiettivo a 5 Anni',                    desc:'Scrivi il tuo obiettivo finanziario a 5 anni con un piano d\u0027azione.',         semi:120, argento:2, done:false},
+  {id:'abitudine_21',   icon:'🔄', titolo:'21 Giorni di Abitudine Finanziaria',    desc:'Per 21 giorni registra ogni spesa e classifica in bisogni vs desideri.',           semi:200, argento:3, done:false},
+  {id:'semi_silver',    icon:'🥈', titolo:'Primo Semi di Argento',                 desc:'Accumula abbastanza Semi per richiedere la tua prima moneta d\u0027argento.',      semi:50,  argento:0, done:false},
+];
+
 // buildLandaCard — Paghetta Meritocratica
 // ─────────────────────────────────────────────────────────
 function buildLandaCard(zone) {
@@ -9567,6 +9601,17 @@ function safeGenerateLesson(topic, percorso, livello, eta, forceNew) {
   return Promise.resolve(null);
 }
 window.safeGenerateLesson = safeGenerateLesson;
+
+// Fix viewport height on mobile (iOS Safari / Android Chrome)
+(function() {
+  function setVh() {
+    var vh = window.innerHeight;
+    document.getElementById('app').style.height = vh + 'px';
+  }
+  setVh();
+  window.addEventListener('resize', setVh);
+  window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200); });
+})();
 
 </script>
 </body>
