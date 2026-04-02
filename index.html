@@ -1187,6 +1187,23 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 .btn-quantum{background:#F5C842;color:#000;font-weight:bold;width:100%;border-radius:12px;padding:12px;border:none;cursor:pointer;font-size:.95rem;transition:all 0.3s ease;}
 .btn-quantum.active{background:#ff4444;color:#fff;box-shadow:0 0 15px rgba(255,68,68,0.4);}
 
+
+/* SAGGEZZA */
+.sagg-tab-bar{display:flex;gap:6px;overflow-x:auto;padding:10px 14px 6px;scrollbar-width:none}
+.sagg-tab-bar::-webkit-scrollbar{display:none}
+.sagg-tab{flex-shrink:0;padding:6px 12px;border-radius:20px;font-size:.75rem;font-weight:800;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.sagg-tab.active{background:var(--gold);color:#1a1a2e;border-color:var(--gold)}
+.sagg-card{background:rgba(255,255,255,.04);border-radius:18px;padding:16px;margin:8px 14px;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:transform .15s}
+.sagg-card:active{transform:scale(.98)}
+.sagg-fonte{font-size:.62rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.sagg-titolo{font-size:.95rem;font-weight:900;color:var(--gold);margin-bottom:6px}
+.sagg-citazione{font-size:.78rem;color:rgba(255,255,255,.8);font-style:italic;line-height:1.55;margin-bottom:10px;border-left:3px solid var(--gold);padding-left:10px}
+.sagg-lezione{font-size:.74rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:10px}
+.sagg-applicazione{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:10px;font-size:.72rem;color:#06B6D4;line-height:1.5;margin-bottom:10px}
+.sagg-domanda{background:rgba(245,200,66,.06);border:1px solid rgba(245,200,66,.3);border-radius:10px;padding:10px;font-size:.72rem;color:var(--gold);line-height:1.5;margin-bottom:12px}
+.sagg-btn{width:100%;background:linear-gradient(135deg,var(--gold),#e67e22);color:#1a1a2e;border:none;padding:11px;border-radius:12px;font-weight:900;font-size:.88rem;cursor:pointer}
+.sagg-reward{text-align:center;font-size:.7rem;color:var(--green);margin-top:6px;font-weight:700}
+.sagg-done-badge{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.4);border-radius:8px;padding:2px 8px;font-size:.6rem;color:var(--green);font-weight:800;margin-left:8px}
 </style>
 </head>
 <body>
@@ -1253,6 +1270,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           <button id="btn-muro" data-i18n="btn_muro" class="home-btn" onclick="showScreen('muro-sociale');setNav('bn-muro')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(74,222,128,.1));border:2px solid rgba(6,182,212,.45);color:var(--teal);font-size:.95rem">🌍 Muro Sociale — Gioca con il Mondo</button>
           <button id="btn-mondo" data-i18n="btn_mondo" class="home-btn" onclick="showScreen('mondo-globale')" style="background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(6,182,212,.15));border:2px solid rgba(99,102,241,.4);color:#fff;font-size:.95rem">🌐 Landa Global — Mondo</button>
                     <button id="btn-avatar" class="home-btn" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel()" style="background:linear-gradient(135deg,rgba(245,200,66,.15),rgba(245,200,66,.08));border:1.5px solid rgba(245,200,66,.5);color:#F5C842">&#x1F30D; Mondo degli Allevatori</button>
+                    <button id="btn-saggezza" class="home-btn" onclick="showScreen('saggezza-screen')" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(167,139,250,.08));border:1.5px solid rgba(167,139,250,.5);color:#A78BFA">🧠 Saggezza dei Saggi</button>
           <button id="btn-share" data-i18n="btn_share" class="home-btn btn-secondary" onclick="shareApp()" style="background:rgba(96,165,250,.1);border:1.5px solid rgba(96,165,250,.3);color:#60a5fa">↗️ Condividi FinanzaLand</button>
         </div>
       </div>
@@ -1591,6 +1609,22 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div class="culture-card" id="cultureCard"></div>
 
 <div class="toast" id="toast"></div>
+    </div>
+
+
+    <!-- SAGGEZZA DEI SAGGI -->
+    <div class="screen" id="saggezza-screen">
+      <div style="background:linear-gradient(135deg,#0A0020,#1A0040);position:sticky;top:0;z-index:10;border-bottom:2px solid #A78BFA">
+        <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#A78BFA,#7C3AED);color:#fff;border:none;padding:12px;font-size:.95rem;font-weight:900;cursor:pointer">
+          ← TORNA ALLA HOME
+        </button>
+        <div style="text-align:center;padding:10px 14px 12px">
+          <div style="font-size:1.4rem;font-weight:900;color:#A78BFA">🧠 Saggezza dei Saggi</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:3px">Bibbia · Corano · Africa · Libri · Mindset · Coraggio</div>
+        </div>
+        <div class="sagg-tab-bar" id="sagg-tabs"></div>
+      </div>
+      <div style="overflow-y:auto;padding-bottom:80px" id="sagg-body"></div>
     </div>
 
   <!-- BOTTOM NAV -->
@@ -2398,6 +2432,7 @@ var TRANSLATIONS = {
     mondo_zone_uk:'Regno Unito',mondo_zone_china:'Cina',
     mondo_zone_mena:'Medio Oriente',mondo_zone_nigeria:'Nigeria',
     mondo_zone_eastafrica:'Africa Orientale',
+    btn_saggezza:'🧠 Saggezza dei Saggi',
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -7274,6 +7309,212 @@ function renderLezioniList() {
 }
 
 // ── BUILD ADULTI ────────────────────────────────────────────────────────
+
+// ═══════════════════════════════════════════════════════════════════════
+// GRANDE LIBRERIA DI SAGGEZZA — Bibbia, Corano, Africa, Libri, Mindset
+// ═══════════════════════════════════════════════════════════════════════
+var GRANDE_SAGGEZZA = [
+
+  // ── BIBBIA ──────────────────────────────────────────────────────────
+  {
+    id:'bibbia_talenti', fonte:'Bibbia', libro:'Matteo 25:14-30', icona:'✝️',
+    categoria:'spirituale', difficolta:'media',
+    citazione:'"A chi ha, sarà dato di più e sarà nell abbondanza; a chi non ha, sarà tolto anche quello che ha."',
+    titolo:'La Parabola dei Talenti',
+    lezione:'Gesù racconta di tre servi. Il primo riceve 5 talenti (monete d oro), li investe e li raddoppia. Il secondo ne riceve 2, fa lo stesso. Il terzo ne riceve 1, lo seppellisce per paura. Il padrone punisce solo il terzo. Messaggio: i soldi vanno fatti lavorare. Tenerli fermi è una perdita. Questo è l interesse composto: il denaro inattivo si svaluta con l inflazione.',
+    applicazione:'Se hai 100 euro, tenerli sotto il materasso significa perderli lentamente. Investirli in un ETF al 7% annuo significa avere 197 euro in 10 anni.',
+    domanda:'Hai un talento (abilità o risorsa) che stai "seppellendo" invece di far crescere? Quale?',
+    semi:50
+  },
+  {
+    id:'bibbia_risparmio', fonte:'Bibbia', libro:'Proverbi 21:20', icona:'✝️',
+    categoria:'spirituale', difficolta:'base',
+    citazione:'"Il saggio ha un tesoro di riserva, lo stolto lo spende tutto subito."',
+    titolo:'Il Saggio Risparmia',
+    lezione:'Il Libro dei Proverbi è pieno di saggezza finanziaria pratica. Questa frase scritta 3000 anni fa descrive esattamente il concetto moderno del fondo di emergenza: avere sempre una riserva. La formica che raccoglie d estate per l inverno è la metafora del risparmio automatico.',
+    applicazione:'Regola moderna: risparmia almeno il 10% di ogni entrata prima di spendere. Pagati prima.',
+    domanda:'Quanto tempo durerebbe la tua famiglia se perdessi il lavoro domani? 1 settimana, 1 mese, 6 mesi?',
+    semi:40
+  },
+  {
+    id:'bibbia_debiti', fonte:'Bibbia', libro:'Proverbi 22:7', icona:'✝️',
+    categoria:'spirituale', difficolta:'base',
+    citazione:'"Il ricco domina sui poveri e chi prende in prestito è schiavo del creditore."',
+    titolo:'La Schiavitù del Debito',
+    lezione:'3000 anni fa la Bibbia aveva già capito la differenza tra libertà finanziaria e schiavitù del debito. Un mutuo, una carta di credito al limite, un prestito per beni di consumo: sono catene. La vera ricchezza è non dover nulla a nessuno. Dave Ramsey, il guru americano dell elimina-debiti, ha costruito un impero insegnando esattamente questo principio biblico.',
+    applicazione:'Debiti buoni: mutuo per casa che vale di più, prestito per istruzione. Debiti cattivi: credito al consumo, rate per TV o vacanze.',
+    domanda:'Hai debiti? Se sì, li hai scritti tutti con tasso di interesse? Qual è il più costoso?',
+    semi:50
+  },
+
+  // ── CORANO ──────────────────────────────────────────────────────────
+  {
+    id:'corano_riba', fonte:'Corano', libro:'Sura Al-Baqara 2:275-279', icona:'☪️',
+    categoria:'spirituale', difficolta:'avanzata',
+    citazione:'"Allah ha permesso il commercio e ha proibito la riba (usura)."',
+    titolo:'La Finanza Islamica e il Riba',
+    lezione:'Il Corano proibisce il riba — l interesse sul denaro — perché crea ingiustizia: chi ha i soldi guadagna senza lavorare, chi ne ha bisogno paga sempre di più. Questa proibizione ha generato un intero sistema finanziario alternativo: la finanza islamica. I Sukuk (obbligazioni islamiche) funzionano con partecipazione al profitto invece dell interesse. Mercato globale Sukuk: $2 trilioni.',
+    applicazione:'Paesi MENA, Indonesia, Malaysia hanno banche islamiche dove non paghi interesse ma condividi il rischio. I Sukuk sauditi finanziano infrastrutture con rendimento halal.',
+    domanda:'Conosci qualcuno che ha rinunciato a investire per ragioni religiose? Come potrebbe investire in modo conforme alla sua fede?',
+    semi:60
+  },
+  {
+    id:'corano_zakat', fonte:'Corano', libro:'Sura At-Tawba 9:60', icona:'☪️',
+    categoria:'spirituale', difficolta:'media',
+    citazione:'"Le elemosine sono per i poveri, i bisognosi... questa è un obbligazione prescritta da Allah."',
+    titolo:'Zakat — Il Pilastro della Solidarietà',
+    lezione:'Lo Zakat è il 3° pilastro dell Islam: ogni musulmano con ricchezza sopra la nisab (soglia minima ~85g d oro) dona il 2,5% annuo ai bisognosi. È un sistema di redistribuzione della ricchezza integrato nella fede. In Indonesia, la raccolta Zakat supera i $3 miliardi annui. È la finanza sociale più antica del mondo.',
+    applicazione:'Concetto moderno equivalente: impact investing, ESG funds, donazioni automatiche 2-5% del reddito. Il dare regolare crea abbondanza mentale e concreta.',
+    domanda:'Hai un sistema di donazione regolare? Quanto % del tuo reddito destini agli altri?',
+    semi:50
+  },
+
+  // ── FILOSOFIA AFRICANA ──────────────────────────────────────────────
+  {
+    id:'ubuntu_economia', fonte:'Filosofia Africana', libro:'Ubuntu — Zulu/Xhosa', icona:'🌍',
+    categoria:'africa', difficolta:'base',
+    citazione:'"Umuntu ngumuntu ngabantu — Una persona è una persona grazie alle altre persone."',
+    titolo:'Ubuntu e l Economia Comunitaria',
+    lezione:'Ubuntu è la filosofia africana del "io sono perché noi siamo". In finanza si traduce nelle tontine (Africa Occidentale), nei chamas (Kenya), nelle stockvel (Sudafrica): gruppi di risparmio collettivo dove tutti contribuiscono e si aiutano a turno. La tontine è la prima banca: nessun interesse, solo fiducia. Movimenti mensili da €50 a €5000 persona.',
+    applicazione:'Nel mondo moderno: cooperative di credito, fondi familiari, investimenti di gruppo. FinanzaLand ha la modalità Famiglia per questo.',
+    domanda:'Fai parte di una tontine, un chama o un gruppo di risparmio? Se no, perché non iniziarne uno?',
+    semi:45
+  },
+  {
+    id:'maat_egitto', fonte:'Filosofia Africana', libro:'Maat — Antico Egitto', icona:'🏛️',
+    categoria:'africa', difficolta:'avanzata',
+    citazione:'"Maat: la piuma della giustizia pesa il cuore di ogni uomo."',
+    titolo:'Maat e l Etica Finanziaria',
+    lezione:'Maat era il principio egizio di verità, giustizia ed equilibrio. Nell economia antica egizia, il faraone era responsabile dell equilibrio: niente inflazione selvaggia, niente speculazione, niente monopoli. I granai pubblici erano il primo "fondo sovrano": in anni di abbondanza si accumula, in anni di carestia si distribuisce. Giuseppe nella Bibbia applica esattamente Maat.',
+    applicazione:'Principio moderno: il tuo portafoglio personale dovrebbe avere equilibrio — non tutto in un asset, non indebitarsi oltre le possibilità, mantenere riserve.',
+    domanda:'Il tuo "portafoglio vita" è in equilibrio? Corpo, mente, soldi, relazioni — cosa è fuori bilanciamento?',
+    semi:60
+  },
+  {
+    id:'sundiata', fonte:'Storia Africana', libro:'Epopea di Sundiata Keita', icona:'👑',
+    categoria:'africa', difficolta:'media',
+    citazione:'"Ogni uomo porta la sua storia nel cuore. Nessuno può cancellare ciò che ha fatto."',
+    titolo:'Sundiata e l Impero del Mali',
+    lezione:'Sundiata Keita fondò l Impero del Mali nel 1235 — l impero più ricco della storia mondiale. Mansa Musa, il suo successore, era l uomo più ricco mai vissuto ($400 miliardi in valori odierni). Il Mali controllava il 50% dell oro mondiale. La sua strategia: commercio trans-sahariano, controllo delle risorse, educazione (università di Timbuktu). Un sistema finanziario africano funzionante secoli prima dell Europa.',
+    applicazione:'Il BRVM di oggi (Abidjan) è l erede di questa tradizione commerciale. Investire in Africa significa investire nel continente con la storia economica più antica.',
+    domanda:'Conoscevi la storia finanziaria africana pre-coloniale? Come cambia la tua visione dell Africa?',
+    semi:55
+  },
+
+  // ── GRANDI LIBRI E PENSATORI ────────────────────────────────────────
+  {
+    id:'napoleon_hill', fonte:'Libro', libro:'Think and Grow Rich — Napoleon Hill (1937)', icona:'📖',
+    categoria:'mindset', difficolta:'media',
+    citazione:'"Tutto ciò che la mente umana può concepire e credere, può essere raggiunto."',
+    titolo:'Il Desiderio Bruciante',
+    lezione:'Napoleon Hill intervistò 500 persone di successo tra cui Carnegie, Ford e Edison per 20 anni. Scoprì che la differenza non era la fortuna o l intelligenza, ma un DESIDERIO BRUCIANTE trasformato in piano preciso. Il suo "Segreto": scrivi il tuo obiettivo finanziario specifico, con data esatta, con piano d azione, e leggilo ogni mattina e ogni sera ad alta voce. Il cervello non distingue tra immaginazione vivida e realtà.',
+    applicazione:'Esercizio: scrivi "Entro il [DATA] avrò accumulato €[CIFRA] facendo [COSA]." Firma. Incolla sul muro.',
+    domanda:'Hai mai scritto un obiettivo finanziario con data e cifra specifica? Prova adesso.',
+    semi:60
+  },
+  {
+    id:'kiyosaki_padre', fonte:'Libro', libro:'Padre Ricco Padre Povero — Robert Kiyosaki (1997)', icona:'📖',
+    categoria:'mindset', difficolta:'base',
+    citazione:'"I ricchi acquisiscono asset. I poveri e la classe media acquisiscono passività credendo siano asset."',
+    titolo:'Asset vs Passività — La Differenza Fondamentale',
+    lezione:'Kiyosaki spiega la regola d oro: un ASSET ti mette soldi in tasca (azioni, immobili in affitto, royalties). Una PASSIVITÀ ti toglie soldi (mutuo, auto, carte di credito). La casa in cui vivi è una passività se ti costa più di quanto produce. Il segreto dei ricchi: usare il reddito per comprare asset, non passività. Il quadrante del cash flow: Dipendente → Autonomo → Proprietario → Investitore.',
+    applicazione:'Fai la lista dei tuoi asset (cosa ti paga) e passività (cosa ti costa). Qual è il saldo?',
+    domanda:'Il tuo ultimo acquisto importante era un asset o una passività? Come ti ha fatto sentire?',
+    semi:55
+  },
+  {
+    id:'millionaire_next', fonte:'Libro', libro:'Il Milionario della Porta Accanto — Thomas Stanley (1996)', icona:'📖',
+    categoria:'mindset', difficolta:'media',
+    citazione:'"I milionari costruiscono ricchezza vivendo al di sotto dei propri mezzi."',
+    titolo:'Il Milionario Silenzioso',
+    lezione:'Stanley studiò i veri milionari americani: non vivono in ville, non guidano Ferrari, non indossano orologi da €20.000. L 80% è prima generazione ricca — self-made. Il loro segreto: vivere al di sotto dei propri mezzi, investire la differenza, non cercare di "sembrare ricchi". Il vero indicatore di ricchezza non è il reddito ma il patrimonio netto. Formula: (Età × Reddito lordo) / 10 = patrimonio atteso.',
+    applicazione:'Calcola il tuo patrimonio netto atteso. Sei sopra o sotto la media?',
+    domanda:'Spendi di più per sembrare ricco o per diventarlo? Qual è la tua spesa più "apparenza"?',
+    semi:50
+  },
+  {
+    id:'psicologia_soldi', fonte:'Libro', libro:'La Psicologia dei Soldi — Morgan Housel (2020)', icona:'📖',
+    categoria:'mindset', difficolta:'media',
+    citazione:'"Essere ragionevoli è meglio che essere razionali quando si tratta di soldi."',
+    titolo:'I Soldi e le Emozioni',
+    lezione:'Housel dimostra che le decisioni finanziarie non sono matematica — sono psicologia. La paura e l avidità distruggono più ricchezza di qualsiasi crisi finanziaria. Il più grande rischio finanziario è comportamentale: vendere in panico durante una crisi, comprare per FOMO durante un boom. La chiave: creare sistemi automatici che tolgono le emozioni dalle decisioni.',
+    applicazione:'PAC (Piano di Accumulo del Capitale): ogni mese, automaticamente, una cifra fissa va in ETF. Non guardi il mercato. Non vendi. Le emozioni non decidono.',
+    domanda:'Hai mai preso una decisione finanziaria sotto effetto di emozioni (paura o entusiasmo)? Come è andata?',
+    semi:55
+  },
+  {
+    id:'seven_habits', fonte:'Libro', libro:'Le 7 Abitudini — Stephen Covey (1989)', icona:'📖',
+    categoria:'mindset', difficolta:'avanzata',
+    citazione:'"Inizia con la fine in mente."',
+    titolo:'Immaginare la Destinazione Finanziaria',
+    lezione:'Covey insegna a immaginare il proprio funerale: cosa vorresti che dicessero di te? Questo esercizio (disturbante ma potente) chiarisce i veri valori. In finanza: visualizza la tua vita a 70 anni. Hai libertà finanziaria? Puoi aiutare i figli? Hai costruito qualcosa? Poi lavora a ritroso: cosa devi fare oggi per arrivare lì? Abitudine 1: Sii proattivo. I ricchi creano le circostanze. I poveri aspettano le circostanze.',
+    applicazione:'Scrivi la tua "dichiarazione di missione finanziaria personale" — max 3 frasi su cosa vuoi costruire e perché.',
+    domanda:'Dove vuoi essere finanziariamente a 65 anni? Hai un piano scritto per arrivarci?',
+    semi:60
+  },
+
+  // ── MINDSET E CORAGGIO ──────────────────────────────────────────────
+  {
+    id:'stoicismo_marco', fonte:'Filosofia', libro:'Meditazioni — Marco Aurelio (161-180 d.C.)', icona:'🏛️',
+    categoria:'mindset', difficolta:'avanzata',
+    citazione:'"Non sprecare ciò che rimane della tua vita in pensieri sugli altri... guarda dentro."',
+    titolo:'Lo Stoicismo e il Controllo Finanziario',
+    lezione:'Marco Aurelio era l uomo più potente del mondo — e ogni mattina scriveva di umiltà, di controllo delle emozioni, di distinzione tra ciò che dipende da noi e ciò che non dipende. In finanza: non puoi controllare il mercato, l inflazione, le crisi. Puoi controllare quanto risparmi, come investi, quando vendi. Lo Stoicismo insegna a concentrare energia solo su ciò che controlli.',
+    applicazione:'Esercizio stoico: fai una lista di 5 fattori finanziari che non controlli (mercato, tasse...) e 5 che controlli (spese, risparmi...). Dimentica i primi. Ottimizza i secondi.',
+    domanda:'Quanta energia sprechi preoccupandoti di cose finanziarie che non puoi controllare?',
+    semi:60
+  },
+  {
+    id:'coraggio_mandela', fonte:'Storia', libro:'Lungo Cammino verso la Libertà — Nelson Mandela', icona:'✊',
+    categoria:'coraggio', difficolta:'base',
+    citazione:'"Ho imparato che il coraggio non è l assenza di paura, ma il trionfo su di essa."',
+    titolo:'Il Coraggio di Investire',
+    lezione:'Mandela passò 27 anni in prigione e uscì senza rancore, senza paura, pronto a costruire. La paura è il nemico numero uno degli investitori: paura di perdere, paura di sbagliare, paura di iniziare. Chi investe solo quando "si sente sicuro" non investe mai — perché non ci si sente mai sicuri abbastanza. Il coraggio finanziario è iniziare con poco, sbagliare, imparare, continuare.',
+    applicazione:'Inizia con €50/mese in un ETF mondiale. Non aspettare di avere "abbastanza". Il momento perfetto non arriva mai.',
+    domanda:'Qual è la tua più grande paura finanziaria? Cosa ti impedisce di iniziare?',
+    semi:45
+  },
+  {
+    id:'einstein_composto', fonte:'Scienza', libro:'Albert Einstein', icona:'🔬',
+    categoria:'mindset', difficolta:'base',
+    citazione:'"L interesse composto è l ottava meraviglia del mondo. Chi lo capisce lo guadagna, chi non lo capisce lo paga."',
+    titolo:'L Ottava Meraviglia',
+    lezione:'Questa frase (attribuita a Einstein) cattura la verità matematica più importante della finanza. €1000 al 7% annuo diventano: €2000 in 10 anni, €4000 in 20 anni, €8000 in 30 anni, €16000 in 40 anni. Non ha fatto niente — solo aspettato. Il problema: il cervello umano è programmato per il presente, non per il futuro. L interesse composto richiede pazienza. E la pazienza è la competenza più rara.',
+    applicazione:'Usa la regola del 72: dividi 72 per il tasso di rendimento per sapere in quanti anni raddoppi. Al 7%: 72/7 = 10 anni.',
+    domanda:'Se investissi €100/mese dai 25 ai 65 anni al 7%, quanto avresti? (Risposta: circa €262.000)',
+    semi:50
+  },
+  {
+    id:'ubuntu_coraggio', fonte:'Filosofia Africana', libro:'Ubuntu — Tradizione Orale', icona:'🌍',
+    categoria:'coraggio', difficolta:'base',
+    citazione:'"Quando stai per arrenderti, ricorda perché hai iniziato."',
+    titolo:'Non Arrenderti Mai',
+    lezione:'La tradizione orale africana conserva la saggezza dei nonni: il guerriero che cade non è sconfitto, è sconfitto solo chi non si rialza. In finanza questo significa: le crisi arrivano sempre. Il mercato crolla del 30-50% ogni 10 anni circa. Chi vende in panico trasforma la perdita temporanea in perdita permanente. Chi mantiene la rotta — come i guerrieri che resistono — vince sempre a lungo termine.',
+    applicazione:'Durante la crisi del 2008 l SP500 perse il 57%. Chi non vendette e aspettò, nel 2013 aveva già recuperato tutto e guadagnato. Chi vendette per paura — perse davvero.',
+    domanda:'Hai mai rinunciato a qualcosa per paura e poi ti sei pentito? Come si applica questo alla finanza?',
+    semi:45
+  },
+  {
+    id:'confucio_educazione', fonte:'Filosofia', libro:'Confucio — Analetti', icona:'🌸',
+    categoria:'mindset', difficolta:'base',
+    citazione:'"Dimmi e dimentico. Mostrami e ricordo. Coinvolgimi e capisco."',
+    titolo:'Imparare Facendo',
+    lezione:'Confucio aveva capito 2500 anni fa quello che la neurosciienza conferma oggi: impariamo davvero solo facendo. Non basta leggere di investimenti — bisogna investire. Non basta studiare il budget — bisogna farne uno. FinanzaLand è costruita su questo principio: le missioni reali (aprire un conto, fare un budget, studiare un ETF) insegnano più di 100 lezioni teoriche.',
+    applicazione:'Sfida: questa settimana fai UNA cosa finanziaria concreta che non hai mai fatto — apri un conto investimenti, calcola il tuo patrimonio netto, crea un budget.',
+    domanda:'Qual è l ultima cosa finanziaria concreta che hai FATTO (non letto o pensato)?',
+    semi:40
+  }
+];
+
+// Indice per categoria
+var SAGGEZZA_CATEGORIE = {
+  spirituale:  { label:'Bibbia & Corano', icon:'🙏', color:'#A78BFA' },
+  africa:      { label:'Saggezza Africana', icon:'🌍', color:'#F5C842' },
+  mindset:     { label:'Mindset & Libri', icon:'📖', color:'#06B6D4' },
+  coraggio:    { label:'Coraggio & Forza', icon:'✊', color:'#4ADE80' },
+};
+
+
 function buildAdulti() {
   var body = document.getElementById('adulti-body');
   if (!body) return;
@@ -7549,6 +7790,7 @@ window.showScreen = function(name) {
   if (name==='accademia')       setTimeout(buildAccademia, 50);
   if (name==='adulti')          setTimeout(buildAdulti, 50);
   if (name==='avatar-cultura')  setTimeout(function(){ if(typeof cultInit==='function') cultInit(); if(typeof syncAvatarLevel==='function') syncAvatarLevel(); }, 50);
+  if (name==='saggezza-screen') setTimeout(function(){ if(typeof buildSaggezza==='function') buildSaggezza(); }, 50);
 };
 
 
@@ -9612,6 +9854,131 @@ window.safeGenerateLesson = safeGenerateLesson;
   window.addEventListener('resize', setVh);
   window.addEventListener('orientationchange', function(){ setTimeout(setVh, 200); });
 })();
+
+
+// ═══ SAGGEZZA DEI SAGGI ══════════════════════════════════════════════════
+var _saggezzaDone = {};
+var _saggCat = 'all';
+
+function buildSaggezza() {
+  var tabs = document.getElementById('sagg-tabs');
+  var body = document.getElementById('sagg-body');
+  if (!tabs || !body) return;
+
+  // Load done state
+  try { _saggezzaDone = JSON.parse(localStorage.getItem('fl_sagg_done') || '{}'); } catch(e) {}
+
+  // Build tabs
+  tabs.innerHTML = '';
+  var allTab = document.createElement('button');
+  allTab.className = 'sagg-tab' + (_saggCat==='all'?' active':'');
+  allTab.textContent = 'Tutti';
+  allTab.onclick = function() { _saggCat='all'; buildSaggezza(); };
+  tabs.appendChild(allTab);
+  Object.keys(SAGGEZZA_CATEGORIE).forEach(function(cat) {
+    var t = document.createElement('button');
+    t.className = 'sagg-tab' + (_saggCat===cat?' active':'');
+    t.style.borderColor = SAGGEZZA_CATEGORIE[cat].color;
+    if (_saggCat===cat) t.style.background = SAGGEZZA_CATEGORIE[cat].color;
+    t.innerHTML = SAGGEZZA_CATEGORIE[cat].icon + ' ' + SAGGEZZA_CATEGORIE[cat].label;
+    t.onclick = function() { _saggCat=cat; buildSaggezza(); };
+    tabs.appendChild(t);
+  });
+
+  // Filter and render cards
+  body.innerHTML = '';
+  var filtered = _saggCat==='all' ? GRANDE_SAGGEZZA : GRANDE_SAGGEZZA.filter(function(s){ return s.categoria===_saggCat; });
+  var done_count = Object.keys(_saggezzaDone).length;
+  
+  // Progress header
+  var prog = document.createElement('div');
+  prog.style.cssText = 'margin:12px 14px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:12px;text-align:center';
+  prog.innerHTML = '<div style="font-size:.7rem;color:#A78BFA;font-weight:900;margin-bottom:4px">SAGGEZZA COMPLETATA</div>'
+    + '<div style="font-size:1.6rem;font-weight:900;color:var(--gold)">' + done_count + '/' + GRANDE_SAGGEZZA.length + '</div>'
+    + '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:6px;margin-top:6px;overflow:hidden">'
+    + '<div style="width:' + Math.round(done_count/GRANDE_SAGGEZZA.length*100) + '%;height:100%;background:linear-gradient(90deg,#A78BFA,var(--gold))"></div></div>';
+  body.appendChild(prog);
+
+  filtered.forEach(function(sagg) {
+    var isDone = !!_saggezzaDone[sagg.id];
+    var catInfo = SAGGEZZA_CATEGORIE[sagg.categoria] || {color:'#A78BFA',icon:'📖'};
+    
+    var card = document.createElement('div');
+    card.className = 'sagg-card';
+    card.style.borderColor = isDone ? 'rgba(74,222,128,.4)' : 'rgba('+hexToRgb(catInfo.color)+',.2)';
+    card.style.cursor = 'default';
+    
+    var header = document.createElement('div');
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px';
+    header.innerHTML = '<div class="sagg-fonte" style="color:'+catInfo.color+'">' + catInfo.icon + ' ' + sagg.fonte + '</div>'
+      + (isDone ? '<span class="sagg-done-badge">✅ Completata</span>' : '');
+    card.appendChild(header);
+    
+    var titolo = document.createElement('div');
+    titolo.className = 'sagg-titolo';
+    titolo.textContent = sagg.icona + ' ' + sagg.titolo;
+    card.appendChild(titolo);
+    
+    var cit = document.createElement('div');
+    cit.className = 'sagg-citazione';
+    cit.textContent = sagg.citazione;
+    card.appendChild(cit);
+    
+    var libro = document.createElement('div');
+    libro.style.cssText = 'font-size:.62rem;color:rgba(255,255,255,.4);margin-bottom:8px;font-style:italic';
+    libro.textContent = '— ' + sagg.libro;
+    card.appendChild(libro);
+    
+    var lez = document.createElement('div');
+    lez.className = 'sagg-lezione';
+    lez.textContent = sagg.lezione;
+    card.appendChild(lez);
+    
+    var app = document.createElement('div');
+    app.className = 'sagg-applicazione';
+    app.innerHTML = '<strong>💡 Applicazione pratica:</strong> ' + sagg.applicazione;
+    card.appendChild(app);
+    
+    var dom = document.createElement('div');
+    dom.className = 'sagg-domanda';
+    dom.innerHTML = '<strong>🤔 Riflessione:</strong> ' + sagg.domanda;
+    card.appendChild(dom);
+    
+    if (!isDone) {
+      var btn = document.createElement('button');
+      btn.className = 'sagg-btn';
+      btn.textContent = '✅ Ho riflettuto — +' + sagg.semi + ' Semi';
+      btn.onclick = function() {
+        _saggezzaDone[sagg.id] = true;
+        try { localStorage.setItem('fl_sagg_done', JSON.stringify(_saggezzaDone)); } catch(e){}
+        S.coins += sagg.semi;
+        S.xp = (S.xp||0) + sagg.semi;
+        updateHUD(); saveS();
+        if (typeof spawnParticles==='function') spawnParticles();
+        if (typeof playS==='function') playS('success');
+        toast('🧠 +' + sagg.semi + ' Semi! Saggezza acquisita!');
+        buildSaggezza();
+      };
+      card.appendChild(btn);
+      var rew = document.createElement('div');
+      rew.className = 'sagg-reward';
+      rew.textContent = '+' + sagg.semi + ' Semi di Luce';
+      card.appendChild(rew);
+    }
+    
+    body.appendChild(card);
+  });
+}
+
+function hexToRgb(hex) {
+  hex = hex.replace('#','');
+  var r = parseInt(hex.substring(0,2),16);
+  var g = parseInt(hex.substring(2,4),16);
+  var b = parseInt(hex.substring(4,6),16);
+  return r+','+g+','+b;
+}
+
+window.buildSaggezza = buildSaggezza;
 
 </script>
 </body>
