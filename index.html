@@ -8001,28 +8001,29 @@ function buildAdulti() {
   });
   body.appendChild(kpiGrid);
 
-  // Calcolatori
+  // Calcolatori — SIMULATORI INTERATTIVI
   var calcTitle = document.createElement('div');
   calcTitle.className = 'adult-section-title';
-  calcTitle.textContent = t.adulti_calcolatori || 'Calcolatori Finanziari';
+  calcTitle.textContent = t.adulti_calcolatori || 'Simulatori Finanziari';
   body.appendChild(calcTitle);
 
-  var calcs = [
-    {em:'🏠', t:t.adulti_mutuo||'Calcolatore Mutuo', d:t.adulti_mutuo_desc||'Calcola rata, interessi e costo totale'},
-    {em:'🧓', t:t.adulti_pensione||'Simulatore Pensione', d:t.adulti_pensione_desc||'Regola del 4% — quanti anni per FIRE?'},
-    {em:'📈', t:t.adulti_interessi||'Interesse Composto', d:t.adulti_interessi_desc||'Come crescono i tuoi investimenti'},
-    {em:'📋', t:t.adulti_tasse||'Ottimizzatore Tasse', d:t.adulti_tasse_desc||'IRPEF, forfettario, ETF irlandesi'},
-  ];
-  calcs.forEach(function(c) {
-    var el = document.createElement('div');
-    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer';
-    el.innerHTML = '<div style="font-size:1.8rem">'+c.em+'</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">'+c.t+'</div><div style="font-size:.74rem;color:var(--muted)">'+c.d+'</div></div><div style="margin-left:auto;color:var(--muted)">›</div>';
-    el.addEventListener('click', function() {
-      showScreen('accademia');
-      generateLesson(c.t, 'risparmio', 'avanzato', 'adulto', false).then(function(lez){ openLezione(lez); });
-    });
-    body.appendChild(el);
-  });
+  // ── SIMULATORE PENSIONE / FIRE ─────────────────────────────
+  var pensBlock = document.createElement('div');
+  pensBlock.style.cssText = 'background:rgba(167,139,250,.06);border:1.5px solid rgba(167,139,250,.3);border-radius:16px;padding:14px;margin-bottom:12px';
+  body.appendChild(pensBlock);
+  buildSimPensione(pensBlock);
+
+  // ── SIMULATORE MERCATO / INTERESSE COMPOSTO ─────────────────
+  var mktBlock = document.createElement('div');
+  mktBlock.style.cssText = 'background:rgba(255,215,0,.05);border:1.5px solid rgba(255,215,0,.25);border-radius:16px;padding:14px;margin-bottom:12px';
+  body.appendChild(mktBlock);
+  buildSimMercato(mktBlock);
+
+  // ── SIMULATORE MUTUO ─────────────────────────────────────────
+  var mutBlock = document.createElement('div');
+  mutBlock.style.cssText = 'background:rgba(6,182,212,.05);border:1.5px solid rgba(6,182,212,.25);border-radius:16px;padding:14px;margin-bottom:12px';
+  body.appendChild(mutBlock);
+  buildSimMutuo(mutBlock);
 
   // Lezioni avanzate
   var lezTitle = document.createElement('div');
@@ -8050,7 +8051,399 @@ function buildAdulti() {
   });
 }
 
-// ── CIVETTA AI LOCALE ───────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// SIMULATORE PENSIONE / FIRE
+// ═══════════════════════════════════════════════════════════
+function buildSimPensione(container) {
+  var p = { eta:30, pensione:67, risparmio:500, capitale:10000, tasso:6 };
+  var fmt = function(n){ return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n); };
+
+  function calcola() {
+    var anni = Math.max(1, p.pensione - p.eta);
+    var n = anni * 12;
+    var r = p.tasso / 100 / 12;
+    // PAC sul capitale già accumulato + versamenti mensili
+    var capFuturo = p.capitale * Math.pow(1 + r, n);
+    var pacFuturo = r === 0 ? p.risparmio * n : p.risparmio * (Math.pow(1+r,n)-1) / r;
+    p.totale    = capFuturo + pacFuturo;
+    p.versato   = p.capitale + (p.risparmio * n);
+    p.interessi = p.totale - p.versato;
+    // Regola 4% — rendita mensile sostenibile
+    p.rendita   = p.totale * 0.04 / 12;
+    p.anni_calc = anni;
+    // FIRE check: è davvero sufficiente?
+    p.fire_ok = p.rendita >= 2000;
+  }
+
+  function render() {
+    calcola();
+    container.innerHTML = '';
+
+    // Intestazione
+    container.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
+        '<div style="font-size:1.8rem">🧓</div>' +
+        '<div>' +
+          '<div style="font-size:.9rem;font-weight:900;color:#A78BFA">Simulatore Pensione & FIRE</div>' +
+          '<div style="font-size:.66rem;color:rgba(255,255,255,.4)">Regola del 4% — Solo a scopo educativo</div>' +
+        '</div>' +
+      '</div>';
+
+    // Slider helper
+    function makeSlider(label, key, min, max, step, unit, color) {
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'margin-bottom:11px';
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;justify-content:space-between;margin-bottom:5px';
+      var lbl = document.createElement('span');
+      lbl.style.cssText = 'font-size:.72rem;color:rgba(255,255,255,.6);font-weight:700';
+      lbl.textContent = label;
+      var valEl = document.createElement('span');
+      valEl.style.cssText = 'font-size:.85rem;font-weight:900;color:'+(color||'#A78BFA');
+      valEl.textContent = unit === '€' ? fmt(p[key]) : p[key] + ' ' + unit;
+      row.appendChild(lbl); row.appendChild(valEl); wrap.appendChild(row);
+      var sl = document.createElement('input');
+      sl.type='range'; sl.min=min; sl.max=max; sl.step=step; sl.value=p[key];
+      sl.style.cssText = 'width:100%;accent-color:'+(color||'#A78BFA')+';cursor:pointer';
+      sl.oninput = function() {
+        p[key] = parseFloat(this.value);
+        valEl.textContent = unit === '€' ? fmt(p[key]) : p[key] + ' ' + unit;
+        updateRis();
+      };
+      wrap.appendChild(sl);
+      container.appendChild(wrap);
+    }
+
+    makeSlider('📅 Età attuale',             'eta',       18,  65,  1,  'anni', '#06b6d4');
+    makeSlider('🏁 Età pensione desiderata', 'pensione',  40,  75,  1,  'anni', '#A78BFA');
+    makeSlider('💰 Risparmio mensile',        'risparmio', 50,  5000, 50, '€',   '#4ade80');
+    makeSlider('🏦 Capitale già accumulato',  'capitale',  0,   200000, 1000, '€', '#FFD700');
+    makeSlider('📈 Rendimento annuo stimato', 'tasso',     1,   15,  0.5,'%',   '#fb923c');
+
+    // Risultato
+    var res = document.createElement('div');
+    res.id = 'sim-pension-res';
+    container.appendChild(res);
+
+    function updateRis() {
+      calcola();
+      var el = document.getElementById('sim-pension-res');
+      if (el) renderRis(el);
+    }
+    function renderRis(el) {
+      var fireColor = p.fire_ok ? '#4ade80' : '#fb923c';
+      el.innerHTML =
+        '<div style="background:rgba(0,0,0,.25);border-radius:14px;padding:14px;margin-top:6px">' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+            '<div style="text-align:center;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:10px;padding:10px">' +
+              '<div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-bottom:3px">CAPITALE A '+p.pensione+' ANNI</div>' +
+              '<div style="font-size:1.15rem;font-weight:900;color:#A78BFA">'+fmt(p.totale)+'</div>' +
+            '</div>' +
+            '<div style="text-align:center;background:rgba('+( p.fire_ok ? '74,222,128' : '251,146,60')+', .1);border:1px solid rgba('+( p.fire_ok ? '74,222,128' : '251,146,60')+', .3);border-radius:10px;padding:10px">' +
+              '<div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-bottom:3px">RENDITA MENSILE (4%)</div>' +
+              '<div style="font-size:1.15rem;font-weight:900;color:'+fireColor+'">'+fmt(p.rendita)+'/mese</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">' +
+            '<span style="font-size:.66rem;background:rgba(255,255,255,.06);border-radius:6px;padding:3px 9px;color:rgba(255,255,255,.5)">⏳ '+p.anni_calc+' anni di accumulo</span>' +
+            '<span style="font-size:.66rem;background:rgba(255,255,255,.06);border-radius:6px;padding:3px 9px;color:rgba(255,255,255,.5)">💸 Versato: '+fmt(p.versato)+'</span>' +
+            '<span style="font-size:.66rem;background:rgba(74,222,128,.1);border-radius:6px;padding:3px 9px;color:#4ade80">📈 Interessi: '+fmt(p.interessi)+'</span>' +
+          '</div>' +
+          // Barra composizione
+          (function(){
+            var pct = Math.min(99, Math.round(p.versato/p.totale*100));
+            return '<div style="margin-bottom:8px">' +
+              '<div style="font-size:.62rem;color:rgba(255,255,255,.35);margin-bottom:4px">Composizione del capitale</div>' +
+              '<div style="height:8px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.08);display:flex">' +
+                '<div style="width:'+pct+'%;background:#06b6d4;border-radius:6px 0 0 6px"></div>' +
+                '<div style="flex:1;background:#4ade80;border-radius:0 6px 6px 0"></div>' +
+              '</div>' +
+              '<div style="display:flex;gap:12px;margin-top:4px">' +
+                '<span style="font-size:.6rem;color:#06b6d4">■ Versato '+pct+'%</span>' +
+                '<span style="font-size:.6rem;color:#4ade80">■ Interessi '+(100-pct)+'%</span>' +
+              '</div></div>';
+          })() +
+          // FIRE status
+          '<div style="background:rgba('+(p.fire_ok?'74,222,128':'248,113,113')+',.08);border:1px solid rgba('+(p.fire_ok?'74,222,128':'248,113,113')+',.3);border-radius:10px;padding:10px;text-align:center">' +
+            '<div style="font-size:1.1rem;margin-bottom:3px">'+(p.fire_ok?'🔥':'💪')+'</div>' +
+            '<div style="font-size:.78rem;font-weight:900;color:'+fireColor+'">' +
+              (p.fire_ok ? 'FIRE Raggiunto! Indipendenza finanziaria ✅' : 'Aumenta risparmio o allunga orizzonte') +
+            '</div>' +
+            '<div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:3px">Obiettivo FIRE tipico: €2.000/mese (€600.000 capitale)</div>' +
+          '</div>' +
+          '<div style="font-size:.58rem;color:rgba(255,255,255,.2);text-align:center;margin-top:8px">⚠️ Simulazione educativa — non è consulenza finanziaria</div>' +
+        '</div>';
+    }
+    renderRis(res);
+  }
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SIMULATORE MERCATO — INTERESSE COMPOSTO + SCENARI
+// ═══════════════════════════════════════════════════════════
+function buildSimMercato(container) {
+  var m = { capitale:1000, mensile:200, anni:10, strumento:'etf' };
+  var fmt = function(n){ return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n); };
+
+  var STRUMENTI = {
+    etf:   { label:'📦 ETF Mondiale (MSCI World)', tasso:7,  rischio:'Medio',  colore:'#4ade80' },
+    sp500: { label:'🇺🇸 S&P 500 (storico)',       tasso:10, rischio:'Medio',  colore:'#60a5fa' },
+    brvm:  { label:'🌍 BRVM Africa Occidentale',   tasso:12, rischio:'Alto',   colore:'#FFD700' },
+    pac:   { label:'📊 PAC Fondi Misti',            tasso:5,  rischio:'Basso',  colore:'#a78bfa' },
+    cd:    { label:'🏦 Conto Deposito',             tasso:3,  rischio:'Minimo', colore:'#06b6d4' },
+    btp:   { label:'🇮🇹 BTP Italia',               tasso:4,  rischio:'Basso',  colore:'#fb923c' },
+  };
+
+  function calcola(tasso) {
+    var r = tasso / 100 / 12;
+    var n = m.anni * 12;
+    var capFuturo = m.capitale * Math.pow(1+r, n);
+    var pacFuturo = r===0 ? m.mensile*n : m.mensile*(Math.pow(1+r,n)-1)/r;
+    return {
+      totale:   capFuturo + pacFuturo,
+      versato:  m.capitale + m.mensile * n,
+      interessi: (capFuturo + pacFuturo) - (m.capitale + m.mensile * n),
+    };
+  }
+
+  function render() {
+    container.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
+        '<div style="font-size:1.8rem">📈</div>' +
+        '<div>' +
+          '<div style="font-size:.9rem;font-weight:900;color:var(--gold)">Simulatore Mercato</div>' +
+          '<div style="font-size:.66rem;color:rgba(255,255,255,.4)">Interesse composto — Solo a scopo educativo</div>' +
+        '</div>' +
+      '</div>';
+
+    // Selezione strumento
+    var grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px';
+    Object.entries(STRUMENTI).forEach(function(entry) {
+      var id = entry[0], s = entry[1];
+      var active = m.strumento === id;
+      var btn = document.createElement('div');
+      btn.style.cssText = 'padding:8px;border-radius:10px;cursor:pointer;border:2px solid '+(active?s.colore:'rgba(255,255,255,.1)')+';background:'+(active?'rgba(255,255,255,.06)':'rgba(255,255,255,.02)');
+      btn.innerHTML = '<div style="font-size:.75rem;font-weight:800;color:'+(active?s.colore:'rgba(255,255,255,.6)')+'">'+s.label+'</div>' +
+        '<div style="font-size:.65rem;color:'+(active?s.colore:'#4ade80')+';margin-top:2px;font-weight:700">~'+STRUMENTI[id].tasso+'%/anno · '+s.rischio+'</div>';
+      btn.onclick = function(){ m.strumento = id; render(); };
+      grid.appendChild(btn);
+    });
+    container.appendChild(grid);
+
+    // Sliders
+    function makeSlider(label, key, min, max, step, unit) {
+      var s = STRUMENTI[m.strumento];
+      var wrap = document.createElement('div'); wrap.style.cssText='margin-bottom:10px';
+      var row  = document.createElement('div'); row.style.cssText='display:flex;justify-content:space-between;margin-bottom:5px';
+      var lbl  = document.createElement('span'); lbl.style.cssText='font-size:.72rem;color:rgba(255,255,255,.6);font-weight:700'; lbl.textContent=label;
+      var valEl= document.createElement('span'); valEl.style.cssText='font-size:.85rem;font-weight:900;color:'+s.colore;
+      valEl.textContent = unit==='€' ? fmt(m[key]) : m[key]+' '+unit;
+      row.appendChild(lbl); row.appendChild(valEl); wrap.appendChild(row);
+      var sl = document.createElement('input'); sl.type='range'; sl.min=min; sl.max=max; sl.step=step; sl.value=m[key];
+      sl.style.cssText='width:100%;accent-color:'+s.colore+';cursor:pointer';
+      sl.oninput=function(){
+        m[key]=parseFloat(this.value);
+        valEl.textContent=unit==='€'?fmt(m[key]):m[key]+' '+unit;
+        updateRes();
+      };
+      wrap.appendChild(sl); container.appendChild(wrap);
+    }
+
+    makeSlider('💶 Capitale iniziale', 'capitale', 0, 50000, 500, '€');
+    makeSlider('📅 Versamento mensile', 'mensile',  0, 3000,  50,  '€');
+    makeSlider('⏳ Orizzonte (anni)',   'anni',     1, 40,    1,   'anni');
+
+    // Risultati
+    var res = document.createElement('div'); res.id='sim-mkt-res'; container.appendChild(res);
+
+    function updateRes() {
+      var el = document.getElementById('sim-mkt-res'); if(el) renderRes(el);
+    }
+    function renderRes(el) {
+      var s   = STRUMENTI[m.strumento];
+      var r   = calcola(s.tasso);
+      // Scenario pessimista (tasso-3) e ottimista (tasso+3)
+      var rMin = calcola(Math.max(1, s.tasso - 3));
+      var rMax = calcola(s.tasso + 3);
+      var pct  = Math.min(99, Math.round(r.versato / r.totale * 100));
+
+      // Grafico a barre semplice per anno
+      var barsHtml = '';
+      var steps = [1,3,5,10,15,20,30,40].filter(function(y){ return y<=m.anni; });
+      if (steps[steps.length-1] !== m.anni) steps.push(m.anni);
+      var maxVal = calcola(s.tasso + 3).totale;
+      steps.forEach(function(y) {
+        var tmp = m.anni; m.anni=y;
+        var rv = calcola(s.tasso);
+        m.anni = tmp;
+        var barPct = Math.round(rv.totale / maxVal * 100);
+        barsHtml += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">' +
+          '<div style="font-size:.6rem;color:rgba(255,255,255,.4);width:24px;text-align:right">'+y+'a</div>' +
+          '<div style="flex:1;height:16px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden">' +
+            '<div style="width:'+barPct+'%;height:100%;background:linear-gradient(90deg,'+s.colore+',rgba(255,255,255,.2));border-radius:4px"></div>' +
+          '</div>' +
+          '<div style="font-size:.65rem;font-weight:800;color:'+s.colore+';min-width:72px;text-align:right">'+fmt(rv.totale)+'</div>' +
+        '</div>';
+      });
+
+      el.innerHTML =
+        '<div style="background:rgba(0,0,0,.2);border-radius:14px;padding:14px;margin-top:6px">' +
+          // Risultato principale
+          '<div style="text-align:center;margin-bottom:12px">' +
+            '<div style="font-size:.62rem;color:rgba(255,255,255,.4);margin-bottom:4px">CAPITALE STIMATO DOPO '+m.anni+' ANNI</div>' +
+            '<div style="font-size:2rem;font-weight:900;color:'+s.colore+'">'+fmt(r.totale)+'</div>' +
+            '<div style="font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px">'+
+              'Versato: '+fmt(r.versato)+' · Interessi: <span style="color:#4ade80">+'+fmt(r.interessi)+'</span>'+
+            '</div>' +
+          '</div>' +
+          // Barra composizione
+          '<div style="height:7px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.08);display:flex;margin-bottom:6px">' +
+            '<div style="width:'+pct+'%;background:#06b6d4"></div>' +
+            '<div style="flex:1;background:#4ade80"></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:12px;margin-bottom:12px">' +
+            '<span style="font-size:.62rem;color:#06b6d4">■ Versato '+pct+'%</span>' +
+            '<span style="font-size:.62rem;color:#4ade80">■ Interessi '+(100-pct)+'%</span>' +
+          '</div>' +
+          // Scenari
+          '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">' +
+            '<div style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:9px;padding:8px;text-align:center">' +
+              '<div style="font-size:.58rem;color:rgba(255,255,255,.35)">Pessimista</div>' +
+              '<div style="font-size:.78rem;font-weight:900;color:#f87171">'+fmt(rMin.totale)+'</div>' +
+              '<div style="font-size:.55rem;color:rgba(255,255,255,.25)">~'+(Math.max(1,s.tasso-3))+'%/anno</div>' +
+            '</div>' +
+            '<div style="background:rgba(255,255,255,.04);border:1px solid '+s.colore+'44;border-radius:9px;padding:8px;text-align:center">' +
+              '<div style="font-size:.58rem;color:rgba(255,255,255,.35)">Base</div>' +
+              '<div style="font-size:.78rem;font-weight:900;color:'+s.colore+'">'+fmt(r.totale)+'</div>' +
+              '<div style="font-size:.55rem;color:rgba(255,255,255,.25)">~'+s.tasso+'%/anno</div>' +
+            '</div>' +
+            '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);border-radius:9px;padding:8px;text-align:center">' +
+              '<div style="font-size:.58rem;color:rgba(255,255,255,.35)">Ottimista</div>' +
+              '<div style="font-size:.78rem;font-weight:900;color:#4ade80">'+fmt(rMax.totale)+'</div>' +
+              '<div style="font-size:.55rem;color:rgba(255,255,255,.25)">~'+(s.tasso+3)+'%/anno</div>' +
+            '</div>' +
+          '</div>' +
+          // Grafico crescita
+          '<div style="font-size:.62rem;color:rgba(255,255,255,.35);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Crescita nel tempo</div>' +
+          barsHtml +
+          '<div style="font-size:.58rem;color:rgba(255,255,255,.2);text-align:center;margin-top:8px">⚠️ Simulazione educativa — i rendimenti passati non garantiscono quelli futuri</div>' +
+        '</div>';
+    }
+    renderRes(res);
+  }
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SIMULATORE MUTUO
+// ═══════════════════════════════════════════════════════════
+function buildSimMutuo(container) {
+  var mu = { importo:200000, anni:25, tasso:3.5 };
+  var fmt = function(n){ return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n); };
+
+  function calcola() {
+    var r = mu.tasso / 100 / 12;
+    var n = mu.anni * 12;
+    mu.rata    = r===0 ? mu.importo/n : mu.importo * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+    mu.totale  = mu.rata * n;
+    mu.interessi = mu.totale - mu.importo;
+    mu.costo_pct = Math.round(mu.interessi / mu.importo * 100);
+  }
+
+  function render() {
+    calcola();
+    container.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
+        '<div style="font-size:1.8rem">🏠</div>' +
+        '<div>' +
+          '<div style="font-size:.9rem;font-weight:900;color:#06b6d4">Simulatore Mutuo</div>' +
+          '<div style="font-size:.66rem;color:rgba(255,255,255,.4)">Rata, interessi, costo totale — Solo educativo</div>' +
+        '</div>' +
+      '</div>';
+
+    function makeSlider(label, key, min, max, step, unit) {
+      var wrap=document.createElement('div'); wrap.style.cssText='margin-bottom:10px';
+      var row=document.createElement('div'); row.style.cssText='display:flex;justify-content:space-between;margin-bottom:5px';
+      var lbl=document.createElement('span'); lbl.style.cssText='font-size:.72rem;color:rgba(255,255,255,.6);font-weight:700'; lbl.textContent=label;
+      var valEl=document.createElement('span'); valEl.style.cssText='font-size:.85rem;font-weight:900;color:#06b6d4';
+      valEl.textContent=unit==='€'?fmt(mu[key]):mu[key]+' '+unit;
+      row.appendChild(lbl); row.appendChild(valEl); wrap.appendChild(row);
+      var sl=document.createElement('input'); sl.type='range'; sl.min=min; sl.max=max; sl.step=step; sl.value=mu[key];
+      sl.style.cssText='width:100%;accent-color:#06b6d4;cursor:pointer';
+      sl.oninput=function(){
+        mu[key]=parseFloat(this.value);
+        valEl.textContent=unit==='€'?fmt(mu[key]):mu[key]+' '+unit;
+        updateRes();
+      };
+      wrap.appendChild(sl); container.appendChild(wrap);
+    }
+
+    makeSlider('🏠 Importo mutuo',   'importo', 50000, 800000, 5000, '€');
+    makeSlider('⏳ Durata',          'anni',    5,     30,     1,    'anni');
+    makeSlider('📈 Tasso annuo (%)', 'tasso',   0.5,   10,     0.1,  '%');
+
+    var res=document.createElement('div'); res.id='sim-mutuo-res'; container.appendChild(res);
+
+    function updateRes(){ calcola(); var el=document.getElementById('sim-mutuo-res'); if(el) renderRes(el); }
+    function renderRes(el) {
+      var pct = Math.min(99, Math.round(mu.importo/mu.totale*100));
+      el.innerHTML =
+        '<div style="background:rgba(0,0,0,.2);border-radius:14px;padding:14px;margin-top:6px">' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+            '<div style="text-align:center;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:10px">' +
+              '<div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-bottom:3px">RATA MENSILE</div>' +
+              '<div style="font-size:1.2rem;font-weight:900;color:#06b6d4">'+fmt(mu.rata)+'/mese</div>' +
+            '</div>' +
+            '<div style="text-align:center;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);border-radius:10px;padding:10px">' +
+              '<div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-bottom:3px">INTERESSI TOTALI</div>' +
+              '<div style="font-size:1.2rem;font-weight:900;color:#f87171">'+fmt(mu.interessi)+'</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:.68rem;text-align:center;color:rgba(255,255,255,.5);margin-bottom:10px">' +
+            'Costo totale: <strong style="color:#fff">'+fmt(mu.totale)+'</strong> — paghi il <strong style="color:#f87171">'+mu.costo_pct+'%</strong> in più del prestito' +
+          '</div>' +
+          '<div style="height:7px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.08);display:flex;margin-bottom:6px">' +
+            '<div style="width:'+pct+'%;background:#06b6d4"></div>' +
+            '<div style="flex:1;background:#f87171"></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:12px;margin-bottom:8px">' +
+            '<span style="font-size:.62rem;color:#06b6d4">■ Capitale '+pct+'%</span>' +
+            '<span style="font-size:.62rem;color:#f87171">■ Interessi '+(100-pct)+'%</span>' +
+          '</div>' +
+          // Confronto fisso vs variabile
+          (function(){
+            var r_var = calcola_rata(mu.importo, mu.anni, Math.max(0.5, mu.tasso - 1.5));
+            var r_cur = mu.rata;
+            return '<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px">' +
+              '<div style="font-size:.62rem;color:rgba(255,255,255,.35);margin-bottom:6px;text-transform:uppercase">Confronto tassi</div>' +
+              '<div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:5px">' +
+                '<span style="color:rgba(255,255,255,.55)">🔒 Tasso fisso '+ mu.tasso.toFixed(1)+'%</span>' +
+                '<span style="font-weight:800;color:#06b6d4">'+fmt(r_cur)+'/mese</span>' +
+              '</div>' +
+              '<div style="display:flex;justify-content:space-between;font-size:.72rem">' +
+                '<span style="color:rgba(255,255,255,.55)">📊 Variabile sim. '+(Math.max(0.5,mu.tasso-1.5)).toFixed(1)+'%</span>' +
+                '<span style="font-weight:800;color:#4ade80">'+fmt(r_var)+'/mese</span>' +
+              '</div>' +
+            '</div>';
+          })() +
+          '<div style="font-size:.58rem;color:rgba(255,255,255,.2);text-align:center;margin-top:8px">⚠️ Simulazione educativa — non è consulenza finanziaria</div>' +
+        '</div>';
+    }
+    renderRes(res);
+  }
+
+  function calcola_rata(imp, anni, tasso) {
+    var r = tasso / 100 / 12;
+    var n = anni * 12;
+    return r===0 ? imp/n : imp * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+  }
+
+  render();
+}
+
+// ─────────────────────────────────────────────────────────────────────────
 function getLocalAIReply(msg, lang) {
   var m = (msg||'').toLowerCase();
   var t = TRANSLATIONS[lang] || TRANSLATIONS['it'];
