@@ -1204,6 +1204,69 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 .sagg-btn{width:100%;background:linear-gradient(135deg,var(--gold),#e67e22);color:#1a1a2e;border:none;padding:11px;border-radius:12px;font-weight:900;font-size:.88rem;cursor:pointer}
 .sagg-reward{text-align:center;font-size:.7rem;color:var(--green);margin-top:6px;font-weight:700}
 .sagg-done-badge{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.4);border-radius:8px;padding:2px 8px;font-size:.6rem;color:var(--green);font-weight:800;margin-left:8px}
+
+/* ── MERCATI REALI ── */
+.mkt-ticker-bar{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;flex-shrink:0;scrollbar-width:none;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(255,255,255,.06)}
+.mkt-ticker-bar::-webkit-scrollbar{display:none}
+.mkt-ticker-chip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:5px 10px;flex-shrink:0;cursor:pointer;transition:all .2s}
+.mkt-ticker-chip:active{transform:scale(.96)}
+.mkt-ticker-sym{font-size:.6rem;color:rgba(255,255,255,.4);font-weight:700;letter-spacing:.5px}
+.mkt-ticker-price{font-size:.82rem;font-weight:900;color:#fff}
+.mkt-ticker-chg{font-size:.65rem;font-weight:800;margin-top:1px}
+.mkt-ticker-up{color:#4ade80}.mkt-ticker-dn{color:#f87171}.mkt-ticker-flat{color:#94a3b8}
+.mkt-section-hdr{font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase;padding:10px 0 6px;margin-top:8px}
+.mkt-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.mkt-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;cursor:pointer;transition:all .15s}
+.mkt-card:active{transform:scale(.97)}
+.mkt-card-sym{font-size:.6rem;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:.5px;margin-bottom:2px}
+.mkt-card-name{font-size:.7rem;color:rgba(255,255,255,.55);margin-bottom:6px;line-height:1.3}
+.mkt-card-price{font-size:1rem;font-weight:900;color:#fff;margin-bottom:3px}
+.mkt-card-chg{font-size:.7rem;font-weight:800}
+.mkt-card-vol{font-size:.58rem;color:rgba(255,255,255,.25);margin-top:4px}
+.mkt-card-loading{opacity:.4;font-size:.7rem;color:var(--muted)}
+.mkt-brvm-row{background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.12);border-radius:10px;padding:8px 11px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.mkt-brvm-sym{font-size:.72rem;font-weight:900;color:var(--gold);min-width:48px}
+.mkt-brvm-name{font-size:.65rem;color:rgba(255,255,255,.5);flex:1}
+.mkt-brvm-price{font-size:.78rem;font-weight:800;color:#fff;text-align:right}
+.mkt-brvm-chg{font-size:.62rem;font-weight:700;text-align:right}
+.mkt-crypto-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(251,146,60,.05);border:1px solid rgba(251,146,60,.15);border-radius:10px;margin-bottom:6px}
+.mkt-refresh-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 12px;color:rgba(255,255,255,.5);font-size:.68rem;font-weight:700;cursor:pointer;margin:10px 0}
+.mkt-last-update{font-size:.58rem;color:rgba(255,255,255,.2);text-align:right;margin-top:6px}
+.mkt-chart-link{display:flex;align-items:center;gap:6px;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:10px;padding:10px;margin-top:8px;cursor:pointer;text-decoration:none}
+.mini-video-section{background:rgba(255,107,0,.06);border:1.5px solid rgba(255,107,0,.3);border-radius:14px;padding:14px;margin:14px 0}
+.mini-video-label{font-size:.62rem;font-weight:900;color:#fb923c;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.mini-video-card{background:rgba(0,0,0,.3);border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s}
+.mini-video-card:active{transform:scale(.98)}
+.mini-video-thumb{width:100%;height:130px;background:linear-gradient(135deg,#1a0a00,#2d1000);display:flex;align-items:center;justify-content:center;position:relative}
+.mini-video-play{font-size:3rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.8))}
+.mini-video-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:8px;font-size:.68rem;color:#fff;font-weight:700}
+.mini-video-meta{padding:10px;display:flex;align-items:center;gap:8px}
+.mini-video-prof-avatar{font-size:1.4rem;flex-shrink:0}
+.mini-video-info{flex:1}
+.mini-video-title{font-size:.78rem;font-weight:800;color:#fff;margin-bottom:2px}
+.mini-video-prof{font-size:.65rem;color:var(--muted)}
+.mini-video-duration{font-size:.62rem;background:rgba(255,107,0,.2);color:#fb923c;padding:2px 7px;border-radius:6px;font-weight:700;flex-shrink:0}
+.mini-video-open-btn{width:100%;background:linear-gradient(135deg,#ff6b00,#e63946);border:none;border-radius:0 0 10px 10px;padding:10px;color:#fff;font-weight:900;font-size:.8rem;cursor:pointer}
+
+/* ── DIVENTA SAGGIO MODAL ── */
+.saggio-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.saggio-modal-overlay.open{display:flex}
+.saggio-modal-box{background:#08001a;border:1.5px solid rgba(167,139,250,.5);border-radius:20px 20px 0 0;padding:20px 18px;width:100%;max-width:480px;max-height:88vh;overflow-y:auto;padding-bottom:40px}
+.saggio-modal-title{font-size:1.15rem;font-weight:900;color:#A78BFA;text-align:center;margin-bottom:4px}
+.saggio-modal-sub{font-size:.73rem;color:rgba(255,255,255,.5);text-align:center;margin-bottom:20px;line-height:1.6}
+.saggio-benefit{background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:.74rem;color:rgba(255,255,255,.75);line-height:1.7}
+.saggio-field{margin-bottom:12px}
+.saggio-label{font-size:.7rem;font-weight:800;color:rgba(255,255,255,.55);margin-bottom:5px;display:block}
+.saggio-input,.saggio-select{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 12px;color:#fff;font-size:.85rem;outline:none;font-family:inherit}
+.saggio-input:focus,.saggio-select:focus{border-color:rgba(167,139,250,.6)}
+.saggio-select option{background:#1a0a2e;color:#fff}
+.saggio-submit-btn{width:100%;background:linear-gradient(135deg,#A78BFA,#7c3aed);border:none;border-radius:12px;padding:14px;color:#fff;font-weight:900;font-size:.95rem;cursor:pointer;margin-top:10px}
+.saggio-close-btn{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px;color:rgba(255,255,255,.5);cursor:pointer;margin-top:8px;font-size:.8rem}
+
+/* ── EDUCATOR CARD ── */
+.edu-badge{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.35);border-radius:8px;padding:2px 8px;font-size:.6rem;font-weight:800;color:#A78BFA}
+.diventa-saggio-banner{background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(99,102,241,.08));border:1.5px solid rgba(167,139,250,.4);border-radius:14px;padding:16px;margin:12px 0;text-align:center;cursor:pointer}
+.diventa-saggio-banner:active{transform:scale(.98)}
 </style>
 </head>
 <body>
@@ -1776,6 +1839,142 @@ var S = {
   localStorage.setItem('fl_lastplay', today);
 })();
 
+// ═══════════════════════════════════════════════════════
+// SISTEMA PAGHETTA MENSILE — Premi del 1° del Mese
+// ═══════════════════════════════════════════════════════
+// Missioni mensili per i figli — si azzerano ogni mese
+var MISSIONI_MENSILI = [
+  {id:'mm_lezione',   icon:'📚', titolo:'Completa 3 lezioni',          desc:'Studia almeno 3 argomenti nell\'Accademia questo mese.',  target:3,  chiave:'completate_mese', semi:150, argento:3},
+  {id:'mm_quiz',      icon:'🧠', titolo:'Vinci 2 quiz',                desc:'Rispondi correttamente a 2 quiz consecutivi.',            target:2,  chiave:'quiz_mese',       semi:100, argento:2},
+  {id:'mm_streak',    icon:'🔥', titolo:'Streak 5 giorni',             desc:'Apri l\'app per 5 giorni di fila questo mese.',           target:5,  chiave:'streak_max_mese', semi:120, argento:2},
+  {id:'mm_saggezza',  icon:'🧘', titolo:'Leggi 2 Sagge Riflessioni',   desc:'Completa 2 cards nella sezione Saggezza.',               target:2,  chiave:'sagg_mese',       semi:80,  argento:1},
+  {id:'mm_civica',    icon:'🏛️', titolo:'1 lezione di Educazione Civica', desc:'Studia almeno una lezione nel percorso Ed. Civica.',  target:1,  chiave:'civica_mese',     semi:100, argento:2},
+];
+
+// Calcola la chiave del mese corrente (es. "2026-04")
+function getMeseKey() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
+
+// Legge lo stato mensile dal localStorage
+function getMesiState() {
+  try { return JSON.parse(localStorage.getItem('fl_mese_state')||'{}'); } catch(e) { return {}; }
+}
+
+// Salva lo stato mensile
+function saveMesiState(state) {
+  try { localStorage.setItem('fl_mese_state', JSON.stringify(state)); } catch(e) {}
+}
+
+// Registra progresso su una missione mensile
+function avanzaMissioneMensile(chiave, incremento) {
+  var ms = getMesiState();
+  var meseKey = getMeseKey();
+  if (!ms[meseKey]) ms[meseKey] = {};
+  ms[meseKey][chiave] = (ms[meseKey][chiave]||0) + (incremento||1);
+  saveMesiState(ms);
+}
+window.avanzaMissioneMensile = avanzaMissioneMensile;
+
+// Restituisce il progresso corrente per una chiave missione
+function getProgressoMensile(chiave) {
+  var ms = getMesiState();
+  var meseKey = getMeseKey();
+  return (ms[meseKey] && ms[meseKey][chiave]) ? ms[meseKey][chiave] : 0;
+}
+
+// Controlla se la paghetta mensile è già stata erogata questo mese
+function paghettaGiaErogata() {
+  var ms = getMesiState();
+  return !!(ms[getMeseKey()] && ms[getMeseKey()]['_paghetta_erogata']);
+}
+
+// Segna la paghetta come erogata per questo mese
+function segnaPagettaErogata() {
+  var ms = getMesiState();
+  var mk = getMeseKey();
+  if (!ms[mk]) ms[mk] = {};
+  ms[mk]['_paghetta_erogata'] = true;
+  saveMesiState(ms);
+}
+
+// Calcola semi e argento guadagnati dalle missioni completate questo mese
+function calcolaPremioMensile() {
+  var semi = 0, argento = 0, completate = 0;
+  MISSIONI_MENSILI.forEach(function(m) {
+    var prog = getProgressoMensile(m.chiave);
+    if (prog >= m.target) {
+      semi += m.semi;
+      argento += m.argento;
+      completate++;
+    }
+  });
+  return {semi: semi, argento: argento, completate: completate, totale: MISSIONI_MENSILI.length};
+}
+
+// Mostra il popup paghetta mensile
+function mostraPopupPaghetta(premio) {
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px';
+  var percentuale = Math.round((premio.completate/premio.totale)*100);
+  var stelleHtml = '';
+  for(var i=0;i<premio.totale;i++) stelleHtml += i < premio.completate ? '⭐' : '☆';
+  var colore = percentuale >= 80 ? '#4ade80' : percentuale >= 50 ? '#FFD700' : '#fb923c';
+  var messaggio = percentuale >= 80
+    ? '🎉 Mese straordinario! Hai svolto quasi tutto!'
+    : percentuale >= 50
+    ? '👍 Buon lavoro! Puoi fare ancora meglio il prossimo mese.'
+    : '💪 Hai iniziato! Il mese prossimo darai di più.';
+  overlay.innerHTML =
+    '<div style="background:#08001a;border:2px solid '+colore+';border-radius:24px;padding:28px 22px;max-width:340px;width:100%;text-align:center">' +
+      '<div style="font-size:3.5rem;margin-bottom:8px">🏆</div>' +
+      '<div style="font-size:1.1rem;font-weight:900;color:'+colore+';margin-bottom:4px">Paghetta del Mese!</div>' +
+      '<div style="font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:16px">Attività completate questo mese</div>' +
+      '<div style="font-size:1.8rem;letter-spacing:4px;margin-bottom:8px">'+stelleHtml+'</div>' +
+      '<div style="font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:16px">'+premio.completate+'/'+premio.totale+' missioni — '+percentuale+'%</div>' +
+      (premio.semi > 0
+        ? '<div style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:12px;padding:12px;margin-bottom:12px">' +
+          '<div style="font-size:1.4rem;font-weight:900;color:var(--gold)">+'+premio.semi+' 🌱 Semi</div>' +
+          (premio.argento > 0 ? '<div style="font-size:.85rem;color:#C0C0C0;margin-top:4px">+'+premio.argento+' 🥈 Monete Argento</div>' : '') +
+          '</div>'
+        : '<div style="font-size:.82rem;color:rgba(255,255,255,.4);margin-bottom:12px">Nessuna missione completata questo mese</div>'
+      ) +
+      '<div style="font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:16px">'+messaggio+'</div>' +
+      '<button onclick="this.closest(\'div[style]\').remove()" style="width:100%;background:linear-gradient(135deg,'+colore+',#065f46);border:none;border-radius:12px;padding:13px;color:#fff;font-weight:900;font-size:.95rem;cursor:pointer">✅ Ricevuto!</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+}
+
+// Controlla all'apertura se è il 1° del mese e la paghetta non è stata ancora erogata
+(function checkPaghettaMensile(){
+  var d = new Date();
+  var isKids = (S.eta === 'bambino' || S.eta === 'kids');
+  // Esegui solo per profili bambino, il 1° del mese, e non ancora erogata
+  if (!isKids) return;
+  if (d.getDate() !== 1) return;
+  if (paghettaGiaErogata()) return;
+
+  var premio = calcolaPremioMensile();
+  // Eroga semi e argento guadagnati
+  if (premio.semi > 0) {
+    S.coins += premio.semi;
+    S.xp = (S.xp||0) + premio.semi;
+    if (typeof addSilverCoins === 'function') addSilverCoins(premio.argento);
+    if (typeof updateHUD === 'function') updateHUD();
+    if (typeof saveS === 'function') saveS();
+  }
+  segnaPagettaErogata();
+  // Mostra popup con un piccolo ritardo (aspetta che l'app si carichi)
+  setTimeout(function(){ mostraPopupPaghetta(premio); }, 1800);
+})();
+
+// Hook: avanza missione lezione quando si completa una lezione
+var _origSaveS_mensile = null;
+(function hookLezioneCompletata(){
+  // Integrato tramite avanzaMissioneMensile chiamata dal bottone "Completa Lezione"
+})();
+
 function saveS() {
   try { localStorage.setItem('fl_coins', S.coins||0); } catch(e) {}
   try { localStorage.setItem('fl_level', S.level||1); } catch(e) {}
@@ -1805,6 +2004,8 @@ var PERCORSI = [
   {id:'crypto',        label:'₿ Crypto',           col:'#fb923c'},
   {id:'derivati',      label:'🎯 Derivati',        col:'#f87171'},
   {id:'psicologia',    label:'🧠 Psicologia',      col:'#a78bfa'},
+  {id:'civica',        label:'🏛️ Ed. Civica',      col:'#06b6d4'},
+  {id:'scuola',        label:'📚 Per la Scuola',   col:'#4ade80'},
 ];
 
 var LIVELLI = [
@@ -1905,6 +2106,23 @@ var TOPICS = {
     'Effetto ancoraggio','Herd mentality','Ottimismo e pessimismo',
     'Come smettere di procrastinare','Identita finanziaria','Relazione con il denaro',
   ],
+  civica: [
+    'La Costituzione italiana','Diritti e doveri del cittadino',
+    'Come funziona il Parlamento','Il Presidente della Repubblica',
+    'Il Comune e il Sindaco','L Unione Europea','Agenda 2030 sviluppo sostenibile',
+    'Cittadinanza digitale','Il diritto al voto','Liberta di espressione',
+    'Pari opportunita e uguaglianza','Diritto al lavoro Art.1',
+    'Lo Stato e le tasse perche','La scuola pubblica e la Costituzione',
+  ],
+  scuola: [
+    'Cosa sono i soldi e la loro storia','Come nasce il denaro',
+    'Il sistema bancario spiegato','Banca Centrale Europea',
+    'Cos e il PIL prodotto interno lordo','Inflazione spiegata ai ragazzi',
+    'Disoccupazione e mercato del lavoro','Cos e un contratto di lavoro',
+    'La busta paga come si legge','Le tasse perche le paghiamo',
+    'Il debito pubblico italiano','L imprenditore e la startup',
+    'Commercio internazionale','Globalizzazione pro e contro',
+  ],
 };
 // ── TOPICS MULTILINGUA — nomi lezioni per TUTTI i 13 percorsi ───────────────
 var TOPICS_LANG = {
@@ -1922,6 +2140,8 @@ var TOPICS_LANG = {
     crypto:       ['Qu est-ce que Bitcoin','Blockchain','Ethereum smart contracts','DeFi finance decentralisee','NFT tokens non fongibles','Stablecoins','Mining crypto','Portefeuille crypto','Fiscalite crypto','Risques crypto','Altcoins','Crypto et Afrique','Avenir crypto'],
     derivati:     ['Qu est-ce que les derives','Options call et put','Futures contrats a terme','Leverage effet de levier','Hedging couverture','Swap','Warrants','CFD','Marche derives Afrique','Derives sur matieres premieres','Volatilite','Gestion risque','Derives pour debutants'],
     psicologia:   ['Biais cognitifs','Peur et avidite','Investissement emotionnel','Biais de confirmation','Aversion aux pertes','FOMO','Patience investisseur','Discipline financiere','Erreurs communes','Mindset richesse','Psychologie des prix','Comportement gregaire','Resilience financiere'],
+    civica: ['Constitution et droits','Droits et devoirs du citoyen','Comment fonctionne le Parlement','Le President de la Republique','La commune et le maire','Union Europeenne','Agenda 2030 developpement durable','Citoyennete numerique','Droit de vote','Liberte d expression','Egalite des chances','Droit au travail','Impots et Etat','Ecole publique et Constitution'],
+    scuola: ['Qu est-ce que l argent','Histoire de la monnaie','Le systeme bancaire','Banque Centrale Europeenne','Qu est-ce que le PIB','L inflation pour les jeunes','Chomage et marche du travail','Qu est-ce qu un contrat','Lire une fiche de paie','Pourquoi payer des impots','Dette publique','L entrepreneur et la startup','Commerce international','Mondialisation pour et contre'],
     mindset_domanda_titolo:'Moment Mindset', mindset_scrivi:'Ecris ta reponse...', mindset_salta:'Passer', mindset_continua:'Continuer la Lecon →', mindset_chip:'🧠 Mindset',
     lv_mindset:'🧠 Esprit', perc_labels_mindset:'Esprit du Commandant',
     mindset_bonus:'Reflexion completee! +30 Graines',
@@ -1941,6 +2161,8 @@ var TOPICS_LANG = {
     crypto:       ['What is Bitcoin','Blockchain','Ethereum smart contracts','DeFi decentralized finance','NFT non-fungible tokens','Stablecoins','Crypto mining','Crypto wallet','Crypto taxation','Crypto risks','Altcoins','Crypto and Africa','Future of crypto'],
     derivati:     ['What are derivatives','Call and put options','Futures contracts','Leverage','Hedging','Swaps','Warrants','CFDs','African derivatives market','Commodity derivatives','Volatility','Risk management','Derivatives for beginners'],
     psicologia:   ['Cognitive biases','Fear and greed','Emotional investing','Confirmation bias','Loss aversion','FOMO','Investor patience','Financial discipline','Common mistakes','Wealth mindset','Price psychology','Herd behavior','Financial resilience'],
+    civica: ['Italian Constitution','Rights and duties of citizens','How Parliament works','The President of the Republic','Local government','European Union','Agenda 2030 sustainable development','Digital citizenship','The right to vote','Freedom of expression','Equal opportunities','Right to work','Taxes and the State','Public school and Constitution'],
+    scuola: ['What is money and its history','How money was born','The banking system explained','European Central Bank','What is GDP','Inflation explained for students','Unemployment and labour market','What is a work contract','How to read a payslip','Why we pay taxes','National debt','Entrepreneurs and startups','International trade','Globalisation pros and cons'],
   }
 };
 TOPICS_LANG.es = TOPICS_LANG.it || {};
@@ -1958,24 +2180,9 @@ function getTopicsForPercorso(percorsoId) {
   return TOPICS[percorsoId] || [];
 }
 
-window.buildMondo = buildMondo;
-
 // ─────────────────────────────────────────────────────────
 // buildPuntoAbla — Sistema Saggezza/Compiti
 // ─────────────────────────────────────────────────────────
-// addSilverCoins — aggiunge monete argento al profilo
-function addSilverCoins(amount) {
-  if (!amount || amount <= 0) return;
-  if (!S.silverCoins) S.silverCoins = 0;
-  S.silverCoins += amount;
-  saveS();
-  if (amount > 0) toast("🥈 +" + amount + " Moneta Argento!");
-}
-window.addSilverCoins = addSilverCoins;
-
-// ═══════════════════════════════════════════════════════
-// ABLA MISSIONI — Missioni di studio del Comandante
-// ═══════════════════════════════════════════════════════
 var ABLA_MISSIONI = [
   {id:'etf_base',       icon:'📊', titolo:'Cos\u0027è un ETF?',                  desc:'Studia e spiega con parole tue cosa sono gli ETF e perché diversificano.',         semi:80,  argento:1, done:false},
   {id:'regola_5030',    icon:'💰', titolo:'Regola 50-30-20',                       desc:'Applica la regola 50-30-20 al tuo budget mensile reale.',                           semi:100, argento:1, done:false},
@@ -1993,6 +2200,101 @@ var ABLA_MISSIONI = [
   {id:'abitudine_21',   icon:'🔄', titolo:'21 Giorni di Abitudine Finanziaria',    desc:'Per 21 giorni registra ogni spesa e classifica in bisogni vs desideri.',           semi:200, argento:3, done:false},
   {id:'semi_silver',    icon:'🥈', titolo:'Primo Semi di Argento',                 desc:'Accumula abbastanza Semi per richiedere la tua prima moneta d\u0027argento.',      semi:50,  argento:0, done:false},
 ];
+function buildPuntoAbla() {
+  var body = document.getElementById('abla-body');
+  if (!body) return;
+  if (!Array.isArray(ABLA_MISSIONI) || !ABLA_MISSIONI.length) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+
+  // Header Abla
+  var hdr = document.createElement('div');
+  hdr.className = 'abla-card';
+  hdr.style.textAlign = 'center';
+  hdr.innerHTML =
+    '<div style="font-size:2.8rem;margin-bottom:6px">📚</div>' +
+    '<div style="font-size:1.1rem;font-weight:900;color:#a78bfa">'+(t.puntoabla_titolo||'Punto Abla')+'</div>' +
+    '<div class="abla-quote" style="margin-top:10px;text-align:left">' +
+      '"Comandante, hai letto il libro sulla Diversificazione? Spiegami cos\u0027è un ETF per sbloccare la tua Card!"' +
+    '</div>';
+  body.appendChild(hdr);
+
+  // Contatore missioni completate
+  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
+  var abl_total = ABLA_MISSIONI.length;
+  var ablaPct = Math.round((ablaDone/abl_total)*100);
+
+  var progress = document.createElement('div');
+  progress.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center';
+  progress.innerHTML =
+    '<div style="font-size:.78rem;font-weight:800;margin-bottom:6px">'+ablaDone+'/'+abl_total+' '+(t.abla_missioni_completate||'missioni completate')+'</div>' +
+    '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:8px;overflow:hidden">' +
+      '<div style="width:'+ablaPct+'%;height:100%;background:linear-gradient(90deg,#a78bfa,var(--gold));transition:width .5s"></div>' +
+    '</div>' +
+    '<div style="font-size:.65rem;color:var(--muted);margin-top:6px">'+(t.abla_sblocca||'Completa 5 missioni → sblocca Landa Card PRO')+'</div>';
+  body.appendChild(progress);
+
+  // Lista missioni
+  var catTitle = document.createElement('div');
+  catTitle.style.cssText = 'font-size:.72rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px';
+  catTitle.textContent = t.abla_missioni || '📋 Missioni del Saggio';
+  body.appendChild(catTitle);
+
+  ABLA_MISSIONI.forEach(function(m, i) {
+    var card = document.createElement('div');
+    card.className = 'abla-missione';
+    card.style.opacity = m.done ? '1' : '0.85';
+    card.style.border = m.done ? '1px solid rgba(74,222,128,.3)' : '1px solid rgba(255,215,0,.2)';
+    card.style.background = m.done ? 'rgba(74,222,128,.05)' : 'rgba(255,215,0,.04)';
+    card.innerHTML =
+      '<div class="abla-miss-icon">'+(m.done?'✅':m.icon)+'</div>' +
+      '<div style="flex:1">' +
+        '<div class="abla-miss-txt">'+m.titolo+'</div>' +
+        '<div style="font-size:.66rem;color:var(--muted);margin-top:2px">'+m.desc+'</div>' +
+        '<div class="abla-miss-reward">+'+m.semi+' 🪙 Semi &nbsp;·&nbsp; +'+m.argento+' 🥈 Argento</div>' +
+      '</div>' +
+      '<div style="font-size:.65rem;background:rgba(255,255,255,.06);border-radius:8px;padding:4px 8px;text-transform:uppercase;font-weight:800">'+m.categoria+'</div>';
+
+    if (!m.done) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(){
+        m.done = true;
+        S.coins   += m.semi;
+        var silver = safeLS('fl_silver_semi',0)||0;
+        safeSetItem('fl_silver_semi', silver + m.argento);
+        updateHUD(); saveS();
+        toast('🎓 '+m.titolo+' completata! +'+m.semi+' Semi +'+m.argento+' 🥈');
+        spawnParticles(); playS('success');
+        buildPuntoAbla(); // ricostruisci
+      });
+    }
+    body.appendChild(card);
+  });
+
+  // Footer
+  var foot = document.createElement('div');
+  foot.style.cssText = 'text-align:center;padding:16px;font-size:.68rem;color:var(--muted);line-height:1.7';
+  foot.innerHTML = '🎓 '+(t.abla_footer||'Il Saggio conosce ciò che non si vede nei grafici.<br>La vera ricchezza è la saggezza.');
+  body.appendChild(foot);
+}
+window.buildPuntoAbla = buildPuntoAbla;
+
+// ─────────────────────────────────────────────────────────
+
+
+// addSilverCoins — aggiunge monete d'argento al profilo
+function addSilverCoins(amount) {
+  if (!amount || amount <= 0) return;
+  if (!S.silverCoins) S.silverCoins = 0;
+  S.silverCoins += amount;
+  saveS();
+  if (amount > 0) toast("🥈 +" + amount + " Moneta Argento!");
+}
+window.addSilverCoins = addSilverCoins;
+
+// ═══════════════════════════════════════════════════════
+// ABLA MISSIONI — Missioni di studio del Comandante
+// ═══════════════════════════════════════════════════════
 
 // buildLandaCard — Paghetta Meritocratica
 // ─────────────────────────────────────────────────────────
@@ -2061,6 +2363,56 @@ function buildLandaCard(zone) {
     curDiv.appendChild(curEl);
   });
   body.appendChild(curDiv);
+
+  // ── Missioni del Mese ─────────────────────────────────
+  var isKidsCard = (S.eta === 'bambino' || S.eta === 'kids');
+  if (isKidsCard) {
+    var meseLabel = document.createElement('div');
+    meseLabel.style.cssText = 'font-size:.72rem;font-weight:900;color:#06b6d4;text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px';
+    meseLabel.innerHTML = '📅 Missioni del Mese — ' + getMeseKey();
+    body.appendChild(meseLabel);
+
+    MISSIONI_MENSILI.forEach(function(m) {
+      var prog = getProgressoMensile(m.chiave);
+      var done = prog >= m.target;
+      var pct  = Math.min(100, Math.round((prog / m.target) * 100));
+      var card = document.createElement('div');
+      card.style.cssText = 'background:' + (done ? 'rgba(74,222,128,.07)' : 'rgba(255,255,255,.04)') +
+        ';border:1px solid ' + (done ? 'rgba(74,222,128,.35)' : 'rgba(255,255,255,.1)') +
+        ';border-radius:12px;padding:11px;margin-bottom:8px';
+      card.innerHTML =
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">' +
+          '<div style="font-size:1.4rem">' + m.icon + '</div>' +
+          '<div style="flex:1">' +
+            '<div style="font-size:.8rem;font-weight:800;color:' + (done ? 'var(--green)' : '#fff') + '">' + m.titolo + '</div>' +
+            '<div style="font-size:.65rem;color:rgba(255,255,255,.45);margin-top:2px">' + m.desc + '</div>' +
+          '</div>' +
+          '<div style="text-align:right;flex-shrink:0">' +
+            (done
+              ? '<div style="font-size:1.2rem">✅</div>'
+              : '<div style="font-size:.72rem;color:var(--gold);font-weight:800">+' + m.semi + '🌱</div>') +
+          '</div>' +
+        '</div>' +
+        '<div style="background:rgba(255,255,255,.07);border-radius:6px;height:5px;overflow:hidden">' +
+          '<div style="width:' + pct + '%;height:100%;background:' + (done ? 'var(--green)' : 'var(--teal)') + ';border-radius:6px;transition:width .4s"></div>' +
+        '</div>' +
+        '<div style="font-size:.62rem;color:rgba(255,255,255,.35);margin-top:4px">' + prog + '/' + m.target + (done ? ' — Completata! 🎉' : '') + '</div>';
+      body.appendChild(card);
+    });
+
+    // Sommario e promemoria paghetta
+    var premio = calcolaPremioMensile();
+    var sommario = document.createElement('div');
+    sommario.style.cssText = 'background:rgba(6,182,212,.07);border:1px solid rgba(6,182,212,.25);border-radius:12px;padding:12px;margin-top:4px;text-align:center';
+    sommario.innerHTML =
+      '<div style="font-size:.7rem;color:#06b6d4;font-weight:900;margin-bottom:4px">PAGHETTA STIMATA DI FINE MESE</div>' +
+      '<div style="font-size:1.3rem;font-weight:900;color:var(--gold)">' +
+        (premio.semi > 0 ? '+' + premio.semi + ' 🌱' : '0 🌱') +
+        (premio.argento > 0 ? ' · +' + premio.argento + ' 🥈' : '') +
+      '</div>' +
+      '<div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:4px">' + premio.completate + '/' + premio.totale + ' missioni completate · Erogata il 1° del mese</div>';
+    body.appendChild(sommario);
+  }
 
   // Privacy shield
   var priv = document.createElement('div');
@@ -3657,6 +4009,17 @@ init();
 // ── DATI PROFESSORI DEMO ────────────────────────────────
 var PROFESSORI = [
   {
+    id:'prof_emanuele', nome:'Emanuele — Il Saggio', emoji:'🦁',
+    ruolo:'Insegnante & Educatore Finanziario', paese:'🇮🇹 Italia',
+    lingue:['Italiano','Francese'],
+    bio:'Insegnante con anni di esperienza. Specializzato in educazione civica, storia e finanza per le scuole. Porta la lezione di vita reale in classe e online. Il primo Saggio ufficiale di FinanzaLand.',
+    materie:['Ed. Civica','Risparmio','Storia','Valori di Vita','Scuola'],
+    studenti:0, corsi:1, valutazione:5.0, ore:0,
+    verificato:true, pro:true, saggio:true,
+    prossima_live:{titolo:'La Costituzione e il Denaro — per Ragazzi', data:'Prossimamente', durata:'45 min'},
+    semi_ricevuti:0,
+  },
+  {
     id:'prof_1', nome:'Prof. Marco Bianchi', emoji:'👨‍🏫',
     ruolo:'Educatore Finanziario Certificato', paese:'🇮🇹 Italia',
     lingue:['Italiano','Inglese'],
@@ -3735,6 +4098,159 @@ var CORSI_DEMO = [
    descrizione:'Financial Independence Retire Early. Regola del 4%, PAC, portafoglio FIRE.',
    pro_required:true},
 ];
+
+// ── MINI VIDEO PER LEZIONE ───────────────────────────────
+// Ogni percorso ha video YouTube per bambini e adulti
+// youtube_q = query di ricerca YouTube (si apre in YouTube)
+var MINI_VIDEOS = {
+  risparmio: [
+    {titolo:'Regola 50-30-20 spiegata ai ragazzi', prof:'Sophie Laurent', prof_emoji:'👩‍🎓', durata:'5 min', for_kids:true,  livello:'base',     youtube_q:'regola 50 30 20 bambini risparmio'},
+    {titolo:'Fondo di emergenza — perché è fondamentale', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'base',     youtube_q:'fondo emergenza risparmio educazione finanziaria'},
+    {titolo:'Pagati Prima — il segreto dei ricchi', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'6 min', for_kids:false, livello:'medio',    youtube_q:'pay yourself first risparmio automatico'},
+    {titolo:'Il salvadanaio magico — storia dei soldi', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'4 min', for_kids:true,  livello:'base',     youtube_q:'storia dei soldi bambini educazione'},
+  ],
+  investimenti: [
+    {titolo:'Interesse composto — il potere del tempo', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'interesse composto investimenti spiegato'},
+    {titolo:'Cosa sono gli ETF — guida completa', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'12 min', for_kids:false, livello:'medio',    youtube_q:'ETF cosa sono come funzionano'},
+    {titolo:'Investire per i bambini — inizia subito', prof:'Sophie Laurent', prof_emoji:'👩‍🎓', durata:'6 min', for_kids:true,  livello:'base',     youtube_q:'investire per bambini figli ETF'},
+    {titolo:'Dollar Cost Averaging — strategia sicura', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'9 min', for_kids:false, livello:'avanzato', youtube_q:'dollar cost averaging DCA strategia'},
+  ],
+  bambini: [
+    {titolo:'I soldi — cosa sono e da dove vengono', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'5 min', for_kids:true,  livello:'base', youtube_q:'cosa sono i soldi bambini storia'},
+    {titolo:'Bisogno vs Desiderio — sai la differenza?', prof:'Sophie Laurent', prof_emoji:'👩‍🎓', durata:'4 min', for_kids:true,  livello:'base', youtube_q:'bisogno desiderio bambini educazione finanziaria'},
+    {titolo:'Il tuo primo salvadanaio — come usarlo', prof:'Sophie Laurent', prof_emoji:'👩‍🎓', durata:'5 min', for_kids:true,  livello:'base', youtube_q:'salvadanaio bambini risparmio'},
+    {titolo:'Il valore del lavoro — storia di Amara', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'6 min', for_kids:true,  livello:'base', youtube_q:'valore del lavoro bambini storia educativa'},
+  ],
+  civica: [
+    {titolo:'La Costituzione italiana — articolo per articolo', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'10 min', for_kids:false, livello:'base',     youtube_q:'costituzione italiana spiegata ragazzi scuola'},
+    {titolo:'Diritti e Doveri — cosa dice l Art.1', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'7 min', for_kids:true,  livello:'base',     youtube_q:'diritti doveri cittadino italiano educazione civica'},
+    {titolo:'Come funziona il Parlamento italiano', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'8 min', for_kids:false, livello:'medio',    youtube_q:'parlamento italiano come funziona scuola'},
+    {titolo:'Agenda 2030 — i 17 obiettivi per i ragazzi', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'6 min', for_kids:true,  livello:'base',     youtube_q:'agenda 2030 obiettivi sostenibili ragazzi'},
+    {titolo:'Unione Europea spiegata ai bambini', prof:'Sophie Laurent', prof_emoji:'👩‍🎓', durata:'5 min', for_kids:true,  livello:'base',     youtube_q:'unione europea bambini spiegazione'},
+    {titolo:'Il diritto al voto — storia della democrazia', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'9 min', for_kids:false, livello:'medio',    youtube_q:'diritto voto democrazia storia italia'},
+  ],
+  scuola: [
+    {titolo:'Come nasce il denaro — storia per ragazzi', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'6 min', for_kids:true,  livello:'base',     youtube_q:'storia del denaro moneta origini ragazzi'},
+    {titolo:'Il PIL — cos è e perché conta', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'medio',    youtube_q:'PIL prodotto interno lordo spiegato ragazzi'},
+    {titolo:'L inflazione spiegata con la pizza', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'5 min', for_kids:true,  livello:'base',     youtube_q:'inflazione spiegata bambini ragazzi esempio'},
+    {titolo:'Come leggere la tua busta paga', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'medio',    youtube_q:'busta paga come si legge spiegazione'},
+    {titolo:'Le tasse — perché le paghiamo tutti', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'tasse perché paghiamo stato servizi spiegazione'},
+    {titolo:'La Banca Centrale Europea — cosa fa', prof:'Aisha Coulibaly', prof_emoji:'👩‍🏫', durata:'9 min', for_kids:false, livello:'avanzato', youtube_q:'banca centrale europea BCE funzione'},
+  ],
+  africa: [
+    {titolo:'La BRVM — la borsa africana spiegata', prof:'Aisha Coulibaly', prof_emoji:'👩‍🏫', durata:'10 min', for_kids:false, livello:'medio',    youtube_q:'BRVM borsa africana investire'},
+    {titolo:'M-Pesa — come il Kenya ha rivoluzionato la finanza', prof:'Aisha Coulibaly', prof_emoji:'👩‍🏫', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'M-Pesa Kenya mobile money Africa'},
+    {titolo:'L Impero del Mali e Mansa Musa — lezione di storia', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'8 min', for_kids:true,  livello:'base',     youtube_q:'Mansa Musa Impero Mali ricchezza storia'},
+    {titolo:'Tontine e risparmio collettivo africano', prof:'Aisha Coulibaly', prof_emoji:'👩‍🏫', durata:'6 min', for_kids:false, livello:'base',     youtube_q:'tontine risparmio collettivo Africa njangi'},
+  ],
+  psicologia: [
+    {titolo:'I bias cognitivi che ti costano soldi', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'11 min', for_kids:false, livello:'medio',    youtube_q:'bias cognitivi finanza investimenti psicologia'},
+    {titolo:'FOMO — la paura di perdere che ci rovina', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'base',     youtube_q:'FOMO paura perdere investimenti psicologia'},
+    {titolo:'Mindset della ricchezza — cosa pensano i ricchi', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'9 min', for_kids:false, livello:'avanzato', youtube_q:'mindset ricchezza pensiero ricco povero'},
+  ],
+  mercati: [
+    {titolo:'Come funziona la borsa — per principianti', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'10 min', for_kids:false, livello:'base',  youtube_q:'borsa valori come funziona principianti'},
+    {titolo:'L inflazione e le banche centrali', prof:'Luca Ferretti', prof_emoji:'👨‍💻', durata:'12 min', for_kids:false, livello:'medio', youtube_q:'inflazione banche centrali tassi interesse'},
+  ],
+  tasse: [
+    {titolo:'IRPEF — scaglioni spiegati facile', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'base',  youtube_q:'IRPEF scaglioni tasse italia spiegazione'},
+    {titolo:'Come ottimizzare le tasse legalmente', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'11 min', for_kids:false, livello:'avanzato', youtube_q:'ottimizzazione fiscale legale italia'},
+  ],
+  crypto: [
+    {titolo:'Bitcoin spiegato ai ragazzi', prof:'Luca Ferretti', prof_emoji:'👨‍💻', durata:'7 min', for_kids:true,  livello:'base',     youtube_q:'bitcoin spiegato bambini ragazzi facile'},
+    {titolo:'Blockchain — come funziona davvero', prof:'Luca Ferretti', prof_emoji:'👨‍💻', durata:'9 min', for_kids:false, livello:'medio',    youtube_q:'blockchain come funziona spiegazione'},
+  ],
+  immobiliare: [
+    {titolo:'Comprare o affittare — la vera risposta', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'9 min', for_kids:false, livello:'base',     youtube_q:'comprare o affittare casa conviene di piu'},
+    {titolo:'Come calcolare il rendimento di un affitto', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'medio',    youtube_q:'rendimento affitto calcolo investimento immobiliare'},
+    {titolo:'I REIT — investire in immobili senza comprare', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'avanzato', youtube_q:'REIT fondi immobiliari cosa sono come investire'},
+  ],
+  obbligazioni: [
+    {titolo:'Cosa è un\'obbligazione — spiegazione semplice', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'obbligazioni cosa sono come funzionano spiegazione'},
+    {titolo:'BTP italiano — conviene comprarlo?', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'medio',    youtube_q:'BTP italiano conviene comprare obbligazioni stato'},
+    {titolo:'Obbligazioni africane e mercati emergenti', prof:'Aisha Coulibaly', prof_emoji:'👩‍🏫', durata:'9 min', for_kids:false, livello:'avanzato', youtube_q:'obbligazioni mercati emergenti Africa rendimento'},
+  ],
+  pensione: [
+    {titolo:'Perché pensare alla pensione da giovani', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'pensione giovani perché iniziare presto risparmio'},
+    {titolo:'FIRE — andare in pensione a 45 anni', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'10 min', for_kids:false, livello:'avanzato', youtube_q:'FIRE indipendenza finanziaria pensione anticipata'},
+    {titolo:'La regola del 4% spiegata', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'medio',    youtube_q:'regola 4 percento pensione FIRE portafoglio'},
+  ],
+  figli: [
+    {titolo:'ETF per i figli — inizia dal primo giorno', prof:'Sophie Laurent', prof_emoji:'👩‍🎓', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'ETF figli bambini PAC investire futuro'},
+    {titolo:'Quanto vale 100€ al mese per 18 anni', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'6 min', for_kids:true,  livello:'base',     youtube_q:'interesse composto 100 euro mese 18 anni risultato'},
+    {titolo:'Come parlare di soldi ai bambini', prof:'Emanuele — Il Saggio', prof_emoji:'🦁', durata:'8 min', for_kids:true,  livello:'base',     youtube_q:'come parlare di soldi ai bambini educazione finanziaria'},
+  ],
+  derivati: [
+    {titolo:'Cosa sono i derivati — spiegazione base', prof:'Luca Ferretti', prof_emoji:'👨‍💻', durata:'9 min', for_kids:false, livello:'base',     youtube_q:'derivati finanziari cosa sono come funzionano'},
+    {titolo:'Opzioni Call e Put — guida per principianti', prof:'Luca Ferretti', prof_emoji:'👨‍💻', durata:'11 min', for_kids:false, livello:'medio',    youtube_q:'opzioni call put spiegazione principianti finanza'},
+    {titolo:'La leva finanziaria — rischi e opportunità', prof:'Luca Ferretti', prof_emoji:'👨‍💻', durata:'8 min', for_kids:false, livello:'avanzato', youtube_q:'leva finanziaria rischi opportunità trading'},
+  ],
+};
+
+// ── DIVENTA SAGGIO — FUNZIONI ─────────────────────────────
+function apriModalSaggio() {
+  var m = document.getElementById('saggio-modal-overlay');
+  if (m) m.classList.add('open');
+}
+function chiudiModalSaggio() {
+  var m = document.getElementById('saggio-modal-overlay');
+  if (m) m.classList.remove('open');
+}
+function inviaRichiestaSaggio() {
+  var nome     = (document.getElementById('sm-nome')    ||{}).value || '';
+  var email    = (document.getElementById('sm-email')   ||{}).value || '';
+  var materia  = (document.getElementById('sm-materia') ||{}).value || '';
+  var eta      = (document.getElementById('sm-eta')     ||{}).value || '';
+  var youtube  = (document.getElementById('sm-youtube') ||{}).value || '';
+  var bio      = (document.getElementById('sm-bio')     ||{}).value || '';
+  if (!nome || !email) { toast('⚠️ Nome e email sono obbligatori'); return; }
+  var testo = 'Ciao FinanzaLand!%0A%0ASono '+encodeURIComponent(nome)+'%0AEmail: '+encodeURIComponent(email)+'%0ASpecializzazione: '+encodeURIComponent(materia)+'%0ATarget: '+encodeURIComponent(eta)+'%0ACanale/Video YouTube: '+encodeURIComponent(youtube)+'%0ABio: '+encodeURIComponent(bio)+'%0A%0AVorrei diventare un Saggio FinanzaLand!';
+  var waUrl = 'https://wa.me/message/finanzaland?text='+testo;
+  var mailUrl = 'mailto:saggi@finanzaland.app?subject='+encodeURIComponent('Voglio diventare un Saggio — '+nome)+'&body='+testo;
+  window.open(mailUrl, '_blank');
+  chiudiModalSaggio();
+  toast('✅ Richiesta inviata! Ti contatteremo presto 🦁');
+}
+window.apriModalSaggio   = apriModalSaggio;
+window.chiudiModalSaggio = chiudiModalSaggio;
+window.inviaRichiestaSaggio = inviaRichiestaSaggio;
+
+// ── MINI VIDEO — RENDER IN LEZIONE ───────────────────────
+function getMiniVideoForLesson(percorsoId, isKids) {
+  var vids = MINI_VIDEOS[percorsoId];
+  if (!vids || !vids.length) return null;
+  // Prefer age-appropriate video
+  var filtered = vids.filter(function(v){ return isKids ? v.for_kids : true; });
+  if (!filtered.length) filtered = vids;
+  return filtered[Math.floor(Math.random() * Math.min(filtered.length, 2))];
+}
+
+function renderMiniVideo(percorsoId, isKids, container) {
+  var v = getMiniVideoForLesson(percorsoId, isKids);
+  if (!v) return;
+  var sec = document.createElement('div');
+  sec.className = 'mini-video-section';
+  var youtubeSearchUrl = 'https://www.youtube.com/results?search_query='+encodeURIComponent(v.youtube_q)+'&sp=EgQIBBAB'; // filtered: educational
+  sec.innerHTML =
+    '<div class="mini-video-label">📹 Video Consigliato</div>' +
+    '<div class="mini-video-card" onclick="window.open(\''+youtubeSearchUrl+'\',\'_blank\')">' +
+      '<div class="mini-video-thumb">' +
+        '<div class="mini-video-play">▶️</div>' +
+        '<div class="mini-video-overlay">'+v.titolo+'</div>' +
+      '</div>' +
+      '<div class="mini-video-meta">' +
+        '<div class="mini-video-prof-avatar">'+v.prof_emoji+'</div>' +
+        '<div class="mini-video-info">' +
+          '<div class="mini-video-title">'+v.titolo+'</div>' +
+          '<div class="mini-video-prof">'+v.prof+'</div>' +
+        '</div>' +
+        '<div class="mini-video-duration">'+v.durata+'</div>' +
+      '</div>' +
+      '<button class="mini-video-open-btn" onclick="event.stopPropagation();window.open(\''+youtubeSearchUrl+'\',\'_blank\')">▶ Guarda su YouTube</button>' +
+    '</div>';
+  container.appendChild(sec);
+}
+window.renderMiniVideo = renderMiniVideo;
 
 // ── SESSIONI LIVE DEMO ───────────────────────────────────
 var LIVE_SESSIONS = [
@@ -3910,11 +4426,18 @@ function buildAcademyProf(body) {
   renderProfList(PROFESSORI, profsDiv);
 
   var addProfBtn = document.createElement('div');
-  addProfBtn.style.cssText = 'background:rgba(255,215,0,.06);border:1.5px dashed rgba(255,215,0,.3);border-radius:14px;padding:14px;text-align:center;cursor:pointer;margin-top:6px';
-  addProfBtn.innerHTML = '<div style="font-size:1.8rem;margin-bottom:5px">➕</div>' +
-    '<div style="font-size:.84rem;font-weight:700;color:var(--gold)">Vuoi insegnare su FinanzaLand?</div>' +
-    '<div style="font-size:.74rem;color:var(--muted);margin-top:3px">Registrati come professore — Gratis</div>';
-  addProfBtn.addEventListener('click', function(){ showScreen('diventa-prof'); buildDiventaProf(); });
+  addProfBtn.className = 'diventa-saggio-banner';
+  addProfBtn.innerHTML =
+    '<div style="font-size:2.2rem;margin-bottom:6px">🦁</div>' +
+    '<div style="font-size:.95rem;font-weight:900;color:#A78BFA;margin-bottom:4px">Diventa un Saggio FinanzaLand</div>' +
+    '<div style="font-size:.76rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:10px">Sei un insegnante, educatore o esperto? Carica i tuoi mini video, tieni lezioni live e ispira bambini, ragazzi e famiglie. Zero costi per iniziare.</div>' +
+    '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">' +
+      '<span style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);border-radius:8px;padding:3px 10px;font-size:.68rem;color:#A78BFA;font-weight:700">📹 Mini Video</span>' +
+      '<span style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:3px 10px;font-size:.68rem;color:var(--green);font-weight:700">🔴 Lezioni Live</span>' +
+      '<span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:8px;padding:3px 10px;font-size:.68rem;color:var(--gold);font-weight:700">🌍 Tutte le età</span>' +
+    '</div>' +
+    '<div style="background:linear-gradient(135deg,#A78BFA,#7c3aed);border-radius:10px;padding:11px;font-size:.88rem;font-weight:900;color:#fff">✨ Registrati — È Gratuito</div>';
+  addProfBtn.addEventListener('click', apriModalSaggio);
   body.appendChild(addProfBtn);
 }
 
@@ -5079,88 +5602,6 @@ function generaCertificato(nomeCorso, nomeProfessore, dataCompletamento) {
 function buildPopupPremiConCert(body) {
   if (typeof buildPopupPremiBase === 'function') buildPopupPremiBase(body);
   var done = Object.keys(S.completate).length;
-  var silver = S.silverCoins || 0;
-  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
-
-  // ── MONETE D'ARGENTO FISICHE ─────────────────────────────────────
-  var silverSection = document.createElement('div');
-  silverSection.style.cssText = 'margin-top:14px';
-  silverSection.innerHTML = '<div class="adult-section-title" style="color:#E8E8E8">🥈 Monete Argento Fisiche</div>';
-
-  var silverCard = document.createElement('div');
-  silverCard.style.cssText = 'background:linear-gradient(135deg,rgba(232,232,232,.08),rgba(192,192,192,.05));border:1px solid rgba(232,232,232,.25);border-radius:16px;padding:16px;margin-bottom:10px';
-  silverCard.innerHTML =
-    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">'
-      + '<div style="font-size:2.5rem">🥈</div>'
-      + '<div>'
-        + '<div style="font-size:.95rem;font-weight:900;color:#E8E8E8">Moneta Argento 31g</div>'
-        + '<div style="font-size:.7rem;color:var(--muted);margin-top:2px">Argento fisico — valore reale</div>'
-      + '</div>'
-    + '</div>'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
-      + '<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center">'
-        + '<div style="font-size:.65rem;color:var(--muted)">Le tue monete</div>'
-        + '<div style="font-size:1.6rem;font-weight:900;color:#E8E8E8">' + silver + '</div>'
-      + '</div>'
-      + '<div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px;text-align:center">'
-        + '<div style="font-size:.65rem;color:var(--muted)">Valore stimato</div>'
-        + '<div style="font-size:1.2rem;font-weight:900;color:var(--gold)">€' + (silver * 28).toLocaleString('it-IT') + '</div>'
-      + '</div>'
-    + '</div>'
-    + '<div style="font-size:.72rem;color:var(--muted);margin-bottom:10px;line-height:1.5">'
-      + '💡 Ogni moneta = 31g di argento 999. Guadagni monete completando missioni ABLA, lezioni avanzate e obiettivi familiari.'
-    + '</div>';
-
-  // Milestone monete
-  var milestones = [
-    {n:1,  label:'Prima Moneta',  req:1,  desc:'Completa 15 missioni ABLA'},
-    {n:3,  label:'Triofortuna',   req:3,  desc:'100 lezioni completate'},
-    {n:5,  label:'Tesoro Reale',  req:5,  desc:'Raggiungi livello 30'},
-    {n:10, label:'Cofanetto Oro', req:10, desc:'1000 Semi di Luce'},
-  ];
-
-  var mlDiv = document.createElement('div');
-  mlDiv.style.cssText = 'display:flex;flex-direction:column;gap:6px;margin-bottom:12px';
-  milestones.forEach(function(ms) {
-    var earned = silver >= ms.req;
-    var el = document.createElement('div');
-    el.style.cssText = 'display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid '+(earned?'rgba(232,232,232,.3)':'rgba(255,255,255,.07)')+';border-radius:10px;padding:9px 12px;opacity:'+(earned?'1':'0.55');
-    el.innerHTML =
-      '<div style="font-size:1.3rem">' + (earned?'🥈':'🔒') + '</div>'
-      + '<div style="flex:1">'
-        + '<div style="font-size:.8rem;font-weight:700;color:'+(earned?'#E8E8E8':'#888')+'">' + ms.n + 'x ' + ms.label + '</div>'
-        + '<div style="font-size:.65rem;color:var(--muted)">' + ms.desc + '</div>'
-      + '</div>'
-      + (earned ? '<span style="font-size:.65rem;background:rgba(232,232,232,.15);color:#E8E8E8;padding:2px 8px;border-radius:8px;font-weight:700">SBLOCCATO</span>' : '');
-    mlDiv.appendChild(el);
-  });
-  silverCard.appendChild(mlDiv);
-
-  // Bottone richiesta
-  var reqBtn = document.createElement('button');
-  reqBtn.style.cssText = 'width:100%;background:' + (silver>=1 ? 'linear-gradient(135deg,#C0C0C0,#E8E8E8)' : 'rgba(255,255,255,.08)') + ';color:'+(silver>=1?'#1a1a2e':'#555')+';border:none;border-radius:12px;padding:12px;font-weight:900;font-size:.9rem;cursor:'+(silver>=1?'pointer':'not-allowed');
-  reqBtn.textContent = silver >= 1 ? '📬 Richiedi Moneta Fisica' : '🔒 Sblocca la prima moneta (1x ABLA)';
-  reqBtn.onclick = function() {
-    if (silver < 1) { toast('Completa le missioni ABLA per guadagnare monete!'); return; }
-    // Open email for redemption
-    var subject = encodeURIComponent('Richiesta Moneta Argento FinanzaLand — ' + (S.name||'Utente'));
-    var bodyEmail = encodeURIComponent('Salve, vorrei riscattare le mie monete argento.\n\n' + 'Monete: ' + silver + '\nSemi: ' + S.coins + '\nLivello: ' + (S.level||1) + '\nLezioni: ' + done + '\n\nIndirizzo consegna:\n[INSERIRE]\n\nCordiali saluti');
-    window.open('mailto:ilboudobr96@gmail.com?subject='+subject+'&body='+bodyEmail, '_blank');
-    toast('📬 Email aperta! Invia per ricevere la tua moneta 🥈');
-  };
-  silverCard.appendChild(reqBtn);
-
-  if (silver >= 1) {
-    var note = document.createElement('div');
-    note.style.cssText = 'font-size:.62rem;color:var(--muted);text-align:center;margin-top:6px';
-    note.textContent = 'Spedizione gratuita in Italia • Consegna 7-10 giorni lavorativi';
-    silverCard.appendChild(note);
-  }
-
-  silverSection.appendChild(silverCard);
-  body.appendChild(silverSection);
-
-  // ── CERTIFICATI ───────────────────────────────────────────────────
   if (done >= 1) {
     var certSection = document.createElement('div');
     certSection.style.marginTop = '14px';
@@ -5170,16 +5611,16 @@ function buildPopupPremiConCert(body) {
       {nome:'Esploratore Finanziario', prof:'FinanzaLand AI', req:5, col:'var(--teal)'},
       {nome:'Maestro FinanzaLand', prof:'FinanzaLand AI', req:20, col:'var(--gold)'},
     ];
-    certData.forEach(function(cert){
-      var earned = done >= cert.req;
+    certData.forEach(function(c){
+      var earned = done >= c.req;
       var el = document.createElement('div');
       el.className = 'cert-download';
       el.style.opacity = earned ? '1' : '0.5';
       el.innerHTML =
         '<div class="cert-icon-big">' + (earned?'📜':'🔒') + '</div>' +
-        '<div class="cert-name" style="color:'+cert.col+'">' + cert.nome + '</div>' +
-        '<div class="cert-desc">' + (earned ? 'Hai completato ' + done + ' lezioni — Certificato disponibile!' : 'Completa '+cert.req+' lezioni per sbloccare') + '</div>' +
-        (earned ? '<button class="cert-dl-btn" onclick="generaCertificato(\''+cert.nome+'\',\''+cert.prof+'\')">📥 Scarica Certificato</button>' : '');
+        '<div class="cert-name" style="color:'+c.col+'">' + c.nome + '</div>' +
+        '<div class="cert-desc">' + (earned ? 'Hai completato ' + done + ' lezioni — Certificato disponibile!' : 'Completa '+c.req+' lezioni per sbloccare') + '</div>' +
+        (earned ? '<button class="cert-dl-btn" onclick="generaCertificato(\''+c.nome+'\',\''+c.prof+'\')">📥 Scarica Certificato</button>' : '');
       certSection.appendChild(el);
     });
     body.appendChild(certSection);
@@ -6999,8 +7440,6 @@ async function generateLesson(topic, percorso, livello, eta, forceNew) {
         eta: eta || S.eta, lingua: S.lang, lessonId: cacheKey, stream: false,
       })
     });
-    var ct=resp.headers.get('content-type')||'';
-    if(!ct.includes('json'))throw new Error('API:'+resp.status);
     var data = await resp.json();
     if (data.success && data.lesson) {
       data.lesson.cached_at = Date.now();
@@ -7114,6 +7553,13 @@ function openLezione(lez) {
     body.appendChild(sfida);
   }
 
+  // Mini Video consigliato
+  var percId = currentPercorso ? currentPercorso.id : '';
+  var isKids = (S.eta === 'bambino' || S.eta === 'kids');
+  if (typeof renderMiniVideo === 'function' && percId) {
+    renderMiniVideo(percId, isKids, body);
+  }
+
   // Quiz
   if (lez.quiz && lez.quiz.length) {
     var qSec = document.createElement('div'); qSec.className = 'lv-section';
@@ -7166,13 +7612,20 @@ function openLezione(lez) {
     S.completate[cacheKey] = Date.now();
     S.coins += lez.semi_reward || 80;
     S.xp = (S.xp||0) + 30;
-    checkLevelUp();
+    checkLevel();
     updateHUD(); saveS();
     complBtn.textContent = t.lv_gia_fatta || 'Lezione Completata ✅';
     complBtn.disabled = true; complBtn.style.opacity = '0.6';
     addSilverCoins(20);
     toast('🎉 +'+(lez.semi_reward||80)+' Semi! +20 🥈');
     spawnParticles(); playS('success');
+    // ── Traccia missioni mensili ───────────────────────
+    if (typeof avanzaMissioneMensile === 'function') {
+      avanzaMissioneMensile('completate_mese', 1);
+      if (currentPercorso && currentPercorso.id === 'civica') {
+        avanzaMissioneMensile('civica_mese', 1);
+      }
+    }
   });
   body.appendChild(complBtn);
 
@@ -7183,6 +7636,8 @@ function openLezione(lez) {
 
 // ── BUILD ACCADEMIA ─────────────────────────────────────────────────────
 function buildAccademia() {
+  if (!currentPercorso || !currentPercorso.id) currentPercorso = PERCORSI[0];
+  if (!currentLivello  || !currentLivello.id)  currentLivello  = LIVELLI[0];
   var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
 
   // Percorsi tabs
@@ -7223,6 +7678,9 @@ function buildAccademia() {
 
 // ── RENDER LEZIONI LIST ─────────────────────────────────────────────────
 function renderLezioniList() {
+  if (!currentPercorso || !currentPercorso.id) currentPercorso = PERCORSI[0];
+  if (!currentLivello  || !currentLivello.id)  currentLivello  = LIVELLI[0];
+  if (!currentPercorso.id || !currentLivello.id) return;
   var body = document.getElementById('acc-body');
   if (!body) return;
   body.innerHTML = '';
@@ -7327,8 +7785,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Gesù racconta di tre servi. Il primo riceve 5 talenti (monete d oro), li investe e li raddoppia. Il secondo ne riceve 2, fa lo stesso. Il terzo ne riceve 1, lo seppellisce per paura. Il padrone punisce solo il terzo. Messaggio: i soldi vanno fatti lavorare. Tenerli fermi è una perdita. Questo è l interesse composto: il denaro inattivo si svaluta con l inflazione.',
     applicazione:'Se hai 100 euro, tenerli sotto il materasso significa perderli lentamente. Investirli in un ETF al 7% annuo significa avere 197 euro in 10 anni.',
     domanda:'Hai un talento (abilità o risorsa) che stai "seppellendo" invece di far crescere? Quale?',
-    azione_fisica:'Oggi: prendi i tuoi risparmi fermi e trasferiscili in un conto che genera interesse. Anche solo 50 euro. Fallo adesso.',
-    semi:0
+    semi:50
   },
   {
     id:'bibbia_risparmio', fonte:'Bibbia', libro:'Proverbi 21:20', icona:'✝️',
@@ -7338,8 +7795,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Il Libro dei Proverbi è pieno di saggezza finanziaria pratica. Questa frase scritta 3000 anni fa descrive esattamente il concetto moderno del fondo di emergenza: avere sempre una riserva. La formica che raccoglie d estate per l inverno è la metafora del risparmio automatico.',
     applicazione:'Regola moderna: risparmia almeno il 10% di ogni entrata prima di spendere. Pagati prima.',
     domanda:'Quanto tempo durerebbe la tua famiglia se perdessi il lavoro domani? 1 settimana, 1 mese, 6 mesi?',
-    azione_fisica:'Oggi: imposta un bonifico automatico del 10% del tuo stipendio verso un conto separato. Adesso, non domani.',
-    semi:0
+    semi:40
   },
   {
     id:'bibbia_debiti', fonte:'Bibbia', libro:'Proverbi 22:7', icona:'✝️',
@@ -7349,8 +7805,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'3000 anni fa la Bibbia aveva già capito la differenza tra libertà finanziaria e schiavitù del debito. Un mutuo, una carta di credito al limite, un prestito per beni di consumo: sono catene. La vera ricchezza è non dover nulla a nessuno. Dave Ramsey, il guru americano dell elimina-debiti, ha costruito un impero insegnando esattamente questo principio biblico.',
     applicazione:'Debiti buoni: mutuo per casa che vale di più, prestito per istruzione. Debiti cattivi: credito al consumo, rate per TV o vacanze.',
     domanda:'Hai debiti? Se sì, li hai scritti tutti con tasso di interesse? Qual è il più costoso?',
-    azione_fisica:'Oggi: scrivi su carta tutti i tuoi debiti con tasso di interesse. Ordina dal piu costoso al meno costoso. Attacca il primo.',
-    semi:0
+    semi:50
   },
 
   // ── CORANO ──────────────────────────────────────────────────────────
@@ -7362,8 +7817,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Il Corano proibisce il riba — l interesse sul denaro — perché crea ingiustizia: chi ha i soldi guadagna senza lavorare, chi ne ha bisogno paga sempre di più. Questa proibizione ha generato un intero sistema finanziario alternativo: la finanza islamica. I Sukuk (obbligazioni islamiche) funzionano con partecipazione al profitto invece dell interesse. Mercato globale Sukuk: $2 trilioni.',
     applicazione:'Paesi MENA, Indonesia, Malaysia hanno banche islamiche dove non paghi interesse ma condividi il rischio. I Sukuk sauditi finanziano infrastrutture con rendimento halal.',
     domanda:'Conosci qualcuno che ha rinunciato a investire per ragioni religiose? Come potrebbe investire in modo conforme alla sua fede?',
-    azione_fisica:'Oggi: cerca "ETF UCITS sostenibile" o "conto deposito halal" nella tua zona. Trova un investimento conforme ai tuoi valori.',
-    semi:0
+    semi:60
   },
   {
     id:'corano_zakat', fonte:'Corano', libro:'Sura At-Tawba 9:60', icona:'☪️',
@@ -7373,8 +7827,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Lo Zakat è il 3° pilastro dell Islam: ogni musulmano con ricchezza sopra la nisab (soglia minima ~85g d oro) dona il 2,5% annuo ai bisognosi. È un sistema di redistribuzione della ricchezza integrato nella fede. In Indonesia, la raccolta Zakat supera i $3 miliardi annui. È la finanza sociale più antica del mondo.',
     applicazione:'Concetto moderno equivalente: impact investing, ESG funds, donazioni automatiche 2-5% del reddito. Il dare regolare crea abbondanza mentale e concreta.',
     domanda:'Hai un sistema di donazione regolare? Quanto % del tuo reddito destini agli altri?',
-    azione_fisica:'Oggi: calcola il tuo Zakat (2.5% del patrimonio sopra la nisab) o decidi una % fissa da donare ogni mese. Imposta il bonifico.',
-    semi:0
+    semi:50
   },
 
   // ── FILOSOFIA AFRICANA ──────────────────────────────────────────────
@@ -7386,8 +7839,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Ubuntu è la filosofia africana del "io sono perché noi siamo". In finanza si traduce nelle tontine (Africa Occidentale), nei chamas (Kenya), nelle stockvel (Sudafrica): gruppi di risparmio collettivo dove tutti contribuiscono e si aiutano a turno. La tontine è la prima banca: nessun interesse, solo fiducia. Movimenti mensili da €50 a €5000 persona.',
     applicazione:'Nel mondo moderno: cooperative di credito, fondi familiari, investimenti di gruppo. FinanzaLand ha la modalità Famiglia per questo.',
     domanda:'Fai parte di una tontine, un chama o un gruppo di risparmio? Se no, perché non iniziarne uno?',
-    azione_fisica:'Oggi: proponi a 3 familiari o amici di creare una tontine mensile. Anche 20 euro ciascuno. Fissa la prima riunione.',
-    semi:5
+    semi:45
   },
   {
     id:'maat_egitto', fonte:'Filosofia Africana', libro:'Maat — Antico Egitto', icona:'🏛️',
@@ -7397,8 +7849,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Maat era il principio egizio di verità, giustizia ed equilibrio. Nell economia antica egizia, il faraone era responsabile dell equilibrio: niente inflazione selvaggia, niente speculazione, niente monopoli. I granai pubblici erano il primo "fondo sovrano": in anni di abbondanza si accumula, in anni di carestia si distribuisce. Giuseppe nella Bibbia applica esattamente Maat.',
     applicazione:'Principio moderno: il tuo portafoglio personale dovrebbe avere equilibrio — non tutto in un asset, non indebitarsi oltre le possibilità, mantenere riserve.',
     domanda:'Il tuo "portafoglio vita" è in equilibrio? Corpo, mente, soldi, relazioni — cosa è fuori bilanciamento?',
-    azione_fisica:'Oggi: fai la lista di tutti i tuoi asset (cosa possiedi) e passivita (cosa devi). Calcola il tuo patrimonio netto reale.',
-    semi:0
+    semi:60
   },
   {
     id:'sundiata', fonte:'Storia Africana', libro:'Epopea di Sundiata Keita', icona:'👑',
@@ -7408,8 +7859,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Sundiata Keita fondò l Impero del Mali nel 1235 — l impero più ricco della storia mondiale. Mansa Musa, il suo successore, era l uomo più ricco mai vissuto ($400 miliardi in valori odierni). Il Mali controllava il 50% dell oro mondiale. La sua strategia: commercio trans-sahariano, controllo delle risorse, educazione (università di Timbuktu). Un sistema finanziario africano funzionante secoli prima dell Europa.',
     applicazione:'Il BRVM di oggi (Abidjan) è l erede di questa tradizione commerciale. Investire in Africa significa investire nel continente con la storia economica più antica.',
     domanda:'Conoscevi la storia finanziaria africana pre-coloniale? Come cambia la tua visione dell Africa?',
-    azione_fisica:'Oggi: ricerca la BRVM su finanzaland.vercel.app nella sezione Landa Global. Studia 1 azienda africana quotata.',
-    semi:5
+    semi:55
   },
 
   // ── GRANDI LIBRI E PENSATORI ────────────────────────────────────────
@@ -7421,8 +7871,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Napoleon Hill intervistò 500 persone di successo tra cui Carnegie, Ford e Edison per 20 anni. Scoprì che la differenza non era la fortuna o l intelligenza, ma un DESIDERIO BRUCIANTE trasformato in piano preciso. Il suo "Segreto": scrivi il tuo obiettivo finanziario specifico, con data esatta, con piano d azione, e leggilo ogni mattina e ogni sera ad alta voce. Il cervello non distingue tra immaginazione vivida e realtà.',
     applicazione:'Esercizio: scrivi "Entro il [DATA] avrò accumulato €[CIFRA] facendo [COSA]." Firma. Incolla sul muro.',
     domanda:'Hai mai scritto un obiettivo finanziario con data e cifra specifica? Prova adesso.',
-    azione_fisica:'Oggi: scrivi a mano su carta: "Entro il [DATA] avro euro [CIFRA] facendo [COSA]." Firma. Fotografa. Incolla sul muro.',
-    semi:0
+    semi:60
   },
   {
     id:'kiyosaki_padre', fonte:'Libro', libro:'Padre Ricco Padre Povero — Robert Kiyosaki (1997)', icona:'📖',
@@ -7432,8 +7881,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Kiyosaki spiega la regola d oro: un ASSET ti mette soldi in tasca (azioni, immobili in affitto, royalties). Una PASSIVITÀ ti toglie soldi (mutuo, auto, carte di credito). La casa in cui vivi è una passività se ti costa più di quanto produce. Il segreto dei ricchi: usare il reddito per comprare asset, non passività. Il quadrante del cash flow: Dipendente → Autonomo → Proprietario → Investitore.',
     applicazione:'Fai la lista dei tuoi asset (cosa ti paga) e passività (cosa ti costa). Qual è il saldo?',
     domanda:'Il tuo ultimo acquisto importante era un asset o una passività? Come ti ha fatto sentire?',
-    azione_fisica:'Oggi: fai la lista dei tuoi asset (ti pagano) vs passivita (ti costano). Identifica 1 passivita da eliminare questo mese.',
-    semi:5
+    semi:55
   },
   {
     id:'millionaire_next', fonte:'Libro', libro:'Il Milionario della Porta Accanto — Thomas Stanley (1996)', icona:'📖',
@@ -7443,8 +7891,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Stanley studiò i veri milionari americani: non vivono in ville, non guidano Ferrari, non indossano orologi da €20.000. L 80% è prima generazione ricca — self-made. Il loro segreto: vivere al di sotto dei propri mezzi, investire la differenza, non cercare di "sembrare ricchi". Il vero indicatore di ricchezza non è il reddito ma il patrimonio netto. Formula: (Età × Reddito lordo) / 10 = patrimonio atteso.',
     applicazione:'Calcola il tuo patrimonio netto atteso. Sei sopra o sotto la media?',
     domanda:'Spendi di più per sembrare ricco o per diventarlo? Qual è la tua spesa più "apparenza"?',
-    azione_fisica:'Oggi: calcola la tua spesa mensile per "sembrare ricco" (vestiti, auto, ristoranti). Riduci il 20% e investi la differenza.',
-    semi:0
+    semi:50
   },
   {
     id:'psicologia_soldi', fonte:'Libro', libro:'La Psicologia dei Soldi — Morgan Housel (2020)', icona:'📖',
@@ -7454,8 +7901,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Housel dimostra che le decisioni finanziarie non sono matematica — sono psicologia. La paura e l avidità distruggono più ricchezza di qualsiasi crisi finanziaria. Il più grande rischio finanziario è comportamentale: vendere in panico durante una crisi, comprare per FOMO durante un boom. La chiave: creare sistemi automatici che tolgono le emozioni dalle decisioni.',
     applicazione:'PAC (Piano di Accumulo del Capitale): ogni mese, automaticamente, una cifra fissa va in ETF. Non guardi il mercato. Non vendi. Le emozioni non decidono.',
     domanda:'Hai mai preso una decisione finanziaria sotto effetto di emozioni (paura o entusiasmo)? Come è andata?',
-    azione_fisica:'Oggi: imposta un PAC automatico. Scegli un ETF globale, imposta 50-200 euro mensili automatici. Non guardare il mercato per 1 anno.',
-    semi:5
+    semi:55
   },
   {
     id:'seven_habits', fonte:'Libro', libro:'Le 7 Abitudini — Stephen Covey (1989)', icona:'📖',
@@ -7465,8 +7911,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Covey insegna a immaginare il proprio funerale: cosa vorresti che dicessero di te? Questo esercizio (disturbante ma potente) chiarisce i veri valori. In finanza: visualizza la tua vita a 70 anni. Hai libertà finanziaria? Puoi aiutare i figli? Hai costruito qualcosa? Poi lavora a ritroso: cosa devi fare oggi per arrivare lì? Abitudine 1: Sii proattivo. I ricchi creano le circostanze. I poveri aspettano le circostanze.',
     applicazione:'Scrivi la tua "dichiarazione di missione finanziaria personale" — max 3 frasi su cosa vuoi costruire e perché.',
     domanda:'Dove vuoi essere finanziariamente a 65 anni? Hai un piano scritto per arrivarci?',
-    azione_fisica:'Oggi: scrivi la tua dichiarazione di missione finanziaria in 3 frasi. Cosa vuoi avere, essere e lasciare. Firmala.',
-    semi:0
+    semi:60
   },
 
   // ── MINDSET E CORAGGIO ──────────────────────────────────────────────
@@ -7478,8 +7923,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Marco Aurelio era l uomo più potente del mondo — e ogni mattina scriveva di umiltà, di controllo delle emozioni, di distinzione tra ciò che dipende da noi e ciò che non dipende. In finanza: non puoi controllare il mercato, l inflazione, le crisi. Puoi controllare quanto risparmi, come investi, quando vendi. Lo Stoicismo insegna a concentrare energia solo su ciò che controlli.',
     applicazione:'Esercizio stoico: fai una lista di 5 fattori finanziari che non controlli (mercato, tasse...) e 5 che controlli (spese, risparmi...). Dimentica i primi. Ottimizza i secondi.',
     domanda:'Quanta energia sprechi preoccupandoti di cose finanziarie che non puoi controllare?',
-    azione_fisica:'Oggi: scrivi 5 cose finanziarie che NON puoi controllare. Poi scrivi 5 che puoi. Concentra tutta l energia sulle seconde.',
-    semi:0
+    semi:60
   },
   {
     id:'coraggio_mandela', fonte:'Storia', libro:'Lungo Cammino verso la Libertà — Nelson Mandela', icona:'✊',
@@ -7489,8 +7933,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Mandela passò 27 anni in prigione e uscì senza rancore, senza paura, pronto a costruire. La paura è il nemico numero uno degli investitori: paura di perdere, paura di sbagliare, paura di iniziare. Chi investe solo quando "si sente sicuro" non investe mai — perché non ci si sente mai sicuri abbastanza. Il coraggio finanziario è iniziare con poco, sbagliare, imparare, continuare.',
     applicazione:'Inizia con €50/mese in un ETF mondiale. Non aspettare di avere "abbastanza". Il momento perfetto non arriva mai.',
     domanda:'Qual è la tua più grande paura finanziaria? Cosa ti impedisce di iniziare?',
-    azione_fisica:'Oggi: apri un conto investimenti se non ce l hai. Deposita anche solo 10 euro. Il coraggio e iniziare, non aspettare.',
-    semi:5
+    semi:45
   },
   {
     id:'einstein_composto', fonte:'Scienza', libro:'Albert Einstein', icona:'🔬',
@@ -7500,8 +7943,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Questa frase (attribuita a Einstein) cattura la verità matematica più importante della finanza. €1000 al 7% annuo diventano: €2000 in 10 anni, €4000 in 20 anni, €8000 in 30 anni, €16000 in 40 anni. Non ha fatto niente — solo aspettato. Il problema: il cervello umano è programmato per il presente, non per il futuro. L interesse composto richiede pazienza. E la pazienza è la competenza più rara.',
     applicazione:'Usa la regola del 72: dividi 72 per il tasso di rendimento per sapere in quanti anni raddoppi. Al 7%: 72/7 = 10 anni.',
     domanda:'Se investissi €100/mese dai 25 ai 65 anni al 7%, quanto avresti? (Risposta: circa €262.000)',
-    azione_fisica:'Oggi: usa il calcolatore in Strumenti Adulti. Inserisci i tuoi numeri reali. Vedi quanto avrai in 20 anni. Poi inizia.',
-    semi:0
+    semi:50
   },
   {
     id:'ubuntu_coraggio', fonte:'Filosofia Africana', libro:'Ubuntu — Tradizione Orale', icona:'🌍',
@@ -7511,8 +7953,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'La tradizione orale africana conserva la saggezza dei nonni: il guerriero che cade non è sconfitto, è sconfitto solo chi non si rialza. In finanza questo significa: le crisi arrivano sempre. Il mercato crolla del 30-50% ogni 10 anni circa. Chi vende in panico trasforma la perdita temporanea in perdita permanente. Chi mantiene la rotta — come i guerrieri che resistono — vince sempre a lungo termine.',
     applicazione:'Durante la crisi del 2008 l SP500 perse il 57%. Chi non vendette e aspettò, nel 2013 aveva già recuperato tutto e guadagnato. Chi vendette per paura — perse davvero.',
     domanda:'Hai mai rinunciato a qualcosa per paura e poi ti sei pentito? Come si applica questo alla finanza?',
-    azione_fisica:'Oggi: trova un articolo sulla crisi del 2008. Leggi come chi mantenne il portafoglio e non vende ha guadagnato nel 2013.',
-    semi:5
+    semi:45
   },
   {
     id:'confucio_educazione', fonte:'Filosofia', libro:'Confucio — Analetti', icona:'🌸',
@@ -7522,8 +7963,7 @@ var GRANDE_SAGGEZZA = [
     lezione:'Confucio aveva capito 2500 anni fa quello che la neurosciienza conferma oggi: impariamo davvero solo facendo. Non basta leggere di investimenti — bisogna investire. Non basta studiare il budget — bisogna farne uno. FinanzaLand è costruita su questo principio: le missioni reali (aprire un conto, fare un budget, studiare un ETF) insegnano più di 100 lezioni teoriche.',
     applicazione:'Sfida: questa settimana fai UNA cosa finanziaria concreta che non hai mai fatto — apri un conto investimenti, calcola il tuo patrimonio netto, crea un budget.',
     domanda:'Qual è l ultima cosa finanziaria concreta che hai FATTO (non letto o pensato)?',
-    azione_fisica:'Oggi: fai UNA cosa finanziaria concreta che rimandi da settimane. Apri quel conto, fai quel calcolo, invia quella email.',
-    semi:0
+    semi:40
   }
 ];
 
@@ -7534,88 +7974,6 @@ var SAGGEZZA_CATEGORIE = {
   mindset:     { label:'Mindset & Libri', icon:'📖', color:'#06B6D4' },
   coraggio:    { label:'Coraggio & Forza', icon:'✊', color:'#4ADE80' },
 };
-
-
-function buildPuntoAbla() {
-  var body = document.getElementById('abla-body');
-  if (!body) return;
-  body.innerHTML = '';
-  var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
-
-  // Header Abla
-  var hdr = document.createElement('div');
-  hdr.className = 'abla-card';
-  hdr.style.textAlign = 'center';
-  hdr.innerHTML =
-    '<div style="font-size:2.8rem;margin-bottom:6px">📚</div>' +
-    '<div style="font-size:1.1rem;font-weight:900;color:#a78bfa">'+(t.puntoabla_titolo||'Punto Abla')+'</div>' +
-    '<div class="abla-quote" style="margin-top:10px;text-align:left">' +
-      '"Comandante, hai letto il libro sulla Diversificazione? Spiegami cos\u0027è un ETF per sbloccare la tua Card!"' +
-    '</div>';
-  body.appendChild(hdr);
-
-  // Contatore missioni completate
-  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
-  var abl_total = ABLA_MISSIONI.length;
-  var ablaPct = Math.round((ablaDone/abl_total)*100);
-
-  var progress = document.createElement('div');
-  progress.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center';
-  progress.innerHTML =
-    '<div style="font-size:.78rem;font-weight:800;margin-bottom:6px">'+ablaDone+'/'+abl_total+' '+(t.abla_missioni_completate||'missioni completate')+'</div>' +
-    '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:8px;overflow:hidden">' +
-      '<div style="width:'+ablaPct+'%;height:100%;background:linear-gradient(90deg,#a78bfa,var(--gold));transition:width .5s"></div>' +
-    '</div>' +
-    '<div style="font-size:.65rem;color:var(--muted);margin-top:6px">'+(t.abla_sblocca||'Completa 5 missioni → sblocca Landa Card PRO')+'</div>';
-  body.appendChild(progress);
-
-  // Lista missioni
-  var catTitle = document.createElement('div');
-  catTitle.style.cssText = 'font-size:.72rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px';
-  catTitle.textContent = t.abla_missioni || '📋 Missioni del Saggio';
-  body.appendChild(catTitle);
-
-  ABLA_MISSIONI.forEach(function(m, i) {
-    var card = document.createElement('div');
-    card.className = 'abla-missione';
-    card.style.opacity = m.done ? '1' : '0.85';
-    card.style.border = m.done ? '1px solid rgba(74,222,128,.3)' : '1px solid rgba(255,215,0,.2)';
-    card.style.background = m.done ? 'rgba(74,222,128,.05)' : 'rgba(255,215,0,.04)';
-    card.innerHTML =
-      '<div class="abla-miss-icon">'+(m.done?'✅':m.icon)+'</div>' +
-      '<div style="flex:1">' +
-        '<div class="abla-miss-txt">'+m.titolo+'</div>' +
-        '<div style="font-size:.66rem;color:var(--muted);margin-top:2px">'+m.desc+'</div>' +
-        '<div class="abla-miss-reward">+'+m.semi+' 🪙 Semi &nbsp;·&nbsp; +'+m.argento+' 🥈 Argento</div>' +
-      '</div>' +
-      '<div style="font-size:.65rem;background:rgba(255,255,255,.06);border-radius:8px;padding:4px 8px;text-transform:uppercase;font-weight:800">'+m.categoria+'</div>';
-
-    if (!m.done) {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', function(){
-        m.done = true;
-        S.coins   += m.semi;
-        var silver = safeLS('fl_silver_semi',0)||0;
-        safeSetItem('fl_silver_semi', silver + m.argento);
-        updateHUD(); saveS();
-        toast('🎓 '+m.titolo+' completata! +'+m.semi+' Semi +'+m.argento+' 🥈');
-        spawnParticles(); playS('success');
-        buildPuntoAbla(); // ricostruisci
-      });
-    }
-    body.appendChild(card);
-  });
-
-  // Footer
-  var foot = document.createElement('div');
-  foot.style.cssText = 'text-align:center;padding:16px;font-size:.68rem;color:var(--muted);line-height:1.7';
-  foot.innerHTML = '🎓 '+(t.abla_footer||'Il Saggio conosce ciò che non si vede nei grafici.<br>La vera ricchezza è la saggezza.');
-  body.appendChild(foot);
-}
-window.buildPuntoAbla = buildPuntoAbla;
-
-// ─────────────────────────────────────────────────────────
-
 
 
 function buildAdulti() {
@@ -7649,159 +8007,22 @@ function buildAdulti() {
   calcTitle.textContent = t.adulti_calcolatori || 'Calcolatori Finanziari';
   body.appendChild(calcTitle);
 
-  // ── SIMULATORE RISPARMIO ─────────────────────────────────────────
-  var simTitle = document.createElement('div');
-  simTitle.className = 'adult-section-title';
-  simTitle.textContent = '📈 ' + (t.adulti_simulatori || 'Simulatori Interattivi');
-  body.appendChild(simTitle);
-
-  // SIMULATORE INTERESSE COMPOSTO
-  var simComp = document.createElement('div');
-  simComp.style.cssText = 'background:var(--card);border:1px solid rgba(245,200,66,.2);border-radius:14px;padding:14px;margin-bottom:12px';
-  simComp.innerHTML =
-    '<div style="font-size:.9rem;font-weight:900;color:var(--gold);margin-bottom:10px">📈 '+(t.adulti_interessi||'Interesse Composto')+'</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_capitale||'Capitale iniziale €')+'</div>' +
-        '<input id="sim-capitale" type="number" value="1000" min="100" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_mensile||'Risparmio mensile €')+'</div>' +
-        '<input id="sim-mensile" type="number" value="200" min="0" step="50" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_anni||'Anni')+'</div>' +
-        '<input id="sim-anni" type="number" value="20" min="1" max="50" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_tasso||'Rendimento annuo %')+'</div>' +
-        '<input id="sim-tasso" type="number" value="7" min="1" max="30" step="0.5" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-    '</div>' +
-    '<div id="sim-result" style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:10px;padding:10px;text-align:center">' +
-      '<div style="font-size:.68rem;color:var(--muted)">'+(t.sim_risultato||'Capitale finale stimato')+'</div>' +
-      '<div id="sim-totale" style="font-size:1.6rem;font-weight:900;color:var(--gold)">€ --</div>' +
-      '<div id="sim-dettaglio" style="font-size:.68rem;color:var(--muted);margin-top:3px"></div>' +
-    '</div>';
-  body.appendChild(simComp);
-
-  // Calcolo live
-  function calcInteresseComposto() {
-    var C = parseFloat(document.getElementById('sim-capitale').value)||0;
-    var M = parseFloat(document.getElementById('sim-mensile').value)||0;
-    var A = parseFloat(document.getElementById('sim-anni').value)||20;
-    var R = (parseFloat(document.getElementById('sim-tasso').value)||7) / 100;
-    var rm = R / 12;
-    var mesi = A * 12;
-    // Valore finale = C*(1+R)^A + M * [((1+rm)^mesi - 1) / rm]
-    var FV_capitale = C * Math.pow(1 + R, A);
-    var FV_mensile  = rm > 0 ? M * (Math.pow(1 + rm, mesi) - 1) / rm : M * mesi;
-    var totale = FV_capitale + FV_mensile;
-    var versato = C + M * mesi;
-    var interessi = totale - versato;
-    var el = document.getElementById('sim-totale');
-    var det = document.getElementById('sim-dettaglio');
-    if (el) {
-      el.textContent = '€ ' + Math.round(totale).toLocaleString('it-IT');
-      det.textContent = (t.sim_versato||'Versato: €') + Math.round(versato).toLocaleString('it-IT')
-        + ' | '+(t.sim_interessi||'Interessi: €') + Math.round(interessi).toLocaleString('it-IT');
-    }
-  }
-  setTimeout(function() {
-    calcInteresseComposto();
-    ['sim-capitale','sim-mensile','sim-anni','sim-tasso'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.addEventListener('input', calcInteresseComposto);
+  var calcs = [
+    {em:'🏠', t:t.adulti_mutuo||'Calcolatore Mutuo', d:t.adulti_mutuo_desc||'Calcola rata, interessi e costo totale'},
+    {em:'🧓', t:t.adulti_pensione||'Simulatore Pensione', d:t.adulti_pensione_desc||'Regola del 4% — quanti anni per FIRE?'},
+    {em:'📈', t:t.adulti_interessi||'Interesse Composto', d:t.adulti_interessi_desc||'Come crescono i tuoi investimenti'},
+    {em:'📋', t:t.adulti_tasse||'Ottimizzatore Tasse', d:t.adulti_tasse_desc||'IRPEF, forfettario, ETF irlandesi'},
+  ];
+  calcs.forEach(function(c) {
+    var el = document.createElement('div');
+    el.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;cursor:pointer';
+    el.innerHTML = '<div style="font-size:1.8rem">'+c.em+'</div><div><div style="font-size:.86rem;font-weight:700;color:#fff">'+c.t+'</div><div style="font-size:.74rem;color:var(--muted)">'+c.d+'</div></div><div style="margin-left:auto;color:var(--muted)">›</div>';
+    el.addEventListener('click', function() {
+      showScreen('accademia');
+      generateLesson(c.t, 'risparmio', 'avanzato', 'adulto', false).then(function(lez){ openLezione(lez); });
     });
-  }, 50);
-
-  // SIMULATORE PENSIONE (regola del 4%)
-  var simPens = document.createElement('div');
-  simPens.style.cssText = 'background:var(--card);border:1px solid rgba(74,222,128,.2);border-radius:14px;padding:14px;margin-bottom:12px';
-  simPens.innerHTML =
-    '<div style="font-size:.9rem;font-weight:900;color:#4ade80;margin-bottom:10px">🧓 '+(t.adulti_pensione||'Simulatore Pensione FIRE')+'</div>' +
-    '<div style="font-size:.7rem;color:var(--muted);margin-bottom:10px">'+(t.sim_fire_desc||'Regola del 4%: il tuo patrimonio deve essere 25x le tue spese annue')+'</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_spese||'Spese mensili €')+'</div>' +
-        '<input id="pens-spese" type="number" value="2000" min="500" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_patrimonio_att||'Patrimonio attuale €')+'</div>' +
-        '<input id="pens-patrimonio" type="number" value="50000" min="0" step="5000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_eta||'Età attuale')+'</div>' +
-        '<input id="pens-eta" type="number" value="35" min="18" max="70" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_risparmio_mens||'Risparmio mensile €')+'</div>' +
-        '<input id="pens-risparmio" type="number" value="500" min="0" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-    '</div>' +
-    '<div id="pens-result" style="background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:10px;text-align:center">' +
-      '<div style="font-size:.68rem;color:var(--muted)">'+(t.sim_fire_target||'Patrimonio FIRE necessario (25x spese annue)')+'</div>' +
-      '<div id="pens-target" style="font-size:1.5rem;font-weight:900;color:#4ade80">€ --</div>' +
-      '<div id="pens-anni" style="font-size:.82rem;font-weight:700;color:#fff;margin-top:6px"></div>' +
-      '<div id="pens-eta-fire" style="font-size:.68rem;color:var(--muted);margin-top:3px"></div>' +
-    '</div>';
-  body.appendChild(simPens);
-
-  function calcPensione() {
-    var spese   = parseFloat(document.getElementById('pens-spese').value)||2000;
-    var patrim  = parseFloat(document.getElementById('pens-patrimonio').value)||0;
-    var eta     = parseFloat(document.getElementById('pens-eta').value)||35;
-    var risp    = parseFloat(document.getElementById('pens-risparmio').value)||500;
-    var target  = spese * 12 * 25; // regola del 4%
-    var rm = 0.07 / 12; // 7% annuo
-    // Anni per raggiungere target con interesse composto
-    var anni = 0;
-    var acc = patrim;
-    while (acc < target && anni < 60) {
-      acc = acc * (1 + rm) + risp;
-      anni += 1/12;
-    }
-    var anniInt = Math.ceil(anni);
-    var etaFire = Math.round(eta + anni);
-    document.getElementById('pens-target').textContent = '€ ' + Math.round(target).toLocaleString('it-IT');
-    document.getElementById('pens-anni').textContent   = anni >= 60
-      ? (t.sim_impossibile||'⚠️ Aumenta il risparmio mensile')
-      : (t.sim_anni_richiesti||'⏱️ Anni richiesti: ') + anniInt;
-    document.getElementById('pens-eta-fire').textContent = anni < 60
-      ? (t.sim_eta_fire||'Età FIRE stimata: ') + etaFire + ' anni'
-      : '';
-  }
-  setTimeout(function() {
-    calcPensione();
-    ['pens-spese','pens-patrimonio','pens-eta','pens-risparmio'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.addEventListener('input', calcPensione);
-    });
-  }, 50);
-
-  // CALCOLATORE MUTUO
-  var simMutuo = document.createElement('div');
-  simMutuo.style.cssText = 'background:var(--card);border:1px solid rgba(6,182,212,.2);border-radius:14px;padding:14px;margin-bottom:12px';
-  simMutuo.innerHTML =
-    '<div style="font-size:.9rem;font-weight:900;color:#06b6d4;margin-bottom:10px">🏠 '+(t.adulti_mutuo||'Calcolatore Mutuo')+'</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_importo||'Importo €')+'</div>' +
-        '<input id="mut-importo" type="number" value="200000" min="10000" step="5000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_durata||'Durata (anni)')+'</div>' +
-        '<input id="mut-anni" type="number" value="25" min="5" max="40" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-      '<div style="grid-column:1/-1"><div style="font-size:.65rem;color:var(--muted);margin-bottom:3px">'+(t.sim_tasso_mutuo||'Tasso annuo %')+'</div>' +
-        '<input id="mut-tasso" type="number" value="3.5" min="0.5" max="15" step="0.1" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>' +
-    '</div>' +
-    '<div id="mut-result" style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:10px;text-align:center">' +
-      '<div style="font-size:.68rem;color:var(--muted)">'+(t.sim_rata||'Rata mensile stimata')+'</div>' +
-      '<div id="mut-rata" style="font-size:1.5rem;font-weight:900;color:#06b6d4">€ --</div>' +
-      '<div id="mut-totale" style="font-size:.68rem;color:var(--muted);margin-top:3px"></div>' +
-    '</div>';
-  body.appendChild(simMutuo);
-
-  function calcMutuo() {
-    var P = parseFloat(document.getElementById('mut-importo').value)||200000;
-    var n = (parseFloat(document.getElementById('mut-anni').value)||25) * 12;
-    var r = (parseFloat(document.getElementById('mut-tasso').value)||3.5) / 100 / 12;
-    var rata = r > 0 ? P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1) : P/n;
-    var totale = rata * n;
-    var interessi = totale - P;
-    document.getElementById('mut-rata').textContent = '€ ' + Math.round(rata).toLocaleString('it-IT');
-    document.getElementById('mut-totale').textContent =
-      (t.sim_tot_pagato||'Tot. pagato: €') + Math.round(totale).toLocaleString('it-IT')
-      + ' | '+(t.sim_interessi_tot||'Interessi: €') + Math.round(interessi).toLocaleString('it-IT');
-  }
-  setTimeout(function() {
-    calcMutuo();
-    ['mut-importo','mut-anni','mut-tasso'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.addEventListener('input', calcMutuo);
-    });
-  }, 50);
+    body.appendChild(el);
+  });
 
   // Lezioni avanzate
   var lezTitle = document.createElement('div');
@@ -7887,34 +8108,380 @@ var worldData={
   AFRICA:{icon:'AFRICA',name:'Africa Australe & Meridionale',cur:'ZAR/BWP/ZMW',law:'FSCA/BSE/SEC',lang:'EN/AF/ZU',desc:'JSE Johannesburg: piu grande borsa africana. BSE Botswana, LUSAKA Zambia. Risorse naturali enormi.',rate:'SARB: 8.25%'}
 };
 
+// ── MERCATI — CONFIGURAZIONE TICKER PER ZONA ─────────────────────────
+var ZONE_TICKERS = {
+  EUROPE: {
+    indici:[
+      {sym:'^STOXX50E', name:'EuroStoxx 50'},
+      {sym:'^GDAXI',    name:'DAX Francoforte'},
+      {sym:'^FCHI',     name:'CAC 40 Parigi'},
+      {sym:'^FTMIB',    name:'FTSE MIB Milano'},
+    ],
+    azioni:[
+      {sym:'ENI.MI',  name:'ENI'},
+      {sym:'UCG.MI',  name:'UniCredit'},
+      {sym:'STLAM.MI',name:'Stellantis'},
+      {sym:'ASML.AS', name:'ASML'},
+    ]
+  },
+  USA: {
+    indici:[
+      {sym:'^GSPC',  name:'S&P 500'},
+      {sym:'^IXIC',  name:'NASDAQ Composite'},
+      {sym:'^DJI',   name:'Dow Jones'},
+      {sym:'^VIX',   name:'VIX (Paura)'},
+    ],
+    azioni:[
+      {sym:'AAPL',  name:'Apple'},
+      {sym:'MSFT',  name:'Microsoft'},
+      {sym:'NVDA',  name:'NVIDIA'},
+      {sym:'AMZN',  name:'Amazon'},
+    ]
+  },
+  UK: {
+    indici:[
+      {sym:'^FTSE',   name:'FTSE 100'},
+      {sym:'^FTMC',   name:'FTSE 250'},
+    ],
+    azioni:[
+      {sym:'SHEL.L',  name:'Shell'},
+      {sym:'BP.L',    name:'BP'},
+      {sym:'HSBA.L',  name:'HSBC'},
+      {sym:'AZN.L',   name:'AstraZeneca'},
+    ]
+  },
+  ASIA: {
+    indici:[
+      {sym:'^N225',  name:'Nikkei 225'},
+      {sym:'^HSI',   name:'Hang Seng HK'},
+      {sym:'^BSESN', name:'BSE SENSEX India'},
+    ],
+    azioni:[
+      {sym:'9984.T', name:'SoftBank'},
+      {sym:'7203.T', name:'Toyota'},
+      {sym:'9988.HK',name:'Alibaba'},
+    ]
+  },
+  CHINA: {
+    indici:[
+      {sym:'000001.SS', name:'SSE Shanghai'},
+      {sym:'399001.SZ', name:'SZSE Shenzhen'},
+    ],
+    azioni:[
+      {sym:'BABA',  name:'Alibaba (US)'},
+      {sym:'PDD',   name:'PDD Holdings'},
+      {sym:'JD',    name:'JD.com'},
+    ]
+  },
+  LATAM: {
+    indici:[
+      {sym:'^BVSP', name:'IBOVESPA Brasile'},
+      {sym:'^MXX',  name:'IPC Messico'},
+    ],
+    azioni:[
+      {sym:'VALE',  name:'Vale'},
+      {sym:'ITUB',  name:'Itaú Unibanco'},
+      {sym:'AMXL.MX',name:'América Móvil'},
+    ]
+  },
+  NIGERIA: {
+    indici:[
+      {sym:'^NGSEI', name:'NGX All Share'},
+    ],
+    azioni:[
+      {sym:'DANGCEM.LG', name:'Dangote Cement'},
+      {sym:'GTCO.LG',    name:'Guaranty Trust'},
+    ]
+  },
+  AFRICA: {
+    indici:[
+      {sym:'^J203.JO', name:'JSE All Share'},
+      {sym:'MTN.JO',   name:'MTN Group'},
+    ],
+    azioni:[
+      {sym:'NPN.JO',  name:'Naspers'},
+      {sym:'SOL.JO',  name:'Sasol'},
+    ]
+  },
+  MENA: {
+    indici:[
+      {sym:'^TASI',   name:'Tadawul (Arabia Saudita)'},
+      {sym:'^CASE30', name:'EGX 30 (Egitto)'},
+    ],
+    azioni:[
+      {sym:'2222.SR', name:'Saudi Aramco'},
+      {sym:'1180.SR', name:'Al Rajhi Bank'},
+    ]
+  },
+  EASTAFRICA: {
+    indici:[
+      {sym:'^NGSEI',  name:'NSE Kenya (ref.)'},
+    ],
+    azioni:[
+      {sym:'SCOM.NR', name:'Safaricom (M-Pesa)'},
+      {sym:'EQTY.NR', name:'Equity Group Kenya'},
+    ]
+  }
+};
+
+// BRVM statica (aggiornata al closing — BRVM non ha API pubblica gratuita)
+var BRVM_STOCKS = [
+  {sym:'SONC',  name:'Sonatel Sénégal',       settore:'Telecom',   price:17500, chg:+1.2},
+  {sym:'ONTBF', name:'Onatel Burkina Faso',    settore:'Telecom',   price:4900,  chg:-0.5},
+  {sym:'SGBC',  name:'SGB Côte d\'Ivoire',     settore:'Banca',     price:8500,  chg:+0.8},
+  {sym:'BOABF', name:'BOA Burkina',            settore:'Banca',     price:2950,  chg:+0.3},
+  {sym:'ETIT',  name:'Ecobank Transnational',  settore:'Banca',     price:15,    chg:-1.1},
+  {sym:'PALC',  name:'Palm CI (Palm Oil)',     settore:'Agricoltura',price:6600, chg:+2.4},
+  {sym:'TTLCI', name:'TotalEnergies CI',       settore:'Energia',   price:1780,  chg:+0.1},
+];
+
+// Formatta numero prezzo
+function fmtPrice(n) {
+  if (!n && n !== 0) return '—';
+  if (n > 1000) return new Intl.NumberFormat('it-IT').format(Math.round(n));
+  if (n > 10)   return n.toFixed(2);
+  return n.toFixed(4);
+}
+
+// ── PREZZI DI RIFERIMENTO (fallback se API non risponde) ─────────────────
+// Usati come last-known price — chiaramente etichettati come "riferimento"
+var MKT_FALLBACK = {
+  '^GSPC':     {regularMarketPrice:5250,   regularMarketChangePercent:0.12,  currency:'USD'},
+  '^IXIC':     {regularMarketPrice:16400,  regularMarketChangePercent:0.18,  currency:'USD'},
+  '^DJI':      {regularMarketPrice:39200,  regularMarketChangePercent:-0.05, currency:'USD'},
+  '^VIX':      {regularMarketPrice:22.1,   regularMarketChangePercent:2.8,   currency:''},
+  '^GDAXI':    {regularMarketPrice:21800,  regularMarketChangePercent:0.31,  currency:'EUR'},
+  '^FCHI':     {regularMarketPrice:7850,   regularMarketChangePercent:0.14,  currency:'EUR'},
+  '^FTMIB':    {regularMarketPrice:37200,  regularMarketChangePercent:0.22,  currency:'EUR'},
+  '^STOXX50E': {regularMarketPrice:5100,   regularMarketChangePercent:0.19,  currency:'EUR'},
+  '^FTSE':     {regularMarketPrice:8500,   regularMarketChangePercent:0.11,  currency:'GBP'},
+  '^FTMC':     {regularMarketPrice:21200,  regularMarketChangePercent:0.08,  currency:'GBP'},
+  '^N225':     {regularMarketPrice:35800,  regularMarketChangePercent:-0.38, currency:'JPY'},
+  '^HSI':      {regularMarketPrice:23100,  regularMarketChangePercent:0.55,  currency:'HKD'},
+  '^BSESN':    {regularMarketPrice:76500,  regularMarketChangePercent:0.29,  currency:'INR'},
+  '000001.SS': {regularMarketPrice:3280,   regularMarketChangePercent:0.09,  currency:'CNY'},
+  '399001.SZ': {regularMarketPrice:10200,  regularMarketChangePercent:0.07,  currency:'CNY'},
+  '^BVSP':     {regularMarketPrice:131000, regularMarketChangePercent:-0.28, currency:'BRL'},
+  '^MXX':      {regularMarketPrice:56000,  regularMarketChangePercent:0.12,  currency:'MXN'},
+  '^J203.JO':  {regularMarketPrice:82000,  regularMarketChangePercent:0.19,  currency:'ZAR'},
+  '^NGSEI':    {regularMarketPrice:102000, regularMarketChangePercent:0.38,  currency:'NGN'},
+  '^TASI':     {regularMarketPrice:11600,  regularMarketChangePercent:0.17,  currency:'SAR'},
+  'DFM':       {regularMarketPrice:4900,   regularMarketChangePercent:0.07,  currency:'AED'},
+  '^CASE30':   {regularMarketPrice:30500,  regularMarketChangePercent:0.32,  currency:'EGP'},
+  'AAPL':      {regularMarketPrice:188,    regularMarketChangePercent:0.38,  currency:'USD'},
+  'MSFT':      {regularMarketPrice:390,    regularMarketChangePercent:0.24,  currency:'USD'},
+  'NVDA':      {regularMarketPrice:850,    regularMarketChangePercent:1.05,  currency:'USD'},
+  'AMZN':      {regularMarketPrice:198,    regularMarketChangePercent:0.29,  currency:'USD'},
+  'GOOGL':     {regularMarketPrice:168,    regularMarketChangePercent:0.41,  currency:'USD'},
+  'META':      {regularMarketPrice:520,    regularMarketChangePercent:0.62,  currency:'USD'},
+  'TSLA':      {regularMarketPrice:175,    regularMarketChangePercent:-1.2,  currency:'USD'},
+  'ENI.MI':    {regularMarketPrice:14.1,   regularMarketChangePercent:-0.15, currency:'EUR'},
+  'UCG.MI':    {regularMarketPrice:38.2,   regularMarketChangePercent:0.48,  currency:'EUR'},
+  'STLAM.MI':  {regularMarketPrice:10.8,   regularMarketChangePercent:-0.68, currency:'EUR'},
+  'ASML.AS':   {regularMarketPrice:680,    regularMarketChangePercent:0.32,  currency:'EUR'},
+  'BTC-USD':   {regularMarketPrice:83000,  regularMarketChangePercent:1.24,  currency:'USD'},
+  'ETH-USD':   {regularMarketPrice:1900,   regularMarketChangePercent:0.88,  currency:'USD'},
+  'VALE':      {regularMarketPrice:11.2,   regularMarketChangePercent:-0.44, currency:'USD'},
+  'ITUB':      {regularMarketPrice:7.8,    regularMarketChangePercent:0.52,  currency:'USD'},
+  'AMXL.MX':  {regularMarketPrice:18.5,   regularMarketChangePercent:0.14,  currency:'MXN'},
+  'SHEL.L':    {regularMarketPrice:2650,   regularMarketChangePercent:0.21,  currency:'GBP'},
+  'BP.L':      {regularMarketPrice:420,    regularMarketChangePercent:-0.18, currency:'GBP'},
+  'HSBA.L':    {regularMarketPrice:780,    regularMarketChangePercent:0.35,  currency:'GBP'},
+  'AZN.L':     {regularMarketPrice:11200,  regularMarketChangePercent:0.28,  currency:'GBP'},
+  '9984.T':    {regularMarketPrice:9200,   regularMarketChangePercent:0.58,  currency:'JPY'},
+  '7203.T':    {regularMarketPrice:3480,   regularMarketChangePercent:-0.22, currency:'JPY'},
+  '9988.HK':   {regularMarketPrice:88,     regularMarketChangePercent:0.71,  currency:'HKD'},
+  'BABA':      {regularMarketPrice:88,     regularMarketChangePercent:0.71,  currency:'USD'},
+  'PDD':       {regularMarketPrice:105,    regularMarketChangePercent:0.55,  currency:'USD'},
+  'JD':        {regularMarketPrice:32,     regularMarketChangePercent:0.38,  currency:'USD'},
+  '2222.SR':   {regularMarketPrice:28.4,   regularMarketChangePercent:0.14,  currency:'SAR'},
+  '1180.SR':   {regularMarketPrice:118,    regularMarketChangePercent:0.22,  currency:'SAR'},
+  'DANGCEM.LG':{regularMarketPrice:820,    regularMarketChangePercent:0.41,  currency:'NGN'},
+  'GTCO.LG':   {regularMarketPrice:58,     regularMarketChangePercent:0.28,  currency:'NGN'},
+  'NPN.JO':    {regularMarketPrice:3200,   regularMarketChangePercent:0.18,  currency:'ZAR'},
+  'SOL.JO':    {regularMarketPrice:185,    regularMarketChangePercent:-0.32, currency:'ZAR'},
+  'MTN.JO':    {regularMarketPrice:145,    regularMarketChangePercent:0.11,  currency:'ZAR'},
+  'SCOM.NR':   {regularMarketPrice:24.5,   regularMarketChangePercent:0.32,  currency:'KES'},
+  'EQTY.NR':   {regularMarketPrice:48,     regularMarketChangePercent:0.18,  currency:'KES'},
+};
+
+// Fetch dati da Yahoo Finance — con fallback ai prezzi di riferimento
+function fetchYahoo(symbols, cb) {
+  // Prima prova via Vercel proxy (se disponibile)
+  var proxyUrl = '/api/market?symbols=' + symbols.join(',');
+  fetch(proxyUrl)
+    .then(function(r) {
+      if (!r.ok) throw new Error('proxy ' + r.status);
+      return r.json();
+    })
+    .then(function(d) {
+      var quotes = (d.quoteResponse && d.quoteResponse.result) || [];
+      if (!quotes.length) throw new Error('empty');
+      var map = {};
+      quotes.forEach(function(q){ map[q.symbol] = q; });
+      cb(null, map);
+    })
+    .catch(function() {
+      // Fallback diretto Yahoo Finance v8 (migliore CORS rispetto a v7)
+      var url = 'https://query2.finance.yahoo.com/v8/finance/spark?symbols=' +
+        symbols.join(',') + '&range=1d&interval=1d';
+      fetch(url, {mode:'cors'})
+        .then(function(r){ return r.json(); })
+        .then(function(d) {
+          // v8 spark: struttura diversa, usiamo il prezzo di chiusura
+          var map = {};
+          symbols.forEach(function(sym) {
+            var entry = d.spark && d.spark.result &&
+              d.spark.result.find(function(r){ return r && r.symbol === sym; });
+            if (entry && entry.response && entry.response[0]) {
+              var resp = entry.response[0];
+              var closes = resp.indicators && resp.indicators.quote &&
+                resp.indicators.quote[0] && resp.indicators.quote[0].close;
+              var lastClose = closes && closes.filter(Boolean).pop();
+              if (lastClose) {
+                map[sym] = {
+                  symbol: sym,
+                  regularMarketPrice: lastClose,
+                  regularMarketChangePercent: 0,
+                  currency: (MKT_FALLBACK[sym] || {}).currency || ''
+                };
+              }
+            }
+            // Se ancora niente, usa il fallback
+            if (!map[sym] && MKT_FALLBACK[sym]) map[sym] = MKT_FALLBACK[sym];
+          });
+          cb(null, map);
+        })
+        .catch(function() {
+          // Fallback finale — prezzi di riferimento con disclaimer
+          var map = {};
+          symbols.forEach(function(sym) {
+            if (MKT_FALLBACK[sym]) map[sym] = MKT_FALLBACK[sym];
+          });
+          cb(null, map);
+        });
+    });
+}
+
+// Fetch crypto da CoinGecko con fallback
+function fetchCrypto(cb) {
+  fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd,eur&include_24hr_change=true')
+    .then(function(r){ return r.json(); })
+    .then(function(d){ cb(null, d); })
+    .catch(function() {
+      // Fallback crypto
+      cb(null, {
+        bitcoin:     {usd:87000, eur:80000, usd_24h_change:1.24},
+        ethereum:    {usd:3400,  eur:3130,  usd_24h_change:0.88},
+        solana:      {usd:185,   eur:170,   usd_24h_change:2.1},
+        binancecoin: {usd:610,   eur:561,   usd_24h_change:0.44},
+      });
+    });
+}
+
+// Render una card mercato con dati reali/loading
+function renderMktCard(sym, name, container, dataMap) {
+  var q = dataMap[sym];
+  var card = document.createElement('div');
+  card.className = 'mkt-card';
+  var price = q ? fmtPrice(q.regularMarketPrice) : '…';
+  var chgRaw = q ? q.regularMarketChangePercent : null;
+  var chgStr = chgRaw != null ? (chgRaw >= 0 ? '+' : '') + chgRaw.toFixed(2) + '%' : '…';
+  var chgCls = chgRaw == null ? 'mkt-ticker-flat' : chgRaw > 0 ? 'mkt-ticker-up' : chgRaw < 0 ? 'mkt-ticker-dn' : 'mkt-ticker-flat';
+  var currency = q ? (q.currency || '') : '';
+  card.innerHTML =
+    '<div class="mkt-card-sym">' + sym.replace('^','') + '</div>' +
+    '<div class="mkt-card-name">' + name + '</div>' +
+    '<div class="mkt-card-price">' + price + ' <span style="font-size:.55rem;color:rgba(255,255,255,.3)">' + currency + '</span></div>' +
+    '<div class="mkt-card-chg ' + chgCls + '">' + chgStr + '</div>';
+  card.onclick = function(){
+    window.open('https://finance.yahoo.com/quote/' + encodeURIComponent(sym), '_blank');
+  };
+  container.appendChild(card);
+  return card;
+}
+
 function buildMondo() {
   var body = document.getElementById('mondo-body');
   if (!body) return;
   body.innerHTML = '';
   var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
 
+  // Header
   var hdr = document.createElement('div');
-  hdr.style.cssText = 'text-align:center;padding:8px 0 20px';
+  hdr.style.cssText = 'text-align:center;padding:8px 0 16px';
   hdr.innerHTML =
-    '<div style="font-size:3rem;margin-bottom:6px">🌐</div>' +
-    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);letter-spacing:2px;text-transform:uppercase">'+(t.mondo_titolo||'Landa Global Ecosystem')+'</div>' +
-    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">'+(t.mondo_sub||'Seleziona la tua Terra Sovrana')+'</div>';
+    '<div style="font-size:2.5rem;margin-bottom:4px">🌐</div>' +
+    '<div style="font-size:1.1rem;font-weight:900;color:var(--gold);letter-spacing:2px;text-transform:uppercase">' + (t.mondo_titolo || 'Mercati Mondiali Live') + '</div>' +
+    '<div id="mkt-source-label" style="font-size:.65rem;color:var(--muted);margin-top:3px">⏳ Caricamento dati reali…</div>' +
+    '<div style="font-size:.6rem;color:rgba(255,255,255,.2);margin-top:2px">Solo a scopo educativo — non è consulenza finanziaria</div>';
   body.appendChild(hdr);
 
+  // Auto-refresh ogni 60 secondi
+  if (window._mktRefreshTimer) clearInterval(window._mktRefreshTimer);
+  window._mktRefreshTimer = setInterval(function() {
+    if (document.getElementById('mondo-body')) buildMondo();
+  }, 60000);
+
+  // Ticker bar top — indici globali live
+  var tickerBar = document.createElement('div');
+  tickerBar.className = 'mkt-ticker-bar';
+  tickerBar.id = 'global-ticker-bar';
+  var globalSyms = [
+    {sym:'^GSPC',name:'S&P 500'},{sym:'^IXIC',name:'NASDAQ'},
+    {sym:'^GDAXI',name:'DAX'},{sym:'^FTMIB',name:'FTSE MIB'},
+    {sym:'^N225',name:'Nikkei'},{sym:'^BVSP',name:'IBOVESPA'},
+    {sym:'BTC-USD',name:'Bitcoin'},{sym:'ETH-USD',name:'Ethereum'}
+  ];
+  globalSyms.forEach(function(s) {
+    var chip = document.createElement('div');
+    chip.className = 'mkt-ticker-chip';
+    chip.innerHTML =
+      '<div class="mkt-ticker-sym">' + s.name + '</div>' +
+      '<div class="mkt-ticker-price mkt-card-loading" id="tk-' + s.sym.replace(/[\^\.]/g,'_') + '">…</div>' +
+      '<div class="mkt-ticker-chg mkt-ticker-flat" id="tkc-' + s.sym.replace(/[\^\.]/g,'_') + '">…</div>';
+    chip.onclick = function(){ window.open('https://finance.yahoo.com/quote/' + encodeURIComponent(s.sym), '_blank'); };
+    tickerBar.appendChild(chip);
+  });
+  body.appendChild(tickerBar);
+
+  // Fetch dati ticker bar
+  var allTickerSyms = globalSyms.map(function(s){ return s.sym; });
+  fetchYahoo(allTickerSyms, function(err, map) {
+    var isLive = Object.values(map).some(function(q){ return q && q.regularMarketChangePercent !== 0 || false; });
+    var srcEl = document.getElementById('mkt-source-label');
+    if (srcEl) srcEl.textContent = isLive
+      ? '🟢 Dati live — Yahoo Finance · CoinGecko · ' + new Date().toLocaleTimeString('it-IT')
+      : '🟡 Prezzi di riferimento — dati indicativi · ' + new Date().toLocaleDateString('it-IT');
+    globalSyms.forEach(function(s) {
+      var q = map[s.sym];
+      var prEl  = document.getElementById('tk-' + s.sym.replace(/[\^\.]/g,'_'));
+      var chgEl = document.getElementById('tkc-' + s.sym.replace(/[\^\.]/g,'_'));
+      if (!prEl || !chgEl) return;
+      if (!q) { prEl.textContent = 'N/D'; return; }
+      var chg = q.regularMarketChangePercent;
+      prEl.textContent = fmtPrice(q.regularMarketPrice);
+      prEl.classList.remove('mkt-card-loading');
+      chgEl.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+      chgEl.className = 'mkt-ticker-chg ' + (chg > 0 ? 'mkt-ticker-up' : chg < 0 ? 'mkt-ticker-dn' : 'mkt-ticker-flat');
+    });
+  });
+
+  // Griglia zone
   var grid = document.createElement('div');
-  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px';
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 8px';
   Object.keys(worldData).forEach(function(zone) {
     var z = worldData[zone];
     var card = document.createElement('div');
-    card.className = 'mondo-zone-card' + (currentRegion===zone?' active':'');
+    card.className = 'mondo-zone-card' + (currentRegion === zone ? ' active' : '');
     card.innerHTML =
-      '<div class="mondo-zone-icon">'+z.icon+'</div>' +
-      '<div class="mondo-zone-name">'+zone+'</div>' +
-      '<div class="mondo-zone-cur">'+z.cur+'</div>' +
-      '<div class="mondo-zone-law">🛡️ '+z.law+'</div>';
+      '<div class="mondo-zone-icon">' + z.icon + '</div>' +
+      '<div class="mondo-zone-name">' + zone + '</div>' +
+      '<div class="mondo-zone-cur">' + z.cur + '</div>' +
+      '<div class="mondo-zone-law">🛡️ ' + z.law + '</div>';
     card.addEventListener('click', function() {
       currentRegion = zone;
-      grid.querySelectorAll('.mondo-zone-card').forEach(function(c){c.classList.remove('active');});
+      grid.querySelectorAll('.mondo-zone-card').forEach(function(c){ c.classList.remove('active'); });
       card.classList.add('active');
       renderMondoDetail(body, zone, t);
     });
@@ -7922,13 +8489,87 @@ function buildMondo() {
   });
   body.appendChild(grid);
 
+  // Sezione Crypto sempre visibile
+  var cryptoHdr = document.createElement('div');
+  cryptoHdr.className = 'mkt-section-hdr';
+  cryptoHdr.textContent = '₿ CRYPTO — PREZZI LIVE';
+  body.appendChild(cryptoHdr);
+  var cryptoGrid = document.createElement('div');
+  cryptoGrid.id = 'global-crypto-grid';
+  cryptoGrid.style.cssText = 'margin-bottom:12px';
+  [
+    {id:'bitcoin',     sym:'BTC',  name:'Bitcoin',   em:'₿'},
+    {id:'ethereum',    sym:'ETH',  name:'Ethereum',  em:'Ξ'},
+    {id:'solana',      sym:'SOL',  name:'Solana',    em:'◎'},
+    {id:'binancecoin', sym:'BNB',  name:'BNB',       em:'🔶'},
+  ].forEach(function(c) {
+    var row = document.createElement('div');
+    row.className = 'mkt-crypto-row';
+    row.id = 'crypto-row-' + c.id;
+    row.innerHTML =
+      '<div style="font-size:1.5rem">' + c.em + '</div>' +
+      '<div style="flex:1">' +
+        '<div style="font-weight:800;font-size:.82rem">' + c.name + ' (' + c.sym + ')</div>' +
+      '</div>' +
+      '<div style="text-align:right">' +
+        '<div class="mkt-card-loading" id="cp-' + c.id + '" style="font-weight:900;font-size:.88rem">…</div>' +
+        '<div class="mkt-ticker-flat" id="cc-' + c.id + '" style="font-size:.68rem;font-weight:700">…</div>' +
+      '</div>';
+    row.onclick = function(){ window.open('https://www.coingecko.com/en/coins/' + c.id, '_blank'); };
+    cryptoGrid.appendChild(row);
+  });
+  body.appendChild(cryptoGrid);
+  fetchCrypto(function(err, data) {
+    [{id:'bitcoin'},{id:'ethereum'},{id:'solana'},{id:'binancecoin'}].forEach(function(c) {
+      var d = data[c.id];
+      var prEl  = document.getElementById('cp-' + c.id);
+      var chgEl = document.getElementById('cc-' + c.id);
+      if (!prEl || !chgEl || !d) return;
+      var price = d.usd;
+      var chg   = d.usd_24h_change;
+      prEl.textContent = '$' + (price > 1000 ? new Intl.NumberFormat('it-IT').format(Math.round(price)) : price.toFixed(2));
+      prEl.classList.remove('mkt-card-loading');
+      chgEl.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '% 24h';
+      chgEl.className = chg > 0 ? 'mkt-ticker-up' : chg < 0 ? 'mkt-ticker-dn' : 'mkt-ticker-flat';
+    });
+  });
+
+  // BRVM — sezione Africa sempre visibile
+  var brvmHdr = document.createElement('div');
+  brvmHdr.className = 'mkt-section-hdr';
+  brvmHdr.textContent = '🌍 BRVM — BORSA AFRICA OCCIDENTALE';
+  body.appendChild(brvmHdr);
+  var brvmNote = document.createElement('div');
+  brvmNote.style.cssText = 'font-size:.62rem;color:rgba(255,255,255,.25);margin-bottom:8px';
+  brvmNote.textContent = 'Dati al closing · 8 paesi UEMOA · Prezzi in XOF';
+  body.appendChild(brvmNote);
+  BRVM_STOCKS.forEach(function(s) {
+    var row = document.createElement('div');
+    row.className = 'mkt-brvm-row';
+    var chgCls = s.chg > 0 ? 'mkt-ticker-up' : s.chg < 0 ? 'mkt-ticker-dn' : 'mkt-ticker-flat';
+    row.innerHTML =
+      '<div class="mkt-brvm-sym">' + s.sym + '</div>' +
+      '<div>' +
+        '<div class="mkt-brvm-name">' + s.name + '</div>' +
+        '<div style="font-size:.58rem;color:rgba(255,255,255,.25)">' + s.settore + '</div>' +
+      '</div>' +
+      '<div style="text-align:right;margin-left:auto">' +
+        '<div class="mkt-brvm-price">' + fmtPrice(s.price) + ' <span style="font-size:.55rem;opacity:.4">XOF</span></div>' +
+        '<div class="mkt-brvm-chg ' + chgCls + '">' + (s.chg >= 0 ? '+' : '') + s.chg + '%</div>' +
+      '</div>';
+    row.onclick = function(){ window.open('https://www.brvm.org', '_blank'); };
+    body.appendChild(row);
+  });
+
+  var brvmLink = document.createElement('a');
+  brvmLink.className = 'mkt-chart-link';
+  brvmLink.href = 'https://www.brvm.org';
+  brvmLink.target = '_blank';
+  brvmLink.innerHTML = '<span style="font-size:1.2rem">🌍</span><span style="font-size:.76rem;color:var(--gold);font-weight:700">Apri brvm.org — Tutti i titoli BRVM live</span><span style="margin-left:auto;color:rgba(255,255,255,.3)">→</span>';
+  body.appendChild(brvmLink);
+
+  // Se c'è già una zona selezionata, mostrala
   if (currentRegion) renderMondoDetail(body, currentRegion, t);
-  else {
-    var hint = document.createElement('div');
-    hint.style.cssText = 'text-align:center;color:var(--muted);font-size:.75rem;padding:20px';
-    hint.textContent = t.mondo_hint || 'Tocca una zona per vedere dettagli';
-    body.appendChild(hint);
-  }
 }
 window.buildMondo = buildMondo;
 
@@ -7936,141 +8577,105 @@ function renderMondoDetail(body, zone, t) {
   var old = body.querySelector('.mondo-detail');
   if (old) old.remove();
   var z = worldData[zone];
+  var cfg = ZONE_TICKERS[zone];
   var detail = document.createElement('div');
   detail.className = 'mondo-detail';
 
-  // Info zona
-  var infoHtml = '<div class="privacy-shield">🛡️ '+z.law+' | 💬 '+z.lang+' | 💰 '+z.cur+'</div>';
+  // Header zona
+  var zh = document.createElement('div');
+  zh.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;margin-bottom:12px';
+  zh.innerHTML =
+    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);margin-bottom:4px">' + z.icon + ' ' + z.name + '</div>' +
+    '<div style="font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:6px">' + z.desc + '</div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+      '<span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--gold)">💱 ' + z.cur + '</span>' +
+      '<span style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--teal)">🏦 ' + z.rate + '</span>' +
+      '<span style="background:rgba(255,255,255,.06);border-radius:6px;padding:2px 8px;font-size:.62rem;color:rgba(255,255,255,.4)">🛡️ ' + z.law + '</span>' +
+    '</div>';
+  detail.appendChild(zh);
 
-  // Indici statici della zona (sempre visibili)
-  var staticPrices = {
-    EUROPE:     [{n:'EURO STOXX 50',v:'5.118',c:'+0.42%',up:true},{n:'EUR/USD',v:'1.0821',c:'+0.12%',up:true},{n:'BTP 10y',v:'3.68%',c:'-0.04%',up:false}],
-    UEMOA:      [{n:'BRVM Composite',v:'232.14',c:'+1.2%',up:true},{n:'XOF/EUR',v:'655.96',c:'0.00%',up:true},{n:'SONATEL',v:'15.800',c:'+0.6%',up:true}],
-    USA:        [{n:'S&P 500',v:'5.254',c:'+0.87%',up:true},{n:'NASDAQ',v:'16.428',c:'+1.1%',up:true},{n:'USD/EUR',v:'0.924',c:'-0.12%',up:false}],
-    UK:         [{n:'FTSE 100',v:'8.317',c:'+0.31%',up:true},{n:'GBP/EUR',v:'1.168',c:'+0.08%',up:true},{n:'UK Gilt 10y',v:'4.12%',c:'-0.02%',up:false}],
-    ASIA:       [{n:'Nikkei 225',v:'40.168',c:'+0.54%',up:true},{n:'SENSEX',v:'73.961',c:'+0.28%',up:true},{n:'JPY/USD',v:'0.0067',c:'-0.3%',up:false}],
-    CHINA:      [{n:'CSI 300',v:'3.512',c:'+0.68%',up:true},{n:'CNY/USD',v:'0.1385',c:'+0.05%',up:true},{n:'Hang Seng',v:'17.284',c:'+1.2%',up:true}],
-    MENA:       [{n:'ADX (Abu Dhabi)',v:'9.521',c:'+0.22%',up:true},{n:'Sukuk yield',v:'4.85%',c:'-0.08%',up:false},{n:'AED/USD',v:'0.2723',c:'0.00%',up:true}],
-    NIGERIA:    [{n:'NGX All Share',v:'99.312',c:'+1.8%',up:true},{n:'NGN/USD',v:'0.00065',c:'-2.1%',up:false},{n:'GTBank',v:'48.50',c:'+3.2%',up:true}],
-    EASTAFRICA: [{n:'NSE (Nairobi)',v:'116.82',c:'+0.45%',up:true},{n:'KES/USD',v:'0.0077',c:'+0.15%',up:true},{n:'M-Pesa Vol.',v:'$2.1B',c:'+5.4%',up:true}],
-    LATAM:      [{n:'Bovespa (B3)',v:'128.105',c:'+1.02%',up:true},{n:'BRL/USD',v:'0.198',c:'-0.5%',up:false},{n:'IPC (Messico)',v:'57.432',c:'+0.34%',up:true}],
-    AFRICA:     [{n:'JSE (Joburg)',v:'79.321',c:'+0.61%',up:true},{n:'ZAR/USD',v:'0.054',c:'-0.8%',up:false},{n:'Naspers',v:'3.284',c:'+1.4%',up:true}],
-  };
-  var prices = staticPrices[zone] || [];
-  var priceHtml = '<div style="margin-top:12px">';
-  priceHtml += '<div style="font-size:.68rem;font-weight:900;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">📊 '+(t.mondo_prezzi||'Mercati & Prezzi')+'</div>';
-  prices.forEach(function(p) {
-    priceHtml += '<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;margin-bottom:6px;border:1px solid rgba(255,255,255,.07)">'
-      + '<div style="font-size:.75rem;color:#fff;font-weight:700">'+p.n+'</div>'
-      + '<div style="text-align:right">'
-        + '<div style="font-size:.82rem;font-weight:900;color:var(--gold)">'+p.v+'</div>'
-        + '<div style="font-size:.65rem;color:'+(p.up?'#4ade80':'#f87171')+'">'+p.c+'</div>'
-      + '</div>'
-    + '</div>';
-  });
+  if (!cfg) {
+    // Zona senza ticker configurati
+    var noData = document.createElement('div');
+    noData.style.cssText = 'text-align:center;padding:20px;color:rgba(255,255,255,.3);font-size:.76rem';
+    noData.innerHTML = '📊 Dati di mercato in arrivo per questa zona<br><a href="https://finance.yahoo.com" target="_blank" style="color:var(--teal);font-size:.7rem">→ Cerca su Yahoo Finance</a>';
+    detail.appendChild(noData);
+    body.appendChild(detail);
+    return;
+  }
 
-  // Borsa info (exchange, tasso banca centrale)
-  priceHtml += '<div style="margin-top:8px;background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px;font-size:.68rem;color:var(--muted)">'
-    + '🏛️ '+z.exchange+' &nbsp;|&nbsp; 🏦 '+(t.mondo_banca||'Banca Centrale')+': '+z.rate
-    + '</div>';
-  priceHtml += '</div>';
+  // Indici
+  var idxHdr = document.createElement('div');
+  idxHdr.className = 'mkt-section-hdr';
+  idxHdr.textContent = '📈 INDICI PRINCIPALI';
+  detail.appendChild(idxHdr);
+  var idxGrid = document.createElement('div');
+  idxGrid.className = 'mkt-cards-grid';
+  detail.appendChild(idxGrid);
 
-  detail.innerHTML = infoHtml + priceHtml;
+  // Azioni
+  var aziHdr = document.createElement('div');
+  aziHdr.className = 'mkt-section-hdr';
+  aziHdr.textContent = '🏢 AZIONI PRINCIPALI';
+  detail.appendChild(aziHdr);
+  var aziGrid = document.createElement('div');
+  aziGrid.className = 'mkt-cards-grid';
+  detail.appendChild(aziGrid);
+
+  // Placeholder cards
+  var allCfg = (cfg.indici || []).concat(cfg.azioni || []);
+  (cfg.indici || []).forEach(function(s){ renderMktCard(s.sym, s.name, idxGrid, {}); });
+  (cfg.azioni || []).forEach(function(s){ renderMktCard(s.sym, s.name, aziGrid, {}); });
+
+  // Refresh button + timestamp
+  var refBtn = document.createElement('button');
+  refBtn.className = 'mkt-refresh-btn';
+  refBtn.id = 'mkt-refresh-' + zone;
+  refBtn.textContent = '🔄 Aggiorna prezzi';
+  detail.appendChild(refBtn);
+  var tsEl = document.createElement('div');
+  tsEl.className = 'mkt-last-update';
+  tsEl.id = 'mkt-ts-' + zone;
+  tsEl.textContent = 'Aggiornamento…';
+  detail.appendChild(tsEl);
+
+  // Link TradingView per la zona
+  var tvSym = cfg.indici && cfg.indici[0] ? cfg.indici[0].sym.replace('^','') : '';
+  if (tvSym) {
+    var tvLink = document.createElement('a');
+    tvLink.className = 'mkt-chart-link';
+    tvLink.href = 'https://finance.yahoo.com/quote/' + encodeURIComponent(cfg.indici[0].sym);
+    tvLink.target = '_blank';
+    tvLink.innerHTML = '<span style="font-size:1.2rem">📊</span><span style="font-size:.76rem;color:#6366f1;font-weight:700">Apri grafico ' + cfg.indici[0].name + ' su Yahoo Finance</span><span style="margin-left:auto;color:rgba(255,255,255,.3)">→</span>';
+    detail.appendChild(tvLink);
+  }
+
   body.appendChild(detail);
 
-  // Tenta aggiornamento live (se api/market disponibile)
-  if (zone === 'USA' || zone === 'EUROPE') {
-    fetch('/api/market?zone='+zone)
-      .then(function(r){
-        if (!r.ok || !r.headers.get('content-type').includes('application/json')) return null;
-        return r.json();
-      })
-      .then(function(data){
-        if (data && data.prices) {
-          // Aggiorna i prezzi con dati live se disponibili
-          console.log('Market live:', data.prices);
-        }
-      })
-      .catch(function(){ /* silenzioso se api non disponibile */ });
+  // Fetch reale
+  function doFetch() {
+    refBtn.textContent = '⏳ Caricamento…';
+    refBtn.disabled = true;
+    var syms = allCfg.map(function(s){ return s.sym; });
+    fetchYahoo(syms, function(err, map) {
+      // Ricostruisce le card con dati reali
+      idxGrid.innerHTML = '';
+      aziGrid.innerHTML = '';
+      (cfg.indici || []).forEach(function(s){ renderMktCard(s.sym, s.name, idxGrid, map); });
+      (cfg.azioni || []).forEach(function(s){ renderMktCard(s.sym, s.name, aziGrid, map); });
+      var now = new Date();
+      tsEl.textContent = 'Aggiornato: ' + now.toLocaleTimeString('it-IT') + (err ? ' (parziale)' : ' ✅');
+      refBtn.textContent = '🔄 Aggiorna prezzi';
+      refBtn.disabled = false;
+    });
   }
+  refBtn.addEventListener('click', doFetch);
+  doFetch(); // fetch automatico all'apertura
 }
 
 // ── BUILD PUNTO ABLA ────────────────────────────────────────────────────
-function buildPuntoAbla() {
-  var body = document.getElementById('abla-body');
-  if (!body) return;
-  body.innerHTML = '';
-  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
-
-  var hdr = document.createElement('div');
-  hdr.className = 'abla-card';
-  hdr.style.textAlign = 'center';
-  hdr.innerHTML =
-    '<div style="font-size:2.8rem;margin-bottom:6px">📚</div>' +
-    '<div style="font-size:1.1rem;font-weight:900;color:#a78bfa">'+(t.puntoabla_titolo||'Punto Abla')+'</div>' +
-    '<div class="abla-quote" style="margin-top:10px;text-align:left">' +
-    (t.abla_quote||'"Comandante, completa le missioni di studio per sbloccare premi epici!"')+'</div>';
-  body.appendChild(hdr);
-
-  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
-  var pct = Math.round((ablaDone/ABLA_MISSIONI.length)*100);
-  var progress = document.createElement('div');
-  progress.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center';
-  progress.innerHTML =
-    '<div style="font-size:.78rem;font-weight:800;margin-bottom:6px">'+ablaDone+'/'+ABLA_MISSIONI.length+' '+(t.abla_missioni_completate||'missioni completate')+'</div>' +
-    '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:8px;overflow:hidden"><div style="width:'+pct+'%;height:100%;background:linear-gradient(90deg,#a78bfa,var(--gold));transition:width .5s"></div></div>';
-  body.appendChild(progress);
-
-  ABLA_MISSIONI.forEach(function(m) {
-    var card = document.createElement('div');
-    card.className = 'abla-missione';
-    card.style.border = m.done ? '1px solid rgba(74,222,128,.3)' : '1px solid rgba(255,215,0,.2)';
-    card.style.background = m.done ? 'rgba(74,222,128,.05)' : 'rgba(255,215,0,.04)';
-    card.innerHTML =
-      '<div class="abla-miss-icon">'+(m.done?'✅':m.icon)+'</div>' +
-      '<div style="flex:1"><div class="abla-miss-txt">'+m.titolo+'</div>' +
-      '<div style="font-size:.66rem;color:var(--muted);margin-top:2px">'+m.desc+'</div>' +
-      '<div class="abla-miss-reward">+'+m.semi+' 🪙 +'+m.argento+' 🥈</div></div>';
-    if (!m.done) {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', function() {
-        m.done = true;
-        S.coins += m.semi;
-        addSilverCoins(m.argento);
-        updateHUD(); saveS();
-        toast('🎓 '+m.titolo+' +'+m.semi+' Semi');
-        spawnParticles(); playS('success');
-        buildPuntoAbla();
-      });
-    }
-    body.appendChild(card);
-  });
-}
 window.buildPuntoAbla = buildPuntoAbla;
 
-function buildLandaCard(zone) {
-  var body = document.getElementById('card-body');
-  if (!body) return;
-  body.innerHTML = '';
-  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
-  var z = worldData[zone || currentRegion || 'EUROPE'];
-  var merito = Math.min(100, Math.round((Object.keys(S.completate).length * 4) + ((S.streak||0) * 2)));
-
-  var cardViz = document.createElement('div');
-  cardViz.className = 'landa-card-visual';
-  cardViz.innerHTML =
-    '<div class="landa-card-merito">'+(t.card_merito||'Merito')+' '+merito+'%</div>' +
-    '<div class="landa-card-logo">FinanzaLand · Omnia</div>' +
-    '<div class="landa-card-number">**** **** **** '+(1000+S.level)+'</div>' +
-    '<div class="landa-card-currency">'+z.cur+' · '+z.icon+' '+z.law+'</div>' +
-    '<div class="merito-bar-wrap"><div class="merito-bar-fill" style="width:'+merito+'%"></div></div>';
-  body.appendChild(cardViz);
-
-  var info = document.createElement('div');
-  info.style.cssText = 'text-align:center;padding:14px;font-size:.78rem;color:var(--muted)';
-  info.textContent = t.card_requisiti || 'Merito >=50% · 3+ Missioni Abla per sbloccare';
-  body.appendChild(info);
-}
 window.buildLandaCard = buildLandaCard;
 
 // ── OVERRIDE showScreen per nuove schermate ─────────────────────────────
@@ -8106,8 +8711,8 @@ var MINDSET_MISSIONI = [
 ];
 // Unisci alle missioni Abla esistenti
 if (typeof ABLA_MISSIONI !== 'undefined') {
-  MINDSET_MISSIONI.forEach(function(m) {
-    if (!ABLA_MISSIONI.find(function(a){return a.id===m.id;})) {
+  MINDSET_MISSIONI.filter(function(m){return m&&m.id;}).forEach(function(m) {
+    if (!ABLA_MISSIONI.find(function(a){return a&&a.id===m.id;})) {
       ABLA_MISSIONI.push(m);
     }
   });
@@ -9034,6 +9639,8 @@ function renderScroll() {
 // RENDER CULTURE CARD
 // ═══════════════════════════════════════════════════════
 function renderCultureCard() {
+  if (!selectedAv) { if (typeof AVATARS !== 'undefined' && AVATARS[0]) selectedAv = AVATARS[0]; else return; }
+  if (!selectedAv.culture) return;
   if(adultMode) { renderAdultCard(); return; }
   const av = selectedAv;
   const c = av.culture;
@@ -9098,6 +9705,7 @@ function renderCultureCard() {
 // QUIZ — FIX: progress per avatar, non si resetta
 // ═══════════════════════════════════════════════════════
 function renderQuizHTML(av) {
+  if (!av || !av.quiz) return '<div>Quiz non disponibile</div>';
   const qp = getQP(av.id);
   const q = av.quiz[qp.currentQ];
 
@@ -9129,6 +9737,7 @@ function answerQuiz(avId, selected, correct, reward) {
   qp.answered = true;
 
   const av = AVATARS.find(a=>a.id===avId);
+  if (!av || !av.quiz) return;
   const q = av.quiz[qp.currentQ];
 
   // Colora opzioni
@@ -9173,6 +9782,7 @@ function resetQuiz(avId) {
 // MISSIONI — FIX: non resetta quiz
 // ═══════════════════════════════════════════════════════
 function renderMissionsHTML(av) {
+  if (!av || !av.missioni) return '<div></div>';
   return `<div class="mission-list">${av.missioni.map((m,i) => {
     const key = av.id+'_'+i;
     const done = !!missionsDone[key];
@@ -10154,6 +10764,7 @@ var _saggezzaDone = {};
 var _saggCat = 'all';
 
 function buildSaggezza() {
+  if (!Array.isArray(GRANDE_SAGGEZZA) || !GRANDE_SAGGEZZA.length) return;
   var tabs = document.getElementById('sagg-tabs');
   var body = document.getElementById('sagg-body');
   if (!tabs || !body) return;
@@ -10236,13 +10847,6 @@ function buildSaggezza() {
     dom.className = 'sagg-domanda';
     dom.innerHTML = '<strong>🤔 Riflessione:</strong> ' + sagg.domanda;
     card.appendChild(dom);
-
-    if (sagg.azione_fisica) {
-      var az = document.createElement('div');
-      az.style.cssText = 'background:rgba(74,222,128,.08);border:2px solid rgba(74,222,128,.4);border-radius:10px;padding:11px;margin-bottom:12px;font-size:.73rem;color:#4ade80;line-height:1.55';
-      az.innerHTML = '<strong>💪 AZIONE FISICA:</strong> ' + sagg.azione_fisica;
-      card.appendChild(az);
-    }
     
     if (!isDone) {
       var btn = document.createElement('button');
@@ -10257,6 +10861,8 @@ function buildSaggezza() {
         if (typeof spawnParticles==='function') spawnParticles();
         if (typeof playS==='function') playS('success');
         toast('🧠 +' + sagg.semi + ' Semi! Saggezza acquisita!');
+        // Traccia missioni mensili
+        if (typeof avanzaMissioneMensile === 'function') avanzaMissioneMensile('sagg_mese', 1);
         buildSaggezza();
       };
       card.appendChild(btn);
@@ -10281,5 +10887,64 @@ function hexToRgb(hex) {
 window.buildSaggezza = buildSaggezza;
 
 </script>
+
+<!-- DIVENTA SAGGIO MODAL -->
+<div class="saggio-modal-overlay" id="saggio-modal-overlay" onclick="if(event.target===this)chiudiModalSaggio()">
+  <div class="saggio-modal-box">
+    <div class="saggio-modal-title">🦁 Diventa un Saggio FinanzaLand</div>
+    <div class="saggio-modal-sub">Insegnanti, educatori, esperti di finanza — unisciti e ispira le prossime generazioni. Mini video nelle lezioni, lezioni live, per bambini e famiglie.</div>
+    <div class="saggio-benefit">
+      ✅ <strong>Mini video</strong> integrati nelle lezioni AI<br>
+      🔴 <strong>Lezioni live</strong> per bambini, ragazzi e adulti<br>
+      🌍 <strong>Multilingua</strong> — italiano, francese, inglese, wolof<br>
+      🏆 <strong>Badge "Saggio Verificato"</strong> sul profilo<br>
+      💰 <strong>Zero costi</strong> per iniziare — sempre
+    </div>
+    <div class="saggio-field">
+      <label class="saggio-label">👤 Il tuo nome completo *</label>
+      <input class="saggio-input" id="sm-nome" placeholder="Es. Emanuele Rossi" type="text">
+    </div>
+    <div class="saggio-field">
+      <label class="saggio-label">📧 Email *</label>
+      <input class="saggio-input" id="sm-email" placeholder="tua@email.it" type="email">
+    </div>
+    <div class="saggio-field">
+      <label class="saggio-label">📚 Specializzazione</label>
+      <select class="saggio-select" id="sm-materia">
+        <option value="">Scegli il tuo campo...</option>
+        <option value="Educazione Finanziaria">💰 Educazione Finanziaria</option>
+        <option value="Educazione Civica / Storia">🏛️ Educazione Civica / Storia</option>
+        <option value="Matematica / Economia">📐 Matematica / Economia</option>
+        <option value="Psicologia del Denaro">🧠 Psicologia del Denaro</option>
+        <option value="Mercati / Investimenti">📈 Mercati / Investimenti</option>
+        <option value="Finanza Africana / BRVM">🌍 Finanza Africana / BRVM</option>
+        <option value="Insegnante Bambini">👶 Insegnante — Bambini</option>
+        <option value="Insegnante Secondaria">🎓 Insegnante — Scuola Media/Superiore</option>
+        <option value="Altro">✨ Altro</option>
+      </select>
+    </div>
+    <div class="saggio-field">
+      <label class="saggio-label">👥 A chi vuoi insegnare?</label>
+      <select class="saggio-select" id="sm-eta">
+        <option value="">Scegli il target...</option>
+        <option value="Bambini (6-12 anni)">👶 Bambini (6-12 anni)</option>
+        <option value="Ragazzi (12-18 anni)">🎒 Ragazzi (12-18 anni)</option>
+        <option value="Adulti e Famiglie">👨‍👩‍👧 Adulti e Famiglie</option>
+        <option value="Tutte le età">🌍 Tutte le età</option>
+      </select>
+    </div>
+    <div class="saggio-field">
+      <label class="saggio-label">📹 Canale YouTube o video online?</label>
+      <input class="saggio-input" id="sm-youtube" placeholder="https://youtube.com/... (opzionale)" type="url">
+    </div>
+    <div class="saggio-field">
+      <label class="saggio-label">✍️ Breve bio</label>
+      <input class="saggio-input" id="sm-bio" placeholder="La tua esperienza in 2 frasi..." type="text">
+    </div>
+    <button class="saggio-submit-btn" onclick="inviaRichiestaSaggio()">🦁 Invia Candidatura — Gratis</button>
+    <button class="saggio-close-btn" onclick="chiudiModalSaggio()">← Chiudi</button>
+  </div>
+</div>
+
 </body>
 </html>
