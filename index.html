@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <!-- FinanzaLand v20260326-0851 -->
-<link rel="manifest" href="data:application/json,{%22name%22:%22FinanzaLand%22,%22short_name%22:%22FinanzaLand%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%230A0C0F%22,%22theme_color%22:%22%23F5C842%22,%22icons%22:[{%22src%22:%22https://finanzaland.vercel.app/icon-512.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
+<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#F5C842">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,15 +14,12 @@
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    var swCode = [
-      "const CACHE='fl-v1';",
-      "const ASSETS=['/'];",
-      "self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));",
-      "self.addEventListener('fetch',e=>{if(e.request.url.includes('/api/')){return;}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});",
-    ].join('\n');
-    var blob = new Blob([swCode], {type:'text/javascript'});
-    var swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(function(){});
+    var host = window.location.hostname;
+    var isProduction = host === 'finanzaland.vercel.app' || host.endsWith('.vercel.app');
+    if (!isProduction) return;
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(reg) { console.log('SW OK:', reg.scope); })
+      .catch(function(e) { console.warn('SW fail:', e); });
   });
 }
 </script>
@@ -1268,6 +1265,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 .diventa-saggio-banner{background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(99,102,241,.08));border:1.5px solid rgba(167,139,250,.4);border-radius:14px;padding:16px;margin:12px 0;text-align:center;cursor:pointer}
 .diventa-saggio-banner:active{transform:scale(.98)}
 </style>
+<link rel="apple-touch-icon" sizes="180x180" href="https://finanzaland.vercel.app/icon-512.png">
 </head>
 <body>
 <div id="app">
