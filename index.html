@@ -1403,6 +1403,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
         <button class="lv-tab" id="atab-prof" onclick="switchAcademyTab('prof',this)" style="flex:1;border-radius:9px">👨‍🏫 Prof</button>
         <button class="lv-tab" id="atab-corsi" onclick="switchAcademyTab('corsi',this)" style="flex:1;border-radius:9px">📹 Corsi</button>
         <button class="lv-tab" id="atab-community" onclick="switchAcademyTab('community',this)" style="flex:1;border-radius:9px">🌍 Forum</button>
+        <button class="lv-tab" id="atab-scuole" onclick="switchAcademyTab('scuole',this)" style="flex:1;border-radius:9px">🏫</button>
       </div>
       <div class="acc-body" id="academy-body"></div>
     </div>
@@ -4333,6 +4334,7 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'prof')      buildAcademyProf(body);
   if (currentAcademyTab === 'corsi')     buildAcademyCorsi(body);
   if (currentAcademyTab === 'community') buildAcademyCommunity(body);
+  if (currentAcademyTab === 'scuole')    buildAcademyScuole(body);
 }
 
 window.switchAcademyTab = function(tab, el) {
@@ -11337,6 +11339,62 @@ function hexToRgb(hex) {
 
 window.buildSaggezza = buildSaggezza;
 
+function buildAcademyScuole(body) {
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
+  hdr.innerHTML = '<div style="font-size:2rem;margin-bottom:6px">🏫</div>'
+    + '<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>'
+    + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Educazione Civica - L. 92/2019 - Primaria e Medie</div>'
+    + '<div style="font-size:.68rem;background:rgba(167,139,250,.12);border-radius:8px;padding:6px 10px;margin-top:8px;color:#c4b5fd">Allineato curricula MIUR</div>';
+  body.appendChild(hdr);
+  var t1=document.createElement('div');t1.className='adult-section-title';t1.textContent='Moduli Didattici';body.appendChild(t1);
+  var moduli=[
+    {emoji:'🌱',classe:'Classi 1-2 (6-8 anni)',titolo:'Il Seme della Moneta',obiettivo:'Cos\'e il denaro? Cosa posso fare con una moneta?',tags:['Monete','Scambio','Risparmio'],ore:3,gratis:true},
+    {emoji:'🏦',classe:'Classi 3-4 (8-10 anni)',titolo:'La Banca dei Sogni',obiettivo:'Cos\'e una banca? Come funziona il risparmio?',tags:['Banca','Risparmio vs spesa','Obiettivo'],ore:4,gratis:true},
+    {emoji:'🌍',classe:'Classe 5 + Medie (10-13 anni)',titolo:'Il Mondo dei Mercati',obiettivo:'Come funzionano i mercati? Cos\'e la BRVM africana?',tags:['Borsa','BRVM Africa','Diversificazione','Tassi'],ore:6,gratis:false},
+    {emoji:'🤝',classe:'Ed. Civica trasversale',titolo:'Economia e Cittadinanza',obiettivo:'Tasse, welfare, beni comuni, finanza etica',tags:['Tasse','Bene comune','Finanza etica','Benevolenza 5%'],ore:4,gratis:true},
+  ];
+  moduli.forEach(function(mod){
+    var card=document.createElement('div');
+    card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
+    var tagsHtml=mod.tags.map(function(tag){return '<span style="font-size:.62rem;background:rgba(167,139,250,.1);color:#c4b5fd;border-radius:6px;padding:2px 6px">'+tag+'</span>';}).join('');
+    card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
+      +'<div style="display:flex;gap:10px;align-items:center"><div style="font-size:1.8rem">'+mod.emoji+'</div>'
+      +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+mod.titolo+'</div>'
+      +'<div style="font-size:.65rem;color:#a78bfa">'+mod.classe+'</div></div></div>'
+      +'<div style="font-size:.62rem;background:'+(mod.gratis?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.gratis?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.gratis?'Gratuito':'PRO')+'</div></div>'
+      +'<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-style:italic">'+mod.obiettivo+'</div>'
+      +'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">'+tagsHtml+'</div>'
+      +'<div style="font-size:.68rem;color:var(--muted)">'+mod.ore+' ore</div>'
+      +'<button onclick="generateLesson(\''+mod.titolo+'\',\'risparmio\',\'base\',\'bambino\',false).then(function(l){openLezione(l);})" '
+      +'style="width:100%;margin-top:10px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#a78bfa;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;cursor:pointer">Anteprima lezione AI</button>';
+    body.appendChild(card);
+  });
+  var t2=document.createElement('div');t2.className='adult-section-title';t2.textContent='Kit per Insegnanti';body.appendChild(t2);
+  [{icon:'📄',titolo:'Piano didattico annuale',desc:'Template MIUR per le 33h annuali di Ed. Civica'},
+   {icon:'📊',titolo:'Griglia di valutazione',desc:'Rubriche per competenze finanziarie per modulo'},
+   {icon:'🎮',titolo:'Guida in classe',desc:'Modalita bambino, missioni, quiz e progressi di gruppo'},
+   {icon:'📧',titolo:'Lettera per Dirigente/Comune',desc:'Modello pre-compilato per presentare il progetto'}
+  ].forEach(function(item){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer';
+    row.innerHTML='<div style="font-size:1.5rem">'+item.icon+'</div>'
+      +'<div style="flex:1"><div style="font-size:.8rem;font-weight:700;color:#fff">'+item.titolo+'</div>'
+      +'<div style="font-size:.67rem;color:var(--muted);margin-top:2px">'+item.desc+'</div></div>'
+      +'<div style="color:var(--muted)">›</div>';
+    row.addEventListener('click',function(){toast('Scrivi a ilboudobr96@gmail.com per il kit completo');});
+    body.appendChild(row);
+  });
+  var cta=document.createElement('div');
+  cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
+  cta.innerHTML='<div style="font-size:1.4rem;margin-bottom:6px">🤝</div>'
+    +'<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:6px">Porta FinanzaLand nella tua scuola</div>'
+    +'<div style="font-size:.7rem;color:var(--muted);margin-bottom:12px">Presentazione gratuita per insegnanti e dirigenti del Vicentino</div>'
+    +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20per%20la%20scuola&body=Salve%20Bernard%2C%0AVorrei%20portare%20FinanzaLand%20nella%20mia%20scuola.%0ASono%20insegnante%20presso%20%5BScuola%5D%20di%20Vicenza.%0ACordiali%20saluti\',\'_blank\')" '
+    +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-weight:900;font-size:.85rem;cursor:pointer;width:100%">Richiedi presentazione gratuita</button>';
+  body.appendChild(cta);
+}
+
 </script>
 
 <!-- DIVENTA SAGGIO MODAL -->
@@ -11397,5 +11455,6 @@ window.buildSaggezza = buildSaggezza;
   </div>
 </div>
 
+</script>
 </body>
 </html>
