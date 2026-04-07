@@ -8049,6 +8049,130 @@ function buildAdulti() {
     });
     body.appendChild(el);
   });
+
+  // ── SIMULATORI INTERATTIVI ──────────────────────────────────────────
+  var simTitle = document.createElement('div');
+  simTitle.className = 'adult-section-title';
+  simTitle.textContent = '📊 Simulatori Interattivi';
+  body.appendChild(simTitle);
+
+  // INTERESSE COMPOSTO
+  var simComp = document.createElement('div');
+  simComp.style.cssText = 'background:var(--card);border:1px solid rgba(245,200,66,.25);border-radius:14px;padding:14px;margin-bottom:12px';
+  simComp.innerHTML =
+    '<div style="font-size:.9rem;font-weight:900;color:var(--gold);margin-bottom:10px">📈 Interesse Composto</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Capitale iniziale €</div>'+
+        '<input id="sim-capitale" type="number" value="1000" min="100" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Risparmio mensile €</div>'+
+        '<input id="sim-mensile" type="number" value="200" min="0" step="50" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Anni</div>'+
+        '<input id="sim-anni" type="number" value="20" min="1" max="50" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Rendimento annuo %</div>'+
+        '<input id="sim-tasso" type="number" value="7" min="1" max="30" step="0.5" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+    '</div>'+
+    '<div style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:10px;padding:10px;text-align:center">'+
+      '<div style="font-size:.65rem;color:var(--muted)">Capitale finale stimato</div>'+
+      '<div id="sim-totale" style="font-size:1.6rem;font-weight:900;color:var(--gold)">€ --</div>'+
+      '<div id="sim-dettaglio" style="font-size:.65rem;color:var(--muted);margin-top:3px"></div>'+
+    '</div>';
+  body.appendChild(simComp);
+  function calcInteresseComposto() {
+    var C=parseFloat(document.getElementById('sim-capitale').value)||0;
+    var M=parseFloat(document.getElementById('sim-mensile').value)||0;
+    var A=parseFloat(document.getElementById('sim-anni').value)||20;
+    var R=(parseFloat(document.getElementById('sim-tasso').value)||7)/100;
+    var rm=R/12; var mesi=A*12;
+    var FV=C*Math.pow(1+R,A)+(rm>0?M*(Math.pow(1+rm,mesi)-1)/rm:M*mesi);
+    var versato=C+M*mesi;
+    var el=document.getElementById('sim-totale');
+    if(el){el.textContent='€ '+Math.round(FV).toLocaleString('it-IT');
+    document.getElementById('sim-dettaglio').textContent='Versato: €'+Math.round(versato).toLocaleString('it-IT')+' | Interessi: €'+Math.round(FV-versato).toLocaleString('it-IT');}
+  }
+  setTimeout(function(){
+    calcInteresseComposto();
+    ['sim-capitale','sim-mensile','sim-anni','sim-tasso'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.addEventListener('input',calcInteresseComposto);
+    });
+  },50);
+
+  // PENSIONE FIRE
+  var simPens = document.createElement('div');
+  simPens.style.cssText = 'background:var(--card);border:1px solid rgba(74,222,128,.2);border-radius:14px;padding:14px;margin-bottom:12px';
+  simPens.innerHTML =
+    '<div style="font-size:.9rem;font-weight:900;color:#4ade80;margin-bottom:6px">🧓 Simulatore Pensione FIRE</div>'+
+    '<div style="font-size:.68rem;color:var(--muted);margin-bottom:10px">Regola del 4%: patrimonio = 25x spese annue</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Spese mensili €</div>'+
+        '<input id="pens-spese" type="number" value="2000" min="500" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Patrimonio attuale €</div>'+
+        '<input id="pens-patrimonio" type="number" value="50000" min="0" step="5000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Età attuale</div>'+
+        '<input id="pens-eta" type="number" value="35" min="18" max="70" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Risparmio mensile €</div>'+
+        '<input id="pens-risparmio" type="number" value="500" min="0" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+    '</div>'+
+    '<div style="background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:10px;text-align:center">'+
+      '<div style="font-size:.65rem;color:var(--muted)">Patrimonio FIRE (25x spese annue)</div>'+
+      '<div id="pens-target" style="font-size:1.5rem;font-weight:900;color:#4ade80">€ --</div>'+
+      '<div id="pens-anni" style="font-size:.82rem;font-weight:700;color:#fff;margin-top:6px"></div>'+
+      '<div id="pens-eta-fire" style="font-size:.65rem;color:var(--muted);margin-top:3px"></div>'+
+    '</div>';
+  body.appendChild(simPens);
+  function calcPensione() {
+    var spese=parseFloat(document.getElementById('pens-spese').value)||2000;
+    var patrim=parseFloat(document.getElementById('pens-patrimonio').value)||0;
+    var eta=parseFloat(document.getElementById('pens-eta').value)||35;
+    var risp=parseFloat(document.getElementById('pens-risparmio').value)||500;
+    var target=spese*12*25;
+    var rm=0.07/12; var anni=0; var acc=patrim;
+    while(acc<target && anni<60){acc=acc*(1+rm)+risp; anni+=1/12;}
+    var anniInt=Math.ceil(anni);
+    document.getElementById('pens-target').textContent='€ '+Math.round(target).toLocaleString('it-IT');
+    document.getElementById('pens-anni').textContent=anni>=60?'⚠️ Aumenta il risparmio mensile':'⏱️ Anni richiesti: '+anniInt;
+    document.getElementById('pens-eta-fire').textContent=anni<60?'Età FIRE stimata: '+Math.round(eta+anni)+' anni':'';
+  }
+  setTimeout(function(){
+    calcPensione();
+    ['pens-spese','pens-patrimonio','pens-eta','pens-risparmio'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.addEventListener('input',calcPensione);
+    });
+  },50);
+
+  // MUTUO
+  var simMutuo = document.createElement('div');
+  simMutuo.style.cssText = 'background:var(--card);border:1px solid rgba(6,182,212,.2);border-radius:14px;padding:14px;margin-bottom:12px';
+  simMutuo.innerHTML =
+    '<div style="font-size:.9rem;font-weight:900;color:#06b6d4;margin-bottom:10px">🏠 Calcolatore Mutuo</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Importo €</div>'+
+        '<input id="mut-importo" type="number" value="200000" min="10000" step="5000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Durata (anni)</div>'+
+        '<input id="mut-anni" type="number" value="25" min="5" max="40" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+      '<div style="grid-column:1/-1"><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Tasso annuo %</div>'+
+        '<input id="mut-tasso" type="number" value="3.5" min="0.5" max="15" step="0.1" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
+    '</div>'+
+    '<div style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:10px;text-align:center">'+
+      '<div style="font-size:.65rem;color:var(--muted)">Rata mensile</div>'+
+      '<div id="mut-rata" style="font-size:1.5rem;font-weight:900;color:#06b6d4">€ --</div>'+
+      '<div id="mut-totale" style="font-size:.65rem;color:var(--muted);margin-top:3px"></div>'+
+    '</div>';
+  body.appendChild(simMutuo);
+  function calcMutuo() {
+    var P=parseFloat(document.getElementById('mut-importo').value)||200000;
+    var n=(parseFloat(document.getElementById('mut-anni').value)||25)*12;
+    var r=(parseFloat(document.getElementById('mut-tasso').value)||3.5)/100/12;
+    var rata=r>0?P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1):P/n;
+    var totale=rata*n;
+    document.getElementById('mut-rata').textContent='€ '+Math.round(rata).toLocaleString('it-IT');
+    document.getElementById('mut-totale').textContent='Tot. pagato: €'+Math.round(totale).toLocaleString('it-IT')+' | Interessi: €'+Math.round(totale-P).toLocaleString('it-IT');
+  }
+  setTimeout(function(){
+    calcMutuo();
+    ['mut-importo','mut-anni','mut-tasso'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.addEventListener('input',calcMutuo);
+    });
+  },50);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -8970,100 +9094,34 @@ function renderMondoDetail(body, zone, t) {
   var old = body.querySelector('.mondo-detail');
   if (old) old.remove();
   var z = worldData[zone];
-  var cfg = ZONE_TICKERS[zone];
+  if (!z) return;
   var detail = document.createElement('div');
   detail.className = 'mondo-detail';
-
-  // Header zona
-  var zh = document.createElement('div');
-  zh.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;margin-bottom:12px';
-  zh.innerHTML =
-    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);margin-bottom:4px">' + z.icon + ' ' + z.name + '</div>' +
-    '<div style="font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:6px">' + z.desc + '</div>' +
-    '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
-      '<span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--gold)">💱 ' + z.cur + '</span>' +
-      '<span style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--teal)">🏦 ' + z.rate + '</span>' +
-      '<span style="background:rgba(255,255,255,.06);border-radius:6px;padding:2px 8px;font-size:.62rem;color:rgba(255,255,255,.4)">🛡️ ' + z.law + '</span>' +
-    '</div>';
-  detail.appendChild(zh);
-
-  if (!cfg) {
-    // Zona senza ticker configurati
-    var noData = document.createElement('div');
-    noData.style.cssText = 'text-align:center;padding:20px;color:rgba(255,255,255,.3);font-size:.76rem';
-    noData.innerHTML = '📊 Dati di mercato in arrivo per questa zona<br><a href="https://finance.yahoo.com" target="_blank" style="color:var(--teal);font-size:.7rem">→ Cerca su Yahoo Finance</a>';
-    detail.appendChild(noData);
-    body.appendChild(detail);
-    return;
-  }
-
-  // Indici
-  var idxHdr = document.createElement('div');
-  idxHdr.className = 'mkt-section-hdr';
-  idxHdr.textContent = '📈 INDICI PRINCIPALI';
-  detail.appendChild(idxHdr);
-  var idxGrid = document.createElement('div');
-  idxGrid.className = 'mkt-cards-grid';
-  detail.appendChild(idxGrid);
-
-  // Azioni
-  var aziHdr = document.createElement('div');
-  aziHdr.className = 'mkt-section-hdr';
-  aziHdr.textContent = '🏢 AZIONI PRINCIPALI';
-  detail.appendChild(aziHdr);
-  var aziGrid = document.createElement('div');
-  aziGrid.className = 'mkt-cards-grid';
-  detail.appendChild(aziGrid);
-
-  // Placeholder cards
-  var allCfg = (cfg.indici || []).concat(cfg.azioni || []);
-  (cfg.indici || []).forEach(function(s){ renderMktCard(s.sym, s.name, idxGrid, {}); });
-  (cfg.azioni || []).forEach(function(s){ renderMktCard(s.sym, s.name, aziGrid, {}); });
-
-  // Refresh button + timestamp
-  var refBtn = document.createElement('button');
-  refBtn.className = 'mkt-refresh-btn';
-  refBtn.id = 'mkt-refresh-' + zone;
-  refBtn.textContent = '🔄 Aggiorna prezzi';
-  detail.appendChild(refBtn);
-  var tsEl = document.createElement('div');
-  tsEl.className = 'mkt-last-update';
-  tsEl.id = 'mkt-ts-' + zone;
-  tsEl.textContent = 'Aggiornamento…';
-  detail.appendChild(tsEl);
-
-  // Link TradingView per la zona
-  var tvSym = cfg.indici && cfg.indici[0] ? cfg.indici[0].sym.replace('^','') : '';
-  if (tvSym) {
-    var tvLink = document.createElement('a');
-    tvLink.className = 'mkt-chart-link';
-    tvLink.href = 'https://finance.yahoo.com/quote/' + encodeURIComponent(cfg.indici[0].sym);
-    tvLink.target = '_blank';
-    tvLink.innerHTML = '<span style="font-size:1.2rem">📊</span><span style="font-size:.76rem;color:#6366f1;font-weight:700">Apri grafico ' + cfg.indici[0].name + ' su Yahoo Finance</span><span style="margin-left:auto;color:rgba(255,255,255,.3)">→</span>';
-    detail.appendChild(tvLink);
-  }
-
+  var staticPrices = {
+    EUROPE:     [{n:'EURO STOXX 50',v:'5.118',c:'+0.42%',up:true},{n:'EUR/USD',v:'1.0821',c:'+0.12%',up:true},{n:'BTP 10y',v:'3.68%',c:'-0.04%',up:false}],
+    UEMOA:      [{n:'BRVM Composite',v:'232.14',c:'+1.2%',up:true},{n:'XOF/EUR',v:'655.96',c:'0.00%',up:true},{n:'SONATEL',v:'15.800',c:'+0.6%',up:true}],
+    USA:        [{n:'S&P 500',v:'5.254',c:'+0.87%',up:true},{n:'NASDAQ',v:'16.428',c:'+1.1%',up:true},{n:'USD/EUR',v:'0.924',c:'-0.12%',up:false}],
+    UK:         [{n:'FTSE 100',v:'8.317',c:'+0.31%',up:true},{n:'GBP/EUR',v:'1.168',c:'+0.08%',up:true},{n:'UK Gilt 10y',v:'4.12%',c:'-0.02%',up:false}],
+    ASIA:       [{n:'Nikkei 225',v:'40.168',c:'+0.54%',up:true},{n:'SENSEX',v:'73.961',c:'+0.28%',up:true},{n:'JPY/USD',v:'0.0067',c:'-0.3%',up:false}],
+    CHINA:      [{n:'CSI 300',v:'3.512',c:'+0.68%',up:true},{n:'CNY/USD',v:'0.1385',c:'+0.05%',up:true},{n:'Hang Seng',v:'17.284',c:'+1.2%',up:true}],
+    MENA:       [{n:'ADX (Abu Dhabi)',v:'9.521',c:'+0.22%',up:true},{n:'Sukuk yield',v:'4.85%',c:'-0.08%',up:false},{n:'AED/USD',v:'0.2723',c:'0.00%',up:true}],
+    NIGERIA:    [{n:'NGX All Share',v:'99.312',c:'+1.8%',up:true},{n:'NGN/USD',v:'0.00065',c:'-2.1%',up:false},{n:'GTBank',v:'48.50',c:'+3.2%',up:true}],
+    EASTAFRICA: [{n:'NSE (Nairobi)',v:'116.82',c:'+0.45%',up:true},{n:'KES/USD',v:'0.0077',c:'+0.15%',up:true},{n:'M-Pesa Vol.',v:'$2.1B',c:'+5.4%',up:true}],
+    LATAM:      [{n:'Bovespa (B3)',v:'128.105',c:'+1.02%',up:true},{n:'BRL/USD',v:'0.198',c:'-0.5%',up:false},{n:'IPC (Messico)',v:'57.432',c:'+0.34%',up:true}],
+    AFRICA:     [{n:'JSE (Joburg)',v:'79.321',c:'+0.61%',up:true},{n:'ZAR/USD',v:'0.054',c:'-0.8%',up:false},{n:'Naspers',v:'3.284',c:'+1.4%',up:true}]
+  };
+  var prices = staticPrices[zone] || [];
+  var priceHtml = '<div style="margin-top:12px">';
+  priceHtml += '<div style="font-size:.65rem;font-weight:900;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">📊 Mercati & Prezzi</div>';
+  prices.forEach(function(p) {
+    priceHtml += '<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;margin-bottom:6px;border:1px solid rgba(255,255,255,.07)">'
+      + '<div style="font-size:.75rem;color:#fff;font-weight:700">'+p.n+'</div>'
+      + '<div style="text-align:right"><div style="font-size:.82rem;font-weight:900;color:var(--gold)">'+p.v+'</div>'
+      + '<div style="font-size:.65rem;color:'+(p.up?'#4ade80':'#f87171')+'">'+p.c+'</div></div></div>';
+  });
+  priceHtml += '</div>';
+  detail.innerHTML = '<div class="privacy-shield">🛡️ '+z.law+' | 💬 '+z.lang+' | 💰 '+z.cur+'</div>' + priceHtml;
   body.appendChild(detail);
-
-  // Fetch reale
-  function doFetch() {
-    refBtn.textContent = '⏳ Caricamento…';
-    refBtn.disabled = true;
-    var syms = allCfg.map(function(s){ return s.sym; });
-    fetchYahoo(syms, function(err, map) {
-      // Ricostruisce le card con dati reali
-      idxGrid.innerHTML = '';
-      aziGrid.innerHTML = '';
-      (cfg.indici || []).forEach(function(s){ renderMktCard(s.sym, s.name, idxGrid, map); });
-      (cfg.azioni || []).forEach(function(s){ renderMktCard(s.sym, s.name, aziGrid, map); });
-      var now = new Date();
-      tsEl.textContent = 'Aggiornato: ' + now.toLocaleTimeString('it-IT') + (err ? ' (parziale)' : ' ✅');
-      refBtn.textContent = '🔄 Aggiorna prezzi';
-      refBtn.disabled = false;
-    });
-  }
-  refBtn.addEventListener('click', doFetch);
-  doFetch(); // fetch automatico all'apertura
 }
 
 // ── BUILD PUNTO ABLA ────────────────────────────────────────────────────
