@@ -1294,8 +1294,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <div class="lang-btn" id="lang-en" onclick="setLang('en',this)">🇬🇧 EN</div>
     <div class="lang-btn" id="lang-es" onclick="setLang('es',this)">🇪🇸 ES</div>
     <div class="lang-btn" id="lang-wo" onclick="setLang('wo',this)">🌍 WO</div>
-  <div class="lang-btn" id="lang-bm" onclick="setLang('bm',this)">🥁 BM</div>
-  <div class="lang-btn" id="lang-mo" onclick="setLang('mo',this)">🌾 MO</div>
   </div>
 
   <!-- CONTENT -->
@@ -1778,7 +1776,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div id="toast"></div>
 
 <script>
-
 'use strict';
 
 // ── LETTURA SICURA LOCALSTORAGE ──────────────────────────
@@ -1906,7 +1903,7 @@ function segnaPagettaErogata() {
 // Calcola semi e argento guadagnati dalle missioni completate questo mese
 function calcolaPremioMensile() {
   var semi = 0, argento = 0, completate = 0;
-  (Array.isArray(MISSIONI_MENSILI)?MISSIONI_MENSILI:[]).forEach(function(m) {
+  MISSIONI_MENSILI.forEach(function(m) {
     var prog = getProgressoMensile(m.chiave);
     if (prog >= m.target) {
       semi += m.semi;
@@ -1914,7 +1911,7 @@ function calcolaPremioMensile() {
       completate++;
     }
   });
-  return {semi: semi, argento: argento, completate: completate, totale: (Array.isArray(MISSIONI_MENSILI)?MISSIONI_MENSILI.length:0)};
+  return {semi: semi, argento: argento, completate: completate, totale: MISSIONI_MENSILI.length};
 }
 
 // Mostra il popup paghetta mensile
@@ -2171,8 +2168,6 @@ var TOPICS_LANG = {
 };
 TOPICS_LANG.es = TOPICS_LANG.it || {};
 TOPICS_LANG.wo = TOPICS_LANG.it || {};
-TOPICS_LANG.bm = TOPICS_LANG.fr || {};
-TOPICS_LANG.mo = TOPICS_LANG.fr || {};
 TOPICS_LANG.it = null; // IT usa TOPICS direttamente — nessuna traduzione necessaria
 
 // Ottieni topics nella lingua corrente per un percorso
@@ -2209,7 +2204,7 @@ var ABLA_MISSIONI = [
 function buildPuntoAbla() {
   var body = document.getElementById('abla-body');
   if (!body) return;
-  if (!Array.isArray(ABLA_MISSIONI) || !(Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI.length:0)) return;
+  if (!Array.isArray(ABLA_MISSIONI) || !ABLA_MISSIONI.length) return;
   body.innerHTML = '';
   var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
 
@@ -2226,8 +2221,8 @@ function buildPuntoAbla() {
   body.appendChild(hdr);
 
   // Contatore missioni completate
-  var ablaDone = (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI:[]).filter(function(m){ return m.done; }).length;
-  var abl_total = (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI.length:0);
+  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
+  var abl_total = ABLA_MISSIONI.length;
   var ablaPct = Math.round((ablaDone/abl_total)*100);
 
   var progress = document.createElement('div');
@@ -2246,7 +2241,7 @@ function buildPuntoAbla() {
   catTitle.textContent = t.abla_missioni || '📋 Missioni del Saggio';
   body.appendChild(catTitle);
 
-  (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI:[]).forEach(function(m, i) {
+  ABLA_MISSIONI.forEach(function(m, i) {
     var card = document.createElement('div');
     card.className = 'abla-missione';
     card.style.opacity = m.done ? '1' : '0.85';
@@ -2310,8 +2305,8 @@ function buildLandaCard(zone) {
   body.innerHTML = '';
   var t  = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
   var z  = worldData[zone||currentRegion||'EUROPE'];
-  var merito = Math.min(100, Math.round((Object.keys(S.completate||{}).length * 4) + (S.streak * 2)));
-  var ablaDone = (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI:[]).filter(function(m){return m.done;}).length;
+  var merito = Math.min(100, Math.round((Object.keys(S.completate).length * 4) + (S.streak * 2)));
+  var ablaDone = ABLA_MISSIONI.filter(function(m){return m.done;}).length;
 
   // Card visuale
   var cardViz = document.createElement('div');
@@ -2339,7 +2334,7 @@ function buildLandaCard(zone) {
   var reqs = [
     {label:t.card_req_merito||'Merito', val:merito, target:50, icon:'🎯'},
     {label:t.card_req_missioni||'Missioni Abla', val:ablaDone, target:3, icon:'📚'},
-    {label:t.card_req_lezioni||'Lezioni', val:Object.keys(S.completate||{}).length, target:5, icon:'🏆'},
+    {label:t.card_req_lezioni||'Lezioni', val:Object.keys(S.completate).length, target:5, icon:'🏆'},
     {label:t.card_req_streak||'Streak', val:S.streak||0, target:3, icon:'🔥'},
   ];
   reqs.forEach(function(req) {
@@ -2378,7 +2373,7 @@ function buildLandaCard(zone) {
     meseLabel.innerHTML = '📅 Missioni del Mese — ' + getMeseKey();
     body.appendChild(meseLabel);
 
-    (Array.isArray(MISSIONI_MENSILI)?MISSIONI_MENSILI:[]).forEach(function(m) {
+    MISSIONI_MENSILI.forEach(function(m) {
       var prog = getProgressoMensile(m.chiave);
       var done = prog >= m.target;
       var pct  = Math.min(100, Math.round((prog / m.target) * 100));
@@ -2453,7 +2448,7 @@ function updateHUD(){
   document.getElementById('cc').textContent=S.coins.toLocaleString('it');
   document.getElementById('stat-coins').textContent=S.coins.toLocaleString('it');
   document.getElementById('stat-lv').textContent=S.level;
-  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate||{}).length+'+';
+  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate).length+'+';
   var streakEl=document.getElementById('stat-streak');
   if(streakEl) streakEl.textContent=(S.streak||0)+'🔥';
   var xpPct=Math.min(100,Math.round((S.xp/(S.level*150))*100));
@@ -3300,154 +3295,6 @@ var TRANSLATIONS = {
     lv_mindset:'🧠 Xelam', perc_labels_mindset:'Xelam Comandant',
     mindset_bonus:'Xelam jeex! +30 Jemm',
     civetta_system:'Yaa Civetta IA bu FinanzaLand, jangalekat xaalis. Tontu ci Wolof dina. Jang rekk.',
-  },
-  bm: {
-    /* HOME */
-    home_title:'Kalanso ni Wari la',
-    home_sub:'Denw ani faraw ye — Tile 7 nɔgɔya la',
-    btn_accademia:'📚 Kalanden Yɔrɔ',
-    btn_3d:'🎮 Dɔ Kɛ',
-    btn_adulti:'📊 Cɛkɔrɔw Baara',
-    btn_pro:'🧑‍🏫 Karamɔgɔw',
-    btn_academy:'🎓 Lakɔli',
-    btn_muro:'🌍 Sɔsɔli Kongoban',
-    btn_kids:'👶 Denw Tile',
-    btn_share:'📤 Cɛ',
-    /* ACCADEMIA */
-    acc_back:'← Kɔ',
-    acc_banner:'Kalanso dɔrɔn — Dɔni bɛ AI fɛ kɛ',
-    gen_title:'🤖 Kalanso Kɛ',
-    gen_sub:'Wari kunnafoni o kunnafoni sɛbɛn',
-    gen_write_topic:'Kunnafoni sɛbɛn...',
-    gen_btn:'🚀 AI Kalanso Kɛ',
-    gen_loading:'⏳ Kɛcogo...',
-    gen_error:'Kalanso ma sɔrɔ. Ɲɛsin!',
-    /* PERCORSI */
-    perc_labels:{
-      risparmio:'Wari Mara', investimenti:'Nafasoli', mercati:'Yiriwali',
-      immobiliare:'Soo', tasse:'Sariya Seli', obbligazioni:'Layidu',
-      pensione:'Kɔrɔyabali', africa:'Afrika', bambini:'Denw',
-      figli:'Denfanw', crypto:'Kripto', derivati:'Dɛrivi', psicologia:'Haminɛ'
-    },
-    /* LIVELLI */
-    lv_base:'🌱 Daminɛ', lv_medio:'📚 Cɛmancɛ', lv_esperto:'🎓 Ɲɛjɛnna',
-    lv_avanzato:'🏆 Kɔrɔba', lv_master:'💎 Jɛkulu',
-    /* QUIZ */
-    card_semi:'Jiri Fɛɛn', quiz_correct:'✅ Aw! +', quiz_wrong:'❌ Hɛɛri!',
-    quiz_points:' jiri fɛɛn',
-    /* NAVIGATION */
-    nav_lezioni:'Kalanso', nav_mercati:'Yiriwali', nav_premi:'Saraka',
-    nav_famiglia:'Bɔlen', nav_academy:'Lakɔli', nav_muro:'Kongoban',
-    nav_famille:'Bɔlen',
-    /* MURO */
-    wall_tab_post:'Kuma', wall_tab_sfide:'Niname', wall_tab_classifica:'Kɔrɔ',
-    wall_footer:'🌍 Denw ani Cɛkɔrɔw Mali, Burkinafaso, Kote d\'Ivoire, Senegali, Itali ani diɲɛ bɛɛ',
-    /* ACADEMY */
-    academy_live_adesso:'🔴 Waati Nin na',
-    academy_cerca:'Karamɔgɔ ɲini...',
-    /* ADULTI */
-    adulti_benvenuto:'Cɛkɔrɔba Segin aw ye',
-    adulti_lezioni_comp:'Kalanso Cɛ',
-    /* LESSON VIEW */
-    acc_back_lez:'← Kalanden Yɔrɔ',
-    lez_quiz_title:'🎯 Ɲini o Ɲini',
-    lez_complete:'✅ Kalanso Lɔ!',
-    /* TOAST */
-    toast_lingua:'Kan: Bambara ✅',
-    /* CIVETTA */
-    civetta_welcome:'Aw ni ce! Ne ye Civetta ye, i karamɔgɔ AI ye FinanzaLand na 🦉',
-    civetta_chips:['Wari mara bɛ se ka kɛ cogo di?','Nafasoli ye mun ye?','BRVM ye mun ye?','Jiri fɛɛn sɔrɔ cogo di?'],
-    /* KIDS */
-    kids_home_title:'Aw ni ce! 👋',
-    kids_home_sub:'I bɛ mun kɛ sini?',
-    kids_sec_memoria:'🃏 Hakili Kɛlɛ',
-    kids_sec_memoria_desc:'Kaarata Sɔsɔ',
-    kids_sec_quiz:'🦉 Ɲini',
-    kids_sec_quiz_desc:'Dɔni kɛ',
-    kids_sec_impara:'📚 Kalan',
-    kids_sec_impara_desc:'Fɛɛn Kura',
-    kids_sec_drago:'🐉 Dragɔ',
-    kids_sec_drago_desc:'I Dragɔ Ɲɛ',
-    kids_sec_avventura:'🗺️ Taama',
-    kids_sec_avventura_desc:'Duguma Ɲɛsin',
-    /* QUIZ LIVELLI */
-    quiz_lv_facile:'🌱 Nɔgɔya',
-    quiz_lv_medio:'📚 Cɛmancɛ',
-    quiz_lv_difficile:'🎓 Gɛlɛya',
-  },
-  mo: {
-    /* HOME */
-    home_title:'Zãmsd-biis Ligdi Yɛlɛma',
-    home_sub:'Biisi la rãmb ye — Wĩnde 7 menga',
-    btn_accademia:'📚 Zãms Yɩɩre',
-    btn_3d:'🎮 Kẽn Dẽ',
-    btn_adulti:'📊 Rãmba Tʋʋm',
-    btn_pro:'🧑‍🏫 Zãmsd-dãmba',
-    btn_academy:'🎓 Lekoll',
-    btn_muro:'🌍 Nẽd Kongoban',
-    btn_kids:'👶 Biisi Daare',
-    btn_share:'📤 Yãk',
-    /* ACCADEMIA */
-    acc_back:'← Yiig',
-    acc_banner:'Zãmsd bala — Gom fãa AI tõnd na',
-    gen_title:'🤖 Zãmsd Maan',
-    gen_sub:'Ligdi yɛlɛ fãa gʋlsem',
-    gen_write_topic:'Yɛlɛ gʋlsem...',
-    gen_btn:'🚀 AI Zãmsd Maan',
-    gen_loading:'⏳ Maandb...',
-    gen_error:'Zãmsd ka wa ye. Maan paash!',
-    /* PERCORSI */
-    perc_labels:{
-      risparmio:'Ligdi Sekr', investimenti:'Ligdi Kẽer', mercati:'Yʋʋbdo',
-      immobiliare:'Yiri', tasse:'Naab Selgr', obbligazioni:'Kaool',
-      pensione:'Tũusd Wakati', africa:'Afirik', bambini:'Biisi',
-      figli:'Biis Nins', crypto:'Kript', derivati:'Derivi', psicologia:'Yam Sẽng'
-    },
-    /* LIVELLI */
-    lv_base:'🌱 Sɩng', lv_medio:'📚 Sẽoog', lv_esperto:'🎓 Maneg-neda',
-    lv_avanzato:'🏆 Kẽer', lv_master:'💎 Ninsaal',
-    /* QUIZ */
-    card_semi:'Yĩng Biis', quiz_correct:'✅ Sɩd! +', quiz_wrong:'❌ Kɩɩs!',
-    quiz_points:' yĩng biis',
-    /* NAVIGATION */
-    nav_lezioni:'Zãmsd', nav_mercati:'Yʋʋbdo', nav_premi:'Paam',
-    nav_famiglia:'Zaka', nav_academy:'Lekoll', nav_muro:'Kongoban',
-    nav_famille:'Zaka',
-    /* MURO */
-    wall_tab_post:'Gom', wall_tab_sfide:'Kẽlg', wall_tab_classifica:'Nẽb',
-    wall_footer:'🌍 Biisi la Rãmb Burkĩna Faso, Afirik la Dũnɩ fãa pʋgẽ',
-    /* ACADEMY */
-    academy_live_adesso:'🔴 Wakati Kãng',
-    academy_cerca:'Zãmsd-dãamb yãkẽ...',
-    /* ADULTI */
-    adulti_benvenuto:'Rãmb Lebg n kẽ',
-    adulti_lezioni_comp:'Zãmsd Maan',
-    /* LESSON VIEW */
-    acc_back_lez:'← Zãms Yɩɩre',
-    lez_quiz_title:'🎯 Bɩ la bɩ',
-    lez_complete:'✅ Zãmsd Maana!',
-    /* TOAST */
-    toast_lingua:'Koɛɛg: Mooré ✅',
-    /* CIVETTA */
-    civetta_welcome:'Ẽe la! Mam yaa Civetta, f zãmsd-taoor AI FinanzaLand pʋgẽ 🦉',
-    civetta_chips:['Ligdi sekr bʋg-bʋg?','Ligdi kẽer yaa bõe?','BRVM yaa bõe?','Yĩng biis paam cogo?'],
-    /* KIDS */
-    kids_home_title:'Ẽe la! 👋',
-    kids_home_sub:'F na maan bõe beoogo?',
-    kids_sec_memoria:'🃏 Yam Kẽng',
-    kids_sec_memoria_desc:'Kaarti Kẽlg',
-    kids_sec_quiz:'🦉 Bɩ la bɩ',
-    kids_sec_quiz_desc:'Zãmsd maan',
-    kids_sec_impara:'📚 Zãms',
-    kids_sec_impara_desc:'Yɛlɛ Paalg',
-    kids_sec_drago:'🐉 Drago',
-    kids_sec_drago_desc:'F Drago Yãk',
-    kids_sec_avventura:'🗺️ Sẽoogo',
-    kids_sec_avventura_desc:'Dũnɩ Kẽn',
-    /* QUIZ LIVELLI */
-    quiz_lv_facile:'🌱 Noog-noog',
-    quiz_lv_medio:'📚 Sẽoog',
-    quiz_lv_difficile:'🎓 Toeem',
   },
 };
 
@@ -4487,7 +4334,49 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'prof')      buildAcademyProf(body);
   if (currentAcademyTab === 'corsi')     buildAcademyCorsi(body);
   if (currentAcademyTab === 'community') buildAcademyCommunity(body);
-  if (currentAcademyTab === 'scuole')    buildAcademyScuole(body);
+  if (currentAcademyTab === 'scuole') {
+    var hd=document.createElement('div');
+    hd.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
+    hd.innerHTML='<div style="font-size:2rem">&#127979;</div>'
+      +'<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>'
+      +'<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 &#8212; DDL Capitali Art.25 &#8212; Obbligatoria a.s. 2024/2025</div>';
+    body.appendChild(hd);
+    var ms=document.createElement('div');ms.className='adult-section-title';ms.textContent='Moduli Didattici';body.appendChild(ms);
+    var sm=[
+      {e:'&#127793;',cl:'Classi 1-2 (6-8 anni)',ti:'Il Seme della Moneta',ob:'Denaro, baratto, risparmio.',ore:3,fr:true},
+      {e:'&#127974;',cl:'Classi 3-4 (8-10 anni)',ti:'La Banca dei Sogni',ob:'Banca, risparmio, obiettivi.',ore:4,fr:true},
+      {e:'&#127760;',cl:'Classe 5 + Medie',ti:'Il Mondo dei Mercati',ob:'Mercati globali e BRVM.',ore:6,fr:false},
+      {e:'&#129309;',cl:'Ed. Civica trasversale',ti:'Economia e Cittadinanza',ob:'Tasse, welfare, finanza etica.',ore:4,fr:true},
+      {e:'&#127891;',cl:'Superiori + Universita',ti:'Finanza per la Vita Reale',ob:'Stipendio, pensione, mutuo, ETF.',ore:8,fr:false},
+    ];
+    sm.forEach(function(m){
+      var card=document.createElement('div');
+      card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
+      card.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:8px">'
+        +'<div style="display:flex;gap:10px"><div style="font-size:1.8rem">'+m.e+'</div>'
+        +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+m.ti+'</div>'
+        +'<div style="font-size:.65rem;color:#a78bfa">'+m.cl+'</div>'
+        +'<div style="font-size:.6rem;color:#818cf8;margin-top:3px">Art.25 L.21/2024</div>'
+        +'</div></div>'
+        +'<div style="font-size:.62rem;background:'+(m.fr?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(m.fr?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(m.fr?'Gratuito':'PRO')+'</div>'
+        +'</div>'
+        +'<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px">'+m.ob+'</div>'
+        +'<div style="font-size:.68rem;color:var(--muted);margin-bottom:8px">'+m.ore+' ore</div>'
+        +'<button onclick="generateLesson(\'' + m.ti + '\',\'risparmio\',\'base\',\'bambino\',false).then(function(l){openLezione(l);})" '
+        +'style="width:100%;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#a78bfa;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;cursor:pointer">'
+        +'Anteprima AI</button>';
+      body.appendChild(card);
+    });
+    var cta=document.createElement('div');
+    cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
+    cta.innerHTML='<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:8px">Porta FinanzaLand nella tua scuola</div>'
+      +'<div style="font-size:.68rem;color:#818cf8;margin-bottom:12px">Art.25 Legge 21/2024 &#8212; Obbligatoria dal 2024/2025</div>'
+      +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Scuole\',\'_blank\')" '
+      +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-weight:900;font-size:.85rem;cursor:pointer;width:100%">'
+      +'Richiedi presentazione gratuita</button>';
+    body.appendChild(cta);
+  }
+
 }
 
 window.switchAcademyTab = function(tab, el) {
@@ -4513,7 +4402,7 @@ function buildAcademyLive(body) {
   liveTitle.innerHTML = '<span style="color:var(--red)">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_live_adesso+'</span>';
   body.appendChild(liveTitle);
 
-  (Array.isArray(LIVE_SESSIONS)?LIVE_SESSIONS:[]).forEach(function(sess) {
+  LIVE_SESSIONS.forEach(function(sess) {
     var card = document.createElement('div');
     if (sess.live) {
       card.className = 'live-card';
@@ -4669,7 +4558,7 @@ function buildAcademyCorsi(body) {
   });
   body.appendChild(filterDiv);
 
-  (Array.isArray(CORSI_DEMO)?CORSI_DEMO:[]).forEach(function(corso) {
+  CORSI_DEMO.forEach(function(corso) {
     var card = document.createElement('div');
     card.className = 'corso-card';
     var priceColor = corso.prezzo===0?'var(--green)':'var(--gold)';
@@ -4805,7 +4694,7 @@ function openProfView(profId) {
   body.appendChild(matDiv);
 
   // Corsi del professore
-  var corsiProf = (Array.isArray(CORSI_DEMO)?CORSI_DEMO:[]).filter(function(c){return c.prof===currentProf.nome;});
+  var corsiProf = CORSI_DEMO.filter(function(c){return c.prof===currentProf.nome;});
   if (corsiProf.length) {
     var corsiDiv = document.createElement('div');
     corsiDiv.innerHTML = '<div class="adult-section-title" style="margin-top:14px">Corsi</div>';
@@ -5582,7 +5471,7 @@ function buildCalendario() {
     hdr.textContent = day.giorno;
     dayEl.appendChild(hdr);
 
-    (day.sessioni||[]).forEach(function(sess) {
+    day.sessioni.forEach(function(sess) {
       var item = document.createElement('div');
       item.className = 'cal-item';
       item.innerHTML =
@@ -5632,7 +5521,7 @@ function doSearch(query) {
 
   // Cerca corsi
   if (typeof CORSI_DEMO !== 'undefined') {
-    (Array.isArray(CORSI_DEMO)?CORSI_DEMO:[]).forEach(function(c){
+    CORSI_DEMO.forEach(function(c){
       if ((c.titolo+c.prof+c.descrizione).toLowerCase().includes(q)) {
         results.push({tipo:'corso', emoji:c.emoji, titolo:c.titolo, desc:c.prof+' — '+c.prezzo_label, col:'var(--teal)', data:c});
       }
@@ -5650,7 +5539,7 @@ function doSearch(query) {
 
   // Cerca sessioni live
   CALENDARIO_DATA.forEach(function(day){
-    (day.sessioni||[]).forEach(function(s){
+    day.sessioni.forEach(function(s){
       if ((s.titolo+s.prof).toLowerCase().includes(q)) {
         results.push({tipo:'live', emoji:s.emoji, titolo:s.titolo, desc:s.prof+' — '+day.giorno+' '+s.ora, col:'var(--red)', data:s});
       }
@@ -5756,7 +5645,7 @@ function generaCertificato(nomeCorso, nomeProfessore, dataCompletamento) {
 
 function buildPopupPremiConCert(body) {
   if (typeof buildPopupPremiBase === 'function') buildPopupPremiBase(body);
-  var done = Object.keys(S.completate||{}).length;
+  var done = Object.keys(S.completate).length;
   if (done >= 1) {
     var certSection = document.createElement('div');
     certSection.style.marginTop = '14px';
@@ -5819,7 +5708,7 @@ function buildAvatarSelector(containerEl, onSave) {
     'display:flex;align-items:center;justify-content:center;overflow:hidden;' +
     'background:rgba(0,0,0,.3);position:relative;' +
     'box-shadow:0 0 28px rgba(255,215,0,.35);' +
-    'border:' + ((DRAGON_OPTIONS&&DRAGON_OPTIONS.frames||[]).find(function(f){return f&&f.id===DRAGON_STATE.frame;})||{style:'3px solid #FFD700'}).style;
+    'border:' + (DRAGON_OPTIONS.frames.find(function(f){return f.id===DRAGON_STATE.frame;})||{style:'3px solid #FFD700'}).style;
   previewCircle.id = 'avatar-preview-circle';
 
   // SVG dentro il cerchio
@@ -5863,7 +5752,7 @@ function buildAvatarSelector(containerEl, onSave) {
       newBadge.style.cssText = 'position:absolute;bottom:-2px;right:-2px;font-size:1.1rem';
       newBadge.textContent = DRAGON_STATE.badge || '';
       circle.appendChild(newBadge);
-      var fr = (DRAGON_OPTIONS&&DRAGON_OPTIONS.frames||[]).find(function(f){return f&&f.id===DRAGON_STATE.frame;});
+      var fr = DRAGON_OPTIONS.frames.find(function(f){return f.id===DRAGON_STATE.frame;});
       circle.style.border = fr ? fr.style : '3px solid #FFD700';
     }
     var inf = getDragonInfo();
@@ -6007,7 +5896,7 @@ function buildAvatarSelector(containerEl, onSave) {
   makeSection('🖼️ Cornice Profilo');
   var frameGrid = document.createElement('div');
   frameGrid.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px';
-  (DRAGON_OPTIONS&&DRAGON_OPTIONS.frames||[]).filter(function(x){return x&&x.id;}).forEach(function(fr){
+  DRAGON_OPTIONS.frames.forEach(function(fr){
     var isActive = DRAGON_STATE.frame === fr.id;
     var btn = document.createElement('div');
     btn.style.cssText =
@@ -6133,7 +6022,7 @@ function buildKidsIsland() {
   var overlay = document.getElementById('kids-hs-overlay');
   if (!overlay) return;
   overlay.innerHTML = '';
-  (Array.isArray(KIDS_HOTSPOTS)?KIDS_HOTSPOTS:[]).forEach(function(h) {
+  KIDS_HOTSPOTS.forEach(function(h) {
     var el = document.createElement('div');
     el.className = 'hotspot';
     el.style.cssText = 'left:'+h.x+'%;top:'+h.y+'%;color:'+h.col;
@@ -6200,7 +6089,7 @@ function buildKidsSections() {
     {key:'avv',     tit:'kids_sec_avventura',desc:'kids_sec_avventura_desc'},
     {key:'trofei',  tit:'kids_sec_trofei',  desc:'kids_sec_trofei_desc'},
   ];
-  (Array.isArray(KIDS_SECTIONS)?KIDS_SECTIONS:[]).forEach(function(s, i) {
+  KIDS_SECTIONS.forEach(function(s, i) {
     var el = document.createElement('div');
     el.className = 'minigame-card';
     el.style.cssText = 'background:'+s.bg+';border:2px solid '+s.border;
@@ -8148,7 +8037,7 @@ function buildAdulti() {
   var kpis = [
     {val: S.coins.toLocaleString(), lbl: t.lbl_semi||'Semi'},
     {val: 'Lv.'+S.level, lbl: t.lbl_livello||'Livello'},
-    {val: Object.keys(S.completate||{}).length, lbl: t.adulti_lezioni_comp||'Lezioni'},
+    {val: Object.keys(S.completate).length, lbl: t.adulti_lezioni_comp||'Lezioni'},
     {val: S.isPro ? 'PRO' : (t.adulti_free||'Free'), lbl: t.adulti_piano||'Piano'},
   ];
   kpis.forEach(function(k) {
@@ -9018,7 +8907,7 @@ function buildMondo() {
   // Griglia zone
   var grid = document.createElement('div');
   grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 8px';
-  Object.keys(worldData||{}).forEach(function(zone) {
+  Object.keys(worldData).forEach(function(zone) {
     var z = worldData[zone];
     var card = document.createElement('div');
     card.className = 'mondo-zone-card' + (currentRegion === zone ? ' active' : '');
@@ -11312,7 +11201,7 @@ var _saggezzaDone = {};
 var _saggCat = 'all';
 
 function buildSaggezza() {
-  if (!Array.isArray(GRANDE_SAGGEZZA) || !(Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA.length:0)) return;
+  if (!Array.isArray(GRANDE_SAGGEZZA) || !GRANDE_SAGGEZZA.length) return;
   var tabs = document.getElementById('sagg-tabs');
   var body = document.getElementById('sagg-body');
   if (!tabs || !body) return;
@@ -11327,7 +11216,7 @@ function buildSaggezza() {
   allTab.textContent = 'Tutti';
   allTab.onclick = function() { _saggCat='all'; buildSaggezza(); };
   tabs.appendChild(allTab);
-  Object.keys(SAGGEZZA_CATEGORIE||{}).forEach(function(cat) {
+  Object.keys(SAGGEZZA_CATEGORIE).forEach(function(cat) {
     var t = document.createElement('button');
     t.className = 'sagg-tab' + (_saggCat===cat?' active':'');
     t.style.borderColor = SAGGEZZA_CATEGORIE[cat].color;
@@ -11339,16 +11228,16 @@ function buildSaggezza() {
 
   // Filter and render cards
   body.innerHTML = '';
-  var filtered = _saggCat==='all' ? GRANDE_SAGGEZZA : (Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA:[]).filter(function(s){ return s.categoria===_saggCat; });
-  var done_count = Object.keys(_saggezzaDone||{}).length;
+  var filtered = _saggCat==='all' ? GRANDE_SAGGEZZA : GRANDE_SAGGEZZA.filter(function(s){ return s.categoria===_saggCat; });
+  var done_count = Object.keys(_saggezzaDone).length;
   
   // Progress header
   var prog = document.createElement('div');
   prog.style.cssText = 'margin:12px 14px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:12px;text-align:center';
   prog.innerHTML = '<div style="font-size:.7rem;color:#A78BFA;font-weight:900;margin-bottom:4px">SAGGEZZA COMPLETATA</div>'
-    + '<div style="font-size:1.6rem;font-weight:900;color:var(--gold)">' + done_count + '/' + (Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA.length:0) + '</div>'
+    + '<div style="font-size:1.6rem;font-weight:900;color:var(--gold)">' + done_count + '/' + GRANDE_SAGGEZZA.length + '</div>'
     + '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:6px;margin-top:6px;overflow:hidden">'
-    + '<div style="width:' + Math.round(done_count/(Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA.length:0)*100) + '%;height:100%;background:linear-gradient(90deg,#A78BFA,var(--gold))"></div></div>';
+    + '<div style="width:' + Math.round(done_count/GRANDE_SAGGEZZA.length*100) + '%;height:100%;background:linear-gradient(90deg,#A78BFA,var(--gold))"></div></div>';
   body.appendChild(prog);
 
   filtered.forEach(function(sagg) {
@@ -11434,169 +11323,6 @@ function hexToRgb(hex) {
 
 window.buildSaggezza = buildSaggezza;
 
-
-
-
-
-function openPopupAccesso() {
-  var overlay = document.createElement('div');
-  overlay.id = 'accesso-overlay';
-  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
-
-  var box = document.createElement('div');
-  box.style.cssText = 'background:#12141c;border:1px solid rgba(245,200,66,.3);border-radius:18px;padding:24px;width:100%;max-width:360px;max-height:90vh;overflow-y:auto';
-
-  box.innerHTML =
-    '<div style="text-align:center;margin-bottom:20px">'
-      + '<div style="font-size:2.5rem;margin-bottom:8px">\uD83D\uDD11</div>'
-      + '<div style="font-size:1rem;font-weight:900;color:var(--gold)">Accedi a FinanzaLand</div>'
-      + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Scuole, Docenti e Demo</div>'
-    + '</div>'
-    + '<div style="display:flex;gap:6px;margin-bottom:16px">'
-      + '<button onclick="switchAccessTab(\'codice\')" id="acc-tab-codice" style="flex:1;background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.4);border-radius:10px;padding:8px;font-size:.75rem;color:var(--gold);font-weight:700;cursor:pointer">\uD83D\uDD11 Codice</button>'
-      + '<button onclick="switchAccessTab(\'scuola\')" id="acc-tab-scuola" style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px;font-size:.75rem;color:var(--muted);cursor:pointer">\uD83C\uDFEB Scuola</button>'
-      + '<button onclick="switchAccessTab(\'docente\')" id="acc-tab-docente" style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px;font-size:.75rem;color:var(--muted);cursor:pointer">\uD83D\uDC68\u200D\uD83C\uDFEB Docente</button>'
-    + '</div>'
-    + '<div id="acc-panel-codice">'
-      + '<div style="font-size:.75rem;color:var(--muted);margin-bottom:8px">Inserisci il tuo codice di accesso</div>'
-      + '<input id="acc-codice" type="text" placeholder="Es. INVEST25 o SCUOLA24" maxlength="20" style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,215,0,.3);border-radius:12px;padding:12px 14px;color:#fff;font-size:.9rem;outline:none;box-sizing:border-box;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">'
-      + '<button onclick="attivaAccesso()" style="width:100%;background:linear-gradient(135deg,#F5C842,#f59e0b);color:#1c0a00;border:none;border-radius:12px;padding:13px;font-weight:900;font-size:.9rem;cursor:pointer;margin-bottom:8px">\u2705 Attiva Accesso</button>'
-      + '<div style="font-size:.65rem;color:var(--muted);text-align:center">Non hai un codice? <span onclick="switchAccessTab(\'scuola\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">Richiedi per la tua scuola \u2192</span></div>'
-    + '</div>'
-    + '<div id="acc-panel-scuola" style="display:none">'
-      + '<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Registra la tua scuola — codice gratuito entro 24h</div>'
-      + '<input id="acc-sc-nome" type="text" placeholder="Nome Istituto" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
-      + '<input id="acc-sc-email" type="email" placeholder="Email istituzionale (@istruzione.it)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
-      + '<input id="acc-sc-citta" type="text" placeholder="Citta" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:12px">'
-      + '<button onclick="inviaRichiestaScuola()" style="width:100%;background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:13px;font-weight:900;font-size:.88rem;cursor:pointer">\uD83C\uDFEB Richiedi Codice Gratuito</button>'
-    + '</div>'
-    + '<div id="acc-panel-docente" style="display:none">'
-      + '<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Accesso docente gratuito 90 giorni</div>'
-      + '<input id="acc-doc-nome" type="text" placeholder="Nome e Cognome" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
-      + '<input id="acc-doc-email" type="email" placeholder="Email professionale" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
-      + '<input id="acc-doc-scuola" type="text" placeholder="Scuola" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:12px">'
-      + '<button onclick="inviaRichiestaDocente()" style="width:100%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;border-radius:12px;padding:13px;font-weight:900;font-size:.88rem;cursor:pointer">\uD83D\uDC68\u200D\uD83C\uDFEB Registrati come Docente</button>'
-    + '</div>'
-    + '<button onclick="document.getElementById(\'accesso-overlay\').remove()" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;color:var(--muted);font-size:.8rem;cursor:pointer;margin-top:12px">Chiudi</button>';
-
-  overlay.appendChild(box);
-  document.body.appendChild(overlay);
-  setTimeout(function(){
-    var inp = document.getElementById('acc-codice');
-    if(inp) inp.addEventListener('input', function(){ this.value = this.value.toUpperCase(); });
-  }, 50);
-}
-
-function switchAccessTab(tab) {
-  ['codice','scuola','docente'].forEach(function(t) {
-    var p = document.getElementById('acc-panel-'+t);
-    var b = document.getElementById('acc-tab-'+t);
-    if(p) p.style.display = t===tab?'block':'none';
-    if(b){
-      b.style.background = t===tab?'rgba(245,200,66,.15)':'rgba(255,255,255,.04)';
-      b.style.borderColor = t===tab?'rgba(245,200,66,.4)':'rgba(255,255,255,.1)';
-      b.style.color = t===tab?'var(--gold)':'var(--muted)';
-    }
-  });
-}
-
-function attivaAccesso() {
-  var codici = {'INVEST25':'Demo 7 giorni','SCUOLA24':'Licenza Scuola','DOCENTE1':'Accesso Docente 90gg','PROVA2026':'Demo Aprile 2026'};
-  var codice = (document.getElementById('acc-codice').value||'').trim().toUpperCase();
-  if(!codice){toast('Inserisci un codice'); return;}
-  if(!codici[codice]){toast('\u274C Codice non valido. Scrivi a ilboudobr96@gmail.com'); return;}
-  S.isPro = true;
-  try{localStorage.setItem('fl_pro','1');}catch(e){}
-  var ov = document.getElementById('accesso-overlay');
-  if(ov) ov.remove();
-  toast('\u2705 Accesso attivato: ' + codici[codice]);
-}
-
-function inviaRichiestaScuola() {
-  var nome = (document.getElementById('acc-sc-nome').value||'').trim();
-  var email = (document.getElementById('acc-sc-email').value||'').trim();
-  var citta = (document.getElementById('acc-sc-citta').value||'').trim();
-  if(!nome||!email){toast('Compila nome ed email'); return;}
-  var sub = encodeURIComponent('Codice Scuola FinanzaLand — '+nome);
-  var bod = encodeURIComponent('Istituto: '+nome+'\nEmail: '+email+'\nCitta: '+citta+'\n\nRichiedo codice accesso gratuito (Legge 21/2024).');
-  window.open('mailto:ilboudobr96@gmail.com?subject='+sub+'&body='+bod,'_blank');
-  document.getElementById('accesso-overlay').remove();
-  toast('\uD83D\uDCE7 Email inviata! Riceverai il codice entro 24h.');
-}
-
-function inviaRichiestaDocente() {
-  var nome = (document.getElementById('acc-doc-nome').value||'').trim();
-  var email = (document.getElementById('acc-doc-email').value||'').trim();
-  var scuola = (document.getElementById('acc-doc-scuola').value||'').trim();
-  if(!nome||!email){toast('Compila nome ed email'); return;}
-  var sub = encodeURIComponent('Accesso Docente FinanzaLand — '+nome);
-  var bod = encodeURIComponent('Docente: '+nome+'\nEmail: '+email+'\nScuola: '+scuola+'\n\nRichiedo accesso docente gratuito 90 giorni.');
-  window.open('mailto:ilboudobr96@gmail.com?subject='+sub+'&body='+bod,'_blank');
-  document.getElementById('accesso-overlay').remove();
-  toast('\uD83D\uDCE7 Email inviata! Riceverai il codice DOCENTE1 entro 24h.');
-}
-
-
-function buildAcademyScuole(body) {
-  var hdr = document.createElement('div');
-  hdr.style.cssText = 'background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
-  hdr.innerHTML = '<div style="font-size:2rem;margin-bottom:6px">\uD83C\uDFEB</div>'
-    + '<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>'
-    + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 (DDL Capitali) Art.25 \u2014 Obbligatoria dall\'a.s. 2024/2025</div>'
-    + '<div style="font-size:.68rem;background:rgba(167,139,250,.12);border-radius:8px;padding:6px 10px;margin-top:8px;color:#c4b5fd">Allineato MIUR \u2014 Banca d\'Italia \u2014 CONSOB \u2014 OCSE</div>';
-  body.appendChild(hdr);
-
-  var t1=document.createElement('div');t1.className='adult-section-title';t1.textContent='Moduli Didattici';body.appendChild(t1);
-
-  var moduli=[
-    {emoji:'\uD83C\uDF31',classe:'Classi 1-2 (6-8 anni)',titolo:'Il Seme della Moneta',obiettivo:'Cos\'e il denaro? Baratto, risparmio, valore.',tags:['Monete','Scambio','Risparmio'],ore:3,gratis:true,legge:'Art.25 L.21/2024'},
-    {emoji:'\uD83C\uDFE6',classe:'Classi 3-4 (8-10 anni)',titolo:'La Banca dei Sogni',obiettivo:'Cos\'e una banca? Come funziona il risparmio?',tags:['Banca','Risparmio','Obiettivo'],ore:4,gratis:true,legge:'Art.25 L.21/2024'},
-    {emoji:'\uD83C\uDF0D',classe:'Classe 5 + Medie (10-13 anni)',titolo:'Il Mondo dei Mercati',obiettivo:'Mercati globali, BRVM africana, tassi.',tags:['Borsa','BRVM','Tassi'],ore:6,gratis:false,legge:'Art.25 L.21/2024'},
-    {emoji:'\uD83E\uDD1D',classe:'Ed. Civica trasversale',titolo:'Economia e Cittadinanza',obiettivo:'Tasse, welfare, finanza etica.',tags:['Tasse','Bene comune','Etica'],ore:4,gratis:true,legge:'Art.25 L.21/2024'},
-    {emoji:'\uD83C\uDF93',classe:'Superiori + Universita (16-25 anni)',titolo:'Finanza per la Vita Reale',obiettivo:'Primo stipendio, affitto, pensione, investimenti.',tags:['Stipendio','PAC','FIRE','Mutuo'],ore:8,gratis:false,legge:'Art.25 L.21/2024 \u2014 Superiori'},
-  ];
-
-  moduli.forEach(function(mod){
-    var card=document.createElement('div');
-    card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
-    var tagsHtml=mod.tags.map(function(t){return '<span style="font-size:.62rem;background:rgba(167,139,250,.1);color:#c4b5fd;border-radius:6px;padding:2px 6px">'+t+'</span>';}).join('');
-    var leggeHtml='<div style="font-size:.6rem;background:rgba(99,102,241,.1);color:#818cf8;border-radius:5px;padding:2px 7px;margin-top:4px;display:inline-block">\u2696\uFE0F '+mod.legge+'</div>';
-    card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
-      +'<div style="display:flex;gap:10px;align-items:center"><div style="font-size:1.8rem">'+mod.emoji+'</div>'
-      +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+mod.titolo+'</div>'
-      +'<div style="font-size:.65rem;color:#a78bfa">'+mod.classe+'</div>'
-      +leggeHtml+'</div></div>'
-      +'<div style="font-size:.62rem;background:'+(mod.gratis?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.gratis?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.gratis?'Gratuito':'PRO')+'</div></div>'
-      +'<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-style:italic">'+mod.obiettivo+'</div>'
-      +'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">'+tagsHtml+'</div>'
-      +'<div style="font-size:.68rem;color:var(--muted)">'+mod.ore+' ore</div>'
-      +'<button onclick="generateLesson(\''+mod.titolo+'\',\'risparmio\',\'base\',\'bambino\',false).then(function(l){openLezione(l);})" style="width:100%;margin-top:10px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#a78bfa;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;cursor:pointer">Anteprima lezione AI</button>';
-    body.appendChild(card);
-  });
-
-  var t2=document.createElement('div');t2.className='adult-section-title';t2.textContent='Kit per Insegnanti';body.appendChild(t2);
-  [{icon:'\uD83D\uDCC4',titolo:'Piano didattico (Legge 21/2024)',desc:'Template MIUR per le 33h di Ed. Civica'},
-   {icon:'\uD83D\uDCCA',titolo:'Griglia valutazione',desc:'Rubriche competenze finanziarie per modulo \u2014 standard OCSE'},
-   {icon:'\uD83C\uDFAE',titolo:'Guida in classe',desc:'Modalita bambino, missioni, quiz, progressi di gruppo'},
-   {icon:'\uD83D\uDCE7',titolo:'Lettera per Dirigente',desc:'Modello pre-compilato con riferimento Legge 21/2024'},
-  ].forEach(function(item){
-    var row=document.createElement('div');
-    row.style.cssText='display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer';
-    row.innerHTML='<div style="font-size:1.5rem">'+item.icon+'</div><div style="flex:1"><div style="font-size:.8rem;font-weight:700;color:#fff">'+item.titolo+'</div><div style="font-size:.67rem;color:var(--muted)">'+item.desc+'</div></div><div style="color:var(--muted)">\u203a</div>';
-    row.addEventListener('click',function(){toast('Scrivi a ilboudobr96@gmail.com per il kit');});
-    body.appendChild(row);
-  });
-
-  var cta=document.createElement('div');
-  cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
-  cta.innerHTML='<div style="font-size:1.4rem;margin-bottom:6px">\uD83E\uDD1D</div>'
-    +'<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:4px">Porta FinanzaLand nella tua scuola</div>'
-    +'<div style="font-size:.68rem;color:#818cf8;margin-bottom:4px">\u2696\uFE0F Legge 21/2024 \u2014 Obbligatoria dal 2024/2025</div>'
-    +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Legge%2021%2F2024&body=Salve%20Bernard%2C%0AVorrei%20adottare%20FinanzaLand%20nella%20mia%20scuola.%0ASono%20insegnante%20presso%20%5BScuola%5D.%0ACordiali%20saluti\',\'_blank\')" style="width:100%;background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px;font-weight:900;font-size:.85rem;cursor:pointer;margin-bottom:8px">Richiedi presentazione gratuita</button>'
-    +'<button onclick="openPopupAccesso()" style="width:100%;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.3);color:var(--gold);border:none;border-radius:12px;padding:10px;font-weight:700;font-size:.82rem;cursor:pointer">\uD83D\uDD11 Hai un codice? Accedi ora</button>';
-  body.appendChild(cta);
-}
-
 </script>
 
 <!-- DIVENTA SAGGIO MODAL -->
@@ -11657,5 +11383,51 @@ function buildAcademyScuole(body) {
   </div>
 </div>
 
+</body>
+</html,
+    {emoji:'&#127974;',classe:'Classi 3-4 (8-10 anni)',titolo:'La Banca dei Sogni',obiettivo:'Cos\'e una banca? Risparmio e obiettivi.',tags:['Banca','Risparmio'],ore:4,gratis:true,legge:'Art.25 L.21/2024'},
+    {emoji:'&#127760;',classe:'Classe 5 + Medie (10-13 anni)',titolo:'Il Mondo dei Mercati',obiettivo:'Mercati globali e BRVM africana.',tags:['Borsa','BRVM Africa'],ore:6,gratis:false,legge:'Art.25 L.21/2024'},
+    {emoji:'&#129309;',classe:'Ed. Civica trasversale',titolo:'Economia e Cittadinanza',obiettivo:'Tasse, welfare, finanza etica.',tags:['Tasse','Finanza etica'],ore:4,gratis:true,legge:'Art.25 L.21/2024'},
+    {emoji:'&#127891;',classe:'Superiori + Universita (16-25 anni)',titolo:'Finanza per la Vita Reale',obiettivo:'Primo stipendio, pensione, mutuo, ETF.',tags:['Stipendio','ETF','Pensione FIRE'],ore:8,gratis:false,legge:'Art.25 L.21/2024'},
+  ];
+  moduli.forEach(function(mod){
+    var card=document.createElement('div');
+    card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
+    var tH=mod.tags.map(function(t){return '<span style="font-size:.62rem;background:rgba(167,139,250,.1);color:#c4b5fd;border-radius:6px;padding:2px 6px">'+t+'</span>';}).join('');
+    card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+      +'<div style="display:flex;gap:10px;align-items:flex-start"><div style="font-size:1.8rem">'+mod.emoji+'</div>'
+      +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+mod.titolo+'</div>'
+      +'<div style="font-size:.65rem;color:#a78bfa">'+mod.classe+'</div>'
+      +'<div style="font-size:.6rem;background:rgba(99,102,241,.1);color:#818cf8;border-radius:5px;padding:2px 7px;margin-top:3px;display:inline-block">&#9878;&#65039; '+mod.legge+'</div>'
+      +'</div></div>'
+      +'<div style="font-size:.62rem;background:'+(mod.gratis?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.gratis?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px;white-space:nowrap">'+(mod.gratis?'Gratuito':'PRO')+'</div></div>'
+      +'<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-style:italic">'+mod.obiettivo+'</div>'
+      +'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">'+tH+'</div>'
+      +'<div style="font-size:.68rem;color:var(--muted);margin-bottom:8px">'+mod.ore+' ore</div>'
+      +'<button onclick="generateLesson(\''+mod.titolo+'\',\'risparmio\',\'base\',\'bambino\',false).then(function(l){openLezione(l);})" '
+      +'style="width:100%;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#a78bfa;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;cursor:pointer">'
+      +'&#9654; Anteprima lezione AI</button>';
+    body.appendChild(card);
+  });
+  var accBox=document.createElement('div');
+  accBox.style.cssText='background:rgba(245,200,66,.06);border:1px solid rgba(245,200,66,.2);border-radius:14px;padding:14px;margin-top:4px;margin-bottom:14px;text-align:center';
+  accBox.innerHTML='<div style="font-size:.8rem;font-weight:800;color:var(--gold);margin-bottom:4px">&#128273; Hai un codice scuola?</div>'
+    +'<div style="font-size:.68rem;color:var(--muted);margin-bottom:10px">Usa il codice SCUOLA24 o DOCENTE1 per accesso completo</div>'
+    +'<button onclick="if(typeof openPopupAccesso!==\'undefined\') openPopupAccesso(); else toast(\'Usa SCUOLA24 nella home\')" '
+    +'style="background:linear-gradient(135deg,#F5C842,#f59e0b);color:#1c0a00;border:none;border-radius:10px;padding:10px 20px;font-weight:900;font-size:.85rem;cursor:pointer">'
+    +'&#128273; Inserisci Codice Accesso</button>';
+  body.appendChild(accBox);
+  var cta=document.createElement('div');
+  cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
+  cta.innerHTML='<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:4px">Porta FinanzaLand nella tua scuola</div>'
+    +'<div style="font-size:.68rem;color:#818cf8;margin-bottom:4px">&#9878;&#65039; Legge 21/2024 Art.25 &#8212; Obbligatoria dal 2024/2025</div>'
+    +'<div style="font-size:.7rem;color:var(--muted);margin-bottom:12px">Presentazione gratuita per insegnanti e dirigenti</div>'
+    +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Legge%2021%2F2024\',\'_blank\')" '
+    +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-weight:900;font-size:.85rem;cursor:pointer;width:100%">'
+    +'Richiedi presentazione gratuita</button>';
+  body.appendChild(cta);
+}
+
+</script>
 </body>
 </html>
