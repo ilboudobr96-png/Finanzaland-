@@ -1405,6 +1405,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
         <button class="lv-tab" id="atab-prof" onclick="switchAcademyTab('prof',this)" style="flex:1;border-radius:9px">👨‍🏫 Prof</button>
         <button class="lv-tab" id="atab-corsi" onclick="switchAcademyTab('corsi',this)" style="flex:1;border-radius:9px">📹 Corsi</button>
         <button class="lv-tab" id="atab-community" onclick="switchAcademyTab('community',this)" style="flex:1;border-radius:9px">🌍 Forum</button>
+        <button class="lv-tab" id="atab-scuole" onclick="switchAcademyTab('scuole',this)" style="flex:1;border-radius:9px">🏫</button>
       </div>
       <div class="acc-body" id="academy-body"></div>
     </div>
@@ -1777,8 +1778,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div id="toast"></div>
 
 <script>
-
-
 
 'use strict';
 
@@ -3576,7 +3575,7 @@ function autoDetectLang() {
   }
   // Rileva dal browser
   var bl = (navigator.language || navigator.userLanguage || 'it').split('-')[0].toLowerCase();
-  var map = {'it':'it','fr':'fr','en':'en','es':'es','wo':'wo','bm':'bm','mo':'mo',
+  var map = {'it':'it','fr':'fr','en':'en','es':'es','wo':'wo',
     'de':'en','pt':'es','nl':'en','ar':'fr','sw':'wo'};
   var detected = map[bl] || 'it';
   setLang(detected, null);
@@ -4488,6 +4487,7 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'prof')      buildAcademyProf(body);
   if (currentAcademyTab === 'corsi')     buildAcademyCorsi(body);
   if (currentAcademyTab === 'community') buildAcademyCommunity(body);
+  if (currentAcademyTab === 'scuole')    buildAcademyScuole(body);
 }
 
 window.switchAcademyTab = function(tab, el) {
@@ -11436,6 +11436,166 @@ window.buildSaggezza = buildSaggezza;
 
 
 
+
+
+function openPopupAccesso() {
+  var overlay = document.createElement('div');
+  overlay.id = 'accesso-overlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:#12141c;border:1px solid rgba(245,200,66,.3);border-radius:18px;padding:24px;width:100%;max-width:360px;max-height:90vh;overflow-y:auto';
+
+  box.innerHTML =
+    '<div style="text-align:center;margin-bottom:20px">'
+      + '<div style="font-size:2.5rem;margin-bottom:8px">\uD83D\uDD11</div>'
+      + '<div style="font-size:1rem;font-weight:900;color:var(--gold)">Accedi a FinanzaLand</div>'
+      + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Scuole, Docenti e Demo</div>'
+    + '</div>'
+    + '<div style="display:flex;gap:6px;margin-bottom:16px">'
+      + '<button onclick="switchAccessTab(\'codice\')" id="acc-tab-codice" style="flex:1;background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.4);border-radius:10px;padding:8px;font-size:.75rem;color:var(--gold);font-weight:700;cursor:pointer">\uD83D\uDD11 Codice</button>'
+      + '<button onclick="switchAccessTab(\'scuola\')" id="acc-tab-scuola" style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px;font-size:.75rem;color:var(--muted);cursor:pointer">\uD83C\uDFEB Scuola</button>'
+      + '<button onclick="switchAccessTab(\'docente\')" id="acc-tab-docente" style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px;font-size:.75rem;color:var(--muted);cursor:pointer">\uD83D\uDC68\u200D\uD83C\uDFEB Docente</button>'
+    + '</div>'
+    + '<div id="acc-panel-codice">'
+      + '<div style="font-size:.75rem;color:var(--muted);margin-bottom:8px">Inserisci il tuo codice di accesso</div>'
+      + '<input id="acc-codice" type="text" placeholder="Es. INVEST25 o SCUOLA24" maxlength="20" style="width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,215,0,.3);border-radius:12px;padding:12px 14px;color:#fff;font-size:.9rem;outline:none;box-sizing:border-box;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px">'
+      + '<button onclick="attivaAccesso()" style="width:100%;background:linear-gradient(135deg,#F5C842,#f59e0b);color:#1c0a00;border:none;border-radius:12px;padding:13px;font-weight:900;font-size:.9rem;cursor:pointer;margin-bottom:8px">\u2705 Attiva Accesso</button>'
+      + '<div style="font-size:.65rem;color:var(--muted);text-align:center">Non hai un codice? <span onclick="switchAccessTab(\'scuola\')" style="color:var(--gold);cursor:pointer;text-decoration:underline">Richiedi per la tua scuola \u2192</span></div>'
+    + '</div>'
+    + '<div id="acc-panel-scuola" style="display:none">'
+      + '<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Registra la tua scuola — codice gratuito entro 24h</div>'
+      + '<input id="acc-sc-nome" type="text" placeholder="Nome Istituto" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
+      + '<input id="acc-sc-email" type="email" placeholder="Email istituzionale (@istruzione.it)" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
+      + '<input id="acc-sc-citta" type="text" placeholder="Citta" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:12px">'
+      + '<button onclick="inviaRichiestaScuola()" style="width:100%;background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:13px;font-weight:900;font-size:.88rem;cursor:pointer">\uD83C\uDFEB Richiedi Codice Gratuito</button>'
+    + '</div>'
+    + '<div id="acc-panel-docente" style="display:none">'
+      + '<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Accesso docente gratuito 90 giorni</div>'
+      + '<input id="acc-doc-nome" type="text" placeholder="Nome e Cognome" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
+      + '<input id="acc-doc-email" type="email" placeholder="Email professionale" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:8px">'
+      + '<input id="acc-doc-scuola" type="text" placeholder="Scuola" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;outline:none;box-sizing:border-box;margin-bottom:12px">'
+      + '<button onclick="inviaRichiestaDocente()" style="width:100%;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;border-radius:12px;padding:13px;font-weight:900;font-size:.88rem;cursor:pointer">\uD83D\uDC68\u200D\uD83C\uDFEB Registrati come Docente</button>'
+    + '</div>'
+    + '<button onclick="document.getElementById(\'accesso-overlay\').remove()" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;color:var(--muted);font-size:.8rem;cursor:pointer;margin-top:12px">Chiudi</button>';
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  setTimeout(function(){
+    var inp = document.getElementById('acc-codice');
+    if(inp) inp.addEventListener('input', function(){ this.value = this.value.toUpperCase(); });
+  }, 50);
+}
+
+function switchAccessTab(tab) {
+  ['codice','scuola','docente'].forEach(function(t) {
+    var p = document.getElementById('acc-panel-'+t);
+    var b = document.getElementById('acc-tab-'+t);
+    if(p) p.style.display = t===tab?'block':'none';
+    if(b){
+      b.style.background = t===tab?'rgba(245,200,66,.15)':'rgba(255,255,255,.04)';
+      b.style.borderColor = t===tab?'rgba(245,200,66,.4)':'rgba(255,255,255,.1)';
+      b.style.color = t===tab?'var(--gold)':'var(--muted)';
+    }
+  });
+}
+
+function attivaAccesso() {
+  var codici = {'INVEST25':'Demo 7 giorni','SCUOLA24':'Licenza Scuola','DOCENTE1':'Accesso Docente 90gg','PROVA2026':'Demo Aprile 2026'};
+  var codice = (document.getElementById('acc-codice').value||'').trim().toUpperCase();
+  if(!codice){toast('Inserisci un codice'); return;}
+  if(!codici[codice]){toast('\u274C Codice non valido. Scrivi a ilboudobr96@gmail.com'); return;}
+  S.isPro = true;
+  try{localStorage.setItem('fl_pro','1');}catch(e){}
+  var ov = document.getElementById('accesso-overlay');
+  if(ov) ov.remove();
+  toast('\u2705 Accesso attivato: ' + codici[codice]);
+}
+
+function inviaRichiestaScuola() {
+  var nome = (document.getElementById('acc-sc-nome').value||'').trim();
+  var email = (document.getElementById('acc-sc-email').value||'').trim();
+  var citta = (document.getElementById('acc-sc-citta').value||'').trim();
+  if(!nome||!email){toast('Compila nome ed email'); return;}
+  var sub = encodeURIComponent('Codice Scuola FinanzaLand — '+nome);
+  var bod = encodeURIComponent('Istituto: '+nome+'\nEmail: '+email+'\nCitta: '+citta+'\n\nRichiedo codice accesso gratuito (Legge 21/2024).');
+  window.open('mailto:ilboudobr96@gmail.com?subject='+sub+'&body='+bod,'_blank');
+  document.getElementById('accesso-overlay').remove();
+  toast('\uD83D\uDCE7 Email inviata! Riceverai il codice entro 24h.');
+}
+
+function inviaRichiestaDocente() {
+  var nome = (document.getElementById('acc-doc-nome').value||'').trim();
+  var email = (document.getElementById('acc-doc-email').value||'').trim();
+  var scuola = (document.getElementById('acc-doc-scuola').value||'').trim();
+  if(!nome||!email){toast('Compila nome ed email'); return;}
+  var sub = encodeURIComponent('Accesso Docente FinanzaLand — '+nome);
+  var bod = encodeURIComponent('Docente: '+nome+'\nEmail: '+email+'\nScuola: '+scuola+'\n\nRichiedo accesso docente gratuito 90 giorni.');
+  window.open('mailto:ilboudobr96@gmail.com?subject='+sub+'&body='+bod,'_blank');
+  document.getElementById('accesso-overlay').remove();
+  toast('\uD83D\uDCE7 Email inviata! Riceverai il codice DOCENTE1 entro 24h.');
+}
+
+
+function buildAcademyScuole(body) {
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
+  hdr.innerHTML = '<div style="font-size:2rem;margin-bottom:6px">\uD83C\uDFEB</div>'
+    + '<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>'
+    + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 (DDL Capitali) Art.25 \u2014 Obbligatoria dall\'a.s. 2024/2025</div>'
+    + '<div style="font-size:.68rem;background:rgba(167,139,250,.12);border-radius:8px;padding:6px 10px;margin-top:8px;color:#c4b5fd">Allineato MIUR \u2014 Banca d\'Italia \u2014 CONSOB \u2014 OCSE</div>';
+  body.appendChild(hdr);
+
+  var t1=document.createElement('div');t1.className='adult-section-title';t1.textContent='Moduli Didattici';body.appendChild(t1);
+
+  var moduli=[
+    {emoji:'\uD83C\uDF31',classe:'Classi 1-2 (6-8 anni)',titolo:'Il Seme della Moneta',obiettivo:'Cos\'e il denaro? Baratto, risparmio, valore.',tags:['Monete','Scambio','Risparmio'],ore:3,gratis:true,legge:'Art.25 L.21/2024'},
+    {emoji:'\uD83C\uDFE6',classe:'Classi 3-4 (8-10 anni)',titolo:'La Banca dei Sogni',obiettivo:'Cos\'e una banca? Come funziona il risparmio?',tags:['Banca','Risparmio','Obiettivo'],ore:4,gratis:true,legge:'Art.25 L.21/2024'},
+    {emoji:'\uD83C\uDF0D',classe:'Classe 5 + Medie (10-13 anni)',titolo:'Il Mondo dei Mercati',obiettivo:'Mercati globali, BRVM africana, tassi.',tags:['Borsa','BRVM','Tassi'],ore:6,gratis:false,legge:'Art.25 L.21/2024'},
+    {emoji:'\uD83E\uDD1D',classe:'Ed. Civica trasversale',titolo:'Economia e Cittadinanza',obiettivo:'Tasse, welfare, finanza etica.',tags:['Tasse','Bene comune','Etica'],ore:4,gratis:true,legge:'Art.25 L.21/2024'},
+    {emoji:'\uD83C\uDF93',classe:'Superiori + Universita (16-25 anni)',titolo:'Finanza per la Vita Reale',obiettivo:'Primo stipendio, affitto, pensione, investimenti.',tags:['Stipendio','PAC','FIRE','Mutuo'],ore:8,gratis:false,legge:'Art.25 L.21/2024 \u2014 Superiori'},
+  ];
+
+  moduli.forEach(function(mod){
+    var card=document.createElement('div');
+    card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
+    var tagsHtml=mod.tags.map(function(t){return '<span style="font-size:.62rem;background:rgba(167,139,250,.1);color:#c4b5fd;border-radius:6px;padding:2px 6px">'+t+'</span>';}).join('');
+    var leggeHtml='<div style="font-size:.6rem;background:rgba(99,102,241,.1);color:#818cf8;border-radius:5px;padding:2px 7px;margin-top:4px;display:inline-block">\u2696\uFE0F '+mod.legge+'</div>';
+    card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+      +'<div style="display:flex;gap:10px;align-items:center"><div style="font-size:1.8rem">'+mod.emoji+'</div>'
+      +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+mod.titolo+'</div>'
+      +'<div style="font-size:.65rem;color:#a78bfa">'+mod.classe+'</div>'
+      +leggeHtml+'</div></div>'
+      +'<div style="font-size:.62rem;background:'+(mod.gratis?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.gratis?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.gratis?'Gratuito':'PRO')+'</div></div>'
+      +'<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-style:italic">'+mod.obiettivo+'</div>'
+      +'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">'+tagsHtml+'</div>'
+      +'<div style="font-size:.68rem;color:var(--muted)">'+mod.ore+' ore</div>'
+      +'<button onclick="generateLesson(\''+mod.titolo+'\',\'risparmio\',\'base\',\'bambino\',false).then(function(l){openLezione(l);})" style="width:100%;margin-top:10px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#a78bfa;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;cursor:pointer">Anteprima lezione AI</button>';
+    body.appendChild(card);
+  });
+
+  var t2=document.createElement('div');t2.className='adult-section-title';t2.textContent='Kit per Insegnanti';body.appendChild(t2);
+  [{icon:'\uD83D\uDCC4',titolo:'Piano didattico (Legge 21/2024)',desc:'Template MIUR per le 33h di Ed. Civica'},
+   {icon:'\uD83D\uDCCA',titolo:'Griglia valutazione',desc:'Rubriche competenze finanziarie per modulo \u2014 standard OCSE'},
+   {icon:'\uD83C\uDFAE',titolo:'Guida in classe',desc:'Modalita bambino, missioni, quiz, progressi di gruppo'},
+   {icon:'\uD83D\uDCE7',titolo:'Lettera per Dirigente',desc:'Modello pre-compilato con riferimento Legge 21/2024'},
+  ].forEach(function(item){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer';
+    row.innerHTML='<div style="font-size:1.5rem">'+item.icon+'</div><div style="flex:1"><div style="font-size:.8rem;font-weight:700;color:#fff">'+item.titolo+'</div><div style="font-size:.67rem;color:var(--muted)">'+item.desc+'</div></div><div style="color:var(--muted)">\u203a</div>';
+    row.addEventListener('click',function(){toast('Scrivi a ilboudobr96@gmail.com per il kit');});
+    body.appendChild(row);
+  });
+
+  var cta=document.createElement('div');
+  cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
+  cta.innerHTML='<div style="font-size:1.4rem;margin-bottom:6px">\uD83E\uDD1D</div>'
+    +'<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:4px">Porta FinanzaLand nella tua scuola</div>'
+    +'<div style="font-size:.68rem;color:#818cf8;margin-bottom:4px">\u2696\uFE0F Legge 21/2024 \u2014 Obbligatoria dal 2024/2025</div>'
+    +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Legge%2021%2F2024&body=Salve%20Bernard%2C%0AVorrei%20adottare%20FinanzaLand%20nella%20mia%20scuola.%0ASono%20insegnante%20presso%20%5BScuola%5D.%0ACordiali%20saluti\',\'_blank\')" style="width:100%;background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px;font-weight:900;font-size:.85rem;cursor:pointer;margin-bottom:8px">Richiedi presentazione gratuita</button>'
+    +'<button onclick="openPopupAccesso()" style="width:100%;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.3);color:var(--gold);border:none;border-radius:12px;padding:10px;font-weight:700;font-size:.82rem;cursor:pointer">\uD83D\uDD11 Hai un codice? Accedi ora</button>';
+  body.appendChild(cta);
+}
 
 </script>
 
