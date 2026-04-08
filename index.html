@@ -6,7 +6,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <!-- FinanzaLand v20260326-0851 -->
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="data:application/json,{%22name%22:%22FinanzaLand%22,%22short_name%22:%22FinanzaLand%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%230A0C0F%22,%22theme_color%22:%22%23F5C842%22,%22icons%22:[{%22src%22:%22https://finanzaland.vercel.app/icon-512.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
 <meta name="theme-color" content="#F5C842">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,12 +14,15 @@
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    var host = window.location.hostname;
-    var isProduction = host === 'finanzaland.vercel.app' || host.endsWith('.vercel.app');
-    if (!isProduction) return;
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(reg) { console.log('SW OK:', reg.scope); })
-      .catch(function(e) { console.warn('SW fail:', e); });
+    var swCode = [
+      "const CACHE='fl-v1';",
+      "const ASSETS=['/'];",
+      "self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));",
+      "self.addEventListener('fetch',e=>{if(e.request.url.includes('/api/')){return;}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});",
+    ].join('\n');
+    var blob = new Blob([swCode], {type:'text/javascript'});
+    var swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(function(){});
   });
 }
 </script>
@@ -1265,7 +1268,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 .diventa-saggio-banner{background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(99,102,241,.08));border:1.5px solid rgba(167,139,250,.4);border-radius:14px;padding:16px;margin:12px 0;text-align:center;cursor:pointer}
 .diventa-saggio-banner:active{transform:scale(.98)}
 </style>
-<link rel="apple-touch-icon" sizes="180x180" href="https://finanzaland.vercel.app/icon-512.png">
 </head>
 <body>
 <div id="app">
@@ -1292,6 +1294,8 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <div class="lang-btn" id="lang-en" onclick="setLang('en',this)">🇬🇧 EN</div>
     <div class="lang-btn" id="lang-es" onclick="setLang('es',this)">🇪🇸 ES</div>
     <div class="lang-btn" id="lang-wo" onclick="setLang('wo',this)">🌍 WO</div>
+  <div class="lang-btn" id="lang-bm" onclick="setLang('bm',this)">🥁 BM</div>
+  <div class="lang-btn" id="lang-mo" onclick="setLang('mo',this)">🌾 MO</div>
   </div>
 
   <!-- CONTENT -->
@@ -1401,7 +1405,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
         <button class="lv-tab" id="atab-prof" onclick="switchAcademyTab('prof',this)" style="flex:1;border-radius:9px">👨‍🏫 Prof</button>
         <button class="lv-tab" id="atab-corsi" onclick="switchAcademyTab('corsi',this)" style="flex:1;border-radius:9px">📹 Corsi</button>
         <button class="lv-tab" id="atab-community" onclick="switchAcademyTab('community',this)" style="flex:1;border-radius:9px">🌍 Forum</button>
-        <button class="lv-tab" id="atab-scuole" onclick="switchAcademyTab('scuole',this)" style="flex:1;border-radius:9px">🏫</button>
       </div>
       <div class="acc-body" id="academy-body"></div>
     </div>
@@ -1774,6 +1777,9 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div id="toast"></div>
 
 <script>
+
+
+
 'use strict';
 
 // ── LETTURA SICURA LOCALSTORAGE ──────────────────────────
@@ -1901,7 +1907,7 @@ function segnaPagettaErogata() {
 // Calcola semi e argento guadagnati dalle missioni completate questo mese
 function calcolaPremioMensile() {
   var semi = 0, argento = 0, completate = 0;
-  MISSIONI_MENSILI.forEach(function(m) {
+  (Array.isArray(MISSIONI_MENSILI)?MISSIONI_MENSILI:[]).forEach(function(m) {
     var prog = getProgressoMensile(m.chiave);
     if (prog >= m.target) {
       semi += m.semi;
@@ -1909,7 +1915,7 @@ function calcolaPremioMensile() {
       completate++;
     }
   });
-  return {semi: semi, argento: argento, completate: completate, totale: MISSIONI_MENSILI.length};
+  return {semi: semi, argento: argento, completate: completate, totale: (Array.isArray(MISSIONI_MENSILI)?MISSIONI_MENSILI.length:0)};
 }
 
 // Mostra il popup paghetta mensile
@@ -2166,6 +2172,8 @@ var TOPICS_LANG = {
 };
 TOPICS_LANG.es = TOPICS_LANG.it || {};
 TOPICS_LANG.wo = TOPICS_LANG.it || {};
+TOPICS_LANG.bm = TOPICS_LANG.fr || {};
+TOPICS_LANG.mo = TOPICS_LANG.fr || {};
 TOPICS_LANG.it = null; // IT usa TOPICS direttamente — nessuna traduzione necessaria
 
 // Ottieni topics nella lingua corrente per un percorso
@@ -2202,7 +2210,7 @@ var ABLA_MISSIONI = [
 function buildPuntoAbla() {
   var body = document.getElementById('abla-body');
   if (!body) return;
-  if (!Array.isArray(ABLA_MISSIONI) || !ABLA_MISSIONI.length) return;
+  if (!Array.isArray(ABLA_MISSIONI) || !(Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI.length:0)) return;
   body.innerHTML = '';
   var t = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
 
@@ -2219,8 +2227,8 @@ function buildPuntoAbla() {
   body.appendChild(hdr);
 
   // Contatore missioni completate
-  var ablaDone = ABLA_MISSIONI.filter(function(m){ return m.done; }).length;
-  var abl_total = ABLA_MISSIONI.length;
+  var ablaDone = (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI:[]).filter(function(m){ return m.done; }).length;
+  var abl_total = (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI.length:0);
   var ablaPct = Math.round((ablaDone/abl_total)*100);
 
   var progress = document.createElement('div');
@@ -2239,7 +2247,7 @@ function buildPuntoAbla() {
   catTitle.textContent = t.abla_missioni || '📋 Missioni del Saggio';
   body.appendChild(catTitle);
 
-  ABLA_MISSIONI.forEach(function(m, i) {
+  (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI:[]).forEach(function(m, i) {
     var card = document.createElement('div');
     card.className = 'abla-missione';
     card.style.opacity = m.done ? '1' : '0.85';
@@ -2303,8 +2311,8 @@ function buildLandaCard(zone) {
   body.innerHTML = '';
   var t  = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
   var z  = worldData[zone||currentRegion||'EUROPE'];
-  var merito = Math.min(100, Math.round((Object.keys(S.completate).length * 4) + (S.streak * 2)));
-  var ablaDone = ABLA_MISSIONI.filter(function(m){return m.done;}).length;
+  var merito = Math.min(100, Math.round((Object.keys(S.completate||{}).length * 4) + (S.streak * 2)));
+  var ablaDone = (Array.isArray(ABLA_MISSIONI)?ABLA_MISSIONI:[]).filter(function(m){return m.done;}).length;
 
   // Card visuale
   var cardViz = document.createElement('div');
@@ -2332,7 +2340,7 @@ function buildLandaCard(zone) {
   var reqs = [
     {label:t.card_req_merito||'Merito', val:merito, target:50, icon:'🎯'},
     {label:t.card_req_missioni||'Missioni Abla', val:ablaDone, target:3, icon:'📚'},
-    {label:t.card_req_lezioni||'Lezioni', val:Object.keys(S.completate).length, target:5, icon:'🏆'},
+    {label:t.card_req_lezioni||'Lezioni', val:Object.keys(S.completate||{}).length, target:5, icon:'🏆'},
     {label:t.card_req_streak||'Streak', val:S.streak||0, target:3, icon:'🔥'},
   ];
   reqs.forEach(function(req) {
@@ -2371,7 +2379,7 @@ function buildLandaCard(zone) {
     meseLabel.innerHTML = '📅 Missioni del Mese — ' + getMeseKey();
     body.appendChild(meseLabel);
 
-    MISSIONI_MENSILI.forEach(function(m) {
+    (Array.isArray(MISSIONI_MENSILI)?MISSIONI_MENSILI:[]).forEach(function(m) {
       var prog = getProgressoMensile(m.chiave);
       var done = prog >= m.target;
       var pct  = Math.min(100, Math.round((prog / m.target) * 100));
@@ -2446,7 +2454,7 @@ function updateHUD(){
   document.getElementById('cc').textContent=S.coins.toLocaleString('it');
   document.getElementById('stat-coins').textContent=S.coins.toLocaleString('it');
   document.getElementById('stat-lv').textContent=S.level;
-  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate).length+'+';
+  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate||{}).length+'+';
   var streakEl=document.getElementById('stat-streak');
   if(streakEl) streakEl.textContent=(S.streak||0)+'🔥';
   var xpPct=Math.min(100,Math.round((S.xp/(S.level*150))*100));
@@ -3294,6 +3302,154 @@ var TRANSLATIONS = {
     mindset_bonus:'Xelam jeex! +30 Jemm',
     civetta_system:'Yaa Civetta IA bu FinanzaLand, jangalekat xaalis. Tontu ci Wolof dina. Jang rekk.',
   },
+  bm: {
+    /* HOME */
+    home_title:'Kalanso ni Wari la',
+    home_sub:'Denw ani faraw ye — Tile 7 nɔgɔya la',
+    btn_accademia:'📚 Kalanden Yɔrɔ',
+    btn_3d:'🎮 Dɔ Kɛ',
+    btn_adulti:'📊 Cɛkɔrɔw Baara',
+    btn_pro:'🧑‍🏫 Karamɔgɔw',
+    btn_academy:'🎓 Lakɔli',
+    btn_muro:'🌍 Sɔsɔli Kongoban',
+    btn_kids:'👶 Denw Tile',
+    btn_share:'📤 Cɛ',
+    /* ACCADEMIA */
+    acc_back:'← Kɔ',
+    acc_banner:'Kalanso dɔrɔn — Dɔni bɛ AI fɛ kɛ',
+    gen_title:'🤖 Kalanso Kɛ',
+    gen_sub:'Wari kunnafoni o kunnafoni sɛbɛn',
+    gen_write_topic:'Kunnafoni sɛbɛn...',
+    gen_btn:'🚀 AI Kalanso Kɛ',
+    gen_loading:'⏳ Kɛcogo...',
+    gen_error:'Kalanso ma sɔrɔ. Ɲɛsin!',
+    /* PERCORSI */
+    perc_labels:{
+      risparmio:'Wari Mara', investimenti:'Nafasoli', mercati:'Yiriwali',
+      immobiliare:'Soo', tasse:'Sariya Seli', obbligazioni:'Layidu',
+      pensione:'Kɔrɔyabali', africa:'Afrika', bambini:'Denw',
+      figli:'Denfanw', crypto:'Kripto', derivati:'Dɛrivi', psicologia:'Haminɛ'
+    },
+    /* LIVELLI */
+    lv_base:'🌱 Daminɛ', lv_medio:'📚 Cɛmancɛ', lv_esperto:'🎓 Ɲɛjɛnna',
+    lv_avanzato:'🏆 Kɔrɔba', lv_master:'💎 Jɛkulu',
+    /* QUIZ */
+    card_semi:'Jiri Fɛɛn', quiz_correct:'✅ Aw! +', quiz_wrong:'❌ Hɛɛri!',
+    quiz_points:' jiri fɛɛn',
+    /* NAVIGATION */
+    nav_lezioni:'Kalanso', nav_mercati:'Yiriwali', nav_premi:'Saraka',
+    nav_famiglia:'Bɔlen', nav_academy:'Lakɔli', nav_muro:'Kongoban',
+    nav_famille:'Bɔlen',
+    /* MURO */
+    wall_tab_post:'Kuma', wall_tab_sfide:'Niname', wall_tab_classifica:'Kɔrɔ',
+    wall_footer:'🌍 Denw ani Cɛkɔrɔw Mali, Burkinafaso, Kote d\'Ivoire, Senegali, Itali ani diɲɛ bɛɛ',
+    /* ACADEMY */
+    academy_live_adesso:'🔴 Waati Nin na',
+    academy_cerca:'Karamɔgɔ ɲini...',
+    /* ADULTI */
+    adulti_benvenuto:'Cɛkɔrɔba Segin aw ye',
+    adulti_lezioni_comp:'Kalanso Cɛ',
+    /* LESSON VIEW */
+    acc_back_lez:'← Kalanden Yɔrɔ',
+    lez_quiz_title:'🎯 Ɲini o Ɲini',
+    lez_complete:'✅ Kalanso Lɔ!',
+    /* TOAST */
+    toast_lingua:'Kan: Bambara ✅',
+    /* CIVETTA */
+    civetta_welcome:'Aw ni ce! Ne ye Civetta ye, i karamɔgɔ AI ye FinanzaLand na 🦉',
+    civetta_chips:['Wari mara bɛ se ka kɛ cogo di?','Nafasoli ye mun ye?','BRVM ye mun ye?','Jiri fɛɛn sɔrɔ cogo di?'],
+    /* KIDS */
+    kids_home_title:'Aw ni ce! 👋',
+    kids_home_sub:'I bɛ mun kɛ sini?',
+    kids_sec_memoria:'🃏 Hakili Kɛlɛ',
+    kids_sec_memoria_desc:'Kaarata Sɔsɔ',
+    kids_sec_quiz:'🦉 Ɲini',
+    kids_sec_quiz_desc:'Dɔni kɛ',
+    kids_sec_impara:'📚 Kalan',
+    kids_sec_impara_desc:'Fɛɛn Kura',
+    kids_sec_drago:'🐉 Dragɔ',
+    kids_sec_drago_desc:'I Dragɔ Ɲɛ',
+    kids_sec_avventura:'🗺️ Taama',
+    kids_sec_avventura_desc:'Duguma Ɲɛsin',
+    /* QUIZ LIVELLI */
+    quiz_lv_facile:'🌱 Nɔgɔya',
+    quiz_lv_medio:'📚 Cɛmancɛ',
+    quiz_lv_difficile:'🎓 Gɛlɛya',
+  },
+  mo: {
+    /* HOME */
+    home_title:'Zãmsd-biis Ligdi Yɛlɛma',
+    home_sub:'Biisi la rãmb ye — Wĩnde 7 menga',
+    btn_accademia:'📚 Zãms Yɩɩre',
+    btn_3d:'🎮 Kẽn Dẽ',
+    btn_adulti:'📊 Rãmba Tʋʋm',
+    btn_pro:'🧑‍🏫 Zãmsd-dãmba',
+    btn_academy:'🎓 Lekoll',
+    btn_muro:'🌍 Nẽd Kongoban',
+    btn_kids:'👶 Biisi Daare',
+    btn_share:'📤 Yãk',
+    /* ACCADEMIA */
+    acc_back:'← Yiig',
+    acc_banner:'Zãmsd bala — Gom fãa AI tõnd na',
+    gen_title:'🤖 Zãmsd Maan',
+    gen_sub:'Ligdi yɛlɛ fãa gʋlsem',
+    gen_write_topic:'Yɛlɛ gʋlsem...',
+    gen_btn:'🚀 AI Zãmsd Maan',
+    gen_loading:'⏳ Maandb...',
+    gen_error:'Zãmsd ka wa ye. Maan paash!',
+    /* PERCORSI */
+    perc_labels:{
+      risparmio:'Ligdi Sekr', investimenti:'Ligdi Kẽer', mercati:'Yʋʋbdo',
+      immobiliare:'Yiri', tasse:'Naab Selgr', obbligazioni:'Kaool',
+      pensione:'Tũusd Wakati', africa:'Afirik', bambini:'Biisi',
+      figli:'Biis Nins', crypto:'Kript', derivati:'Derivi', psicologia:'Yam Sẽng'
+    },
+    /* LIVELLI */
+    lv_base:'🌱 Sɩng', lv_medio:'📚 Sẽoog', lv_esperto:'🎓 Maneg-neda',
+    lv_avanzato:'🏆 Kẽer', lv_master:'💎 Ninsaal',
+    /* QUIZ */
+    card_semi:'Yĩng Biis', quiz_correct:'✅ Sɩd! +', quiz_wrong:'❌ Kɩɩs!',
+    quiz_points:' yĩng biis',
+    /* NAVIGATION */
+    nav_lezioni:'Zãmsd', nav_mercati:'Yʋʋbdo', nav_premi:'Paam',
+    nav_famiglia:'Zaka', nav_academy:'Lekoll', nav_muro:'Kongoban',
+    nav_famille:'Zaka',
+    /* MURO */
+    wall_tab_post:'Gom', wall_tab_sfide:'Kẽlg', wall_tab_classifica:'Nẽb',
+    wall_footer:'🌍 Biisi la Rãmb Burkĩna Faso, Afirik la Dũnɩ fãa pʋgẽ',
+    /* ACADEMY */
+    academy_live_adesso:'🔴 Wakati Kãng',
+    academy_cerca:'Zãmsd-dãamb yãkẽ...',
+    /* ADULTI */
+    adulti_benvenuto:'Rãmb Lebg n kẽ',
+    adulti_lezioni_comp:'Zãmsd Maan',
+    /* LESSON VIEW */
+    acc_back_lez:'← Zãms Yɩɩre',
+    lez_quiz_title:'🎯 Bɩ la bɩ',
+    lez_complete:'✅ Zãmsd Maana!',
+    /* TOAST */
+    toast_lingua:'Koɛɛg: Mooré ✅',
+    /* CIVETTA */
+    civetta_welcome:'Ẽe la! Mam yaa Civetta, f zãmsd-taoor AI FinanzaLand pʋgẽ 🦉',
+    civetta_chips:['Ligdi sekr bʋg-bʋg?','Ligdi kẽer yaa bõe?','BRVM yaa bõe?','Yĩng biis paam cogo?'],
+    /* KIDS */
+    kids_home_title:'Ẽe la! 👋',
+    kids_home_sub:'F na maan bõe beoogo?',
+    kids_sec_memoria:'🃏 Yam Kẽng',
+    kids_sec_memoria_desc:'Kaarti Kẽlg',
+    kids_sec_quiz:'🦉 Bɩ la bɩ',
+    kids_sec_quiz_desc:'Zãmsd maan',
+    kids_sec_impara:'📚 Zãms',
+    kids_sec_impara_desc:'Yɛlɛ Paalg',
+    kids_sec_drago:'🐉 Drago',
+    kids_sec_drago_desc:'F Drago Yãk',
+    kids_sec_avventura:'🗺️ Sẽoogo',
+    kids_sec_avventura_desc:'Dũnɩ Kẽn',
+    /* QUIZ LIVELLI */
+    quiz_lv_facile:'🌱 Noog-noog',
+    quiz_lv_medio:'📚 Sẽoog',
+    quiz_lv_difficile:'🎓 Toeem',
+  },
 };
 
 function setLang(lang, btnEl) {
@@ -3420,7 +3576,7 @@ function autoDetectLang() {
   }
   // Rileva dal browser
   var bl = (navigator.language || navigator.userLanguage || 'it').split('-')[0].toLowerCase();
-  var map = {'it':'it','fr':'fr','en':'en','es':'es','wo':'wo',
+  var map = {'it':'it','fr':'fr','en':'en','es':'es','wo':'wo','bm':'bm','mo':'mo',
     'de':'en','pt':'es','nl':'en','ar':'fr','sw':'wo'};
   var detected = map[bl] || 'it';
   setLang(detected, null);
@@ -4332,7 +4488,6 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'prof')      buildAcademyProf(body);
   if (currentAcademyTab === 'corsi')     buildAcademyCorsi(body);
   if (currentAcademyTab === 'community') buildAcademyCommunity(body);
-  if (currentAcademyTab === 'scuole')    buildAcademyScuole(body);
 }
 
 window.switchAcademyTab = function(tab, el) {
@@ -4358,7 +4513,7 @@ function buildAcademyLive(body) {
   liveTitle.innerHTML = '<span style="color:var(--red)">'+(TRANSLATIONS[S.lang]||TRANSLATIONS.it).academy_live_adesso+'</span>';
   body.appendChild(liveTitle);
 
-  LIVE_SESSIONS.forEach(function(sess) {
+  (Array.isArray(LIVE_SESSIONS)?LIVE_SESSIONS:[]).forEach(function(sess) {
     var card = document.createElement('div');
     if (sess.live) {
       card.className = 'live-card';
@@ -4514,7 +4669,7 @@ function buildAcademyCorsi(body) {
   });
   body.appendChild(filterDiv);
 
-  CORSI_DEMO.forEach(function(corso) {
+  (Array.isArray(CORSI_DEMO)?CORSI_DEMO:[]).forEach(function(corso) {
     var card = document.createElement('div');
     card.className = 'corso-card';
     var priceColor = corso.prezzo===0?'var(--green)':'var(--gold)';
@@ -4650,7 +4805,7 @@ function openProfView(profId) {
   body.appendChild(matDiv);
 
   // Corsi del professore
-  var corsiProf = CORSI_DEMO.filter(function(c){return c.prof===currentProf.nome;});
+  var corsiProf = (Array.isArray(CORSI_DEMO)?CORSI_DEMO:[]).filter(function(c){return c.prof===currentProf.nome;});
   if (corsiProf.length) {
     var corsiDiv = document.createElement('div');
     corsiDiv.innerHTML = '<div class="adult-section-title" style="margin-top:14px">Corsi</div>';
@@ -5427,7 +5582,7 @@ function buildCalendario() {
     hdr.textContent = day.giorno;
     dayEl.appendChild(hdr);
 
-    day.sessioni.forEach(function(sess) {
+    (day.sessioni||[]).forEach(function(sess) {
       var item = document.createElement('div');
       item.className = 'cal-item';
       item.innerHTML =
@@ -5477,7 +5632,7 @@ function doSearch(query) {
 
   // Cerca corsi
   if (typeof CORSI_DEMO !== 'undefined') {
-    CORSI_DEMO.forEach(function(c){
+    (Array.isArray(CORSI_DEMO)?CORSI_DEMO:[]).forEach(function(c){
       if ((c.titolo+c.prof+c.descrizione).toLowerCase().includes(q)) {
         results.push({tipo:'corso', emoji:c.emoji, titolo:c.titolo, desc:c.prof+' — '+c.prezzo_label, col:'var(--teal)', data:c});
       }
@@ -5495,7 +5650,7 @@ function doSearch(query) {
 
   // Cerca sessioni live
   CALENDARIO_DATA.forEach(function(day){
-    day.sessioni.forEach(function(s){
+    (day.sessioni||[]).forEach(function(s){
       if ((s.titolo+s.prof).toLowerCase().includes(q)) {
         results.push({tipo:'live', emoji:s.emoji, titolo:s.titolo, desc:s.prof+' — '+day.giorno+' '+s.ora, col:'var(--red)', data:s});
       }
@@ -5601,7 +5756,7 @@ function generaCertificato(nomeCorso, nomeProfessore, dataCompletamento) {
 
 function buildPopupPremiConCert(body) {
   if (typeof buildPopupPremiBase === 'function') buildPopupPremiBase(body);
-  var done = Object.keys(S.completate).length;
+  var done = Object.keys(S.completate||{}).length;
   if (done >= 1) {
     var certSection = document.createElement('div');
     certSection.style.marginTop = '14px';
@@ -5664,7 +5819,7 @@ function buildAvatarSelector(containerEl, onSave) {
     'display:flex;align-items:center;justify-content:center;overflow:hidden;' +
     'background:rgba(0,0,0,.3);position:relative;' +
     'box-shadow:0 0 28px rgba(255,215,0,.35);' +
-    'border:' + (DRAGON_OPTIONS.frames.find(function(f){return f.id===DRAGON_STATE.frame;})||{style:'3px solid #FFD700'}).style;
+    'border:' + ((DRAGON_OPTIONS&&DRAGON_OPTIONS.frames||[]).find(function(f){return f&&f.id===DRAGON_STATE.frame;})||{style:'3px solid #FFD700'}).style;
   previewCircle.id = 'avatar-preview-circle';
 
   // SVG dentro il cerchio
@@ -5708,7 +5863,7 @@ function buildAvatarSelector(containerEl, onSave) {
       newBadge.style.cssText = 'position:absolute;bottom:-2px;right:-2px;font-size:1.1rem';
       newBadge.textContent = DRAGON_STATE.badge || '';
       circle.appendChild(newBadge);
-      var fr = DRAGON_OPTIONS.frames.find(function(f){return f.id===DRAGON_STATE.frame;});
+      var fr = (DRAGON_OPTIONS&&DRAGON_OPTIONS.frames||[]).find(function(f){return f&&f.id===DRAGON_STATE.frame;});
       circle.style.border = fr ? fr.style : '3px solid #FFD700';
     }
     var inf = getDragonInfo();
@@ -5852,7 +6007,7 @@ function buildAvatarSelector(containerEl, onSave) {
   makeSection('🖼️ Cornice Profilo');
   var frameGrid = document.createElement('div');
   frameGrid.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px';
-  DRAGON_OPTIONS.frames.forEach(function(fr){
+  (DRAGON_OPTIONS&&DRAGON_OPTIONS.frames||[]).filter(function(x){return x&&x.id;}).forEach(function(fr){
     var isActive = DRAGON_STATE.frame === fr.id;
     var btn = document.createElement('div');
     btn.style.cssText =
@@ -5978,7 +6133,7 @@ function buildKidsIsland() {
   var overlay = document.getElementById('kids-hs-overlay');
   if (!overlay) return;
   overlay.innerHTML = '';
-  KIDS_HOTSPOTS.forEach(function(h) {
+  (Array.isArray(KIDS_HOTSPOTS)?KIDS_HOTSPOTS:[]).forEach(function(h) {
     var el = document.createElement('div');
     el.className = 'hotspot';
     el.style.cssText = 'left:'+h.x+'%;top:'+h.y+'%;color:'+h.col;
@@ -6045,7 +6200,7 @@ function buildKidsSections() {
     {key:'avv',     tit:'kids_sec_avventura',desc:'kids_sec_avventura_desc'},
     {key:'trofei',  tit:'kids_sec_trofei',  desc:'kids_sec_trofei_desc'},
   ];
-  KIDS_SECTIONS.forEach(function(s, i) {
+  (Array.isArray(KIDS_SECTIONS)?KIDS_SECTIONS:[]).forEach(function(s, i) {
     var el = document.createElement('div');
     el.className = 'minigame-card';
     el.style.cssText = 'background:'+s.bg+';border:2px solid '+s.border;
@@ -7993,7 +8148,7 @@ function buildAdulti() {
   var kpis = [
     {val: S.coins.toLocaleString(), lbl: t.lbl_semi||'Semi'},
     {val: 'Lv.'+S.level, lbl: t.lbl_livello||'Livello'},
-    {val: Object.keys(S.completate).length, lbl: t.adulti_lezioni_comp||'Lezioni'},
+    {val: Object.keys(S.completate||{}).length, lbl: t.adulti_lezioni_comp||'Lezioni'},
     {val: S.isPro ? 'PRO' : (t.adulti_free||'Free'), lbl: t.adulti_piano||'Piano'},
   ];
   kpis.forEach(function(k) {
@@ -8049,130 +8204,6 @@ function buildAdulti() {
     });
     body.appendChild(el);
   });
-
-  // ── SIMULATORI INTERATTIVI ──────────────────────────────────────────
-  var simTitle = document.createElement('div');
-  simTitle.className = 'adult-section-title';
-  simTitle.textContent = '📊 Simulatori Interattivi';
-  body.appendChild(simTitle);
-
-  // INTERESSE COMPOSTO
-  var simComp = document.createElement('div');
-  simComp.style.cssText = 'background:var(--card);border:1px solid rgba(245,200,66,.25);border-radius:14px;padding:14px;margin-bottom:12px';
-  simComp.innerHTML =
-    '<div style="font-size:.9rem;font-weight:900;color:var(--gold);margin-bottom:10px">📈 Interesse Composto</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Capitale iniziale €</div>'+
-        '<input id="sim-capitale" type="number" value="1000" min="100" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Risparmio mensile €</div>'+
-        '<input id="sim-mensile" type="number" value="200" min="0" step="50" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Anni</div>'+
-        '<input id="sim-anni" type="number" value="20" min="1" max="50" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Rendimento annuo %</div>'+
-        '<input id="sim-tasso" type="number" value="7" min="1" max="30" step="0.5" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-    '</div>'+
-    '<div style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:10px;padding:10px;text-align:center">'+
-      '<div style="font-size:.65rem;color:var(--muted)">Capitale finale stimato</div>'+
-      '<div id="sim-totale" style="font-size:1.6rem;font-weight:900;color:var(--gold)">€ --</div>'+
-      '<div id="sim-dettaglio" style="font-size:.65rem;color:var(--muted);margin-top:3px"></div>'+
-    '</div>';
-  body.appendChild(simComp);
-  function calcInteresseComposto() {
-    var C=parseFloat(document.getElementById('sim-capitale').value)||0;
-    var M=parseFloat(document.getElementById('sim-mensile').value)||0;
-    var A=parseFloat(document.getElementById('sim-anni').value)||20;
-    var R=(parseFloat(document.getElementById('sim-tasso').value)||7)/100;
-    var rm=R/12; var mesi=A*12;
-    var FV=C*Math.pow(1+R,A)+(rm>0?M*(Math.pow(1+rm,mesi)-1)/rm:M*mesi);
-    var versato=C+M*mesi;
-    var el=document.getElementById('sim-totale');
-    if(el){el.textContent='€ '+Math.round(FV).toLocaleString('it-IT');
-    document.getElementById('sim-dettaglio').textContent='Versato: €'+Math.round(versato).toLocaleString('it-IT')+' | Interessi: €'+Math.round(FV-versato).toLocaleString('it-IT');}
-  }
-  setTimeout(function(){
-    calcInteresseComposto();
-    ['sim-capitale','sim-mensile','sim-anni','sim-tasso'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.addEventListener('input',calcInteresseComposto);
-    });
-  },50);
-
-  // PENSIONE FIRE
-  var simPens = document.createElement('div');
-  simPens.style.cssText = 'background:var(--card);border:1px solid rgba(74,222,128,.2);border-radius:14px;padding:14px;margin-bottom:12px';
-  simPens.innerHTML =
-    '<div style="font-size:.9rem;font-weight:900;color:#4ade80;margin-bottom:6px">🧓 Simulatore Pensione FIRE</div>'+
-    '<div style="font-size:.68rem;color:var(--muted);margin-bottom:10px">Regola del 4%: patrimonio = 25x spese annue</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Spese mensili €</div>'+
-        '<input id="pens-spese" type="number" value="2000" min="500" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Patrimonio attuale €</div>'+
-        '<input id="pens-patrimonio" type="number" value="50000" min="0" step="5000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Età attuale</div>'+
-        '<input id="pens-eta" type="number" value="35" min="18" max="70" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Risparmio mensile €</div>'+
-        '<input id="pens-risparmio" type="number" value="500" min="0" step="100" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-    '</div>'+
-    '<div style="background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:10px;text-align:center">'+
-      '<div style="font-size:.65rem;color:var(--muted)">Patrimonio FIRE (25x spese annue)</div>'+
-      '<div id="pens-target" style="font-size:1.5rem;font-weight:900;color:#4ade80">€ --</div>'+
-      '<div id="pens-anni" style="font-size:.82rem;font-weight:700;color:#fff;margin-top:6px"></div>'+
-      '<div id="pens-eta-fire" style="font-size:.65rem;color:var(--muted);margin-top:3px"></div>'+
-    '</div>';
-  body.appendChild(simPens);
-  function calcPensione() {
-    var spese=parseFloat(document.getElementById('pens-spese').value)||2000;
-    var patrim=parseFloat(document.getElementById('pens-patrimonio').value)||0;
-    var eta=parseFloat(document.getElementById('pens-eta').value)||35;
-    var risp=parseFloat(document.getElementById('pens-risparmio').value)||500;
-    var target=spese*12*25;
-    var rm=0.07/12; var anni=0; var acc=patrim;
-    while(acc<target && anni<60){acc=acc*(1+rm)+risp; anni+=1/12;}
-    var anniInt=Math.ceil(anni);
-    document.getElementById('pens-target').textContent='€ '+Math.round(target).toLocaleString('it-IT');
-    document.getElementById('pens-anni').textContent=anni>=60?'⚠️ Aumenta il risparmio mensile':'⏱️ Anni richiesti: '+anniInt;
-    document.getElementById('pens-eta-fire').textContent=anni<60?'Età FIRE stimata: '+Math.round(eta+anni)+' anni':'';
-  }
-  setTimeout(function(){
-    calcPensione();
-    ['pens-spese','pens-patrimonio','pens-eta','pens-risparmio'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.addEventListener('input',calcPensione);
-    });
-  },50);
-
-  // MUTUO
-  var simMutuo = document.createElement('div');
-  simMutuo.style.cssText = 'background:var(--card);border:1px solid rgba(6,182,212,.2);border-radius:14px;padding:14px;margin-bottom:12px';
-  simMutuo.innerHTML =
-    '<div style="font-size:.9rem;font-weight:900;color:#06b6d4;margin-bottom:10px">🏠 Calcolatore Mutuo</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Importo €</div>'+
-        '<input id="mut-importo" type="number" value="200000" min="10000" step="5000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Durata (anni)</div>'+
-        '<input id="mut-anni" type="number" value="25" min="5" max="40" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-      '<div style="grid-column:1/-1"><div style="font-size:.62rem;color:var(--muted);margin-bottom:3px">Tasso annuo %</div>'+
-        '<input id="mut-tasso" type="number" value="3.5" min="0.5" max="15" step="0.1" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.85rem"></div>'+
-    '</div>'+
-    '<div style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.3);border-radius:10px;padding:10px;text-align:center">'+
-      '<div style="font-size:.65rem;color:var(--muted)">Rata mensile</div>'+
-      '<div id="mut-rata" style="font-size:1.5rem;font-weight:900;color:#06b6d4">€ --</div>'+
-      '<div id="mut-totale" style="font-size:.65rem;color:var(--muted);margin-top:3px"></div>'+
-    '</div>';
-  body.appendChild(simMutuo);
-  function calcMutuo() {
-    var P=parseFloat(document.getElementById('mut-importo').value)||200000;
-    var n=(parseFloat(document.getElementById('mut-anni').value)||25)*12;
-    var r=(parseFloat(document.getElementById('mut-tasso').value)||3.5)/100/12;
-    var rata=r>0?P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1):P/n;
-    var totale=rata*n;
-    document.getElementById('mut-rata').textContent='€ '+Math.round(rata).toLocaleString('it-IT');
-    document.getElementById('mut-totale').textContent='Tot. pagato: €'+Math.round(totale).toLocaleString('it-IT')+' | Interessi: €'+Math.round(totale-P).toLocaleString('it-IT');
-  }
-  setTimeout(function(){
-    calcMutuo();
-    ['mut-importo','mut-anni','mut-tasso'].forEach(function(id){
-      var el=document.getElementById(id); if(el) el.addEventListener('input',calcMutuo);
-    });
-  },50);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -8987,7 +9018,7 @@ function buildMondo() {
   // Griglia zone
   var grid = document.createElement('div');
   grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 8px';
-  Object.keys(worldData).forEach(function(zone) {
+  Object.keys(worldData||{}).forEach(function(zone) {
     var z = worldData[zone];
     var card = document.createElement('div');
     card.className = 'mondo-zone-card' + (currentRegion === zone ? ' active' : '');
@@ -9094,34 +9125,100 @@ function renderMondoDetail(body, zone, t) {
   var old = body.querySelector('.mondo-detail');
   if (old) old.remove();
   var z = worldData[zone];
-  if (!z) return;
+  var cfg = ZONE_TICKERS[zone];
   var detail = document.createElement('div');
   detail.className = 'mondo-detail';
-  var staticPrices = {
-    EUROPE:     [{n:'EURO STOXX 50',v:'5.118',c:'+0.42%',up:true},{n:'EUR/USD',v:'1.0821',c:'+0.12%',up:true},{n:'BTP 10y',v:'3.68%',c:'-0.04%',up:false}],
-    UEMOA:      [{n:'BRVM Composite',v:'232.14',c:'+1.2%',up:true},{n:'XOF/EUR',v:'655.96',c:'0.00%',up:true},{n:'SONATEL',v:'15.800',c:'+0.6%',up:true}],
-    USA:        [{n:'S&P 500',v:'5.254',c:'+0.87%',up:true},{n:'NASDAQ',v:'16.428',c:'+1.1%',up:true},{n:'USD/EUR',v:'0.924',c:'-0.12%',up:false}],
-    UK:         [{n:'FTSE 100',v:'8.317',c:'+0.31%',up:true},{n:'GBP/EUR',v:'1.168',c:'+0.08%',up:true},{n:'UK Gilt 10y',v:'4.12%',c:'-0.02%',up:false}],
-    ASIA:       [{n:'Nikkei 225',v:'40.168',c:'+0.54%',up:true},{n:'SENSEX',v:'73.961',c:'+0.28%',up:true},{n:'JPY/USD',v:'0.0067',c:'-0.3%',up:false}],
-    CHINA:      [{n:'CSI 300',v:'3.512',c:'+0.68%',up:true},{n:'CNY/USD',v:'0.1385',c:'+0.05%',up:true},{n:'Hang Seng',v:'17.284',c:'+1.2%',up:true}],
-    MENA:       [{n:'ADX (Abu Dhabi)',v:'9.521',c:'+0.22%',up:true},{n:'Sukuk yield',v:'4.85%',c:'-0.08%',up:false},{n:'AED/USD',v:'0.2723',c:'0.00%',up:true}],
-    NIGERIA:    [{n:'NGX All Share',v:'99.312',c:'+1.8%',up:true},{n:'NGN/USD',v:'0.00065',c:'-2.1%',up:false},{n:'GTBank',v:'48.50',c:'+3.2%',up:true}],
-    EASTAFRICA: [{n:'NSE (Nairobi)',v:'116.82',c:'+0.45%',up:true},{n:'KES/USD',v:'0.0077',c:'+0.15%',up:true},{n:'M-Pesa Vol.',v:'$2.1B',c:'+5.4%',up:true}],
-    LATAM:      [{n:'Bovespa (B3)',v:'128.105',c:'+1.02%',up:true},{n:'BRL/USD',v:'0.198',c:'-0.5%',up:false},{n:'IPC (Messico)',v:'57.432',c:'+0.34%',up:true}],
-    AFRICA:     [{n:'JSE (Joburg)',v:'79.321',c:'+0.61%',up:true},{n:'ZAR/USD',v:'0.054',c:'-0.8%',up:false},{n:'Naspers',v:'3.284',c:'+1.4%',up:true}]
-  };
-  var prices = staticPrices[zone] || [];
-  var priceHtml = '<div style="margin-top:12px">';
-  priceHtml += '<div style="font-size:.65rem;font-weight:900;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">📊 Mercati & Prezzi</div>';
-  prices.forEach(function(p) {
-    priceHtml += '<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;margin-bottom:6px;border:1px solid rgba(255,255,255,.07)">'
-      + '<div style="font-size:.75rem;color:#fff;font-weight:700">'+p.n+'</div>'
-      + '<div style="text-align:right"><div style="font-size:.82rem;font-weight:900;color:var(--gold)">'+p.v+'</div>'
-      + '<div style="font-size:.65rem;color:'+(p.up?'#4ade80':'#f87171')+'">'+p.c+'</div></div></div>';
-  });
-  priceHtml += '</div>';
-  detail.innerHTML = '<div class="privacy-shield">🛡️ '+z.law+' | 💬 '+z.lang+' | 💰 '+z.cur+'</div>' + priceHtml;
+
+  // Header zona
+  var zh = document.createElement('div');
+  zh.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;margin-bottom:12px';
+  zh.innerHTML =
+    '<div style="font-size:1.3rem;font-weight:900;color:var(--gold);margin-bottom:4px">' + z.icon + ' ' + z.name + '</div>' +
+    '<div style="font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:6px">' + z.desc + '</div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+      '<span style="background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--gold)">💱 ' + z.cur + '</span>' +
+      '<span style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);border-radius:6px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--teal)">🏦 ' + z.rate + '</span>' +
+      '<span style="background:rgba(255,255,255,.06);border-radius:6px;padding:2px 8px;font-size:.62rem;color:rgba(255,255,255,.4)">🛡️ ' + z.law + '</span>' +
+    '</div>';
+  detail.appendChild(zh);
+
+  if (!cfg) {
+    // Zona senza ticker configurati
+    var noData = document.createElement('div');
+    noData.style.cssText = 'text-align:center;padding:20px;color:rgba(255,255,255,.3);font-size:.76rem';
+    noData.innerHTML = '📊 Dati di mercato in arrivo per questa zona<br><a href="https://finance.yahoo.com" target="_blank" style="color:var(--teal);font-size:.7rem">→ Cerca su Yahoo Finance</a>';
+    detail.appendChild(noData);
+    body.appendChild(detail);
+    return;
+  }
+
+  // Indici
+  var idxHdr = document.createElement('div');
+  idxHdr.className = 'mkt-section-hdr';
+  idxHdr.textContent = '📈 INDICI PRINCIPALI';
+  detail.appendChild(idxHdr);
+  var idxGrid = document.createElement('div');
+  idxGrid.className = 'mkt-cards-grid';
+  detail.appendChild(idxGrid);
+
+  // Azioni
+  var aziHdr = document.createElement('div');
+  aziHdr.className = 'mkt-section-hdr';
+  aziHdr.textContent = '🏢 AZIONI PRINCIPALI';
+  detail.appendChild(aziHdr);
+  var aziGrid = document.createElement('div');
+  aziGrid.className = 'mkt-cards-grid';
+  detail.appendChild(aziGrid);
+
+  // Placeholder cards
+  var allCfg = (cfg.indici || []).concat(cfg.azioni || []);
+  (cfg.indici || []).forEach(function(s){ renderMktCard(s.sym, s.name, idxGrid, {}); });
+  (cfg.azioni || []).forEach(function(s){ renderMktCard(s.sym, s.name, aziGrid, {}); });
+
+  // Refresh button + timestamp
+  var refBtn = document.createElement('button');
+  refBtn.className = 'mkt-refresh-btn';
+  refBtn.id = 'mkt-refresh-' + zone;
+  refBtn.textContent = '🔄 Aggiorna prezzi';
+  detail.appendChild(refBtn);
+  var tsEl = document.createElement('div');
+  tsEl.className = 'mkt-last-update';
+  tsEl.id = 'mkt-ts-' + zone;
+  tsEl.textContent = 'Aggiornamento…';
+  detail.appendChild(tsEl);
+
+  // Link TradingView per la zona
+  var tvSym = cfg.indici && cfg.indici[0] ? cfg.indici[0].sym.replace('^','') : '';
+  if (tvSym) {
+    var tvLink = document.createElement('a');
+    tvLink.className = 'mkt-chart-link';
+    tvLink.href = 'https://finance.yahoo.com/quote/' + encodeURIComponent(cfg.indici[0].sym);
+    tvLink.target = '_blank';
+    tvLink.innerHTML = '<span style="font-size:1.2rem">📊</span><span style="font-size:.76rem;color:#6366f1;font-weight:700">Apri grafico ' + cfg.indici[0].name + ' su Yahoo Finance</span><span style="margin-left:auto;color:rgba(255,255,255,.3)">→</span>';
+    detail.appendChild(tvLink);
+  }
+
   body.appendChild(detail);
+
+  // Fetch reale
+  function doFetch() {
+    refBtn.textContent = '⏳ Caricamento…';
+    refBtn.disabled = true;
+    var syms = allCfg.map(function(s){ return s.sym; });
+    fetchYahoo(syms, function(err, map) {
+      // Ricostruisce le card con dati reali
+      idxGrid.innerHTML = '';
+      aziGrid.innerHTML = '';
+      (cfg.indici || []).forEach(function(s){ renderMktCard(s.sym, s.name, idxGrid, map); });
+      (cfg.azioni || []).forEach(function(s){ renderMktCard(s.sym, s.name, aziGrid, map); });
+      var now = new Date();
+      tsEl.textContent = 'Aggiornato: ' + now.toLocaleTimeString('it-IT') + (err ? ' (parziale)' : ' ✅');
+      refBtn.textContent = '🔄 Aggiorna prezzi';
+      refBtn.disabled = false;
+    });
+  }
+  refBtn.addEventListener('click', doFetch);
+  doFetch(); // fetch automatico all'apertura
 }
 
 // ── BUILD PUNTO ABLA ────────────────────────────────────────────────────
@@ -11215,7 +11312,7 @@ var _saggezzaDone = {};
 var _saggCat = 'all';
 
 function buildSaggezza() {
-  if (!Array.isArray(GRANDE_SAGGEZZA) || !GRANDE_SAGGEZZA.length) return;
+  if (!Array.isArray(GRANDE_SAGGEZZA) || !(Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA.length:0)) return;
   var tabs = document.getElementById('sagg-tabs');
   var body = document.getElementById('sagg-body');
   if (!tabs || !body) return;
@@ -11230,7 +11327,7 @@ function buildSaggezza() {
   allTab.textContent = 'Tutti';
   allTab.onclick = function() { _saggCat='all'; buildSaggezza(); };
   tabs.appendChild(allTab);
-  Object.keys(SAGGEZZA_CATEGORIE).forEach(function(cat) {
+  Object.keys(SAGGEZZA_CATEGORIE||{}).forEach(function(cat) {
     var t = document.createElement('button');
     t.className = 'sagg-tab' + (_saggCat===cat?' active':'');
     t.style.borderColor = SAGGEZZA_CATEGORIE[cat].color;
@@ -11242,16 +11339,16 @@ function buildSaggezza() {
 
   // Filter and render cards
   body.innerHTML = '';
-  var filtered = _saggCat==='all' ? GRANDE_SAGGEZZA : GRANDE_SAGGEZZA.filter(function(s){ return s.categoria===_saggCat; });
-  var done_count = Object.keys(_saggezzaDone).length;
+  var filtered = _saggCat==='all' ? GRANDE_SAGGEZZA : (Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA:[]).filter(function(s){ return s.categoria===_saggCat; });
+  var done_count = Object.keys(_saggezzaDone||{}).length;
   
   // Progress header
   var prog = document.createElement('div');
   prog.style.cssText = 'margin:12px 14px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:12px;text-align:center';
   prog.innerHTML = '<div style="font-size:.7rem;color:#A78BFA;font-weight:900;margin-bottom:4px">SAGGEZZA COMPLETATA</div>'
-    + '<div style="font-size:1.6rem;font-weight:900;color:var(--gold)">' + done_count + '/' + GRANDE_SAGGEZZA.length + '</div>'
+    + '<div style="font-size:1.6rem;font-weight:900;color:var(--gold)">' + done_count + '/' + (Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA.length:0) + '</div>'
     + '<div style="background:rgba(255,255,255,.08);border-radius:6px;height:6px;margin-top:6px;overflow:hidden">'
-    + '<div style="width:' + Math.round(done_count/GRANDE_SAGGEZZA.length*100) + '%;height:100%;background:linear-gradient(90deg,#A78BFA,var(--gold))"></div></div>';
+    + '<div style="width:' + Math.round(done_count/(Array.isArray(GRANDE_SAGGEZZA)?GRANDE_SAGGEZZA.length:0)*100) + '%;height:100%;background:linear-gradient(90deg,#A78BFA,var(--gold))"></div></div>';
   body.appendChild(prog);
 
   filtered.forEach(function(sagg) {
@@ -11337,61 +11434,8 @@ function hexToRgb(hex) {
 
 window.buildSaggezza = buildSaggezza;
 
-function buildAcademyScuole(body) {
-  var hdr = document.createElement('div');
-  hdr.style.cssText = 'background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
-  hdr.innerHTML = '<div style="font-size:2rem;margin-bottom:6px">🏫</div>'
-    + '<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>'
-    + '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Educazione Civica - L. 92/2019 - Primaria e Medie</div>'
-    + '<div style="font-size:.68rem;background:rgba(167,139,250,.12);border-radius:8px;padding:6px 10px;margin-top:8px;color:#c4b5fd">Allineato curricula MIUR</div>';
-  body.appendChild(hdr);
-  var t1=document.createElement('div');t1.className='adult-section-title';t1.textContent='Moduli Didattici';body.appendChild(t1);
-  var moduli=[
-    {emoji:'🌱',classe:'Classi 1-2 (6-8 anni)',titolo:'Il Seme della Moneta',obiettivo:'Cos\'e il denaro? Cosa posso fare con una moneta?',tags:['Monete','Scambio','Risparmio'],ore:3,gratis:true},
-    {emoji:'🏦',classe:'Classi 3-4 (8-10 anni)',titolo:'La Banca dei Sogni',obiettivo:'Cos\'e una banca? Come funziona il risparmio?',tags:['Banca','Risparmio vs spesa','Obiettivo'],ore:4,gratis:true},
-    {emoji:'🌍',classe:'Classe 5 + Medie (10-13 anni)',titolo:'Il Mondo dei Mercati',obiettivo:'Come funzionano i mercati? Cos\'e la BRVM africana?',tags:['Borsa','BRVM Africa','Diversificazione','Tassi'],ore:6,gratis:false},
-    {emoji:'🤝',classe:'Ed. Civica trasversale',titolo:'Economia e Cittadinanza',obiettivo:'Tasse, welfare, beni comuni, finanza etica',tags:['Tasse','Bene comune','Finanza etica','Benevolenza 5%'],ore:4,gratis:true},
-  ];
-  moduli.forEach(function(mod){
-    var card=document.createElement('div');
-    card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
-    var tagsHtml=mod.tags.map(function(tag){return '<span style="font-size:.62rem;background:rgba(167,139,250,.1);color:#c4b5fd;border-radius:6px;padding:2px 6px">'+tag+'</span>';}).join('');
-    card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
-      +'<div style="display:flex;gap:10px;align-items:center"><div style="font-size:1.8rem">'+mod.emoji+'</div>'
-      +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+mod.titolo+'</div>'
-      +'<div style="font-size:.65rem;color:#a78bfa">'+mod.classe+'</div></div></div>'
-      +'<div style="font-size:.62rem;background:'+(mod.gratis?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.gratis?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.gratis?'Gratuito':'PRO')+'</div></div>'
-      +'<div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;font-style:italic">'+mod.obiettivo+'</div>'
-      +'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">'+tagsHtml+'</div>'
-      +'<div style="font-size:.68rem;color:var(--muted)">'+mod.ore+' ore</div>'
-      +'<button onclick="generateLesson(\''+mod.titolo+'\',\'risparmio\',\'base\',\'bambino\',false).then(function(l){openLezione(l);})" '
-      +'style="width:100%;margin-top:10px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#a78bfa;border-radius:10px;padding:8px;font-size:.78rem;font-weight:700;cursor:pointer">Anteprima lezione AI</button>';
-    body.appendChild(card);
-  });
-  var t2=document.createElement('div');t2.className='adult-section-title';t2.textContent='Kit per Insegnanti';body.appendChild(t2);
-  [{icon:'📄',titolo:'Piano didattico annuale',desc:'Template MIUR per le 33h annuali di Ed. Civica'},
-   {icon:'📊',titolo:'Griglia di valutazione',desc:'Rubriche per competenze finanziarie per modulo'},
-   {icon:'🎮',titolo:'Guida in classe',desc:'Modalita bambino, missioni, quiz e progressi di gruppo'},
-   {icon:'📧',titolo:'Lettera per Dirigente/Comune',desc:'Modello pre-compilato per presentare il progetto'}
-  ].forEach(function(item){
-    var row=document.createElement('div');
-    row.style.cssText='display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer';
-    row.innerHTML='<div style="font-size:1.5rem">'+item.icon+'</div>'
-      +'<div style="flex:1"><div style="font-size:.8rem;font-weight:700;color:#fff">'+item.titolo+'</div>'
-      +'<div style="font-size:.67rem;color:var(--muted);margin-top:2px">'+item.desc+'</div></div>'
-      +'<div style="color:var(--muted)">›</div>';
-    row.addEventListener('click',function(){toast('Scrivi a ilboudobr96@gmail.com per il kit completo');});
-    body.appendChild(row);
-  });
-  var cta=document.createElement('div');
-  cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
-  cta.innerHTML='<div style="font-size:1.4rem;margin-bottom:6px">🤝</div>'
-    +'<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:6px">Porta FinanzaLand nella tua scuola</div>'
-    +'<div style="font-size:.7rem;color:var(--muted);margin-bottom:12px">Presentazione gratuita per insegnanti e dirigenti del Vicentino</div>'
-    +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20per%20la%20scuola&body=Salve%20Bernard%2C%0AVorrei%20portare%20FinanzaLand%20nella%20mia%20scuola.%0ASono%20insegnante%20presso%20%5BScuola%5D%20di%20Vicenza.%0ACordiali%20saluti\',\'_blank\')" '
-    +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-weight:900;font-size:.85rem;cursor:pointer;width:100%">Richiedi presentazione gratuita</button>';
-  body.appendChild(cta);
-}
+
+
 
 </script>
 
@@ -11453,6 +11497,5 @@ function buildAcademyScuole(body) {
   </div>
 </div>
 
-</script>
 </body>
 </html>
