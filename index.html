@@ -72,7 +72,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 /* ── SCREENS ── */
 #content{flex:1;position:relative;overflow:hidden;padding-bottom:64px}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}.screen:not(.active){display:none!important;visibility:hidden!important;pointer-events:none!important}
-.screen.active{display:flex}#avatar-cultura.active{display:block;overflow-y:auto;padding-bottom:80px}
+.screen.active{display:flex}#avatar-cultura.active{display:block;overflow:hidden;height:100%}
 
 /* ── HOME ── */
 #home{background:linear-gradient(160deg,#02001a,#080028);overflow:hidden}
@@ -92,7 +92,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 .home-stat-val{font-size:1.2rem;font-weight:900;color:var(--gold)}
 .home-stat-lbl{font-size:.65rem;color:var(--muted);margin-top:1px}
 .home-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:360px}.home-btn-wide{grid-column:1/-1}
-.home-btn{border:none;border-radius:14px;padding:13px 8px;font-weight:900;font-size:.82rem;cursor:pointer;transition:transform .15s;text-align:center;line-height:1.35}
+.home-btn{border:none;border-radius:14px;padding:12px 8px;font-weight:900;font-size:.82rem;cursor:pointer;transition:transform .15s;text-align:center;line-height:1.35}
 .home-btn:active{transform:scale(.97)}
 .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c0a00}
 .btn-secondary{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:#fff}
@@ -1091,6 +1091,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
   display:block;
 }
 /* ADULT MODE TOGGLE */
+#home ~ * .mode-bar, #home.active ~ * .mode-bar {display:none!important}
 #avatar-cultura .mode-bar {
   display:flex; align-items:center; justify-content:center;
   gap:0; margin:12px 16px 0; border-radius:14px; overflow:hidden;
@@ -1303,7 +1304,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
       <div class="home-hero">
         <div class="hero-dragon">🐉</div>
         <div class="hero-title">FinanzaLand</div>
-        <div class="hero-sub" data-i18n-html="home_title|home_sub">L'Accademia del Risparmio<br>Per bambini e adulti — Trial 7 giorni gratuiti</div>
+        <div class="hero-sub" data-i18n-html="home_title|home_sub">Educazione finanziaria per tutti</div>
         <div class="home-stats">
           <div class="home-stat">
             <div class="home-stat-val" id="stat-lezioni">∞</div>
@@ -1324,9 +1325,9 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
         </div>
         <div class="home-btns">
           <button id="btn-accademia" class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
-          <button id="btn-kids" class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.6);color:#c4b5fd">👶 Zona<br>Bambini</button>
+          <button id="btn-kids" class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd">👶 Zona<br>Bambini</button>
           <button id="btn-adulti" class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti<br>Adulti</button>
-          <button id="btn-academy-main" class="home-btn btn-secondary" onclick="showScreen('academy')">🎓 Academy &<br>Professori</button>
+          <button id="btn-academy-main" class="home-btn btn-secondary" onclick="showScreen('academy')">🎓 Academy &amp;<br>Professori</button>
           <button id="btn-muro" class="home-btn btn-secondary" onclick="showScreen('muro-sociale')">🌍 Muro<br>Sociale</button>
         </div>
       </div>
@@ -4330,34 +4331,29 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'scuole') {
     var hd=document.createElement('div');
     hd.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
-    hd.innerHTML='<div style="font-size:2rem">&#127979;</div>'
-      +'<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>'
-      +'<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 &#8212; DDL Capitali Art.25</div>';
+    hd.innerHTML='<div style="font-size:2rem">&#127979;</div><div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div><div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 &#8212; Art.25 DDL Capitali</div>';
     body.appendChild(hd);
-    var ms=document.createElement('div');ms.className='adult-section-title';ms.textContent='Moduli Didattici';body.appendChild(ms);
-    [{e:'&#127793;',cl:'Classi 1-2',ti:'Il Seme della Moneta',ob:'Denaro, baratto, risparmio.',ore:3,fr:true},
-     {e:'&#127974;',cl:'Classi 3-4',ti:'La Banca dei Sogni',ob:'Banca e risparmio.',ore:4,fr:true},
-     {e:'&#127760;',cl:'Classe 5 + Medie',ti:'Il Mondo dei Mercati',ob:'Mercati e BRVM.',ore:6,fr:false},
-     {e:'&#129309;',cl:'Trasversale',ti:'Economia e Cittadinanza',ob:'Tasse e finanza etica.',ore:4,fr:true},
-     {e:'&#127891;',cl:'Superiori + Univ.',ti:'Finanza per la Vita Reale',ob:'Stipendio, pensione, ETF.',ore:8,fr:false},
+    [{e:'&#127793;',cl:'Classi 1-2',ti:'Il Seme della Moneta',ore:3,fr:true},
+     {e:'&#127974;',cl:'Classi 3-4',ti:'La Banca dei Sogni',ore:4,fr:true},
+     {e:'&#127760;',cl:'Classe 5+Medie',ti:'Il Mondo dei Mercati',ore:6,fr:false},
+     {e:'&#129309;',cl:'Trasversale',ti:'Economia e Cittadinanza',ore:4,fr:true},
+     {e:'&#127891;',cl:'Superiori+Univ.',ti:'Finanza per la Vita Reale',ore:8,fr:false},
     ].forEach(function(mod){
       var card=document.createElement('div');
-      card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px';
-      card.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:6px">'
-        +'<div style="display:flex;gap:10px"><div style="font-size:1.6rem">'+mod.e+'</div>'
-        +'<div><div style="font-size:.82rem;font-weight:900;color:#fff">'+mod.ti+'</div>'
-        +'<div style="font-size:.65rem;color:#a78bfa">'+mod.cl+' &#8212; '+mod.ore+'h</div></div></div>'
-        +'<div style="font-size:.62rem;background:'+(mod.fr?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.fr?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.fr?'Gratuito':'PRO')+'</div>'
-        +'</div>'
-        +'<div style="font-size:.7rem;color:var(--muted)">'+mod.ob+'</div>';
+      card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:8px';
+      card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center">'
+        +'<div style="display:flex;gap:8px;align-items:center"><span style="font-size:1.5rem">'+mod.e+'</span>'
+        +'<div><div style="font-size:.8rem;font-weight:900;color:#fff">'+mod.ti+'</div>'
+        +'<div style="font-size:.62rem;color:#a78bfa">'+mod.cl+' — '+mod.ore+'h</div></div></div>'
+        +'<div style="font-size:.62rem;background:'+(mod.fr?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.fr?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.fr?'Gratis':'PRO')+'</div>'
+        +'</div>';
       body.appendChild(card);
     });
     var cta=document.createElement('div');
-    cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:16px;margin-top:14px;text-align:center';
-    cta.innerHTML='<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:8px">Porta FinanzaLand nella tua scuola</div>'
+    cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:14px;margin-top:12px;text-align:center';
+    cta.innerHTML='<div style="font-size:.85rem;font-weight:900;color:#a78bfa;margin-bottom:8px">Porta FinanzaLand nella tua scuola</div>'
       +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Scuole\',\'_blank\')" '
-      +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:12px 20px;font-weight:900;font-size:.85rem;cursor:pointer;width:100%">'
-      +'Richiedi presentazione gratuita</button>';
+      +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-weight:900;font-size:.83rem;cursor:pointer;width:100%">Richiedi presentazione gratuita</button>';
     body.appendChild(cta);
   }
 
@@ -11369,39 +11365,28 @@ window.buildSaggezza = buildSaggezza;
 
 </body>
 </html
-
 function openMenuExtra() {
-  var ov = document.createElement('div');
-  ov.id = 'menu-extra-ov';
-  ov.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:flex-end';
-  ov.innerHTML =
-    '<div style="background:#12141c;border:1px solid rgba(255,215,0,.2);border-radius:20px 20px 0 0;'
-    + 'padding:20px;width:100%;max-width:420px;margin:0 auto">'
-    + '<div style="width:40px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 18px"></div>'
-    + '<div style="font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:2px;margin-bottom:12px">ESPLORA</div>'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-      + '<button onclick="document.getElementById('menu-extra-ov').remove();showScreen('avatar-cultura')" '
-        + 'style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;'
-        + 'padding:12px;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">🐉 Avatar<br>Cultura</button>'
-      + '<button onclick="document.getElementById('menu-extra-ov').remove();showScreen('saggezza-screen')" '
-        + 'style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;'
-        + 'padding:12px;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">🧠 Saggezza<br>dei Saggi</button>'
-      + '<button onclick="document.getElementById('menu-extra-ov').remove();showScreen('mondo-globale')" '
-        + 'style="background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.3);border-radius:12px;'
-        + 'padding:12px;color:var(--teal);font-size:.82rem;font-weight:700;cursor:pointer">🌐 Landa<br>Global</button>'
-      + '<button onclick="document.getElementById('menu-extra-ov').remove();openPopup('piani')" '
-        + 'style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:12px;'
-        + 'padding:12px;color:var(--gold);font-size:.82rem;font-weight:700;cursor:pointer">👑 Diventa<br>PRO</button>'
-    + '</div>'
-    + '<button onclick="shareApp();document.getElementById('menu-extra-ov').remove()" '
-      + 'style="width:100%;margin-top:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);'
-      + 'border-radius:12px;padding:11px;color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">'
-      + '📤 Condividi FinanzaLand</button>'
-    + '<button onclick="document.getElementById('menu-extra-ov').remove()" '
-      + 'style="width:100%;margin-top:8px;background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:8px">'
-      + 'Chiudi</button>'
-    + '</div>';
-  ov.addEventListener('click', function(e){ if(e.target===ov) ov.remove(); });
+  var ov=document.createElement('div');
+  ov.id='menu-extra-ov';
+  ov.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:flex-end';
+  ov.innerHTML='<div style="background:#12141c;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:420px;margin:0 auto">'
+    +'<div style="width:40px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 16px"></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();showScreen(\'avatar-cultura\')"
+     style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">🐉 Avatar<br>Cultura</button>'
+    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();showScreen(\'saggezza-screen\')"
+     style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">🧠 Saggezza<br>dei Saggi</button>'
+    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();showScreen(\'mondo-globale\')"
+     style="background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.3);border-radius:12px;padding:12px;color:var(--teal);font-size:.82rem;font-weight:700;cursor:pointer">🌐 Landa<br>Global</button>'
+    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();openPopup(\'piani\')"
+     style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:12px;padding:12px;color:var(--gold);font-size:.82rem;font-weight:700;cursor:pointer">👑 Diventa<br>PRO</button>'
+    +'</div>'
+    +'<button onclick="shareApp();document.getElementById(\'menu-extra-ov\').remove()" '
+     +'style="width:100%;margin-top:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px;color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">📤 Condividi FinanzaLand</button>'
+    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove()" '
+     +'style="width:100%;margin-top:8px;background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:8px">Chiudi</button>'
+    +'</div>';
+  ov.addEventListener('click',function(e){if(e.target===ov)ov.remove();});
   document.body.appendChild(ov);
 }
 
