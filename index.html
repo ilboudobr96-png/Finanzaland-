@@ -72,7 +72,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 /* ── SCREENS ── */
 #content{flex:1;position:relative;overflow:hidden;padding-bottom:64px}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}.screen:not(.active){display:none!important;visibility:hidden!important;pointer-events:none!important}
-.screen.active{display:flex}#avatar-cultura.active{display:block;overflow:hidden;height:100%}
+.screen.active{display:flex}#avatar-cultura.active{display:block;overflow-y:auto;padding-bottom:80px}
 
 /* ── HOME ── */
 #home{background:linear-gradient(160deg,#02001a,#080028);overflow:hidden}
@@ -1091,7 +1091,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
   display:block;
 }
 /* ADULT MODE TOGGLE */
-.mode-bar{display:none}
 #avatar-cultura .mode-bar {
   display:flex; align-items:center; justify-content:center;
   gap:0; margin:12px 16px 0; border-radius:14px; overflow:hidden;
@@ -1304,7 +1303,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
       <div class="home-hero">
         <div class="hero-dragon">🐉</div>
         <div class="hero-title">FinanzaLand</div>
-        <div class="hero-sub" data-i18n-html="home_title|home_sub">Educazione finanziaria per tutti</div>
+        <div class="hero-sub" data-i18n-html="home_title|home_sub">L'Accademia del Risparmio<br>Per bambini e adulti — Trial 7 giorni gratuiti</div>
         <div class="home-stats">
           <div class="home-stat">
             <div class="home-stat-val" id="stat-lezioni">∞</div>
@@ -1324,11 +1323,11 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           </div>
         </div>
         <div class="home-btns">
-          <button id="btn-accademia" class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
-          <button id="btn-kids" class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd">👶 Zona<br>Bambini</button>
-          <button id="btn-adulti" class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti<br>Adulti</button>
-          <button id="btn-academy-main" class="home-btn btn-secondary" onclick="showScreen('academy')">🎓 Academy &amp;<br>Professori</button>
-          <button id="btn-muro" class="home-btn btn-secondary" onclick="showScreen('muro-sociale')">🌍 Muro<br>Sociale</button>
+          <button class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
+          <button class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd">👶 Zona<br>Bambini</button>
+          <button class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti<br>Adulti</button>
+          <button class="home-btn btn-secondary" onclick="showScreen('academy')">🎓 Academy &amp;<br>Professori</button>
+          <button class="home-btn btn-secondary" onclick="showScreen('muro-sociale')">🌍 Muro<br>Sociale</button>
         </div>
       </div>
     </div>
@@ -2421,8 +2420,6 @@ window.buildLandaCard = buildLandaCard;
 // ── Aggiorna showScreen per le nuove schermate ────────────
 var _origShowScreen = window.showScreen;
 window.showScreen = function(name) {
-  var mb=document.getElementById('mode-bar-el');if(mb)mb.style.display=(name==='avatar-cultura'?'flex':'none');
-
   if (_origShowScreen) _origShowScreen(name);
   if (name==='mondo-globale') setTimeout(buildMondo, 50);
   else if (name==='punto-abla') setTimeout(buildPuntoAbla, 50);
@@ -4331,31 +4328,14 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'corsi')     buildAcademyCorsi(body);
   if (currentAcademyTab === 'community') buildAcademyCommunity(body);
   if (currentAcademyTab === 'scuole') {
-    var hd=document.createElement('div');
-    hd.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
-    hd.innerHTML='<div style="font-size:2rem">&#127979;</div><div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div><div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 &#8212; Art.25 DDL Capitali</div>';
-    body.appendChild(hd);
-    [{e:'&#127793;',cl:'Classi 1-2',ti:'Il Seme della Moneta',ore:3,fr:true},
-     {e:'&#127974;',cl:'Classi 3-4',ti:'La Banca dei Sogni',ore:4,fr:true},
-     {e:'&#127760;',cl:'Classe 5+Medie',ti:'Il Mondo dei Mercati',ore:6,fr:false},
-     {e:'&#129309;',cl:'Trasversale',ti:'Economia e Cittadinanza',ore:4,fr:true},
-     {e:'&#127891;',cl:'Superiori+Univ.',ti:'Finanza per la Vita Reale',ore:8,fr:false},
-    ].forEach(function(mod){
-      var card=document.createElement('div');
-      card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:8px';
-      card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center">'
-        +'<div style="display:flex;gap:8px;align-items:center"><span style="font-size:1.5rem">'+mod.e+'</span>'
-        +'<div><div style="font-size:.8rem;font-weight:900;color:#fff">'+mod.ti+'</div>'
-        +'<div style="font-size:.62rem;color:#a78bfa">'+mod.cl+' — '+mod.ore+'h</div></div></div>'
-        +'<div style="font-size:.62rem;background:'+(mod.fr?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.fr?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.fr?'Gratis':'PRO')+'</div>'
-        +'</div>';
-      body.appendChild(card);
-    });
-    var cta=document.createElement('div');
-    cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:14px;margin-top:12px;text-align:center';
-    cta.innerHTML='<div style="font-size:.85rem;font-weight:900;color:#a78bfa;margin-bottom:8px">Porta FinanzaLand nella tua scuola</div>'
-      +'<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Scuole\',\'_blank\')" '
-      +'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-weight:900;font-size:.83rem;cursor:pointer;width:100%">Richiedi presentazione gratuita</button>';
+    var hd=document.createElement('div');hd.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
+    hd.innerHTML='<div style="font-size:2rem">&#127979;</div><div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div><div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 &#8212; DDL Capitali Art.25</div>';body.appendChild(hd);
+    [{e:'&#127793;',cl:'Classi 1-2',ti:'Il Seme della Moneta',ore:3,fr:true},{e:'&#127974;',cl:'Classi 3-4',ti:'La Banca dei Sogni',ore:4,fr:true},{e:'&#127760;',cl:'Classe 5+Medie',ti:'Il Mondo dei Mercati',ore:6,fr:false},{e:'&#129309;',cl:'Trasversale',ti:'Economia e Cittadinanza',ore:4,fr:true},{e:'&#127891;',cl:'Superiori+Univ.',ti:'Finanza per la Vita Reale',ore:8,fr:false}]
+    .forEach(function(mod){var card=document.createElement('div');card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:8px';
+      card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:1.5rem">'+mod.e+'</span><div><div style="font-size:.8rem;font-weight:900;color:#fff">'+mod.ti+'</div><div style="font-size:.62rem;color:#a78bfa">'+mod.cl+' &#8212; '+mod.ore+'h</div></div></div><div style="font-size:.62rem;background:'+(mod.fr?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.fr?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.fr?'Gratis':'PRO')+'</div></div>';
+      body.appendChild(card);});
+    var cta=document.createElement('div');cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:14px;margin-top:12px;text-align:center';
+    cta.innerHTML='<div style="font-size:.85rem;font-weight:900;color:#a78bfa;margin-bottom:8px">Porta FinanzaLand nella tua scuola</div><button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Scuole\',\'_blank\')" style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-weight:900;font-size:.83rem;cursor:pointer;width:100%">Richiedi presentazione gratuita</button>';
     body.appendChild(cta);
   }
 
@@ -11012,34 +10992,7 @@ function openPopup(id) {
 
   if (id === 'account') {
     tEl.textContent = 'Account';
-    var dn2 = Object.keys(S.completate || {}).length;
-    var lv  = S.level || Math.max(1, Math.floor(((S.xp || 0) / 100)) + 1);
-    var h = document.createElement('div');
-    h.style.cssText = 'text-align:center;padding:14px 0 10px';
-    h.innerHTML = '<div style="font-size:3rem">&#x1F409;</div><div style="font-size:1.2rem;font-weight:900;color:#F5C842">'+(S.isPro ? 'Account Pro' : 'Account Gratuito')+'</div>';
-    bEl.appendChild(h);
-    var gr = document.createElement('div');
-    gr.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px';
-    gr.appendChild(_mc('Semi', S.coins||0, '#F5C842'));
-    gr.appendChild(_mc('Streak', S.streak||0, '#06b6d4'));
-    gr.appendChild(_mc('Lezioni', dn2, '#4ade80'));
-    gr.appendChild(_mc('Livello', 'Lv '+lv, '#a78bfa'));
-    bEl.appendChild(gr);
-    var b1 = document.createElement('button');
-    b1.style.cssText = 'width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1a1a2e;border:none;padding:11px;border-radius:11px;font-weight:800;cursor:pointer;margin-bottom:8px;display:block';
-    b1.textContent = S.isPro ? 'Gestisci Pro' : 'Passa a Pro';
-    b1.onclick = function() { closePopup(); openPopup('piani'); };
-    bEl.appendChild(b1);
-    var b2 = document.createElement('button');
-    b2.style.cssText = 'width:100%;background:rgba(245,200,66,.08);color:#F5C842;border:1px solid #F5C842;padding:9px;border-radius:11px;font-weight:700;cursor:pointer;display:block';
-    b2.textContent = 'Personalizza Avatar Drago';
-    b2.onclick = function() { if (typeof openAvatarPopup === 'function') openAvatarPopup(); closePopup(); };
-    bEl.appendChild(b2);
-    var b3 = document.createElement('button');
-    b3.style.cssText = 'width:100%;background:rgba(245,200,66,.08);color:#F5C842;border:1px solid #F5C842;padding:9px;border-radius:11px;font-weight:700;cursor:pointer;display:block;margin-top:6px';
-    b3.textContent = '🌍 Allevatori — Avatar Culturali';
-    b3.onclick = function() { closePopup(); showScreen('avatar-cultura'); if(typeof syncAvatarLevel==='function') syncAvatarLevel(); };
-    bEl.appendChild(b3);
+    buildPopupAccount(bEl);
     ov.classList.add('show'); return;
   }
 
@@ -11305,6 +11258,139 @@ function hexToRgb(hex) {
 
 window.buildSaggezza = buildSaggezza;
 
+
+
+function _iSt(){return "width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;font-family:system-ui;outline:none;box-sizing:border-box";}
+function _bSt(bg,col){return "width:100%;background:"+bg+";color:"+col+";border:none;border-radius:12px;padding:12px;font-weight:900;font-size:.88rem;cursor:pointer;margin-top:4px";}
+function _aI(id,type,ph){var el=document.createElement("input");el.id=id;el.type=type;el.placeholder=ph;el.style.cssText=_iSt()+";margin-bottom:8px";return el;}
+function _pS(label,val,color){return "<div style=\"background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px;text-align:center\"><div style=\"font-size:1.1rem;font-weight:900;color:"+color+"\">"+val+"</div><div style=\"font-size:.62rem;color:var(--muted);margin-top:2px\">"+label+"</div></div>";}
+
+function buildPopupAccount(bEl) {
+  if (S.account && S.account.email) { buildAccountProfilo(bEl); return; }
+  var tabDiv = document.createElement("div");
+  tabDiv.style.cssText = "display:flex;gap:6px;margin-bottom:16px";
+  ["login","signup","school"].forEach(function(t,i) {
+    var labels = ["&#128273; Accedi","&#10024; Registrati","&#127979; Scuola"];
+    var btn = document.createElement("button");
+    btn.id = "atab-"+t;
+    btn.innerHTML = labels[i];
+    btn.style.cssText = "flex:1;background:"+(i===0?"rgba(245,200,66,.15)":"rgba(255,255,255,.04)")+";border:1px solid "+(i===0?"rgba(245,200,66,.4)":"rgba(255,255,255,.1)")+";border-radius:10px;padding:8px;font-size:.75rem;color:"+(i===0?"var(--gold)":"var(--muted)")+";font-weight:700;cursor:pointer";
+    btn.onclick = (function(tab){ return function(){ switchAccountTab(tab); }; })(t);
+    tabDiv.appendChild(btn);
+  });
+  bEl.appendChild(tabDiv);
+
+  var pL = document.createElement("div"); pL.id = "acc-panel-login";
+  pL.appendChild(_aI("acc-l-em","email","Email"));
+  pL.appendChild(_aI("acc-l-pw","password","Password"));
+  var bL = document.createElement("button"); bL.textContent = "Accedi";
+  bL.style.cssText = _bSt("linear-gradient(135deg,#F5C842,#f59e0b)","#1c0a00");
+  bL.onclick = doLogin; pL.appendChild(bL);
+  var link = document.createElement("div"); link.style.cssText = "text-align:center;font-size:.68rem;color:var(--muted);margin-top:10px";
+  link.innerHTML = "Non hai un account? <span onclick=\"switchAccountTab('signup')\" style=\"color:var(--gold);cursor:pointer\">Registrati &#8594;</span>";
+  pL.appendChild(link);
+  bEl.appendChild(pL);
+
+  var pS = document.createElement("div"); pS.id = "acc-panel-signup"; pS.style.display = "none";
+  [["acc-r-nm","text","Nome completo"],["acc-r-nk","text","Soprannome"],["acc-r-em","email","Email"],["acc-r-pw","password","Password (min 8)"]].forEach(function(x){pS.appendChild(_aI(x[0],x[1],x[2]));});
+  var sel = document.createElement("select"); sel.id = "acc-r-tp"; sel.style.cssText = _iSt()+";margin-bottom:8px";
+  [["studente","Studente (6-16)"],["adulto","Adulto / Genitore"],["docente","Docente"],["scuola","Referente Scuola"]].forEach(function(o){var op=document.createElement("option");op.value=o[0];op.textContent=o[1];sel.appendChild(op);});
+  pS.appendChild(sel);
+  var info = document.createElement("div"); info.style.cssText = "font-size:.65rem;color:var(--muted);margin-bottom:10px;padding:8px;background:rgba(255,255,255,.03);border-radius:8px;line-height:1.7";
+  info.innerHTML = "&#10003; Email di verifica obbligatoria<br>&#10003; Nessuna carta di credito<br>&#10003; Dati protetti GDPR<br>&#10003; Soprannome unico — nessuna truffa";
+  pS.appendChild(info);
+  var bS = document.createElement("button"); bS.textContent = "Crea Account Gratis";
+  bS.style.cssText = _bSt("#6366f1","#fff"); bS.onclick = doRegister; pS.appendChild(bS);
+  bEl.appendChild(pS);
+
+  var pSc = document.createElement("div"); pSc.id = "acc-panel-school"; pSc.style.display = "none";
+  [["acc-sc-ist","text","Nome Istituto"],["acc-sc-ref","text","Nome Referente"],["acc-sc-em","email","Email istituzionale"],["acc-sc-cod","text","Codice accesso (es. SCUOLA24)"]].forEach(function(x){pSc.appendChild(_aI(x[0],x[1],x[2]));});
+  var info2 = document.createElement("div"); info2.style.cssText = "font-size:.65rem;color:var(--muted);margin-bottom:10px;padding:8px;background:rgba(167,139,250,.06);border-radius:8px;line-height:1.7";
+  info2.innerHTML = "&#127979; Legge 21/2024 — Educazione Finanziaria<br>&#10003; Accesso gratuito docenti<br>&#10003; Verificato entro 24h<br>&#128231; ilboudobr96@gmail.com";
+  pSc.appendChild(info2);
+  var bSc = document.createElement("button"); bSc.textContent = "Registra Scuola";
+  bSc.style.cssText = _bSt("#a78bfa","#fff"); bSc.onclick = doRegisterScuola; pSc.appendChild(bSc);
+  bEl.appendChild(pSc);
+}
+
+function switchAccountTab(tab) {
+  ["login","signup","school"].forEach(function(t) {
+    var p=document.getElementById("acc-panel-"+t); var b=document.getElementById("atab-"+t);
+    if(p) p.style.display=t===tab?"block":"none";
+    if(b){b.style.background=t===tab?"rgba(245,200,66,.15)":"rgba(255,255,255,.04)";b.style.color=t===tab?"var(--gold)":"var(--muted)";}
+  });
+}
+
+function doLogin() {
+  var em=(document.getElementById("acc-l-em").value||"").trim().toLowerCase();
+  var pw=(document.getElementById("acc-l-pw").value||"").trim();
+  if(!em||!pw){toast("Inserisci email e password");return;}
+  var saved=safeLS("fl_users",{});
+  if(saved[em]&&saved[em].pass===btoa(pw)){
+    S.account={email:em,nome:saved[em].nome,nick:saved[em].nick,tipo:saved[em].tipo,verificato:saved[em].verificato};
+    safeSetItem("fl_account",S.account); closePopup(); toast("Bentornato "+saved[em].nick+"!"); return;
+  }
+  toast("Email o password errati");
+}
+
+function doRegister() {
+  var nome=(document.getElementById("acc-r-nm").value||"").trim();
+  var nick=(document.getElementById("acc-r-nk").value||"").trim();
+  var em=(document.getElementById("acc-r-em").value||"").trim().toLowerCase();
+  var pw=(document.getElementById("acc-r-pw").value||"").trim();
+  var tipo=document.getElementById("acc-r-tp").value;
+  if(!nome||!nick||!em||!pw){toast("Compila tutti i campi");return;}
+  if(!em.includes("@")){toast("Email non valida");return;}
+  if(pw.length<8){toast("Password minimo 8 caratteri");return;}
+  if(nick.length<3){toast("Soprannome minimo 3 caratteri");return;}
+  var saved=safeLS("fl_users",{});
+  if(Object.values(saved).some(function(u){return u.nick.toLowerCase()===nick.toLowerCase();})){toast("Soprannome gia usato");return;}
+  if(saved[em]){toast("Email gia registrata");return;}
+  saved[em]={nome:nome,nick:nick,pass:btoa(pw),tipo:tipo,verificato:false};
+  safeSetItem("fl_users",saved);
+  S.account={email:em,nome:nome,nick:nick,tipo:tipo,verificato:false};
+  safeSetItem("fl_account",S.account);
+  closePopup(); toast("Account creato! Verifica la email.");
+  var s2=encodeURIComponent("Verifica Account FinanzaLand - "+nick);
+  var b2=encodeURIComponent("Nome: "+nome+"\nNick: "+nick+"\nEmail: "+em+"\nTipo: "+tipo);
+  setTimeout(function(){window.open("mailto:ilboudobr96@gmail.com?subject="+s2+"&body="+b2,"_blank");},800);
+}
+
+function doRegisterScuola() {
+  var ist=(document.getElementById("acc-sc-ist").value||"").trim();
+  var ref=(document.getElementById("acc-sc-ref").value||"").trim();
+  var em=(document.getElementById("acc-sc-em").value||"").trim().toLowerCase();
+  var cod=(document.getElementById("acc-sc-cod").value||"").trim().toUpperCase();
+  if(!ist||!ref||!em){toast("Compila tutti i campi");return;}
+  var validi={INVEST25:1,SCUOLA24:1,DOCENTE1:1,PROVA2026:1};
+  if(cod&&validi[cod]){
+    S.isPro=true; try{localStorage.setItem("fl_pro","1");}catch(e){}
+    S.account={email:em,nome:ref,nick:ist,tipo:"scuola",verificato:true};
+    safeSetItem("fl_account",S.account); closePopup(); toast("Accesso scuola attivato! Benvenuto "+ist); return;
+  }
+  var s3=encodeURIComponent("Richiesta Scuola FinanzaLand - "+ist);
+  var b3=encodeURIComponent("Istituto: "+ist+"\nReferente: "+ref+"\nEmail: "+em);
+  closePopup(); toast("Richiesta inviata! Riceverai il codice entro 24h.");
+  setTimeout(function(){window.open("mailto:ilboudobr96@gmail.com?subject="+s3+"&body="+b3,"_blank");},500);
+}
+
+function buildAccountProfilo(bEl) {
+  var acc=S.account; var dn=Object.keys(S.completate||{}).length; var lv=S.level||1;
+  bEl.innerHTML =
+    "<div style=\"text-align:center;padding:14px 0 16px\"><div style=\"font-size:3rem\">&#128009;</div>"
+   +"<div style=\"font-size:1.1rem;font-weight:900;color:var(--gold)\">"+(acc.nick||acc.nome)+"</div>"
+   +"<div style=\"font-size:.72rem;color:var(--muted);margin-top:2px\">"+acc.email+"</div>"
+   +"<div style=\"margin-top:6px;font-size:.68rem;background:"+(acc.verificato?"rgba(74,222,128,.15)":"rgba(245,200,66,.12)")+";color:"+(acc.verificato?"#4ade80":"var(--gold)")+";border-radius:8px;padding:3px 10px;display:inline-block\">"+(acc.verificato?"&#10003; Verificato":"&#8987; Verifica in attesa")+"</div>"
+   +"<div style=\"font-size:.65rem;color:#818cf8;margin-top:4px\">"+acc.tipo+(S.isPro?" - PRO":"")+"</div>"
+   +"</div>"
+   +"<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px\">"
+   +_pS("Semi",S.coins||0,"var(--gold)")+_pS("Streak",S.streak||0,"var(--teal)")
+   +_pS("Lezioni",dn,"#4ade80")+_pS("Livello","Lv "+lv,"#a78bfa")
+   +"</div>"
+   +"<button onclick=\"closePopup();openPopup('piani')\" style=\""+_bSt("linear-gradient(135deg,#F5C842,#e67e22)","#1a1a2e")+"\">"+(S.isPro?"Gestisci PRO":"Passa a PRO")+"</button>"
+   +"<button onclick=\"S.account=null;safeSetItem('fl_account',null);closePopup();toast('Disconnesso')\" style=\"width:100%;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;font-size:.8rem;cursor:pointer;margin-top:8px\">Disconnetti</button>";
+}
+
 </script>
 
 <!-- DIVENTA SAGGIO MODAL -->
@@ -11367,31 +11453,8 @@ window.buildSaggezza = buildSaggezza;
 
 </body>
 </html
-function openMenuExtra() {
-  var ov=document.createElement('div');
-  ov.id='menu-extra-ov';
-  ov.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:flex-end';
-  ov.innerHTML='<div style="background:#12141c;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:420px;margin:0 auto">'
-    +'<div style="width:40px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 16px"></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();showScreen(\'avatar-cultura\')"
-     style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">🐉 Avatar<br>Cultura</button>'
-    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();showScreen(\'saggezza-screen\')"
-     style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer">🧠 Saggezza<br>dei Saggi</button>'
-    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();showScreen(\'mondo-globale\')"
-     style="background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.3);border-radius:12px;padding:12px;color:var(--teal);font-size:.82rem;font-weight:700;cursor:pointer">🌐 Landa<br>Global</button>'
-    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove();openPopup(\'piani\')"
-     style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:12px;padding:12px;color:var(--gold);font-size:.82rem;font-weight:700;cursor:pointer">👑 Diventa<br>PRO</button>'
-    +'</div>'
-    +'<button onclick="shareApp();document.getElementById(\'menu-extra-ov\').remove()" '
-     +'style="width:100%;margin-top:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px;color:var(--muted);font-size:.82rem;font-weight:700;cursor:pointer">📤 Condividi FinanzaLand</button>'
-    +'<button onclick="document.getElementById(\'menu-extra-ov\').remove()" '
-     +'style="width:100%;margin-top:8px;background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:8px">Chiudi</button>'
-    +'</div>';
-  ov.addEventListener('click',function(e){if(e.target===ov)ov.remove();});
-  document.body.appendChild(ov);
-}
 
+// ═══════════════════════════════════════════════════
 </script>
 </body>
 </html>
