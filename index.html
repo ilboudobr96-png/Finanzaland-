@@ -1091,6 +1091,8 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
   display:block;
 }
 /* ADULT MODE TOGGLE */
+.mode-bar { display:none !important }
+#avatar-cultura.active .mode-bar { display:flex !important }
 #avatar-cultura .mode-bar {
   display:flex; align-items:center; justify-content:center;
   gap:0; margin:12px 16px 0; border-radius:14px; overflow:hidden;
@@ -1654,7 +1656,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div class="dragon-stage-badge" id="stageBadge">🥚 Drago Cucciolo</div>
 </div>
 
-<div class="mode-bar" id="mode-bar-el" style="display:none">
+<div class="mode-bar" id="mode-bar-el">
   <div class="mode-btn active" id="modeChild" onclick="switchMode('child')">👶 Modalità Bambino</div>
   <div class="mode-btn" id="modeAdult" onclick="switchMode('adult')">👨‍👩‍👧 Modalità Genitore <span class="adult-badge">NEW</span></div>
 </div>
