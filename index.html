@@ -4175,7 +4175,132 @@ var CORSI_DEMO = [
    pro_required:true},
 ];
 
-// ── MINI VIDEO PER LEZIONE ───────────────────────────────
+// ── ACCESSO CREATORE ─────────────────────────────────────
+// Bernard (creatore) ha accesso totale senza pagare
+// Attivazione: digita il codice segreto nell'input account
+var CREATOR_CODE = 'BERNARD2026';
+function isCreator() {
+  return safeLSStr('fl_creator','0') === '1';
+}
+function activateCreator(code) {
+  if (code === CREATOR_CODE) {
+    try { localStorage.setItem('fl_creator','1'); } catch(e){}
+    S.isPro = true;
+    try { localStorage.setItem('fl_pro','1'); } catch(e){}
+    saveS();
+    toast('🐉 Accesso Creatore attivato! Tutto sbloccato, Bernard!');
+    if (typeof updateHUD === 'function') updateHUD();
+    return true;
+  }
+  return false;
+}
+// Auto-attiva se già impostato
+if (isCreator()) { S.isPro = true; }
+window.isCreator = isCreator;
+window.activateCreator = activateCreator;
+
+// ── MODULI SCUOLA — CONTENUTO COMPLETO ──────────────────
+var CORSI_SCUOLE = [
+  {
+    id:'scuola_1',
+    emoji:'🌱', colore:'#4ade80',
+    titolo:'Il Seme della Moneta',
+    classi:'Classi 1-2 — Elementari',
+    ore:3, lezioni:6, gratis:true,
+    descrizione:'Dalla baratta ai soldi digitali. I bambini scoprono cos\'è il denaro, perché esiste e come funziona il risparmio. Metodo giocoso con storie e personaggi.',
+    obiettivi:['Capire cosa sono i soldi','Differenza bisogno vs desiderio','Il mio primo salvadanaio','Risparmiare per un obiettivo'],
+    moduli:[
+      {n:1, titolo:'Da dove vengono i soldi?', desc:'Storia del baratto e della moneta. Attività: crea la tua moneta!', dur:'30 min', topicAI:'cosa sono i soldi bambini storia moneta'},
+      {n:2, titolo:'Bisogno o Desiderio?', desc:'Riconoscere cosa serve davvero. Gioco delle carte illustrate.', dur:'30 min', topicAI:'bisogno vs desiderio bambini educazione finanziaria'},
+      {n:3, titolo:'Il mio Salvadanaio', desc:'Come funziona il risparmio. Costruiamo un salvadanaio.', dur:'30 min', topicAI:'salvadanaio risparmio bambini obiettivo'},
+      {n:4, titolo:'Il prezzo delle cose', desc:'Ogni oggetto ha un valore. Gioco del supermercato.', dur:'30 min', topicAI:'prezzo delle cose bambini valore moneta'},
+      {n:5, titolo:'Dare, Risparmiare, Spendere', desc:'Tre contenitori per i tuoi soldi. La regola aurea dei bambini.', dur:'30 min', topicAI:'dare risparmiare spendere bambini regola'},
+      {n:6, titolo:'Quiz Finale + Certificato', desc:'Verifica e diploma del Seme della Moneta!', dur:'30 min', topicAI:'quiz educazione finanziaria bambini elementari'},
+    ]
+  },
+  {
+    id:'scuola_2',
+    emoji:'🏦', colore:'#06b6d4',
+    titolo:'La Banca dei Sogni',
+    classi:'Classi 3-4 — Elementari',
+    ore:4, lezioni:8, gratis:true,
+    descrizione:'Come funziona una banca, i conti correnti, le carte di pagamento e il credito. Bambini diventano "gestori" di una banca simulata.',
+    obiettivi:['Cos\'è una banca','Come funziona un conto','Carte di credito e debito','Prestiti e interessi semplici'],
+    moduli:[
+      {n:1, titolo:'Cos\'è una banca?', desc:'La banca come custode e moltiplicatore. Storia delle prime banche.', dur:'30 min', topicAI:'cos è una banca bambini storia'},
+      {n:2, titolo:'Il mio Conto Corrente', desc:'Come si apre, cosa ci puoi fare, come si legge un estratto conto.', dur:'30 min', topicAI:'conto corrente bambini come funziona'},
+      {n:3, titolo:'Carte di pagamento', desc:'Carta di debito vs credito. Come funzionano i pagamenti digitali.', dur:'30 min', topicAI:'carta di credito debito bambini pagamento'},
+      {n:4, titolo:'Cos\'è un prestito?', desc:'Prendere in prestito e restituire. L\'interesse come "costo del denaro".', dur:'30 min', topicAI:'prestito interesse bambini spiegazione'},
+      {n:5, titolo:'La banca giusta per me', desc:'Scegliere una banca. Conti online vs tradizionali.', dur:'30 min', topicAI:'banca online tradizionale bambini confronto'},
+      {n:6, titolo:'M-Pesa: la banca del telefono', desc:'Come in Africa si fa banca col cellulare. M-Pesa Kenya.', dur:'30 min', topicAI:'M-Pesa Kenya mobile money Africa bambini'},
+      {n:7, titolo:'Risparmia per il tuo sogno', desc:'Progetto: scegli un obiettivo e crea il piano.', dur:'30 min', topicAI:'obiettivo risparmio bambini piano'},
+      {n:8, titolo:'Quiz Finale + Certificato', desc:'Verifica e diploma della Banca dei Sogni!', dur:'30 min', topicAI:'quiz banca risparmio bambini certificato'},
+    ]
+  },
+  {
+    id:'scuola_3',
+    emoji:'🌐', colore:'#FFD700',
+    titolo:'Il Mondo dei Mercati',
+    classi:'Classe 5 + Scuola Media',
+    ore:6, lezioni:10, gratis:false,
+    descrizione:'Borsa valori, indici, azioni, inflazione e cicli economici. Come funziona davvero il sistema finanziario globale — inclusa la BRVM africana.',
+    obiettivi:['Come funziona la borsa','Azioni e obbligazioni','Inflazione e deflazione','BRVM e mercati africani'],
+    moduli:[
+      {n:1, titolo:'Cos\'è la Borsa?', desc:'Mercato azionario spiegato ai ragazzi. NYSE, NASDAQ, Borsa Italiana.', dur:'36 min', topicAI:'borsa valori ragazzi come funziona spiegazione'},
+      {n:2, titolo:'Azioni: diventare proprietari', desc:'Comprare un\'azione = diventare socio di un\'azienda.', dur:'36 min', topicAI:'azioni borsa ragazzi proprietà azienda'},
+      {n:3, titolo:'Obbligazioni e BTP', desc:'Lo Stato che prende in prestito. BTP Italia, cedole, scadenza.', dur:'36 min', topicAI:'obbligazioni BTP ragazzi stato prestito'},
+      {n:4, titolo:'Inflazione e potere d\'acquisto', desc:'Perché i prezzi salgono? Come proteggersi dall\'inflazione.', dur:'36 min', topicAI:'inflazione ragazzi potere acquisto spiegazione'},
+      {n:5, titolo:'La BRVM — Africa Occidentale', desc:'La borsa dei 8 paesi UEMOA. Sonatel, Ecobank, investire in Africa.', dur:'36 min', topicAI:'BRVM borsa Africa ragazzi investimento'},
+      {n:6, titolo:'M-Pesa e FinTech africano', desc:'Come il Kenya ha creato il sistema bancario del futuro.', dur:'36 min', topicAI:'M-Pesa fintech Africa ragazzi innovazione'},
+      {n:7, titolo:'Indici globali', desc:'S&P500, DAX, Nikkei — come si leggono e cosa significano.', dur:'36 min', topicAI:'indici borsa S&P500 DAX ragazzi globali'},
+      {n:8, titolo:'Cicli economici', desc:'Espansione, recessione, crisi. La crisi del 2008 spiegata.', dur:'36 min', topicAI:'cicli economici crisi 2008 ragazzi'},
+      {n:9, titolo:'ETF: il portafoglio semplice', desc:'Cos\'è un ETF. Come investire in tutto il mondo con un solo strumento.', dur:'36 min', topicAI:'ETF investimento ragazzi portafoglio semplice'},
+      {n:10, titolo:'Simulazione Trading + Certificato', desc:'Gestisci un portafoglio simulato. Quiz finale e diploma!', dur:'36 min', topicAI:'simulazione investimento ragazzi certificato'},
+    ]
+  },
+  {
+    id:'scuola_4',
+    emoji:'🤝', colore:'#a78bfa',
+    titolo:'Economia e Cittadinanza',
+    classi:'Trasversale — tutte le età',
+    ore:4, lezioni:8, gratis:true,
+    descrizione:'La Costituzione, i diritti economici, le tasse, il lavoro e la sostenibilità. Collegato all\'educazione civica prevista dalla Legge 21/2024.',
+    obiettivi:['Art.1 e il diritto al lavoro','Le tasse: a cosa servono','Agenda 2030','Cittadinanza economica attiva'],
+    moduli:[
+      {n:1, titolo:'La Costituzione e i soldi', desc:'Art.1, 36, 47 — i diritti economici dei cittadini italiani.', dur:'30 min', topicAI:'costituzione italiana diritti economici articolo 47 risparmio'},
+      {n:2, titolo:'Le tasse: perché le paghiamo', desc:'IRPEF, IVA, imposte locali. I servizi che ci offrono.', dur:'30 min', topicAI:'tasse perché paghiamo IRPEF IVA servizi pubblici ragazzi'},
+      {n:3, titolo:'Il lavoro e la busta paga', desc:'Contratti di lavoro, busta paga, contributi INPS.', dur:'30 min', topicAI:'lavoro busta paga contributi INPS ragazzi'},
+      {n:4, titolo:'L\'Unione Europea e l\'Euro', desc:'Come nasce l\'euro. BCE, MES, politica monetaria.', dur:'30 min', topicAI:'unione europea euro BCE politica monetaria ragazzi'},
+      {n:5, titolo:'Agenda 2030 — 17 obiettivi', desc:'Sviluppo sostenibile e finanza responsabile. ESG investing.', dur:'30 min', topicAI:'agenda 2030 obiettivi sviluppo sostenibile ESG ragazzi'},
+      {n:6, titolo:'Debito pubblico italiano', desc:'Cos\'è il debito pubblico. Come influenza la nostra vita.', dur:'30 min', topicAI:'debito pubblico italiano ragazzi impatto quotidiano'},
+      {n:7, titolo:'Cittadinanza digitale e finanza', desc:'Truffe online, phishing, protezione dei dati bancari.', dur:'30 min', topicAI:'cittadinanza digitale truffe online banca sicurezza ragazzi'},
+      {n:8, titolo:'Quiz Finale + Certificato Civica', desc:'Verifica e diploma Economia e Cittadinanza!', dur:'30 min', topicAI:'quiz educazione civica economia cittadinanza certificato'},
+    ]
+  },
+  {
+    id:'scuola_5',
+    emoji:'🎓', colore:'#fb923c',
+    titolo:'Finanza per la Vita Reale',
+    classi:'Superiori + Università',
+    ore:8, lezioni:12, gratis:false,
+    descrizione:'Budget personale, investimenti, mutuo, pensione, tasse. Tutto quello che la scuola non ti insegna ma che userai ogni giorno della tua vita adulta.',
+    obiettivi:['Budget e regola 50-30-20','Investire con ETF e PAC','Comprare casa o affittare','Pensione e indipendenza finanziaria'],
+    moduli:[
+      {n:1, titolo:'Il tuo primo budget', desc:'Regola 50-30-20. Come costruire un budget mensile reale.', dur:'40 min', topicAI:'budget personale regola 50 30 20 giovani adulti'},
+      {n:2, titolo:'Conto corrente e risparmio', desc:'Quale conto scegliere. Conto deposito vs corrente. Automazione.', dur:'40 min', topicAI:'conto corrente deposito risparmio automatico giovani'},
+      {n:3, titolo:'ETF e interesse composto', desc:'Come investire con 50€/mese. Il potere del tempo e della costanza.', dur:'40 min', topicAI:'ETF interesse composto PAC giovani investimento'},
+      {n:4, titolo:'Le tasse in Italia', desc:'IRPEF, forfettario, dichiarazione dei redditi, detrazioni.', dur:'40 min', topicAI:'tasse Italia IRPEF forfettario dichiarazione redditi'},
+      {n:5, titolo:'Comprare o affittare casa', desc:'Calcolo mutuo vs affitto. Quando conviene comprare.', dur:'40 min', topicAI:'comprare affittare casa mutuo calcolo convenienza'},
+      {n:6, titolo:'Assicurazioni', desc:'RC auto, vita, salute. Quando sono obbligatorie e quando convengono.', dur:'40 min', topicAI:'assicurazioni RC auto vita salute convenienza'},
+      {n:7, titolo:'Pensione e TFR', desc:'Pilastri pensionistici. TFR in azienda o fondo. FIRE.', dur:'40 min', topicAI:'pensione TFR pilastri previdenza FIRE indipendenza'},
+      {n:8, titolo:'Crypto: opportunità e rischi', desc:'Bitcoin, Ethereum, DeFi. Regolamentazione MiCA. Tassazione.', dur:'40 min', topicAI:'crypto bitcoin ethereum rischi tassazione MiCA'},
+      {n:9, titolo:'Investire in Africa', desc:'BRVM, Safaricom, M-Pesa. Come la diaspora può investire nel continente.', dur:'40 min', topicAI:'investire Africa BRVM diaspora opportunità'},
+      {n:10, titolo:'Mindset finanziario', desc:'Bias cognitivi, FOMO, avversione alla perdita. La psicologia del denaro.', dur:'40 min', topicAI:'mindset finanziario bias cognitivi psicologia denaro'},
+      {n:11, titolo:'Piano finanziario personale', desc:'Costruisci il tuo piano a 1, 5, 10 anni.', dur:'40 min', topicAI:'piano finanziario personale obiettivi lungo termine'},
+      {n:12, titolo:'Esame Finale + Certificato PRO', desc:'Test completo e diploma FinanzaLand Superiori!', dur:'40 min', topicAI:'quiz finanza personale adulti certificato PRO'},
+    ]
+  },
+];
 // Ogni percorso ha video YouTube per bambini e adulti
 // youtube_q = query di ricerca YouTube (si apre in YouTube)
 var MINI_VIDEOS = {
@@ -4410,15 +4535,7 @@ function buildAcademy(tab) {
   if (currentAcademyTab === 'corsi')     buildAcademyCorsi(body);
   if (currentAcademyTab === 'community') buildAcademyCommunity(body);
   if (currentAcademyTab === 'scuole') {
-    var hd=document.createElement('div');hd.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(99,102,241,.3);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center';
-    hd.innerHTML='<div style="font-size:2rem">&#127979;</div><div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div><div style="font-size:.72rem;color:var(--muted);margin-top:4px">Legge 21/2024 &#8212; DDL Capitali Art.25</div>';body.appendChild(hd);
-    [{e:'&#127793;',cl:'Classi 1-2',ti:'Il Seme della Moneta',ore:3,fr:true},{e:'&#127974;',cl:'Classi 3-4',ti:'La Banca dei Sogni',ore:4,fr:true},{e:'&#127760;',cl:'Classe 5+Medie',ti:'Il Mondo dei Mercati',ore:6,fr:false},{e:'&#129309;',cl:'Trasversale',ti:'Economia e Cittadinanza',ore:4,fr:true},{e:'&#127891;',cl:'Superiori+Univ.',ti:'Finanza per la Vita Reale',ore:8,fr:false}]
-    .forEach(function(mod){var card=document.createElement('div');card.style.cssText='background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:8px';
-      card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:1.5rem">'+mod.e+'</span><div><div style="font-size:.8rem;font-weight:900;color:#fff">'+mod.ti+'</div><div style="font-size:.62rem;color:#a78bfa">'+mod.cl+' &#8212; '+mod.ore+'h</div></div></div><div style="font-size:.62rem;background:'+(mod.fr?'rgba(74,222,128,.15)':'rgba(245,200,66,.15)')+';color:'+(mod.fr?'#4ade80':'var(--gold)')+';border-radius:8px;padding:2px 8px">'+(mod.fr?'Gratis':'PRO')+'</div></div>';
-      body.appendChild(card);});
-    var cta=document.createElement('div');cta.style.cssText='background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1px solid rgba(167,139,250,.3);border-radius:14px;padding:14px;margin-top:12px;text-align:center';
-    cta.innerHTML='<div style="font-size:.85rem;font-weight:900;color:#a78bfa;margin-bottom:8px">Porta FinanzaLand nella tua scuola</div><button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Scuole\',\'_blank\')" style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-weight:900;font-size:.83rem;cursor:pointer;width:100%">Richiedi presentazione gratuita</button>';
-    body.appendChild(cta);
+    buildAcademyScuole(body);
   }
 
 }
@@ -4625,6 +4742,149 @@ function buildAcademyCorsi(body) {
     body.appendChild(card);
   });
 }
+
+// ── TAB SCUOLE — COMPLETO ─────────────────────────────────
+function buildAcademyScuole(body) {
+  var accesso = S.isPro || isCreator();
+
+  // Header
+  var hd = document.createElement('div');
+  hd.style.cssText = 'background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(167,139,250,.1));border:1.5px solid rgba(99,102,241,.35);border-radius:16px;padding:16px;margin-bottom:14px;text-align:center';
+  hd.innerHTML =
+    '<div style="font-size:2.2rem;margin-bottom:4px">🏫</div>' +
+    '<div style="font-size:1rem;font-weight:900;color:#a78bfa">FinanzaLand per le Scuole</div>' +
+    '<div style="font-size:.68rem;color:rgba(255,255,255,.5);margin-top:3px">Legge 21/2024 — DDL Capitali Art.25 — 5 moduli completi</div>' +
+    (isCreator()
+      ? '<div style="margin-top:8px;background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.4);border-radius:8px;padding:4px 10px;font-size:.68rem;color:var(--gold);font-weight:900">🐉 Accesso Creatore — Bernard — tutto sbloccato</div>'
+      : accesso
+        ? '<div style="margin-top:8px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:4px 10px;font-size:.68rem;color:#4ade80;font-weight:900">✅ Piano PRO attivo</div>'
+        : '<div style="margin-top:8px;font-size:.68rem;color:rgba(255,255,255,.4)">Corsi Gratis aperti · PRO per i moduli avanzati</div>'
+    );
+  body.appendChild(hd);
+
+  // Cards corsi
+  CORSI_SCUOLE.forEach(function(corso) {
+    var bloccato = !corso.gratis && !accesso;
+    var card = document.createElement('div');
+    card.style.cssText = 'background:rgba(255,255,255,.04);border:1.5px solid ' +
+      (bloccato ? 'rgba(255,255,255,.08)' : 'rgba('+hexToRgb(corso.colore)+',.25)') +
+      ';border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer;transition:transform .15s';
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;gap:12px">' +
+        '<div style="font-size:2rem;flex-shrink:0;' + (bloccato?'opacity:.4':'') + '">' + corso.emoji + '</div>' +
+        '<div style="flex:1">' +
+          '<div style="font-size:.85rem;font-weight:900;color:' + (bloccato?'rgba(255,255,255,.4)':corso.colore) + '">' + corso.titolo + '</div>' +
+          '<div style="font-size:.65rem;color:rgba(255,255,255,.45);margin-top:2px">' + corso.classi + ' — ' + corso.ore + 'h · ' + corso.lezioni + ' lezioni</div>' +
+          '<div style="font-size:.68rem;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.4">' + corso.descrizione + '</div>' +
+        '</div>' +
+        '<div style="flex-shrink:0;text-align:center">' +
+          '<div style="font-size:.65rem;font-weight:900;padding:3px 10px;border-radius:8px;background:' +
+            (bloccato?'rgba(245,200,66,.12)':corso.gratis?'rgba(74,222,128,.12)':'rgba(245,200,66,.12)') +
+          ';color:' + (bloccato?'var(--gold)':corso.gratis?'#4ade80':'var(--gold)') + '">' +
+            (bloccato?'🔒 PRO':corso.gratis?'Gratis':'PRO') +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    card.addEventListener('click', function() {
+      if (bloccato) { openPopup('piani'); toast('🔒 Attiva PRO per accedere a questo modulo!'); return; }
+      openCorsoScuola(corso);
+    });
+    body.appendChild(card);
+  });
+
+  // Sezione creatore — input codice accesso
+  var creatorSection = document.createElement('div');
+  creatorSection.style.cssText = 'background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:12px;margin-top:8px';
+  creatorSection.innerHTML =
+    '<div style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:8px;text-align:center">Sei il creatore? Inserisci il tuo codice.</div>' +
+    '<div style="display:flex;gap:8px">' +
+      '<input id="creator-code-input" type="password" placeholder="Codice creatore..." ' +
+        'style="flex:1;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:9px 12px;color:#fff;font-size:.82rem;outline:none;font-family:inherit">' +
+      '<button onclick="var v=document.getElementById(\'creator-code-input\').value;if(activateCreator(v)){buildAcademy(\'scuole\');}else{toast(\'❌ Codice errato\');}" ' +
+        'style="background:linear-gradient(135deg,var(--gold),#e67e22);border:none;border-radius:10px;padding:9px 14px;color:#1c0a00;font-weight:900;font-size:.8rem;cursor:pointer">Accedi</button>' +
+    '</div>';
+  if (!isCreator()) body.appendChild(creatorSection);
+
+  // CTA scuole
+  var cta = document.createElement('div');
+  cta.style.cssText = 'background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(167,139,250,.08));border:1.5px solid rgba(167,139,250,.3);border-radius:14px;padding:14px;margin-top:10px;text-align:center';
+  cta.innerHTML =
+    '<div style="font-size:.88rem;font-weight:900;color:#a78bfa;margin-bottom:6px">🏫 Porta FinanzaLand nella tua scuola</div>' +
+    '<div style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:10px">Curriculum completo, materiali didattici, formazione docenti</div>' +
+    '<button onclick="window.open(\'mailto:ilboudobr96@gmail.com?subject=FinanzaLand%20Scuole%20—%20Richiesta%20Presentazione\',\'_blank\')" ' +
+      'style="background:linear-gradient(135deg,#6366f1,#a78bfa);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-weight:900;font-size:.83rem;cursor:pointer;width:100%">' +
+      '📩 Richiedi presentazione gratuita' +
+    '</button>';
+  body.appendChild(cta);
+}
+
+// ── APRI CORSO SCUOLA — DETTAGLIO COMPLETO ────────────────
+function openCorsoScuola(corso) {
+  var body = document.getElementById('academy-body');
+  if (!body) return;
+  body.innerHTML = '';
+
+  // Back button
+  var back = document.createElement('button');
+  back.style.cssText = 'background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:8px;padding:6px 14px;color:var(--gold);font-size:.78rem;font-weight:700;cursor:pointer;margin-bottom:14px';
+  back.textContent = '← Corsi Scuola';
+  back.onclick = function(){ buildAcademy('scuole'); };
+  body.appendChild(back);
+
+  // Hero
+  var hero = document.createElement('div');
+  hero.style.cssText = 'background:linear-gradient(135deg,rgba('+hexToRgb(corso.colore)+',.15),rgba(0,0,0,.4));border:1.5px solid rgba('+hexToRgb(corso.colore)+',.3);border-radius:16px;padding:18px;margin-bottom:14px;text-align:center';
+  hero.innerHTML =
+    '<div style="font-size:3rem;margin-bottom:8px">'+corso.emoji+'</div>' +
+    '<div style="font-size:1.1rem;font-weight:900;color:'+corso.colore+'">'+corso.titolo+'</div>' +
+    '<div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-top:4px">'+corso.classi+' · '+corso.ore+'h · '+corso.lezioni+' lezioni</div>' +
+    '<div style="font-size:.76rem;color:rgba(255,255,255,.65);margin-top:8px;line-height:1.6">'+corso.descrizione+'</div>';
+  body.appendChild(hero);
+
+  // Obiettivi
+  var objDiv = document.createElement('div');
+  objDiv.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;margin-bottom:14px';
+  objDiv.innerHTML = '<div style="font-size:.7rem;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🎯 Obiettivi del corso</div>';
+  corso.obiettivi.forEach(function(o) {
+    objDiv.innerHTML += '<div style="font-size:.76rem;color:rgba(255,255,255,.7);margin-bottom:5px;display:flex;gap:8px;align-items:flex-start"><span style="color:'+corso.colore+';flex-shrink:0">✓</span>'+o+'</div>';
+  });
+  body.appendChild(objDiv);
+
+  // Moduli
+  var modTitle = document.createElement('div');
+  modTitle.style.cssText = 'font-size:.7rem;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px';
+  modTitle.textContent = '📚 Moduli del corso';
+  body.appendChild(modTitle);
+
+  corso.moduli.forEach(function(mod) {
+    var mCard = document.createElement('div');
+    mCard.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px;margin-bottom:7px;cursor:pointer;transition:all .15s';
+    mCard.innerHTML =
+      '<div style="display:flex;align-items:center;gap:10px">' +
+        '<div style="background:rgba('+hexToRgb(corso.colore)+',.15);border:1px solid rgba('+hexToRgb(corso.colore)+',.3);border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;color:'+corso.colore+';flex-shrink:0">'+mod.n+'</div>' +
+        '<div style="flex:1">' +
+          '<div style="font-size:.82rem;font-weight:800;color:#fff">'+mod.titolo+'</div>' +
+          '<div style="font-size:.67rem;color:rgba(255,255,255,.4);margin-top:2px">'+mod.desc+'</div>' +
+        '</div>' +
+        '<div style="font-size:.62rem;color:rgba(255,255,255,.3);flex-shrink:0">'+mod.dur+'</div>' +
+        '<div style="font-size:.7rem;color:'+corso.colore+';flex-shrink:0">▶</div>' +
+      '</div>';
+    mCard.addEventListener('click', function() {
+      toast('🤖 Generazione lezione AI...');
+      generateLesson(mod.topicAI, 'scuola', 'base', 'bambino', false)
+        .then(function(lez) { if (lez) openLezione(lez); });
+    });
+    body.appendChild(mCard);
+  });
+
+  // Nota disclaimer
+  var note = document.createElement('div');
+  note.style.cssText = 'font-size:.6rem;color:rgba(255,255,255,.2);text-align:center;margin-top:12px;line-height:1.6';
+  note.textContent = 'Contenuto a scopo educativo — generato da AI · FinanzaLand 2026';
+  body.appendChild(note);
+}
+window.buildAcademyScuole = buildAcademyScuole;
+window.openCorsoScuola    = openCorsoScuola;
 
 // ── TAB COMMUNITY ─────────────────────────────────────────
 function buildAcademyCommunity(body) {
