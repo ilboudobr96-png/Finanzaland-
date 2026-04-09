@@ -72,7 +72,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 /* ── SCREENS ── */
 #content{flex:1;position:relative;overflow:hidden;padding-bottom:64px}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}.screen:not(.active){display:none!important;visibility:hidden!important;pointer-events:none!important}
-.screen.active{display:flex}#avatar-cultura.active{display:block;overflow-y:auto;padding-bottom:80px}
+.screen.active{display:flex}#avatar-cultura.active{display:flex;flex-direction:column;overflow:hidden}
 
 /* ── HOME ── */
 #home{background:linear-gradient(160deg,#02001a,#080028);overflow:hidden}
@@ -1295,6 +1295,8 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <div class="lang-btn" id="lang-en" onclick="setLang('en',this)">🇬🇧 EN</div>
     <div class="lang-btn" id="lang-es" onclick="setLang('es',this)">🇪🇸 ES</div>
     <div class="lang-btn" id="lang-wo" onclick="setLang('wo',this)">🌍 WO</div>
+  <div class="lang-btn" id="lang-bm" onclick="setLang('bm',this)">🥁 BM</div>
+  <div class="lang-btn" id="lang-mo" onclick="setLang('mo',this)">🌾 MO</div>
   </div>
 
   <!-- CONTENT -->
@@ -1637,42 +1639,43 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     </div>
 
     <!-- AVATAR CULTURA -->
-    <div class="screen" id="avatar-cultura">
-<input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
-<div id="lvVal" style="display:none">1</div>
-<div id="stageBadge" style="display:none"></div>
-<div style="background:#1A1040;padding:0;position:relative;top:0;z-index:10;border-bottom:2px solid #F5C842">
-  <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1a1a2e;border:none;padding:14px;font-size:1rem;font-weight:900;cursor:pointer;letter-spacing:1px">
-    ← TORNA ALLA HOME
-  </button>
-</div>
-<div class="header">
-  <h1>🌍 Mondo degli Allevatori</h1>
-  <div class="semi-bar">
-    <span>🌱</span>
-    <div class="semi-count" id="semiCount">0 Semi di Luce</div>
+<div class="screen" id="avatar-cultura">
+  <input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
+  <div id="lvVal" style="display:none">1</div>
+  <div id="stageBadge" style="display:none"></div>
+
+  <div style="background:#1A1040;padding:0;position:relative;top:0;z-index:10;border-bottom:2px solid #F5C842;flex-shrink:0">
+    <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1A1040;border:none;padding:10px;font-weight:900;font-size:.9rem;cursor:pointer">
+      ← TORNA ALLA HOME
+    </button>
+  </div>
+
+  <div class="header" style="flex-shrink:0">
+    <h1>🌍 Mondo degli Allevatori</h1>
+    <div class="semi-bar">
+      <span>🌱</span>
+      <div class="semi-count" id="semiCount">0 Semi di Luce</div>
+    </div>
+  </div>
+
+  <div class="dragon-stage-badge" id="stageBadge" style="flex-shrink:0">🥚 Drago Cucciolo</div>
+
+  <div class="mode-bar" id="mode-bar-el">
+    <div class="mode-btn active" id="modeChild" onclick="switchMode('child')">👶 Modalità Bambino</div>
+    <div class="mode-btn" id="modeAdult" onclick="switchMode('adult')">👨‍👩‍👧 Modalità Genitore <span class="adult-badge">NEW</span></div>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding-bottom:80px">
+    <div class="section-title">🐉 Scegli il tuo Allevatore</div>
+    <div class="avatar-scroll" id="avatarScroll"></div>
+
+    <div class="section-title">📚 Impara con <span id="learnName">Seydou</span></div>
+    <div class="culture-card" id="cultureCard"></div>
+    <div class="toast" id="toast"></div>
   </div>
 </div>
 
-<div class="dragon-stage-badge" id="stageBadge">🥚 Drago Cucciolo</div>
-</div>
-
-<div class="mode-bar" id="mode-bar-el">
-  <div class="mode-btn active" id="modeChild" onclick="switchMode('child')">👶 Modalità Bambino</div>
-  <div class="mode-btn" id="modeAdult" onclick="switchMode('adult')">👨‍👩‍👧 Modalità Genitore <span class="adult-badge">NEW</span></div>
-</div>
-
-<div class="section-title">🐉 Scegli il tuo Allevatore</div>
-<div class="avatar-scroll" id="avatarScroll"></div>
-
-<div class="section-title">📚 Impara con <span id="learnName">Seydou</span></div>
-<div class="culture-card" id="cultureCard"></div>
-
-<div class="toast" id="toast"></div>
-    </div>
-
-
-    <!-- SAGGEZZA DEI SAGGI -->
+<!-- SAGGEZZA DEI SAGGI -->
     <div class="screen" id="saggezza-screen">
       <div style="background:linear-gradient(135deg,#0A0020,#1A0040);position:sticky;top:0;z-index:10;border-bottom:2px solid #A78BFA">
         <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#A78BFA,#7C3AED);color:#fff;border:none;padding:12px;font-size:.95rem;font-weight:900;cursor:pointer">
@@ -1775,6 +1778,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div id="toast"></div>
 
 <script>
+
 'use strict';
 
 // ── LETTURA SICURA LOCALSTORAGE ──────────────────────────
@@ -3294,6 +3298,78 @@ var TRANSLATIONS = {
     lv_mindset:'🧠 Xelam', perc_labels_mindset:'Xelam Comandant',
     mindset_bonus:'Xelam jeex! +30 Jemm',
     civetta_system:'Yaa Civetta IA bu FinanzaLand, jangalekat xaalis. Tontu ci Wolof dina. Jang rekk.',
+  },
+  bm: {
+    home_title:'Kalanso ni Wari la',home_sub:'Denw ani faraw ye — Tile 7 nɔgɔya la',
+    btn_accademia:'📚 Kalanden Yɔrɔ',btn_3d:'🎮 Dɔ Kɛ',btn_adulti:'📊 Cɛkɔrɔw Baara',
+    btn_pro:'🧑‍🏫 Karamɔgɔw',btn_academy:'🎓 Lakɔli',btn_muro:'🌍 Sɔsɔli Kongoban',
+    btn_kids:'👶 Denw Tile',btn_share:'📤 Cɛ',
+    acc_back:'← Kɔ',acc_banner:'Kalanso dɔrɔn — Dɔni bɛ AI fɛ kɛ',
+    gen_title:'🤖 Kalanso Kɛ',gen_sub:'Wari kunnafoni o kunnafoni sɛbɛn',
+    gen_write_topic:'Kunnafoni sɛbɛn...',gen_btn:'🚀 AI Kalanso Kɛ',
+    gen_loading:'⏳ Kɛcogo...',gen_error:'Kalanso ma sɔrɔ. Ɲɛsin!',
+    perc_labels:{risparmio:'Wari Mara',investimenti:'Nafasoli',mercati:'Yiriwali',
+      immobiliare:'Soo',tasse:'Sariya Seli',obbligazioni:'Layidu',
+      pensione:'Kɔrɔyabali',africa:'Afrika',bambini:'Denw',
+      figli:'Denfanw',crypto:'Kripto',derivati:'Dɛrivi',psicologia:'Haminɛ'},
+    lv_base:'🌱 Daminɛ',lv_medio:'📚 Cɛmancɛ',lv_esperto:'🎓 Ɲɛjɛnna',
+    lv_avanzato:'🏆 Kɔrɔba',lv_master:'💎 Jɛkulu',
+    card_semi:'Jiri Fɛɛn',quiz_correct:'✅ Aw! +',quiz_wrong:'❌ Hɛɛri!',quiz_points:' jiri fɛɛn',
+    nav_lezioni:'Kalanso',nav_mercati:'Yiriwali',nav_premi:'Saraka',
+    nav_famiglia:'Bɔlen',nav_academy:'Lakɔli',nav_muro:'Kongoban',nav_famille:'Bɔlen',
+    wall_tab_post:'Kuma',wall_tab_sfide:'Niname',wall_tab_classifica:'Kɔrɔ',
+    wall_footer:'🌍 Denw ani Cɛkɔrɔw — Mali, Burkina, Kote d\'Ivoire, Senegali, Itali',
+    academy_live_adesso:'🔴 Waati Nin na',academy_cerca:'Karamɔgɔ ɲini...',
+    adulti_benvenuto:'Cɛkɔrɔba Segin aw ye',adulti_lezioni_comp:'Kalanso Cɛ',
+    acc_back_lez:'← Kalanden Yɔrɔ',lez_quiz_title:'🎯 Ɲini o Ɲini',lez_complete:'✅ Kalanso Lɔ!',
+    toast_lingua:'Kan: Bambara ✅',
+    civetta_welcome:'Aw ni ce! Ne ye Civetta ye 🦉',
+    civetta_chips:['Wari mara bɛ se ka kɛ?','Nafasoli ye mun ye?','BRVM ye mun ye?','Jiri fɛɛn sɔrɔ?'],
+    kids_home_title:'Aw ni ce! 👋',kids_home_sub:'I bɛ mun kɛ sini?',
+    kids_sec_memoria:'🃏 Hakili',kids_sec_memoria_desc:'Kaarata Sɔsɔ',
+    kids_sec_quiz:'🦉 Ɲini',kids_sec_quiz_desc:'Dɔni kɛ',
+    kids_sec_impara:'📚 Kalan',kids_sec_impara_desc:'Fɛɛn Kura',
+    kids_sec_drago:'🐉 Dragɔ',kids_sec_drago_desc:'I Dragɔ Ɲɛ',
+    kids_sec_avventura:'🗺️ Taama',kids_sec_avventura_desc:'Duguma Ɲɛsin',
+    quiz_lv_facile:'🌱 Nɔgɔya',quiz_lv_medio:'📚 Cɛmancɛ',quiz_lv_difficile:'🎓 Gɛlɛya',
+    acc_login:'Sɛbɛn',acc_reg:'Foroba Kɛ',acc_nome_ph:'I tɔgɔ',acc_email_ph:'Email',
+    lbl_lezioni:'Kalanso',lbl_streak:'Cɛ Tile',lbl_semi:'Jiri Fɛɛn',lbl_livello:'Duguma',
+  },
+  mo: {
+    home_title:'Zãmsd-biis Ligdi Yɛlɛma',home_sub:'Biisi la rãmb ye — Wĩnde 7 menga',
+    btn_accademia:'📚 Zãms Yɩɩre',btn_3d:'🎮 Kẽn Dẽ',btn_adulti:'📊 Rãmba Tʋʋm',
+    btn_pro:'🧑‍🏫 Zãmsd-dãmba',btn_academy:'🎓 Lekoll',btn_muro:'🌍 Nẽd Kongoban',
+    btn_kids:'👶 Biisi Daare',btn_share:'📤 Yãk',
+    acc_back:'← Yiig',acc_banner:'Zãmsd bala — Gom fãa AI tõnd na',
+    gen_title:'🤖 Zãmsd Maan',gen_sub:'Ligdi yɛlɛ fãa gʋlsem',
+    gen_write_topic:'Yɛlɛ gʋlsem...',gen_btn:'🚀 AI Zãmsd Maan',
+    gen_loading:'⏳ Maandb...',gen_error:'Zãmsd ka wa ye. Maan paash!',
+    perc_labels:{risparmio:'Ligdi Sekr',investimenti:'Ligdi Kẽer',mercati:'Yʋʋbdo',
+      immobiliare:'Yiri',tasse:'Naab Selgr',obbligazioni:'Kaool',
+      pensione:'Tũusd Wakati',africa:'Afirik',bambini:'Biisi',
+      figli:'Biis Nins',crypto:'Kript',derivati:'Derivi',psicologia:'Yam Sẽng'},
+    lv_base:'🌱 Sɩng',lv_medio:'📚 Sẽoog',lv_esperto:'🎓 Maneg-neda',
+    lv_avanzato:'🏆 Kẽer',lv_master:'💎 Ninsaal',
+    card_semi:'Yĩng Biis',quiz_correct:'✅ Sɩd! +',quiz_wrong:'❌ Kɩɩs!',quiz_points:' yĩng biis',
+    nav_lezioni:'Zãmsd',nav_mercati:'Yʋʋbdo',nav_premi:'Paam',
+    nav_famiglia:'Zaka',nav_academy:'Lekoll',nav_muro:'Kongoban',nav_famille:'Zaka',
+    wall_tab_post:'Gom',wall_tab_sfide:'Kẽlg',wall_tab_classifica:'Nẽb',
+    wall_footer:'🌍 Biisi la Rãmb — Burkĩna Faso, Afirik, Dũnɩ fãa pʋgẽ',
+    academy_live_adesso:'🔴 Wakati Kãng',academy_cerca:'Zãmsd-dãamb yãkẽ...',
+    adulti_benvenuto:'Rãmb Lebg n kẽ',adulti_lezioni_comp:'Zãmsd Maan',
+    acc_back_lez:'← Zãms Yɩɩre',lez_quiz_title:'🎯 Bɩ la bɩ',lez_complete:'✅ Zãmsd Maana!',
+    toast_lingua:'Koɛɛg: Mooré ✅',
+    civetta_welcome:'Ẽe la! Mam yaa Civetta 🦉',
+    civetta_chips:['Ligdi sekr bʋg-bʋg?','Ligdi kẽer yaa bõe?','BRVM yaa bõe?','Yĩng biis paam?'],
+    kids_home_title:'Ẽe la! 👋',kids_home_sub:'F na maan bõe beoogo?',
+    kids_sec_memoria:'🃏 Yam',kids_sec_memoria_desc:'Kaarti Kẽlg',
+    kids_sec_quiz:'🦉 Bɩ la bɩ',kids_sec_quiz_desc:'Zãmsd maan',
+    kids_sec_impara:'📚 Zãms',kids_sec_impara_desc:'Yɛlɛ Paalg',
+    kids_sec_drago:'🐉 Drago',kids_sec_drago_desc:'F Drago Yãk',
+    kids_sec_avventura:'🗺️ Sẽoogo',kids_sec_avventura_desc:'Dũnɩ Kẽn',
+    quiz_lv_facile:'🌱 Noog-noog',quiz_lv_medio:'📚 Sẽoog',quiz_lv_difficile:'🎓 Toeem',
+    acc_login:'Kẽnd',acc_reg:'Yãkẽ',acc_nome_ph:'F yʋʋre',acc_email_ph:'Email',
+    lbl_lezioni:'Zãmsd',lbl_streak:'Rãmba Tile',lbl_semi:'Yĩng Biis',lbl_livello:'Zu-soaba',
   },
 };
 
@@ -11469,6 +11545,7 @@ function buildAccountProfilo(bEl) {
    +"<button onclick=\"closePopup();openPopup('piani')\" style=\""+_bSt("linear-gradient(135deg,#F5C842,#e67e22)","#1a1a2e")+"\">"+(S.isPro?"Gestisci PRO":"Passa a PRO")+"</button>"
    +"<button onclick=\"S.account=null;safeSetItem('fl_account',null);closePopup();toast('Disconnesso')\" style=\"width:100%;background:rgba(255,255,255,.04);color:var(--muted);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;font-size:.8rem;cursor:pointer;margin-top:8px\">Disconnetti</button>";
 }
+
 
 </script>
 
