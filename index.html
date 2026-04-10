@@ -2446,24 +2446,28 @@ window.setNav=setNav;
 // ═══════════════════════════════════════════════════════
 // HUD + LIVELLI + PARTICELLE + SUONI
 // ═══════════════════════════════════════════════════════
+// ── Safe element helper ──────────────────────────────────
+function $el(id){ return document.getElementById(id); }
+function $set(id, prop, val){ var e=$el(id); if(e) e[prop]=val; }
+function $style(id, prop, val){ var e=$el(id); if(e) e.style[prop]=val; }
+
 function updateHUD(){
   updateHomeDragon();
-  document.getElementById('cc').textContent=S.coins.toLocaleString('it');
-  document.getElementById('stat-coins').textContent=S.coins.toLocaleString('it');
-  document.getElementById('stat-lv').textContent=S.level;
-  document.getElementById('stat-lezioni').textContent=Object.keys(S.completate||{}).length+'+';
-  var streakEl=document.getElementById('stat-streak');
+  $set('cc','textContent',S.coins.toLocaleString('it'));
+  $set('stat-coins','textContent',S.coins.toLocaleString('it'));
+  $set('stat-lv','textContent',S.level);
+  $set('stat-lezioni','textContent',Object.keys(S.completate||{}).length+'+');
+  var streakEl=$el('stat-streak');
   if(streakEl) streakEl.textContent=(S.streak||0)+'🔥';
   var xpPct=Math.min(100,Math.round((S.xp/(S.level*150))*100));
-  document.getElementById('xpfill').style.width=xpPct+'%';
-  // Aggiorna avatar — con guard completo
+  $style('xpfill','width',xpPct+'%');
   try {
     var av = (typeof getDragonDisplay === 'function') ? getDragonDisplay() : '🐉';
-    var avatarHud = document.getElementById('btn-avatar-hud');
+    var avatarHud = $el('btn-avatar-hud');
     if (avatarHud) avatarHud.textContent = av;
     document.querySelectorAll('.user-avatar-display').forEach(function(el){ el.textContent = av; });
   } catch(e) {
-    var avatarHud2 = document.getElementById('btn-avatar-hud');
+    var avatarHud2 = $el('btn-avatar-hud');
     if (avatarHud2) avatarHud2.textContent = '🐉';
   }
 }
@@ -2474,7 +2478,8 @@ function checkLevel(){
     toast('🎉 Livello '+S.level+'!');spawnParticles();playS('success');}
 }
 function toast(msg){
-  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  var t=$el('toast'); if(!t) return;
+  t.textContent=msg;t.classList.add('show');
   clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2800);
 }
 window.toast=toast;
@@ -4070,7 +4075,7 @@ function init(){
   }
   updateHUD();
   setTimeout(function(){
-    document.getElementById('ai-fab').style.display='flex';
+    $style('ai-fab','display','flex');
   },3000);
   setTimeout(showDisclaimer, 600);
   if(typeof initExtras==='function') initExtras();
@@ -4949,7 +4954,7 @@ window.openNuovoPost = function() { toast('Nuovo post — funzione in arrivo! Pe
 function openProfView(profId) {
   currentProf = PROFESSORI.find(function(p){return p.id===profId;});
   if (!currentProf) return;
-  document.getElementById('prof-view-title').textContent = currentProf.nome;
+  $set('prof-view-title','textContent', currentProf.nome);
   var body = document.getElementById('prof-view-body');
   body.innerHTML = '';
 
@@ -5021,15 +5026,15 @@ window.openProfView = openProfView;
 
 // ── VIDEOCALL CON JITSI ───────────────────────────────────
 function joinLiveSession(roomCode, titolo, prof) {
-  document.getElementById('vcall-title').textContent = titolo;
-  document.getElementById('vcall-sub').textContent = '👨‍🏫 ' + prof + ' — FinanzaLand Academy';
+  $set('vcall-title','textContent',titolo);
+  $set('vcall-sub','textContent','👨‍🏫 ' + prof + ' — FinanzaLand Academy');
   var room = roomCode.replace(/[^a-zA-Z0-9-]/g,'');
   var jitsiUrl = 'https://meet.jit.si/' + room + '?subject=FinanzaLand+' + encodeURIComponent(titolo) +
     '#config.startWithAudioMuted=false&config.startWithVideoMuted=false' +
     '&config.toolbarButtons=["microphone","camera","chat","tileview","hangup"]' +
     '&userInfo.displayName=' + encodeURIComponent(S.account?S.account.nome:'Studente FinanzaLand');
   document.getElementById('vcall-iframe').src = jitsiUrl;
-  document.getElementById('vcall-container').classList.add('active');
+  (function(){var _vc=$el('vcall-container');if(_vc)_vc.classList.add('active');})();
   playS('success');
   if (navigator.vibrate) navigator.vibrate(30);
   toast('Stai entrando nell aula di ' + prof);
@@ -5037,7 +5042,7 @@ function joinLiveSession(roomCode, titolo, prof) {
 window.joinLiveSession = joinLiveSession;
 
 function endCall() {
-  document.getElementById('vcall-container').classList.remove('active');
+  (function(){var _vc=$el('vcall-container');if(_vc)_vc.classList.remove('active');})();
   document.getElementById('vcall-iframe').src = '';
   toast('Sessione terminata. Grazie per aver partecipato!');
   S.coins += 50; S.xp += 15; updateHUD(); saveS();
@@ -5078,7 +5083,7 @@ function openCorsoBase(corso) {
   var needsPro = corso.pro_required && !S.isPro;
   if (needsPro) { openPopup('piani'); toast('Corso PRO — attiva il piano per accedere!'); return; }
   // Mostra popup corso
-  document.getElementById('popup-title').textContent = corso.emoji + ' ' + corso.titolo;
+  $set('popup-title','textContent',corso.emoji + ' ' + corso.titolo);
   var body = document.getElementById('popup-body');
   body.innerHTML = '';
   var html = '<div style="text-align:center;padding:12px 0 14px">' +
@@ -5099,7 +5104,7 @@ function openCorsoBase(corso) {
     '<div style="font-size:.68rem;color:var(--muted);text-align:center;margin-top:8px">Solo a scopo educativo — non è un consiglio finanziario</div>' +
     '</div>';
   body.innerHTML = html;
-  document.getElementById('popup-overlay').classList.add('show');
+  (function(){var _po=$el('popup-overlay');if(_po)_po.classList.add('show');})();
 }
 window.openCorso = openCorsoConRecensioni;
 window.iscrivitiCorso = function() {
@@ -5140,7 +5145,7 @@ function buildMessaggi() {
 
 function openChatWith(nome, avatar) {
   currentChatUser = nome;
-  document.getElementById('chat-title').textContent = (avatar||'👤') + ' ' + nome;
+  $set('chat-title','textContent', (avatar||'👤') + ' ' + nome);
   var container = document.getElementById('chat-privata-body');
   container.innerHTML = '';
 
@@ -5252,7 +5257,7 @@ function openChatWith(nome, avatar) {
 window.openChatWith = openChatWith;
 
 window.openNuovoMsg = function() {
-  document.getElementById('popup-title').textContent = '✉️ Nuovo Messaggio';
+  $set('popup-title','textContent','✉️ Nuovo Messaggio');
   var body = document.getElementById('popup-body');
   body.innerHTML = '<div style="margin-bottom:12px"><div style="font-size:.74rem;color:var(--muted);margin-bottom:6px">A chi vuoi scrivere?</div>' +
     PROFESSORI.map(function(p){
@@ -5263,14 +5268,14 @@ window.openNuovoMsg = function() {
         '<div style="margin-left:auto;color:var(--gold);font-size:.8rem">→</div>' +
         '</div>';
     }).join('') + '</div>';
-  document.getElementById('popup-overlay').classList.add('show');
+  (function(){var _po=$el('popup-overlay');if(_po)_po.classList.add('show');})();
 };
 
 // ── SISTEMA DONI SEMI ─────────────────────────────────────
 var selectedGiftAmount = 50;
 function openGiftModal(target) {
   if (!target) return;
-  document.getElementById('popup-title').textContent = '🎁 Dona Semi a ' + target.nome;
+  $set('popup-title','textContent','🎁 Dona Semi a ' + target.nome);
   var body = document.getElementById('popup-body');
   selectedGiftAmount = 50;
   body.innerHTML = '<div class="gift-modal">' +
@@ -5308,7 +5313,7 @@ function openGiftModal(target) {
     amountsDiv.appendChild(btn);
   });
 
-  document.getElementById('popup-overlay').classList.add('show');
+  (function(){var _po=$el('popup-overlay');if(_po)_po.classList.add('show');})();
 }
 window.openGiftModal = openGiftModal;
 
@@ -7500,7 +7505,7 @@ window.partecipasfidaGlobale = function(id) {
 
 // ── MINI PROFILO ONLINE ───────────────────────────────────
 function openMiniProfiloOnline(player) {
-  document.getElementById('popup-title').textContent = player.paese + ' ' + player.nome;
+  $set('popup-title','textContent',player.paese + ' ' + player.nome);
   var body = document.getElementById('popup-body');
   body.innerHTML =
     '<div style="text-align:center;padding:16px 0">' +
@@ -7526,7 +7531,7 @@ function openMiniProfiloOnline(player) {
           'style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:12px;padding:9px 18px;color:var(--green);font-weight:800;font-size:.8rem;cursor:pointer">🎁 Dona Semi</button>' +
       '</div>' +
     '</div>';
-  document.getElementById('popup-overlay').classList.add('show');
+  (function(){var _po=$el('popup-overlay');if(_po)_po.classList.add('show');})();
 }
 window.openMiniProfiloOnline = openMiniProfiloOnline;
 
@@ -8116,6 +8121,290 @@ function renderLezioniList() {
     body.appendChild(card);
   });
 }
+
+// ══════════════════════════════════════════════════════
+// LESSON_BANK — 28 lezioni pre-scritte complete con quiz
+// ══════════════════════════════════════════════════════
+var LESSON_BANK = {
+  risparmio_base:[
+    {id:'ris_b1',emoji:'💰',titolo:'La Regola 50-30-20',tempo_minuti:5,semi_reward:80,sottotitolo:'Il budget che funziona davvero',punti_chiave:['50% per le necessità (affitto, cibo, bollette)','30% per i desideri (svago, ristoranti, hobby)','20% per risparmio e investimento'],esempio_pratico:'Con 1.000€ mensili: 500€ necessità, 300€ desideri, 200€ risparmio. In 5 anni accumuli 12.000€ di risparmio base.',dato_reale:'Solo il 38% degli italiani segue un budget. Chi lo fa accumula il triplo in 10 anni rispetto a chi non lo fa.',collegamento_africa:'In Senegal la regola tradizionale simile: parte del raccolto va conservata per la stagione secca.',sfida_vita_reale:'Scrivi le tue spese degli ultimi 30 giorni e dividi in necessità/desideri/risparmio. Qual è la tua percentuale reale?',quiz:[{domanda:'Secondo la regola 50-30-20, quanto va al risparmio?',opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:'Il 20% va sempre al risparmio — è la parte più importante!'},{domanda:'Se guadagni 2.000€, quanto puoi spendere in svago?',opzioni:['200€','400€','600€','1.000€'],risposta_corretta:2,spiegazione:'Il 30% di 2.000€ = 600€ per i desideri.'}]},
+    {id:'ris_b2',emoji:'🛡️',titolo:'Il Fondo di Emergenza',tempo_minuti:6,semi_reward:80,sottotitolo:'Il tuo scudo finanziario',punti_chiave:['Deve coprire 3-6 mesi di spese essenziali','Va tenuto in un conto separato, liquido','Non va mai usato per spese normali'],esempio_pratico:'Se le tue spese mensili sono 1.500€, il fondo emergenza ideale è tra 4.500€ e 9.000€.',dato_reale:'Il 46% degli italiani non potrebbe far fronte a una spesa imprevista di 1.000€.',collegamento_africa:'Le tontine africane funzionano anche come fondo emergenza comunitario.',sfida_vita_reale:'Calcola: quanti mesi di spese hai oggi? Se meno di 3, pianifica come arrivarci in 12 mesi.',quiz:[{domanda:'Quanti mesi di spese deve coprire un fondo emergenza?',opzioni:['1-2 mesi','3-6 mesi','12 mesi','24 mesi'],risposta_corretta:1,spiegazione:'3-6 mesi è il range ottimale.'},{domanda:'Dove va tenuto il fondo emergenza?',opzioni:['In azioni','Sotto il materasso','In un conto liquido','In crypto'],risposta_corretta:2,spiegazione:'Deve essere accessibile immediatamente ma separato dal conto principale.'}]},
+    {id:'ris_b3',emoji:'🔄',titolo:'Pagati Prima: il Segreto dei Ricchi',tempo_minuti:5,semi_reward:80,sottotitolo:'Risparmia prima di spendere',punti_chiave:['Trasferimento automatico appena ricevi lo stipendio','Il 10-20% va al risparmio PRIMA di qualsiasi spesa','Ciò che non vedi, non spendi'],esempio_pratico:'George imposta un bonifico automatico di 200€ il giorno di stipendio. In 3 anni: 7.200€ senza sforzo.',dato_reale:'Chi automatizza il risparmio accumula in media il 173% in più rispetto a chi risparmia "quello che avanza".',collegamento_africa:'In Kenya, M-Pesa M-Shwari permette depositi automatici da 10 scellini (0.07€).',sfida_vita_reale:'Imposta un bonifico automatico del 10% del stipendio verso un conto risparmio separato.',quiz:[{domanda:'Quando va effettuato il trasferimento al risparmio?',opzioni:['Alla fine del mese','Appena arriva lo stipendio','Quando avanza qualcosa','Una volta l anno'],risposta_corretta:1,spiegazione:'Pagati PRIMA: subito appena arriva il reddito.'},{domanda:'Quale percentuale minima consiglia il principio "pagati prima"?',opzioni:['1%','5%','10%','50%'],risposta_corretta:2,spiegazione:'Il 10% è il minimo. I ricchi mettono da parte il 20-30%.'}]},
+  ],
+  investimenti_base:[
+    {id:'inv_b1',emoji:'📈',titolo:"L'Interesse Composto",tempo_minuti:8,semi_reward:80,sottotitolo:"L'Ottava Meraviglia del Mondo",punti_chiave:['Guadagni interessi sui tuoi interessi precedenti','Il tempo è il fattore più importante','Prima inizi, meno devi investire'],esempio_pratico:'100€ al 7% annuo: anno 10=196€, anno 20=386€, anno 30=761€. Hai messo 100€ e ricevuto 761€.',dato_reale:'Chi inizia a investire a 25 anni deve mettere 3x meno di chi inizia a 35 per lo stesso obiettivo a 65 anni.',collegamento_africa:'Le tontine africane usano l\'interesse composto in forma collettiva.',sfida_vita_reale:'Calcola: se investi 100€/mese a 7% per 30 anni, quanto avrai? (circa 121.000€ con soli 36.000€ versati!)',quiz:[{domanda:"Con l'interesse composto, gli interessi vengono calcolati su:",opzioni:['Solo il capitale iniziale','Capitale + interessi accumulati','Solo gli ultimi interessi','Il capitale dimezzato'],risposta_corretta:1,spiegazione:"L'interesse composto si calcola su tutto: capitale + tutti gli interessi già guadagnati."},{domanda:'Chi deve investire meno per lo stesso obiettivo?',opzioni:['Chi inizia a 45 anni','Chi inizia a 35 anni','Chi inizia a 25 anni','L età non conta'],risposta_corretta:2,spiegazione:'Il tempo è il fattore chiave: 40 anni di crescita vs 30 anni fa un\'enorme differenza.'}]},
+    {id:'inv_b2',emoji:'📦',titolo:'Cosa sono gli ETF',tempo_minuti:7,semi_reward:80,sottotitolo:'Il modo più semplice per investire',punti_chiave:["ETF = Exchange Traded Fund, si compra come un'azione","Replica un indice (es. S&P 500 = 500 aziende USA)",'Costo molto basso: 0.05%-0.5% annuo'],esempio_pratico:'Comprare 1 ETF MSCI World ti rende proprietario di oltre 1.500 aziende in 23 paesi con un singolo acquisto.',dato_reale:'Il 90% dei gestori professionisti NON batte il mercato su 15 anni. Un ETF low-cost li supera quasi sempre.',collegamento_africa:'La BRVM di Abidjan ha ETF regionali che coprono 8 paesi africani.',sfida_vita_reale:"Cerca 'MSCI World ETF UCITS' su Justetf.com. Trova il costo annuale (TER) e il rendimento storico a 10 anni.",quiz:[{domanda:"Cosa replica un ETF sull'S&P 500?",opzioni:['Solo le aziende tech','Le 500 maggiori aziende USA','Le aziende europee','Solo le azioni italiane'],risposta_corretta:1,spiegazione:"L'S&P 500 contiene le 500 maggiori aziende americane: Apple, Microsoft, Amazon, Google, ecc."},{domanda:'Qual è il principale vantaggio degli ETF?',opzioni:['Rendimenti garantiti','Costi molto bassi','Nessun rischio','Gestione professionale'],risposta_corretta:1,spiegazione:'I costi bassi (0.2% vs 2% dei fondi attivi) fanno un\'enorme differenza nel lungo periodo.'}]},
+    {id:'inv_b3',emoji:'🌍',titolo:'Diversificazione',tempo_minuti:6,semi_reward:80,sottotitolo:"Non mettere tutto in un cesto",punti_chiave:["Distribuisci gli investimenti su più asset","Quando uno scende, l'altro può salire","Riduce il rischio senza ridurre il rendimento atteso"],esempio_pratico:'Portfolio: 60% ETF azionario mondiale, 30% ETF obbligazionario, 10% oro. Nelle crisi azionarie, obbligazioni e oro spesso salgono.',dato_reale:'Il portafoglio 60/40 ha avuto un rendimento medio del 8.9% annuo negli ultimi 50 anni con metà della volatilità.',collegamento_africa:'I commercianti di Timbuktu medievale diversificavano le carovane su più rotte.',sfida_vita_reale:'Elenca tutti i tuoi investimenti/risparmi. Sono diversificati o tutto in un conto corrente?',quiz:[{domanda:"Cos'è la diversificazione?",opzioni:['Investire tutto nel titolo migliore','Distribuire gli investimenti su più asset','Cambiare banca spesso','Vendere e comprare frequentemente'],risposta_corretta:1,spiegazione:'La diversificazione riduce il rischio: se un\'azienda fallisce, hai ancora tutti gli altri investimenti.'},{domanda:'Un portafoglio diversificato tipico include:',opzioni:['Solo azioni di un paese','Solo obbligazioni','Mix di azioni, obbligazioni, materie prime','Solo immobili'],risposta_corretta:2,spiegazione:'Un buon portafoglio include diversi tipi di asset che reagiscono diversamente alle condizioni di mercato.'}]},
+  ],
+  bambini_base:[
+    {id:'bam_b1',emoji:'💵',titolo:'Cosa sono i soldi?',tempo_minuti:4,semi_reward:60,sottotitolo:'La storia del denaro spiegata ai bambini',punti_chiave:['Tanto tempo fa si scambiavano cose (baratto)','Poi si è usato oro e argento come moneta','Oggi usiamo carta, carte e telefono!'],esempio_pratico:'Hai una torta e il tuo amico ha una bicicletta. Se entrambi volete qualcosa dell\'altro, è il baratto! Con i soldi è più facile.',dato_reale:'Le prime monete sono state create circa 2.600 anni fa in Lidia (oggi Turchia).',collegamento_africa:'In Africa i Cowrie (conchiglie) venivano usati come moneta per migliaia di anni.',sfida_vita_reale:'Guarda le monete che hai in casa. Quanto valgono in totale?',quiz:[{domanda:'Prima dei soldi, come si scambiavano le cose?',opzioni:['Con le carte di credito','Con il baratto','Con i bitcoin','Con il telefono'],risposta_corretta:1,spiegazione:'Il baratto! Si scambiavano oggetti direttamente: cibo per lavoro, strumenti per animali.'},{domanda:'Cosa sono i soldi?',opzioni:['Solo carte colorate','Un modo per scambiare cose e servizi','Solo numeri al computer','Un gioco'],risposta_corretta:1,spiegazione:'I soldi sono uno strumento che facilita gli scambi: rappresentano valore che tutti accettiamo.'}]},
+    {id:'bam_b2',emoji:'🎯',titolo:'Bisogno o Desiderio?',tempo_minuti:4,semi_reward:60,sottotitolo:'Capire la differenza è il superpotere finanziario',punti_chiave:['BISOGNO: cosa ti serve per vivere (cibo, casa, vestiti)','DESIDERIO: cosa vuoi ma non ti serve per sopravvivere','I ricchi soddisfano prima i bisogni, poi scelgono i desideri'],esempio_pratico:'Hai 10€. Hai fame (bisogno) e vuoi un gioco (desiderio). Compri prima il pranzo. Con quello che avanza, decidi per il gioco.',dato_reale:'I bambini che imparano questa differenza prima dei 10 anni risparmiano in media il 40% in più da adulti.',collegamento_africa:"In Burkina Faso i bambini Mossi imparano 'yam' (ciò che sostiene la vita) vs 'noama' (ciò che porta gioia ma non è necessario).",sfida_vita_reale:'Scrivi 3 cose che vuoi comprare. Per ognuna: è un bisogno o un desiderio? Perché?',quiz:[{domanda:'Quale di questi è un BISOGNO?',opzioni:['Un videogioco nuovo','Un paio di scarpe per camminare','Una caramella','Un film al cinema'],risposta_corretta:1,spiegazione:'Le scarpe per camminare sono un bisogno: proteggono i piedi. Un videogioco è un desiderio!'},{domanda:'Cosa fanno le persone sagge con i soldi?',opzioni:['Comprano prima i desideri','Soddisfano prima i bisogni','Spendono tutto subito','Non comprano mai desideri'],risposta_corretta:1,spiegazione:'Prima i bisogni (cibo, casa, salute), poi si scelgono i desideri con attenzione.'}]},
+    {id:'bam_b3',emoji:'🐖',titolo:'Il mio Salvadanaio Magico',tempo_minuti:5,semi_reward:60,sottotitolo:'Come funziona il risparmio',punti_chiave:['Risparmiare = tenere da parte una parte dei tuoi soldi','Ogni piccola somma conta: 1€ al giorno = 365€ in un anno!','L\'obiettivo rende il risparmio divertente'],esempio_pratico:'Luca vuole un set LEGO da 45€. Riceve 5€/settimana. Se risparmia tutto, in 9 settimane ha i suoi LEGO!',dato_reale:'I bambini che ricevono 5-10€/settimana e risparmiano il 50%, a 18 anni hanno già 1.300€+.',collegamento_africa:'In Senegal i bambini hanno il tirelire Wolof: una zucca con un buco. Si rompe solo quando è piena!',sfida_vita_reale:'Scegli un obiettivo, calcola il costo, pianifica quante settimane di risparmio servono.',quiz:[{domanda:'Se risparmi 2€ al giorno, quanto hai in 100 giorni?',opzioni:['20€','100€','200€','50€'],risposta_corretta:2,spiegazione:'2€ × 100 giorni = 200€! Piccole somme ogni giorno diventano grandi!'},{domanda:'Qual è il modo migliore per risparmiare?',opzioni:['Aspettare di avere tanti soldi','Mettere da parte un po\' ogni volta','Spendere tutto e poi risparmiare','Non spendere mai niente'],risposta_corretta:1,spiegazione:'Un po\' ogni volta è la regola d\'oro: regolare e costante è meglio di tutto o niente.'}]},
+    {id:'bam_b4',emoji:'🏪',titolo:'Il prezzo delle cose',tempo_minuti:4,semi_reward:60,sottotitolo:'Come si forma il valore di quello che compriamo',punti_chiave:['Ogni cosa ha un prezzo perché qualcuno ha lavorato per farla','Le cose rare costano di più di quelle comuni','Confrontare i prezzi è intelligente!'],esempio_pratico:'Una maglietta: il cotone viene dall\'Africa o India, qualcuno la tesse, la cuce, la trasporta, il negozio la vende. Tutti questi passaggi formano il prezzo.',dato_reale:'In Italia, una maglietta venduta a 20€ ha un costo di produzione di circa 1-3€. Il resto è trasporto, negozio, pubblicità.',collegamento_africa:'Nel mercato di Dakar il prezzo NON è fisso: si contratta! È un\'abilità importante.',sfida_vita_reale:'Al supermercato, confronta il prezzo di un prodotto tra due marche diverse. Quale vale di più?',quiz:[{domanda:'Perché le cose costano dei soldi?',opzioni:['Perché il governo lo decide','Perché qualcuno ha lavorato per farle','Perché sono rare','Per tutti i motivi sopra'],risposta_corretta:3,spiegazione:'Lavoro, rarità e domanda/offerta insieme determinano il prezzo.'},{domanda:'Cosa fa una persona intelligente prima di comprare?',opzioni:['Compra subito senza pensare','Confronta i prezzi','Non compra mai niente','Chiede sempre uno sconto'],risposta_corretta:1,spiegazione:'Confrontare i prezzi è fondamentale! Lo stesso prodotto può costare molto diversamente.'}]},
+  ],
+  africa_base:[
+    {id:'afr_b1',emoji:'📱',titolo:'M-Pesa: come il Kenya ha reinventato la banca',tempo_minuti:8,semi_reward:80,sottotitolo:'Il sistema finanziario più innovativo del mondo',punti_chiave:['M-Pesa nasce nel 2007 in Kenya come pagamento via SMS','Oggi 30 milioni di kenioti (60%) lo usano','Ha portato servizi bancari a chi non aveva mai visto una banca'],esempio_pratico:'Grace vive in un villaggio senza banca. Con M-Pesa riceve il pagamento, paga bollette, manda soldi alla famiglia — tutto via SMS.',dato_reale:'Prima di M-Pesa, il 75% dei kenioti non aveva accesso bancario. Oggi solo il 25%. Una rivoluzione in 15 anni.',collegamento_africa:"Ghana ha MTN Mobile Money, Senegal ha Orange Money, Costa d'Avorio ha Wave. L'Africa salta la banca tradizionale.",sfida_vita_reale:"Cerca 'M-Pesa statistics 2024'. Quante transazioni al giorno? Confronta con PayPal.",quiz:[{domanda:'In quale paese è nato M-Pesa?',opzioni:['Nigeria','Sudafrica','Kenya','Senegal'],risposta_corretta:2,spiegazione:"M-Pesa nasce in Kenya nel 2007. 'M' = mobile, 'Pesa' = soldi in swahili."},{domanda:"Qual è stato l'impatto principale di M-Pesa?",opzioni:['Ha chiuso le banche','Ha portato servizi finanziari a chi non li aveva','Ha reso l\'Africa più povera','Solo i ricchi lo usano'],risposta_corretta:1,spiegazione:'Inclusione finanziaria: persone senza banca possono finalmente risparmiare e pagare.'}]},
+    {id:'afr_b2',emoji:'📈',titolo:"La BRVM: la borsa dell'Africa Occidentale",tempo_minuti:8,semi_reward:80,sottotitolo:'Come investire nel continente che cresce di più',punti_chiave:['BRVM = Bourse Régionale des Valeurs Mobilières, sede ad Abidjan','Serve 8 paesi UEMOA: Senegal, Costa d\'Avorio, Mali e altri','Ha reso +25% nel 2024, tra le borse più performanti al mondo'],esempio_pratico:'Chi ha investito 1.000€ in Sonatel (Sénégal Télécom) nel 2015 aveva circa 3.500€ nel 2024. +250% in 9 anni.',dato_reale:'Il PIL degli 8 paesi UEMOA supera 200 miliardi di dollari e cresce mediamente al 5-6% annuo.',collegamento_africa:"Mansa Musa dell'Impero del Mali controllava il 50% dell'oro mondiale. L'Africa Occidentale ha tradizione economica antica.",sfida_vita_reale:"Vai su brvm.org. Guarda i titoli quotati. Quali settori rappresentano?",quiz:[{domanda:'Quanti paesi sono nella zona UEMOA servita dalla BRVM?',opzioni:['4','6','8','10'],risposta_corretta:2,spiegazione:'8 paesi: Senegal, Costa d\'Avorio, Mali, Burkina Faso, Niger, Guinea-Bissau, Togo e Benin.'},{domanda:'Dove ha sede la BRVM?',opzioni:['Dakar, Senegal','Lagos, Nigeria','Accra, Ghana','Abidjan, Costa d\'Avorio'],risposta_corretta:3,spiegazione:"Abidjan, Costa d'Avorio è il cuore economico dell'Africa Occidentale francofona."}]},
+  ],
+  civica_base:[
+    {id:'civ_b1',emoji:'🏛️',titolo:'La Costituzione Italiana e il Denaro',tempo_minuti:8,semi_reward:80,sottotitolo:'I tuoi diritti economici come cittadino',punti_chiave:['Art. 1: l\'Italia è fondata sul lavoro — il lavoro è un diritto','Art. 36: ogni lavoratore ha diritto a una retribuzione sufficiente','Art. 47: la Repubblica incoraggia il risparmio'],esempio_pratico:"Se non ti pagano il salario minimo, l'Art. 36 ti protegge. Se lo Stato tassa ingiustamente i risparmi, l'Art. 47 lo limita.",dato_reale:"L'Italia è uno dei pochi paesi al mondo con il risparmio esplicitamente tutelato dalla Costituzione.",collegamento_africa:'Ghana (Art. 24), Sudafrica (Art. 27), Kenya (Art. 43) — molti paesi africani hanno il diritto al lavoro in Costituzione.',sfida_vita_reale:'Leggi gli articoli 1, 36, 47 della Costituzione Italiana su quirinale.it.',quiz:[{domanda:'Quale articolo tutela il risparmio?',opzioni:['Art. 1','Art. 36','Art. 47','Art. 100'],risposta_corretta:2,spiegazione:"L'Art. 47 dice: 'La Repubblica incoraggia e tutela il risparmio in tutte le sue forme'."},{domanda:"L'Art. 1 dice che l'Italia è fondata su:",opzioni:['Il commercio','Il lavoro','La religione','La monarchia'],risposta_corretta:1,spiegazione:"'L'Italia è una Repubblica democratica, fondata sul lavoro.'"}]},
+    {id:'civ_b2',emoji:'💸',titolo:'Le Tasse: perché le paghiamo',tempo_minuti:7,semi_reward:80,sottotitolo:'Il contratto tra cittadini e Stato',punti_chiave:['Le tasse finanziano scuole, ospedali, strade, esercito','IRPEF: tassa sul reddito (23%-43%)','IVA: tassa sui consumi (22%) che paghi su ogni acquisto'],esempio_pratico:'Ogni volta che compri qualcosa a 10€ al supermercato, circa 1.80€ sono IVA. Una famiglia italiana paga circa 4.000€/anno solo di IVA.',dato_reale:"In Italia la pressione fiscale è circa il 43% del PIL. Quasi la metà di ogni euro guadagnato va allo Stato.",collegamento_africa:"In Senegal la 'zakat' islamica è una tassa religiosa (2.5% dei risparmi) per i poveri: redistribuzione che precede le tasse moderne.",sfida_vita_reale:'Guarda uno scontrino recente. Riesci a trovare l\'IVA? Quanto è in percentuale?',quiz:[{domanda:'Cosa finanziano le tasse?',opzioni:['Solo gli stipendi dei politici','Scuole, ospedali, strade e servizi pubblici','Solo le guerre','Nulla di utile'],risposta_corretta:1,spiegazione:'Le tasse finanziano tutto ciò che usiamo in comune: scuola, pronto soccorso, strade, polizia.'},{domanda:"Cos'è l'IVA?",opzioni:['Una tassa sul reddito','Una tassa sugli acquisti','Una tassa sulla casa','Una tassa sulla pensione'],risposta_corretta:1,spiegazione:'IVA = Imposta sul Valore Aggiunto. La paghi ogni volta che compri qualcosa.'}]},
+  ],
+  psicologia_base:[
+    {id:'psi_b1',emoji:'🧠',titolo:'I Bias Cognitivi che ti costano soldi',tempo_minuti:8,semi_reward:80,sottotitolo:'I trucchi che il tuo cervello ti fa',punti_chiave:['BIAS DI CONFERMA: cerchi solo info che confermano le tue credenze','AVVERSIONE ALLA PERDITA: perdere 100€ fa 2x più paura che guadagnarne 100','HERD MENTALITY: fai quello che fanno tutti'],esempio_pratico:"Durante il Covid, tutti vendevano azioni per paura. Chi ha capito il bias, ha comprato. I mercati sono tornati ai massimi in 18 mesi.",dato_reale:'Gli investitori che vendono durante le crisi hanno rendimenti inferiori del 1.5-2% annuo rispetto a chi rimane investito.',collegamento_africa:"Il detto Wolof 'Ku bokk xam-xam du bokk xar' (chi condivide la conoscenza non divide le pecore) riflette l'anti-herd mentality.",sfida_vita_reale:"Pensa all'ultimo acquisto importante. Hai cercato solo opinioni positive (bias di conferma)?",quiz:[{domanda:"Cos'è il bias di conferma?",opzioni:['Confermare gli acquisti online','Cercare solo info che confermano le proprie credenze','Chiedere la conferma del bonifico','Verificare i conti'],risposta_corretta:1,spiegazione:'Il bias di conferma ci fa cercare solo le info che già confermano quello che pensiamo.'},{domanda:"L'avversione alla perdita significa che:",opzioni:['Non vuoi perdere al gioco','Perdere 100€ fa più male psicologico che guadagnarne 100','Sei contrario alle perdite aziendali','Hai paura delle banche'],risposta_corretta:1,spiegazione:'Il dolore della perdita è psicologicamente 2 volte più intenso del piacere di un guadagno equivalente.'}]},
+  ],
+  tasse_base:[
+    {id:'tas_b1',emoji:'📋',titolo:'IRPEF: come funziona la tua busta paga',tempo_minuti:8,semi_reward:80,sottotitolo:'Capire cosa ti trattengono e perché',punti_chiave:['IRPEF è progressiva: più guadagni, più paghi','Scaglioni 2024: 0-28.000€→23%, 28-50.000€→35%, oltre→43%','Le detrazioni riducono la tassa'],esempio_pratico:'Stipendio lordo 30.000€. Primo scaglione (28.000€ × 23%) = 6.440€. Secondo (2.000€ × 35%) = 700€. Totale lordo 7.140€. Meno detrazioni ≈ 5.185€ netti IRPEF.',dato_reale:"Il lavoratore italiano medio paga circa il 28-32% del lordo tra IRPEF e contributi INPS.",collegamento_africa:"In Costa d'Avorio l'imposta sul reddito va dall'1.5% al 36%. Ogni paese ha il suo contratto sociale.",sfida_vita_reale:'Calcola la tua IRPEF usando gli scaglioni. Confronta con la ritenuta sulla busta paga.',quiz:[{domanda:'Come funziona il sistema IRPEF italiano?',opzioni:['Tassa flat uguale per tutti','Sistema progressivo: più guadagni, più paghi','Tassa fissa di 1.000€','Dipende dalla regione'],risposta_corretta:1,spiegazione:'Sistema progressivo: solo la parte di reddito che supera ogni soglia viene tassata all\'aliquota superiore.'},{domanda:'Qual è l\'aliquota IRPEF per il primo scaglione?',opzioni:['15%','23%','35%','43%'],risposta_corretta:1,spiegazione:'Il 23% si applica alla parte di reddito da 0 a 28.000€.'}]},
+  ],
+  pensione_base:[
+    {id:'pen_b1',emoji:'🧓',titolo:'Perché pensare alla pensione a 25 anni',tempo_minuti:7,semi_reward:80,sottotitolo:'Il segreto che nessuno ti insegna a scuola',punti_chiave:['Il sistema pensionistico italiano è in crisi','Chi inizia a 25 anni deve contribuire 3x meno di chi inizia a 35','La pensione complementare è lo strumento da usare subito'],esempio_pratico:'Marco investe 200€/mese dal 25 anni al 6%: a 65 anni ha 398.000€. Luca inizia a 35 anni: solo 202.000€. Stessa cifra, il doppio del risultato.',dato_reale:"L'OCSE stima che i giovani italiani riceveranno una pensione pari al 50-60% dell'ultimo stipendio.",collegamento_africa:'In Senegal non esiste sistema pensionistico statale per la maggioranza. I figli si prendono cura dei genitori.',sfida_vita_reale:"Vai su inps.it → 'La mia pensione'. Simula la tua pensione futura. Sorprenditi.",quiz:[{domanda:'Perché conviene iniziare a risparmiare per la pensione il prima possibile?',opzioni:['Perché la legge lo impone','Per l\'interesse composto: più tempo = più crescita','Perché la pensione statale è generosa','Non conviene iniziare prima'],risposta_corretta:1,spiegazione:"L'interesse composto è esponenziale: ogni anno in più vale il doppio degli ultimi anni."},{domanda:'Quanto riceveranno circa di pensione i giovani italiani rispetto all\'ultimo stipendio?',opzioni:['80-90%','70-80%','50-60%','30-40%'],risposta_corretta:2,spiegazione:'50-60% è la proiezione attuale. Per non abbassare il tenore di vita, bisogna integrare con pensione complementare.'}]},
+  ],
+  immobiliare_base:[
+    {id:'imm_b1',emoji:'🏠',titolo:'Comprare o Affittare: la decisione più importante',tempo_minuti:9,semi_reward:80,sottotitolo:'I numeri reali senza romanticismo',punti_chiave:['Comprare NON è sempre meglio: dipende da dove, quando, per quanto tempo','Price-to-Rent ratio: prezzo ÷ affittoAnnuo. Se >20, affittare può convenire','I costi nascosti: notaio, IMU, manutenzione = 2-3% del valore annuo'],esempio_pratico:'Appartamento a Milano: 500.000€. Affitto simile: 18.000€/anno. P/R ratio = 27.8. Ci vogliono quasi 28 anni solo per pareggiare con l\'affitto.',dato_reale:'A Milano e Roma comprare conviene solo se si rimane almeno 10-15 anni.',collegamento_africa:'In Senegal il 70% della popolazione in città vive in affitto. La proprietà è spesso condivisa dalla famiglia allargata.',sfida_vita_reale:'Cerca su Idealista il prezzo acquisto e affitto di appartamenti simili nella tua città. Calcola il P/R ratio.',quiz:[{domanda:'Un Price-to-Rent ratio di 30 significa:',opzioni:['Meglio comprare sempre','Ci vogliono 30 anni di affitto per eguagliare il costo acquisto','L\'affitto è 30 volte il mutuo','Il prezzo è sceso del 30%'],risposta_corretta:1,spiegazione:'P/R ratio 30 = il prezzo di acquisto è 30 volte l\'affitto annuale. Più alto è, meno conviene comprare.'},{domanda:"Quali sono i costi 'nascosti' di possedere un immobile?",opzioni:['Solo il mutuo','IMU, manutenzione, assicurazione, spese condominiali','Nessun costo oltre il mutuo','Solo l\'assicurazione'],risposta_corretta:1,spiegazione:'IMU, manutenzione, assicurazione, condominio possono pesare 2-3% del valore ogni anno.'}]},
+  ],
+  crypto_base:[
+    {id:'cry_b1',emoji:'₿',titolo:'Bitcoin: cosa è davvero',tempo_minuti:8,semi_reward:80,sottotitolo:'Oltre il hype e la paura',punti_chiave:['Bitcoin è una valuta digitale decentralizzata: nessuna banca centrale la controlla','Supply fissa: mai più di 21 milioni di Bitcoin esisteranno','Blockchain: ogni transazione è registrata pubblicamente'],esempio_pratico:'Chi ha comprato 1 Bitcoin nel 2013 a 100$ nel 2024 vale 60.000-90.000$. Ma chi ha comprato a 69.000$ nel 2021 ha visto scendere a 15.000$ nel 2022.',dato_reale:"Max 5% del portafoglio è il consiglio di molti consulenti. Il 99% degli 'esperti' crypto online stanno cercando di venderti qualcosa.",collegamento_africa:'Le rimesse via Bitcoin dall\'Europa verso il Senegal possono ridurre le commissioni dal 7-8% all\'1-2%.',sfida_vita_reale:"Cerca 'Bitcoin halving 2024'. Cos'è? Come influenza il prezzo?",quiz:[{domanda:'Qual è la supply massima di Bitcoin?',opzioni:['1 miliardo','100 milioni','21 milioni','Illimitata'],risposta_corretta:2,spiegazione:'Mai più di 21 milioni di Bitcoin. Sono deflazionari: al contrario dell\'euro, non si possono stamparne altri.'},{domanda:'Quale percentuale del portafoglio si consiglia massimo per le crypto?',opzioni:['0% - mai','5%','20%','50%'],risposta_corretta:1,spiegazione:'Massimo 5% per la loro alta volatilità. Chi investe di più specula, non investe.'}]},
+  ],
+  investimenti_esperto:[
+    {id:'inv_e1',emoji:'🎯',titolo:'Markowitz e la Teoria del Portafoglio Moderno',tempo_minuti:10,semi_reward:120,sottotitolo:'La matematica dietro la diversificazione',punti_chiave:['Harry Markowitz (Nobel 1990): la frontiera efficiente massimizza il rendimento per dato rischio','Asset non correlati riducono il rischio totale','Correlazione -1 = bilanciamento perfetto'],esempio_pratico:'Portfolio A: 100% azioni — rendimento 10%, deviazione 20%. Portfolio B: 60% azioni + 40% obbligazioni — rendimento 8%, deviazione 12%. B è più efficiente!',dato_reale:'Il portafoglio Markowitz ottimizzato ha avuto un Sharpe Ratio superiore al 100% azionario nel 78% dei periodi di 10 anni.',collegamento_africa:'I grandi fondi sovrani africani (GEPF Sudafrica) usano modelli Markowitz per miliardi di asset pensionistici.',sfida_vita_reale:"Cerca 'efficient frontier calculator' online. Vedi come la diversificazione migliora il rapporto rischio/rendimento.",quiz:[{domanda:"Cos'è la 'frontiera efficiente' di Markowitz?",opzioni:['Il confine tra azioni e obbligazioni','Portafogli che massimizzano il rendimento per ogni livello di rischio','Il rendimento massimo possibile','Il portafoglio più sicuro'],risposta_corretta:1,spiegazione:'La frontiera efficiente mostra i portafogli ottimali: per ogni rischio accettato, il rendimento è massimizzato.'},{domanda:'Correlazione -1 tra due asset significa:',opzioni:['Si muovono identici','Sono indipendenti','Si muovono in direzioni opposte (perfetta diversificazione)','Hanno lo stesso rendimento'],risposta_corretta:2,spiegazione:'Correlazione -1 = perfetta diversificazione. Quando uno scende, l\'altro sale esattamente di pari.'}]},
+  ],
+  scuola_base:[
+    {id:'scu_b1',emoji:'📐',titolo:"Cos'è il PIL e perché conta",tempo_minuti:7,semi_reward:80,sottotitolo:'La misura della ricchezza di un paese',punti_chiave:['PIL = valore di tutto ciò che un paese produce in un anno','PIL pro capite = PIL ÷ popolazione','La crescita del PIL misura se l\'economia va bene o male'],esempio_pratico:"L'Italia ha un PIL di circa 2.000 miliardi di euro (2023). Diviso per 60 milioni di italiani = circa 33.000€ a persona all'anno.",dato_reale:"PIL 2024: USA 27.000 mld$, Cina 17.000 mld$, Germania 4.400 mld$, Italia 2.000 mld$, Nigeria 440 mld$ (il più alto in Africa).",collegamento_africa:"La Costa d'Avorio cresce al 6% annuo. La BRVM riflette questa crescita.",sfida_vita_reale:"Cerca 'PIL Italia 2024' e 'PIL Senegal 2024'. Quant'è il PIL pro capite di ciascuno?",quiz:[{domanda:"Cosa misura il PIL?",opzioni:['Il risparmio dei cittadini','Il valore totale di ciò che un paese produce','Il numero di aziende','Le esportazioni'],risposta_corretta:1,spiegazione:'PIL = tutto ciò che viene prodotto in un paese in un anno. È la misura principale della salute economica.'},{domanda:"Se il PIL cresce del 3%, significa che:",opzioni:['Tutti sono più poveri',"L'economia si è espansa del 3%",'Le tasse aumentano del 3%','I prezzi scendono del 3%'],risposta_corretta:1,spiegazione:"Crescita del PIL = l'economia produce il 3% in più rispetto all'anno precedente."}]},
+  ],
+};
+
+// ── renderLezioniList aggiornata con LESSON_BANK ─────────────────────
+function renderLezioniList() {
+  if (!currentPercorso || !currentPercorso.id) currentPercorso = PERCORSI[0];
+  if (!currentLivello  || !currentLivello.id)  currentLivello  = LIVELLI[0];
+  if (!currentPercorso.id || !currentLivello.id) return;
+  var body = document.getElementById('acc-body');
+  if (!body) return;
+  body.innerHTML = '';
+  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
+
+  var banner = document.createElement('div');
+  banner.className = 'edu-banner';
+  banner.textContent = t.acc_banner || 'Solo a scopo educativo';
+  body.appendChild(banner);
+
+  var genBox = document.createElement('div');
+  genBox.className = 'ai-gen-card';
+  genBox.innerHTML =
+    '<div class="ai-gen-title">🤖 '+(t.gen_title||'Genera Lezione')+'</div>' +
+    '<div class="ai-gen-sub">'+(t.gen_sub||'Scrivi qualsiasi argomento finanziario')+'</div>' +
+    '<input type="text" id="gen-input" placeholder="'+(t.gen_placeholder||'es. come funzionano i fondi pensione')+'" class="ai-gen-input">' +
+    '<button id="gen-btn" class="ai-gen-btn">🚀 '+(t.gen_btn||'Genera Lezione con IA')+'</button>';
+  body.appendChild(genBox);
+
+  var genBtn = document.getElementById('gen-btn');
+  var genInput = document.getElementById('gen-input');
+  if (genBtn && genInput) {
+    genBtn.addEventListener('click', function() {
+      var topic = genInput.value.trim();
+      if (!topic) return;
+      genBtn.textContent = '⏳ '+(t.gen_loading||'Generando...');
+      genBtn.disabled = true;
+      generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, true)
+        .then(function(lez) {
+          openLezione(lez);
+          genBtn.textContent = '🚀 '+(t.gen_btn||'Genera Lezione con IA');
+          genBtn.disabled = false;
+        });
+    });
+  }
+
+  var percLabel = (t.perc_labels || {})[currentPercorso.id] || currentPercorso.label;
+  var livLabel = t['lv_'+currentLivello.id] || currentLivello.label;
+  var secTitle = document.createElement('div');
+  secTitle.className = 'acc-section-title';
+  secTitle.textContent = percLabel + ' — ' + livLabel;
+  body.appendChild(secTitle);
+
+  // Lezioni pre-scritte dalla LESSON_BANK
+  var bankKey = currentPercorso.id + '_' + currentLivello.id;
+  var bankLessons = LESSON_BANK[bankKey] || LESSON_BANK[currentPercorso.id] || [];
+  if (bankLessons.length > 0) {
+    var bankHdr = document.createElement('div');
+    bankHdr.style.cssText = 'font-size:.65rem;font-weight:900;color:#4ade80;text-transform:uppercase;letter-spacing:1px;margin:8px 0 6px;display:flex;align-items:center;gap:6px';
+    bankHdr.innerHTML = '📚 <span>'+bankLessons.length+' Lezioni Pronte</span>';
+    body.appendChild(bankHdr);
+    bankLessons.forEach(function(lez) {
+      var done = S.completate['bank_'+lez.id];
+      var card = document.createElement('div');
+      card.className = 'lesson-card'+(done?' done':'');
+      card.style.borderLeft = '3px solid #4ade80';
+      card.innerHTML =
+        '<div class="lesson-card-icon">'+(lez.emoji||'📖')+'</div>' +
+        '<div class="lesson-card-body">' +
+          '<div class="lesson-card-perc" style="color:#4ade80">📚 PRONTA</div>' +
+          '<div class="lesson-card-title">'+(done?'✅ ':'')+lez.titolo+'</div>' +
+          '<div class="lesson-card-lv">'+livLabel+' · '+(lez.tempo_minuti||5)+' min</div>' +
+          '<div class="lesson-card-semi">+ '+(lez.semi_reward||80)+' Semi</div>' +
+        '</div>' +
+        '<div class="lesson-card-arrow">→</div>';
+      card.addEventListener('click', function(){ openLezione(lez); });
+      body.appendChild(card);
+    });
+  }
+
+  // Lezioni AI (topics)
+  var aiHdr = document.createElement('div');
+  aiHdr.style.cssText = 'font-size:.65rem;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px';
+  aiHdr.textContent = '🤖 Lezioni AI Infinite';
+  body.appendChild(aiHdr);
+
+  var topics = getTopicsForPercorso(currentPercorso.id);
+  topics.forEach(function(topic, i) {
+    var topicTranslated = topic;
+    if (S.lang !== 'it') {
+      var langData = TOPICS_LANG[S.lang];
+      if (langData && langData[currentPercorso.id]) {
+        var itTopics = TOPICS[currentPercorso.id] || [];
+        var idx = itTopics.indexOf(topic);
+        if (idx < 0) idx = i;
+        if (langData[currentPercorso.id][idx]) topicTranslated = langData[currentPercorso.id][idx];
+      }
+    }
+    var cacheKey = topicTranslated+'_'+currentLivello.id+'_'+S.eta+'_'+S.lang;
+    var done = S.completate[cacheKey];
+    var semiEarned = LIVELLI.find(function(l){return l.id===currentLivello.id;});
+    var semi = semiEarned ? semiEarned.semi : 80;
+    var card = document.createElement('div');
+    card.className = 'lesson-card'+(done?' done':'');
+    card.innerHTML =
+      '<div class="lesson-card-icon">📖</div>' +
+      '<div class="lesson-card-body">' +
+        '<div class="lesson-card-perc">💰 '+percLabel.toUpperCase()+'</div>' +
+        '<div class="lesson-card-title">'+(done?'✅ ':'')+topicTranslated+'</div>' +
+        '<div class="lesson-card-lv">'+livLabel+'</div>' +
+        '<div class="lesson-card-semi">+ '+semi+' '+(t.card_semi||'Semi')+'</div>' +
+      '</div>' +
+      '<div class="lesson-card-arrow">→</div>';
+    card.addEventListener('click', function() {
+      card.style.opacity = '0.6';
+      generateLesson(topicTranslated, currentPercorso.id, currentLivello.id, S.eta, false)
+        .then(function(lez){ card.style.opacity='1'; openLezione(lez); });
+    });
+    body.appendChild(card);
+  });
+}
+
+// ── initAuthGate ─────────────────────────────────────────
+var CREATOR_CODE = 'BERNARD2026';
+function isCreator(){ return safeLSStr('fl_creator','0')==='1'; }
+function activateCreator(code){
+  if((code||'').trim()===CREATOR_CODE){
+    try{localStorage.setItem('fl_creator','1');}catch(e){}
+    S.isPro=true; try{localStorage.setItem('fl_pro','1');}catch(e){}
+    saveS(); toast('🐉 Accesso Creatore attivato, Bernard!');
+    if(typeof updateHUD==='function') updateHUD();
+    return true;
+  }
+  return false;
+}
+if(isCreator()){ S.isPro=true; }
+window.isCreator=isCreator; window.activateCreator=activateCreator;
+
+function initAuthGate(){
+  if(isCreator()){hideGate();return;}
+  if(S.account&&S.account.email&&S.account.verificato){hideGate();return;}
+  // Utenti esistenti con progressi: passa direttamente
+  if(S.account&&S.account.email&&(S.coins>0||S.xp>0||Object.keys(S.completate||{}).length>0)){
+    S.account.verificato=true; safeSetItem('fl_account',S.account);
+    var users=safeLS('fl_users',{});
+    if(users[S.account.email]){users[S.account.email].verificato=true; safeSetItem('fl_users',users);}
+    hideGate(); return;
+  }
+  if(S.account&&S.account.email&&!S.account.verificato){
+    showGate(); switchGateTab('login');
+    showGateMsg('g-log-success','⏳ Account in attesa di verifica.<br>Inserisci il codice ricevuto via email.');
+    var vs=$el('g-verif-section'); if(vs) vs.style.display='block';
+    return;
+  }
+  showGate();
+}
+function showGate(){ var g=$el('auth-gate'); if(g) g.classList.remove('hidden'); document.body.style.overflow='hidden'; }
+function hideGate(){ var g=$el('auth-gate'); if(g) g.classList.add('hidden'); document.body.style.overflow=''; }
+function switchGateTab(tab){
+  ['signup','login'].forEach(function(t2){
+    var p=$el('gpanel-'+t2); var b=$el('gtab-'+t2);
+    if(p) p.style.display=t2===tab?'flex':'none';
+    if(b) b.classList.toggle('active',t2===tab);
+  });
+  ['g-reg-error','g-log-error','g-reg-success','g-log-success'].forEach(function(id){
+    var e=$el(id); if(e){e.style.display='none';e.textContent='';}
+  });
+}
+function showGateErr(id,msg){ var e=$el(id); if(e){e.textContent=msg;e.style.display='block';} }
+function showGateMsg(id,msg){ var e=$el(id); if(e){e.innerHTML=msg.replace(/\n/g,'<br>');e.style.display='block';} }
+function generaCodice(){ return String(Math.floor(100000+Math.random()*900000)); }
+function doGateRegister(){
+  var nome=($el('g-reg-nome')||{}).value||''; nome=nome.trim();
+  var nick=($el('g-reg-nick')||{}).value||''; nick=nick.trim();
+  var email=($el('g-reg-email')||{}).value||''; email=email.trim().toLowerCase();
+  var pw=($el('g-reg-pw')||{}).value||''; pw=pw.trim();
+  var tipo=($el('g-reg-tipo')||{}).value||'';
+  if(!nome){showGateErr('g-reg-error','⚠️ Inserisci nome e cognome');return;}
+  if(!nick||nick.length<3){showGateErr('g-reg-error','⚠️ Soprannome: minimo 3 caratteri');return;}
+  if(!/^[a-zA-Z0-9_\-\.]+$/.test(nick)){showGateErr('g-reg-error','⚠️ Soprannome: solo lettere, numeri, _ e -');return;}
+  if(!email||!email.includes('@')){showGateErr('g-reg-error','⚠️ Email non valida');return;}
+  if(!pw||pw.length<8){showGateErr('g-reg-error','⚠️ Password: minimo 8 caratteri');return;}
+  if(!tipo){showGateErr('g-reg-error','⚠️ Seleziona il tipo di utente');return;}
+  var users=safeLS('fl_users',{});
+  if(users[email]){showGateErr('g-reg-error','⚠️ Email già registrata — usa Accedi');return;}
+  if(Object.values(users).some(function(u){return u.nick.toLowerCase()===nick.toLowerCase();})){
+    showGateErr('g-reg-error','⚠️ Soprannome già usato — scegline un altro');return;}
+  var codice=generaCodice();
+  users[email]={nome:nome,nick:nick,pass:btoa(pw),tipo:tipo,verificato:false,codice:codice,registrato:new Date().toISOString()};
+  safeSetItem('fl_users',users);
+  S.account={email:email,nome:nome,nick:nick,tipo:tipo,verificato:false};
+  safeSetItem('fl_account',S.account);
+  var sogg=encodeURIComponent('Nuovo Utente FinanzaLand — '+nick+' — Codice: '+codice);
+  var corpo=encodeURIComponent('Nome: '+nome+'\nNick: '+nick+'\nEmail: '+email+'\nTipo: '+tipo+'\nCodice verifica: '+codice);
+  setTimeout(function(){window.open('mailto:ilboudobr96@gmail.com?subject='+sogg+'&body='+corpo,'_blank');},600);
+  $el('g-reg-error')&&($el('g-reg-error').style.display='none');
+  showGateMsg('g-reg-success','✅ Account creato!<br>Ti invieremo un <strong>codice</strong> via email.');
+  setTimeout(function(){
+    switchGateTab('login');
+    var vs=$el('g-verif-section'); if(vs) vs.style.display='block';
+    var le=$el('g-log-email'); if(le) le.value=email;
+    showGateMsg('g-log-success','📧 Inserisci il codice ricevuto per completare la verifica.');
+  },2500);
+}
+function doGateLogin(){
+  var email=($el('g-log-email')||{}).value||''; email=email.trim().toLowerCase();
+  var pw=($el('g-log-pw')||{}).value||''; pw=pw.trim();
+  if(!email||!pw){showGateErr('g-log-error','⚠️ Inserisci email e password');return;}
+  var users=safeLS('fl_users',{}); var u=users[email];
+  if(!u||u.pass!==btoa(pw)){showGateErr('g-log-error','❌ Email o password errati');return;}
+  S.account={email:email,nome:u.nome,nick:u.nick,tipo:u.tipo,verificato:u.verificato};
+  safeSetItem('fl_account',S.account);
+  if(!u.verificato){
+    $el('g-log-error')&&($el('g-log-error').style.display='none');
+    var vs=$el('g-verif-section'); if(vs) vs.style.display='block';
+    showGateMsg('g-log-success','⏳ Inserisci il codice ricevuto via email.');return;
+  }
+  hideGate(); if(typeof updateHUD==='function') updateHUD(); toast('🐉 Bentornato '+u.nick+'!');
+}
+function doVerifyCode(){
+  var code=($el('g-verif-code')||{}).value||''; code=code.trim();
+  var email=($el('g-log-email')||{}).value||''; email=email.trim().toLowerCase();
+  if(!code||code.length!==6){showGateErr('g-log-error','⚠️ Inserisci il codice a 6 cifre');return;}
+  if(!email){showGateErr('g-log-error','⚠️ Inserisci prima la tua email');return;}
+  var users=safeLS('fl_users',{}); var u=users[email];
+  if(!u){showGateErr('g-log-error','⚠️ Email non trovata');return;}
+  if(u.codice!==code){showGateErr('g-log-error','❌ Codice errato — riprova');return;}
+  u.verificato=true; delete u.codice; users[email]=u; safeSetItem('fl_users',users);
+  S.account={email:email,nome:u.nome,nick:u.nick,tipo:u.tipo,verificato:true};
+  safeSetItem('fl_account',S.account);
+  hideGate(); if(typeof updateHUD==='function') updateHUD();
+  toast('🎉 Account verificato! Benvenuto '+u.nick+'!');
+  if(typeof spawnParticles==='function') spawnParticles();
+}
+window.switchGateTab=switchGateTab; window.doGateRegister=doGateRegister;
+window.doGateLogin=doGateLogin; window.doVerifyCode=doVerifyCode;
+window.addEventListener('load',function(){ setTimeout(initAuthGate,250); });
 
 // ── BUILD ADULTI ────────────────────────────────────────────────────────
 
@@ -10441,7 +10730,7 @@ function renderScroll() {
     if(unlocked) div.onclick = () => {
       selectedAv = av;
       activeTab = 'cultura';
-      document.getElementById('learnName').textContent = av.name;
+      $set('learnName','textContent',av.name);
       renderCultureCard();
       renderScroll();
     };
@@ -10644,7 +10933,7 @@ function playPhrase(text) {
 }
 
 function updateSemi() {
-  document.getElementById('semiCount').textContent = semiDiLuce+' Semi di Luce';
+  $set('semiCount','textContent',semiDiLuce+' Semi di Luce');
 }
 
 function showToast(msg) {
@@ -10656,7 +10945,7 @@ function showToast(msg) {
 
 function updateDragonBadge() {
   const stage = getDragonStage(currentLevel);
-  document.getElementById('stageBadge').textContent = stage.name;
+  $set('stageBadge','textContent',stage.name);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -10664,10 +10953,10 @@ function updateDragonBadge() {
 // ═══════════════════════════════════════════════════════
 var _lvSlider = document.getElementById('lvSlider'); if(_lvSlider) _lvSlider.addEventListener('input', function() {
   currentLevel = parseInt(this.value);
-  document.getElementById('lvVal').textContent = currentLevel;
+  $set('lvVal','textContent',currentLevel);
   if(currentLevel < selectedAv.unlockLv) {
     selectedAv = AVATARS[0];
-    document.getElementById('learnName').textContent = AVATARS[0].name;
+    $set('learnName','textContent',AVATARS[0].name);
   }
   updateDragonBadge();
   renderScroll();
@@ -11079,12 +11368,12 @@ function getAdultWS(id) {
 
 function switchMode(mode) {
   adultMode = (mode==='adult');
-  document.getElementById('modeChild').classList.toggle('active', !adultMode);
-  document.getElementById('modeAdult').classList.toggle('active', adultMode);
+  var _mc=$el('modeChild'); if(_mc) _mc.classList.toggle('active', !adultMode);
+  var _ma=$el('modeAdult'); if(_ma) _ma.classList.toggle('active', adultMode);
 
   const secTitle = document.querySelector('.section-title');
   if(secTitle) secTitle.textContent = adultMode ? '👨‍👩‍👧 Scegli il tuo Avatar Genitore' : '🐉 Scegli il tuo Allevatore';
-  document.getElementById('learnName').textContent = adultMode ? selectedAdult.name : selectedAv.name;
+  $set('learnName','textContent',adultMode ? selectedAdult.name : selectedAv.name);
 
   renderScroll();
   renderCultureCard();
@@ -11111,7 +11400,7 @@ function renderAdultScroll() {
     if(unlocked) div.onclick = () => {
       selectedAdult = av;
       adultTab = 'investimenti';
-      document.getElementById('learnName').textContent = av.name;
+      $set('learnName','textContent',av.name);
       renderCultureCard();
       renderAdultScroll();
     };
@@ -11538,7 +11827,7 @@ window.safeGenerateLesson = safeGenerateLesson;
 (function() {
   function setVh() {
     var vh = window.innerHeight;
-    document.getElementById('app').style.height = vh + 'px';
+    $style('app','height', vh + 'px');
   }
   setVh();
   window.addEventListener('resize', setVh);
