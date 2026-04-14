@@ -2,12 +2,20 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api/calcola",
-      "dest": "/api/calcola.py"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/lesson.js": {
+      "maxDuration": 30
+    },
+    "api/chat.js": {
+      "maxDuration": 30
+    }
+  }
 }
