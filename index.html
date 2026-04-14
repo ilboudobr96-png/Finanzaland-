@@ -1454,6 +1454,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <div class="hud-logo">🐉</div>
     <div class="hud-title">FinanzaLand</div>
     <div class="hud-coins">🪙 <span id="cc">0</span></div>
+    <div id="hud-pro-btn" onclick="openPopup('piani')" style="font-size:.6rem;font-weight:900;padding:3px 8px;border-radius:8px;cursor:pointer;display:none;border:1px solid rgba(245,200,66,.4);color:var(--gold);background:rgba(245,200,66,.08)">👑 PRO</div>
     <div id="sb-sync-ind" title="Stato sync cloud" style="font-size:.9rem;cursor:default;opacity:.5"></div>
     <div class="hud-btn" onclick="showScreen('ricerca-globale')" style="padding:4px 8px">🔍</div>
     <div class="hud-btn" id="btn-notif" onclick="showScreen('notifiche')" style="padding:4px 8px;position:relative">
@@ -1511,9 +1512,6 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           <button class="home-btn btn-secondary" onclick="showScreen('muro-sociale')">🌍 Muro<br>Sociale</button>
           <button class="home-btn home-btn-wide" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.4);color:#c4b5fd;margin-top:2px">🐉 Avatar Cultura &amp; Saggezza</button>
           <button class="home-btn home-btn-wide" onclick="showScreen('mappa-missioni')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(16,185,129,.1));border:1.5px solid rgba(6,182,212,.5);color:#67e8f9;margin-top:2px;position:relative">🗺️ Mappa Mondiale — Missioni Finanziarie<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.18);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('sun-room')" style="background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.5);color:#fde68a;margin-top:2px;position:relative">☀️ Sun Room — Libreria dei Giganti &amp; Coach Live<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">✨ NEW</span></button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('protocollo-imperiale')" style="background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(180,100,0,.1));border:1.5px solid rgba(212,175,55,.5);color:#d4af37;margin-top:2px;position:relative">🛡️ Protocollo Imperiale — Kemet · Sun Tzu · Musashi<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(212,175,55,.2);color:#d4af37;border-radius:6px;padding:1px 6px;font-weight:900">KEMET</span></button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('scuola-screen')" style="background:linear-gradient(135deg,rgba(74,222,128,.18),rgba(16,185,129,.1));border:1.5px solid rgba(74,222,128,.5);color:#4ade80;margin-top:2px;position:relative">🎓 Modulo Scuola — Legge 21/2024 · Kit Insegnanti<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:6px;padding:1px 6px;font-weight:900">SCUOLA</span></button>
         </div>
       </div>
     </div>
@@ -1864,61 +1862,12 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
         </button>
         <div style="text-align:center;padding:10px 14px 12px">
           <div style="font-size:1.4rem;font-weight:900;color:#A78BFA">🧠 Saggezza dei Saggi</div>
-          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:3px">Bibbia · Corano · Africa · Libri · Mindset · Coraggio · <span style="color:#f87171">I Giganti 🧬</span></div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-top:3px">Bibbia · Corano · Africa · Libri · Mindset · Coraggio</div>
         </div>
         <div class="sagg-tab-bar" id="sagg-tabs"></div>
       </div>
       <div style="overflow-y:auto;padding-bottom:80px" id="sagg-body"></div>
     </div>
-
-<!-- ═══════════════════════════════════════════════════
-     ☀️ SUN ROOM — Stanza della Luce & Coach Live
-     ═══════════════════════════════════════════════════ -->
-<div class="screen" id="sun-room">
-  <div style="background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(251,146,60,.08));border-bottom:1px solid rgba(255,215,0,.25);position:sticky;top:0;z-index:10;backdrop-filter:blur(8px)">
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
-      <button onclick="showScreen('adulti')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:5px 12px;color:#fff;font-size:.74rem;font-weight:700;cursor:pointer">← Adulti</button>
-      <span style="font-family:Fredoka One,serif;font-size:1rem;color:var(--gold);flex:1">☀️ Sun Room — La Luce dei Giganti</span>
-    </div>
-  </div>
-  <div style="flex:1;overflow-y:auto;padding:14px 14px 80px" id="sun-room-body">
-    <!-- Popolato da buildSunRoom() -->
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════
-     🛡️ PROTOCOLLO IMPERIALE — Diop · Sun Tzu · Musashi
-     ═══════════════════════════════════════════════════ -->
-<div class="screen" id="protocollo-imperiale">
-  <div id="pi-header" style="background:linear-gradient(135deg,#1a0a00,#2d1600);border-bottom:2px solid #d4af37;position:sticky;top:0;z-index:10">
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
-      <button onclick="showScreen('adulti')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:5px 12px;color:#fff;font-size:.74rem;font-weight:700;cursor:pointer">← Adulti</button>
-      <span style="font-family:Fredoka One,serif;font-size:1rem;color:#d4af37;flex:1">🛡️ Protocollo Imperiale</span>
-      <span style="font-size:.6rem;color:rgba(212,175,55,.6);font-weight:800;letter-spacing:1px">KEMET</span>
-    </div>
-  </div>
-  <div style="flex:1;overflow-y:auto;padding-bottom:80px" id="pi-body">
-    <!-- Popolato da buildProtocollo() -->
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════
-     🎓 MODULO SCUOLA — Piano Didattico · Legge 21/2024
-     ═══════════════════════════════════════════════════ -->
-<div class="screen" id="scuola-screen">
-  <div style="background:linear-gradient(135deg,#001a0a,#002d16);border-bottom:2px solid #4ade80;position:sticky;top:0;z-index:10">
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
-      <button onclick="showScreen('home')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:5px 12px;color:#fff;font-size:.74rem;font-weight:700;cursor:pointer">← Home</button>
-      <div style="flex:1">
-        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#4ade80">🎓 Modulo Scuola</div>
-        <div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-top:1px">Legge 21/2024 · Certificati · Kit Insegnanti</div>
-      </div>
-    </div>
-  </div>
-  <div style="flex:1;overflow-y:auto;padding-bottom:80px" id="scuola-body">
-    <!-- Popolato da buildScuolaScreen() -->
-  </div>
-</div>
 
 <!-- ═══════════════════════════════════════════════════
      MAPPA MONDIALE — MISSIONI FINANZIARIE
@@ -2270,9 +2219,9 @@ var S = {
 // ═══════════════════════════════════════════════════════
 // Missioni mensili per i figli — si azzerano ogni mese
 var MISSIONI_MENSILI = [
-  {id:'mm_lezione',   icon:'📚', titolo:'Completa 3 lezioni',          desc:'Studia almeno 3 argomenti nell\ Accademia questo mese.',  target:3,  chiave:'completate_mese', semi:150, argento:3},
+  {id:'mm_lezione',   icon:'📚', titolo:'Completa 3 lezioni',          desc:'Studia almeno 3 argomenti nell\'Accademia questo mese.',  target:3,  chiave:'completate_mese', semi:150, argento:3},
   {id:'mm_quiz',      icon:'🧠', titolo:'Vinci 2 quiz',                desc:'Rispondi correttamente a 2 quiz consecutivi.',            target:2,  chiave:'quiz_mese',       semi:100, argento:2},
-  {id:'mm_streak',    icon:'🔥', titolo:'Streak 5 giorni',             desc:'Apri l\ app per 5 giorni di fila questo mese.',           target:5,  chiave:'streak_max_mese', semi:120, argento:2},
+  {id:'mm_streak',    icon:'🔥', titolo:'Streak 5 giorni',             desc:'Apri l\'app per 5 giorni di fila questo mese.',           target:5,  chiave:'streak_max_mese', semi:120, argento:2},
   {id:'mm_saggezza',  icon:'🧘', titolo:'Leggi 2 Sagge Riflessioni',   desc:'Completa 2 cards nella sezione Saggezza.',               target:2,  chiave:'sagg_mese',       semi:80,  argento:1},
   {id:'mm_civica',    icon:'🏛️', titolo:'1 lezione di Educazione Civica', desc:'Studia almeno una lezione nel percorso Ed. Civica.',  target:1,  chiave:'civica_mese',     semi:100, argento:2},
 ];
@@ -2580,7 +2529,6 @@ var PERCORSI = [
   {id:'storia',        label:'🏺 Storia Economica', col:'#fbbf24'},
   {id:'imprenditoria', label:'🚀 Imprenditoria',   col:'#f472b6'},
   {id:'filosofia',     label:'🧘 Filosofia & Denaro', col:'#a78bfa'},
-  {id:'giganti',       label:'🧬 I Giganti',          col:'#f87171'},
 ];
 
 var LIVELLI = [
@@ -2694,8 +2642,6 @@ var TOPICS = {
     'Daniel Kahneman — Sistema 1 e Sistema 2 applicati alle decisioni finanziarie','Nassim Taleb — perché i mercati sono più imprevedibili di quanto pensiamo','Richard Thaler e il nudge — come piccole spinte cambiano grandi decisioni','Il paradosso di Giffen — perché a volte compriamo di più quando il prezzo sale','Psicologia della povertà — Mullainathan e Shafir sul tunnel della scarcità','Come i casinò di Las Vegas usano la psicologia per farti perdere più soldi','Il sunk cost fallacy — perché continuiamo a buttare soldi in qualcosa che non funziona','Effetto dotazione — perché sopravvalutiamo quello che già possediamo','Bias di overconfidence — perché il 93% degli investitori pensa di essere sopra media','La profezia che si auto-avvera nei mercati finanziari','Come Charlie Munger usa la psicologia inversa nelle decisioni','Identità e denaro — perché i poveri si identificano con essere poveri','Trauma finanziario — come l infanzia con pochi soldi influenza le decisioni da adulti','Il potere del commitment device — legarsi le mani per evitare errori','Mindset della diaspora africana — tra abbondanza comunitaria e scarcità individuale',
     // Master
     'Costruire un sistema decisionale anti-bias per gli investimenti','Psicologia del rischio — come misurare davvero la propria tolleranza','Neuroeconomia — come il cervello decide sul denaro a livello biologico',
-    // I Giganti nella psicologia
-    'Bruce Lipton e la biologia delle credenze — epigenetica e finanza','Joe Dispenza — come uscire dal loop emotivo del passato povero','Dale Carnegie — le relazioni come capitale psicologico e finanziario','Napoleon Hill — il desiderio bruciante come driver neurologico della ricchezza','Robert Greene — psicologia del potere applicata alle decisioni finanziarie',
   ],
 
   civica: [
@@ -2725,26 +2671,6 @@ var TOPICS = {
     // Profondo
     'Ubuntu — "Sono perché siamo" — la filosofia africana dell economia comunitaria','Filosofia islamica del denaro — Riba, Zakat, Waqf e giustizia distributiva','Il Tao e il denaro — il flusso naturale della ricchezza nella filosofia orientale','Stoicismo finanziario — come Marco Aurelio e Seneca gestivano l incertezza','Buddismo e consumismo — la via di mezzo tra ascetismo e materialismo','Aristotele sulla crematistica — il commercio come arte vs la ricchezza fine a se stessa','Il Corano sul debito e la solidarietà — microfinanza islamica moderne','African philosophy and wealth — Ubuntu vs capitalismo individualista','Simone Weil sul lavoro come spiritualità — il senso oltre il denaro','Bertrand Russell — l elogio dell ozio — perché lavorare meno è saggezza','Epicureo — come spendere saggiamente per la vera felicità','Thoreau e Walden — il minimalismo come liberazione economica','La filosofia dei Nativi Americani sulla terra — non si possiede, si custodisce','Viktor Frankl — trovare senso nel lavoro anche quando non arricchisce','Hannah Arendt sul lavoro, l opera e l azione — tre modi di essere nel mondo',
   ],
-
-  // ─── I GIGANTI — Percorso Organismo Vivente ─────────────────────────────
-  giganti: [
-    // Base — Bruce Lipton
-    'Le credenze limitanti sui soldi — da dove vengono e come cambiarle','Il subconscio finanziario — il 95% delle decisioni che non controlli','Epigenetica e ricchezza — il tuo DNA non è il tuo destino','Come le credenze da bambino plasmano il rapporto adulto con i soldi','Il programma invisibile — le frasi dei genitori che governano il tuo conto in banca',
-    // Base — Napoleon Hill
-    'Il desiderio bruciante come punto di partenza della ricchezza','Pensa e arricchisci te stesso — i 13 principi di Napoleon Hill','Come Carnegie, Ford e Edison applicavano il pensiero positivo agli affari','L obiettivo finanziario scritto — perché funziona neurologicamente','La mente subconscia come motore del successo finanziario',
-    // Base — Kiyosaki
-    'Asset vs Passività — la distinzione che divide ricchi e poveri','Il quadrante del cash flow — da dipendente a investitore','La trappola del lavoro dipendente — corsa del criceto spiegata','Perché la casa in cui vivi è una passività (secondo Kiyosaki)','Come costruire il primo asset produttivo partendo da zero',
-    // Base — Carnegie
-    'Le relazioni come asset finanziario — il capitale sociale','Come fare rete nella diaspora africana in Europa','Il principio dei 3 passi di Carnegie — interesse genuino negli altri','Networking strategico — chi conosci determina dove arrivi','La prima impressione finanziaria — come presentarsi agli investitori',
-    // Profondo — Joe Dispenza
-    'Rompere il loop del passato finanziario — neuroplasticità applicata','Come 66 giorni di meditazione mattutina cambiano i circuiti del denaro','Il corpo come mente inconscia — perché le emozioni del passato sabotano','Meditazione e visualizzazione della libertà finanziaria — protocollo Dispenza','Quantum model of reality e le decisioni finanziarie',
-    // Profondo — Robert Greene
-    'Le 48 Leggi del Potere applicate alla finanza personale e agli investimenti','Legge 28 — Agisci con Audacia: come smettere di esitare sugli investimenti','Legge 40 — Disprezza il gratuito: perché pagare per l educazione finanziaria paga','Il potere dei pattern storici — 3000 anni di cicli di ricchezza e povertà','Come i più ricchi della storia hanno usato la strategia per costruire patrimoni',
-    // Master — Integrazione
-    'Integrare Lipton + Dispenza — biologia e neuroscienze per la libertà finanziaria','Integrare Kiyosaki + Greene — potere e asset per costruire un impero','Il sistema dei Giganti — come combinare 8 autori in un unico metodo','Organismo Vivente — come la conoscenza si evolve e si auto-aggiorna','Da studente a Gigante — costruire il proprio sistema finanziario unico',
-    // Infinito — futuro
-    'I prossimi Giganti — chi scriverà i libri di finanza del futuro (2030-2050)','AI e neuroscienze — come la tecnologia cambierà il nostro rapporto con i soldi','Oltre Kiyosaki — modelli di ricchezza per il mondo multipolare del 2050','La saggezza africana che i libri occidentali ignorano — i Giganti sconosciuti','Il Gigante che è in te — costruire la tua filosofia finanziaria personale',
-  ],
 };
 // ── TOPICS MULTILINGUA — nomi lezioni per TUTTI i 13 percorsi ───────────────
 var TOPICS_LANG = {
@@ -2768,7 +2694,7 @@ var TOPICS_LANG = {
     lv_mindset:'🧠 Esprit', perc_labels_mindset:'Esprit du Commandant',
     mindset_bonus:'Reflexion completee! +30 Graines',
     civetta_system:'Tu es Civetta IA de FinanzaLand, assistante d education financiere. Reponds toujours en francais. A des fins educatives uniquement.',
-    perc_labels: {storia:'🏺 Histoire Économique', imprenditoria:'🚀 Entrepreneuriat', filosofia:'🧘 Philosophie & Argent', giganti:'🧬 Les Géants'},
+    perc_labels: {storia:'🏺 Histoire Économique', imprenditoria:'🚀 Entrepreneuriat', filosofia:'🧘 Philosophie & Argent'},
   },
   en: {
     risparmio:    ['50-30-20 Rule','Emergency Fund','Pay Yourself First','SMART Goals','Monthly Budget','Automatic Savings','Psychology of Saving','Checking vs Savings','Saving for Kids','Rule of 72','Fixed vs Variable Expenses','Zero-based Budget','Power of Habits'],
@@ -2788,17 +2714,33 @@ var TOPICS_LANG = {
     scuola: ['What is money and its history','How money was born','The banking system explained','European Central Bank','What is GDP','Inflation explained for students','Unemployment and labour market','What is a work contract','How to read a payslip','Why we pay taxes','National debt','Entrepreneurs and startups','International trade','Globalisation pros and cons'],
   }
 };
-TOPICS_LANG.es = TOPICS_LANG.it || {};
-TOPICS_LANG.wo = TOPICS_LANG.it || {};
+// ES usa EN come base (lingue romanze simili per topic finanziari)
+TOPICS_LANG.es = TOPICS_LANG.en || TOPICS_LANG.fr || {};
+// WO e BM usano FR come base (Africa francofona)
+TOPICS_LANG.wo = TOPICS_LANG.fr || {};
+TOPICS_LANG.bm = TOPICS_LANG.fr || {};
+TOPICS_LANG.mo = TOPICS_LANG.fr || {};
 TOPICS_LANG.it = null; // IT usa TOPICS direttamente — nessuna traduzione necessaria
 
 // Ottieni topics nella lingua corrente per un percorso
 function getTopicsForPercorso(percorsoId) {
-  var lang = S.lang;
-  if (lang === 'it') return TOPICS[percorsoId] || [];
+  var lang = S.lang || 'it';
+  // IT: usa TOPICS direttamente
+  if (lang === 'it' || !TOPICS_LANG[lang]) return TOPICS[percorsoId] || [];
   var langData = TOPICS_LANG[lang];
+  // Se ha topics per questo percorso, usa quelli
   if (langData && langData[percorsoId] && langData[percorsoId].length > 0) {
     return langData[percorsoId];
+  }
+  // Fallback: prova con EN, poi FR, poi IT
+  var fallbacks = ['en','fr','it'];
+  for (var fi=0; fi<fallbacks.length; fi++) {
+    var fb = fallbacks[fi];
+    if (fb === lang) continue;
+    var fbData = fb === 'it' ? TOPICS : TOPICS_LANG[fb];
+    if (fbData && fbData[percorsoId] && fbData[percorsoId].length > 0) {
+      return fbData[percorsoId];
+    }
   }
   return TOPICS[percorsoId] || [];
 }
@@ -3071,6 +3013,9 @@ function $set(id, prop, val){ var e=$el(id); if(e) e[prop]=val; }
 function $style(id, prop, val){ var e=$el(id); if(e) e.style[prop]=val; }
 
 function updateHUD(){
+  // Mostra/nascondi bottone PRO nell'HUD
+  var proBtn = document.getElementById('hud-pro-btn');
+  if (proBtn) proBtn.style.display = S.isPro ? 'none' : 'inline-block';
   updateHomeDragon();
   $set('cc','textContent',S.coins.toLocaleString('it'));
   $set('stat-coins','textContent',S.coins.toLocaleString('it'));
@@ -3300,7 +3245,7 @@ var TRANSLATIONS = {
     wall_in_corso:'IN CORSO', wall_partecipanti:'partecipanti', wall_premio:'Premio', wall_online_count:'online', wall_tab_tutti:'Tutti', wall_tab_bambini:'Bambini', wall_tab_sfide:'Sfide', wall_tab_lezioni:'Lezioni', wall_tab_vicini:'Stesso paese', wall_tab_classifica:'Top', wall_footer:'🌍 Bambini e adulti da Italia, Senegal, Costa d Avorio, Mali, Francia, Ghana',
     academy_sei_prof:'Sei un insegnante?', academy_crea_corsi:'Crea corsi, tieni lezioni live, guadagna Semi', academy_live_adesso:'🔴 LIVE ADESSO', academy_guardano:'guardano', academy_ricordami:'🔔 Ricordami', academy_prossime:'📅 PROSSIME SESSIONI', academy_cerca:'🔍 Cerca per nome, materia, lingua...', academy_studenti:'Studenti', academy_corsi:'Corsi', academy_ore:'Ore', academy_profilo:'👁 Profilo', academy_scrivi:'💬 Scrivi', academy_entra_live:'🔴 Entra Live',
     fam_versamento:'Versamento mensile', fam_durata:'Durata (anni)', fam_rendimento:'Rendimento annuo stimato (%)', fam_anni:'anni', card_versato:'Versato', fam_interesse:'Interesse composto', fam_capitale:'Capitale stimato dopo ', fam_tocca_lezione:'Tocca per generare lezione AI', fam_strumento:'STRUMENTO DI INVESTIMENTO', fam_impara_ai:'IMPARA CON L\'AI', fam_sottotitolo:'Costruisci il loro futuro fin da oggi',
-    silver_titolo:'🥈 Monete d\ Argento Bambini', silver_desc:'Guadagnate completando quiz, compiti e lezioni', silver_nota:'Premi virtuali educativi — Solo a scopo educativo.', task_quiz:'Quiz completato', task_lezione:'Lezione completata', task_streak:'Streak 7 giorni', task_muro:'Post sul Muro', premi_lezioni:'lezioni completate',
+    silver_titolo:'🥈 Monete d\'Argento Bambini', silver_desc:'Guadagnate completando quiz, compiti e lezioni', silver_nota:'Premi virtuali educativi — Solo a scopo educativo.', task_quiz:'Quiz completato', task_lezione:'Lezione completata', task_streak:'Streak 7 giorni', task_muro:'Post sul Muro', premi_lezioni:'lezioni completate',
     btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Home', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Seleziona la tua Terra Sovrana', mondo_hint:'Tocca una zona per vedere dettagli', mondo_ruolo:'Scegli il tuo Destino', mondo_moduli:'📚 Moduli Accademia Omnia',
     ruolo_comandante:'Comandante', ruolo_comandante_sub:'Bambino · Gioco', ruolo_mentore:'Mentore', ruolo_mentore_sub:'Genitore · Card', ruolo_saggio:'Saggio', ruolo_saggio_sub:'Coach · Sapere',
     puntoabla_titolo:'Punto Abla — Saggezza', puntoabla_sub:'Missioni di studio per premi epici', abla_missioni:'📋 Missioni del Saggio', abla_sblocca:'Completa 5 missioni → sblocca Landa Card PRO', abla_missioni_completate:'missioni completate', abla_footer:'Il Saggio conosce ciò che non si vede nei grafici.',
@@ -3460,8 +3405,8 @@ var TRANSLATIONS = {
     chat_azioni:[{icon:'📎',txt:'Fichier'},{icon:'🎁',txt:'Donner Graines'},{icon:'📹',txt:'Vidéo'},{icon:'❓',txt:'Question IA'}],
     wall_in_corso:'EN COURS', wall_partecipanti:'participants', wall_premio:'Prix', wall_online_count:'en ligne', wall_tab_tutti:'Tous', wall_tab_bambini:'Enfants', wall_tab_sfide:'Défis', wall_tab_lezioni:'Cours', wall_tab_vicini:'Même pays', wall_tab_classifica:'Top', wall_footer:'🌍 Enfants et adultes d\'Italie, Sénégal, Côte d\'Ivoire, Mali, France, Ghana',
     academy_sei_prof:'Vous êtes enseignant ?', academy_crea_corsi:'Créez des cours, tenez des lives, gagnez des Graines', academy_live_adesso:'🔴 EN DIRECT', academy_guardano:'regardent', academy_ricordami:'🔔 Me rappeler', academy_prossime:'📅 PROCHAINES SESSIONS', academy_cerca:'🔍 Chercher par nom, matière, langue...', academy_studenti:'Étudiants', academy_corsi:'Cours', academy_ore:'Heures', academy_profilo:'👁 Profil', academy_scrivi:'💬 Écrire', academy_entra_live:'🔴 Rejoindre Live',
-    fam_versamento:'Versement mensuel', fam_durata:'Durée (années)', fam_rendimento:'Rendement annuel estimé (%)', fam_anni:'ans', card_versato:'Versé', fam_interesse:'Intérêts composés', fam_capitale:'Capital estimé après ', fam_tocca_lezione:'Touche pour générer un cours IA', fam_strumento:'OUTIL D\'INVESTISSEMENT', fam_impara_ai:'APPRENDS AVEC L\'IA', fam_sottotitolo:'Construis leur avenir dès aujourd\ hui',
-    silver_titolo:'🥈 Pièces d\ Argent Enfants', silver_desc:'Gagnées en complétant quiz, devoirs et cours', silver_nota:'Récompenses virtuelles éducatives — À des fins éducatives.', task_quiz:'Quiz terminé', task_lezione:'Cours terminé', task_streak:'Série de 7 jours', task_muro:'Post sur le Mur', premi_lezioni:'cours terminés',
+    fam_versamento:'Versement mensuel', fam_durata:'Durée (années)', fam_rendimento:'Rendement annuel estimé (%)', fam_anni:'ans', card_versato:'Versé', fam_interesse:'Intérêts composés', fam_capitale:'Capital estimé après ', fam_tocca_lezione:'Touche pour générer un cours IA', fam_strumento:'OUTIL D\'INVESTISSEMENT', fam_impara_ai:'APPRENDS AVEC L\'IA', fam_sottotitolo:'Construis leur avenir dès aujourd\'hui',
+    silver_titolo:'🥈 Pièces d\'Argent Enfants', silver_desc:'Gagnées en complétant quiz, devoirs et cours', silver_nota:'Récompenses virtuelles éducatives — À des fins éducatives.', task_quiz:'Quiz terminé', task_lezione:'Cours terminé', task_streak:'Série de 7 jours', task_muro:'Post sur le Mur', premi_lezioni:'cours terminés',
     btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Accueil', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Sélectionne ta Terre Souveraine', mondo_hint:'Touche une zone pour voir les détails', mondo_ruolo:'Choisis ton Destin', mondo_moduli:'📚 Modules Académie Omnia',
     ruolo_comandante:'Commandant', ruolo_comandante_sub:'Enfant · Jeu', ruolo_mentore:'Mentor', ruolo_mentore_sub:'Parent · Carte', ruolo_saggio:'Sage', ruolo_saggio_sub:'Coach · Savoir',
     puntoabla_titolo:'Point Abla — Sagesse', puntoabla_sub:'Missions d\'étude pour des récompenses épiques', abla_missioni:'📋 Missions du Sage', abla_sblocca:'Complète 5 missions → débloque Landa Card PRO', abla_missioni_completate:'missions terminées', abla_footer:'Le Sage connaît ce qu\'on ne voit pas dans les graphiques.',
@@ -3472,7 +3417,7 @@ var TRANSLATIONS = {
     adulti_lezioni_comp:'Cours', adulti_free:'Gratuit', adulti_piano:'Plan',
     adulti_lezioni_avanzate:'Cours Adultes Avancés',
     adulti_mutuo:'Calculateur Prêt', adulti_mutuo_desc:'Calcule mensualités, intérêts et coût total',
-    adulti_pensione:'Simulateur Retraite', adulti_pensione_desc:'Règle des 4% — combien d\ années pour FIRE?',
+    adulti_pensione:'Simulateur Retraite', adulti_pensione_desc:'Règle des 4% — combien d\'années pour FIRE?',
     adulti_interessi:'Intérêts Composés', adulti_interessi_desc:'Comment tes investissements croissent',
     adulti_tasse:'Optimiseur Fiscal', adulti_tasse_desc:'Fiscalité, ETF irlandais',
     quiz_scegli_livello:'Choisis le niveau', quiz_per_risposta:'par bonne réponse',
@@ -4001,14 +3946,14 @@ function setLang(lang, btnEl) {
   // Validazione lingua
   if (!TRANSLATIONS[lang]) lang = 'it';
   
-  // Quando cambia lingua, SVUOTA TUTTA la cache lezioni
-  // Le lezioni in italiano non vanno bene per FR/EN
-  if (S.lang && S.lang !== lang) {
-    try {
-      LESSON_CACHE = {};
-      safeSetItem('fl_lesson_cache', {});
-    } catch(e) {}
-  }
+  // Svuota SEMPRE la cache quando si cambia lingua
+  // Una lezione in italiano NON è valida per FR/EN/ES
+  try {
+    LESSON_CACHE = {};
+    safeSetItem('fl_lesson_cache', {});
+    // Svuota anche il topic corrente per forzare rigenerazione
+    currentLezione = null;
+  } catch(e) {}
   
   S.lang = lang;
   try { localStorage.setItem('fl_lang', lang); } catch(e) {}
@@ -4130,12 +4075,13 @@ function autoDetectLang() {
 
 // Imposta lingua iniziale
 (function initLang(){
-  var savedLang = S.lang || 'it';
-  var langBtn = document.getElementById('lang-' + savedLang);
-  if (langBtn) {
-    document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});
-    langBtn.classList.add('active');
-  }
+  // Applica la lingua salvata — NON solo il pulsante visivo
+  var savedLang = S.lang || safeLSStr('fl_lang','it') || 'it';
+  if (!TRANSLATIONS[savedLang]) savedLang = 'it';
+  // Applica davvero la lingua (aggiorna testi, cache, tutto)
+  setTimeout(function(){
+    if (typeof setLang === 'function') setLang(savedLang, null);
+  }, 150);
 })();
 
 var CORSO_PROGRESS = safeLS('fl_corso_progress', {});
@@ -4832,7 +4778,7 @@ var CORSI_SCUOLE = [
     titolo:'Il Seme della Moneta',
     classi:'Classi 1-2 — Elementari',
     ore:3, lezioni:6, gratis:true,
-    descrizione:'Dalla baratta ai soldi digitali. I bambini scoprono cos\ è il denaro, perché esiste e come funziona il risparmio. Metodo giocoso con storie e personaggi.',
+    descrizione:'Dalla baratta ai soldi digitali. I bambini scoprono cos\'è il denaro, perché esiste e come funziona il risparmio. Metodo giocoso con storie e personaggi.',
     obiettivi:['Capire cosa sono i soldi','Differenza bisogno vs desiderio','Il mio primo salvadanaio','Risparmiare per un obiettivo'],
     moduli:[
       {n:1, titolo:'Da dove vengono i soldi?', desc:'Storia del baratto e della moneta. Attività: crea la tua moneta!', dur:'30 min', topicAI:'cosa sono i soldi bambini storia moneta'},
@@ -4852,10 +4798,10 @@ var CORSI_SCUOLE = [
     descrizione:'Come funziona una banca, i conti correnti, le carte di pagamento e il credito. Bambini diventano "gestori" di una banca simulata.',
     obiettivi:['Cos\'è una banca','Come funziona un conto','Carte di credito e debito','Prestiti e interessi semplici'],
     moduli:[
-      {n:1, titolo:'Cos\ è una banca?', desc:'La banca come custode e moltiplicatore. Storia delle prime banche.', dur:'30 min', topicAI:'cos è una banca bambini storia'},
+      {n:1, titolo:'Cos\'è una banca?', desc:'La banca come custode e moltiplicatore. Storia delle prime banche.', dur:'30 min', topicAI:'cos è una banca bambini storia'},
       {n:2, titolo:'Il mio Conto Corrente', desc:'Come si apre, cosa ci puoi fare, come si legge un estratto conto.', dur:'30 min', topicAI:'conto corrente bambini come funziona'},
       {n:3, titolo:'Carte di pagamento', desc:'Carta di debito vs credito. Come funzionano i pagamenti digitali.', dur:'30 min', topicAI:'carta di credito debito bambini pagamento'},
-      {n:4, titolo:'Cos\ è un prestito?', desc:'Prendere in prestito e restituire. L\ interesse come "costo del denaro".', dur:'30 min', topicAI:'prestito interesse bambini spiegazione'},
+      {n:4, titolo:'Cos\'è un prestito?', desc:'Prendere in prestito e restituire. L\'interesse come "costo del denaro".', dur:'30 min', topicAI:'prestito interesse bambini spiegazione'},
       {n:5, titolo:'La banca giusta per me', desc:'Scegliere una banca. Conti online vs tradizionali.', dur:'30 min', topicAI:'banca online tradizionale bambini confronto'},
       {n:6, titolo:'M-Pesa: la banca del telefono', desc:'Come in Africa si fa banca col cellulare. M-Pesa Kenya.', dur:'30 min', topicAI:'M-Pesa Kenya mobile money Africa bambini'},
       {n:7, titolo:'Risparmia per il tuo sogno', desc:'Progetto: scegli un obiettivo e crea il piano.', dur:'30 min', topicAI:'obiettivo risparmio bambini piano'},
@@ -4871,15 +4817,15 @@ var CORSI_SCUOLE = [
     descrizione:'Borsa valori, indici, azioni, inflazione e cicli economici. Come funziona davvero il sistema finanziario globale — inclusa la BRVM africana.',
     obiettivi:['Come funziona la borsa','Azioni e obbligazioni','Inflazione e deflazione','BRVM e mercati africani'],
     moduli:[
-      {n:1, titolo:'Cos\ è la Borsa?', desc:'Mercato azionario spiegato ai ragazzi. NYSE, NASDAQ, Borsa Italiana.', dur:'36 min', topicAI:'borsa valori ragazzi come funziona spiegazione'},
-      {n:2, titolo:'Azioni: diventare proprietari', desc:'Comprare un\ azione = diventare socio di un\ azienda.', dur:'36 min', topicAI:'azioni borsa ragazzi proprietà azienda'},
+      {n:1, titolo:'Cos\'è la Borsa?', desc:'Mercato azionario spiegato ai ragazzi. NYSE, NASDAQ, Borsa Italiana.', dur:'36 min', topicAI:'borsa valori ragazzi come funziona spiegazione'},
+      {n:2, titolo:'Azioni: diventare proprietari', desc:'Comprare un\'azione = diventare socio di un\'azienda.', dur:'36 min', topicAI:'azioni borsa ragazzi proprietà azienda'},
       {n:3, titolo:'Obbligazioni e BTP', desc:'Lo Stato che prende in prestito. BTP Italia, cedole, scadenza.', dur:'36 min', topicAI:'obbligazioni BTP ragazzi stato prestito'},
-      {n:4, titolo:'Inflazione e potere d\ acquisto', desc:'Perché i prezzi salgono? Come proteggersi dall\ inflazione.', dur:'36 min', topicAI:'inflazione ragazzi potere acquisto spiegazione'},
+      {n:4, titolo:'Inflazione e potere d\'acquisto', desc:'Perché i prezzi salgono? Come proteggersi dall\'inflazione.', dur:'36 min', topicAI:'inflazione ragazzi potere acquisto spiegazione'},
       {n:5, titolo:'La BRVM — Africa Occidentale', desc:'La borsa dei 8 paesi UEMOA. Sonatel, Ecobank, investire in Africa.', dur:'36 min', topicAI:'BRVM borsa Africa ragazzi investimento'},
       {n:6, titolo:'M-Pesa e FinTech africano', desc:'Come il Kenya ha creato il sistema bancario del futuro.', dur:'36 min', topicAI:'M-Pesa fintech Africa ragazzi innovazione'},
       {n:7, titolo:'Indici globali', desc:'S&P500, DAX, Nikkei — come si leggono e cosa significano.', dur:'36 min', topicAI:'indici borsa S&P500 DAX ragazzi globali'},
       {n:8, titolo:'Cicli economici', desc:'Espansione, recessione, crisi. La crisi del 2008 spiegata.', dur:'36 min', topicAI:'cicli economici crisi 2008 ragazzi'},
-      {n:9, titolo:'ETF: il portafoglio semplice', desc:'Cos\ è un ETF. Come investire in tutto il mondo con un solo strumento.', dur:'36 min', topicAI:'ETF investimento ragazzi portafoglio semplice'},
+      {n:9, titolo:'ETF: il portafoglio semplice', desc:'Cos\'è un ETF. Come investire in tutto il mondo con un solo strumento.', dur:'36 min', topicAI:'ETF investimento ragazzi portafoglio semplice'},
       {n:10, titolo:'Simulazione Trading + Certificato', desc:'Gestisci un portafoglio simulato. Quiz finale e diploma!', dur:'36 min', topicAI:'simulazione investimento ragazzi certificato'},
     ]
   },
@@ -4889,15 +4835,15 @@ var CORSI_SCUOLE = [
     titolo:'Economia e Cittadinanza',
     classi:'Trasversale — tutte le età',
     ore:4, lezioni:8, gratis:true,
-    descrizione:'La Costituzione, i diritti economici, le tasse, il lavoro e la sostenibilità. Collegato all\ educazione civica prevista dalla Legge 21/2024.',
+    descrizione:'La Costituzione, i diritti economici, le tasse, il lavoro e la sostenibilità. Collegato all\'educazione civica prevista dalla Legge 21/2024.',
     obiettivi:['Art.1 e il diritto al lavoro','Le tasse: a cosa servono','Agenda 2030','Cittadinanza economica attiva'],
     moduli:[
       {n:1, titolo:'La Costituzione e i soldi', desc:'Art.1, 36, 47 — i diritti economici dei cittadini italiani.', dur:'30 min', topicAI:'costituzione italiana diritti economici articolo 47 risparmio'},
       {n:2, titolo:'Le tasse: perché le paghiamo', desc:'IRPEF, IVA, imposte locali. I servizi che ci offrono.', dur:'30 min', topicAI:'tasse perché paghiamo IRPEF IVA servizi pubblici ragazzi'},
       {n:3, titolo:'Il lavoro e la busta paga', desc:'Contratti di lavoro, busta paga, contributi INPS.', dur:'30 min', topicAI:'lavoro busta paga contributi INPS ragazzi'},
-      {n:4, titolo:'L\ Unione Europea e l\ Euro', desc:'Come nasce l\ euro. BCE, MES, politica monetaria.', dur:'30 min', topicAI:'unione europea euro BCE politica monetaria ragazzi'},
+      {n:4, titolo:'L\'Unione Europea e l\'Euro', desc:'Come nasce l\'euro. BCE, MES, politica monetaria.', dur:'30 min', topicAI:'unione europea euro BCE politica monetaria ragazzi'},
       {n:5, titolo:'Agenda 2030 — 17 obiettivi', desc:'Sviluppo sostenibile e finanza responsabile. ESG investing.', dur:'30 min', topicAI:'agenda 2030 obiettivi sviluppo sostenibile ESG ragazzi'},
-      {n:6, titolo:'Debito pubblico italiano', desc:'Cos\ è il debito pubblico. Come influenza la nostra vita.', dur:'30 min', topicAI:'debito pubblico italiano ragazzi impatto quotidiano'},
+      {n:6, titolo:'Debito pubblico italiano', desc:'Cos\'è il debito pubblico. Come influenza la nostra vita.', dur:'30 min', topicAI:'debito pubblico italiano ragazzi impatto quotidiano'},
       {n:7, titolo:'Cittadinanza digitale e finanza', desc:'Truffe online, phishing, protezione dei dati bancari.', dur:'30 min', topicAI:'cittadinanza digitale truffe online banca sicurezza ragazzi'},
       {n:8, titolo:'Quiz Finale + Certificato Civica', desc:'Verifica e diploma Economia e Cittadinanza!', dur:'30 min', topicAI:'quiz educazione civica economia cittadinanza certificato'},
     ]
@@ -4992,7 +4938,7 @@ var MINI_VIDEOS = {
     {titolo:'I REIT — investire in immobili senza comprare', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'avanzato', youtube_q:'REIT fondi immobiliari cosa sono come investire'},
   ],
   obbligazioni: [
-    {titolo:'Cosa è un\ obbligazione — spiegazione semplice', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'obbligazioni cosa sono come funzionano spiegazione'},
+    {titolo:'Cosa è un\'obbligazione — spiegazione semplice', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'7 min', for_kids:false, livello:'base',     youtube_q:'obbligazioni cosa sono come funzionano spiegazione'},
     {titolo:'BTP italiano — conviene comprarlo?', prof:'Marco Bianchi', prof_emoji:'👨‍🏫', durata:'8 min', for_kids:false, livello:'medio',    youtube_q:'BTP italiano conviene comprare obbligazioni stato'},
     {titolo:'Obbligazioni africane e mercati emergenti', prof:'Aisha Coulibaly', prof_emoji:'👩‍🏫', durata:'9 min', for_kids:false, livello:'avanzato', youtube_q:'obbligazioni mercati emergenti Africa rendimento'},
   ],
@@ -8497,6 +8443,31 @@ var LESSON_CACHE = safeLS('fl_lesson_cache', {}) || {};
 
 // ── GENERATE LESSON ─────────────────────────────────────────────────────
 async function generateLesson(topic, percorso, livello, eta, forceNew) {
+
+  // ── PAYWALL ── 3 prove gratis poi abbonamento obbligatorio ─────────────
+  var _proLivelli = ['avanzato','esperto','master','saggio','infinito'];
+  if (_proLivelli.indexOf(livello) !== -1 && !S.isPro) {
+    if (typeof openPopup==='function') openPopup('piani');
+    if (typeof toast==='function') toast('🔒 Livello '+livello+' — solo abbonati PRO');
+    return typeof makeFallbackLesson==='function' ? makeFallbackLesson(topic,percorso,'base') : null;
+  }
+  if (!S.isPro) {
+    var _used = parseInt(localStorage.getItem('fl_trial_used')||'0');
+    var _month = localStorage.getItem('fl_trial_month')||'';
+    var _now = new Date().toISOString().slice(0,7);
+    if (_used >= 3) {
+      if (typeof showPaywall==='function') showPaywall();
+      else if (typeof openPopup==='function') openPopup('piani');
+      if (typeof toast==='function') toast('🔐 3 prove usate — abbonati per continuare');
+      return typeof makeFallbackLesson==='function' ? makeFallbackLesson(topic,percorso,livello) : null;
+    }
+    _used++; localStorage.setItem('fl_trial_used',String(_used));
+    var _left = 3 - _used;
+    if (_left > 0) { if(typeof toast==='function') toast('🌱 Prova '+_used+'/3 — abbonati per lezioni illimitate'); }
+    else { setTimeout(function(){ if(typeof toast==='function') toast('⚠️ Ultima prova! Abbonati per continuare'); },2000); }
+  }
+  // ── END PAYWALL ─────────────────────────────────────────────────────────
+
   var cacheKey = topic + '_' + livello + '_' + (eta||S.eta) + '_' + S.lang;
   if (!forceNew && LESSON_CACHE[cacheKey]) {
     var cached = LESSON_CACHE[cacheKey];
@@ -8844,7 +8815,7 @@ async function generateInfiniteDeep(topic, percorso) {
       '<div style="max-width:560px;margin:0 auto">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
       '<div style="font-family:Fredoka One,serif;font-size:1.1rem;color:var(--gold)">♾️ Approfondimento Illimitato</div>' +
-      '<button onclick="this.closest(\'[style*=z-index:600]\').remove()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:6px 13px;color:#fff;cursor:pointer">✕</button>' +
+      '<button onclick="document.getElementById(\'inf-deep-modal\').remove()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:6px 13px;color:#fff;cursor:pointer">✕</button>' +
       '</div>' +
       '<div style="font-size:.7rem;color:rgba(255,215,0,.6);font-weight:800;letter-spacing:1px;margin-bottom:12px;text-transform:uppercase">' + decoded + '</div>' +
       '<div style="background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(167,139,250,.03));border:1px solid rgba(255,215,0,.15);border-radius:16px;padding:16px">' +
@@ -8912,10 +8883,17 @@ function buildAccademia() {
   if (livelliEl) {
     livelliEl.innerHTML = '';
     LIVELLI.forEach(function(lv) {
+      var isLocked = lv.minPro && !S.isPro;
       var tab = document.createElement('div');
-      tab.className = 'lv-tab' + (lv.id === currentLivello.id ? ' active' : '');
-      tab.textContent = (t['lv_'+lv.id]) || lv.label;
+      tab.className = 'lv-tab ' + lv.cls + (lv.id === currentLivello.id ? ' active' : '');
+      tab.innerHTML = ((t['lv_'+lv.id]) || lv.label) + (isLocked ? ' <span style="font-size:.7em;opacity:.7">🔒</span>' : '');
+      tab.title = isLocked ? 'Piano PRO richiesto' : '';
       tab.addEventListener('click', function() {
+        if (isLocked) {
+          if (typeof openPopup === 'function') openPopup('piani');
+          if (typeof toast === 'function') toast('🔒 ' + lv.label + ' — solo abbonati PRO');
+          return;
+        }
         currentLivello = lv;
         buildAccademia();
       });
@@ -9051,10 +9029,10 @@ var LESSON_BANK = {
     {id:'psi_b1',emoji:'🧠',titolo:'I Bias Cognitivi che ti costano soldi',tempo_minuti:8,semi_reward:80,sottotitolo:'I trucchi che il tuo cervello ti fa',punti_chiave:['BIAS DI CONFERMA: cerchi solo info che confermano le tue credenze','AVVERSIONE ALLA PERDITA: perdere 100€ fa 2x più paura che guadagnarne 100','HERD MENTALITY: fai quello che fanno tutti'],esempio_pratico:"Durante il Covid, tutti vendevano azioni per paura. Chi ha capito il bias, ha comprato. I mercati sono tornati ai massimi in 18 mesi.",dato_reale:'Gli investitori che vendono durante le crisi hanno rendimenti inferiori del 1.5-2% annuo rispetto a chi rimane investito.',collegamento_africa:"Il detto Wolof 'Ku bokk xam-xam du bokk xar' (chi condivide la conoscenza non divide le pecore) riflette l'anti-herd mentality.",sfida_vita_reale:"Pensa all'ultimo acquisto importante. Hai cercato solo opinioni positive (bias di conferma)?",quiz:[{domanda:"Cos'è il bias di conferma?",opzioni:['Confermare gli acquisti online','Cercare solo info che confermano le proprie credenze','Chiedere la conferma del bonifico','Verificare i conti'],risposta_corretta:1,spiegazione:'Il bias di conferma ci fa cercare solo le info che già confermano quello che pensiamo.'},{domanda:"L'avversione alla perdita significa che:",opzioni:['Non vuoi perdere al gioco','Perdere 100€ fa più male psicologico che guadagnarne 100','Sei contrario alle perdite aziendali','Hai paura delle banche'],risposta_corretta:1,spiegazione:'Il dolore della perdita è psicologicamente 2 volte più intenso del piacere di un guadagno equivalente.'}]},
   ],
   tasse_base:[
-    {id:'tas_b1',emoji:'📋',titolo:'IRPEF: come funziona la tua busta paga',tempo_minuti:8,semi_reward:80,sottotitolo:'Capire cosa ti trattengono e perché',punti_chiave:['IRPEF è progressiva: più guadagni, più paghi','Scaglioni 2024: 0-28.000€→23%, 28-50.000€→35%, oltre→43%','Le detrazioni riducono la tassa'],esempio_pratico:'Stipendio lordo 30.000€. Primo scaglione (28.000€ × 23%) = 6.440€. Secondo (2.000€ × 35%) = 700€. Totale lordo 7.140€. Meno detrazioni ≈ 5.185€ netti IRPEF.',dato_reale:"Il lavoratore italiano medio paga circa il 28-32% del lordo tra IRPEF e contributi INPS.",collegamento_africa:"In Costa d'Avorio l'imposta sul reddito va dall'1.5% al 36%. Ogni paese ha il suo contratto sociale.",sfida_vita_reale:'Calcola la tua IRPEF usando gli scaglioni. Confronta con la ritenuta sulla busta paga.',quiz:[{domanda:'Come funziona il sistema IRPEF italiano?',opzioni:['Tassa flat uguale per tutti','Sistema progressivo: più guadagni, più paghi','Tassa fissa di 1.000€','Dipende dalla regione'],risposta_corretta:1,spiegazione:'Sistema progressivo: solo la parte di reddito che supera ogni soglia viene tassata all\'aliquota superiore.'},{domanda:'Qual è l\ aliquota IRPEF per il primo scaglione?',opzioni:['15%','23%','35%','43%'],risposta_corretta:1,spiegazione:'Il 23% si applica alla parte di reddito da 0 a 28.000€.'}]},
+    {id:'tas_b1',emoji:'📋',titolo:'IRPEF: come funziona la tua busta paga',tempo_minuti:8,semi_reward:80,sottotitolo:'Capire cosa ti trattengono e perché',punti_chiave:['IRPEF è progressiva: più guadagni, più paghi','Scaglioni 2024: 0-28.000€→23%, 28-50.000€→35%, oltre→43%','Le detrazioni riducono la tassa'],esempio_pratico:'Stipendio lordo 30.000€. Primo scaglione (28.000€ × 23%) = 6.440€. Secondo (2.000€ × 35%) = 700€. Totale lordo 7.140€. Meno detrazioni ≈ 5.185€ netti IRPEF.',dato_reale:"Il lavoratore italiano medio paga circa il 28-32% del lordo tra IRPEF e contributi INPS.",collegamento_africa:"In Costa d'Avorio l'imposta sul reddito va dall'1.5% al 36%. Ogni paese ha il suo contratto sociale.",sfida_vita_reale:'Calcola la tua IRPEF usando gli scaglioni. Confronta con la ritenuta sulla busta paga.',quiz:[{domanda:'Come funziona il sistema IRPEF italiano?',opzioni:['Tassa flat uguale per tutti','Sistema progressivo: più guadagni, più paghi','Tassa fissa di 1.000€','Dipende dalla regione'],risposta_corretta:1,spiegazione:'Sistema progressivo: solo la parte di reddito che supera ogni soglia viene tassata all\'aliquota superiore.'},{domanda:'Qual è l\'aliquota IRPEF per il primo scaglione?',opzioni:['15%','23%','35%','43%'],risposta_corretta:1,spiegazione:'Il 23% si applica alla parte di reddito da 0 a 28.000€.'}]},
   ],
   pensione_base:[
-    {id:'pen_b1',emoji:'🧓',titolo:'Perché pensare alla pensione a 25 anni',tempo_minuti:7,semi_reward:80,sottotitolo:'Il segreto che nessuno ti insegna a scuola',punti_chiave:['Il sistema pensionistico italiano è in crisi','Chi inizia a 25 anni deve contribuire 3x meno di chi inizia a 35','La pensione complementare è lo strumento da usare subito'],esempio_pratico:'Marco investe 200€/mese dal 25 anni al 6%: a 65 anni ha 398.000€. Luca inizia a 35 anni: solo 202.000€. Stessa cifra, il doppio del risultato.',dato_reale:"L'OCSE stima che i giovani italiani riceveranno una pensione pari al 50-60% dell'ultimo stipendio.",collegamento_africa:'In Senegal non esiste sistema pensionistico statale per la maggioranza. I figli si prendono cura dei genitori.',sfida_vita_reale:"Vai su inps.it → 'La mia pensione'. Simula la tua pensione futura. Sorprenditi.",quiz:[{domanda:'Perché conviene iniziare a risparmiare per la pensione il prima possibile?',opzioni:['Perché la legge lo impone','Per l\'interesse composto: più tempo = più crescita','Perché la pensione statale è generosa','Non conviene iniziare prima'],risposta_corretta:1,spiegazione:"L'interesse composto è esponenziale: ogni anno in più vale il doppio degli ultimi anni."},{domanda:'Quanto riceveranno circa di pensione i giovani italiani rispetto all\ ultimo stipendio?',opzioni:['80-90%','70-80%','50-60%','30-40%'],risposta_corretta:2,spiegazione:'50-60% è la proiezione attuale. Per non abbassare il tenore di vita, bisogna integrare con pensione complementare.'}]},
+    {id:'pen_b1',emoji:'🧓',titolo:'Perché pensare alla pensione a 25 anni',tempo_minuti:7,semi_reward:80,sottotitolo:'Il segreto che nessuno ti insegna a scuola',punti_chiave:['Il sistema pensionistico italiano è in crisi','Chi inizia a 25 anni deve contribuire 3x meno di chi inizia a 35','La pensione complementare è lo strumento da usare subito'],esempio_pratico:'Marco investe 200€/mese dal 25 anni al 6%: a 65 anni ha 398.000€. Luca inizia a 35 anni: solo 202.000€. Stessa cifra, il doppio del risultato.',dato_reale:"L'OCSE stima che i giovani italiani riceveranno una pensione pari al 50-60% dell'ultimo stipendio.",collegamento_africa:'In Senegal non esiste sistema pensionistico statale per la maggioranza. I figli si prendono cura dei genitori.',sfida_vita_reale:"Vai su inps.it → 'La mia pensione'. Simula la tua pensione futura. Sorprenditi.",quiz:[{domanda:'Perché conviene iniziare a risparmiare per la pensione il prima possibile?',opzioni:['Perché la legge lo impone','Per l\'interesse composto: più tempo = più crescita','Perché la pensione statale è generosa','Non conviene iniziare prima'],risposta_corretta:1,spiegazione:"L'interesse composto è esponenziale: ogni anno in più vale il doppio degli ultimi anni."},{domanda:'Quanto riceveranno circa di pensione i giovani italiani rispetto all\'ultimo stipendio?',opzioni:['80-90%','70-80%','50-60%','30-40%'],risposta_corretta:2,spiegazione:'50-60% è la proiezione attuale. Per non abbassare il tenore di vita, bisogna integrare con pensione complementare.'}]},
   ],
   immobiliare_base:[
     {id:'imm_b1',emoji:'🏠',titolo:'Comprare o Affittare: la decisione più importante',tempo_minuti:9,semi_reward:80,sottotitolo:'I numeri reali senza romanticismo',punti_chiave:['Comprare NON è sempre meglio: dipende da dove, quando, per quanto tempo','Price-to-Rent ratio: prezzo ÷ affittoAnnuo. Se >20, affittare può convenire','I costi nascosti: notaio, IMU, manutenzione = 2-3% del valore annuo'],esempio_pratico:'Appartamento a Milano: 500.000€. Affitto simile: 18.000€/anno. P/R ratio = 27.8. Ci vogliono quasi 28 anni solo per pareggiare con l\'affitto.',dato_reale:'A Milano e Roma comprare conviene solo se si rimane almeno 10-15 anni.',collegamento_africa:'In Senegal il 70% della popolazione in città vive in affitto. La proprietà è spesso condivisa dalla famiglia allargata.',sfida_vita_reale:'Cerca su Idealista il prezzo acquisto e affitto di appartamenti simili nella tua città. Calcola il P/R ratio.',quiz:[{domanda:'Un Price-to-Rent ratio di 30 significa:',opzioni:['Meglio comprare sempre','Ci vogliono 30 anni di affitto per eguagliare il costo acquisto','L\'affitto è 30 volte il mutuo','Il prezzo è sceso del 30%'],risposta_corretta:1,spiegazione:'P/R ratio 30 = il prezzo di acquisto è 30 volte l\'affitto annuale. Più alto è, meno conviene comprare.'},{domanda:"Quali sono i costi 'nascosti' di possedere un immobile?",opzioni:['Solo il mutuo','IMU, manutenzione, assicurazione, spese condominiali','Nessun costo oltre il mutuo','Solo l\'assicurazione'],risposta_corretta:1,spiegazione:'IMU, manutenzione, assicurazione, condominio possono pesare 2-3% del valore ogni anno.'}]},
@@ -9396,89 +9374,7 @@ var GRANDE_SAGGEZZA = [
     semi:55
   },
 
-  // ── NUOVI GIGANTI — Lipton, Greene, Dispenza, Carnegie ──────────────
-  {
-    id:'lipton_biologia', fonte:'Libro', libro:'La Biologia delle Credenze — Bruce Lipton (2005)', icona:'🧬',
-    categoria:'giganti', difficolta:'avanzata',
-    citazione:'"Non siamo vittime dei nostri geni, ma maestri del nostro destino biologico."',
-    titolo:'Le Tue Credenze Riscrivono il DNA',
-    lezione:'Lipton, biologo cellulare di Stanford, ha dimostrato che le cellule non sono controllate dal DNA ma dall AMBIENTE — e l ambiente include i tuoi PENSIERI e le tue CREDENZE. Il 95% del tuo comportamento è guidato dal subconscio programmato entro i 7 anni. Se a 6 anni hai imparato che i soldi sono cattivi o siamo poveri, questa credenza opera come un programma invisibile che sabota ogni tuo tentativo di ricchezza. La buona notizia: l epigenesi dimostra che puoi riscrivere il programma.',
-    applicazione:'Esercizio: scrivi le 3 credenze sul denaro che hai ricevuto da bambino (es. "i soldi non crescono sugli alberi", "bisogna lavorare duro per guadagnare"). Poi scrivi la versione opposta potenziante. Qual è più vera?',
-    domanda:'Qual è la credenza limitante sui soldi che porti dentro da quando eri bambino? Da dove viene?',
-    semi:70
-  },
-  {
-    id:'greene_48_leggi', fonte:'Libro', libro:'Le 48 Leggi del Potere — Robert Greene (1998)', icona:'⚔️',
-    categoria:'giganti', difficolta:'avanzata',
-    citazione:'"Il potere non è mai stabile. Chi non cresce, declina."',
-    titolo:'Le Leggi del Potere Applicate alla Finanza',
-    lezione:'Greene ha studiato 3000 anni di storia — Cesare, Machiavelli, Sun Tzu, Rothschild — per distillare le leggi universali del potere. Applicate alla finanza: Legge 1 (Non offuscare mai il maestro — impara da chi è più ricco senza minacciarlo). Legge 28 (Agisci con Audacia — chi esita perde). Legge 40 (Disprezza il gratuito — l educazione finanziaria gratuita vale oro). Legge 48 (La forma è una forma — nessuna situazione è permanente, adattati). La ricchezza è il potere applicato al denaro.',
-    applicazione:'Analizza il tuo nemico finanziario principale (debito, dipendenza, paura) usando la Legge 15 di Greene (Schiaccia completamente il Nemico): costruisci un piano per eliminarlo completamente, non ridurlo.',
-    domanda:'Se applicassi la Legge 28 (Agisci con Audacia) alla tua vita finanziaria oggi, cosa faresti diversamente?',
-    semi:65
-  },
-  {
-    id:'dispenza_abitudine', fonte:'Libro', libro:'Cambia l abitudine di essere te Stesso - Joe Dispenza (2012)', icona:'🧠',
-    categoria:'giganti', difficolta:'avanzata',
-    citazione:'"Il tuo passato non è il tuo destino. Il tuo futuro è letteralmente un diverso stato della mente."',
-    titolo:'Rompi il Loop del Passato Finanziario',
-    lezione:'Dispenza integra neuroscienza e meditazione. La tesi: il 90% delle persone è addicted alle emozioni del passato. Se hai vissuto scarsità, ansia da debiti, fallimento — il tuo cervello si è cablato su quell identità. Per cambiare devi interrompere il loop: meditazione mattutina che proietta la versione futura di te (ricco, libero, sereno) PRIMA che il vecchio programma si riattivi. 66 giorni di pratiche coerenti riconfigurano letteralmente i circuiti neurali.',
-    applicazione:'Pratica Dispenza: ogni mattina, prima di guardare il telefono, scrivi 3 frasi al PRESENTE come se fossi già finanziariamente libero. "Sono grato per la mia libertà finanziaria. I miei investimenti crescono ogni giorno." Fallo 66 giorni.',
-    domanda:'Quale loop del passato ti impedisce di fare quel passo finanziario che sai che dovresti fare?',
-    semi:70
-  },
-  {
-    id:'carnegie_relazioni', fonte:'Libro', libro:'Come Trattare gli Altri e Farseli Amici — Dale Carnegie (1936)', icona:'🤝',
-    categoria:'giganti', difficolta:'base',
-    citazione:'"Puoi fare più amici in due mesi interessandoti agli altri che in due anni cercando di far interessare gli altri a te."',
-    titolo:'Le Relazioni sono il Vero Capitale',
-    lezione:'Carnegie ha insegnato che il successo è 85% abilità umane e 15% competenze tecniche. La rete di relazioni è il tuo asset più importante. Il principio chiave: dai prima di chiedere. Sii genuinamente interessato agli altri. Ricorda i nomi. In finanza: il migliore investimento non è solo un ETF — è costruire relazioni con persone che ti aprono porte che da solo non potresti aprire.',
-    applicazione:'Esercizio Carnegie: questa settimana contatta 3 persone che ammiri. Non chiedere nulla. Offri qualcosa: un articolo utile, una connessione, un complimento genuino.',
-    domanda:'Chi è la persona più preziosa nella tua rete che potrebbe cambiarti la vita finanziaria? Quando hai parlato con lei l ultima volta?',
-    semi:55
-  },
-  // ── PROTOCOLLO IMPERIALE — Cheikh Anta Diop, Sun Tzu, Musashi ────────────
-  {
-    id:'cheikh_anta_diop', fonte:'Filosofia Africana', libro:'Anteriorità delle Civiltà Negre — Cheikh Anta Diop (1954)', icona:'🌍',
-    categoria:'africa', difficolta:'avanzata',
-    citazione:'"Finché non conoscerai la tua storia, sarai schiavo dei numeri degli altri."',
-    titolo:'La Sovranità Economica Africana',
-    lezione:'Cheikh Anta Diop, fisico e storico senegalese, ha dimostrato scientificamente che la prima grande civiltà della storia — l Antico Egitto (Kemet) — era africana nera. Le implicazioni finanziarie sono enormi: prima che il colonialismo distruggesse le strutture economiche africane, l Africa aveva sistemi monetari sofisticati (cowrie, oro, sale), banche di grano (granai pubblici come fondi sovrani), commercio intercontinentale (Mali-India-Cina). Conoscere questa storia non è nostalgia — è capire che la capacità economica africana è strutturale, non importata dall occidente. Il principio Maat (verità, equilibrio, giustizia) era il fondamento etico dell economia egizia: ridistribuzione nei tempi di scarsità, accumulo nei tempi di abbondanza. La Banca Centrale Egizia esisteva 3000 anni prima di quella di Inghilterra.',
-    applicazione:'Esercizio Diop: studia una innovazione economica africana pre-coloniale (tontine, cowrie, sistema di credito del mali). Come puoi applicarla oggi nella tua comunità o nel tuo business?',
-    domanda:'La tua visione economica è costruita sulla tua storia o su quella degli altri? Cosa cambierebbe se sapessi che la prima banca era africana?',
-    semi:80
-  },
-  {
-    id:'sun_tzu_finanza', fonte:'Filosofia', libro:'L Arte della Guerra — Sun Tzu (544-496 a.C.)', icona:'🐉',
-    categoria:'mindset', difficolta:'avanzata',
-    citazione:'"Il guerriero vittorioso vince prima ancora di combattere. Il guerriero sconfitto combatte sperando di vincere."',
-    titolo:'L Arte della Guerra Finanziaria — Posizionarsi Prima del Caos',
-    lezione:'Sun Tzu non era solo un generale: era un stratega del posizionamento. In finanza questo si traduce nella regola aurea: i ricchi si preparano PRIMA della crisi, non durante. Principio 1 — Conosci te stesso (il tuo capitale, la tua tolleranza al rischio, le tue emozioni). Principio 2 — Conosci il nemico (inflazione, debito, volatilità, FOMO). Principio 3 — Scegli il terreno (i mercati dove sei avvantaggiato). Principio 4 — Vinci senza combattere (asset che lavorano per te senza sforzo). Il principio del Kaizen finanziario: non cercare il colpo grosso, migliora dell 1% ogni giorno. Chi investe 100€/mese a 7% per 30 anni batte chi aspetta di avere 100.000€ da investire.',
-    applicazione:'Analisi Sun Tzu del tuo portafoglio: 1) Identifica i tuoi punti deboli finanziari (il tuo Tallone d Achille). 2) Identifica dove sei forte. 3) Concentra la tua energia dove sei forte, elimina dove sei debole.',
-    domanda:'Stai combattendo i tuoi problemi finanziari di fronte (reagendo alle crisi) o li stai prevenendo prima che accadano (posizionamento strategico)?',
-    semi:70
-  },
-  {
-    id:'musashi_disciplina', fonte:'Filosofia', libro:'Il Libro dei Cinque Anelli — Miyamoto Musashi (1645)', icona:'🗡️',
-    categoria:'mindset', difficolta:'avanzata',
-    citazione:'"Non rimandare a domani. Colui che rimanda la propria crescita rimanda la propria libertà."',
-    titolo:'La Disciplina del Samurai Applicata alla Ricchezza',
-    lezione:'Miyamoto Musashi fu il samurai più letale della storia giapponese (60+ duelli, 0 sconfitte). Il suo segreto non era la forza fisica ma la DISCIPLINA MENTALE assoluta e il Kaizen — miglioramento continuo dell 1% ogni giorno. In finanza: la disciplina batte l intelligenza. Un piano mediocre eseguito con disciplina assoluta batte un piano geniale eseguito in modo irregolare. Musashi si svegliava all alba ogni giorno. L equivalente finanziario: il PAC automatico mensile che non puoi toccare, eseguito ogni 1° del mese per 30 anni, batte qualsiasi strategia elaborata eseguita in modo incostante. Il Kintsugi finanziario: le cicatrici dei tuoi fallimenti finanziari passati non ti indeboliscono — ti rendono più forte e più saggio se le integri correttamente.',
-    applicazione:'Routine Musashi: scegli UNA sola abitudine finanziaria da eseguire ogni giorno senza eccezioni per 66 giorni. Esempi: registrare ogni spesa, leggere 10 pagine di finanza, trasferire 5 euro nel fondo investimenti. Poi aggiungi la seconda.',
-    domanda:'Qual è la tua disciplina finanziaria quotidiana? La esegui ogni giorno o solo quando ti ricordi? Come sarebbe la tua vita fra 10 anni con disciplina assoluta?',
-    semi:70
-  },
-  {
-    id:'scudo_maat', fonte:'Filosofia Africana', libro:'Principi di Maat — Kemet, Antico Egitto (3000 a.C.)', icona:'⚖️',
-    categoria:'africa', difficolta:'avanzata',
-    citazione:'"Maat non è una regola imposta. È l ordine naturale che protegge chi lo rispetta."',
-    titolo:'Lo Scudo di Maat — Protezione Totale del Patrimonio',
-    lezione:'Maat era il principio egizio di verità, equilibrio e giustizia cosmica. Lo Scudo di Maat moderno è un sistema a 6 livelli di protezione del patrimonio nei periodi di crisi e reset economico. Livello 1 — Miniere d Oro (oro fisico, leva x5 durante il reset monetario). Livello 2 — Terre Kemet (immobili agricoli e terreni produttivi — il cibo è la vera moneta di riserva). Livello 3 — Immobiliare fisico (utilità inconfiscabile, rendita reale). Livello 4 — Beni Essenziali (investire in aziende di beni inelastici — acqua, cibo, igiene). Livello 5 — Valute Rifugio (diversificazione geografica su valute stabili: CHF, SGD, oro). Livello 6 — Competenze (l asset tra le tue orecchie è inconfiscabile — il tuo cervello non può essere sequestrato). Chi costruisce tutti e 6 i livelli è immune ai cicli economici di 50 anni.',
-    applicazione:'Audit Scudo di Maat: valuta da 1 a 10 la tua solidità su ciascuno dei 6 livelli. Dove sei sotto il 5? Costruisci prima i livelli più bassi prima di ottimizzare quelli già alti.',
-    domanda:'In una crisi economica grave (come il 1929 o il 2008), quale dei tuoi asset sopravvive? Quanti dei 6 livelli dello Scudo hai già attivato?',
-    semi:75
-  },
-  // ── GRANDI LIBRI E PENSATORI (già presenti) ──────────────────────────
+  // ── GRANDI LIBRI E PENSATORI ────────────────────────────────────────
   {
     id:'napoleon_hill', fonte:'Libro', libro:'Think and Grow Rich — Napoleon Hill (1937)', icona:'📖',
     categoria:'mindset', difficolta:'media',
@@ -9589,8 +9485,6 @@ var SAGGEZZA_CATEGORIE = {
   africa:      { label:'Saggezza Africana', icon:'🌍', color:'#F5C842' },
   mindset:     { label:'Mindset & Libri', icon:'📖', color:'#06B6D4' },
   coraggio:    { label:'Coraggio & Forza', icon:'✊', color:'#4ADE80' },
-  giganti:     { label:'I Giganti — Lipton, Greene, Dispenza...', icon:'🧬', color:'#f87171' },
-  imperiale:   { label:'Protocollo Imperiale — Diop, Sun Tzu, Musashi', icon:'🛡️', color:'#d4af37' },
 };
 
 
@@ -9599,131 +9493,6 @@ function buildAdulti() {
   if (!body) return;
   body.innerHTML = '';
   var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
-
-  // ═══════════════════════════════════════════════════════════════
-  // ☀️ SUN SUN — BANNER DI FIORITURA (Organismo Vivente)
-  // ═══════════════════════════════════════════════════════════════
-  var sunBanner = document.createElement('div');
-  sunBanner.style.cssText = 'background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.35);border-radius:18px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden';
-  var lezioniF = Object.keys(S.completate||{}).length;
-  var livMsg = lezioniF>=20 ? '🌟 Sei in piena fioritura. La conoscenza lavora per te.' : lezioniF>=10 ? '🌱 Stai crescendo. Continua — ogni lezione cambia il tuo subconscio.' : '☀️ La luce della conoscenza sta iniziando a illuminare il tuo cammino.';
-  sunBanner.innerHTML =
-    '<div style="font-family:Fredoka One,serif;font-size:1.3rem;color:var(--gold);margin-bottom:4px">☀️ Sun Sun! — La Fase di Fioritura</div>' +
-    '<div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.6">' + livMsg + '</div>' +
-    '<div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:6px">Lezioni completate: <strong style="color:var(--gold)">' + lezioniF + '</strong> · La biologia delle credenze si sta riscrivendo 🧬</div>';
-  body.appendChild(sunBanner);
-
-  // Bottone Protocollo Imperiale
-  var piBtn = document.createElement('button');
-  piBtn.style.cssText = 'width:100%;padding:13px 16px;background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(180,100,0,.1));border:1.5px solid rgba(212,175,55,.4);border-radius:16px;color:#d4af37;font-size:.85rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:14px;letter-spacing:.3px';
-  piBtn.innerHTML = '🛡️ Protocollo Imperiale — Diop · Sun Tzu · Musashi · Scudo di Maat';
-  piBtn.addEventListener('click', function(){ showScreen('protocollo-imperiale'); });
-  body.appendChild(piBtn);
-
-  // ═══════════════════════════════════════════════════════════════
-  // 📚 LIBRERIA DEI GIGANTI — Organismo Vivente Auto-Aggiornante
-  // ═══════════════════════════════════════════════════════════════
-  var libTitle = document.createElement('div');
-  libTitle.className = 'adult-section-title';
-  libTitle.innerHTML = '📚 Libreria dei Giganti <span style="font-size:.6rem;background:rgba(255,215,0,.15);color:var(--gold);border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:2px 7px;margin-left:6px">ORGANISMO VIVENTE</span>';
-  body.appendChild(libTitle);
-
-  var GIGANTI = [
-    { id:'lipton_biologia',   em:'🧬', nome:'Bruce Lipton',     libro:'La Biologia delle Credenze',          tag:'Epigenetica',    col:'rgba(74,222,128,.1)',   bc:'rgba(74,222,128,.3)',  tc:'#4ade80' },
-    { id:'greene_48_leggi',   em:'⚔️', nome:'Robert Greene',    libro:'Le 48 Leggi del Potere',              tag:'Strategia',      col:'rgba(248,113,113,.08)', bc:'rgba(248,113,113,.3)', tc:'#f87171' },
-    { id:'kiyosaki_padre',    em:'💰', nome:'Robert Kiyosaki',  libro:'Padre Ricco Padre Povero',            tag:'Finanza',        col:'rgba(255,215,0,.08)',   bc:'rgba(255,215,0,.3)',   tc:'var(--gold)' },
-    { id:'napoleon_hill',     em:'📖', nome:'Napoleon Hill',    libro:'Pensa e Arricchisci te Stesso',       tag:'Mindset',        col:'rgba(167,139,250,.08)', bc:'rgba(167,139,250,.3)', tc:'#a78bfa' },
-    { id:'dispenza_abitudine',em:'🧠', nome:'Joe Dispenza',     libro:'Cambia l Abitudine di Essere',       tag:'Neuroscienza',   col:'rgba(6,182,212,.08)',   bc:'rgba(6,182,212,.3)',   tc:'#67e8f9' },
-    { id:'carnegie_relazioni',em:'🤝', nome:'Dale Carnegie',    libro:'Come Trattare gli Altri',             tag:'Relazioni',      col:'rgba(251,146,60,.08)',  bc:'rgba(251,146,60,.3)',  tc:'#fb923c' },
-    { id:'seven_habits',      em:'🎯', nome:'Stephen Covey',    libro:'Le 7 Abitudini',                      tag:'Leadership',     col:'rgba(99,102,241,.08)',  bc:'rgba(99,102,241,.3)',  tc:'#818cf8' },
-    { id:'psicologia_soldi',  em:'💭', nome:'Morgan Housel',    libro:'La Psicologia dei Soldi',             tag:'Comportamento',  col:'rgba(20,184,166,.08)',  bc:'rgba(20,184,166,.3)',  tc:'#2dd4bf' },
-  ];
-
-  var libGrid = document.createElement('div');
-  libGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px';
-
-  GIGANTI.forEach(function(g) {
-    var card = document.createElement('div');
-    var isRead = !!(S.completate && S.completate[g.id]);
-    card.style.cssText = 'background:' + g.col + ';border:1.5px solid ' + g.bc + ';border-radius:14px;padding:11px 10px;cursor:pointer;transition:.15s;position:relative';
-    card.innerHTML =
-      (isRead ? '<div style="position:absolute;top:7px;right:8px;font-size:.65rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:5px;padding:1px 5px">✓ Letto</div>' : '') +
-      '<div style="font-size:1.5rem;margin-bottom:5px">' + g.em + '</div>' +
-      '<div style="font-size:.72rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:2px">' + g.libro + '</div>' +
-      '<div style="font-size:.62rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + g.nome + '</div>' +
-      '<span style="font-size:.58rem;font-weight:800;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,.08);color:' + g.tc + '">' + g.tag + '</span>';
-    card.addEventListener('click', function() {
-      var entry = GRANDE_SAGGEZZA.find(function(s){ return s.id === g.id; });
-      if (entry) { openSaggezzaCard(entry); } else { generateLesson(g.libro, 'psicologia', 'esperto', 'adulto', false).then(function(lez){ showScreen('accademia'); openLezione(lez); }); }
-    });
-    libGrid.appendChild(card);
-  });
-
-  // Slot dinamico — "Nuovo Gigante in arrivo"
-  var nextSlot = document.createElement('div');
-  nextSlot.style.cssText = 'grid-column:1/-1;border:2px dashed rgba(255,255,255,.1);border-radius:14px;padding:14px;text-align:center;cursor:pointer;opacity:.5;transition:.15s';
-  nextSlot.innerHTML = '<div style="font-size:1.3rem;margin-bottom:4px">⚡</div><div style="font-size:.72rem;font-weight:800;color:rgba(255,255,255,.5)">Nuovo Gigante in arrivo...</div><div style="font-size:.62rem;color:rgba(255,255,255,.3);margin-top:2px">La Libreria si aggiorna automaticamente</div>';
-  nextSlot.addEventListener('click', function(){ toast('🔄 La Libreria dei Giganti si aggiorna con ogni nuova sessione!'); });
-  libGrid.appendChild(nextSlot);
-  body.appendChild(libGrid);
-
-  // ═══════════════════════════════════════════════════════════════
-  // 🔴 MODULO ANTI-BANCA — Il Nemico (Kiyosaki + Greene)
-  // ═══════════════════════════════════════════════════════════════
-  var nemBlock = document.createElement('div');
-  nemBlock.style.cssText = 'background:rgba(220,38,38,.08);border:1.5px solid rgba(248,113,113,.3);border-radius:18px;padding:16px 18px;margin-bottom:16px;position:relative;overflow:hidden';
-  nemBlock.innerHTML =
-    '<div style="font-family:Fredoka One,serif;font-size:1.1rem;color:#f87171;margin-bottom:6px">🔴 Sconfiggi il Nemico — Modulo Anti-Banca</div>' +
-    '<div style="font-size:.75rem;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:10px">' +
-    '<em style="color:rgba(255,255,255,.45)">"Il debito cattivo è un parassita biologico."</em><br>' +
-    'Kiyosaki distingue <strong style="color:#f87171">debiti cattivi</strong> (mutui su beni che non producono reddito, carte di credito a rate, auto in leasing) da <strong style="color:#4ade80">debiti buoni</strong> (mutuo su immobile in affitto, prestito per un asset produttivo).<br>' +
-    'Greene insegna: non ridurre il tuo nemico — eliminalo. Fai la tua guerra al debito in modo totale, non graduale.' +
-    '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px" id="antib-analisi">' +
-    '<div style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:10px;text-align:center">' +
-    '<div style="font-size:.65rem;color:#f87171;font-weight:800;margin-bottom:4px">💸 DEBITI CATTIVI</div>' +
-    '<div style="font-size:.7rem;color:rgba(255,255,255,.6)">Mutuo abitazione, auto, carte di credito, consumo</div>' +
-    '</div>' +
-    '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:10px;text-align:center">' +
-    '<div style="font-size:.65rem;color:#4ade80;font-weight:800;margin-bottom:4px">💰 DEBITI BUONI</div>' +
-    '<div style="font-size:.7rem;color:rgba(255,255,255,.6)">Investimento in immobili a reddito, business, asset produttivi</div>' +
-    '</div>' +
-    '</div>' +
-    '<button id="btn-analisi-debito" style="width:100%;padding:10px;background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);border-radius:11px;color:#f87171;font-size:.8rem;font-weight:900;cursor:pointer">🔴 Analizza il mio debito — Strategia Kiyosaki</button>';
-
-  nemBlock.querySelector('#btn-analisi-debito').addEventListener('click', function() {
-    generateLesson('Strategia Kiyosaki — eliminare il debito cattivo e costruire asset', 'investimenti', 'esperto', 'adulto', true)
-      .then(function(lez){ showScreen('accademia'); openLezione(lez); });
-  });
-  body.appendChild(nemBlock);
-
-  // ═══════════════════════════════════════════════════════════════
-  // 🧠 LABORATORIO MENTALE — Domanda Profonda del Giorno
-  // ═══════════════════════════════════════════════════════════════
-  var labBlock = document.createElement('div');
-  labBlock.style.cssText = 'background:rgba(167,139,250,.07);border:1.5px solid rgba(167,139,250,.25);border-radius:18px;padding:16px 18px;margin-bottom:16px';
-  // Ruota tra domande profonde dei Giganti
-  var DEEP_Q = [
-    { autore:'Joe Dispenza 🧠', q:'Quale emozione del passato ti impedisce di agire finanziariamente nel presente?' },
-    { autore:'Bruce Lipton 🧬', q:'Qual è la credenza sul denaro che hai ricevuto da bambino entro i 7 anni?' },
-    { autore:'Robert Greene ⚔️', q:'Chi è il tuo mentore finanziario? Stai imparando da chi è già dove vuoi arrivare?' },
-    { autore:'Napoleon Hill 📖', q:'Hai scritto il tuo obiettivo finanziario con data, cifra e piano d azione?' },
-    { autore:'Dale Carnegie 🤝', q:'Chi nella tua rete potrebbe aprirti una porta finanziaria che da solo non puoi aprire?' },
-    { autore:'Robert Kiyosaki 💰', q:'Elenca i tuoi asset reali (cosa ti paga). Quanto producono ogni mese?' },
-  ];
-  var qToday = DEEP_Q[new Date().getDay() % DEEP_Q.length];
-  labBlock.innerHTML =
-    '<div style="font-family:Fredoka One,serif;font-size:1rem;color:#a78bfa;margin-bottom:8px">🧪 Laboratorio Mentale — Domanda del Giorno</div>' +
-    '<div style="font-size:.65rem;color:#a78bfa;font-weight:800;margin-bottom:5px">— ' + qToday.autore + '</div>' +
-    '<div style="font-size:.82rem;color:rgba(255,255,255,.8);font-style:italic;line-height:1.65;margin-bottom:12px">"' + qToday.q + '"</div>' +
-    '<button id="lab-btn-today" style="width:100%;padding:9px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);border-radius:10px;color:#a78bfa;font-size:.75rem;font-weight:800;cursor:pointer">💬 Rifletti e Guadagna +20 Semi</button>';
-  labBlock.querySelector('button').addEventListener('click', function() {
-    S.coins = (S.coins||0) + 20;
-    if(typeof updateHUD==='function') updateHUD();
-    if(typeof saveS==='function') saveS();
-    toast('🧠 +20 Semi! La riflessione profonda è il primo passo.');
-  });
-  body.appendChild(labBlock);
 
   // KPI
   var kpiTitle = document.createElement('div');
@@ -11177,7 +10946,7 @@ const AVATARS = [
     {q:'Cosa significa "Teranga" in Wolof?',opts:['Ricchezza','Ospitalità','Coraggio','Saggezza'],correct:1,reward:10},
     {q:'Qual è il più grande raduno africano?',opts:['FESPACO','Pellegrinaggio a Touba','Carnevale di Dakar','Festival di Bamako'],correct:1,reward:10},
   ],
-  missioni:[{icon:'🤝',title:'Spirito Teranga',desc:'Condividi l\ app con un amico',reward:25}],
+  missioni:[{icon:'🤝',title:'Spirito Teranga',desc:'Condividi l\'app con un amico',reward:25}],
 },
 {
   id:'amara',name:'Amara',flag:'🇲🇱',gender:'m',unlockLv:3,starter:false,
@@ -11561,7 +11330,7 @@ const AVATARS = [
     {q:'Come si chiama il miracolo economico della Corea del Sud?',opts:['Tigre asiatica','Miracolo sul fiume Han','Drago orientale','Crescita K'],correct:1,reward:12},
     {q:'Quale azienda coreana è la più grande produttrice di semiconduttori?',opts:['LG','Hyundai','Samsung','Kia'],correct:2,reward:10},
   ],
-  missioni:[{icon:'🎵',title:'Onda Hallyu',desc:'Completa l\ app in coreano per un giorno',reward:30}],
+  missioni:[{icon:'🎵',title:'Onda Hallyu',desc:'Completa l\'app in coreano per un giorno',reward:30}],
 },
 {
   id:'ali',name:'Ali',flag:'🇹🇷',gender:'m',unlockLv:11,starter:false,
@@ -11585,7 +11354,7 @@ const AVATARS = [
     {q:'Istanbul è stata capitale di quanti imperi?',opts:['1','2','3','4'],correct:2,reward:12},
     {q:'La Turchia si trova su quanti continenti?',opts:['1','2','3'],correct:1,reward:8},
   ],
-  missioni:[{icon:'🕌',title:'Ponte tra Mondi',desc:'Cambia lingua 3 volte nell\ app',reward:20}],
+  missioni:[{icon:'🕌',title:'Ponte tra Mondi',desc:'Cambia lingua 3 volte nell\'app',reward:20}],
 },
 {
   id:'nadia',name:'Nadia',flag:'🇩🇿',gender:'f',unlockLv:11,starter:false,
@@ -12074,21 +11843,21 @@ var _lvSlider = document.getElementById('lvSlider'); if(_lvSlider) _lvSlider.add
 // ═══════════════════════════════════════════════════════
 const WISDOM = {
   seydou:   { icon:'🌾', quote:'«Se vuoi andare veloce, vai da solo. Se vuoi andare lontano, vai insieme.»', origine:'Proverbio Mossi, Burkina Faso', lezione:'In Burkina Faso, nessuno fa tutto da solo. Le famiglie risparmiano insieme, le comunità costruiscono insieme. Anche i soldi crescono meglio quando si condivide un obiettivo.', domanda:'Hai mai fatto qualcosa di bello insieme a qualcuno che da solo non avresti potuto fare? Racconta!', reward:20 },
-  aminata:  { icon:'🌿', quote:'«La guarigione comincia quando sai ascoltare.»', origine:'Saggezza delle donne Mossi', lezione:'Le guaritrici Mossi imparano osservando la natura per anni prima di usare una pianta. La pazienza e l\ ascolto sono le prime medicine — e anche il primo passo per gestire bene i soldi.', domanda:'Hai mai dovuto aspettare qualcosa con pazienza? Come ti sei sentito dopo l\ attesa?', reward:20 },
-  fatou:    { icon:'🤝', quote:'«Teranga: l\ ospite porta fortuna alla casa.»', origine:'Filosofia Wolof, Senegal', lezione:'In Senegal, accogliere qualcuno con generosità non impoverisce — arricchisce. La generosità crea fiducia, e la fiducia è la base del commercio e dell\ amicizia.', domanda:'Quando sei stato generoso con qualcuno, come ti sei sentito? Ti ha restituito qualcosa?', reward:20 },
-  issouf:   { icon:'📜', quote:'«Le parole del griot vivono più a lungo delle pietre.»', origine:'Tradizione dei Griot, Africa Occidentale', lezione:'I griot insegnano che la conoscenza è il tesoro che non si può rubare. Tutto quello che impari rimane tuo per sempre — a differenza dei soldi, che possono finire.', domanda:'Qual è la cosa più importante che hai imparato finora? Da chi l\ hai imparata?', reward:25 },
+  aminata:  { icon:'🌿', quote:'«La guarigione comincia quando sai ascoltare.»', origine:'Saggezza delle donne Mossi', lezione:'Le guaritrici Mossi imparano osservando la natura per anni prima di usare una pianta. La pazienza e l\'ascolto sono le prime medicine — e anche il primo passo per gestire bene i soldi.', domanda:'Hai mai dovuto aspettare qualcosa con pazienza? Come ti sei sentito dopo l\'attesa?', reward:20 },
+  fatou:    { icon:'🤝', quote:'«Teranga: l\'ospite porta fortuna alla casa.»', origine:'Filosofia Wolof, Senegal', lezione:'In Senegal, accogliere qualcuno con generosità non impoverisce — arricchisce. La generosità crea fiducia, e la fiducia è la base del commercio e dell\'amicizia.', domanda:'Quando sei stato generoso con qualcuno, come ti sei sentito? Ti ha restituito qualcosa?', reward:20 },
+  issouf:   { icon:'📜', quote:'«Le parole del griot vivono più a lungo delle pietre.»', origine:'Tradizione dei Griot, Africa Occidentale', lezione:'I griot insegnano che la conoscenza è il tesoro che non si può rubare. Tutto quello che impari rimane tuo per sempre — a differenza dei soldi, che possono finire.', domanda:'Qual è la cosa più importante che hai imparato finora? Da chi l\'hai imparata?', reward:25 },
   giulia:   { icon:'🏛️', quote:'«Il denaro è un buon servo ma un cattivo padrone.»', origine:'Proverbio italiano, epoca medievale', lezione:'I Medici di Firenze inventarono la banca moderna nel 1400. Sapevano che il denaro è uno strumento — come un martello: utile per costruire, pericoloso se mal usato.', domanda:'Pensi che i soldi rendano le persone felici? Quando sì, quando no?', reward:25 },
-  marco:    { icon:'⚖️', quote:'«Divide et impera» — Dividi e governa.»', origine:'Massima romana, Giulio Cesare', lezione:'I Romani capirono che dividere le risorse in modo strategico dà potere. Oggi lo chiamiamo "diversificazione": non mettere tutte le uova in un solo paniere.', domanda:'Se avessi 10 monete d\ oro, le metteresti tutte in un posto solo o le divideresti? Perché?', reward:25 },
-  mateus:   { icon:'🌳', quote:'«La foresta non ha mai paura della pioggia.»', origine:'Detto Amazzónico, Brasile', lezione:'L\ Amazzonia resiste perché è diversa — migliaia di specie diverse si proteggono a vicenda. Un buon piano finanziario funziona allo stesso modo: varietà = resistenza.', domanda:'Cosa faresti se perdessi qualcosa di importante? Come ti rialzeresti?', reward:25 },
-  priya:    { icon:'🕯️', quote:'«Sii il cambiamento che vuoi vedere nel mondo.»', origine:'Mahatma Gandhi, India', lezione:'Gandhi liberò 400 milioni di persone senza un esercito — solo con la forza delle idee e della coerenza. Le rivoluzioni più grandi partono da una scelta personale ogni giorno.', domanda:'C\ è qualcosa che non va nel mondo che ti fa arrabbiare? Cosa potresti fare TU per cambiarlo?', reward:30 },
-  mei:      { icon:'🌸', quote:'«Ichi-go ichi-e: questo momento non tornerà mai più.»', origine:'Filosofia Zen giapponese', lezione:'I giapponesi insegnano a valorizzare ogni momento come unico. Anche ogni yen speso o risparmiato è una scelta irripetibile. La consapevolezza nel presente è il segreto della ricchezza.', domanda:'Hai mai sprecato qualcosa e poi ti sei pentito? Cosa hai imparato da quell\ esperienza?', reward:30 },
-  kwame:    { icon:'🔄', quote:'«Sankofa: non è sbagliato tornare indietro a prendere ciò che hai dimenticato.»', origine:'Filosofia Akan, Ghana', lezione:'Il simbolo Sankofa è un uccello che vola in avanti con la testa girata all\ indietro. Guardare il passato non significa restare fermi — significa portare la saggezza degli antenati nel futuro.', domanda:'C\ è qualcosa che hai imparato dagli errori tuoi o della tua famiglia che ti ha aiutato?', reward:30 },
+  marco:    { icon:'⚖️', quote:'«Divide et impera» — Dividi e governa.»', origine:'Massima romana, Giulio Cesare', lezione:'I Romani capirono che dividere le risorse in modo strategico dà potere. Oggi lo chiamiamo "diversificazione": non mettere tutte le uova in un solo paniere.', domanda:'Se avessi 10 monete d\'oro, le metteresti tutte in un posto solo o le divideresti? Perché?', reward:25 },
+  mateus:   { icon:'🌳', quote:'«La foresta non ha mai paura della pioggia.»', origine:'Detto Amazzónico, Brasile', lezione:'L\'Amazzonia resiste perché è diversa — migliaia di specie diverse si proteggono a vicenda. Un buon piano finanziario funziona allo stesso modo: varietà = resistenza.', domanda:'Cosa faresti se perdessi qualcosa di importante? Come ti rialzeresti?', reward:25 },
+  priya:    { icon:'🕯️', quote:'«Sii il cambiamento che vuoi vedere nel mondo.»', origine:'Mahatma Gandhi, India', lezione:'Gandhi liberò 400 milioni di persone senza un esercito — solo con la forza delle idee e della coerenza. Le rivoluzioni più grandi partono da una scelta personale ogni giorno.', domanda:'C\'è qualcosa che non va nel mondo che ti fa arrabbiare? Cosa potresti fare TU per cambiarlo?', reward:30 },
+  mei:      { icon:'🌸', quote:'«Ichi-go ichi-e: questo momento non tornerà mai più.»', origine:'Filosofia Zen giapponese', lezione:'I giapponesi insegnano a valorizzare ogni momento come unico. Anche ogni yen speso o risparmiato è una scelta irripetibile. La consapevolezza nel presente è il segreto della ricchezza.', domanda:'Hai mai sprecato qualcosa e poi ti sei pentito? Cosa hai imparato da quell\'esperienza?', reward:30 },
+  kwame:    { icon:'🔄', quote:'«Sankofa: non è sbagliato tornare indietro a prendere ciò che hai dimenticato.»', origine:'Filosofia Akan, Ghana', lezione:'Il simbolo Sankofa è un uccello che vola in avanti con la testa girata all\'indietro. Guardare il passato non significa restare fermi — significa portare la saggezza degli antenati nel futuro.', domanda:'C\'è qualcosa che hai imparato dagli errori tuoi o della tua famiglia che ti ha aiutato?', reward:30 },
   kenji:    { icon:'⚔️', quote:'«Cadere sette volte, rialzarsi otto.» — Nana korobi ya oki.»', origine:'Proverbio giapponese, era Samurai', lezione:'Il Bushido insegna che la sconfitta non è la fine — è parte del percorso. I migliori investitori del mondo hanno perso tutto almeno una volta. La resilienza è il vero capitale.', domanda:'Raccontami di una volta che hai fallito o perso qualcosa. Come sei andato avanti?', reward:30 },
   lucia:    { icon:'💀', quote:'«La morte non è la fine, è solo un cambiamento di stagione.»', origine:'Filosofia Nahua, Messico antico', lezione:'Gli Aztechi usavano il cacao come moneta. Non lo mangiavano tutto — lo conservavano, lo scambiavano, lo investivano. Capirono che il valore sta nella scarsità e nel rispetto.', domanda:'Cosa daresti in cambio di qualcosa di veramente importante per te? Come decidi il valore di qualcosa?', reward:30 },
   yohannes: { icon:'☕', quote:'«Il caffè si beve lentamente — come si prende ogni decisione importante.»', origine:'Cerimonia del caffè Etiopica — Buna', lezione:'In Etiopia la cerimonia del caffè dura ore. Non è solo una bevanda — è un rito di pensiero lento. Le migliori decisioni finanziarie non si prendono mai di fretta.', domanda:'Hai mai deciso qualcosa troppo in fretta e te ne sei pentito? Cosa avresti fatto di diverso?', reward:30 },
-  sofia:    { icon:'🌈', quote:'«Não existe inclusão sem participação.» — Non c\ è inclusione senza partecipazione.»', origine:'Movimento Feminista Afro-brasiliano', lezione:'Sofia ci ricorda che la ricchezza vera non è personale — è collettiva. Un paese cresce quando tutti partecipano all\ economia. L\ inclusione finanziaria è un diritto, non un privilegio.', domanda:'Pensi che tutti abbiano le stesse opportunità di guadagnare e risparmiare? È giusto? Cosa cambieresti?', reward:35 },
+  sofia:    { icon:'🌈', quote:'«Não existe inclusão sem participação.» — Non c\'è inclusione senza partecipazione.»', origine:'Movimento Feminista Afro-brasiliano', lezione:'Sofia ci ricorda che la ricchezza vera non è personale — è collettiva. Un paese cresce quando tutti partecipano all\'economia. L\'inclusione finanziaria è un diritto, non un privilegio.', domanda:'Pensi che tutti abbiano le stesse opportunità di guadagnare e risparmiare? È giusto? Cosa cambieresti?', reward:35 },
   aisha:    { icon:'🌙', quote:'«Il mercante onesto ha il vento sempre in poppa.»', origine:'Saggezza dei mercanti berberi, Marocco', lezione:'I commercianti del Souk di Marrakech sopravvivono per generazioni perché costruiscono fiducia. Una buona reputazione vale più di qualsiasi guadagno rapido — nel commercio come nella vita.', domanda:'Compreresti qualcosa da qualcuno di cui non ti fidi? Perché la fiducia è importante negli affari?', reward:35 },
-  diego:    { icon:'💃', quote:'«El que no arriesga no cruza el mar.» — Chi non rischia non attraversa il mare.»', origine:'Detto dei navigatori spagnoli, Rio de la Plata', lezione:'Buenos Aires fu fondata da esploratori che rischiarono tutto per un nuovo mondo. Ogni grande impresa — economica o personale — richiede il coraggio di affrontare l\ incertezza.', domanda:'Qual è il rischio più grande che hai mai corso? Ne è valsa la pena?', reward:35 },
+  diego:    { icon:'💃', quote:'«El que no arriesga no cruza el mar.» — Chi non rischia non attraversa il mare.»', origine:'Detto dei navigatori spagnoli, Rio de la Plata', lezione:'Buenos Aires fu fondata da esploratori che rischiarono tutto per un nuovo mondo. Ogni grande impresa — economica o personale — richiede il coraggio di affrontare l\'incertezza.', domanda:'Qual è il rischio più grande che hai mai corso? Ne è valsa la pena?', reward:35 },
 };
 
 // Stato saggezza per avatar
@@ -12358,7 +12127,7 @@ const ADULT_CONTENT = {
     filosofia: {
       title:'🌺 Economia Solidaria — La terza via',
       body:'Il Brasile ha inventato il concetto di "Economia Solidaria" — cooperative autogestite dove i lavoratori sono anche proprietari. 22.000 imprese solidali in Brasile producono 8 miliardi di reais l\'anno. Non è socialismo, non è capitalismo — è una terza via che mette la persona al centro.',
-      domanda:'Un\ economia può essere sia efficiente sia giusta? O queste due cose sono sempre in conflitto?',
+      domanda:'Un\'economia può essere sia efficiente sia giusta? O queste due cose sono sempre in conflitto?',
       reward:60,
     },
   },
@@ -12647,9 +12416,9 @@ function renderFiglioTab(av) {
       <p>Missioni che genitore e bambino completano insieme — doppi Semi di Luce per entrambi!</p>
       ${[
         {icon:'🛒',title:'Fare la spesa insieme',desc:'Spiega al bambino il budget della settimana mentre fate la spesa'},
-        {icon:'💰',title:'Il salvadanaio digitale',desc:'Aprite insieme un obiettivo di risparmio sull\ app per un desiderio del bambino'},
-        {icon:'📖',title:'Leggi un proverbio insieme',desc:'Scegli un proverbio dalla cultura dell\ avatar e discutetelo a cena'},
-        {icon:'🌍',title:'Trova il paese sulla mappa',desc:'Cercate insieme il paese dell\ avatar sul mappamondo o su Google Maps'},
+        {icon:'💰',title:'Il salvadanaio digitale',desc:'Aprite insieme un obiettivo di risparmio sull\'app per un desiderio del bambino'},
+        {icon:'📖',title:'Leggi un proverbio insieme',desc:'Scegli un proverbio dalla cultura dell\'avatar e discutetelo a cena'},
+        {icon:'🌍',title:'Trova il paese sulla mappa',desc:'Cercate insieme il paese dell\'avatar sul mappamondo o su Google Maps'},
       ].map((m,i)=>{
         const key = 'family_'+av.id+'_'+i;
         const done = !!missionsDone[key];
@@ -12808,23 +12577,90 @@ function openPopup(id) {
 
   if (id === 'piani') {
     tEl.textContent = 'Scegli il Piano';
-    var fr = document.createElement('div');
-    fr.style.cssText = 'background:rgba(255,255,255,.04);border-radius:12px;padding:14px;margin-bottom:9px;border:1px solid rgba(255,255,255,.08)';
-    fr.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><b>Piano Gratuito</b><b style="color:#4ade80">&euro;0</b></div><div style="font-size:.74rem;color:#888;line-height:1.8">&#10003; 5 lezioni/mese<br>&#10003; Civetta AI<br>&#10003; Semi di Luce<br>&#10003; Drago Cucciolo</div>'+(S.isPro?'':'<div style="margin-top:7px;text-align:center;font-size:.73rem;color:#4ade80;font-weight:700">Piano attuale</div>');
-    bEl.appendChild(fr);
-    var pr = document.createElement('div');
-    pr.style.cssText = 'background:linear-gradient(135deg,rgba(245,200,66,.1),rgba(245,200,66,.03));border-radius:12px;padding:14px;margin-bottom:9px;border:2px solid #F5C842';
-    pr.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px"><b style="color:#F5C842">Piano Pro</b><div><span style="font-size:1.2rem;font-weight:900;color:#F5C842">&euro;9,99</span><span style="font-size:.68rem;color:#888">/mese</span></div></div><div style="font-size:.74rem;color:#888;line-height:1.8;margin-bottom:10px">&#10003; Lezioni illimitate<br>&#10003; Civetta AI avanzata<br>&#10003; 16 Avatar culturali<br>&#10003; Drago evolutivo 4 fasi<br>&#10003; Certificati ufficiali<br>&#10003; Modalita Famiglia</div>';
-    var bp = document.createElement('button');
-    bp.style.cssText = 'width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1a1a2e;border:none;padding:11px;border-radius:11px;font-weight:800;cursor:pointer';
-    bp.textContent = S.isPro ? 'Piano attuale' : 'Inizia Pro';
-    bp.onclick = function() { closePopup(); if (typeof toast === 'function') toast('Scrivi a ilboudobr96@gmail.com'); };
-    pr.appendChild(bp);
-    bEl.appendChild(pr);
-    var ft = document.createElement('div');
-    ft.style.cssText = 'text-align:center;font-size:.66rem;color:#555;margin-top:4px';
-    ft.textContent = 'FinanzaLand - EIC Accelerator - 3.000.000 EUR';
-    bEl.appendChild(ft);
+
+    // ── PROVA GRATUITA ─────────────────────────────────────────────
+    var trialUsed = parseInt(localStorage.getItem('fl_trial_used')||'0');
+    var trialLeft = Math.max(0, 3 - trialUsed);
+    var trialBar = document.createElement('div');
+    trialBar.style.cssText = 'background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:11px;padding:11px 14px;margin-bottom:12px';
+    trialBar.innerHTML =
+      '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
+      '<span style="font-size:.72rem;color:rgba(255,255,255,.65)">Prove gratuite rimanenti</span>' +
+      '<strong style="color:' + (trialLeft===0?'#f87171':'#4ade80') + '">' + trialLeft + ' / 3</strong>' +
+      '</div>' +
+      '<div style="background:rgba(255,255,255,.1);border-radius:5px;height:6px;overflow:hidden">' +
+      '<div style="width:'+Math.round((trialLeft/3)*100)+'%;height:100%;background:' + (trialLeft===0?'#f87171':'#4ade80') + ';border-radius:5px"></div>' +
+      '</div>' +
+      '<div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:5px">' +
+      (trialLeft===0 ? '⛔ Prove esaurite — abbonati per continuare' : 'Dopo le 3 prove è richiesto un abbonamento') +
+      '</div>';
+    if (!S.isPro) bEl.appendChild(trialBar);
+
+    // ── 4 PIANI ────────────────────────────────────────────────────
+    var PIANI_DEF = [
+      {
+        label:'🌱 Prova Gratuita', prezzo:'€0', period:'3 lezioni, poi stop',
+        col:'#4ade80', bg:'rgba(74,222,128,.05)', bc:'rgba(74,222,128,.2)',
+        features:['✅ 3 lezioni di prova','✅ Giochi Arena sempre gratis','✅ Semi di Luce base','❌ Lezioni illimitate','❌ Livelli avanzati'],
+        btn: S.isPro ? null : (trialLeft>0 ? 'Stai usando le prove' : '⛔ Prove esaurite'),
+        btnAction: null, disabled: true
+      },
+      {
+        label:'👑 PRO', prezzo:'€4,99', period:'/mese  ·  €39,99/anno',
+        col:'#F5C842', bg:'linear-gradient(135deg,rgba(245,200,66,.1),rgba(245,200,66,.03))', bc:'#F5C842',
+        badge:'⭐ PIÙ POPOLARE',
+        features:['✅ Lezioni ILLIMITATE','✅ Tutti i livelli Base → ♾️','✅ Deep AI — 7 sezioni per lezione','✅ Approfondimento Infinito','✅ Certificati PDF','✅ 18 percorsi × 500+ argomenti','✅ Sync cloud multi-dispositivo'],
+        btn: S.isPro ? '✅ Piano attuale' : '🚀 Abbonati PRO — €4,99/mese',
+        btnAction: S.isPro ? null : function(){ closePopup(); window.open('mailto:ilboudobr96@gmail.com?subject=Abbonamento%20PRO%20FinanzaLand%20%E2%82%AC4%2C99%2Fmese&body=Voglio%20attivare%20il%20piano%20PRO.%20Email%20account%3A%20'+(S.account&&S.account.email||''),'_blank'); toast('📧 Risponderemo entro 24h!'); },
+        disabled: S.isPro
+      },
+      {
+        label:'🏫 Scuola', prezzo:'€149', period:'/anno per classe',
+        col:'#a78bfa', bg:'rgba(167,139,250,.05)', bc:'rgba(167,139,250,.25)',
+        badge:'🎓 LEGGE 21/2024',
+        features:['✅ PRO per tutta la classe','✅ Dashboard insegnante','✅ Kit Legge 21/2024','✅ Certificati di classe','✅ Fino a 35 studenti','✅ Codice accesso unico'],
+        btn:'🏫 Attiva per la Classe',
+        btnAction: function(){ closePopup(); window.open('mailto:ilboudobr96@gmail.com?subject=Licenza%20Scuola%20FinanzaLand%20%E2%82%AC149&body=Istituto%3A%20%0AClasse%3A%20%0AEmail%3A%20','_blank'); toast('📧 Codice accesso entro 24h!'); }
+      },
+      {
+        label:'🤝 Solidale', prezzo:'Libero', period:'min €2/mese · 10% ai bisognosi',
+        col:'#fb923c', bg:'rgba(251,146,60,.05)', bc:'rgba(251,146,60,.2)',
+        badge:'❤️ IMPATTO SOCIALE',
+        features:['✅ Tutto il piano PRO','✅ 10% finanzia famiglie povere','✅ Badge Mecenate nel profilo','✅ Ricevuta fiscale disponibile','✅ Scegli tu quanto contribuire'],
+        btn:'❤️ Contribuisci e Aiuta',
+        btnAction: function(){ closePopup(); window.open('mailto:ilboudobr96@gmail.com?subject=Piano%20Solidale%20FinanzaLand&body=Contributo%20scelto%3A%20%E2%82%AC%0AEmail%20account%3A%20'+(S.account&&S.account.email||''),'_blank'); toast('❤️ Grazie! Aiutiamo chi ha meno.'); }
+      }
+    ];
+
+    PIANI_DEF.forEach(function(piano) {
+      var card = document.createElement('div');
+      card.style.cssText = 'background:'+piano.bg+';border:'+(piano.label.indexOf('PRO')>-1?'2':'1')+'px solid '+piano.bc+';border-radius:13px;padding:14px;margin-bottom:10px;position:relative';
+      var html = '';
+      if (piano.badge) html += '<div style="position:absolute;top:-9px;right:12px;background:'+piano.bc+';color:'+(piano.label.indexOf('PRO')>-1?'#1a0a00':'#fff')+';font-size:.58rem;font-weight:900;padding:2px 8px;border-radius:10px">'+piano.badge+'</div>';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px">';
+      html += '<div style="font-size:.95rem;font-weight:900;color:'+piano.col+'">'+piano.label+'</div>';
+      html += '<div style="text-align:right"><div style="font-size:1.1rem;font-weight:900;color:'+piano.col+'">'+piano.prezzo+'</div><div style="font-size:.6rem;color:#666">'+piano.period+'</div></div></div>';
+      html += piano.features.map(function(f){ return '<div style="font-size:.7rem;color:'+(f[0]==='❌'?'rgba(255,255,255,.25)':'rgba(255,255,255,.7)')+';padding:1px 0">'+f+'</div>'; }).join('');
+      card.innerHTML = html;
+      if (piano.btn && !piano.disabled) {
+        var btn = document.createElement('button');
+        btn.style.cssText = 'width:100%;margin-top:10px;padding:11px;background:'+(piano.label.indexOf('PRO')>-1?'linear-gradient(135deg,#F5C842,#e67e22)':'rgba(255,255,255,.07)')+';border:1px solid '+piano.bc+';border-radius:10px;color:'+(piano.label.indexOf('PRO')>-1?'#1a0a00':piano.col)+';font-size:.78rem;font-weight:900;cursor:pointer';
+        btn.textContent = piano.btn;
+        if (piano.btnAction) btn.onclick = piano.btnAction;
+        card.appendChild(btn);
+      } else if (piano.btn) {
+        var lbl = document.createElement('div');
+        lbl.style.cssText = 'text-align:center;margin-top:8px;font-size:.7rem;color:'+piano.col+';font-weight:700';
+        lbl.textContent = piano.btn;
+        card.appendChild(lbl);
+      }
+      bEl.appendChild(card);
+    });
+
+    var nota = document.createElement('div');
+    nota.style.cssText = 'text-align:center;font-size:.62rem;color:rgba(255,255,255,.25);line-height:1.7;padding-top:4px';
+    nota.innerHTML = '❤️ 10% degli abbonamenti Solidale finanzia accessi gratuiti<br>per famiglie in difficoltà · finanzaland.vercel.app';
+    bEl.appendChild(nota);
     ov.classList.add('show'); return;
   }
 
@@ -13067,632 +12903,6 @@ function hexToRgb(hex) {
 }
 
 window.buildSaggezza = buildSaggezza;
-
-// ── openSaggezzaCard — apre una card della Saggezza come popup ────
-function openSaggezzaCard(sagg) {
-  if (!sagg) return;
-  var catInfo = SAGGEZZA_CATEGORIE[sagg.categoria] || {color:'#A78BFA', icon:'📖'};
-  var isDone = !!(_saggezzaDone && _saggezzaDone[sagg.id]);
-  var modal = document.createElement('div');
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;display:flex;align-items:flex-end;justify-content:center';
-  modal.onclick = function(e){ if(e.target===modal) modal.remove(); };
-  var box = document.createElement('div');
-  box.style.cssText = 'background:#0c0c28;border:1px solid rgba(167,139,250,.25);border-radius:22px 22px 0 0;padding:20px 18px 36px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto';
-  box.innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
-    '<span style="font-size:.68rem;font-weight:800;color:'+catInfo.color+'">' + catInfo.icon + ' ' + sagg.fonte + '</span>' +
-    '<button onclick="this.closest(\'[style*=z-index:500]\').remove()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:4px 11px;color:#fff;cursor:pointer;font-size:.75rem">✕</button>' +
-    '</div>' +
-    '<div style="font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:6px">' + sagg.icona + ' ' + sagg.titolo + '</div>' +
-    '<div style="font-size:.78rem;font-style:italic;color:rgba(255,255,255,.5);margin-bottom:10px">' + sagg.citazione + '</div>' +
-    '<div style="font-size:.62rem;color:rgba(255,255,255,.3);margin-bottom:12px">— ' + sagg.libro + '</div>' +
-    '<div style="font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.75;margin-bottom:12px">' + sagg.lezione + '</div>' +
-    '<div style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.18);border-radius:11px;padding:12px;margin-bottom:10px;font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.65">' +
-    '<strong style="color:var(--gold)">💡 Applicazione:</strong> ' + sagg.applicazione + '</div>' +
-    '<div style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.2);border-radius:11px;padding:12px;margin-bottom:14px;font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.65">' +
-    '<strong style="color:#a78bfa">🤔 Riflessione:</strong> ' + sagg.domanda + '</div>' +
-    (isDone
-      ? '<div style="text-align:center;padding:10px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:11px;color:#4ade80;font-size:.78rem;font-weight:800">✅ Saggezza già acquisita · +' + sagg.semi + ' Semi</div>'
-      : '<button style="width:100%;padding:12px;background:linear-gradient(135deg,#A78BFA,#7c3aed);border:none;border-radius:12px;color:#fff;font-weight:900;font-size:.88rem;cursor:pointer" onclick="' +
-        'var d=JSON.parse(localStorage.getItem(\'fl_sagg_done\')||\'{}\')||{};d[\'' + sagg.id + '\']=true;localStorage.setItem(\'fl_sagg_done\',JSON.stringify(d));' +
-        'S.coins+=' + sagg.semi + ';if(typeof updateHUD===\'function\')updateHUD();if(typeof saveS===\'function\')saveS();' +
-        'toast(\'🧠 +' + sagg.semi + ' Semi! Saggezza dei Giganti acquisita!\');' +
-        'this.textContent=\'✅ Completato\';this.disabled=true;' +
-        '">✅ Ho riflettuto — +' + sagg.semi + ' Semi</button>');
-  modal.appendChild(box);
-  document.body.appendChild(modal);
-}
-window.openSaggezzaCard = openSaggezzaCard;
-
-// ═══════════════════════════════════════════════════════════════════
-// ☀️ SUN ROOM — Stanza della Luce: Giganti + Coach Live + Video Saggi
-// ═══════════════════════════════════════════════════════════════════
-function buildSunRoom() {
-  var body = document.getElementById('sun-room-body');
-  if (!body) return;
-  body.innerHTML = '';
-
-  // ── BANNER SUN SUN ──────────────────────────────────────────────
-  var lezioniF = Object.keys(S.completate||{}).length;
-  var saggF = Object.keys(JSON.parse(localStorage.getItem('fl_sagg_done')||'{}')).length;
-  var banner = document.createElement('div');
-  banner.style.cssText = 'background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.4);border-radius:18px;padding:18px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden';
-  banner.innerHTML =
-    '<div style="font-family:Fredoka One,serif;font-size:2rem;color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,.4)">☀️ Sun Sun!</div>' +
-    '<div style="font-size:.82rem;color:rgba(255,255,255,.75);margin:6px 0;line-height:1.6">La luce della conoscenza ha spazzato via il nemico del debito.<br>Sei nella fase di <strong style="color:var(--gold)">fioritura</strong>.</div>' +
-    '<div style="display:flex;gap:12px;justify-content:center;margin-top:10px;flex-wrap:wrap">' +
-    '<div style="text-align:center"><div style="font-size:1.3rem;font-weight:900;color:var(--gold)">' + lezioniF + '</div><div style="font-size:.6rem;color:rgba(255,255,255,.4)">Lezioni</div></div>' +
-    '<div style="text-align:center"><div style="font-size:1.3rem;font-weight:900;color:#a78bfa">' + saggF + '</div><div style="font-size:.6rem;color:rgba(255,255,255,.4)">Saggezze</div></div>' +
-    '<div style="text-align:center"><div style="font-size:1.3rem;font-weight:900;color:#4ade80">' + (S.coins||0) + '</div><div style="font-size:.6rem;color:rgba(255,255,255,.4)">Semi 🌱</div></div>' +
-    '</div>';
-  body.appendChild(banner);
-
-  // ── LIBRERIA DEI GIGANTI (compatta) ────────────────────────────
-  var libSec = document.createElement('div');
-  libSec.style.cssText = 'margin-bottom:16px';
-  libSec.innerHTML = '<div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">📚 I Giganti — Clicca per la lezione profonda</div>';
-
-  var GIGANTI_QUICK = [
-    {id:'lipton_biologia',   em:'🧬', nome:'Lipton',   tag:'Credenze'},
-    {id:'greene_48_leggi',   em:'⚔️', nome:'Greene',   tag:'Potere'},
-    {id:'kiyosaki_padre',    em:'💰', nome:'Kiyosaki', tag:'Asset'},
-    {id:'napoleon_hill',     em:'📖', nome:'N. Hill',  tag:'Desiderio'},
-    {id:'dispenza_abitudine',em:'🧠', nome:'Dispenza', tag:'Loop'},
-    {id:'carnegie_relazioni',em:'🤝', nome:'Carnegie', tag:'Relazioni'},
-  ];
-
-  var qGrid = document.createElement('div');
-  qGrid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:7px';
-  GIGANTI_QUICK.forEach(function(g) {
-    var c = document.createElement('div');
-    var done = !!(JSON.parse(localStorage.getItem('fl_sagg_done')||'{}')[g.id]);
-    c.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;transition:.15s' + (done?';border-color:rgba(74,222,128,.3)':'');
-    c.innerHTML = '<div style="font-size:1.6rem;margin-bottom:3px">' + g.em + '</div><div style="font-size:.65rem;font-weight:800;color:#fff">' + g.nome + '</div><div style="font-size:.55rem;color:rgba(255,255,255,.35)">' + g.tag + '</div>' + (done?'<div style="font-size:.55rem;color:#4ade80;margin-top:3px">✓</div>':'');
-    c.addEventListener('click', function() {
-      var entry = GRANDE_SAGGEZZA.find(function(s){ return s.id === g.id; });
-      if (entry) openSaggezzaCard(entry);
-    });
-    qGrid.appendChild(c);
-  });
-  libSec.appendChild(qGrid);
-  body.appendChild(libSec);
-
-  // ── DOMANDA PROFONDA DEL GIORNO ────────────────────────────────
-  var DEEP_QS = [
-    {autore:'Joe Dispenza 🧠', q:'Quale emozione del passato ti impedisce di agire finanziariamente nel presente?'},
-    {autore:'Bruce Lipton 🧬', q:'Qual è la credenza sul denaro che hai ricevuto entro i 7 anni? Puoi riscriverla?'},
-    {autore:'Robert Greene ⚔️', q:'Chi è il tuo mentore finanziario reale? Stai imparando da chi è già dove vuoi arrivare?'},
-    {autore:'Napoleon Hill 📖', q:'Hai scritto il tuo obiettivo finanziario con data, cifra esatta e piano d azione?'},
-    {autore:'Dale Carnegie 🤝', q:'Chi nella tua rete potrebbe aprirti una porta finanziaria che da solo non puoi aprire?'},
-    {autore:'Robert Kiyosaki 💰', q:'Elenca i tuoi asset reali (cosa ti paga). Quanti ne hai? Qual è il prossimo che acquisterai?'},
-    {autore:'Napoleon Hill 📖', q:'Il tuo desiderio finanziario è bruciante o tiepido? Un desiderio tiepido non produce risultati.'},
-  ];
-  var qDay = DEEP_QS[new Date().getDay() % DEEP_QS.length];
-  var labEl = document.createElement('div');
-  labEl.style.cssText = 'background:rgba(167,139,250,.08);border:1.5px solid rgba(167,139,250,.25);border-radius:16px;padding:14px;margin-bottom:16px';
-  labEl.innerHTML =
-    '<div style="font-size:.62rem;font-weight:800;color:#a78bfa;letter-spacing:1px;margin-bottom:5px">🧪 LABORATORIO MENTALE — Domanda del Giorno</div>' +
-    '<div style="font-size:.65rem;color:rgba(167,139,250,.7);margin-bottom:7px">— ' + qDay.autore + '</div>' +
-    '<div style="font-size:.84rem;font-style:italic;color:rgba(255,255,255,.82);line-height:1.7;margin-bottom:12px">"' + qDay.q + '"</div>';
-  var btnLab = document.createElement('button');
-  btnLab.style.cssText = 'width:100%;padding:10px;background:rgba(167,139,250,.13);border:1px solid rgba(167,139,250,.3);border-radius:10px;color:#a78bfa;font-size:.78rem;font-weight:900;cursor:pointer';
-  btnLab.textContent = '💬 Ho riflettuto — +20 Semi';
-  btnLab.addEventListener('click', function() {
-    S.coins = (S.coins||0) + 20;
-    if(typeof updateHUD==='function') updateHUD();
-    if(typeof saveS==='function') saveS();
-    toast('🧠 +20 Semi! Riflessione profonda completata.');
-    btnLab.disabled = true; btnLab.style.opacity = '.5';
-  });
-  labEl.appendChild(btnLab);
-  body.appendChild(labEl);
-
-  // ── COACH LIVE ─────────────────────────────────────────────────
-  var coachSec = document.createElement('div');
-  coachSec.style.cssText = 'margin-bottom:16px';
-  coachSec.innerHTML = '<div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">🎓 Coach Online — Marketplace Saggi</div>';
-  var COACHES = [
-    {nome:'Dr. Aisha (Africa)',  spec:'Mercati Emergenti & BRVM',    status:'online',  em:'👩‍🏫', topic:'BRVM Africa investing diaspora'},
-    {nome:'Coach Sam (Global)',  spec:'Riprogrammazione PNL e Dispenza', status:'online', em:'🧠', topic:'PNL mindset finanziario Dispenza'},
-    {nome:'Marco (Italia)',      spec:'Debiti & Strategia Kiyosaki', status:'busy',   em:'👨‍💼', topic:'Kiyosaki debito cattivo mutuo'},
-    {nome:'Yuki (Asia)',         spec:'Mercati Asiatici & Toyota',   status:'offline', em:'🌏', topic:'mercati asiatici investimento'},
-  ];
-  var coachList = document.createElement('div');
-  coachList.style.cssText = 'background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px';
-  COACHES.forEach(function(coach) {
-    var row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 0';
-    var statusCol = coach.status==='online'?'#4ade80':coach.status==='busy'?'#fb923c':'#64748b';
-    row.innerHTML =
-      '<div style="width:42px;height:42px;background:rgba(255,255,255,.06);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">' + coach.em + '</div>' +
-      '<div style="flex:1">' +
-        '<div style="font-size:.8rem;font-weight:900;color:#fff">' + coach.nome + '</div>' +
-        '<div style="display:flex;align-items:center;gap:5px;margin-top:2px">' +
-        '<div style="width:7px;height:7px;border-radius:50%;background:'+statusCol+';flex-shrink:0"></div>' +
-        '<div style="font-size:.63rem;color:rgba(255,255,255,.45)">' + coach.spec + '</div></div>' +
-      '</div>' +
-      '<div style="font-size:.62rem;color:' + statusCol + ';font-weight:800;text-transform:uppercase">' + coach.status + '</div>';
-    row.addEventListener('click', function() {
-      if (coach.status === 'offline') { toast('⏸ ' + coach.nome + ' non è disponibile ora.'); return; }
-      generateLesson(coach.topic, 'psicologia', 'esperto', 'adulto', false).then(function(lez){ showScreen('accademia'); openLezione(lez); });
-    });
-    coachList.appendChild(row);
-  });
-  coachSec.appendChild(coachList);
-  body.appendChild(coachSec);
-
-  // ── DOMANDA PROFONDA DELLA COMMUNITY ───────────────────────────
-  var commSec = document.createElement('div');
-  commSec.style.cssText = 'background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.18);border-radius:16px;padding:14px;margin-bottom:16px';
-  commSec.innerHTML =
-    '<div style="font-size:.62rem;font-weight:800;color:var(--gold);letter-spacing:1px;margin-bottom:8px">💬 ULTIMA DOMANDA PROFONDA DELLA COMMUNITY</div>' +
-    '<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;font-style:italic;font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:10px">' +
-    '"Come posso applicare la Legge 28 di Greene (Agisci con Audacia) se le mie cellule hanno paura del fallimento (Lipton)?"' +
-    '</div>';
-  var btnComm = document.createElement('button');
-  btnComm.style.cssText = 'width:100%;padding:10px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:10px;color:var(--gold);font-size:.78rem;font-weight:900;cursor:pointer';
-  btnComm.textContent = '✍️ Rispondi e Guadagna +30 Semi';
-  btnComm.addEventListener('click', function() {
-    S.coins = (S.coins||0) + 30;
-    if(typeof updateHUD==='function') updateHUD();
-    if(typeof saveS==='function') saveS();
-    toast('🏆 +30 Semi! La tua risposta alimenta l Organismo Vivente.');
-    btnComm.disabled = true; btnComm.style.opacity = '.5';
-  });
-  commSec.appendChild(btnComm);
-  body.appendChild(commSec);
-
-  // ── VIDEO DEI SAGGI ────────────────────────────────────────────
-  var vidSec = document.createElement('div');
-  vidSec.style.cssText = 'margin-bottom:16px';
-  vidSec.innerHTML = '<div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">🎥 La Voce dei Saggi</div>';
-  var VIDEOS = [
-    {titolo:'Il mio mutuo era una trappola',  autore:'Saggio Marco',  cat:'Debito',   em:'🏠', topic:'mutuo trappola debito cattivo Kiyosaki'},
-    {titolo:'Come ho applicato Dispenza per cambiare il mio reddito', autore:'Saggio Aisha', cat:'Mindset', em:'🧠', topic:'Dispenza cambiare credenze reddito'},
-    {titolo:'Investire in Africa dalla Diaspora', autore:'Saggio Kofi', cat:'BRVM',    em:'🌍', topic:'BRVM investimento diaspora Africa'},
-    {titolo:'Le 3 Leggi di Greene che uso ogni giorno', autore:'Saggio Luca', cat:'Potere', em:'⚔️', topic:'Greene leggi potere vita quotidiana'},
-  ];
-  var vidList = document.createElement('div');
-  vidList.style.cssText = 'display:flex;flex-direction:column;gap:8px';
-  VIDEOS.forEach(function(v) {
-    var row = document.createElement('div');
-    row.style.cssText = 'background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s';
-    row.innerHTML =
-      '<div style="width:42px;height:42px;background:rgba(255,255,255,.06);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">' + v.em + '</div>' +
-      '<div style="flex:1">' +
-        '<div style="font-size:.78rem;font-weight:800;color:#fff;line-height:1.3">' + v.titolo + '</div>' +
-        '<div style="font-size:.62rem;color:rgba(255,255,255,.4);margin-top:2px">' + v.autore + ' · ' + v.cat + '</div>' +
-      '</div>' +
-      '<div style="font-size:.7rem;color:rgba(255,255,255,.2)">▶</div>';
-    row.addEventListener('click', function() {
-      generateLesson(v.topic, 'psicologia', 'esperto', 'adulto', false).then(function(lez){ showScreen('accademia'); openLezione(lez); });
-    });
-    vidList.appendChild(row);
-  });
-  vidSec.appendChild(vidList);
-  body.appendChild(vidSec);
-}
-window.buildSunRoom = buildSunRoom;
-
-// ═══════════════════════════════════════════════════════════════════
-// 🛡️ PROTOCOLLO IMPERIALE — Cheikh Anta Diop · Sun Tzu · Musashi
-// ═══════════════════════════════════════════════════════════════════
-function buildProtocollo() {
-  var body = document.getElementById('pi-body');
-  if (!body) return;
-  body.innerHTML = '';
-
-  // ── HEADER KEMET ────────────────────────────────────────────────
-  var hero = document.createElement('div');
-  hero.style.cssText = 'position:relative;overflow:hidden;padding:24px 16px 20px;text-align:center;background:linear-gradient(135deg,rgba(212,175,55,.1),rgba(0,0,0,0))';
-  hero.innerHTML =
-    '<div style="position:absolute;inset:0;font-size:8rem;font-weight:900;color:rgba(212,175,55,.04);display:flex;align-items:center;justify-content:center;pointer-events:none;letter-spacing:-4px">KEMET</div>' +
-    '<div style="position:relative;z-index:1">' +
-    '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Cheikh_Anta_Diop.jpg/440px-Cheikh_Anta_Diop.jpg" ' +
-    'alt="Cheikh Anta Diop" onerror="this.style.display=\'none\'" ' +
-    'style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid #d4af37;filter:grayscale(60%);margin-bottom:10px">' +
-    '<div style="font-size:.65rem;color:rgba(212,175,55,.7);letter-spacing:3px;text-transform:uppercase;font-weight:900">Sovranità · Scienza · Strategia</div>' +
-    '<div style="font-size:.75rem;color:rgba(255,255,255,.5);font-style:italic;margin-top:8px;line-height:1.6;max-width:300px;margin-left:auto;margin-right:auto">' +
-    '"Finché non conoscerai la tua storia, sarai schiavo dei numeri degli altri."' +
-    '</div>' +
-    '<div style="font-size:.6rem;color:#d4af37;margin-top:4px;font-weight:700">— Cheikh Anta Diop</div>' +
-    '</div>';
-  body.appendChild(hero);
-
-  // ── TRE FILOSOFIE GUIDA ─────────────────────────────────────────
-  var filosofieTitle = document.createElement('div');
-  filosofieTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin:14px 0 10px';
-  filosofieTitle.textContent = 'LE TRE FILOSOFIE IMPERIALI';
-  body.appendChild(filosofieTitle);
-
-  var FILOSOFIE = [
-    {
-      id:'lipton_biologia', em:'🧬', color:'#3b82f6', bg:'rgba(59,130,246,.08)', bc:'rgba(59,130,246,.3)',
-      autore:'Bruce Lipton — Biologia', tag:'Epigenetica',
-      quote:'Esci dalla paura cellulare. Attiva il DNA della crescita per dominare l abbondanza.'
-    },
-    {
-      id:'sun_tzu_finanza', em:'🐉', color:'#ef4444', bg:'rgba(239,68,68,.08)', bc:'rgba(239,68,68,.3)',
-      autore:'Sun Tzu — Strategia', tag:'Arte della Guerra',
-      quote:'Vincere senza combattere. Posizionarsi prima che il caos inizi.'
-    },
-    {
-      id:'musashi_disciplina', em:'🗡️', color:'#ffffff', bg:'rgba(255,255,255,.05)', bc:'rgba(255,255,255,.15)',
-      autore:'Miyamoto Musashi — Disciplina', tag:'Kaizen',
-      quote:'Lo spirito è immutabile. Precisione del 1% (Kaizen) ogni giorno.'
-    }
-  ];
-
-  var filGrid = document.createElement('div');
-  filGrid.style.cssText = 'display:flex;flex-direction:column;gap:8px;padding:0 14px';
-  FILOSOFIE.forEach(function(f) {
-    var card = document.createElement('div');
-    card.style.cssText = 'background:'+f.bg+';border:1px solid '+f.bc+';border-radius:16px;padding:14px;cursor:pointer;transition:.15s';
-    card.innerHTML =
-      '<div style="display:flex;align-items:center;gap:10px">' +
-      '<div style="font-size:1.8rem;flex-shrink:0">'+f.em+'</div>' +
-      '<div style="flex:1">' +
-      '<div style="font-size:.72rem;font-weight:900;color:'+f.color+';margin-bottom:2px">'+f.autore+'</div>' +
-      '<div style="font-size:.7rem;font-style:italic;color:rgba(255,255,255,.65);line-height:1.5">"'+f.quote+'"</div>' +
-      '</div>' +
-      '<span style="font-size:.55rem;font-weight:800;padding:2px 6px;background:rgba(255,255,255,.07);color:'+f.color+';border-radius:5px;flex-shrink:0">'+f.tag+'</span>' +
-      '</div>';
-    card.addEventListener('click', function() {
-      var entry = GRANDE_SAGGEZZA.find(function(s){ return s.id === f.id; });
-      if (entry) openSaggezzaCard(entry);
-    });
-    filGrid.appendChild(card);
-  });
-  body.appendChild(filGrid);
-
-  // ── SCUDO DI MAAT ────────────────────────────────────────────────
-  var maaTitle = document.createElement('div');
-  maaTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin:18px 0 10px';
-  maaTitle.textContent = '🛡️ LO SCUDO DI MAAT — PROTEZIONE A 6 LIVELLI';
-  body.appendChild(maaTitle);
-
-  var SCUDO = [
-    {em:'⛏️', nome:'Miniere d Oro', desc:'Oro fisico e minerario — leva x5 durante il reset monetario', col:'#fbbf24'},
-    {em:'🚜', nome:'Terre Kemet',   desc:'Immobili agricoli e terreni produttivi — il cibo è la vera moneta', col:'#4ade80'},
-    {em:'🏠', nome:'Immobiliare',   desc:'Proprietà fisica con rendita — utilità inconfiscabile', col:'#fb923c'},
-    {em:'🧼', nome:'Beni Essenziali', desc:'Investire in aziende di beni inelastici — acqua, cibo, igiene', col:'#67e8f9'},
-    {em:'💱', nome:'Valute Rifugio', desc:'Diversificazione geografica — CHF, SGD, oro fisico', col:'#a78bfa'},
-    {em:'🧠', nome:'Competenze',    desc:'L asset tra le tue orecchie — il cervello non si sequestra', col:'#f472b6'},
-  ];
-
-  var scudoWrap = document.createElement('div');
-  scudoWrap.style.cssText = 'margin:0 14px;background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(0,0,0,0));border:1.5px solid rgba(212,175,55,.25);border-radius:18px;padding:16px';
-  var scudoGrid = document.createElement('div');
-  scudoGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px';
-  SCUDO.forEach(function(s, idx) {
-    var item = document.createElement('div');
-    item.style.cssText = 'text-align:center;padding:10px 6px;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(255,255,255,.06)';
-    item.innerHTML =
-      '<div style="font-size:1.8rem;margin-bottom:5px">'+s.em+'</div>' +
-      '<div style="font-size:.7rem;font-weight:800;color:'+s.col+';margin-bottom:3px">'+s.nome+'</div>' +
-      '<div style="font-size:.6rem;color:rgba(255,255,255,.4);line-height:1.4">'+s.desc+'</div>' +
-      '<div style="margin-top:7px;font-size:.58rem;color:rgba(212,175,55,.6);font-weight:800">LIVELLO '+(idx+1)+'</div>';
-    scudoGrid.appendChild(item);
-  });
-  scudoWrap.appendChild(scudoGrid);
-
-  var scudoBtn = document.createElement('button');
-  scudoBtn.style.cssText = 'width:100%;margin-top:12px;padding:10px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);border-radius:11px;color:#d4af37;font-size:.78rem;font-weight:900;cursor:pointer';
-  scudoBtn.textContent = '⚖️ Leggi la Filosofia Completa di Maat (+75 Semi)';
-  scudoBtn.addEventListener('click', function() {
-    var entry = GRANDE_SAGGEZZA.find(function(s){ return s.id === 'scudo_maat'; });
-    if (entry) openSaggezzaCard(entry);
-  });
-  scudoWrap.appendChild(scudoBtn);
-  body.appendChild(scudoWrap);
-
-  // ── CALCOLATORE FIRE POTENZIATO ──────────────────────────────────
-  var fireTitle = document.createElement('div');
-  fireTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin:18px 0 10px';
-  fireTitle.textContent = '📊 CALCOLATORE LIBERTÀ — REGOLA DEL 4% (FIRE)';
-  body.appendChild(fireTitle);
-
-  var fireWrap = document.createElement('div');
-  fireWrap.style.cssText = 'margin:0 14px;background:rgba(16,185,129,.05);border:1.5px solid rgba(16,185,129,.25);border-radius:18px;padding:16px';
-  fireWrap.innerHTML =
-    '<div style="font-size:.68rem;color:#4ade80;font-weight:800;margin-bottom:10px">🌿 Obiettivo Tesoro FIRE — Regola del 4%</div>' +
-    '<div style="font-size:.65rem;color:rgba(255,255,255,.5);margin-bottom:12px">Quanto patrimonio ti serve per vivere di rendite senza lavorare?</div>' +
-    '<label style="font-size:.62rem;color:rgba(255,255,255,.45);text-transform:uppercase;display:block;margin-bottom:5px">Spese mensili (€)</label>' +
-    '<input id="pi-expenses" type="number" placeholder="Es. 2000" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.88rem;outline:none;margin-bottom:12px">' +
-    '<label style="font-size:.62rem;color:rgba(255,255,255,.45);text-transform:uppercase;display:block;margin-bottom:5px">Rendimento atteso annuo (%)</label>' +
-    '<input id="pi-rate" type="number" value="7" min="1" max="20" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 12px;color:#fff;font-size:.88rem;outline:none;margin-bottom:14px">' +
-    '<div id="pi-fire-result" style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:12px;padding:12px;text-align:center">' +
-    '<div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-bottom:4px">Obiettivo Tesoro</div>' +
-    '<div id="pi-target" style="font-size:1.8rem;font-weight:900;color:#4ade80">€ 0</div>' +
-    '<div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-top:4px">Regola del 4%: Preleva l energia senza uccidere la radice</div>' +
-    '</div>' +
-    '<div id="pi-fire-details" style="display:none;margin-top:10px;font-size:.7rem;color:rgba(255,255,255,.6);line-height:1.7"></div>';
-
-  var script_fire = document.createElement('script');
-  // We'll use event listeners after appending
-  body.appendChild(fireWrap);
-
-  // Wire FIRE calculator
-  setTimeout(function() {
-    var expInput = document.getElementById('pi-expenses');
-    var rateInput = document.getElementById('pi-rate');
-    var targetEl = document.getElementById('pi-target');
-    var detailsEl = document.getElementById('pi-fire-details');
-    function calcFIRE() {
-      var exp = parseFloat(expInput ? expInput.value : 0) || 0;
-      var rate = parseFloat(rateInput ? rateInput.value : 7) || 7;
-      if (exp > 0) {
-        var annual = exp * 12;
-        var target4 = annual * 25; // 4% rule
-        var targetRate = annual / (rate/100); // custom rate
-        targetEl.textContent = '€ ' + Math.round(target4).toLocaleString('it-IT');
-        detailsEl.style.display = 'block';
-        detailsEl.innerHTML =
-          '📌 Con regola 4%: <strong style="color:#4ade80">€ ' + Math.round(target4).toLocaleString('it-IT') + '</strong><br>' +
-          '📌 Con tasso ' + rate + '%: <strong style="color:#67e8f9">€ ' + Math.round(targetRate).toLocaleString('it-IT') + '</strong><br>' +
-          '📌 Rendita mensile al 4%: <strong style="color:#fbbf24">€ ' + Math.round(target4 * 0.04 / 12).toLocaleString('it-IT') + '/mese</strong><br>' +
-          '<span style="color:rgba(255,255,255,.35);font-size:.62rem">Solo a scopo educativo — non è consulenza finanziaria</span>';
-      } else {
-        targetEl.textContent = '€ 0';
-        detailsEl.style.display = 'none';
-      }
-    }
-    if (expInput) expInput.addEventListener('input', calcFIRE);
-    if (rateInput) rateInput.addEventListener('input', calcFIRE);
-  }, 100);
-
-  // ── MONITORAGGIO 50 ANNI ─────────────────────────────────────────
-  var monTitle = document.createElement('div');
-  monTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin:18px 0 10px';
-  monTitle.textContent = '🔴 MONITORAGGIO 50 ANNI — SEGNALI DI CRISI';
-  body.appendChild(monTitle);
-
-  var monWrap = document.createElement('div');
-  monWrap.style.cssText = 'margin:0 14px;background:rgba(239,68,68,.05);border:1.5px solid rgba(239,68,68,.2);border-radius:18px;padding:16px';
-  var INDICATORI = [
-    {nome:'Curva Rendimenti (Inversione)', stato:'ALLERTA', col:'#fbbf24', desc:'Segnale storico di recessione entro 12-18 mesi'},
-    {nome:'Spread di Credito',             stato:'MONITORAGGIO', col:'#60a5fa', desc:'Aumento indica stress nel sistema finanziario'},
-    {nome:'Disoccupazione',                stato:'CRITICA', col:'#f87171', desc:'Lagging indicator — la crisi è già iniziata'},
-    {nome:'Rapporto CAPE/Shiller',         stato:'ELEVATO', col:'#fbbf24', desc:'Mercati azionari sopravvalutati storicamente'},
-    {nome:'M2 Money Supply Growth',        stato:'MONITORAGGIO', col:'#60a5fa', desc:'Inflazione futura incorporata nella liquidità'},
-    {nome:'Price/Book Ratio Globale',      stato:'NORMALE', col:'#4ade80', desc:'Mercati emergenti ancora a sconto vs US'},
-  ];
-  INDICATORI.forEach(function(ind) {
-    var row = document.createElement('div');
-    row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)';
-    row.innerHTML =
-      '<div>' +
-      '<div style="font-size:.72rem;color:rgba(255,255,255,.7)">' + ind.nome + '</div>' +
-      '<div style="font-size:.6rem;color:rgba(255,255,255,.3);margin-top:1px">' + ind.desc + '</div>' +
-      '</div>' +
-      '<span style="font-size:.62rem;font-weight:900;color:' + ind.col + ';flex-shrink:0;margin-left:10px">' + ind.stato + '</span>';
-    monWrap.appendChild(row);
-  });
-  var monQuote = document.createElement('div');
-  monQuote.style.cssText = 'font-size:.68rem;color:rgba(212,175,55,.5);font-style:italic;margin-top:12px;line-height:1.6;text-align:center';
-  monQuote.textContent = '"Quando il sistema trema, i titani comprano la terra." — Principio Imperiale';
-  monWrap.appendChild(monQuote);
-  body.appendChild(monWrap);
-
-  // ── CITAZIONE FINALE ─────────────────────────────────────────────
-  var footer = document.createElement('div');
-  footer.style.cssText = 'text-align:center;padding:24px 16px;margin-top:16px';
-  footer.innerHTML =
-    '<div style="font-size:.7rem;color:rgba(255,255,255,.35);letter-spacing:3px;line-height:2">"Finché non conoscerai la tua storia,<br>sarai schiavo dei numeri degli altri."</div>' +
-    '<div style="font-size:.65rem;color:#d4af37;font-style:italic;margin-top:8px;font-weight:700">Cheikh Anta Diop × FinanzaLand</div>';
-  body.appendChild(footer);
-}
-window.buildProtocollo = buildProtocollo;
-
-// ═══════════════════════════════════════════════════════════════════
-// 🎓 MODULO SCUOLA — Legge 21/2024 · Piano Didattico · Kit Insegnanti
-// ═══════════════════════════════════════════════════════════════════
-function buildScuolaScreen() {
-  var body = document.getElementById('scuola-body');
-  if (!body) return;
-  body.innerHTML = '';
-  var lang = S.lang || 'it';
-
-  // ── HERO LEGGE 21/2024 ───────────────────────────────────────────
-  var hero = document.createElement('div');
-  hero.style.cssText = 'background:linear-gradient(135deg,rgba(74,222,128,.12),rgba(16,185,129,.05));border:1.5px solid rgba(74,222,128,.3);border-radius:18px;padding:18px;margin:14px 14px 16px';
-  hero.innerHTML =
-    '<div style="font-family:Fredoka One,serif;font-size:1.2rem;color:#4ade80;margin-bottom:6px">🏛️ Legge 4 marzo 2024 n.21</div>' +
-    '<div style="font-size:.78rem;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:10px">' +
-    'L Italia è il primo paese europeo con <strong style="color:#4ade80">educazione finanziaria obbligatoria</strong> nelle scuole di ogni ordine e grado. ' +
-    'FinanzaLand offre strumenti pronti e certificati per rispettare questa legge — gratuitamente.' +
-    '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.68rem">' +
-    '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:900;color:#4ade80">✅</div><div style="color:rgba(255,255,255,.6);margin-top:2px">Curriculum certificato</div></div>' +
-    '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:900;color:#4ade80">€0</div><div style="color:rgba(255,255,255,.6);margin-top:2px">Costo per le scuole</div></div>' +
-    '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:900;color:#4ade80">6+</div><div style="color:rgba(255,255,255,.6);margin-top:2px">Lingue disponibili</div></div>' +
-    '<div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:900;color:#4ade80">PDF</div><div style="color:rgba(255,255,255,.6);margin-top:2px">Certificati stampabili</div></div>' +
-    '</div>';
-  body.appendChild(hero);
-
-  // ── PERCORSI PER FASCIA D ETA ─────────────────────────────────────
-  var etaTitle = document.createElement('div');
-  etaTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin-bottom:10px';
-  etaTitle.textContent = '📚 PERCORSI PER FASCIA DI ETA';
-  body.appendChild(etaTitle);
-
-  var ETA_PIANI = [
-    {
-      eta:'6–10 anni', icon:'👶', col:'#fb923c', bg:'rgba(251,146,60,.08)', bc:'rgba(251,146,60,.25)',
-      obiettivi:['Cos\'è il denaro e la sua storia','Risparmio e piggy bank','Bisogno vs desiderio','Il valore del lavoro','Donare, risparmiare, spendere'],
-      metodo:'Giochi, storie, disegni, missioni con i genitori',
-      durata:'2 ore/settimana',
-      materie:['Matematica','Ed. Civica','Storia']
-    },
-    {
-      eta:'11–14 anni', icon:'📚', col:'#60a5fa', bg:'rgba(96,165,250,.08)', bc:'rgba(96,165,250,.25)',
-      obiettivi:['Budget personale','Come funziona una banca','Interesse semplice e composto','Tasse — perché le paghiamo','PIL e macroeconomia base'],
-      metodo:'Simulazioni, gioco Borsa BRVM, quiz interattivi',
-      durata:'2 ore/settimana',
-      materie:['Matematica','Ed. Civica','Economia','Storia']
-    },
-    {
-      eta:'15–18 anni', icon:'🎓', col:'#a78bfa', bg:'rgba(167,139,250,.08)', bc:'rgba(167,139,250,.25)',
-      obiettivi:['ETF e investimenti base','Mutuo e debito consapevole','Pensione — perché iniziare ora','Crypto — rischi e opportunita','Lavoro autonomo vs dipendente'],
-      metodo:'Analisi casi reali, simulatore portafoglio, debate',
-      durata:'3 ore/settimana',
-      materie:['Economia','Ed. Civica','Matematica','Diritto']
-    },
-    {
-      eta:'Adulti/Famiglie', icon:'👨‍👩‍👧', col:'#4ade80', bg:'rgba(74,222,128,.08)', bc:'rgba(74,222,128,.25)',
-      obiettivi:['Pianificazione finanziaria familiare','Investimenti a lungo termine','FIRE e pensione anticipata','Protezione patrimonio','Trasmissione ricchezza ai figli'],
-      metodo:'Workshop serali, coaching AI, simulatori avanzati',
-      durata:'Flessibile',
-      materie:['Formazione adulti','Community learning']
-    }
-  ];
-
-  ETA_PIANI.forEach(function(piano) {
-    var card = document.createElement('div');
-    card.style.cssText = 'background:'+piano.bg+';border:1.5px solid '+piano.bc+';border-radius:16px;padding:14px;margin:0 14px 10px';
-    var obList = piano.obiettivi.map(function(o){ return '<div style="font-size:.68rem;color:rgba(255,255,255,.65);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)">✓ ' + o + '</div>'; }).join('');
-    var matList = piano.materie.map(function(m){ return '<span style="font-size:.58rem;background:rgba(255,255,255,.08);border-radius:5px;padding:2px 6px;color:rgba(255,255,255,.5)">'+m+'</span>'; }).join(' ');
-    card.innerHTML =
-      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
-      '<div style="font-size:1.8rem">'+piano.icon+'</div>' +
-      '<div><div style="font-size:.88rem;font-weight:900;color:'+piano.col+'">'+piano.eta+'</div>' +
-      '<div style="font-size:.63rem;color:rgba(255,255,255,.4)">'+piano.durata+' · '+piano.metodo+'</div></div>' +
-      '</div>' + obList +
-      '<div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap">'+matList+'</div>' +
-      '<button style="width:100%;margin-top:10px;padding:8px;background:rgba(255,255,255,.05);border:1px solid '+piano.bc+';border-radius:9px;color:'+piano.col+';font-size:.72rem;font-weight:800;cursor:pointer" onclick="toast(\'📋 Piano didattico per '+piano.eta+' — Generazione lezione in corso...\');generateLesson(\'piano didattico educazione finanziaria \'+\''+piano.eta+'\', \'scuola\', \'base\', \'adulto\', false).then(function(l){showScreen(\'accademia\');openLezione(l)})">📋 Apri Piano Didattico Completo →</button>';
-    body.appendChild(card);
-  });
-
-  // ── KIT INSEGNANTI ────────────────────────────────────────────────
-  var kitTitle = document.createElement('div');
-  kitTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin:16px 0 10px';
-  kitTitle.textContent = '📦 KIT INSEGNANTI — PRONTO ALL USO';
-  body.appendChild(kitTitle);
-
-  var KIT_ITEMS = [
-    {em:'📋', nome:'Piano di Lezione 45 min', desc:'Obiettivi, attivita, valutazione — pronto da usare in classe', color:'#60a5fa', topic:'piano di lezione educazione finanziaria 45 minuti scuola secondaria'},
-    {em:'🎯', nome:'5 Domande di Debate', desc:'Domande aperte per stimolare la discussione in classe', color:'#a78bfa', topic:'domande debate educazione finanziaria studenti scuola'},
-    {em:'📝', nome:'Quiz di Verifica', desc:'10 domande con risposte — livelli primaria, media, superiore', color:'#fb923c', topic:'quiz verifica educazione finanziaria scuola livelli diversi'},
-    {em:'🏠', nome:'Compito a Casa Globale', desc:'Esercizio pratico con la famiglia — risparmio e budget reale', color:'#4ade80', topic:'compito casa famiglia educazione finanziaria risparmio budget'},
-    {em:'🌍', nome:'Collegamento Interculturale', desc:'Come le diverse culture insegnano il denaro ai bambini', color:'#fbbf24', topic:'educazione finanziaria culture diverse Africa Asia Europa bambini'},
-    {em:'📊', nome:'Rubrica di Valutazione', desc:'Criteri e descrittori per valutare le competenze finanziarie', color:'#f87171', topic:'rubrica valutazione competenze finanziarie studenti criteri'},
-  ];
-
-  var kitGrid = document.createElement('div');
-  kitGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px;margin-bottom:16px';
-  KIT_ITEMS.forEach(function(item) {
-    var card = document.createElement('div');
-    card.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;cursor:pointer;transition:.15s';
-    card.innerHTML =
-      '<div style="font-size:1.6rem;margin-bottom:6px">'+item.em+'</div>' +
-      '<div style="font-size:.72rem;font-weight:800;color:'+item.color+';margin-bottom:3px;line-height:1.3">'+item.nome+'</div>' +
-      '<div style="font-size:.62rem;color:rgba(255,255,255,.4);line-height:1.4">'+item.desc+'</div>';
-    card.addEventListener('click', function() {
-      toast('🤖 Civetta AI sta generando il kit...');
-      generateLesson(item.topic, 'scuola', 'avanzato', 'adulto', false).then(function(lez){ showScreen('accademia'); openLezione(lez); });
-    });
-    kitGrid.appendChild(card);
-  });
-  body.appendChild(kitGrid);
-
-  // ── LEZIONI PRONTE PER CLASSE ─────────────────────────────────────
-  var lezTitle = document.createElement('div');
-  lezTitle.style.cssText = 'font-size:.62rem;font-weight:900;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:0 16px;margin-bottom:10px';
-  lezTitle.textContent = '📖 LEZIONI PRONTE — CONFORMI LEGGE 21/2024';
-  body.appendChild(lezTitle);
-
-  var LEZIONI_SCUOLA = [
-    {titolo:'Dalla baratta al Bitcoin — 5000 anni di storia del denaro', eta:'Tutti', materia:'Storia', semi:80, topic:'storia denaro baratto Bitcoin 5000 anni'},
-    {titolo:'Come si legge una busta paga', eta:'Superiori', materia:'Diritto', semi:80, topic:'busta paga IRPEF contributi spiegazione studenti'},
-    {titolo:'ETF e borsa — investire con 50 euro al mese', eta:'Superiori', materia:'Economia', semi:80, topic:'ETF borsa investire 50 euro mese giovani'},
-    {titolo:'Il PIL spiegato con la pizza', eta:'Medie', materia:'Economia', semi:70, topic:'PIL spiegato bambini ragazzi esempio pizza'},
-    {titolo:'Tasse — perche le paghiamo e a chi vanno', eta:'Medie/Superiori', materia:'Ed. Civica', semi:75, topic:'tasse spiegazione scuola perche paghiamo sistema fiscale'},
-    {titolo:'La Banca Centrale Europea — chi decide i nostri soldi', eta:'Superiori', materia:'Economia', semi:80, topic:'BCE Banca Centrale Europea funzione politica monetaria'},
-    {titolo:'Inflazione — quando i soldi perdono valore', eta:'Medie', materia:'Matematica', semi:70, topic:'inflazione spiegazione ragazzi perdita valore denaro'},
-    {titolo:'Startup e imprenditoria — costruire qualcosa da zero', eta:'Superiori', materia:'PCTO', semi:85, topic:'startup imprenditoria giovani costruire impresa scuola'},
-    {titolo:'Risparmio globale — come famiglie africane e asiatiche insegnano il denaro', eta:'Tutti', materia:'Ed. Civica Globale', semi:80, topic:'risparmio famiglie africane asiatiche tontine kakeibo'},
-    {titolo:'Agenda 2030 e finanza sostenibile — ESG per tutti', eta:'Superiori', materia:'Scienze', semi:75, topic:'Agenda 2030 finanza sostenibile ESG studenti scuola'},
-    {titolo:'Il debito pubblico italiano spiegato ai ragazzi', eta:'Superiori', materia:'Ed. Civica', semi:80, topic:'debito pubblico italiano spiegazione studenti'},
-    {titolo:'Come funziona un mutuo — trappola o strumento', eta:'Superiori', materia:'Matematica', semi:80, topic:'mutuo come funziona tasso interesse spiegazione studenti'},
-  ];
-
-  var lezList = document.createElement('div');
-  lezList.style.cssText = 'display:flex;flex-direction:column;gap:7px;padding:0 14px;margin-bottom:16px';
-  LEZIONI_SCUOLA.forEach(function(lez) {
-    var row = document.createElement('div');
-    row.style.cssText = 'background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:11px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s';
-    row.innerHTML =
-      '<div style="flex:1">' +
-      '<div style="font-size:.75rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:3px">'+lez.titolo+'</div>' +
-      '<div style="display:flex;gap:5px;flex-wrap:wrap">' +
-      '<span style="font-size:.58rem;background:rgba(74,222,128,.1);color:#4ade80;border-radius:5px;padding:1px 6px">'+lez.eta+'</span>' +
-      '<span style="font-size:.58rem;background:rgba(96,165,250,.1);color:#60a5fa;border-radius:5px;padding:1px 6px">'+lez.materia+'</span>' +
-      '</div></div>' +
-      '<div style="text-align:center;flex-shrink:0">' +
-      '<div style="font-size:.78rem;font-weight:900;color:var(--gold)">+'+lez.semi+'</div>' +
-      '<div style="font-size:.55rem;color:rgba(255,255,255,.3)">Semi</div>' +
-      '</div>';
-    row.addEventListener('click', function() {
-      generateLesson(lez.topic, 'scuola', 'base', 'adulto', false).then(function(l){ showScreen('accademia'); openLezione(l); });
-    });
-    lezList.appendChild(row);
-  });
-  body.appendChild(lezList);
-
-  // ── CERTIFICATO SCOLASTICO ────────────────────────────────────────
-  var certWrap = document.createElement('div');
-  certWrap.style.cssText = 'margin:0 14px;background:rgba(74,222,128,.06);border:1.5px solid rgba(74,222,128,.25);border-radius:18px;padding:16px;margin-bottom:16px';
-  certWrap.innerHTML =
-    '<div style="font-size:.75rem;font-weight:900;color:#4ade80;margin-bottom:6px">📜 Certificati PDF — Stampa e Condividi</div>' +
-    '<div style="font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:12px">' +
-    'Ogni lezione completata genera un certificato PDF stampabile, personalizzato con il nome dello studente, ' +
-    'la data, la materia e il sigillo FinanzaLand. Valido come attestato formativo non accademico.' +
-    '</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
-
-  var CERT_TYPES = [
-    {nome:'Certificato Studente', desc:'Per ogni lezione completata', em:'🎓'},
-    {nome:'Diploma di Classe', desc:'Per la classe intera — fine anno', em:'🏫'},
-    {nome:'Attestato Insegnante', desc:'Per la formazione docenti', em:'👩‍🏫'},
-    {nome:'Badge Digitale', desc:'Condivisibile su LinkedIn e WhatsApp', em:'🏆'},
-  ];
-  CERT_TYPES.forEach(function(c) {
-    certWrap.innerHTML +=
-      '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(74,222,128,.15);border-radius:10px;padding:10px;text-align:center;cursor:pointer" onclick="generateScholaCertificate(\''+encodeURIComponent('Educazione Finanziaria — Legge 21/2024')+'\')">' +
-      '<div style="font-size:1.4rem;margin-bottom:4px">'+c.em+'</div>' +
-      '<div style="font-size:.68rem;font-weight:800;color:#4ade80">'+c.nome+'</div>' +
-      '<div style="font-size:.6rem;color:rgba(255,255,255,.4);margin-top:2px">'+c.desc+'</div>' +
-      '</div>';
-  });
-  certWrap.innerHTML += '</div>';
-  body.appendChild(certWrap);
-
-  // ── CONTATTO SCUOLE ───────────────────────────────────────────────
-  var contactWrap = document.createElement('div');
-  contactWrap.style.cssText = 'margin:0 14px;background:rgba(167,139,250,.06);border:1.5px solid rgba(167,139,250,.2);border-radius:18px;padding:16px;margin-bottom:16px';
-  contactWrap.innerHTML =
-    '<div style="font-size:.75rem;font-weight:900;color:#a78bfa;margin-bottom:8px">🤝 Porta FinanzaLand nella tua Scuola</div>' +
-    '<div style="font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:12px">' +
-    'Sei un insegnante, dirigente scolastico o referente di Istituto? ' +
-    'Contattaci per attivare un account scuola gratuito, ricevere il kit didattico completo ' +
-    'e diventare parte della rete nazionale FinanzaLand Scuole.' +
-    '</div>' +
-    '<div style="display:flex;gap:8px;flex-direction:column">';
-
-  var CONTACT_BTNS = [
-    {label:'📧 Scrivi a ilboudobr96@gmail.com', col:'rgba(167,139,250,.15)', bc:'rgba(167,139,250,.3)', tc:'#a78bfa',
-     action:'window.open("mailto:ilboudobr96@gmail.com?subject=Richiesta%20Accesso%20Scuola%20FinanzaLand&body=Sono%20il%20docente%2Freferente%20della%20scuola%20[NOME]%20e%20vorrei%20attivare%20il%20programma%20FinanzaLand.","_blank")'},
-    {label:'📱 Codice Accesso Scuola — Inserisci il codice', col:'rgba(74,222,128,.1)', bc:'rgba(74,222,128,.3)', tc:'#4ade80',
-     action:'openPopup("account");switchAccountTab("school")'},
-  ];
-  CONTACT_BTNS.forEach(function(btn) {
-    contactWrap.innerHTML +=
-      '<button onclick="'+btn.action+'" style="width:100%;padding:11px;background:'+btn.col+';border:1px solid '+btn.bc+';border-radius:11px;color:'+btn.tc+';font-size:.76rem;font-weight:800;cursor:pointer">'+btn.label+'</button>';
-  });
-  contactWrap.innerHTML += '</div>';
-  body.appendChild(contactWrap);
-}
-window.buildScuolaScreen = buildScuolaScreen;
 
 
 
@@ -14257,7 +13467,7 @@ var MM_DATA = {
         {id:'bf1', ico:'🌱', name:'Risparmio in CFA', desc:'Come funziona il Franco CFA e perché la valuta stabile è un vantaggio.', diff:'easy', semi:60,
          concept:'Il Franco CFA (XOF) è la valuta di 8 paesi UEMOA. È ancorato all\'euro a tasso fisso (1€=655 CFA), il che garantisce stabilità e bassa inflazione per i risparmiatori della regione.',
          quiz:[{q:'Il CFA è ancorato a quale valuta?',answers:['Dollaro USA','Euro','Yuan cinese','Sterlina'],correct:1},{q:'Quanti paesi usano il Franco CFA UEMOA?',answers:['3','5','8','12'],correct:2}]},
-        {id:'bf2', ico:'📈', name:'Investire in BRVM', desc:'La borsa regionale dell\ Africa occidentale — come comprare azioni da Ouagadougou.', diff:'med', semi:90,
+        {id:'bf2', ico:'📈', name:'Investire in BRVM', desc:'La borsa regionale dell\'Africa occidentale — come comprare azioni da Ouagadougou.', diff:'med', semi:90,
          concept:'La BRVM (Bourse Régionale des Valeurs Mobilières) con sede ad Abidjan serve 8 paesi UEMOA. Sonatel, BICICI, BOA sono tra i titoli più scambiati. Puoi investire tramite un intermediario abilitato.',
          quiz:[{q:'Dove ha sede la BRVM?',answers:['Dakar','Ouagadougou','Abidjan','Lomé'],correct:2},{q:'BRVM significa:',answers:['Banca Regionale Valori Mobili','Borsa Regionale Valori Mobiliari','Bourse Régionale des Valeurs Mobilières','Borsa Reale del Valore Mondiale'],correct:2}]},
         {id:'bf3', ico:'🏠', name:'Foncier africano', desc:'Come funziona la proprietà fondiaria in Africa occidentale — diritti e investimenti.', diff:'hard', semi:120,
@@ -14271,7 +13481,7 @@ var MM_DATA = {
         {id:'ci1', ico:'💱', name:'Mobile Money Africa', desc:'M-Pesa, Orange Money, Wave — la rivoluzione finanziaria africana.', diff:'easy', semi:70,
          concept:'Il mobile money ha trasformato l\'Africa. In Costa d\'Avorio, Orange Money e MTN MoMo gestiscono miliardi di transazioni. È il conto bancario per chi non ha accesso a banche tradizionali.',
          quiz:[{q:'Quale country ha inventato M-Pesa?',answers:['Nigeria','Costa d\'Avorio','Kenya','Sudafrica'],correct:2},{q:'Mobile money serve principalmente per:',answers:['Speculazione','Inclusione finanziaria','Pagare tasse','Comprare azioni'],correct:1}]},
-        {id:'ci2', ico:'🌾', name:'Agritech & Investimento', desc:'Le startup agritech africane — come il settore agricolo diventa un\ asset class.', diff:'med', semi:100,
+        {id:'ci2', ico:'🌾', name:'Agritech & Investimento', desc:'Le startup agritech africane — come il settore agricolo diventa un\'asset class.', diff:'med', semi:100,
          concept:'L\'Africa subsahariana ha il 60% delle terre arabili non coltivate del mondo. Le startup agritech come Twiga (Kenya), OCP (Marocco), e diverse ivoriane stanno trasformando questo asset in rendimenti misurabili.',
          quiz:[{q:'Quale % di terre arabili globali è in Africa?',answers:['20%','40%','60%','80%'],correct:2}]}
       ]
@@ -14279,7 +13489,7 @@ var MM_DATA = {
     { city:'Dakar', country:'Senegal', flag:'🇸🇳', color:'rgba(74,222,128,.07)', accent:'#4ade80',
       buildings:[{ico:'🕌',name:'Grande Mosquée de Dakar',desc:'Simbolo culturale e spirituale del Senegal'}],
       missions:[
-        {id:'sn1', ico:'💸', name:'Diaspora & Rimesse', desc:'I trasferimenti della diaspora africana — 50 miliardi di dollari all\ anno verso l\ Africa.', diff:'easy', semi:80,
+        {id:'sn1', ico:'💸', name:'Diaspora & Rimesse', desc:'I trasferimenti della diaspora africana — 50 miliardi di dollari all\'anno verso l\'Africa.', diff:'easy', semi:80,
          concept:'Le rimesse della diaspora africana superano i 50 miliardi di $ annui — più degli aiuti internazionali. Il costo medio di un trasferimento è ancora al 8%. Servizi come Wave e Lemfi lo stanno abbattendo sotto il 2%.',
          quiz:[{q:'Quanto valgono le rimesse africane annue?',answers:['5 miliardi $','20 miliardi $','50 miliardi $','100 miliardi $'],correct:2},{q:'Il costo medio di una rimessa globale è circa:',answers:['1%','4%','8%','15%'],correct:2}]},
         {id:'sn2', ico:'🔐', name:'Microfinanza & Tontine', desc:'Le tontine africane — la finanza comunitaria che precede le banche moderne.', diff:'med', semi:90,
@@ -14288,7 +13498,7 @@ var MM_DATA = {
       ]
     },
     { city:'Lagos', country:'Nigeria', flag:'🇳🇬', color:'rgba(16,185,129,.07)', accent:'#10b981',
-      buildings:[{ico:'🏙️',name:'Lagos Financial District',desc:'La capitale finanziaria dell\ Africa'}],
+      buildings:[{ico:'🏙️',name:'Lagos Financial District',desc:'La capitale finanziaria dell\'Africa'}],
       missions:[
         {id:'ng1', ico:'₿', name:'Crypto in Africa', desc:'La Nigeria ha il più alto uso di crypto pro-capite al mondo — perché?', diff:'med', semi:100,
          concept:'La Nigeria usa Bitcoin e USDT per proteggersi dall\'inflazione della Naira (che ha perso il 60% del valore in 3 anni) e per le rimesse. Nel 2023 il governo ha lanciato eNaira, la prima CBDC africana.',
@@ -14337,13 +13547,13 @@ var MM_DATA = {
         {id:'us1', ico:'📈', name:'S&P 500 & ETF', desc:'Come funziona il S&P 500 e perché Warren Buffett lo consiglia a tutti.', diff:'easy', semi:80,
          concept:'L\'S&P 500 è un indice delle 500 maggiori aziende USA. Storicamente rende ~10%/anno. Warren Buffett nel suo testamento ha lasciato disposizione di investire il 90% in un ETF S&P 500 a basso costo per sua moglie.',
          quiz:[{q:'L\'S&P 500 contiene quante aziende?',answers:['100','500','1000','5000'],correct:1},{q:'Rendimento storico medio annuo S&P 500:',answers:['2%','5%','10%','20%'],correct:2}]},
-        {id:'us2', ico:'🏦', name:'Federal Reserve & Inflazione', desc:'Come la Fed controlla l\ economia mondiale — e perché riguarda anche te.', diff:'med', semi:100,
+        {id:'us2', ico:'🏦', name:'Federal Reserve & Inflazione', desc:'Come la Fed controlla l\'economia mondiale — e perché riguarda anche te.', diff:'med', semi:100,
          concept:'La Federal Reserve è la banca centrale USA. Le sue decisioni sui tassi influenzano tutto il mondo: quando la Fed alza i tassi, i dollari tornano negli USA da tutto il mondo, i mercati emergenti soffrono e le valute africane si svalutano.',
          quiz:[{q:'Quando la Fed alza i tassi, le valute emergenti:',answers:['Si apprezzano','Si svalutano','Rimangono stabili','Diventano crypto'],correct:1}]}
       ]
     },
     { city:'São Paulo', country:'Brasile', flag:'🇧🇷', color:'rgba(74,222,128,.07)', accent:'#4ade80',
-      buildings:[{ico:'🌴',name:'Bovespa — B3',desc:'La principale borsa dell\ America Latina'}],
+      buildings:[{ico:'🌴',name:'Bovespa — B3',desc:'La principale borsa dell\'America Latina'}],
       missions:[
         {id:'br1', ico:'🌿', name:'Mercati Emergenti & BRICS', desc:'Cosa sono i mercati emergenti e come investirci in modo intelligente.', diff:'med', semi:100,
          concept:'I mercati emergenti (EM) sono economie in rapida crescita come Brasile, India, Sudafrica, Cina. Offrono rendimenti potenzialmente più alti ma con più volatilità. Un ETF MSCI Emerging Markets permette di diversificare in tutti questi paesi.',
@@ -14373,9 +13583,9 @@ var MM_DATA = {
       ]
     },
     { city:'Shanghai', country:'Cina', flag:'🇨🇳', color:'rgba(239,68,68,.08)', accent:'#dc2626',
-      buildings:[{ico:'🏯',name:'Shanghai Stock Exchange',desc:'La seconda borsa più grande d\ Asia'}],
+      buildings:[{ico:'🏯',name:'Shanghai Stock Exchange',desc:'La seconda borsa più grande d\'Asia'}],
       missions:[
-        {id:'cn1', ico:'🐉', name:'Yuan & Sistema Finanziario Cinese', desc:'Come funziona l\ economia cinese e il suo sistema di controllo finanziario.', diff:'hard', semi:120,
+        {id:'cn1', ico:'🐉', name:'Yuan & Sistema Finanziario Cinese', desc:'Come funziona l\'economia cinese e il suo sistema di controllo finanziario.', diff:'hard', semi:120,
          concept:'Lo Yuan (CNY) non è liberamente convertibile come euro o dollaro. La Cina controlla i flussi di capitale per stabilizzare l\'economia. Questo rende la Cina interessante per crescita ma rischiosa per investitori stranieri per il "rischio regolatorio".',
          quiz:[{q:'Lo Yuan è:',answers:['Liberamente convertibile come euro','Non liberamente convertibile','La valuta di Hong Kong','Una criptovaluta'],correct:1}]},
         {id:'cn2', ico:'📱', name:'Fintech Cinese', desc:'Alipay, WeChat Pay — come la Cina ha saltato le banche tradizionali.', diff:'easy', semi:70,
@@ -14384,9 +13594,9 @@ var MM_DATA = {
       ]
     },
     { city:'Mumbai', country:'India', flag:'🇮🇳', color:'rgba(251,146,60,.07)', accent:'#fb923c',
-      buildings:[{ico:'🌟',name:'Bombay Stock Exchange',desc:'La borsa più antica dell\ Asia'}],
+      buildings:[{ico:'🌟',name:'Bombay Stock Exchange',desc:'La borsa più antica dell\'Asia'}],
       missions:[
-        {id:'in1', ico:'💻', name:'India & IT Economy', desc:'Come l\ India è diventata la capitale mondiale del software e cosa significa per gli investitori.', diff:'med', semi:100,
+        {id:'in1', ico:'💻', name:'India & IT Economy', desc:'Come l\'India è diventata la capitale mondiale del software e cosa significa per gli investitori.', diff:'med', semi:100,
          concept:'L\'India ha il più grande pool di ingegneri informatici al mondo. Il settore IT rappresenta il 9% del PIL. Con una popolazione di 1.4 miliardi e una classe media in crescita, l\'India è spesso considerata "il prossimo Cina" per gli investitori.',
          quiz:[{q:'Il settore IT vale circa quanto del PIL indiano?',answers:['2%','5%','9%','20%'],correct:2},{q:'L\'India ha quanti abitanti circa?',answers:['500 milioni','800 milioni','1 miliardo','1.4 miliardi'],correct:3}]}
       ]
@@ -14397,7 +13607,7 @@ var MM_DATA = {
     { city:'Sydney', country:'Australia', flag:'🇦🇺', color:'rgba(251,191,36,.07)', accent:'#fbbf24',
       buildings:[{ico:'🦘',name:'ASX — Australian Securities Exchange',desc:'La principale borsa australiana'}],
       missions:[
-        {id:'au1', ico:'⛏️', name:'Materie Prime & Mining', desc:'L\ Australia è la miniera del mondo — come le materie prime influenzano le economie.', diff:'med', semi:100,
+        {id:'au1', ico:'⛏️', name:'Materie Prime & Mining', desc:'L\'Australia è la miniera del mondo — come le materie prime influenzano le economie.', diff:'med', semi:100,
          concept:'L\'Australia è il primo esportatore mondiale di ferro, carbone e oro. Le materie prime (commodities) sono fondamentali per capire l\'economia globale: quando la Cina rallenta, l\'Australia soffre — perché la Cina compra il 40% delle sue esportazioni.',
          quiz:[{q:'L\'Australia è principalmente esportatrice di:',answers:['Tecnologia','Materie prime','Prodotti finanziari','Servizi digitali'],correct:1},{q:'La Cina compra circa quale % delle esportazioni australiane?',answers:['10%','20%','40%','60%'],correct:2}]},
         {id:'au2', ico:'🏠', name:'Superannuation — Pensione Obbligatoria', desc:'Il sistema pensionistico australiano — il migliore al mondo secondo molti esperti.', diff:'hard', semi:120,
@@ -14600,9 +13810,6 @@ function mmToggleGPS(){
   window.showScreen = function(name){
     if(_ss) _ss(name);
     if(name === 'mappa-missioni') setTimeout(buildMappaMissioni, 50);
-    if(name === 'sun-room') setTimeout(function(){ if(typeof buildSunRoom==='function') buildSunRoom(); }, 50);
-    if(name === 'protocollo-imperiale') setTimeout(function(){ if(typeof buildProtocollo==='function') buildProtocollo(); }, 50);
-    if(name === 'scuola-screen') setTimeout(function(){ if(typeof buildScuolaScreen==='function') buildScuolaScreen(); }, 50);
   };
 })();
 </script>
@@ -15090,6 +14297,30 @@ function initClass(){
 
 // Init: aggiorna hub al caricamento
 (function(){gUpdateHud();})();
+
+// ── PAYWALL SCREEN ─────────────────────────────────────────────────────────
+function showPaywall() {
+  var old = document.getElementById('fl-paywall');
+  if (old) old.remove();
+  var w = document.createElement('div');
+  w.id = 'fl-paywall';
+  w.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center';
+  w.innerHTML =
+    '<div style="font-size:3rem;margin-bottom:14px">🔐</div>'+
+    '<div style="font-family:Fredoka One,serif;font-size:1.3rem;color:#F5C842;margin-bottom:10px">Le 3 prove gratuite sono finite</div>'+
+    '<div style="font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.8;max-width:320px;margin-bottom:20px">'+
+    'Per continuare a imparare è necessario un abbonamento.<br>'+
+    'Il tuo abbonamento paga:<br>'+
+    '<span style="color:rgba(255,255,255,.4)">👨‍💻 Sviluppatori · 🧑‍🏫 Creatori di contenuto<br>🤖 AI · 🖥️ Server · 🌍 Aggiornamenti</span></div>'+
+    '<button id="pw-pro" style="width:100%;max-width:300px;padding:14px;background:linear-gradient(135deg,#F5C842,#e67e22);border:none;border-radius:13px;color:#1a0a00;font-size:.9rem;font-weight:900;cursor:pointer;margin-bottom:9px">👑 PRO — €4,99/mese</button>'+
+    '<button id="pw-school" style="width:100%;max-width:300px;padding:12px;background:rgba(167,139,250,.15);border:1.5px solid rgba(167,139,250,.4);border-radius:13px;color:#a78bfa;font-size:.82rem;font-weight:800;cursor:pointer;margin-bottom:14px">🏫 Piano Scuola — €149/anno</button>'+
+    '<div style="font-size:.65rem;color:rgba(255,255,255,.2)">❤️ Il 10% del piano Solidale aiuta famiglie in difficoltà</div>';
+  document.body.appendChild(w);
+  document.getElementById('pw-pro').onclick = function(){ w.remove(); openPopup('piani'); };
+  document.getElementById('pw-school').onclick = function(){ w.remove(); openPopup('piani'); };
+}
+window.showPaywall = showPaywall;
+
 </script>
 </body>
 </html>
