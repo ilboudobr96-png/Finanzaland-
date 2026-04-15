@@ -1,103 +1,61 @@
-// api/lesson.js — Vercel Serverless Function
-// Genera lezioni FinanzaLand via Anthropic Claude API
-
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { topic, percorso, livello, eta, lingua, lessonId } = req.body || {};
+  const { topic, percorso, livello, eta, lingua } = req.body || {};
   if (!topic) return res.status(400).json({ error: 'Missing topic' });
 
-  const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
-  if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'API key not configured' });
+  const KEY = process.env.ANTHROPIC_API_KEY;
+  if (!KEY) return res.status(500).json({ error: 'API key not configured on Vercel' });
 
   const lang = lingua || 'it';
-  const age = eta || 'adulto';
-  const isKids = age === 'bambino' || age === 'kids';
+  const isKids = (eta === 'bambino' || eta === 'kids');
+  const LANG_NAMES = {it:'italiano',fr:'francese',en:'inglese',es:'spagnolo',wo:'wolof'};
+  const langName = LANG_NAMES[lang] || lang;
 
   const SYSTEM = isKids
-    ? `Sei Civetta, la guida di FinanzaLand. Parla in modo semplice, divertente e con esempi concreti per bambini. Rispondi SOLO in JSON valido. Lingua: ${lang}.`
-    : `Sei Civetta, l'assistente AI di FinanzaLand — la più grande accademia finanziaria globale. Sei storico, economista, filosofo, educatore e futurista. Rispondi SOLO in JSON valido senza markdown. Lingua: ${lang}. Copri SEMPRE tutti i continenti, dalla preistoria al 2075. Mai limitarti a un solo paese o cultura.`;
+    ? `Sei Civetta, guida di FinanzaLand. Parla in ${langName} in modo semplice per bambini. Rispondi SOLO in JSON valido.`
+    : `Sei Civetta, assistente AI di FinanzaLand. Rispondi SEMPRE in ${langName}. SOLO JSON valido senza markdown. Copri tutti i continenti e culture.`;
 
-  const USER_PROMPT = `Genera una lezione completa su "${topic}" per il percorso "${percorso}", livello "${livello}", età "${age}".
-
-Rispondi SOLO con questo JSON (nessun testo prima o dopo):
+  const PROMPT = `Genera una lezione su "${topic}" per percorso "${percorso}", livello "${livello}", età "${eta}".
+Rispondi SOLO con questo JSON:
 {
-  "id": "${lessonId || topic.toLowerCase().replace(/\\s+/g,'-')}",
-  "titolo": "titolo della lezione",
-  "sottotitolo": "sottotitolo descrittivo",
-  "emoji": "emoji rappresentativa",
-  "tempo_minuti": 8,
+  "id": "${topic.toLowerCase().replace(/\s+/g,'-')}",
+  "titolo": "titolo in ${langName}",
+  "sottotitolo": "sottotitolo in ${langName}",
+  "emoji": "emoji",
+  "tempo_minuti": 7,
   "semi_reward": 100,
-  "punti_chiave": ["punto 1", "punto 2", "punto 3", "punto 4", "punto 5"],
-  "esempio_pratico": "esempio concreto con numeri reali",
-  "dato_reale": "statistica o dato verificabile recente",
-  "collegamento_africa": "collegamento con realtà africana o diaspora",
-  "sfida_vita_reale": "missione pratica che l utente può fare questa settimana",
+  "punti_chiave": ["punto 1 in ${langName}", "punto 2", "punto 3", "punto 4"],
+  "esempio_pratico": "esempio concreto con numeri in ${langName}",
+  "dato_reale": "statistica verificabile in ${langName}",
+  "collegamento_africa": "collegamento con Africa o diaspora in ${langName}",
+  "sfida_vita_reale": "missione pratica in ${langName}",
   "quiz": [
-    {
-      "domanda": "domanda del quiz",
-      "opzioni": ["risposta A", "risposta B", "risposta C", "risposta D"],
-      "risposta_corretta": 1,
-      "spiegazione": "spiegazione della risposta corretta"
-    },
-    {
-      "domanda": "seconda domanda",
-      "opzioni": ["risposta A", "risposta B", "risposta C", "risposta D"],
-      "risposta_corretta": 0,
-      "spiegazione": "spiegazione"
-    }
+    {"domanda": "domanda in ${langName}", "opzioni": ["A","B","C","D"], "risposta_corretta": 1, "spiegazione": "spiegazione in ${langName}"},
+    {"domanda": "domanda 2 in ${langName}", "opzioni": ["A","B","C","D"], "risposta_corretta": 0, "spiegazione": "spiegazione in ${langName}"}
   ]
 }`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 2000,
-        system: SYSTEM,
-        messages: [{ role: 'user', content: USER_PROMPT }],
-      }),
+      headers: {'Content-Type':'application/json','x-api-key':KEY,'anthropic-version':'2023-06-01'},
+      body: JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,system:SYSTEM,messages:[{role:'user',content:PROMPT}]})
     });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('Anthropic error:', response.status, errText);
-      return res.status(502).json({ error: 'Anthropic API error', details: response.status });
-    }
-
-    const data = await response.json();
-    const rawText = data.content?.[0]?.text || '';
-
-    // Clean JSON — remove markdown fences if present
-    const cleaned = rawText
-      .replace(/^```json\s*/i, '')
-      .replace(/^```\s*/i, '')
-      .replace(/```\s*$/i, '')
-      .trim();
-
-    let lesson;
+    if (!r.ok) return res.status(502).json({ error: 'Anthropic API error', status: r.status });
+    const data = await r.json();
+    const raw = (data.content?.[0]?.text||'').replace(/^```json\s*/i,'').replace(/^```/i,'').replace(/```\s*$/,'').trim();
     try {
-      lesson = JSON.parse(cleaned);
-    } catch (parseErr) {
-      console.error('JSON parse error:', parseErr.message, '\nRaw:', cleaned.slice(0, 200));
-      return res.status(500).json({ error: 'Invalid JSON from AI', raw: cleaned.slice(0, 500) });
+      const lesson = JSON.parse(raw);
+      return res.status(200).json({ success: true, lesson });
+    } catch(e) {
+      return res.status(500).json({ error: 'Invalid JSON from AI', raw: raw.slice(0,300) });
     }
-
-    return res.status(200).json({ success: true, lesson });
-
-  } catch (err) {
-    console.error('Handler error:', err);
-    return res.status(500).json({ error: err.message });
+  } catch(e) {
+    return res.status(500).json({ error: e.message });
   }
 }

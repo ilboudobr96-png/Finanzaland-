@@ -1505,13 +1505,13 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           </div>
         </div>
         <div class="home-btns">
-          <button class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')">📚 Accademia Infinita</button>
-          <button class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd">👶 Zona<br>Bambini</button>
-          <button class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti<br>Adulti</button>
-          <button class="home-btn btn-secondary" onclick="showScreen('academy')">🎓 Academy &amp;<br>Professori</button>
-          <button class="home-btn btn-secondary" onclick="showScreen('muro-sociale')">🌍 Muro<br>Sociale</button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.4);color:#c4b5fd;margin-top:2px">🐉 Avatar Cultura &amp; Saggezza</button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('mappa-missioni')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(16,185,129,.1));border:1.5px solid rgba(6,182,212,.5);color:#67e8f9;margin-top:2px;position:relative">🗺️ Mappa Mondiale — Missioni Finanziarie<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.18);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
+          <button class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')" data-i18n="btn_accademia">📚 Accademia Infinita</button>
+          <button class="home-btn" onclick="entraModoBambini()" data-i18n="btn_bambini" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd">👶 Zona<br>Bambini</button>
+          <button class="home-btn btn-adult" onclick="showScreen('adulti')" data-i18n="btn_adulti">💎 Strumenti<br>Adulti</button>
+          <button class="home-btn btn-secondary" onclick="showScreen('academy')" data-i18n="btn_academy">🎓 Academy &amp;<br>Professori</button>
+          <button class="home-btn btn-secondary" onclick="showScreen('muro-sociale')" data-i18n="btn_muro">🌍 Muro<br>Sociale</button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();" data-i18n="btn_avatar" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.4);color:#c4b5fd;margin-top:2px">🐉 Avatar Cultura &amp; Saggezza</button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('mappa-missioni')" data-i18n="btn_mappa" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(16,185,129,.1));border:1.5px solid rgba(6,182,212,.5);color:#67e8f9;margin-top:2px;position:relative">🗺️ Mappa Mondiale — Missioni Finanziarie<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.18);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900" data-i18n="badge_nuovo">NUOVO</span></button>
         </div>
       </div>
     </div>
@@ -1934,28 +1934,28 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <div class="giochi-grid">
       <div class="gioco-card gc-quadranti" onclick="openGame('quadranti')">
         <div class="gc-badge" style="background:rgba(255,215,0,.13);color:var(--gold)">🏰 RPG</div>
-        <div><span class="gc-icon">👑</span><div class="gc-name">4 Quadranti</div><div class="gc-desc">Da dipendente a investitore libero. 12 mesi di scelte reali.</div></div>
-        <button class="gc-play" style="background:rgba(255,215,0,.13);color:var(--gold)">▶ Gioca</button>
+        <div><span class="gc-icon">👑</span><div class="gc-name" data-i18n="game_quadranti_name">4 Quadranti</div><div class="gc-desc" data-i18n="game_quadranti_desc">Da dipendente a investitore libero. 12 mesi di scelte reali.</div></div>
+        <button class="gc-play" data-i18n="game_play_btn" style="background:rgba(255,215,0,.13);color:var(--gold)">▶ Gioca</button>
       </div>
       <div class="gioco-card gc-brvm" onclick="openGame('brvm')">
         <div class="gc-badge" style="background:rgba(74,222,128,.12);color:var(--green)">📈 BORSA</div>
-        <div><span class="gc-icon">📊</span><div class="gc-name">Borsa Globale</div><div class="gc-desc">Azioni, ETF, obbligazioni. Africa, America, Europa, Asia.</div></div>
-        <button class="gc-play" style="background:rgba(74,222,128,.12);color:var(--green)">▶ Gioca</button>
+        <div><span class="gc-icon">📊</span><div class="gc-name" data-i18n="game_brvm_name">Borsa Globale</div><div class="gc-desc" data-i18n="game_brvm_desc">Azioni, ETF, obbligazioni. Africa, America, Europa, Asia.</div></div>
+        <button class="gc-play" data-i18n="game_play_btn" style="background:rgba(74,222,128,.12);color:var(--green)">▶ Gioca</button>
       </div>
       <div class="gioco-card gc-immobiliare" onclick="openGame('immobiliare')">
         <div class="gc-badge" style="background:rgba(167,139,250,.12);color:var(--purple)">🏘️ STRATEGIA</div>
-        <div><span class="gc-icon">🏗️</span><div class="gc-name">Monopolio Urbano</div><div class="gc-desc">Compra terreni, costruisci, raccogli rendite in Burkina.</div></div>
-        <button class="gc-play" style="background:rgba(167,139,250,.12);color:var(--purple)">▶ Gioca</button>
+        <div><span class="gc-icon">🏗️</span><div class="gc-name" data-i18n="game_imm_name">Monopolio Urbano</div><div class="gc-desc" data-i18n="game_imm_desc">Compra terreni, costruisci, raccogli rendite in Burkina.</div></div>
+        <button class="gc-play" data-i18n="game_play_btn" style="background:rgba(167,139,250,.12);color:var(--purple)">▶ Gioca</button>
       </div>
       <div class="gioco-card gc-inflazione" onclick="openGame('inflazione')">
         <div class="gc-badge" style="background:rgba(248,113,113,.12);color:var(--red)">⚡ ARCADE</div>
-        <div><span class="gc-icon">🏃</span><div class="gc-name">Corsa Inflazione</div><div class="gc-desc">Scappa dal mostro che divora i tuoi risparmi!</div></div>
-        <button class="gc-play" style="background:rgba(248,113,113,.12);color:var(--red)">▶ Gioca</button>
+        <div><span class="gc-icon">🏃</span><div class="gc-name" data-i18n="game_infl_name">Corsa Inflazione</div><div class="gc-desc" data-i18n="game_infl_desc">Scappa dal mostro che divora i tuoi risparmi!</div></div>
+        <button class="gc-play" data-i18n="game_play_btn" style="background:rgba(248,113,113,.12);color:var(--red)">▶ Gioca</button>
       </div>
       <div class="gioco-card gc-classifica wide" onclick="openGame('classifica')">
         <span class="gc-icon">🏆</span>
-        <div style="flex:1"><div class="gc-name">Classifica dei Saggi</div><div class="gc-desc">Sfida altri studenti. La classe migliore vince premi reali.</div></div>
-        <button class="gc-play" style="background:rgba(255,215,0,.1);color:var(--gold)">Vedi →</button>
+        <div style="flex:1"><div class="gc-name" data-i18n="game_class_name">Classifica dei Saggi</div><div class="gc-desc" data-i18n="game_class_desc">Sfida altri studenti. La classe migliore vince premi reali.</div></div>
+        <button class="gc-play" style="background:rgba(255,215,0,.1);color:var(--gold)" data-i18n="game_see_btn">Vedi →</button>
       </div>
     </div>
   </div>
@@ -2067,7 +2067,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
       <div class="bn-icon">📚</div><div class="bn-lbl" data-i18n="nav_lezioni">Lezioni</div>
     </button>
     <button class="bn" id="bn-giochi" onclick="showScreen('giochi');setNav('bn-giochi');gUpdateHud()">
-      <div class="bn-icon">🎮</div><div class="bn-lbl">Giochi</div>
+      <div class="bn-icon">🎮</div><div class="bn-lbl" data-i18n="nav_giochi">Giochi</div>
     </button>
     <button class="bn" id="bn-mercati" onclick="openPopup('mercati');setNav('bn-mercati')">
       <div class="bn-icon">🌍</div><div class="bn-lbl" data-i18n="nav_mercati">Mercati</div>
@@ -2083,8 +2083,8 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
       <div class="notif-dot" id="academy-notif" style="display:none">!</div>
     </button>
     <button class="bn" id="bn-avatar" onclick="showScreen('avatar-cultura');setNav('bn-avatar');if(typeof syncAvatarLevel==='function')syncAvatarLevel();">
-<div class="bn-icon">🐉</div><div class="bn-lbl">Avatar</div>
-</button>
+      <div class="bn-icon">🐉</div><div class="bn-lbl" data-i18n="nav_avatar">Avatar</div>
+    </button>
 <button class="bn" id="bn-muro" onclick="showScreen('muro-sociale');setNav('bn-muro')" style="position:relative">
       <div class="bn-icon">🌍</div><div class="bn-lbl" data-i18n="nav_muro">Muro</div>
       <div class="notif-dot" id="muro-notif" style="display:none">!</div>
@@ -3112,7 +3112,36 @@ var TRANSLATIONS = {
     btn_adulti:'💎 Strumenti Adulti',
     btn_pro:'👑 Diventa PRO',
     btn_academy:'🎓 Academy — Professori Live',
-    btn_muro:'🌍 Muro Sociale — Gioca con il Mondo',
+    btn_muro:'🌍 Muro Sociale — Gioca con il Mondo', acc_ai_lezioni:'Lezioni AI Infinite', acc_lezioni_pronte:'Lezioni Pronte',
+    lv_base:'🌱 Base',
+    lv_medio:'📚 Medio',
+    lv_avanzato:'🎓 Avanzato',
+    lv_esperto:'🔬 Esperto',
+    lv_master:'💎 Master',
+    lv_saggio:'🦁 Saggio',
+    lv_infinito:'♾️ Infinito',
+    badge_pronta:'PRONTA',
+    badge_lock:'🔒 PRO',
+    deep_conn:'Connessione necessaria per il contenuto completo.',
+    btn_approfondimento:'Approfondimento Senza Fine — Vai Ancora Più in Profondo',
+    sec_cosa_impari:'Cosa Impari',
+    sec_esempio:'Esempio Pratico',
+    sec_dato:'Dato Reale',
+    sec_sfida:'Sfida della Settimana',
+    sec_profondo:'Sezioni Profonde',
+    sec_deep_loading:'Caricamento...',
+    corsi_gratis:'Gratis',
+    corsi_studenti:'studenti',
+    corsi_lezioni:'lezioni',
+    wall_condividi:'Condividi qualcosa con la community...',
+    mondo_prompt:'IL MONDO INTERO',
+    pensatori_prompt:'I PIÙ GRANDI PENSATORI',
+    acc_section_pronte:'Lezioni Pronte',
+    acc_section_ai:'Lezioni AI Infinite',
+    btn_bambini:'👶 Zona Bambini',
+    btn_avatar:'🐉 Avatar Cultura & Saggezza',
+    btn_mappa:'🗺️ Mappa Mondiale — Missioni Finanziarie',
+    badge_nuovo:'NUOVO',
     btn_kids:'👶 Zona Bambini — Tocca e Gioca!',
     btn_share:'↗️ Condividi FinanzaLand',
     /* NAV */
@@ -3136,7 +3165,7 @@ var TRANSLATIONS = {
       esperto:'🔬 Esperto', master:'💎 Master',
     },
     nav_home:'Home', nav_lezioni:'Lezioni', nav_mercati:'Mercati',
-    nav_premi:'Premi', nav_famiglia:'Famiglia', nav_academy:'Academy', nav_muro:'Muro',
+    nav_premi:'Premi', nav_famiglia:'Famiglia', nav_academy:'Academy', nav_muro:'Muro', nav_giochi:'Giochi', nav_avatar:'Avatar',
     /* STATS */
     lbl_lezioni:'Lezioni AI', lbl_streak:'Streak', lbl_semi:'Semi', lbl_livello:'Livello',
     /* LEZIONI */
@@ -3186,6 +3215,17 @@ var TRANSLATIONS = {
     toast_filtro_msg:'Messaggi gentili solo! 😊',
     toast_cert:'Certificato generato! 📜',
     toast_trial:'Trial PRO attivato! 7 giorni completi 🎉',
+    game_quadranti_name:'4 Quadranti',
+    game_play_btn:'▶ Gioca', game_see_btn:'Vedi →', quiz_titolo:'🧠 Quiz', quiz_verifica:'Verifica le tue conoscenze', lv_lezioni_label:'Lezione',
+    game_quadranti_desc:'Da dipendente a investitore libero. 12 mesi di scelte reali.',
+    game_brvm_name:'Borsa Globale',
+    game_brvm_desc:'Azioni, ETF, obbligazioni. Africa, America, Europa, Asia.',
+    game_imm_name:'Monopolio Urbano',
+    game_imm_desc:'Compra terreni, costruisci, raccogli rendite in Burkina.',
+    game_infl_name:'Corsa Inflazione',
+    game_infl_desc:'Scappa dal mostro che divora i tuoi risparmi!',
+    game_class_name:'Classifica dei Saggi',
+    game_class_desc:'Sfida altri studenti. La classe migliore vince premi reali.',
     /* DISCLAIMER */
     disclaimer:'Solo a scopo educativo — non è un consiglio finanziario',
     /* CARD LEZIONI */
@@ -3286,7 +3326,48 @@ var TRANSLATIONS = {
     btn_adulti:'💎 Outils Adultes',
     btn_pro:'👑 Devenir PRO',
     btn_academy:'🎓 Academy — Professeurs Live',
-    btn_muro:'🌍 Mur Social — Joue avec le Monde',
+    btn_muro:'🌍 Mur Social — Joue avec le Monde', acc_ai_lezioni:'Leçons IA Infinies', acc_lezioni_pronte:'Leçons Prêtes',
+    lv_base:'🌱 Base',
+    lv_medio:'📚 Intermédiaire',
+    lv_avanzato:'🎓 Avancé',
+    lv_esperto:'🔬 Expert',
+    lv_master:'💎 Maître',
+    lv_saggio:'🦁 Sage',
+    lv_infinito:'♾️ Infini',
+    badge_pronta:'PRÊTE',
+    badge_lock:'🔒 PRO',
+    deep_conn:'Connexion nécessaire pour le contenu complet.',
+    btn_approfondimento:'Approfondissement Infini — Aller encore plus loin',
+    sec_cosa_impari:'Ce que tu apprends',
+    sec_esempio:'Exemple Pratique',
+    sec_dato:'Données Réelles',
+    sec_sfida:'Défi de la Semaine',
+    sec_profondo:'Sections Approfondies',
+    sec_deep_loading:'Chargement...',
+    corsi_gratis:'Gratuit',
+    corsi_studenti:'étudiants',
+    corsi_lezioni:'leçons',
+    wall_condividi:'Partage quelque chose avec la communauté...',
+    monde_prompt:'LE MONDE ENTIER',
+    pensatori_prompt:'LES PLUS GRANDS PENSEURS',
+    acc_section_pronte:'Leçons Prêtes',
+    acc_section_ai:'Leçons IA Infinies',
+    nav_acc_title:'Académie',
+    lv_lock_msg:'Niveau réservé aux abonnés PRO',
+    prof_cours_titre:'Modules du cours',
+    prof_tag_risparmio:'Épargne',
+    prof_tag_invest:'Investissements',
+    prof_tag_etf:'ETF',
+    prof_prossima_live:'Prochain live',
+    cours_titre_etf:'ETF pour Débutants',
+    cours_titre_seme:'La Graine de la Monnaie',
+    cours_titre_banca:'La Banque des Rêves',
+    wall_tab_all:'Tout',
+    wall_tab_kids:'Enfants',
+    btn_bambini:'👶 Zone Enfants',
+    btn_avatar:'🐉 Avatar Culture & Sagesse',
+    btn_mappa:'🗺️ Carte Mondiale — Missions Financières',
+    badge_nuovo:'NOUVEAU',
     btn_kids:'👶 Zone Enfants — Touche et Joue !',
     btn_share:'↗️ Partager FinanzaLand',
     /* ACCADEMIA */
@@ -3307,7 +3388,7 @@ var TRANSLATIONS = {
       esperto:'🔬 Expert', master:'💎 Master',
     },
     nav_home:'Accueil', nav_lezioni:'Cours', nav_mercati:'Marchés',
-    nav_premi:'Prix', nav_famille:'Famille', nav_famiglia:'Famille', nav_academy:'Academy', nav_muro:'Mur',
+    nav_premi:'Prix', nav_famille:'Famille', nav_famiglia:'Famille', nav_academy:'Academy', nav_muro:'Mur', nav_giochi:'Jeux', nav_avatar:'Avatar',
     /* STATS */
     lbl_lezioni:'Leçons IA', lbl_streak:'Série', lbl_semi:'Graines', lbl_livello:'Niveau',
     acc_title:'📚 Académie', acc_ai:'🤖 IA',
@@ -3349,6 +3430,17 @@ var TRANSLATIONS = {
     toast_filtro_msg:'Messages gentils seulement! 😊',
     toast_cert:'Certificat généré ! 📜',
     toast_trial:'Essai PRO activé ! 7 jours complets 🎉',
+    game_quadranti_name:'4 Quadrants',
+    game_play_btn:'▶ Jouer', game_see_btn:'Voir →', quiz_titolo:'🧠 Quiz', quiz_verifica:'Teste tes connaissances', lv_lezioni_label:'Leçon',
+    game_quadranti_desc:'De salarié à investisseur libre. 12 mois de vrais choix.',
+    game_brvm_name:'Bourse Mondiale',
+    game_brvm_desc:'Actions, ETF, obligations. Afrique, Amérique, Europe, Asie.',
+    game_imm_name:'Monopole Urbain',
+    game_imm_desc:'Achète des terrains, construis, collecte des loyers au Burkina.',
+    game_infl_name:'Course Inflation',
+    game_infl_desc:'Échappe au monstre qui dévore tes économies !',
+    game_class_name:'Classement des Sages',
+    game_class_desc:'Défie d autres étudiants. La meilleure classe gagne des prix réels.',
     disclaimer:'À des fins éducatives uniquement',
     /* CARDS COURS */
     card_semi:'Graines', card_completata:'✅ Terminé', card_attiva_pro:'Activer PRO',
@@ -3433,7 +3525,36 @@ var TRANSLATIONS = {
     btn_adulti:'💎 Adult Tools',
     btn_pro:'👑 Go PRO',
     btn_academy:'🎓 Academy — Live Teachers',
-    btn_muro:'🌍 Social Wall — Play with the World',
+    btn_muro:'🌍 Social Wall — Play with the World', acc_ai_lezioni:'Infinite AI Lessons', acc_lezioni_pronte:'Ready Lessons',
+    lv_base:'🌱 Basic',
+    lv_medio:'📚 Intermediate',
+    lv_avanzato:'🎓 Advanced',
+    lv_esperto:'🔬 Expert',
+    lv_master:'💎 Master',
+    lv_saggio:'🦁 Sage',
+    lv_infinito:'♾️ Infinite',
+    badge_pronta:'READY',
+    badge_lock:'🔒 PRO',
+    deep_conn:'Connection needed for full content.',
+    btn_approfondimento:'Infinite Deep Dive — Go Even Deeper',
+    sec_cosa_impari:'What You Learn',
+    sec_esempio:'Practical Example',
+    sec_dato:'Real Data',
+    sec_sfida:'Weekly Challenge',
+    sec_profondo:'Deep Sections',
+    sec_deep_loading:'Loading...',
+    corsi_gratis:'Free',
+    corsi_studenti:'students',
+    corsi_lezioni:'lessons',
+    wall_condividi:'Share something with the community...',
+    monde_prompt:'THE WHOLE WORLD',
+    pensatori_prompt:'THE GREATEST THINKERS',
+    acc_section_pronte:'Ready Lessons',
+    acc_section_ai:'Infinite AI Lessons',
+    btn_bambini:'👶 Kids Zone',
+    btn_avatar:'🐉 Avatar Culture & Wisdom',
+    btn_mappa:'🗺️ World Map — Financial Missions',
+    badge_nuovo:'NEW',
     btn_kids:'👶 Kids Zone — Touch and Play!',
     btn_share:'↗️ Share FinanzaLand',
     /* ACADEMY */
@@ -3454,7 +3575,7 @@ var TRANSLATIONS = {
       esperto:'🔬 Expert', master:'💎 Master',
     },
     nav_home:'Home', nav_lezioni:'Lessons', nav_mercati:'Markets',
-    nav_premi:'Prizes', nav_famiglia:'Family', nav_academy:'Academy', nav_muro:'Wall',
+    nav_premi:'Prizes', nav_famiglia:'Family', nav_academy:'Academy', nav_muro:'Wall', nav_giochi:'Games', nav_avatar:'Avatar',
     /* STATS */
     lbl_lezioni:'AI Lessons', lbl_streak:'Streak', lbl_semi:'Seeds', lbl_livello:'Level',
     acc_title:'📚 Academy', acc_ai:'🤖 AI',
@@ -3496,6 +3617,16 @@ var TRANSLATIONS = {
     toast_filtro_msg:'Kind messages only! 😊',
     toast_cert:'Certificate generated! 📜',
     toast_trial:'PRO Trial activated! 7 full days 🎉',
+    game_quadranti_name:'4 Quadrants',
+    game_quadranti_desc:'From employee to free investor. 12 months of real choices.',
+    game_brvm_name:'Global Stock Market',
+    game_brvm_desc:'Stocks, ETFs, bonds. Africa, Americas, Europe, Asia.',
+    game_imm_name:'Urban Monopoly',
+    game_imm_desc:'Buy land, build, collect rents in Burkina.',
+    game_infl_name:'Inflation Race',
+    game_infl_desc:'Escape the monster devouring your savings!',
+    game_class_name:'Sages Leaderboard',
+    game_class_desc:'Challenge other students. Best class wins real prizes.',
     disclaimer:'For educational purposes only',
     /* LESSON CARDS */
     card_semi:'Seeds', card_completata:'✅ Completed', card_attiva_pro:'Activate PRO',
@@ -3581,6 +3712,32 @@ var TRANSLATIONS = {
     btn_pro:'👑 Ser PRO',
     btn_academy:'🎓 Academy — Profesores Live',
     btn_muro:'🌍 Muro Social — Juega con el Mundo',
+    acc_ai_lezioni:'Lecciones IA Infinitas', acc_lezioni_pronte:'Lecciones Listas',
+    lv_base:'🌱 Base',
+    lv_medio:'📚 Intermedio',
+    lv_avanzato:'🎓 Avanzado',
+    lv_esperto:'🔬 Experto',
+    lv_master:'💎 Maestro',
+    lv_saggio:'🦁 Sabio',
+    lv_infinito:'♾️ Infinito',
+    badge_pronta:'LISTA',
+    badge_lock:'🔒 PRO',
+    deep_conn:'Conexión necesaria para el contenido completo.',
+    btn_approfondimento:'Profundización Infinita — Ve Aún Más Profundo',
+    sec_cosa_impari:'Lo que aprendes',
+    sec_ejemplo:'Ejemplo Práctico',
+    sec_dato:'Dato Real',
+    sec_sfida:'Reto de la Semana',
+    corsi_gratis:'Gratis',
+    corsi_studenti:'estudiantes',
+    corsi_lezioni:'lecciones',
+    wall_condividi:'Comparte algo con la comunidad...',
+    acc_section_pronte:'Lecciones Listas',
+    acc_section_ai:'Lecciones IA Infinitas',
+    btn_bambini:'👶 Zona Niños',
+    btn_avatar:'🐉 Avatar Cultura & Sabiduría',
+    btn_mappa:'🗺️ Mapa Mundial — Misiones Financieras',
+    badge_nuovo:'NUEVO',
     btn_kids:'👶 Zona Niños — ¡Toca y Juega!',
     btn_share:'↗️ Compartir FinanzaLand',
     /* ACADEMIA */
@@ -3643,6 +3800,17 @@ var TRANSLATIONS = {
     toast_filtro_msg:'Mensajes amables solo! 😊',
     toast_cert:'Certificado generado! 📜',
     toast_trial:'Trial PRO activado! 7 días completos 🎉',
+    game_quadranti_name:'4 Cuadrantes',
+    game_play_btn:'▶ Jugar', game_see_btn:'Ver →', quiz_titolo:'🧠 Quiz', quiz_verifica:'Comprueba tus conocimientos', lv_lezioni_label:'Lección',
+    game_quadranti_desc:'De empleado a inversor libre. 12 meses de decisiones reales.',
+    game_brvm_name:'Bolsa Mundial',
+    game_brvm_desc:'Acciones, ETFs, bonos. África, América, Europa, Asia.',
+    game_imm_name:'Monopolio Urbano',
+    game_imm_desc:'Compra terrenos, construye, cobra rentas en Burkina.',
+    game_infl_name:'Carrera Inflación',
+    game_infl_desc:'¡Escapa del monstruo que devora tus ahorros!',
+    game_class_name:'Clasificación de Sabios',
+    game_class_desc:'Reta a otros estudiantes. La mejor clase gana premios reales.',
     disclaimer:'Solo con fines educativos',
     /* TARJETAS LECCIONES */
     card_semi:'Semillas', card_completata:'✅ Completado', card_attiva_pro:'Activar PRO',
@@ -3729,7 +3897,26 @@ var TRANSLATIONS = {
     btn_adulti:'💎 Jumtukaay yu mag',
     btn_pro:'👑 Dox ak PRO',
     btn_academy:'🎓 Academy — Jangalekat yi',
-    btn_muro:'🌍 Ndar bu Aduna — Fecc ak Aduna',
+    btn_muro:'🌍 Ndar bu Aduna — Fecc ak Aduna', acc_ai_lezioni:'Cosaan AI yu bari', acc_lezioni_pronte:'Cosaan yu am',
+    lv_base:'🌱 Dëkk',
+    lv_medio:'📚 Diggante',
+    lv_avanzato:'🎓 Gëna',
+    lv_esperto:'🔬 Xam',
+    lv_master:'💎 Buur',
+    lv_saggio:'🦁 Sage',
+    lv_infinito:'♾️ Infini',
+    badge_pronta:'AMUL',
+    badge_lock:'🔒 PRO',
+    deep_conn:'Connexion bëgg nañu ci xam-xam bu dëkk.',
+    btn_approfondimento:'Jàng bu gëna dëkk — Dem ci kow',
+    corsi_gratis:'Bu Fee',
+    corsi_studenti:'jangkat yi',
+    corsi_lezioni:'cosaan yi',
+    wall_condividi:'Bind benn dëkk ci jambaar yi...',
+    btn_bambini:'👶 Bëgg Xale yi',
+    btn_avatar:'🐉 Avatar Dëkk & Xam-xam',
+    btn_mappa:'🗺️ Kaart bu Aduna — Jëf yi',
+    badge_nuovo:'BES',
     btn_kids:'👶 Bunt Jiit yi — Tannal!',
     btn_share:'↗️ Samp FinanzaLand',
     /* COSAAN */
@@ -3750,7 +3937,7 @@ var TRANSLATIONS = {
       esperto:'🔬 Ñu xam', master:'💎 Master',
     },
     nav_home:'Keur', nav_lezioni:'Cosaan', nav_mercati:'Marchés',
-    nav_premi:'Njariign', nav_famille:'Mbokk', nav_famiglia:'Mbokk', nav_academy:'Academy', nav_muro:'Ndar',
+    nav_premi:'Njariign', nav_famille:'Mbokk', nav_famiglia:'Mbokk', nav_academy:'Academy', nav_muro:'Ndar', nav_giochi:'Fecc', nav_avatar:'Avatar',
     /* STATS */
     lbl_lezioni:'Jàng IA', lbl_streak:'Suite', lbl_semi:'Gerte', lbl_livello:'Nivo',
     acc_title:'📚 Cosaan', acc_ai:'🤖 IA',
@@ -3792,6 +3979,7 @@ var TRANSLATIONS = {
     toast_filtro_msg:'Xam-xam bu rafet rekk! 😊',
     toast_cert:'Certificat am! 📜',
     toast_trial:'Trial PRO dox na! 7 fan 🎉',
+    game_play_btn:'▶ Fecc', game_see_btn:'Xool →', quiz_titolo:'🧠 Quiz', quiz_verifica:'Seetlu sa xam-xam', lv_lezioni_label:'Cosaan',
     disclaimer:'Ci koolug jang rekk',
     /* KARTI COSAAN */
     card_semi:'Gerte', card_completata:'✅ Jeex', card_attiva_pro:'Seetlu PRO',
@@ -3973,10 +4161,27 @@ function setLang(lang, btnEl) {
   document.querySelectorAll('[data-i18n]').forEach(function(el) {
     var key = el.getAttribute('data-i18n');
     var val = t[key];
-    // Fallback: nav_famiglia per FR/WO usa nav_famille
     if (!val && key === 'nav_famiglia') val = t['nav_famille'];
     if (!val) val = (TRANSLATIONS['it'] || {})[key];
-    if (val) el.textContent = val;
+    if (val) {
+      // Bottoni con figli (es. span badge): aggiorna solo textContent del bottone
+      // senza distruggere i figli
+      var hasChildSpans = el.querySelector('[data-i18n]');
+      if (el.tagName === 'BUTTON' && hasChildSpans) {
+        // Aggiorna solo il testo diretto, non i figli
+        var firstText = el.firstChild;
+        if (firstText && firstText.nodeType === 3) {
+          firstText.textContent = val;
+        } else {
+          // Sostituisci tutto il contenuto ma preserva i figli data-i18n
+          var children = Array.from(el.querySelectorAll('[data-i18n]'));
+          el.textContent = val;
+          children.forEach(function(ch){ el.appendChild(ch); });
+        }
+      } else {
+        el.textContent = val;
+      }
+    }
   });
 
   // Aggiorna elementi data-i18n-html="key1|key2" (innerHTML con <br>)
@@ -4714,7 +4919,7 @@ var PROFESSORI = [
 
 // ── CORSI DEMO ───────────────────────────────────────────
 var CORSI_DEMO = [
-  {id:'c1', titolo:'ETF per Principianti', prof:'Prof. Marco Bianchi', prof_emoji:'👨‍🏫',
+  {id:'c1', titolo:'ETF per Principianti', titolo_fr:'ETF pour Débutants', titolo_en:'ETF for Beginners', titolo_es:'ETF para Principiantes', prof:'Prof. Marco Bianchi', prof_emoji:'👨‍🏫',
    emoji:'📦', colore:'#4ade80', prezzo:0, prezzo_label:'Gratis',
    durata:'2h 30min', lezioni:8, studenti:1240, rating:4.9,
    live:false, video_count:8,
@@ -4775,7 +4980,7 @@ var CORSI_SCUOLE = [
   {
     id:'scuola_1',
     emoji:'🌱', colore:'#4ade80',
-    titolo:'Il Seme della Moneta',
+    titolo:'Il Seme della Moneta', titolo_fr:'La Graine de la Monnaie', titolo_en:'The Money Seed',
     classi:'Classi 1-2 — Elementari',
     ore:3, lezioni:6, gratis:true,
     descrizione:'Dalla baratta ai soldi digitali. I bambini scoprono cos\'è il denaro, perché esiste e come funziona il risparmio. Metodo giocoso con storie e personaggi.',
@@ -4792,7 +4997,7 @@ var CORSI_SCUOLE = [
   {
     id:'scuola_2',
     emoji:'🏦', colore:'#06b6d4',
-    titolo:'La Banca dei Sogni',
+    titolo:'La Banca dei Sogni', titolo_fr:'La Banque des Rêves', titolo_en:'The Dream Bank',
     classi:'Classi 3-4 — Elementari',
     ore:4, lezioni:8, gratis:true,
     descrizione:'Come funziona una banca, i conti correnti, le carte di pagamento e il credito. Bambini diventano "gestori" di una banca simulata.',
@@ -5301,7 +5506,7 @@ function buildAcademyCorsi(body) {
         '<div class="corso-thumb-rec">📹 ' + corso.video_count + ' video</div>' +
       '</div>' +
       '<div class="corso-body">' +
-        '<div class="corso-title">' + corso.titolo + '</div>' +
+        '<div class="corso-title">' + ((S.lang==='fr'&&corso.titolo_fr)||(S.lang==='en'&&corso.titolo_en)||(S.lang==='es'&&corso.titolo_es)||corso.titolo) + '</div>' +
         '<div class="corso-prof">' + corso.prof_emoji + ' ' + corso.prof + '</div>' +
         '<div class="corso-meta">' +
           '<div class="corso-price" style="color:' + priceColor + '">' + corso.prezzo_label + '</div>' +
@@ -5344,7 +5549,7 @@ function buildAcademyScuole(body) {
       '<div style="display:flex;align-items:center;gap:12px">' +
         '<div style="font-size:2rem;flex-shrink:0;' + (bloccato?'opacity:.4':'') + '">' + corso.emoji + '</div>' +
         '<div style="flex:1">' +
-          '<div style="font-size:.85rem;font-weight:900;color:' + (bloccato?'rgba(255,255,255,.4)':corso.colore) + '">' + corso.titolo + '</div>' +
+          '<div style="font-size:.85rem;font-weight:900;color:' + (bloccato?'rgba(255,255,255,.4)':corso.colore) + '">' + ((S.lang==='fr'&&corso.titolo_fr)||(S.lang==='en'&&corso.titolo_en)||(S.lang==='es'&&corso.titolo_es)||corso.titolo) + '</div>' +
           '<div style="font-size:.65rem;color:rgba(255,255,255,.45);margin-top:2px">' + corso.classi + ' — ' + corso.ore + 'h · ' + corso.lezioni + ' lezioni</div>' +
           '<div style="font-size:.68rem;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.4">' + corso.descrizione + '</div>' +
         '</div>' +
@@ -5407,7 +5612,7 @@ function openCorsoScuola(corso) {
   hero.style.cssText = 'background:linear-gradient(135deg,rgba('+hexToRgb(corso.colore)+',.15),rgba(0,0,0,.4));border:1.5px solid rgba('+hexToRgb(corso.colore)+',.3);border-radius:16px;padding:18px;margin-bottom:14px;text-align:center';
   hero.innerHTML =
     '<div style="font-size:3rem;margin-bottom:8px">'+corso.emoji+'</div>' +
-    '<div style="font-size:1.1rem;font-weight:900;color:'+corso.colore+'">'+corso.titolo+'</div>' +
+    '<div style="font-size:1.1rem;font-weight:900;color:'+corso.colore+'">'+((S.lang==='fr'&&corso.titolo_fr)||(S.lang==='en'&&corso.titolo_en)||(S.lang==='es'&&corso.titolo_es)||corso.titolo)+'</div>' +
     '<div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-top:4px">'+corso.classi+' · '+corso.ore+'h · '+corso.lezioni+' lezioni</div>' +
     '<div style="font-size:.76rem;color:rgba(255,255,255,.65);margin-top:8px;line-height:1.6">'+corso.descrizione+'</div>';
   body.appendChild(hero);
@@ -5649,7 +5854,7 @@ function openCorsoBase(corso) {
   var needsPro = corso.pro_required && !S.isPro;
   if (needsPro) { openPopup('piani'); toast('Corso PRO — attiva il piano per accedere!'); return; }
   // Mostra popup corso
-  $set('popup-title','textContent',corso.emoji + ' ' + corso.titolo);
+  $set('popup-title','textContent',corso.emoji + ' ' + ((S.lang==='fr'&&corso.titolo_fr)||(S.lang==='en'&&corso.titolo_en)||(S.lang==='es'&&corso.titolo_es)||corso.titolo));
   var body = document.getElementById('popup-body');
   body.innerHTML = '';
   var html = '<div style="text-align:center;padding:12px 0 14px">' +
@@ -6024,7 +6229,7 @@ function shareApp() {
   var shareData = {
     title: 'FinanzaLand — Impara la Finanza Giocando',
     text: 'Ho trovato un gioco educativo sulla finanza! Gratis per bambini e adulti. Codice accesso: INVEST25',
-    url: 'https://finanzaland.vercel.app'
+    url: 'https://finanzaland.vercel.app',
   };
   if (navigator.share) {
     navigator.share(shareData).catch(function(){});
@@ -8710,7 +8915,7 @@ function renderDeepSections(lez, body) {
   });
   var infBtn = document.createElement('button');
   infBtn.style.cssText = 'width:100%;margin-top:14px;padding:15px;border:1.5px solid rgba(255,215,0,.4);border-radius:14px;background:rgba(255,215,0,.07);color:var(--gold);font-size:.9rem;font-weight:900;cursor:pointer';
-  infBtn.innerHTML = '♾️ Approfondimento Senza Fine — Vai Ancora Più in Profondo';
+  infBtn.innerHTML = '♾️ '+((TRANSLATIONS[S.lang]||TRANSLATIONS.it).btn_approfondimento||'Approfondimento Senza Fine — Vai Ancora Più in Profondo');
   infBtn.addEventListener('click', function(){ generateInfiniteDeep(lez.titolo, percId); });
   body.appendChild(infBtn);
   generateDeepContent(lez.titolo, percId);
@@ -9046,7 +9251,136 @@ var LESSON_BANK = {
   scuola_base:[
     {id:'scu_b1',emoji:'📐',titolo:"Cos'è il PIL e perché conta",tempo_minuti:7,semi_reward:80,sottotitolo:'La misura della ricchezza di un paese',punti_chiave:['PIL = valore di tutto ciò che un paese produce in un anno','PIL pro capite = PIL ÷ popolazione','La crescita del PIL misura se l\'economia va bene o male'],esempio_pratico:"L'Italia ha un PIL di circa 2.000 miliardi di euro (2023). Diviso per 60 milioni di italiani = circa 33.000€ a persona all'anno.",dato_reale:"PIL 2024: USA 27.000 mld$, Cina 17.000 mld$, Germania 4.400 mld$, Italia 2.000 mld$, Nigeria 440 mld$ (il più alto in Africa).",collegamento_africa:"La Costa d'Avorio cresce al 6% annuo. La BRVM riflette questa crescita.",sfida_vita_reale:"Cerca 'PIL Italia 2024' e 'PIL Senegal 2024'. Quant'è il PIL pro capite di ciascuno?",quiz:[{domanda:"Cosa misura il PIL?",opzioni:['Il risparmio dei cittadini','Il valore totale di ciò che un paese produce','Il numero di aziende','Le esportazioni'],risposta_corretta:1,spiegazione:'PIL = tutto ciò che viene prodotto in un paese in un anno. È la misura principale della salute economica.'},{domanda:"Se il PIL cresce del 3%, significa che:",opzioni:['Tutti sono più poveri',"L'economia si è espansa del 3%",'Le tasse aumentano del 3%','I prezzi scendono del 3%'],risposta_corretta:1,spiegazione:"Crescita del PIL = l'economia produce il 3% in più rispetto all'anno precedente."}]},
   ],
+
 };
+
+// ── LESSON_BANK TRANSLATIONS — contenuto completo in FR/EN/ES ────────────
+// Permette lezioni complete senza dipendere dall'API
+var LESSON_BANK_FR = {
+  risparmio_base: [
+    {id:'ris_b1',emoji:'💰',titolo:'La Règle 50-30-20',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'Le budget qui fonctionne vraiment',
+     punti_chiave:['50% pour les besoins (loyer, nourriture, factures)','30% pour les envies (loisirs, restaurants, hobbies)','20% pour l épargne et l investissement'],
+     esempio_pratico:'Avec 1 000€/mois: 500€ besoins, 300€ envies, 200€ épargne. En 5 ans tu accumules 12 000€.',
+     dato_reale:'Seulement 38% des Français suivent un budget. Ceux qui le font accumulent 3x plus en 10 ans.',
+     collegamento_africa:'Au Sénégal la règle traditionnelle: une partie de la récolte est conservée pour la saison sèche.',
+     sfida_vita_reale:'Note tes dépenses des 30 derniers jours. Quelle est ta vraie répartition?',
+     quiz:[{domanda:'Selon la règle 50-30-20, combien va à l épargne?',opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:'20% va toujours à l épargne!'},{domanda:'Si tu gagnes 2 000€, combien pour les loisirs?',opzioni:['200€','400€','600€','1 000€'],risposta_corretta:2,spiegazione:'30% de 2 000€ = 600€ pour les envies.'}]},
+    {id:'ris_b2',emoji:'🛡️',titolo:'Le Fonds d Urgence',tempo_minuti:6,semi_reward:80,
+     sottotitolo:'Ton bouclier financier',
+     punti_chiave:['Doit couvrir 3 à 6 mois de dépenses essentielles','Doit être sur un compte séparé et liquide','Ne jamais l utiliser pour des dépenses normales'],
+     esempio_pratico:'Si tes dépenses sont 1 500€/mois, ton fonds idéal est entre 4 500€ et 9 000€.',
+     dato_reale:'46% des Français ne pourraient pas faire face à une dépense imprévue de 1 000€.',
+     collegamento_africa:'Les tontines africaines fonctionnent aussi comme fonds d urgence communautaire.',
+     sfida_vita_reale:'Calcule: combien de mois de dépenses as-tu aujourd hui? Si moins de 3, planifie comment y arriver.',
+     quiz:[{domanda:'Combien de mois doit couvrir un fonds d urgence?',opzioni:['1-2 mois','3-6 mois','12 mois','24 mois'],risposta_corretta:1,spiegazione:'3-6 mois est la plage optimale.'},{domanda:'Où garder le fonds d urgence?',opzioni:['En actions','Sous le matelas','Sur un compte liquide','En crypto'],risposta_corretta:2,spiegazione:'Il doit être accessible immédiatement.'}]},
+    {id:'ris_b3',emoji:'🔄',titolo:'Payez-vous en Premier',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'Épargne avant de dépenser',
+     punti_chiave:['Virement automatique dès que tu reçois ton salaire','10-20% vers l épargne AVANT toute dépense','Ce que tu ne vois pas, tu ne le dépenses pas'],
+     esempio_pratico:'George programme un virement automatique de 200€ le jour du salaire. En 3 ans: 7 200€ sans effort.',
+     dato_reale:'Ceux qui automatisent l épargne accumulent en moyenne 173% de plus que ceux qui épargnent ce qui reste.',
+     collegamento_africa:'Au Kenya, M-Pesa M-Shwari permet des dépôts automatiques dès 10 shillings (0.07€).',
+     sfida_vita_reale:'Programme un virement automatique de 10% de ton salaire vers un compte épargne séparé.',
+     quiz:[{domanda:'Quand faire le virement vers l épargne?',opzioni:['En fin de mois','Dès le salaire reçu','Quand il reste de l argent','Une fois par an'],risposta_corretta:1,spiegazione:'Payez-vous en premier: dès que le revenu arrive.'},{domanda:'Quel pourcentage minimum conseille ce principe?',opzioni:['1%','5%','10%','50%'],risposta_corretta:2,spiegazione:'10% est le minimum. Les riches mettent de côté 20-30%.'}]}
+  ],
+  investimenti_base: [
+    {id:'inv_b1',emoji:'📈',titolo:'L Intérêt Composé',tempo_minuti:8,semi_reward:80,
+     sottotitolo:'La Huitième Merveille du Monde',
+     punti_chiave:['Tu gagnes des intérêts sur tes intérêts précédents','Le temps est le facteur le plus important','Plus tu commences tôt, moins tu dois investir'],
+     esempio_pratico:'100€ à 7%/an: année 10=196€, année 20=386€, année 30=761€. Tu as mis 100€ et reçu 761€.',
+     dato_reale:'Qui commence à investir à 25 ans doit mettre 3x moins que qui commence à 35 ans pour le même objectif à 65 ans.',
+     collegamento_africa:'Les tontines africaines utilisent l intérêt composé sous forme collective.',
+     sfida_vita_reale:'Calcule: si tu investis 100€/mois à 7% pendant 30 ans, combien auras-tu? (environ 121 000€ avec seulement 36 000€ versés!)',
+     quiz:[{domanda:'Avec l intérêt composé, les intérêts sont calculés sur:',opzioni:['Seulement le capital initial','Capital + intérêts accumulés','Seulement les derniers intérêts','Le capital divisé par deux'],risposta_corretta:1,spiegazione:'L intérêt composé se calcule sur tout: capital + tous les intérêts déjà gagnés.'},{domanda:'Qui doit investir le moins pour le même objectif?',opzioni:['Qui commence à 45 ans','Qui commence à 35 ans','Qui commence à 25 ans','L âge ne compte pas'],risposta_corretta:2,spiegazione:'Le temps est la clé: 40 ans de croissance vs 30 ans fait une énorme différence.'}]},
+    {id:'inv_b2',emoji:'📦',titolo:'Qu est-ce qu un ETF',tempo_minuti:7,semi_reward:80,
+     sottotitolo:'La façon la plus simple d investir',
+     punti_chiave:['ETF = Exchange Traded Fund, s achète comme une action','Réplique un indice (ex. S&P 500 = 500 entreprises américaines)','Coût très faible: 0.05%-0.5% par an'],
+     esempio_pratico:'Acheter 1 ETF MSCI World te rend propriétaire de plus de 1 500 entreprises dans 23 pays avec un seul achat.',
+     dato_reale:'90% des gestionnaires professionnels ne battent PAS le marché sur 15 ans. Un ETF à faible coût les dépasse presque toujours.',
+     collegamento_africa:'La BRVM d Abidjan a des ETF régionaux couvrant 8 pays africains.',
+     sfida_vita_reale:'Cherche ETF MSCI World UCITS sur Justetf.com. Trouve le coût annuel (TER) et le rendement historique à 10 ans.',
+     quiz:[{domanda:'Que réplique un ETF S&P 500?',opzioni:['Seulement les entreprises tech','Les 500 plus grandes entreprises américaines','Les entreprises européennes','Seulement les actions françaises'],risposta_corretta:1,spiegazione:'Le S&P 500 contient les 500 plus grandes entreprises américaines: Apple, Microsoft, Amazon, Google, etc.'},{domanda:'Quel est le principal avantage des ETF?',opzioni:['Rendements garantis','Coûts très faibles','Aucun risque','Gestion professionnelle'],risposta_corretta:1,spiegazione:'Les faibles coûts (0.2% vs 2% des fonds actifs) font une énorme différence à long terme.'}]},
+    {id:'inv_b3',emoji:'🌍',titolo:'Diversification',tempo_minuti:6,semi_reward:80,
+     sottotitolo:'Ne pas mettre tous ses oeufs dans le même panier',
+     punti_chiave:['Répartis tes investissements sur plusieurs actifs','Quand l un baisse, l autre peut monter','Réduit le risque sans réduire le rendement attendu'],
+     esempio_pratico:'Portfolio: 60% ETF actions mondial, 30% ETF obligations, 10% or. Dans les crises boursières, obligations et or montent souvent.',
+     dato_reale:'Le portefeuille 60/40 a eu un rendement moyen de 8.9%/an ces 50 dernières années avec la moitié de la volatilité.',
+     collegamento_africa:'Les marchands de Tombouctou au Moyen Âge diversifiaient leurs caravanes sur plusieurs routes.',
+     sfida_vita_reale:'Liste tous tes investissements/épargnes. Sont-ils diversifiés ou tout sur un seul compte courant?',
+     quiz:[{domanda:'Qu est-ce que la diversification?',opzioni:['Tout investir dans le meilleur titre','Répartir les investissements sur plusieurs actifs','Changer souvent de banque','Vendre et acheter fréquemment'],risposta_corretta:1,spiegazione:'La diversification réduit le risque: si une entreprise fait faillite, tu as encore tous les autres investissements.'},{domanda:'Un portefeuille diversifié typique inclut:',opzioni:['Seulement des actions d un pays','Seulement des obligations','Mix d actions, obligations, matières premières','Seulement de l immobilier'],risposta_corretta:2,spiegazione:'Un bon portefeuille inclut différents types d actifs qui réagissent différemment aux conditions de marché.'}]}
+  ]
+};
+
+var LESSON_BANK_EN = {
+  risparmio_base: [
+    {id:'ris_b1',emoji:'💰',titolo:'The 50-30-20 Rule',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'The budget that actually works',
+     punti_chiave:['50% for needs (rent, food, bills)','30% for wants (leisure, restaurants, hobbies)','20% for savings and investment'],
+     esempio_pratico:'With €1,000/month: €500 needs, €300 wants, €200 savings. In 5 years you accumulate €12,000.',
+     dato_reale:'Only 38% of people follow a budget. Those who do accumulate 3x more in 10 years.',
+     collegamento_africa:'In Senegal the traditional rule: part of the harvest is saved for the dry season.',
+     sfida_vita_reale:'Write down your last 30 days of spending. What is your real breakdown?',
+     quiz:[{domanda:'According to the 50-30-20 rule, how much goes to savings?',opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:'20% always goes to savings!'},{domanda:'If you earn €2,000, how much for leisure?',opzioni:['€200','€400','€600','€1,000'],risposta_corretta:2,spiegazione:'30% of €2,000 = €600 for wants.'}]},
+    {id:'ris_b2',emoji:'🛡️',titolo:'The Emergency Fund',tempo_minuti:6,semi_reward:80,
+     sottotitolo:'Your financial shield',
+     punti_chiave:['Must cover 3-6 months of essential expenses','Keep it in a separate, liquid account','Never use it for normal expenses'],
+     esempio_pratico:'If your monthly expenses are €1,500, your ideal fund is between €4,500 and €9,000.',
+     dato_reale:'46% of adults could not face an unexpected expense of €1,000.',
+     collegamento_africa:'African tontines also function as a community emergency fund.',
+     sfida_vita_reale:'Calculate: how many months of expenses do you have today? If less than 3, plan how to get there.',
+     quiz:[{domanda:'How many months must an emergency fund cover?',opzioni:['1-2 months','3-6 months','12 months','24 months'],risposta_corretta:1,spiegazione:'3-6 months is the optimal range.'},{domanda:'Where should you keep the emergency fund?',opzioni:['In stocks','Under the mattress','In a liquid account','In crypto'],risposta_corretta:2,spiegazione:'It must be immediately accessible but separate from the main account.'}]},
+    {id:'ris_b3',emoji:'🔄',titolo:'Pay Yourself First',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'Save before you spend',
+     punti_chiave:['Automatic transfer as soon as you receive your salary','10-20% to savings BEFORE any expense','What you don t see, you don t spend'],
+     esempio_pratico:'George sets up an automatic transfer of €200 on payday. In 3 years: €7,200 without effort.',
+     dato_reale:'People who automate savings accumulate on average 173% more than those who save what is left.',
+     collegamento_africa:'In Kenya, M-Pesa M-Shwari allows automatic deposits from 10 shillings (€0.07).',
+     sfida_vita_reale:'Set up an automatic transfer of 10% of your salary to a separate savings account.',
+     quiz:[{domanda:'When should the savings transfer be made?',opzioni:['At end of month','As soon as salary arrives','When something is left','Once a year'],risposta_corretta:1,spiegazione:'Pay yourself first: immediately when income arrives.'},{domanda:'What minimum percentage does this principle recommend?',opzioni:['1%','5%','10%','50%'],risposta_corretta:2,spiegazione:'10% is the minimum. The wealthy set aside 20-30%.'}]}
+  ],
+  investimenti_base: [
+    {id:'inv_b1',emoji:'📈',titolo:'Compound Interest',tempo_minuti:8,semi_reward:80,
+     sottotitolo:'The Eighth Wonder of the World',
+     punti_chiave:['You earn interest on your previous interest','Time is the most important factor','The earlier you start, the less you need to invest'],
+     esempio_pratico:'€100 at 7%/year: year 10=€196, year 20=€386, year 30=€761. You put in €100 and received €761.',
+     dato_reale:'Those who start investing at 25 need 3x less than those starting at 35 for the same goal at 65.',
+     collegamento_africa:'African tontines use compound interest in collective form.',
+     sfida_vita_reale:'Calculate: if you invest €100/month at 7% for 30 years, how much will you have? (about €121,000 with only €36,000 invested!)',
+     quiz:[{domanda:'With compound interest, interest is calculated on:',opzioni:['Only the initial capital','Capital + accumulated interest','Only the last interest','Half the capital'],risposta_corretta:1,spiegazione:'Compound interest is calculated on everything: capital + all interest already earned.'},{domanda:'Who needs to invest less for the same goal?',opzioni:['Who starts at 45','Who starts at 35','Who starts at 25','Age doesn t matter'],risposta_corretta:2,spiegazione:'Time is the key: 40 years of growth vs 30 years makes a huge difference.'}]},
+    {id:'inv_b2',emoji:'📦',titolo:'What is an ETF',tempo_minuti:7,semi_reward:80,
+     sottotitolo:'The simplest way to invest',
+     punti_chiave:['ETF = Exchange Traded Fund, bought like a stock','Replicates an index (e.g. S&P 500 = 500 US companies)','Very low cost: 0.05%-0.5% per year'],
+     esempio_pratico:'Buying 1 MSCI World ETF makes you owner of over 1,500 companies in 23 countries with a single purchase.',
+     dato_reale:'90% of professional managers do NOT beat the market over 15 years. A low-cost ETF almost always outperforms them.',
+     collegamento_africa:'The BRVM in Abidjan has regional ETFs covering 8 African countries.',
+     sfida_vita_reale:'Search MSCI World ETF UCITS on Justetf.com. Find the annual cost (TER) and 10-year historical return.',
+     quiz:[{domanda:'What does an S&P 500 ETF replicate?',opzioni:['Only tech companies','The 500 largest US companies','European companies','Only US stocks'],risposta_corretta:1,spiegazione:'The S&P 500 contains the 500 largest American companies: Apple, Microsoft, Amazon, Google, etc.'},{domanda:'What is the main advantage of ETFs?',opzioni:['Guaranteed returns','Very low costs','No risk','Professional management'],risposta_corretta:1,spiegazione:'Low costs (0.2% vs 2% for active funds) make a huge difference over the long term.'}]},
+    {id:'inv_b3',emoji:'🌍',titolo:'Diversification',tempo_minuti:6,semi_reward:80,
+     sottotitolo:'Don t put all your eggs in one basket',
+     punti_chiave:['Spread investments across multiple assets','When one goes down, another may go up','Reduces risk without reducing expected return'],
+     esempio_pratico:'Portfolio: 60% global equity ETF, 30% bond ETF, 10% gold. In stock market crises, bonds and gold often rise.',
+     dato_reale:'The 60/40 portfolio had an average return of 8.9%/year over the last 50 years with half the volatility.',
+     collegamento_africa:'Medieval Timbuktu merchants diversified their caravans across multiple routes.',
+     sfida_vita_reale:'List all your investments/savings. Are they diversified or all in one current account?',
+     quiz:[{domanda:'What is diversification?',opzioni:['Invest everything in the best stock','Spread investments across multiple assets','Change banks often','Buy and sell frequently'],risposta_corretta:1,spiegazione:'Diversification reduces risk: if one company fails, you still have all other investments.'},{domanda:'A typical diversified portfolio includes:',opzioni:['Only stocks from one country','Only bonds','Mix of stocks, bonds, commodities','Only real estate'],risposta_corretta:2,spiegazione:'A good portfolio includes different asset types that react differently to market conditions.'}]}
+  ]
+};
+
+// Lookup: get lesson in current language from translated banks
+function getLessonInLang(lez, lang) {
+  if (lang === 'it') return lez;
+  var bank = lang === 'fr' ? LESSON_BANK_FR : lang === 'en' ? LESSON_BANK_EN : null;
+  if (!bank) return lez;
+  // Search all keys in the bank
+  for (var key in bank) {
+    var arr = bank[key];
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].id === lez.id) return arr[i];
+    }
+  }
+  return lez; // fallback to Italian if not found
+}
+window.getLessonInLang = getLessonInLang;
 
 // ── renderLezioniList aggiornata con LESSON_BANK ─────────────────────
 function renderLezioniList() {
@@ -9102,7 +9436,7 @@ function renderLezioniList() {
   if (bankLessons.length > 0) {
     var bankHdr = document.createElement('div');
     bankHdr.style.cssText = 'font-size:.65rem;font-weight:900;color:#4ade80;text-transform:uppercase;letter-spacing:1px;margin:8px 0 6px;display:flex;align-items:center;gap:6px';
-    bankHdr.innerHTML = '📚 <span>'+bankLessons.length+' Lezioni Pronte</span>';
+    bankHdr.innerHTML = '📚 <span>'+bankLessons.length+' '+(t.acc_lezioni_pronte||'Lezioni Pronte')+'</span>';
     body.appendChild(bankHdr);
     bankLessons.forEach(function(lez) {
       var done = S.completate['bank_'+lez.id];
@@ -9118,7 +9452,24 @@ function renderLezioniList() {
           '<div class="lesson-card-semi">+ '+(lez.semi_reward||80)+' Semi</div>' +
         '</div>' +
         '<div class="lesson-card-arrow">→</div>';
-      card.addEventListener('click', function(){ openLezione(lez); });
+      card.addEventListener('click', function(){
+        // 1. Cerca traduzione diretta (FR/EN) — funziona senza API
+        var lezTrad = (typeof getLessonInLang==='function') ? getLessonInLang(lez, S.lang) : lez;
+        if (lezTrad !== lez) {
+          openLezione(lezTrad);
+        } else if (S.lang === 'it') {
+          openLezione(lez);
+        } else {
+          // 2. Nessuna traduzione diretta — genera via API
+          var btn = card.querySelector('.lesson-card-arrow');
+          if (btn) btn.textContent = '⏳';
+          generateLesson(lez.titolo, currentPercorso.id, currentLivello.id, S.eta, true)
+            .then(function(generata) {
+              if (btn) btn.textContent = '→';
+              openLezione(generata || lez);
+            }).catch(function(){ openLezione(lez); });
+        }
+      });
       body.appendChild(card);
     });
   }
@@ -9126,7 +9477,7 @@ function renderLezioniList() {
   // Lezioni AI (topics)
   var aiHdr = document.createElement('div');
   aiHdr.style.cssText = 'font-size:.65rem;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px';
-  aiHdr.textContent = '🤖 Lezioni AI Infinite';
+  aiHdr.textContent = '🤖 ' + (t.acc_ai_lezioni || 'Lezioni AI Infinite');
   body.appendChild(aiHdr);
 
   var topics = getTopicsForPercorso(currentPercorso.id);
@@ -10248,7 +10599,7 @@ function fetchYahoo(symbols, cb) {
                   symbol: sym,
                   regularMarketPrice: lastClose,
                   regularMarketChangePercent: 0,
-                  currency: (MKT_FALLBACK[sym] || {}).currency || ''
+                  currency: (MKT_FALLBACK[sym] || {}).currency || '',
                 };
               }
             }
@@ -13771,7 +14122,7 @@ function mmCivettaHint(m){
   var hints = {
     easy: 'Questo concetto è fondamentale. Prenditi 5 minuti per capirlo bene — cambierà come vedi i tuoi soldi ogni giorno.',
     med: 'Concetto intermedio. Se lo padroneggi, sei già davanti al 90% delle persone nella gestione finanziaria.',
-    hard: 'Eccellente! Questo è materiale da investitore avanzato. Masterizzalo e potrai prendere decisioni finanziarie da professionista.'
+    hard: 'Eccellente! Questo è materiale da investitore avanzato. Masterizzalo e potrai prendere decisioni finanziarie da professionista.',
   };
   return hints[m.diff] || hints['med'];
 }
