@@ -1497,8 +1497,12 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 @keyframes popUp{0%{opacity:0;transform:translate(-50%,-30%)scale(.5)}50%{opacity:1;transform:translate(-50%,-80%)scale(1.2)}100%{opacity:0;transform:translate(-50%,-120%)scale(1)}}
 @keyframes popDown{0%{opacity:0;transform:translate(-50%,-30%)scale(.5)}50%{opacity:1;transform:translate(-50%,-10%)scale(1.2)}100%{opacity:0;transform:translate(-50%,20%)scale(1)}}
 
+
+.set-lang-btn{padding:8px 6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.6);font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s}
+.set-lang-btn.active{background:rgba(245,200,66,.15);border-color:var(--gold);color:var(--gold)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -1566,6 +1570,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           <button class="home-btn home-btn-wide" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.4);color:#c4b5fd;margin-top:2px" data-i18n="btn_avatar">🐉 Avatar Cultura &amp; Saggezza</button>
           <button class="home-btn home-btn-wide" onclick="showScreen('mappa-missioni')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(16,185,129,.1));border:1.5px solid rgba(6,182,212,.5);color:#67e8f9;margin-top:2px;position:relative" data-i18n="btn_mappa">🗺️ Mappa Mondiale — Missioni Finanziarie<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.18);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
           <button class="home-btn home-btn-wide" onclick="showScreen('sun-room')" style="background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.5);color:#fde68a;margin-top:2px;position:relative" data-i18n="btn_sun_room">☀️ Sun Room — Libreria dei Giganti &amp; Coach Live<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">✨ NEW</span></button>
+          <button class="home-btn home-btn-wide" onclick="openNumeroLiberta()" style="background:linear-gradient(135deg,rgba(167,139,250,.18),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd;margin-top:2px" data-i18n="btn_numero_liberta">🗽 Il Tuo Numero della Libertà — Calcolatore 4%</button>
           <button class="home-btn home-btn-wide" onclick="showScreen('protocollo-imperiale')" style="background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(180,100,0,.1));border:1.5px solid rgba(212,175,55,.5);color:#d4af37;margin-top:2px;position:relative">🛡️ Protocollo Imperiale — Kemet · Sun Tzu · Musashi<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(212,175,55,.2);color:#d4af37;border-radius:6px;padding:1px 6px;font-weight:900">KEMET</span></button>
           <button class="home-btn home-btn-wide" onclick="showScreen('scuola-screen')" style="background:linear-gradient(135deg,rgba(74,222,128,.18),rgba(16,185,129,.1));border:1.5px solid rgba(74,222,128,.5);color:#4ade80;margin-top:2px;position:relative">🎓 Modulo Scuola — Legge 21/2024 · Kit Insegnanti<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:6px;padding:1px 6px;font-weight:900">SCUOLA</span></button>
           <button class="home-btn home-btn-wide" onclick="showScreen('gran-consiglio');buildGranConsiglio();" style="background:linear-gradient(135deg,rgba(184,134,11,.18),rgba(255,215,0,.08));border:1.5px solid rgba(184,134,11,.5);color:#FFD700;margin-top:2px;position:relative">🏛️ Gran Consiglio dei Titani<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
@@ -2132,27 +2137,38 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           <span style="font-size:.6rem;color:var(--gold);background:rgba(245,200,66,.1);border-radius:5px;padding:2px 7px">3 città gratis · Resto PRO</span>
           <button class="gc-play" style="background:rgba(167,139,250,.12);color:var(--purple)">▶ Gioca</button>
         </div>
+      <div class="gioco-card" onclick="openGame('build3d')" style="background:linear-gradient(135deg,rgba(251,146,60,.1),rgba(239,68,68,.06));border:1.5px solid rgba(251,146,60,.3)">
+        <div class="gc-badge" style="background:rgba(251,146,60,.12);color:#fb923c">🏗️ 3D BUILD</div>
+        <div><span class="gc-icon">🏙️</span>
+          <div class="gc-name" style="color:#fb923c">Città 3D — Costruisci</div>
+          <div class="gc-desc">Compra terreni, costruisci in 3D, incassa rendite ogni 5 secondi.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+          <span style="font-size:.6rem;color:#fb923c;background:rgba(251,146,60,.1);border-radius:5px;padding:2px 7px">Gratis · Three.js</span>
+          <button class="gc-play" style="background:rgba(251,146,60,.12);color:#fb923c">▶ Gioca</button>
+        </div>
+      </div>
       </div>
     </div>
 
     <!-- Classifica -->
     <div style="padding:8px 16px 6px;font-size:.6rem;font-weight:900;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase">🏆 COMMUNITY</div>
     <div class="giochi-grid">
-      <div class="gioco-card" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(6,182,212,.05));border:1.5px solid rgba(74,222,128,.3)" onclick="showScreen('fg-simulator-screen');fgRenderMissions()">
+      <div class="gioco-card" onclick="showScreen('fg-simulator-screen')" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(6,182,212,.05));border:1.5px solid rgba(74,222,128,.3)" onclick="showScreen('fg-simulator-screen');fgRenderMissions()">
         <div class="gc-badge" style="background:rgba(74,222,128,.12);color:#4ade80">🌍 GLOBAL</div>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
           <span style="font-size:2.2rem">📊</span>
           <div><div class="gc-name" style="color:#4ade80">Simulatore Globale — Mercati Mondiali</div><div class="gc-desc">Azioni · Crypto · Immobili · Materie Prime · Banca · Missioni. USA, Europa, Asia, Africa, LatAm.</div></div>
         </div>
-        <button class="gc-play" style="background:rgba(74,222,128,.12);color:#4ade80;width:100%">🌍 Entra nel Simulatore →</button>
+        <button class="gc-play" onclick="showScreen('fg-simulator-screen')" style="background:rgba(74,222,128,.12);color:#4ade80;width:100%">🌍 Entra nel Simulatore →</button>
       </div>
-      <div class="gioco-card" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(124,58,237,.06));border:1.5px solid rgba(167,139,250,.35)" onclick="showScreen('ai-game-screen')">
+      <div class="gioco-card" onclick="showScreen('ai-game-screen')" style="grid-column:1/-1;background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(124,58,237,.06));border:1.5px solid rgba(167,139,250,.35)" onclick="showScreen('ai-game-screen')">
         <div class="gc-badge" style="background:rgba(167,139,250,.15);color:#a78bfa">🤖 AI WORLD</div>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
           <span style="font-size:2.2rem">🌍</span>
           <div><div class="gc-name" style="color:#a78bfa">Mondo FinanzaLand — AI Game</div><div class="gc-desc">Claude genera il mondo. Ogni scelta è unica. Il drago ti guida in tempo reale.</div></div>
         </div>
-        <button class="gc-play" style="background:rgba(167,139,250,.15);color:#a78bfa;width:100%">🤖 Entra nel Mondo →</button>
+        <button class="gc-play" onclick="showScreen('ai-game-screen')" style="background:rgba(167,139,250,.15);color:#a78bfa;width:100%">🤖 Entra nel Mondo →</button>
       </div>
       <div class="gioco-card gc-classifica wide" onclick="openGame('classifica')">
         <span class="gc-icon">🏆</span>
@@ -2179,15 +2195,16 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 
 <div class="screen" id="char-select-screen">
   <div style="background:linear-gradient(160deg,#02001a,#0a0030);min-height:100vh;padding-bottom:80px">
+    <div style="padding:8px 14px 0"><button onclick="backToHub()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 14px;color:rgba(255,255,255,.6);font-size:.75rem;cursor:pointer">← Hub Giochi</button></div>
     <div style="padding:20px 16px 8px;text-align:center">
-      <div style="font-family:Fredoka One,serif;font-size:1.5rem;color:var(--gold);margin-bottom:6px">Scegli il tuo Eroe</div>
-      <div style="font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6">Il tuo personaggio rispecchia il tuo stile finanziario</div>
+      <div style="font-family:Fredoka One,serif;font-size:1.5rem;color:var(--gold);margin-bottom:6px">Scegli il tuo Stile</div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6">Ogni personaggio ha un bonus finanziario. La tua origine non conta — conta la tua strategia.</div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px">
       <div class="char-sel-card" id="csc-0" onclick="selectQQChar(0)" style="background:rgba(245,200,66,.06);border:1.5px solid rgba(245,200,66,.4);border-radius:18px;padding:16px;text-align:center;cursor:pointer">
         <div style="font-size:2.5rem;margin-bottom:6px">👩🏾</div>
         <div style="font-family:Fredoka One,serif;color:var(--gold);font-size:.95rem;margin-bottom:3px">Amara</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.45);line-height:1.5;margin-bottom:6px">Studentessa senegalese. Impara per aiutare la sua famiglia.</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.45);line-height:1.5;margin-bottom:6px">La Risparmiatrice. Trasforma ogni centesimo in un seme di futuro.</div>
         <div style="font-size:.6rem;font-weight:900;padding:2px 8px;background:rgba(245,200,66,.12);color:var(--gold);border-radius:8px;display:inline-block">+20% Semi risparmio</div>
       </div>
       <div class="char-sel-card" id="csc-1" onclick="selectQQChar(1)" style="background:rgba(96,165,250,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;text-align:center;cursor:pointer">
@@ -2284,12 +2301,12 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <canvas id="infl-canvas"></canvas>
     <div class="infl-ctrls">
       <button class="infl-btn" id="btn-left"
-        ontouchstart="iDir=-1;this.classList.add('pressed')" ontouchend="iDir=0;this.classList.remove('pressed')"
-        onmousedown="iDir=-1;this.classList.add('pressed')" onmouseup="iDir=0;this.classList.remove('pressed')">◀ Sx</button>
+        ontouchstart="setInflDir(-1,this)" ontouchend="setInflDir(0,this)"
+        onmousedown="setInflDir(-1,this)" onmouseup="setInflDir(0,this)">◀ Sx</button>
       <button class="infl-btn" id="infl-center-btn" onclick="inflToggle()">▶ START</button>
       <button class="infl-btn" id="btn-right"
-        ontouchstart="iDir=1;this.classList.add('pressed')" ontouchend="iDir=0;this.classList.remove('pressed')"
-        onmousedown="iDir=1;this.classList.add('pressed')" onmouseup="iDir=0;this.classList.remove('pressed')">Dx ▶</button>
+        ontouchstart="setInflDir(1,this)" ontouchend="setInflDir(0,this)"
+        onmousedown="setInflDir(1,this)" onmouseup="setInflDir(0,this)">Dx ▶</button>
     </div>
     <div class="infl-legend">
       <div class="infl-li"><div class="infl-dot" style="background:#FFD700"></div>Oro +20%</div>
@@ -2412,6 +2429,25 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <div id="offline-banner">📡 Offline — AI non disponibile, uso dati locali</div>
 <div id="realtime-status">🟢 Live</div>
 
+<div class="screen" id="gioco-build3d">
+  <div class="game-topbar">
+    <button class="game-back" onclick="backToHub();close3DBuild()">← Hub</button>
+    <span class="game-title">🏗️ Città 3D</span>
+    <span class="game-score-pill" id="build3d-hud">💰 10.000€</span>
+  </div>
+  <canvas id="build3d-canvas" style="width:100%;height:calc(100vh - 50px);display:block;background:#020010"></canvas>
+  <div id="build3d-ui" style="position:fixed;bottom:0;left:0;right:0;background:rgba(5,0,20,.95);border-top:1px solid rgba(251,146,60,.25);padding:10px 14px;display:flex;gap:8px;overflow-x:auto;z-index:100">
+    <button onclick="build3dSelect('casa')" class="build3d-btn" id="bb-casa" style="flex-shrink:0;padding:8px 14px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:10px;color:#4ade80;font-size:.75rem;font-weight:900;cursor:pointer">🏠 Casa<br><span style="font-size:.6rem;opacity:.5">500€</span></button>
+    <button onclick="build3dSelect('ufficio')" class="build3d-btn" id="bb-ufficio" style="flex-shrink:0;padding:8px 14px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);border-radius:10px;color:#60a5fa;font-size:.75rem;font-weight:900;cursor:pointer">🏢 Ufficio<br><span style="font-size:.6rem;opacity:.5">1.200€</span></button>
+    <button onclick="build3dSelect('mercato')" class="build3d-btn" id="bb-mercato" style="flex-shrink:0;padding:8px 14px;background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.3);border-radius:10px;color:#fb923c;font-size:.75rem;font-weight:900;cursor:pointer">🏪 Mercato<br><span style="font-size:.6rem;opacity:.5">800€</span></button>
+    <button onclick="build3dSelect('scuola')" class="build3d-btn" id="bb-scuola" style="flex-shrink:0;padding:8px 14px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:10px;color:#a78bfa;font-size:.75rem;font-weight:900;cursor:pointer">🏫 Scuola<br><span style="font-size:.6rem;opacity:.5">2.000€</span></button>
+    <button onclick="build3dSelect('banca')" class="build3d-btn" id="bb-banca" style="flex-shrink:0;padding:8px 14px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;color:#F5C842;font-size:.75rem;font-weight:900;cursor:pointer">🏦 Banca<br><span style="font-size:.6rem;opacity:.5">3.500€</span></button>
+    <div style="flex-shrink:0;padding:8px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.68rem;color:rgba(255,255,255,.5);min-width:110px">
+      <div>Tap griglia = costruisci</div>
+      <div id="build3d-selected" style="color:#fb923c;font-weight:900;margin-top:3px">→ seleziona tipo</div>
+    </div>
+  </div>
+</div>
 <div class="screen" id="ai-game-screen">
   <div style="background:linear-gradient(160deg,#020010,#0a0030,#02001a);min-height:100vh">
     <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(0,0,0,.5);border-bottom:1px solid rgba(245,200,66,.15);position:sticky;top:0;z-index:10">
@@ -3796,6 +3832,8 @@ var TRANSLATIONS = {
     gc_borsa_desc:'Azioni, ETF, obbligazioni. Africa, America, Europa.',
     gc_monopolio_desc:'Compra terreni, costruisci, raccogli rendite.',
   
+    btn_numero_liberta:'🗽 Il Tuo Numero della Libertà',
+  
   },
   fr: {
     home_title:'L\'Académie de l\'Épargne',
@@ -3965,6 +4003,13 @@ var TRANSLATIONS = {
     btn_mappa:'🗺️ Carte Mondiale — Missions',
     btn_sun_room:'☀️ Sun Room — Bibliothèque des Géants',
     btn_bambini:'👶 Zone Enfants',
+    fallback_sottotitolo:'Apprends {topic} avec FinanzaLand',
+    fallback_chiave1:'{topic} est un concept fondamental des finances personnelles.',
+    fallback_chiave2:'Comprendre {topic} t aide à mieux gérer ton argent.',
+    fallback_chiave3:'Applique {topic} dans ta vie quotidienne.',
+    fallback_esempio:'Exemple pratique : comment utiliser {topic} dans ta vie.',
+    fallback_quiz_d:'Qu est-ce que {topic}?',
+    fallback_quiz_r:'Un concept essentiel pour ta liberté financière.',
     gc_quadranti:'4 Quadrants',
     gc_inflazione:'Course à l Inflation',
     gc_borsa:'Bourse Mondiale',
@@ -3977,6 +4022,8 @@ var TRANSLATIONS = {
     gc_borsa_desc:'Actions, ETF, obligations. Afrique, Amérique, Europe.',
     gc_monopolio_desc:'Achète des terrains, construis, collecte des rentes.',
   
+    btn_numero_liberta:'🗽 Ton Nombre de la Liberté',
+  
   },
   en: {
     home_title:'The Savings Academy',
@@ -3988,6 +4035,13 @@ var TRANSLATIONS = {
     btn_academy:'🎓 Academy — Live Teachers',
     btn_muro:'🌍 Social Wall — Play with the World',
     btn_kids:'👶 Kids Zone — Touch and Play!',
+    fallback_sottotitolo:'Learn {topic} with FinanzaLand',
+    fallback_chiave1:'{topic} is a fundamental concept of personal finance.',
+    fallback_chiave2:'Understanding {topic} helps you manage your money better.',
+    fallback_chiave3:'Apply this concept in your daily life to see results.',
+    fallback_esempio:'Practical example: how to use {topic} in your life.',
+    fallback_quiz_d:'What is {topic}?',
+    fallback_quiz_r:'An essential concept for your financial freedom.',
     btn_share:'↗️ Share FinanzaLand',
     /* ACADEMY */
     acc_back:'← Home',
@@ -4164,6 +4218,8 @@ var TRANSLATIONS = {
     gc_inflazione_desc:'Escape the monster eating your savings!',
     gc_borsa_desc:'Stocks, ETFs, bonds. Africa, America, Europe.',
     gc_monopolio_desc:'Buy land, build, collect rents.',
+  
+    btn_numero_liberta:'🗽 Your Freedom Number',
   
   },
   es: {
@@ -4359,6 +4415,8 @@ var TRANSLATIONS = {
     gc_borsa_desc:'Acciones, ETF, bonos. África, América, Europa.',
     gc_monopolio_desc:'Compra tierras, construye, cobra rentas.',
   
+    btn_numero_liberta:'🗽 Tu Número de la Libertad',
+  
   },
   wo: {
     home_title:'Jang ci Xaalis yi',
@@ -4533,6 +4591,8 @@ var TRANSLATIONS = {
     gc_inflazione:'Doxal ci Inflation',
     gc_borsa:'Boursse Aduna',
     gc_monopolio:'Monopole Dëkk',
+  
+    btn_numero_liberta:'🗽 Sa Numero bu Liberté',
   
   },
   bm: {
@@ -9177,14 +9237,22 @@ async function generateLesson(topic, percorso, livello, eta, forceNew) {
         eta: eta || S.eta, lingua: S.lang, lessonId: cacheKey, stream: false,
       })
     });
-    var data = await resp.json();
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var ct = resp.headers.get('content-type') || '';
+    if (!ct.includes('json')) throw new Error('not_json');
+    var rawText = await resp.text();
+    if (!rawText || rawText.trimStart()[0] === '<') throw new Error('html_response');
+    var data = JSON.parse(rawText);
     if (data.success && data.lesson) {
       data.lesson.cached_at = Date.now();
       LESSON_CACHE[cacheKey] = data.lesson;
       safeSetItem('fl_lesson_cache', LESSON_CACHE);
       return data.lesson;
     }
-  } catch(e) { console.warn('Lesson API:', e.message); }
+  } catch(e) {
+    if (e.message !== 'not_json' && e.message !== 'html_response') {
+    }
+  }
   return makeFallbackLesson(topic, percorso, livello);
 }
 
@@ -9194,7 +9262,7 @@ function makeFallbackLesson(topic, percorso, livello) {
   function t(key){ return (tf[key]||'').replace(/{topic}/g, topic); }
   return {
     id: topic.toLowerCase().replace(/\s+/g,'-'),
-    titolo: topic,
+    titolo: (typeof translateTopic === 'function' ? translateTopic(topic, S.lang) : topic),
     sottotitolo: t('fallback_sottotitolo'),
     emoji: '📚', colore: '#FFD700', livello: livello, tempo_minuti: 5,
     punti_chiave: [
@@ -9442,7 +9510,7 @@ async function fetchDeepSection(elId, system, prompt, customCallback) {
     var resp = await fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({system: system, messages:[{role:'user', content: prompt}]})
     });
-    var data = await resp.json();
+    var _ct = resp.headers.get('content-type')||''; if(!resp.ok||!_ct.includes('json')){throw new Error('api_unavailable');} var _rt = await resp.text(); var data = {}; try { data = JSON.parse(_rt||'{}'); } catch(e) { throw new Error('api_unavailable'); }
     var txt = (data.content||[]).map(function(c){return c.text||'';}).join('');
     if(!txt) throw new Error('empty');
     if(customCallback){ customCallback(txt, elId); return; }
@@ -9489,7 +9557,7 @@ async function generateInfiniteDeep(topic, percorso) {
         }]
       })
     });
-    var data = await resp.json();
+    var _ct = resp.headers.get('content-type')||''; if(!resp.ok||!_ct.includes('json')){throw new Error('api_unavailable');} var _rt = await resp.text(); var data = {}; try { data = JSON.parse(_rt||'{}'); } catch(e) { throw new Error('api_unavailable'); }
     var txt = (data.content||[]).map(function(c){return c.text||'';}).join('');
     if(!txt){ toast('Connessione necessaria.'); return; }
     var encodedNext = encodeURIComponent(decoded);
@@ -10312,7 +10380,7 @@ function buildAdulti() {
   var lezioniF = Object.keys(S.completate||{}).length;
   var livMsg = lezioniF>=20 ? '🌟 Sei in piena fioritura. La conoscenza lavora per te.' : lezioniF>=10 ? '🌱 Stai crescendo. Continua — ogni lezione cambia il tuo subconscio.' : '☀️ La luce della conoscenza sta iniziando a illuminare il tuo cammino.';
   sunBanner.innerHTML =
-    '<div style="font-family:Fredoka One,serif;font-size:1.3rem;color:var(--gold);margin-bottom:4px">☀️ Sun Sun! — La Fase di Fioritura</div>' +
+    '<div style="font-family:Fredoka One,serif;font-size:1.3rem;color:var(--gold);margin-bottom:4px">☀️ ' + translateStageName('Sun Sun! — La Fase di Fioritura', S.lang) + '</div>' +
     '<div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.6">' + livMsg + '</div>' +
     '<div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:6px">Lezioni completate: <strong style="color:var(--gold)">' + lezioniF + '</strong> · La biologia delle credenze si sta riscrivendo 🧬</div>';
   body.appendChild(sunBanner);
@@ -10333,14 +10401,59 @@ function buildAdulti() {
   body.appendChild(libTitle);
 
   var GIGANTI = [
-    { id:'lipton_biologia',   em:'🧬', nome:'Bruce Lipton',     libro:'La Biologia delle Credenze',          tag:'Epigenetica',    col:'rgba(74,222,128,.1)',   bc:'rgba(74,222,128,.3)',  tc:'#4ade80' },
-    { id:'greene_48_leggi',   em:'⚔️', nome:'Robert Greene',    libro:'Le 48 Leggi del Potere',              tag:'Strategia',      col:'rgba(248,113,113,.08)', bc:'rgba(248,113,113,.3)', tc:'#f87171' },
-    { id:'kiyosaki_padre',    em:'💰', nome:'Robert Kiyosaki',  libro:'Padre Ricco Padre Povero',            tag:'Finanza',        col:'rgba(255,215,0,.08)',   bc:'rgba(255,215,0,.3)',   tc:'var(--gold)' },
-    { id:'napoleon_hill',     em:'📖', nome:'Napoleon Hill',    libro:'Pensa e Arricchisci te Stesso',       tag:'Mindset',        col:'rgba(167,139,250,.08)', bc:'rgba(167,139,250,.3)', tc:'#a78bfa' },
-    { id:'dispenza_abitudine',em:'🧠', nome:'Joe Dispenza',     libro:'Cambia l Abitudine di Essere',       tag:'Neuroscienza',   col:'rgba(6,182,212,.08)',   bc:'rgba(6,182,212,.3)',   tc:'#67e8f9' },
-    { id:'carnegie_relazioni',em:'🤝', nome:'Dale Carnegie',    libro:'Come Trattare gli Altri',             tag:'Relazioni',      col:'rgba(251,146,60,.08)',  bc:'rgba(251,146,60,.3)',  tc:'#fb923c' },
-    { id:'seven_habits',      em:'🎯', nome:'Stephen Covey',    libro:'Le 7 Abitudini',                      tag:'Leadership',     col:'rgba(99,102,241,.08)',  bc:'rgba(99,102,241,.3)',  tc:'#818cf8' },
-    { id:'psicologia_soldi',  em:'💭', nome:'Morgan Housel',    libro:'La Psicologia dei Soldi',             tag:'Comportamento',  col:'rgba(20,184,166,.08)',  bc:'rgba(20,184,166,.3)',  tc:'#2dd4bf' },
+    // ── FINANZA ──────────────────────────────────────────────────────────
+    { id:'kiyosaki_padre',    em:'💰', nome:'Robert Kiyosaki',    libro:'Padre Ricco Padre Povero',               tag:'Finanza',        col:'rgba(255,215,0,.08)',   bc:'rgba(255,215,0,.3)',    tc:'var(--gold)' },
+    { id:'kiyosaki_cashflow', em:'💵', nome:'Robert Kiyosaki',    libro:'Il Quadrante del Cashflow',              tag:'Finanza',        col:'rgba(255,215,0,.07)',   bc:'rgba(255,215,0,.25)',   tc:'var(--gold)' },
+    { id:'psicologia_soldi',  em:'💭', nome:'Morgan Housel',      libro:'La Psicologia dei Soldi',                tag:'Comportamento',  col:'rgba(20,184,166,.08)',  bc:'rgba(20,184,166,.3)',   tc:'#2dd4bf' },
+    { id:'millionaire_next',  em:'🏠', nome:'Thomas Stanley',     libro:'Il Milionario della Porta Accanto',      tag:'Finanza',        col:'rgba(74,222,128,.07)',  bc:'rgba(74,222,128,.25)',  tc:'#4ade80' },
+    { id:'ramsey_totalmoney', em:'🔥', nome:'Dave Ramsey',        libro:'Trasformazione Totale del Denaro',       tag:'Debiti',         col:'rgba(248,113,113,.07)', bc:'rgba(248,113,113,.25)', tc:'#f87171' },
+    { id:'bogle_investitore', em:'📈', nome:'John Bogle',         libro:'Il Piccolo Libro del Buon Senso',        tag:'ETF',            col:'rgba(96,165,250,.08)',  bc:'rgba(96,165,250,.3)',   tc:'#60a5fa' },
+    { id:'graham_invest',     em:'📊', nome:'Benjamin Graham',    libro:"L'Investitore Intelligente",             tag:'Borsa',          col:'rgba(245,200,66,.07)',  bc:'rgba(245,200,66,.25)',  tc:'#F5C842' },
+    { id:'buffett_letters',   em:'🐢', nome:'Warren Buffett',     libro:'Lettere agli Azionisti',                 tag:'Investimenti',   col:'rgba(255,215,0,.06)',   bc:'rgba(255,215,0,.2)',    tc:'var(--gold)' },
+    { id:'clason_babilonia',  em:'🏛️', nome:'George Clason',      libro:"L'Uomo piu Ricco di Babilonia",          tag:'Risparmio',      col:'rgba(251,146,60,.07)',  bc:'rgba(251,146,60,.25)',  tc:'#fb923c' },
+    { id:'sethi_automata',    em:'🤖', nome:'Ramit Sethi',        libro:'Diventa Ricco Automaticamente',          tag:'Risparmio',      col:'rgba(74,222,128,.06)',  bc:'rgba(74,222,128,.2)',   tc:'#4ade80' },
+
+    // ── MINDSET & MOTIVAZIONE ─────────────────────────────────────────────
+    { id:'napoleon_hill',     em:'🔥', nome:'Napoleon Hill',      libro:'Pensa e Arricchisci te Stesso',          tag:'Mindset',        col:'rgba(248,113,113,.12)', bc:'rgba(248,113,113,.5)',  tc:'#f87171' },
+    { id:'napoleon_leggi',    em:'⚡', nome:'Napoleon Hill',      libro:'Le 16 Leggi del Successo',               tag:'Mindset',        col:'rgba(248,113,113,.08)', bc:'rgba(248,113,113,.3)',  tc:'#f87171' },
+    { id:'napoleon_master',   em:'🧨', nome:'Napoleon Hill',      libro:'Master Key to Riches',                   tag:'Ricchezza',      col:'rgba(248,113,113,.07)', bc:'rgba(248,113,113,.25)', tc:'#f87171' },
+    { id:'wallace_scienza',   em:'✨', nome:'Wallace Wattles',    libro:'La Scienza di Diventare Ricchi',         tag:'Abbondanza',     col:'rgba(245,200,66,.08)',  bc:'rgba(245,200,66,.3)',   tc:'#F5C842' },
+    { id:'dispenza_abitudine',em:'🧠', nome:'Joe Dispenza',       libro:'Cambia le Abitudini con la Mente',       tag:'Neuroscienza',   col:'rgba(6,182,212,.08)',   bc:'rgba(6,182,212,.3)',    tc:'#67e8f9' },
+    { id:'dispenza_placebo',  em:'💊', nome:'Joe Dispenza',       libro:'Il Placebo Sei Tu',                      tag:'Neuroscienza',   col:'rgba(6,182,212,.06)',   bc:'rgba(6,182,212,.2)',    tc:'#67e8f9' },
+    { id:'carnegie_relazioni',em:'🤝', nome:'Dale Carnegie',      libro:'Come Trattare gli Altri',                tag:'Relazioni',      col:'rgba(251,146,60,.08)',  bc:'rgba(251,146,60,.3)',   tc:'#fb923c' },
+    { id:'carnegie_amici',    em:'😊', nome:'Dale Carnegie',      libro:'Come Farsi degli Amici',                 tag:'Relazioni',      col:'rgba(251,146,60,.07)',  bc:'rgba(251,146,60,.25)',  tc:'#fb923c' },
+    { id:'seven_habits',      em:'🎯', nome:'Stephen Covey',      libro:'Le 7 Abitudini delle Persone Efficaci',  tag:'Leadership',     col:'rgba(99,102,241,.08)',  bc:'rgba(99,102,241,.3)',   tc:'#818cf8' },
+    { id:'dyer_potere',       em:'🌟', nome:'Wayne Dyer',         libro:'Il Potere della Intenzione',             tag:'Spiritualita',   col:'rgba(167,139,250,.08)', bc:'rgba(167,139,250,.3)',  tc:'#a78bfa' },
+    { id:'tolle_adesso',      em:'🕊️', nome:'Eckhart Tolle',      libro:'Il Potere di Adesso',                    tag:'Presenza',       col:'rgba(20,184,166,.08)',  bc:'rgba(20,184,166,.3)',   tc:'#2dd4bf' },
+    { id:'robbins_gigante',   em:'💪', nome:'Tony Robbins',       libro:'Risvegliate il Gigante Interiore',       tag:'Motivazione',    col:'rgba(248,113,113,.07)', bc:'rgba(248,113,113,.25)', tc:'#f87171' },
+    { id:'robbins_money',     em:'💸', nome:'Tony Robbins',       libro:'Money: Domina il Gioco',                 tag:'Finanza',        col:'rgba(248,113,113,.07)', bc:'rgba(248,113,113,.25)', tc:'#f87171' },
+
+    // ── STRATEGIA & POTERE ────────────────────────────────────────────────
+    { id:'greene_48_leggi',   em:'⚔️', nome:'Robert Greene',      libro:'Le 48 Leggi del Potere',                 tag:'Strategia',      col:'rgba(248,113,113,.08)', bc:'rgba(248,113,113,.3)',  tc:'#f87171' },
+    { id:'greene_mastery',    em:'🏆', nome:'Robert Greene',      libro:'Mastery — Padronanza',                   tag:'Eccellenza',     col:'rgba(248,113,113,.07)', bc:'rgba(248,113,113,.25)', tc:'#f87171' },
+    { id:'sun_tzu_guerra',    em:'🎌', nome:'Sun Tzu',            libro:"L'Arte della Guerra",                    tag:'Strategia',      col:'rgba(99,102,241,.08)',  bc:'rgba(99,102,241,.3)',   tc:'#818cf8' },
+    { id:'machiavelli',       em:'👑', nome:'Niccolo Machiavelli',libro:'Il Principe',                            tag:'Potere',         col:'rgba(99,102,241,.07)',  bc:'rgba(99,102,241,.25)',  tc:'#818cf8' },
+    { id:'maxwell_leadership',em:'🧭', nome:'John Maxwell',       libro:'Le 21 Leggi della Leadership',           tag:'Leadership',     col:'rgba(96,165,250,.07)',  bc:'rgba(96,165,250,.25)',  tc:'#60a5fa' },
+    { id:'cialdini_influenza',em:'🎭', nome:'Robert Cialdini',    libro:'Le Armi della Persuasione',              tag:'Psicologia',     col:'rgba(167,139,250,.08)', bc:'rgba(167,139,250,.3)',  tc:'#a78bfa' },
+
+    // ── STARTUP & BUSINESS ────────────────────────────────────────────────
+    { id:'ries_lean',         em:'🚀', nome:'Eric Ries',          libro:'The Lean Startup',                       tag:'Startup',        col:'rgba(74,222,128,.08)',  bc:'rgba(74,222,128,.3)',   tc:'#4ade80' },
+    { id:'zero_to_one',       em:'🌐', nome:'Peter Thiel',        libro:'Zero to One',                            tag:'Startup',        col:'rgba(74,222,128,.07)',  bc:'rgba(74,222,128,.25)',  tc:'#4ade80' },
+    { id:'godin_mucca',       em:'🐄', nome:'Seth Godin',         libro:'La Mucca Viola',                         tag:'Marketing',      col:'rgba(167,139,250,.07)', bc:'rgba(167,139,250,.25)', tc:'#a78bfa' },
+    { id:'ferriss_ore4',      em:'⏰', nome:'Tim Ferriss',        libro:'4 Ore alla Settimana',                   tag:'Liberta',        col:'rgba(251,146,60,.08)',  bc:'rgba(251,146,60,.3)',   tc:'#fb923c' },
+    { id:'naval_almanack',    em:'⚡', nome:'Naval Ravikant',     libro:'The Almanack of Naval Ravikant',         tag:'Liberta',        col:'rgba(245,200,66,.08)',  bc:'rgba(245,200,66,.3)',   tc:'#F5C842' },
+
+    // ── AFRICA & DIASPORA ─────────────────────────────────────────────────
+    { id:'diop_nazioni',      em:'🌍', nome:'Cheikh Anta Diop',   libro:'Le Nazioni Negre e la Cultura',          tag:'Africa',         col:'rgba(245,200,66,.08)',  bc:'rgba(245,200,66,.3)',   tc:'#F5C842' },
+    { id:'sankara_discorsi',  em:'✊', nome:'Thomas Sankara',     libro:'Discorsi e Scritti Rivoluzionari',       tag:'Africa',         col:'rgba(248,113,113,.07)', bc:'rgba(248,113,113,.25)', tc:'#f87171' },
+    { id:'mo_ibrahim',        em:'📡', nome:'Mo Ibrahim',         libro:'Business in Africa',                     tag:'Business Africa',col:'rgba(74,222,128,.07)',  bc:'rgba(74,222,128,.25)',  tc:'#4ade80' },
+    { id:'dangote_empire',    em:'🏗️', nome:'Aliko Dangote',     libro:'Costruire un Impero Africano',           tag:'Business Africa',col:'rgba(255,215,0,.07)',   bc:'rgba(255,215,0,.25)',   tc:'var(--gold)' },
+
+    // ── SCIENZA & ABITUDINI ───────────────────────────────────────────────
+    { id:'lipton_biologia',   em:'🧬', nome:'Bruce Lipton',       libro:'La Biologia delle Credenze',             tag:'Epigenetica',    col:'rgba(74,222,128,.1)',   bc:'rgba(74,222,128,.3)',   tc:'#4ade80' },
+    { id:'duhigg_abitudini',  em:'🔄', nome:'Charles Duhigg',     libro:'Il Potere delle Abitudini',              tag:'Psicologia',     col:'rgba(6,182,212,.07)',   bc:'rgba(6,182,212,.25)',   tc:'#67e8f9' },
+    { id:'atomic_habits',     em:'⚛️', nome:'James Clear',        libro:'Atomic Habits — Piccole Abitudini',      tag:'Abitudini',      col:'rgba(96,165,250,.08)',  bc:'rgba(96,165,250,.3)',   tc:'#60a5fa' },
+    { id:'gladwell_outliers', em:'🌪️', nome:'Malcolm Gladwell',   libro:'Outliers — Fuoriclasse',                 tag:'Successo',       col:'rgba(251,146,60,.07)',  bc:'rgba(251,146,60,.25)',  tc:'#fb923c' },
   ];
 
   var libGrid = document.createElement('div');
@@ -10353,7 +10466,7 @@ function buildAdulti() {
     card.innerHTML =
       (isRead ? '<div style="position:absolute;top:7px;right:8px;font-size:.65rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:5px;padding:1px 5px">✓ Letto</div>' : '') +
       '<div style="font-size:1.5rem;margin-bottom:5px">' + g.em + '</div>' +
-      '<div style="font-size:.72rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:2px">' + g.libro + '</div>' +
+      '<div style="font-size:.72rem;font-weight:900;color:#fff;line-height:1.2;margin-bottom:2px">' + (getGigantiTitle(g.id, S.lang) || g.libro) + '</div>' +
       '<div style="font-size:.62rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + g.nome + '</div>' +
       '<span style="font-size:.58rem;font-weight:800;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,.08);color:' + g.tc + '">' + g.tag + '</span>';
     card.addEventListener('click', function() {
@@ -11686,7 +11799,7 @@ async function sendAI() {
       })
     });
     if (typing) typing.style.display = 'none';
-    var data = await resp.json();
+    var _ct = resp.headers.get('content-type')||''; if(!resp.ok||!_ct.includes('json')){throw new Error('api_unavailable');} var _rt = await resp.text(); var data = {}; try { data = JSON.parse(_rt||'{}'); } catch(e) { throw new Error('api_unavailable'); }
     var reply = '';
     if (data && data.content && data.content[0]) {
       reply = data.content[0].text || '';
@@ -13841,7 +13954,7 @@ function buildSaggezza() {
   if (!tabs || !body) return;
 
   // Load done state
-  try { _saggezzaDone = JSON.parse(localStorage.getItem('fl_sagg_done') || '{}'); } catch(e) {}
+  try { _saggezzaDone = (function(){try{return JSON.parse(localStorage.getItem('fl_sagg_done')||'null');}catch(e){return null;}})() || {}; } catch(e) {}
 
   // Build tabs
   tabs.innerHTML = '';
@@ -14518,7 +14631,7 @@ function buildSunRoom() {
 
   // ── BANNER SUN SUN ──────────────────────────────────────────────
   var lezioniF = Object.keys(S.completate||{}).length;
-  var saggF = Object.keys(JSON.parse(localStorage.getItem('fl_sagg_done')||'{}')).length;
+  var saggF = Object.keys((function(){try{return JSON.parse(localStorage.getItem('fl_sagg_done')||'null');}catch(e){return null;}})() || {}).length;
   var banner = document.createElement('div');
   banner.style.cssText = 'background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.4);border-radius:18px;padding:18px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden';
   banner.innerHTML =
@@ -14549,7 +14662,7 @@ function buildSunRoom() {
   qGrid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:7px';
   (GIGANTI_QUICK||[]).forEach(function(g) {
     var c = document.createElement('div');
-    var done = !!(JSON.parse(localStorage.getItem('fl_sagg_done')||'{}')[g.id]);
+    var done = !!(function(){try{return JSON.parse(localStorage.getItem('fl_sagg_done')||'null');}catch(e){return null;}})()?.[g.id] || false;
     c.style.cssText = 'background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;transition:.15s' + (done?';border-color:rgba(74,222,128,.3)':'');
     c.innerHTML = '<div style="font-size:1.6rem;margin-bottom:3px">' + g.em + '</div><div style="font-size:.65rem;font-weight:800;color:#fff">' + g.nome + '</div><div style="font-size:.55rem;color:rgba(255,255,255,.35)">' + g.tag + '</div>' + (done?'<div style="font-size:.55rem;color:#4ade80;margin-top:3px">✓</div>':'');
     c.addEventListener('click', function() {
@@ -15688,7 +15801,7 @@ var MM = {
   gpsOn: false,
   userLat: null,
   userLng: null,
-  done: JSON.parse(localStorage.getItem('mm_done') || '{}'),
+  done: (function(){try{return JSON.parse(localStorage.getItem('mm_done')||'{}');}catch(e){return {};}})(),
   semiEarned: +localStorage.getItem('mm_semi') || 0
 };
 
@@ -16079,7 +16192,7 @@ function gUpdateHud(){
 }
 
 /* ── ROUTING SCHERMATE GIOCHI (isolato da showScreen) ── */
-const G_SCREENS=['giochi','gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione','gioco-classifica'];
+const G_SCREENS=['giochi','gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione','gioco-classifica','fg-simulator-screen','ai-game-screen','gioco-build3d'];
 function gShowScr(id){
   (G_SCREENS||[]).forEach(function(sid){
     var el=document.getElementById(sid);
@@ -16087,26 +16200,42 @@ function gShowScr(id){
   });
 }
 function openGame(g){
-  // ── LIVELLI GIOCHI ─────────────────────────────────────────────────────
-  // Giochi base: sempre gratis -- servono ad acquisire utenti
-  // Giochi avanzati: solo PRO
-  var GIOCHI_PRO = {
-    // quadranti: livelli 1-3 gratis, 4-7 PRO
-    // brvm: mercato base gratis, portafoglio avanzato + bond + ETF PRO  
-    // immobiliare: prime 3 città gratis, città avanzate PRO
-    // inflazione: modalità base gratis, modalità crisi PRO
-    // classifica: partecipare gratis, premi speciali PRO
-  };
-  // Per ora tutti i giochi sono accessibili -- il sistema livelli si espande con lo sviluppo Flutter
   inflPause();
-  gShowScr('gioco-'+g);
-  if(g==='quadranti')initQQ();
-  else if(g==='brvm')initBRVM();
-  else if(g==='immobiliare')initIMM();
-  else if(g==='inflazione')initINFL();
-  else if(g==='classifica')initClass();
+  if(g==='quadranti'){
+    // QQ goes through char selection first
+    if(typeof showScreen==='function') showScreen('char-select-screen');
+    return;
+  }
+  if(typeof showScreen==='function') showScreen('gioco-'+g);
+  else gShowScr('gioco-'+g);
+  if(g==='brvm')        setTimeout(initBRVM, 50);
+  else if(g==='immobiliare') setTimeout(initIMM,  50);
+  else if(g==='inflazione')  setTimeout(initINFL, 200);
+  else if(g==='classifica')  setTimeout(initClass,50);
+  else if(g==='build3d')    setTimeout(initBuild3D,100);
 }
-function backToHub(){inflPause();gShowScr('giochi');}
+function backToHub(){
+  inflPause();
+  if(typeof close3DBuild==='function') close3DBuild();
+  // Deactivate all game screens explicitly
+  ['gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione',
+   'gioco-classifica','gioco-build3d','fg-simulator-screen','ai-game-screen',
+   'char-select-screen'].forEach(function(sid){
+    var el=document.getElementById(sid);
+    if(el)el.classList.remove('active');
+  });
+  // Show giochi hub via base showScreen (bypasses Block7 gShowScr)
+  var baseShow = window.showScreen;
+  if(typeof baseShow==='function'){
+    baseShow('giochi');
+    // Also explicitly activate giochi (in case wrapper doesn't)
+    var giEl=document.getElementById('giochi');
+    if(giEl)giEl.classList.add('active');
+  } else {
+    gShowScr('giochi');
+  }
+  if(typeof gUpdateHud==='function') gUpdateHud();
+}
 
 /* Quando showScreen attiva 'giochi', gShowScr mostra l'hub */
 (function(){
@@ -16116,7 +16245,7 @@ function backToHub(){inflPause();gShowScr('giochi');}
     if(name==='giochi'){gShowScr('giochi');gUpdateHud();}
     else{
       // Nascondi tutti i sotto-schermi giochi quando si esce
-      ['gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione','gioco-classifica'].forEach(function(sid){
+      ['gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione','gioco-classifica','fg-simulator-screen','ai-game-screen','gioco-build3d'].forEach(function(sid){
         var el=document.getElementById(sid);if(el)el.classList.remove('active');
       });
     }
@@ -16183,7 +16312,7 @@ const QQ_EVS=[
   ]},
   {m:8,icon:'💰',ti:'Dividendi',tx:'Le azioni hanno pagato i dividendi. Ricevi {PASS}€ extra. Come li usi?',ch:[
     {t:'Li spendo 🎉',ef:'Goditi il frutto. Nessun effetto compounding.',d:{cash:0}},
-    {t:'Reinvesto subito 🔄',ef:'Compounding! Reinvestiti, +8€/mese aggiuntivi.',d:{passD:8},good:true},
+    {t:'Reinvesto subito 🔄',ef:'Compounding! Reinvestiti, +8€/mese aggiùntivi.',d:{passD:8},good:true},
     {t:'Metà spendo, metà reinvesto',ef:'Equilibrio tra piacere e crescita.',d:{passD:4}},
   ]},
   {m:9,icon:'🏢',ti:'Scala il Business',tx:'Il tuo business funziona. Puoi assumere una persona: costo +800€/mese, entrate +2.200€/mese.',ch:[
@@ -16299,7 +16428,7 @@ const BR={
     {tk:'TSM',name:'TSMC',em:'💾',price:140,hist:[140],sec:'Semicond.',region:'ASIA',cur:'USD'},
   ]
 };
-function initBRVM(){
+function initBRVM(){setTimeout(function(){if(typeof startRealDataFeed==="function")startRealDataFeed();},1500);
   Object.assign(BR,{cash:5000,round:1,port:{},bonds:[],etf:{qty:0,avgC:0},sel:null,qty:1,regionFilter:'ALL'});
   (BR.stocks||[]).forEach(s=>{s.price=s.hist[0];s.hist=[s.hist[0]];});
   BR._etfP=getETFPrice();updBRHud();
@@ -16316,12 +16445,50 @@ function bTab(t){
 function advRound(){
   if(BR.round>=BR.maxR){brEnd();return;}
   BR.round++;
-  (BR.stocks||[]).forEach(s=>{const chg=(Math.random()-.45)*.14;s.price=Math.max(100,Math.round(s.price*(1+chg)));s.hist.push(s.price);if(s.hist.length>10)s.hist.shift();});
+  (BR.stocks||[]).forEach(s=>{
+    const chg=(Math.random()-.45)*.14;
+    s.price=Math.max(100,Math.round(s.price*(1+chg)));
+    s.hist.push(s.price);if(s.hist.length>10)s.hist.shift();
+  });
   BR._etfP=getETFPrice();
-  if(BR.round%5===0){let div=0;Object.entries(BR.port).forEach(([tk,pos])=>{const s=BR.stocks.find(x=>x.tk===tk);if(s&&pos.qty>0){const d=Math.round(s.price*.03*pos.qty);BR.cash+=d;div+=d;}});if(div>0)toast('💰 Dividendi: +'+div.toLocaleString()+'!');}
-  BR.bonds=BR.bonds.filter(b=>{if(b.mR<=BR.round){const tot=Math.round(b.amt*(1+b.rate*(b.mR-b.sR)/20));BR.cash+=tot;toast('🔒 Bond scaduto! +'+tot.toLocaleString()+'€');return false;}return true;});
+  // Auto SL/TP
+  Object.keys(BR.port).forEach(tk=>{
+    const pos=BR.port[tk];const s=BR.stocks.find(x=>x.tk===tk);
+    if(!s||!pos||!pos.qty)return;
+    const leva=pos.leva||1;
+    if(pos.sl>0&&s.price<=pos.sl){
+      BR.cash+=Math.round(s.price*pos.qty)+(pos.margin||0);
+      toast("🛑 STOP-LOSS: "+s.name+" venduto! Perdita limitata.");
+      if(typeof vibrateAndSound==="function")vibrateAndSound("bad");
+      delete BR.port[tk];
+    } else if(pos.tp>0&&s.price>=pos.tp){
+      const gain=Math.round(s.price*pos.qty*leva);
+      BR.cash+=gain;
+      toast("🎯 TAKE-PROFIT: "+s.name+"! Guadagno: +"+gain.toLocaleString()+"€");
+      if(typeof vibrateAndSound==="function")vibrateAndSound("good");
+      if(typeof addSemi==="function")addSemi(Math.max(1,Math.round(gain/500)));
+      delete BR.port[tk];
+    }
+  });
+  if(BR.round%5===0){
+    var div=0;
+    Object.entries(BR.port).forEach(([tk,pos])=>{
+      const s=BR.stocks.find(x=>x.tk===tk);
+      if(s&&pos.qty>0){const d=Math.round(s.price*.03*pos.qty);BR.cash+=d;div+=d;}
+    });
+    if(div>0)toast("💰 Dividendi: +"+div.toLocaleString()+"!");
+  }
+  (BR.bonds||[]).filter(b=>{
+    if(b.mR<=BR.round){
+      const tot=Math.round(b.amt*(1+b.rate*(b.mR-b.sR)/20));
+      BR.cash+=tot;toast("🔒 Bond scaduto! +"+tot.toLocaleString()+"€");return false;
+    }return true;
+  });
+  // Re-assign filtered bonds
+  BR.bonds=(BR.bonds||[]).filter(b=>b.mR>BR.round);
   updBRHud();renderBRMarket();renderBRPort();
 }
+
 function setRegionFilter(r){BR.regionFilter=r;renderBRMarket();}
 function renderBRMarket(){
   const p=document.getElementById('bpanel-mercato');
@@ -16343,19 +16510,63 @@ function renderBRMarket(){
 }
 function openTrade(tk){
   const s=BR.stocks.find(x=>x.tk===tk);if(!s)return;
-  BR.sel=tk;BR.qty=1;const owned=(BR.port[tk]?.qty)||0;const cur=s.cur||'CFA';
-  openModal(`<div class="gm-title">${s.em} ${s.name}</div>
-    <div class="gm-sub">Prezzo attuale: <strong style="color:var(--gold)">${s.price.toLocaleString()} ${cur}</strong></div>
-    <div class="gm-row"><span class="gm-label">Il tuo saldo</span><span class="gm-val">${BR.cash.toLocaleString()}€</span></div>
-    <div class="gm-row"><span class="gm-label">Possedute</span><span class="gm-val">${owned} azioni</span></div>
-    <div class="gm-qty"><button class="gm-qty-btn" onclick="chgQ(-1)">−</button><div class="gm-qty-n" id="tq">1</div><button class="gm-qty-btn" onclick="chgQ(1)">+</button>
-    <span style="font-size:.7rem;color:var(--muted)" id="tqc">= ${s.price.toLocaleString()} ${cur}</span></div>
-    <div class="s-actions"><button class="s-btn btn-buy" onclick="doBuy('${tk}')">✅ Compra</button>
-    <button class="s-btn btn-sell" ${owned<1?'disabled style="opacity:.3"':''} onclick="doSell('${tk}')">🔴 Vendi</button></div>
-    <button class="gm-cancel" onclick="closeModal()">Annulla</button>`);
+  BR.sel=tk;BR.qty=1;BR.leva=1;
+  const owned=(BR.port[tk]?.qty)||0;const cur=s.cur||"CFA";
+  const slDef=Math.round(s.price*0.95);const tpDef=Math.round(s.price*1.10);
+  BR.sl=slDef;BR.tp=tpDef;
+  openModal(
+    '<div class="gm-title">'+s.em+' '+s.name+'</div>'
+    +'<div class="gm-sub">💰 <strong style="color:var(--gold)">'+s.price.toLocaleString()+' '+cur+'</strong>'
+    +' <span style="font-size:.65rem;color:var(--muted)">Saldo: '+BR.cash.toLocaleString()+'€</span></div>'
+    +'<div class="gm-qty" style="margin:10px 0">'
+    +'  <button class="gm-qty-btn" onclick="chgQ(-1)">−</button>'
+    +'  <div class="gm-qty-n" id="tq">1</div>'
+    +'  <button class="gm-qty-btn" onclick="chgQ(1)">+</button>'
+    +'  <span style="font-size:.72rem;color:var(--gold);font-weight:900" id="tqc">= '+s.price.toLocaleString()+' '+cur+'</span>'
+    +'</div>'
+    +'<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px;margin-bottom:10px">'
+    +'<div style="font-size:.6rem;font-weight:900;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:8px">GESTIONE RISCHIO</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div><div style="font-size:.65rem;color:#f87171;font-weight:900;margin-bottom:3px">🛑 Stop-Loss</div>'
+    +'<input id="br-sl" type="number" value="'+slDef+'" style="width:100%;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);border-radius:8px;padding:6px 8px;color:#fff;font-size:.82rem;font-weight:900;box-sizing:border-box" oninput="BR.sl=+this.value">'
+    +'<div style="font-size:.6rem;color:#f87171;margin-top:2px">−5% dal prezzo</div></div>'
+    +'<div><div style="font-size:.65rem;color:#4ade80;font-weight:900;margin-bottom:3px">🎯 Take-Profit</div>'
+    +'<input id="br-tp" type="number" value="'+tpDef+'" style="width:100%;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.3);border-radius:8px;padding:6px 8px;color:#fff;font-size:.82rem;font-weight:900;box-sizing:border-box" oninput="BR.tp=+this.value">'
+    +'<div style="font-size:.6rem;color:#4ade80;margin-top:2px">+10% dal prezzo</div></div></div>'
+    +'<div style="font-size:.65rem;color:#a78bfa;font-weight:900;margin-bottom:4px">⚡ Leva</div>'
+    +'<div style="display:flex;gap:6px">'
+    +'<button onclick="setLeva(1,this)" class="leva-b" style="flex:1;padding:5px;background:rgba(167,139,250,.25);border:1px solid rgba(167,139,250,.3);border-radius:8px;color:#a78bfa;font-size:.78rem;font-weight:900;cursor:pointer">x1</button>'
+    +'<button onclick="setLeva(2,this)" class="leva-b" style="flex:1;padding:5px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:8px;color:#a78bfa;font-size:.78rem;font-weight:900;cursor:pointer">x2</button>'
+    +'<button onclick="setLeva(5,this)" class="leva-b" style="flex:1;padding:5px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:8px;color:#a78bfa;font-size:.78rem;font-weight:900;cursor:pointer">x5</button>'
+    +'<button onclick="setLeva(10,this)" class="leva-b" style="flex:1;padding:5px;background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:8px;color:#a78bfa;font-size:.78rem;font-weight:900;cursor:pointer">x10</button>'
+    +'</div><div style="font-size:.6rem;color:rgba(255,255,255,.35);margin-top:3px">⚠️ Leva amplifica guadagni E perdite</div></div>'
+    +'<div class="s-actions">'
+    +'<button class="s-btn btn-buy" onclick="doBuy(\''+tk+'\')">✅ Compra</button>'
+    +'<button class="s-btn btn-sell" '+( owned<1 ? 'disabled style="opacity:.3"' : '')+' onclick="doSell(\''+tk+'\')">🔴 Vendi</button>'
+    +'</div>'
+    +'<button class="gm-cancel" onclick="closeModal()">Annulla</button>'
+  );
 }
+
 function chgQ(d){BR.qty=Math.max(1,BR.qty+d);document.getElementById('tq').textContent=BR.qty;const s=BR.stocks.find(x=>x.tk===BR.sel);if(s)document.getElementById('tqc').textContent='= '+(s.price*BR.qty).toLocaleString()+' '+(s.cur||'CFA');}
-function doBuy(tk){const s=BR.stocks.find(x=>x.tk===tk);const cost=s.price*BR.qty;if(cost>BR.cash){toast('❌ Saldo insufficiente');return;}BR.cash-=cost;if(!BR.port[tk])BR.port[tk]={qty:0,avgC:0};const pos=BR.port[tk];pos.avgC=(pos.avgC*pos.qty+cost)/(pos.qty+BR.qty);pos.qty+=BR.qty;updBRHud();closeModal();toast('✅ Acquistato '+BR.qty+'x '+s.name);}
+function doBuy(tk){
+  const s=BR.stocks.find(x=>x.tk===tk);if(!s)return;
+  const leva=BR.leva||1;
+  const cost=s.price*BR.qty;
+  const margin=Math.round(cost/leva);
+  if(margin>BR.cash){toast("❌ Saldo insufficiente (margine: "+margin.toLocaleString()+"€)");return;}
+  BR.cash-=margin;
+  if(!BR.port[tk])BR.port[tk]={qty:0,avgC:0,sl:0,tp:0,leva:1,margin:0};
+  const pos=BR.port[tk];
+  pos.avgC=Math.round((pos.avgC*pos.qty+cost)/(pos.qty+BR.qty));
+  pos.qty+=BR.qty;
+  pos.sl=BR.sl||0;pos.tp=BR.tp||0;pos.leva=leva;
+  pos.margin=(pos.margin||0)+margin;
+  updBRHud();closeModal();renderBRPort();
+  toast("✅ "+BR.qty+"x "+s.name+(leva>1?" x"+leva:"")+" | SL:"+pos.sl+" TP:"+pos.tp);
+  if(typeof addSemi==="function")addSemi(5);
+}
+
 function doSell(tk){const s=BR.stocks.find(x=>x.tk===tk);const pos=BR.port[tk];if(!pos||pos.qty<BR.qty){toast('❌ Azioni insufficienti');return;}BR.cash+=s.price*BR.qty;pos.qty-=BR.qty;if(pos.qty===0)delete BR.port[tk];updBRHud();closeModal();toast('🔴 Venduto '+BR.qty+'x '+s.name);}
 function renderBRPort(){
   const p=document.getElementById('bpanel-port');
@@ -16376,7 +16587,7 @@ function renderBRPort(){
 }
 function renderBRBond(){
   const p=document.getElementById('bpanel-bond');
-  const bonds=[{name:'Titolo di Stato BF',rate:.02,dur:5,min:500,icon:'🇧🇫',risk:'Basso'},{name:'Obbligazione BCEAO',rate:.035,dur:8,min:1000,icon:'🏦',risk:'Basso'},{name:'Bond Sonatel Corporate',rate:.05,dur:10,min:2000,icon:'📡',risk:'Medio'},{name:'Eurobond\'Africa',rate:.065,dur:15,min:3000,icon:'🌍',risk:'Medio-Alto'}];
+  const bonds=[{name:'Titolo di Stato BF',rate:.02,dur:5,min:500,icon:'🇧🇫',risk:'Basso'},{name:'Obbligazione BCEAO',rate:.035,dur:8,min:1000,icon:'🏦',risk:'Basso'},{name:'Bond Sonatel Corporate',rate:.05,dur:10,min:2000,icon:'📡',risk:'Medio'},{name:"Eurobond'Africa",rate:.065,dur:15,min:3000,icon:'🌍',risk:'Medio-Alto'}];
   let h='<div style="font-size:.72rem;color:var(--muted);line-height:1.55;margin-bottom:10px">Le obbligazioni offrono un rendimento <strong style="color:#fff">fisso e garantito</strong>.</div>';
   (BR.bonds||[]).forEach(b=>{h+=`<div class="scard"><div class="srow"><div><div class="sname">${b.icon} ${b.name}</div><div class="sticker">Durata: ${b.dur} round · Min: ${b.min.toLocaleString()}€ · Rischio: ${b.risk}</div></div><div><div class="sprice up">${(b.rate*100).toFixed(1)}%</div><div class="sticker up">rendimento</div></div></div><button class="s-btn btn-buy" style="width:100%;margin-top:7px" onclick="buyBond(${JSON.stringify(b).replace(/"/g,"'")})">🔒 Investi</button></div>`;});
   if(BR.bonds.length){h+='<div class="sect-title" style="margin-top:14px">LE TUE OBBLIGAZIONI</div>';(BR.bonds||[]).forEach(b=>{h+=`<div style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.18);border-radius:11px;padding:9px 11px;margin-bottom:6px"><div style="font-size:.77rem;font-weight:900">${b.name}</div><div style="font-size:.64rem;color:var(--muted);margin-top:2px">${b.amt.toLocaleString()}€ · Scade round ${b.mR}</div></div>`;});}
@@ -16440,12 +16651,15 @@ function immEnd(){const pv=Object.values(IM.props).reduce((a,p)=>a+p.price,0);co
 /* ══════════════════════════════════════════
    GIOCO 4 — CORSA ALL'INFLAZIONE
    ══════════════════════════════════════════ */
-let iDir=0;
+var iDir=0;
 const IN={running:false,wealth:100,score:0,level:1,px:0,py:0,lane:1,mx:0,my:0,items:[],frame:0,spd:2.5,raf:null,hs:+localStorage.getItem('infl_hs')||0};
 let iCvs,iCtx,iW,iH,iLW;
 function initINFL(){
-  iCvs=document.getElementById('infl-canvas');iCtx=iCvs.getContext('2d');
-  iW=Math.min(420,window.innerWidth-24);iH=Math.round(iW*.78);
+  iCvs=document.getElementById('infl-canvas');
+  if(!iCvs)return;
+  iCtx=iCvs.getContext('2d');
+  iW=Math.min(420,(window.innerWidth||390)-24);iH=Math.round(iW*.78);
+  if(iW<100){iW=360;iH=280;}
   iCvs.width=iW;iCvs.height=iH;iLW=iW/3;
   Object.assign(IN,{running:false,wealth:100,score:0,level:1,lane:1,items:[],frame:0,spd:2.5});
   IN.px=iW/2;IN.py=iH-65;IN.mx=iW/2;IN.my=iH+80;
@@ -16457,7 +16671,7 @@ function initINFL(){
 }
 function inflStaticDraw(){
   if(!iCtx)return;iCtx.fillStyle='#010016';iCtx.fillRect(0,0,iW,iH);
-  for(let i=1;i<3;i++){iCtx.strokeStyle='rgba(255,255,255,.07)';iCtx.lineWidth=1;iCtx.setLineDash([6,10]);iCtx.beginPath();iCtx.moveTo(i*iLW,0);iCtx.lineTo(i*iLW,iH);iCtx.stroke();}
+  for(var i=1;i<3;i++){iCtx.strokeStyle='rgba(255,255,255,.07)';iCtx.lineWidth=1;iCtx.setLineDash([6,10]);iCtx.beginPath();iCtx.moveTo(i*iLW,0);iCtx.lineTo(i*iLW,iH);iCtx.stroke();}
   iCtx.setLineDash([]);iCtx.font='40px serif';iCtx.textAlign='center';
   iCtx.shadowColor='rgba(255,215,0,.3)';iCtx.shadowBlur=8;iCtx.fillText('🏃',IN.px,IN.py);iCtx.shadowBlur=0;
   iCtx.font='bold 15px Nunito,sans-serif';iCtx.fillStyle='rgba(255,215,0,.65)';iCtx.fillText('Premi START!',iW/2,iH/2-12);
@@ -16468,6 +16682,17 @@ function inflStaticDraw(){
 function inflToggle(){if(IN.running)inflPause();else{if(IN.wealth<=0)initINFL();inflPlay();}}
 function inflPlay(){IN.running=true;document.getElementById('infl-center-btn').textContent='⏸ PAUSA';document.getElementById('infl-center-btn').style.background='rgba(251,146,60,.1)';document.getElementById('infl-center-btn').style.color='var(--orange)';inflLoop();}
 function inflPause(){IN.running=false;cancelAnimationFrame(IN.raf);if(document.getElementById('infl-center-btn'))document.getElementById('infl-center-btn').textContent='▶ RIPRENDI';}
+
+function setInflDir(d, btn) {
+  iDir = d;
+  if (!btn) return;
+  if (d !== 0) {
+    btn.classList.add('pressed');
+  } else {
+    document.querySelectorAll('.infl-btn').forEach(function(b) { b.classList.remove('pressed'); });
+  }
+}
+window.setInflDir = setInflDir;
 function inflLoop(){
   if(!IN.running)return;IN.frame++;
   const targetX=(IN.lane+.5)*iLW;
@@ -16482,7 +16707,7 @@ function inflLoop(){
     it.y+=it.spd;
     if(it.y>IN.py-28&&it.y<IN.py+28&&Math.abs(it.x-IN.px)<iLW*.38){
       IN.wealth=Math.max(0,Math.min(200,IN.wealth+it.v));
-      if(it.v>0){IN.score+=it.v*10;toast(it.em+' +'+(it.v)+'% ricchezza!');}else toast('💸 Inflazione '+it.v+'%!');
+      if(it.v>0){IN.score+=it.v*10;}
       updINHud();return false;
     }
     return it.y<iH+40;
@@ -16493,7 +16718,7 @@ function inflLoop(){
   iCtx.fillStyle='#010016';iCtx.fillRect(0,0,iW,iH);
   iCtx.fillStyle='rgba(255,255,255,.06)';iCtx.fillRect(8,8,iW-16,7);
   const wp=Math.min(1,IN.wealth/100);iCtx.fillStyle=wp>.6?'#4ade80':wp>.3?'#FFD700':'#f87171';iCtx.fillRect(8,8,(iW-16)*wp,7);
-  for(let i=1;i<3;i++){iCtx.strokeStyle='rgba(255,255,255,.07)';iCtx.lineWidth=1;iCtx.setLineDash([6,10]);iCtx.beginPath();iCtx.moveTo(i*iLW,20);iCtx.lineTo(i*iLW,iH);iCtx.stroke();}iCtx.setLineDash([]);
+  for(var i=1;i<3;i++){iCtx.strokeStyle='rgba(255,255,255,.07)';iCtx.lineWidth=1;iCtx.setLineDash([6,10]);iCtx.beginPath();iCtx.moveTo(i*iLW,20);iCtx.lineTo(i*iLW,iH);iCtx.stroke();}iCtx.setLineDash([]);
   iCtx.textAlign='center';
   (IN&&IN.items||[]).forEach(it=>{iCtx.font=`${it.sz}px serif`;iCtx.shadowColor=it.c;iCtx.shadowBlur=it.bad?14:8;iCtx.fillText(it.em,it.x,it.y);});iCtx.shadowBlur=0;
   iCtx.font='38px serif';iCtx.shadowColor='rgba(255,215,0,.35)';iCtx.shadowBlur=10;iCtx.fillText('🏃',IN.px,IN.py);iCtx.shadowBlur=0;
@@ -16722,7 +16947,7 @@ function fgWork(type) {
 var FG_MISSIONS = [
   {id:'m1', title:'Guadagna i primi 1.500€',   check:function(){ return FG.money >= 1500; },   reward:100, done:false, emoji:'💰'},
   {id:'m2', title:'Fai 3 investimenti',        check:function(){ return FG.decisions >= 3; },  reward:80,  done:false, emoji:'📈'},
-  {id:'m3', title:'Raggiungi livello 3',       check:function(){ return FG.level >= 3; },       reward:150, done:false, emoji:'⭐'},
+  {id:'m3', title:'Raggiùngi livello 3',       check:function(){ return FG.level >= 3; },       reward:150, done:false, emoji:'⭐'},
   {id:'m4', title:'Azzera il debito',          check:function(){ return FG.debt === 0 && FG.decisions > 0; }, reward:200, done:false, emoji:'🏦'},
   {id:'m5', title:'Streak 3 vittorie',         check:function(){ return FG.streak >= 3; },      reward:120, done:false, emoji:'🔥'},
   {id:'m6', title:'Patrimonio 5.000€',         check:function(){ return FG.money >= 5000; },    reward:300, done:false, emoji:'🏆'},
@@ -16901,10 +17126,11 @@ window.fgRenderMissions = fgRenderMissions;
 var QQ_CHAR = {name:'Amara', avatar:'👩🏾', bonus:'risparmio', idx:0};
 var QQ_DRAGON = {emoji:'🐣', name:'Cucciolo'};
 var QQ_CHAR_DATA = [
-  {name:'Amara',  avatar:'👩🏾', bonus:'risparmio',  col:'var(--gold)'},
-  {name:'Marco',  avatar:'👦🏻',  bonus:'borsa',      col:'#60a5fa'},
-  {name:'Kofi',   avatar:'👨🏿',  bonus:'immobili',   col:'#4ade80'},
-  {name:'Yuki',   avatar:'👩🏻',  bonus:'disciplina', col:'#a78bfa'},
+  {name:'Amara',  avatar:'👩🏾', bonus:'risparmio',  col:'var(--gold)', tipo:'La Risparmiatrice'},
+  {name:'Marco',  avatar:'👦🏻',  bonus:'borsa',      col:'#60a5fa',  tipo:'Il Trader'},
+  {name:'Kofi',   avatar:'👨🏿',  bonus:'immobili',   col:'#4ade80',  tipo:"L'Imprenditore"},
+  {name:'Yuki',   avatar:'👩🏻',  bonus:'disciplina', col:'#a78bfa',  tipo:'La Disciplinata'},
+  {name:'Anonimo', avatar:'🌐', bonus:'neutro', col:'rgba(255,255,255,.5)', tipo:'Senza Identità'},
 ];
 
 function selectQQChar(idx) {
@@ -16931,7 +17157,7 @@ function startQQWithChar() {
   if (drg) { drg.querySelector('.qq-dragon-emoji').textContent=QQ_DRAGON.emoji; drg.style.display='block'; }
   var cd = document.getElementById('qq-char-display');
   if (cd) cd.textContent = QQ_CHAR.avatar;
-  gShowScr('gioco-quadranti');
+  if(typeof showScreen==='function')showScreen('gioco-quadranti');else gShowScr('gioco-quadranti');
   initQQ();
   setTimeout(function(){
     if (typeof dragonQQSay==='function') dragonQQSay('Ciao '+QQ_CHAR.name+'! Sono '+QQ_DRAGON.name+'. Verso la libertà finanziaria! 🌟');
@@ -16944,67 +17170,40 @@ window.startQQWithChar = startQQWithChar;
 
 // ── GAME LESSON MAP ──────────────────────────────────────────────
 var GAME_LESSON_MAP = {
-  qq_win:  {topic:'rendita passiva e libertà finanziaria', percorso:'investimenti', emoji:'🏆', msg_it:'Hai raggiunto la libertà finanziaria! Studia la teoria.', msg_fr:'Tu as atteint la liberté financière!', msg_en:'You reached financial freedom!'},
+  qq_win:  {topic:'rendita passiva e liberta finanziaria', percorso:'investimenti', emoji:'🏆', msg_it:'Hai raggiunto la liberta finanziaria! Studia la teoria.', msg_fr:'Tu as atteint la liberté!', msg_en:'You reached financial freedom!'},
   qq_loss: {topic:'cash flow e gestione del budget mensile', percorso:'risparmio', emoji:'💪', msg_it:'Ci sei quasi! Studia il cash flow.', msg_fr:'Presque! Étudie le cash flow.', msg_en:'So close! Study cash flow.'},
   br_win:  {topic:'diversificazione del portafoglio', percorso:'investimenti', emoji:'📈', msg_it:'Ottimo portafoglio! Approfondisci la strategia.', msg_fr:'Super portefeuille!', msg_en:'Great portfolio!'},
-  br_loss: {topic:'gestione del rischio e stop loss', percorso:'mercati', emoji:'📉', msg_it:'Il mercato ti ha battuto. Capisci perché.', msg_fr:'Le marché t a battu.', msg_en:'The market beat you.'},
+  br_loss: {topic:'gestione del rischio e stop loss', percorso:'mercati', emoji:'📉', msg_it:'Il mercato ti ha battuto. Capisci perche.', msg_fr:'Le marché t a battu.', msg_en:'The market beat you.'},
   imm_win: {topic:'investimento immobiliare e rendita passiva', percorso:'immobiliare', emoji:'🏠', msg_it:'Grande proprietario! Studia il mercato immobiliare.', msg_fr:'Grand propriétaire!', msg_en:'Great landlord!'},
-  imm_loss:{topic:'errori nell investimento immobiliare', percorso:'immobiliare', emoji:'🏗️', msg_it:'I mattoni non sono sempre sicuri.', msg_fr:'L immobilier n est pas toujours sûr.', msg_en:'Real estate isn t always safe.'},
-  infl_win:{topic:'proteggere i risparmi dall inflazione', percorso:'risparmio', emoji:'🛡️', msg_it:'Hai battuto l inflazione! Come farlo davvero.', msg_fr:'Tu as battu l\'inflation!', msg_en:'You beat inflation!'},
-  infl_loss:{topic:'inflazione e difesa del patrimonio', percorso:'mercati', emoji:'👹', msg_it:'L inflazione ti ha battuto! Il nemico invisibile.', msg_fr:'L inflation t a battu!', msg_en:'Inflation beat you!'},
+  imm_loss:{topic:'errori nell investimento immobiliare', percorso:'immobiliare', emoji:'🏗️', msg_it:'I mattoni non sono sempre sicuri.', msg_fr:'L immo n est pas toujours sûr.', msg_en:'Real estate has risks.'},
+  infl_win:{topic:'proteggere i risparmi dalla inflazione', percorso:'risparmio', emoji:'🛡️', msg_it:'Hai battuto la inflazione! Come farlo davvero.', msg_fr:'Tu as battu l inflation!', msg_en:'You beat inflation!'},
+  infl_loss:{topic:'inflazione e erosione del capitale', percorso:'risparmio', emoji:'🔥', msg_it:'La inflazione ti ha battuto! Il nemico invisibile.', msg_fr:'L inflation a gagné!', msg_en:'Inflation beat you!'},
 };
 
 function showGameLesson(em, ti, semi) {
   var key = null;
-  if (em==='🏆' && ti.indexOf('Libertà')!==-1) key='qq_win';
-  else if (em==='💪') key='qq_loss';
-  else if (em==='📈') key='br_win';
-  else if (em==='📉') key='br_loss';
-  else if (em==='🏠') key='imm_win';
-  else if (em==='🏗️') key='imm_loss';
-  else if (em==='👹') key='infl_loss';
-  else if (em==='🛡️') key='infl_win';
-  if (!key) return;
-  var map = GAME_LESSON_MAP[key];
-  if (!map) return;
-  var msg = map['msg_'+(S.lang||'it')] || map.msg_it;
-  var old = document.getElementById('game-lesson-panel');
-  if (old) old.remove();
-  var panel = document.createElement('div');
-  panel.id = 'game-lesson-panel';
-  panel.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#0d0d1a,#1a0a2e);border-top:2px solid var(--gold);padding:16px 16px 24px;animation:slideUp .4s ease';
-  var style = document.getElementById('gl-style');
-  if (!style) { style=document.createElement('style'); style.id='gl-style'; style.textContent='@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}'; document.head.appendChild(style); }
-  panel.innerHTML =
-    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'+
-    '<div style="font-size:1.6rem">'+map.emoji+'</div>'+
-    '<div style="flex:1"><div style="font-size:.8rem;font-weight:900;color:var(--gold);margin-bottom:2px">📚 Capisci perché</div>'+
-    '<div style="font-size:.72rem;color:rgba(255,255,255,.65);line-height:1.5">'+msg+'</div></div>'+
-    '<button onclick="document.getElementById(\"game-lesson-panel\").remove()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:4px 10px;color:rgba(255,255,255,.5);font-size:.75rem;cursor:pointer">✕</button>'+
-    '</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
-    '<button id="glp-study" style="padding:11px;background:linear-gradient(135deg,rgba(245,200,66,.2),rgba(245,200,66,.08));border:1.5px solid var(--gold);border-radius:12px;color:var(--gold);font-size:.78rem;font-weight:900;cursor:pointer">📖 Studia la Lezione</button>'+
-    '<button id="glp-retry" style="padding:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:12px;color:rgba(255,255,255,.7);font-size:.78rem;font-weight:800;cursor:pointer">🔄 Rigioca</button>'+
-    '</div>';
-  document.body.appendChild(panel);
-  document.getElementById('glp-study').addEventListener('click', function(){
-    panel.remove(); closeWin();
-    showScreen('accademia');
-    setTimeout(function(){ generateLesson(map.topic, map.percorso, 'base', S.eta, true).then(function(lez){ if(lez) openLezione(lez); }); }, 300);
-  });
-  document.getElementById('glp-retry').addEventListener('click', function(){
-    panel.remove(); closeWin();
-    if (key.startsWith('qq')) initQQ();
-    else if (key.startsWith('br')) { if(typeof initBRVM==='function') initBRVM(); }
-    else if (key.startsWith('imm')) { if(typeof initIMM==='function') initIMM(); }
-    else if (key.startsWith('infl')) initINFL();
-  });
-  setTimeout(function(){ var p=document.getElementById('game-lesson-panel'); if(p) p.remove(); }, 12000);
+  if (em === '🏆') key = 'qq_win';
+  else if (em === '💪') key = 'qq_loss';
+  else if (em === '📈') key = 'br_win';
+  else if (em === '📉') key = 'br_loss';
+  else if (em === '🏠') key = 'imm_win';
+  else if (em === '🏗️') key = 'imm_loss';
+  else if (em === '🛡️') key = 'infl_win';
+  else if (em === '🔥') key = 'infl_loss';
+  if (!key || !GAME_LESSON_MAP[key]) return;
+  var entry = GAME_LESSON_MAP[key];
+  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+  var msg = entry['msg_'+lang] || entry.msg_it || '';
+  if (typeof toast === 'function') toast('📚 ' + msg);
+  setTimeout(function() {
+    if (typeof openLezione === 'function') openLezione(entry.topic, entry.percorso, 1);
+  }, 2000);
 }
+
 window.showGameLesson = showGameLesson;
 
 
-// ── ACCADEMIA DEI TITANI -- aggiunge al fondo di ogni lista lezioni ──
+// ── ACCADEMIA DEI TITANI -- aggiùnge al fondo di ogni lista lezioni ──
 function appendTitaniBlock(bodyEl) {
   if (!bodyEl) return;
   var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
@@ -17037,12 +17236,12 @@ var LESSON_BANK_FR = {
   risparmio_base: [
     {id:'ris_b1',emoji:'💰',titolo:'La Règle 50-30-20',tempo_minuti:5,semi_reward:80,
      sottotitolo:'Le budget qui fonctionne vraiment',
-     punti_chiave:['50% pour les besoins (loyer, nourriture, factures)','30% pour les envies (loisirs, restaurants)','20% pour l\'épargne et l\'investissement'],
+     punti_chiave:['50% pour les besoins (loyer, nourriture, factures)','30% pour les envies (loisirs, restaurants)',"20% pour l'épargne et l'investissement"],
      esempio_pratico:'Avec 1000€/mois: 500€ besoins, 300€ envies, 200€ épargne. En 5 ans: 12.000€.',
      dato_reale:'Seulement 38% des Français suivent un budget. Ceux qui le font accumulent 3x plus.',
      sfida_vita_reale:'Note tes dépenses des 30 derniers jours. Quelle est ta vraie répartition?',
-     quiz:[{domanda:'Selon la règle 50-30-20, combien va à l\'épargne?',opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:'20% toujours à l\'épargne!'},{domanda:'Si tu gagnes 2.000€, combien pour les loisirs?',opzioni:['200€','400€','600€','1.000€'],risposta_corretta:2,spiegazione:'30% de 2.000€ = 600€.'}]},
-    {id:'ris_b2',emoji:'🛡️',titolo:'Le Fonds d\'Urgence',tempo_minuti:6,semi_reward:80,
+     quiz:[{domanda:"Selon la règle 50-30-20, combien va à l'épargne?",opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:"20% toujours à l'épargne!"},{domanda:'Si tu gagnes 2.000€, combien pour les loisirs?',opzioni:['200€','400€','600€','1.000€'],risposta_corretta:2,spiegazione:'30% de 2.000€ = 600€.'}]},
+    {id:'ris_b2',emoji:'🛡️',titolo:"Le Fonds d'Urgence",tempo_minuti:6,semi_reward:80,
      sottotitolo:'Ton bouclier financier',
      punti_chiave:['3 à 6 mois de dépenses essentielles','Sur un compte séparé et liquide','Ne jamais l utiliser pour des dépenses normales'],
      esempio_pratico:'Si tes dépenses sont 1.500€/mois, ton fonds idéal est entre 4.500€ et 9.000€.',
@@ -17051,7 +17250,7 @@ var LESSON_BANK_FR = {
      quiz:[{domanda:'Combien de mois doit couvrir un fonds d urgence?',opzioni:['1-2','3-6','12','24'],risposta_corretta:1,spiegazione:'3-6 mois est optimal.'},{domanda:'Où garder le fonds d urgence?',opzioni:['En actions','Sous le matelas','Sur un compte liquide','En crypto'],risposta_corretta:2,spiegazione:'Accessible immédiatement, mais séparé.'}]},
     {id:'ris_b3',emoji:'🔄',titolo:'Payez-vous en Premier',tempo_minuti:5,semi_reward:80,
      sottotitolo:'Épargne avant de dépenser',
-     punti_chiave:['Virement automatique dès réception du salaire','10-20% vers l\'épargne AVANT toute dépense','Ce que tu ne vois pas, tu ne le dépenses pas'],
+     punti_chiave:['Virement automatique dès réception du salaire',"10-20% vers l'épargne AVANT toute dépense",'Ce que tu ne vois pas, tu ne le dépenses pas'],
      esempio_pratico:'George programme 200€ automatiquement. En 3 ans: 7.200€ sans effort.',
      dato_reale:'Ceux qui automatisent accumulent 173% de plus que ceux qui épargnent ce qui reste.',
      sfida_vita_reale:'Programme un virement automatique de 10% de ton salaire.',
@@ -17078,7 +17277,7 @@ var LESSON_BANK_FR = {
      esempio_pratico:'60% ETF actions, 30% obligations, 10% or. En crise: obligations et or montent.',
      dato_reale:'Le portefeuille 60/40: 8.9%/an ces 50 dernières années avec moitié moins de volatilité.',
      sfida_vita_reale:'Liste tous tes investissements. Sont-ils diversifiés?',
-     quiz:[{domanda:'Qu est-ce que la diversification?',opzioni:['Tout dans le meilleur titre','Répartir sur plusieurs actifs','Changer souvent de banque','Vendre fréquemment'],risposta_corretta:1,spiegazione:'Si une entreprise fait faillite, tu as encore les autres.'},{domanda:'Un portefeuille diversifié typique:',opzioni:['Seulement actions d\'un pays','Seulement obligations','Mix actions, obligations, matières premières','Seulement immobilier'],risposta_corretta:2,spiegazione:'Différents types d actifs qui réagissent différemment.'}]}
+     quiz:[{domanda:'Qu est-ce que la diversification?',opzioni:['Tout dans le meilleur titre','Répartir sur plusieurs actifs','Changer souvent de banque','Vendre fréquemment'],risposta_corretta:1,spiegazione:'Si une entreprise fait faillite, tu as encore les autres.'},{domanda:'Un portefeuille diversifié typique:',opzioni:["Seulement actions d'un pays",'Seulement obligations','Mix actions, obligations, matières premières','Seulement immobilier'],risposta_corretta:2,spiegazione:'Différents types d actifs qui réagissent différemment.'}]}
   ]
 };
 
@@ -17107,9 +17306,41 @@ window.dragonQQSay = dragonQQSay;
 
 // -- LESSON TITLE MAPS -- titoli tradotti per ogni lingua ----------
 var LESSON_TITLE_MAP = {
-  fr: {'ris_b1': 'La Règle 50-30-20', 'ris_b2': 'Le Fonds d\'Urgence', 'ris_b3': 'Payez-vous en Premier', 'inv_b1': 'L Intérêt Composé', 'inv_b2': 'Qu est-ce qu un ETF', 'inv_b3': 'Diversification', 'bam_b1': 'C est quoi l\'argent?', 'bam_b2': 'Besoin ou Désir?', 'bam_b3': 'Ma Tirelire Magique', 'bam_b4': 'Le Prix des Choses', 'afr_b1': 'M-Pesa: comment le Kenya a réinventé la banque', 'afr_b2': 'La BRVM: la bourse d\'Afrique Occidentale', 'civ_b1': 'La Constitution et l Argent', 'civ_b2': 'Les Impôts: pourquoi on les paie', 'psi_b1': 'Les Biais Cognitifs qui te coûtent de l\'argent', 'tas_b1': 'IRPEF: comment fonctionne ta fiche de paie', 'pen_b1': 'Pourquoi penser à la retraite à 25 ans', 'imm_b1': 'Acheter ou Louer: la décision la plus importante', 'cry_b1': 'Bitcoin: ce que c est vraiment', 'inv_e1': 'Markowitz et la Théorie Moderne du Portefeuille', 'scu_b1': 'Qu est-ce que le PIB et pourquoi ça compte'},
-  en: {'ris_b1': 'The 50-30-20 Rule', 'ris_b2': 'The Emergency Fund', 'ris_b3': 'Pay Yourself First', 'inv_b1': 'Compound Interest', 'inv_b2': 'What is an ETF', 'inv_b3': 'Diversification', 'bam_b1': 'What is Money?', 'bam_b2': 'Need or Want?', 'bam_b3': 'My Magic Piggy Bank', 'bam_b4': 'The Price of Things', 'afr_b1': 'M-Pesa: How Kenya Reinvented Banking', 'afr_b2': 'The BRVM: West Africa Stock Exchange', 'civ_b1': 'The Constitution and Money', 'civ_b2': 'Taxes: Why We Pay Them', 'psi_b1': 'Cognitive Biases That Cost You Money', 'tas_b1': 'How Your Payslip Works', 'pen_b1': 'Why Think About Retirement at 25', 'imm_b1': 'Buy or Rent: The Most Important Decision', 'cry_b1': 'Bitcoin: What It Really Is', 'inv_e1': 'Markowitz and Modern Portfolio Theory', 'scu_b1': 'What is GDP and Why It Matters'},
-  es: {'ris_b1': 'La Regla 50-30-20', 'ris_b2': 'El Fondo de Emergencia', 'ris_b3': 'Págate a ti Primero', 'inv_b1': 'El Interés Compuesto', 'inv_b2': 'Qué es un ETF', 'inv_b3': 'Diversificación', 'bam_b1': 'Qué es el Dinero?', 'bam_b2': 'Necesidad o Deseo?', 'bam_b3': 'Mi Alcancía Mágica', 'bam_b4': 'El Precio de las Cosas', 'afr_b1': 'M-Pesa: Cómo Kenia Reinventó la Banca', 'afr_b2': 'La BRVM: La Bolsa de África Occidental', 'civ_b1': 'La Constitución y el Dinero', 'civ_b2': 'Los Impuestos: Por qué los Pagamos', 'psi_b1': 'Los Sesgos Cognitivos que te Cuestan Dinero', 'pen_b1': 'Por qué Pensar en la Jubilación a los 25', 'imm_b1': 'Comprar o Alquilar: La Decisión más Importante', 'cry_b1': 'Bitcoin: Lo que Realmente Es', 'inv_e1': 'Markowitz y la Teoría Moderna del Portafolio', 'scu_b1': 'Qué es el PIB y por qué Importa'},
+  fr: {
+    'ris_b1': 'La Règle 50-30-20', 'ris_b2': "Le Fonds d'Urgence", 'ris_b3': 'Payez-vous en Premier',
+    'inv_b1': "L'Intérêt Composé", 'inv_b2': "Qu'est-ce qu'un ETF", 'inv_b3': 'Diversification',
+    'bam_b1': "C'est quoi l'argent?", 'bam_b2': 'Besoin ou Désir?', 'bam_b3': 'Ma Tirelire Magique',
+    'bam_b4': 'Le Prix des Choses',
+    'afr_b1': "M-Pesa: comment le Kenya a réinventé l'argent",
+    'afr_b2': 'La BRVM et les marchés africains',
+    'afr_b3': 'Entrepreneurs africains — les géants',
+    'rf_b1': 'La Règle 50-30-20', 'rf_b2': "Le Fonds d'Urgence", 'rf_b3': 'Payez-vous en Premier',
+    'rf_b4': "L'Intérêt Composé", 'rf_b5': 'Diversification', 'rf_b6': 'Les Actifs vs les Passifs',
+    'rf_b7': "L'Inflation — l'ennemi invisible", 'rf_b8': 'La Liberté Financière',
+    'rf_b9': 'Les ETF et Fonds Indiciels', 'rf_b10': 'Optimisation Fiscale',
+    'rf_b11': 'Investir en Afrique', 'rf_b12': 'Crypto-monnaies', 'rf_b13': 'Immobilier',
+    'rf_b14': 'Planification Successorale',
+  },
+  en: {
+    'ris_b1': 'The 50-30-20 Rule', 'ris_b2': 'The Emergency Fund', 'ris_b3': 'Pay Yourself First',
+    'inv_b1': 'Compound Interest', 'inv_b2': 'What is an ETF', 'inv_b3': 'Diversification',
+    'bam_b1': 'What is Money?', 'bam_b2': 'Need vs Want', 'bam_b3': 'My Piggy Bank',
+    'bam_b4': 'The Price of Things',
+    'afr_b1': 'M-Pesa: How Kenya Reinvented Money',
+    'afr_b2': 'BRVM and African Markets',
+    'afr_b3': 'African Entrepreneurs — The Giants',
+    'rf_b1': 'The 50-30-20 Rule', 'rf_b2': 'Emergency Fund', 'rf_b3': 'Pay Yourself First',
+    'rf_b4': 'Compound Interest', 'rf_b5': 'Diversification', 'rf_b6': 'Assets vs Liabilities',
+    'rf_b7': 'Inflation — The Invisible Enemy', 'rf_b8': 'Financial Freedom',
+    'rf_b9': 'ETFs and Index Funds', 'rf_b10': 'Tax Optimization',
+    'rf_b11': 'Investing in Africa', 'rf_b12': 'Cryptocurrencies', 'rf_b13': 'Real Estate',
+    'rf_b14': 'Estate Planning',
+  },
+  es: {
+    'ris_b1': 'La Regla 50-30-20', 'ris_b2': 'El Fondo de Emergencia', 'ris_b3': 'Págate a ti Primero',
+    'inv_b1': 'El Interés Compuesto', 'inv_b2': 'Qué es un ETF', 'inv_b3': 'Diversificación',
+    'rf_b1': 'La Regla 50-30-20', 'rf_b2': 'Fondo de Emergencia',
+  },
 };
 
 // ── ENHANCED getLessonInLang ──────────────────────────────────────
@@ -18415,7 +18646,7 @@ async function generateMission() {
     var fallbacks = [
       {id:'ai_1', title:'Studia 2 lezioni oggi',            emoji:'📚', reward:60,  done:false},
       {id:'ai_2', title:'Investi in 3 asset diversi',       emoji:'📊', reward:80,  done:false},
-      {id:'ai_3', title:'Raggiungi 500 Semi questa settimana', emoji:'🌱', reward:100, done:false},
+      {id:'ai_3', title:'Raggiùngi 500 Semi questa settimana', emoji:'🌱', reward:100, done:false},
     ];
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
@@ -18600,6 +18831,1298 @@ window.saveUserProfile      = saveUserProfile;
 window.loadUserProfile      = loadUserProfile;
 window.buildPersonalizedPrompt = buildPersonalizedPrompt;
 
+
+// ══════════════════════════════════════════════════════════════
+// PERCORSO: RICCHEZZA FURTIVA — 14 Strategie Globali
+// IT · FR · EN · ES · WO · BM · MO
+// ══════════════════════════════════════════════════════════════
+var RICCHEZZA_FURTIVA_LESSONS = {
+  it: [
+    {id:'rf_01',emoji:'🤖',titolo:'Automatizzazione del Risparmio',tempo_minuti:6,semi_reward:100,
+     sottotitolo:'Paga te stesso prima — ogni mese, in automatico',
+     punti_chiave:['Investi il 20% prima ancora di vedere lo stipendio',"Domicilia il bonifico il giorno stesso dell'accredito",'Se non vedi i soldi, non li spendi — il cervello si adatta'],
+     esempio_pratico:'Con 1.500€/mese: imposta un bonifico automatico di 300€ il 27 di ogni mese verso un conto separato. In 10 anni = 36.000€ + interessi composti.',
+     dato_reale:'Chi automatizza il risparmio accumula 3 volte di più rispetto a chi ci pensa ogni mese.',
+     collegamento_africa:'La tontine africana è il primo sistema di risparmio automatizzato collettivo al mondo.',
+     sfida_vita_reale:'Imposta oggi un bonifico automatico — anche solo 50€. Fallo adesso, non domani.',
+     quiz:[
+       {domanda:'Quando va fatto il bonifico automatico di risparmio?',opzioni:['A fine mese, se avanza','Il primo giorno del mese','Solo quando si ha molto','Mai — meglio decidere ogni volta'],risposta_corretta:1,spiegazione:'Subito all\'accredito: se aspetti "ciò che avanza", non avanza mai nulla.'},
+       {domanda:'Qual è la percentuale minima consigliata da risparmiare?',opzioni:['5%','10%','20%','50%'],risposta_corretta:2,spiegazione:'Il 20% è il minimo per costruire vera libertà finanziaria nel lungo termine.'}
+     ]},
+    {id:'rf_02',emoji:'🤫',titolo:'Privacy Totale sul Patrimonio',tempo_minuti:5,semi_reward:90,
+     sottotitolo:'Il silenzio protegge la crescita',
+     punti_chiave:['Non rivelare mai cifre esatte — né a parenti né ad amici','La discrezione protegge da pressioni sociali e richieste di prestiti','I ricchi veri parlano poco di soldi — i poveri ne parlano sempre'],
+     esempio_pratico:'Quando qualcuno chiede "quanto guadagni?" la risposta giùsta è sempre: "abbastanza per vivere bene". Fine.',
+     dato_reale:"Il 73% di chi riceve un'eredità improvvisa la perde entro 3 anni — spesso per pressioni familiari e sociali.",
+     collegamento_africa:'In molte culture africane il patrimonio familiare è segreto — una saggezza antica che protegge la ricchezza generazionale.',
+     sfida_vita_reale:'Per 30 giorni: non rivelare a nessuno quanto guadagni, risparmi o possiedi. Osserva come cambia la tua pace mentale.',
+     quiz:[
+       {domanda:'Perché la privacy patrimoniale è importante?',opzioni:['Per fare il superiore','Per evitare pressioni sociali e proteggere la crescita','Per non pagare le tasse','Non è importante'],risposta_corretta:1,spiegazione:'La discrezione evita richieste di prestiti, gelosie e decisioni imposte dagli altri.'},
+       {domanda:'Cosa rispondere quando ti chiedono quanto guadagni?',opzioni:['Il numero esatto','Una cifra più bassa','Abbastanza per vivere bene','Non rispondo mai'],risposta_corretta:2,spiegazione:'Mai cifre esatte — neanche al ribasso. Rimani vago e cortese.'}
+     ]},
+    {id:'rf_03',emoji:'🚗',titolo:'Veicoli Modesti — Il Segreto dei Ricchi Veri',tempo_minuti:5,semi_reward:90,
+     sottotitolo:'Le auto costose impoveriscono, quelle affidabili arricchiscono',
+     punti_chiave:["Un'auto si svaluta del 20% nel primo anno — mai comprare nuovo a credito",'Compra auto usate 3-5 anni, pagate in contanti',"La rata dell'auto è denaro che non investi mai"],
+     esempio_pratico:"300€/mese di rata auto per 10 anni = 36.000€. Investiti all'8% annuo = 55.000€. Scegli: guidare bello o diventare ricco.",
+     dato_reale:"Il profilo medio del milionario americano guida un'auto usata di 4 anni. Non una Ferrari.",
+     collegamento_africa:'In Africa occidentale i griot insegnano: "La vera forza non si mostra — si accumula".',
+     sfida_vita_reale:'Calcola quanto hai speso in auto negli ultimi 5 anni — compreso carburante, assicurazione, manutenzione. Il numero ti sorprenderà.',
+     quiz:[
+       {domanda:"Quanto si svaluta mediamente un'auto nuova nel primo anno?",opzioni:['5%','10%','20%','50%'],risposta_corretta:2,spiegazione:"Il 20% del valore sparisce appena esci dal concessionario. Un'auto da 30.000€ vale 24.000€ subito."},
+       {domanda:"Come acquistano l'auto i costruttori di ricchezza?",opzioni:['A credito, modello nuovo','In leasing premium','Usata, pagata in contanti','Non guidano'],risposta_corretta:2,spiegazione:'Usata e in contanti elimina interessi e impegni mensili — il denaro resta libero per investire.'}
+     ]},
+    {id:'rf_04',emoji:'🏠',titolo:'Alloggio Sostenibile',tempo_minuti:6,semi_reward:95,
+     sottotitolo:'La casa non deve mangiarti la libertà',
+     punti_chiave:["Massimo 25% del reddito netto per l'affitto o il mutuo",'Una casa troppo grande è una prigione dorata',"Prima costruisci ricchezza, poi migliora l'abitazione"],
+     esempio_pratico:"Con 2.000€ netti: massimo 500€ per l'abitazione. Se paghi 900€, stai regalando 400€/mese alla trappola.",
+     dato_reale:'Il sovra-indebitamento immobiliare è la causa principale di fallimento della classe media in Europa.',
+     collegamento_africa:"La famiglia allargata africana divide i costi dell'abitazione — un modello di efficienza che i paesi ricchi stanno riscoprendo.",
+     sfida_vita_reale:'Calcola la tua percentuale: affitto/mutuo diviso reddito netto. Se supera il 25%, hai un piano da rivedere.',
+     quiz:[
+       {domanda:"Quale percentuale massima del reddito dovrebbe andare all'abitazione?",opzioni:['10%','25%','50%','Dipende'],risposta_corretta:1,spiegazione:'Il 25% è il tetto — oltre questo livello la ricchezza non si accumula mai davvero.'},
+       {domanda:'Qual è il rischio principale di una casa troppo costosa?',opzioni:['Troppo spazio','Costringe a lavorare per sempre','Diminuisce di valore','Non ci sono rischi'],risposta_corretta:1,spiegazione:'Una casa oltre il budget ti lega a uno stipendio per decenni — elimina la libertà di scelta.'}
+     ]},
+    {id:'rf_05',emoji:'📈',titolo:'Investimenti Semplici che Battono i Professionisti',tempo_minuti:7,semi_reward:110,
+     sottotitolo:'La semplicità vince sulla complessità',
+     punti_chiave:["I fondi indicizzati (ETF) battono l'80% dei gestori professionisti nel lungo periodo",'Investi regolarmente — non cercare il momento perfetto','Il tempo nel mercato batte il timing del mercato'],
+     esempio_pratico:"100€/mese in un ETF S&P 500 per 30 anni all'8% annuo = 149.000€. Senza fare nulla di speciale.",
+     dato_reale:'Warren Buffett ha scommesso 1 milione di dollari che un ETF semplice avrebbe battuto hedge fund professionisti. Ha vinto.',
+     collegamento_africa:'La BRVM (Borsa Regionale West Africa) permette oggi agli africani della diaspora di investire nel continente con ETF semplici.',
+     sfida_vita_reale:'Apri un conto su un broker come Degiro o Fineco e acquista un ETF MSCI World da 50€. Fallo questa settimana.',
+     quiz:[
+       {domanda:"Cosa batte l'80% dei gestori professionisti nel lungo termine?",opzioni:['Azioni singole','Immobili','Fondi indicizzati ETF','Criptovalute'],risposta_corretta:2,spiegazione:'Gli ETF hanno costi bassissimi e replicano il mercato — che nel lungo periodo cresce sempre.'},
+       {domanda:'Qual è la strategia vincente per investire?',opzioni:['Comprare quando il mercato scende','Vendere quando sale','Investire regolarmente ogni mese','Aspettare il momento perfetto'],risposta_corretta:2,spiegazione:'Dollar Cost Averaging: investire ogni mese, indipendentemente dal prezzo, è dimostrato essere la strategia migliore.'}
+     ]},
+    {id:'rf_06',emoji:'✂️',titolo:'Revisione Spese — Il Potere del Taglio',tempo_minuti:5,semi_reward:85,
+     sottotitolo:'Ogni euro risparmiato è un euro investito',
+     punti_chiave:['Rivedi tutti gli abbonamenti ogni 3 mesi — elimina quelli non usati','Le piccole spese quotidiane sono il principale nemico silenzioso',"3€ al giorno di caffè = 1.095€ l'anno = 10.950€ in 10 anni"],
+     esempio_pratico:'Elenca tutti i tuoi abbonamenti. Probabilmente ne hai 7-12 attivi. Taglia quelli che non usi da 30 giorni.',
+     dato_reale:'La famiglia media europea ha 8 abbonamenti attivi. Il 40% non vengono usati regolarmente.',
+     collegamento_africa:'Il concetto Wolof "sauver d abord" (risparmia prima) insegna che il controllo delle spese è la base di ogni prosperità.',
+     sfida_vita_reale:'Oggi: apri il tuo estratto conto e segna ogni abbonamento. Cancella almeno uno entro 24 ore.',
+     quiz:[
+       {domanda:'Quanto costano 3€/giorno di caffè in 10 anni?',opzioni:['1.095€','3.285€','10.950€','5.000€'],risposta_corretta:2,spiegazione:'3€ × 365 giorni × 10 anni = 10.950€ — denaro che poteva crescere investito.'},
+       {domanda:'Ogni quanto rivedere gli abbonamenti attivi?',opzioni:["Una volta l'anno",'Ogni 3 mesi','Solo quando mancano soldi','Mai'],risposta_corretta:1,spiegazione:'Ogni trimestre: i servizi cambiano, i prezzi aumentano, le abitudini evolvono.'}
+     ]},
+    {id:'rf_07',emoji:'🛡️',titolo:'Fondo di Emergenza — La Tua Armatura',tempo_minuti:6,semi_reward:95,
+     sottotitolo:'3-6 mesi di spese liquide — sempre',
+     punti_chiave:['3-6 mesi di spese su un conto separato e accessibile','Senza fondo di emergenza ogni imprevisto diventa un disastro','Chi ha il fondo di emergenza non vende investimenti in panico'],
+     esempio_pratico:'Spese mensili 1.500€ → fondo emergenza = 4.500€ (3 mesi) o 9.000€ (6 mesi). Obiettivo: 6 mesi.',
+     dato_reale:'Il 60% degli europei non riesce a coprire una spesa imprevista di 1.000€ senza indebitarsi.',
+     collegamento_africa:'Le cooperative di risparmio africane (tontine) garantiscono che ogni membro abbia sempre accesso a liquidità in caso di emergenza.',
+     sfida_vita_reale:'Qual è il tuo fondo attuale? Calcola le tue spese mensili × 3. Hai quella cifra liquida? Se no: obiettivo numero uno.',
+     quiz:[
+       {domanda:'Quanti mesi di spese deve coprire il fondo di emergenza?',opzioni:['1 mese','3-6 mesi','1 anno','2 anni'],risposta_corretta:1,spiegazione:"3 mesi è il minimo. 6 mesi è l'obiettivo: copre perdita del lavoro, malattie, riparazioni grosse."},
+       {domanda:'Dove tenere il fondo di emergenza?',opzioni:['Investito in azioni','In criptovalute','Su un conto liquidabile facilmente','In contanti a casa'],risposta_corretta:2,spiegazione:'Deve essere liquido e accessibile entro 1-2 giorni — non investito in asset che possono scendere proprio quando hai bisogno.'}
+     ]},
+    {id:'rf_08',emoji:'🏛️',titolo:'Strutture Legali per Proteggere il Patrimonio',tempo_minuti:7,semi_reward:110,
+     sottotitolo:'Separa la persona fisica dai beni posseduti',
+     punti_chiave:['In Italia: SRL, regime forfettario, holding familiare per ottimizzare le tasse','Intestare beni a strutture separate protegge in caso di debiti personali','Un commercialista esperto vale molto più di quanto costa'],
+     esempio_pratico:'Un freelance con 40.000€ di fatturato: in regime forfettario paga il 15% invece del 38%. Risparmio: 9.200€/anno.',
+     dato_reale:'Le famiglie ricche italiane utilizzano holding familiari nel 78% dei casi per trasmettere patrimonio senza perdere metà in tasse di successione.',
+     collegamento_africa:'In molti paesi UEMOA esistono regimi fiscali speciali per la diaspora che investe nel paese di origine — opportunità poco conosciute.',
+     sfida_vita_reale:'Prenota una consulenza con un commercialista specializzato in ottimizzazione fiscale. Il costo medio è 150-300€ — può farti risparmiare migliaia.',
+     quiz:[
+       {domanda:'Qual è il vantaggio del regime forfettario per un freelance italiano?',opzioni:['Nessuna tassa','Tassa fissa al 15% invece del 38%+','Tasse più alte ma più semplici','Solo per chi guadagna meno di 10.000€'],risposta_corretta:1,spiegazione:'Il forfettario al 15% è una delle agevolazioni fiscali più potenti per i lavoratori autonomi in Italia.'},
+       {domanda:'Perché separare i beni personali da quelli aziendali?',opzioni:['Per sembrare più ricco','Per protezione in caso di debiti aziendali','È obbligatorio per legge','Non serve a niente'],risposta_corretta:1,spiegazione:"Se l'azienda ha debiti, i tuoi beni personali sono protetti. Senza separazione, rischi tutto."}
+     ]},
+    {id:'rf_09',emoji:'🌊',titolo:'Diversificazione — Mai Tutto in Un Solo Posto',tempo_minuti:6,semi_reward:100,
+     sottotitolo:'Crea più flussi di reddito per non dipendere da nessuno',
+     punti_chiave:['Chi dipende da un solo stipendio è vulnerabile — chi ha 3+ flussi è libero','Dividendi, affitti, freelance, royalties: ognuno aggiùnge sicurezza','Ogni nuovo flusso protegge tutti gli altri'],
+     esempio_pratico:'Stipendio 2.000€ + affitto box auto 80€ + dividendi ETF 40€ + corso online 60€ = 2.180€ totali. Il 9% in più senza lavorare di più.',
+     dato_reale:'La persona media con 7+ flussi di reddito ha il 94% in meno di probabilità di finire in povertà rispetto a chi ne ha solo 1.',
+     collegamento_africa:"I commercianti africani gestiscono naturalmente 3-5 attività parallele — una resilienza economica che l'Occidente sta imparando ora.",
+     sfida_vita_reale:'Elenca i tuoi flussi di reddito attuali. Se ne hai uno solo, identifica oggi un secondo possibile flusso da sviluppare nei prossimi 6 mesi.',
+     quiz:[
+       {domanda:'Quanti flussi di reddito ha in media un milionario?',opzioni:['1','3','7','20'],risposta_corretta:2,spiegazione:'La ricerca di Tom Corley mostra che il 65% dei milionari ha 3+ flussi di reddito attivi.'},
+       {domanda:'Qual è il vantaggio principale di avere più flussi?',opzioni:['Guadagnare di più subito','Protezione — se uno si interrompe, hai gli altri','Pagare meno tasse','Lavorare meno'],risposta_corretta:1,spiegazione:'La resilienza è il vero vantaggio: nessun capo, nessuna azienda, nessun evento può distruggerti completamente.'}
+     ]},
+    {id:'rf_10',emoji:'🎁',titolo:'Generosità Anonima — La Legge della Circolazione',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'Dai senza mostrare — il denaro torna moltiplicato',
+     punti_chiave:['La vera generosità non cerca riconoscimento pubblico','Dare anonimamente elimina le attese e le obbligazioni sociali','Chi dà con abbondanza riceve con abbondanza — è una legge universale'],
+     esempio_pratico:"Dona il 5% del reddito anonimamente ogni anno. Non per apparire — per alimentare il ciclo dell'abbondanza nella tua comunità.",
+     dato_reale:'La ricerca della Harvard Business School dimostra che le persone che donano regolarmente riferiscono livelli di felicità significativamente più alti.',
+     collegamento_africa:"La zakat islamica e il concetto Ubuntu (sono perché siamo) sono tra le filosofie di generosità più avanzate dell'umanità.",
+     sfida_vita_reale:'Questa settimana: fai un gesto di generosità anonimo verso qualcuno nella tua comunità. Osserva come ti senti.',
+     quiz:[
+       {domanda:'Quale percentuale del reddito è tradizionalmente indicata per la donazione?',opzioni:['1%','5-10%','50%','0% — prima pensa a te'],risposta_corretta:1,spiegazione:'Il 5-10% è il range tradizionale in molte culture — abbastanza per fare differenza, senza compromettere la propria crescita.'},
+       {domanda:'Perché donare anonimamente?',opzioni:['Per evitare le tasse','Per eliminare attese di riconoscimento e obbligazioni sociali','Non ha senso','Per sembrare umile'],risposta_corretta:1,spiegazione:'La generosità senza aspettativa è la più pura — e paradossalmente la più potente per chi la pratica.'}
+     ]},
+    {id:'rf_11',emoji:'⏳',titolo:'Acquisti Dilazionati — La Regola dei 30 Giorni',tempo_minuti:5,semi_reward:85,
+     sottotitolo:'Aspetta 30 giorni prima di ogni acquisto non essenziale',
+     punti_chiave:['Aspetta 30 giorni prima di acquistare qualsiasi cosa non essenziale','Il 70% dei desideri di acquisto svanisce in 30 giorni','Non cambiare stile di vita improvvisamente — attira attenzioni e svuota i conti'],
+     esempio_pratico:'Vuoi comprare un orologio da 500€? Aspetta 30 giorni. Se dopo un mese lo vuoi ancora, valuta. Nella maggior parte dei casi, non lo vuoi più.',
+     dato_reale:'Il marketing usa tecniche di urgenza artificiale per bypassare il sistema razionale. Il 30-day rule lo annulla completamente.',
+     collegamento_africa:'Il detto Mooré "Kibare soaba" (domani è un giorno) insegna la pazienza come strumento di saggezza finanziaria.',
+     sfida_vita_reale:'Crea una lista "desideri 30 giorni". Ogni volta che vuoi comprare qualcosa non essenziale, aggiùngilo alla lista con la data. Rivedi tra 30 giorni.',
+     quiz:[
+       {domanda:'Quanta percentuale dei desideri di acquisto svanisce dopo 30 giorni?',opzioni:['20%','50%','70%','90%'],risposta_corretta:2,spiegazione:'Il 70% degli impulsi di acquisto sono emozioni del momento — non bisogni reali. I 30 giorni filtrano quasi tutto.'},
+       {domanda:'Qual è il rischio di cambiare stile di vita improvvisamente?',opzioni:['Nessun rischio','Attira attenzioni indesiderate e svuota i conti','Fa risparmiare di più','È sempre una buona idea'],risposta_corretta:1,spiegazione:'Lifestyle inflation — adattarsi rapidamente a spese più alte quando si guadagna di più — è la trappola più comune.'}
+     ]},
+    {id:'rf_12',emoji:'📵',titolo:'Social Media e Denaro — Proteggi la Mente',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'Non mostrare il lusso — proteggi il patrimonio e la mente',
+     punti_chiave:['Chi mostra lusso online attira truffatori, richieste di prestiti e gelosie','Il confronto sociale sui social abbassa la soddisfazione e aumenta le spese','I veri ricchi non sono su Instagram a mostrare soldi'],
+     esempio_pratico:'Jeff Bezos non posta foto della sua casa. Elon Musk dice di dormire in ufficio su un divano. I ricchi veri nascondono, non mostrano.',
+     dato_reale:"Uno studio del Journal of Consumer Research mostra che l'esposizione ai social media aumenta le spese impulsive del 14%.",
+     collegamento_africa:'Il concetto Wolof "kersa" (dignità discreta) insegna che la vera grandezza non ha bisogno di essere mostrata — si percepisce.',
+     sfida_vita_reale:'Per 7 giorni: non postare nulla di materiale sui social. Osserva se le tue spese cambiano e come ti senti.',
+     quiz:[
+       {domanda:"Di quanto aumentano le spese impulsive con l'esposizione ai social media?",opzioni:['3%','7%','14%','50%'],risposta_corretta:2,spiegazione:'Il 14% in più di spese impulsive — i social sono progettati per farti desiderare ciò che gli altri hanno.'},
+       {domanda:'Cosa protegge la privacy patrimoniale online?',opzioni:['Postare solo alcune cose','Non mostrare mai lusso, cifre o beni di valore','Usare un nome falso','Non usare i social'],risposta_corretta:1,spiegazione:"Basta non mostrare beni materiali — non serve sparire dai social, basta non alimentare l'ostentazione."}
+     ]},
+    {id:'rf_13',emoji:'📚',titolo:'Apprendimento Continuo — Il ROI Più Alto',tempo_minuti:6,semi_reward:100,
+     sottotitolo:"Studia finanza e tasse — l'ignoranza costa più di ogni corso",
+     punti_chiave:["Dedicare 30 minuti al giorno all'apprendimento finanziario vale più di qualsiasi investimento",'Condividi i principi — non i dati personali','Chi capisce le tasse paga legalmente molto meno'],
+     esempio_pratico:"Warren Buffett dedica 5 ore al giorno alla lettura. Bill Gates legge 50 libri all'anno. La conoscenza è il loro asset numero uno.",
+     dato_reale:"Un'ora di studio finanziario al giorno per un anno porta in media a decisioni che aumentano il patrimonio netto del 23%.",
+     collegamento_africa:"Nelle università di Tombouctou nel Mali del XV secolo, l'educazione finanziaria era parte centrale dell'insegnamento — l'Africa ha sempre saputo che la conoscenza è ricchezza.",
+     sfida_vita_reale:'Identifica un libro di finanza da leggere questo mese. Inizia con 10 pagine al giorno. Condividi ciò che impari con qualcuno vicino a te.',
+     quiz:[
+       {domanda:'Quante ore al giorno dedica Warren Buffett alla lettura?',opzioni:['30 minuti','1 ora','3 ore','5 ore'],risposta_corretta:3,spiegazione:'5 ore al giorno di lettura e studio — Buffett dice che il suo cervello è il suo asset più importante.'},
+       {domanda:"Qual è la regola d'oro nella condivisione della conoscenza finanziaria?",opzioni:['Condividi tutto','Condividi i principi, non i dati personali','Non condividere nulla','Condividi solo con la famiglia'],risposta_corretta:1,spiegazione:'I principi (come investire, come risparmiare) arricchiscono chi li condivide. I dati personali (cifre, conti) vanno tenuti privati.'}
+     ]},
+    {id:'rf_14',emoji:'🏆',titolo:'Costanza Decennale — Il Segreto Finale',tempo_minuti:7,semi_reward:120,
+     sottotitolo:'La ricchezza è il risultato di abitudini ripetute per anni',
+     punti_chiave:['Non esistono scorciatoie — la ricchezza vera richiede 10-20 anni di costanza','Il compounding (interesse composto) funziona solo nel tempo',"Un'abitudine buona ogni mese, per 10 anni, cambia completamente la vita"],
+     esempio_pratico:"200€/mese investiti per 30 anni all'7% = 243.000€. Stessa cifra per 20 anni = 104.000€. I 10 anni extra valgono 139.000€ — la costanza è tutto.",
+     dato_reale:"L'85% della ricchezza di Warren Buffett è stata accumulata dopo i 60 anni — grazie a decenni di interesse composto, non a operazioni brillanti.",
+     collegamento_africa:"Il baobab, l'albero sacro dell'Africa occidentale, cresce per 1.000 anni. Prima radici profonde, poi altezza straordinaria. La ricchezza si costruisce così.",
+     sfida_vita_reale:'Scrivi il tuo impegno decennale: "Tra 10 anni voglio avere ___€. Per arrivarci risparmierò ___€/mese e investirò in ___." Firmalo e mettilo dove lo vedi ogni giorno.',
+     quiz:[
+       {domanda:"Quanto dell'85% della ricchezza di Buffett è stata accumulata dopo i 60 anni?",opzioni:['È una leggenda','È vero — grazie al compounding','Ha guadagnato tutto giovane','Dopo i 70'],risposta_corretta:1,spiegazione:'Il compounding diventa esplosivo dopo i 30-40 anni. La pazienza è il vero superpotere finanziario.'},
+       {domanda:'Qual è la differenza di risultato tra investire 30 anni vs 20 anni?',opzioni:['Poca differenza','50% in più','Il doppio o più','Identici'],risposta_corretta:2,spiegazione:'200€/mese: 30 anni = 243.000€, 20 anni = 104.000€. I 10 anni extra quasi triplicano il risultato.'}
+     ]}
+  ]
+};
+
+// French translations
+RICCHEZZA_FURTIVA_LESSONS.fr = [
+  {id:'rf_01',emoji:'🤖',titolo:"Automatisation de l'Épargne",tempo_minuti:6,semi_reward:100,
+   sottotitolo:'Payez-vous en premier — chaque mois, automatiquement',
+   punti_chiave:['Investis 20% avant même de voir ton salaire',"Programme le virement le jour même de l'encaissement","Si tu ne vois pas l'argent, tu ne le dépenses pas"],
+   esempio_pratico:'Avec 1.500€/mois: programme un virement automatique de 300€ le 27 de chaque mois vers un compte séparé. En 10 ans = 36.000€ + intérêts composés.',
+   dato_reale:'Ceux qui automatisent leur épargne accumulent 3 fois plus que ceux qui y pensent chaque mois.',
+   collegamento_africa:"La tontine africaine est le premier système d'épargne automatisée collective au monde.",
+   sfida_vita_reale:"Configure aujourd'hui un virement automatique — même 50€. Fais-le maintenant, pas demain.",
+   quiz:[
+     {domanda:"Quand programmer le virement automatique d'épargne?",opzioni:["En fin de mois, s'il reste",'Le premier jour du mois','Seulement quand on gagne beaucoup','Jamais — mieux décider chaque fois'],risposta_corretta:1,spiegazione:'Dès l\'encaissement: si tu attends "ce qui reste", il ne reste jamais rien.'},
+     {domanda:'Quel est le pourcentage minimum conseillé à épargner?',opzioni:['5%','10%','20%','50%'],risposta_corretta:2,spiegazione:'20% est le minimum pour construire une vraie liberté financière à long terme.'}
+   ]},
+  {id:'rf_14',emoji:'🏆',titolo:'Constance Décennale — Le Secret Final',tempo_minuti:7,semi_reward:120,
+   sottotitolo:"La richesse est le résultat d'habitudes répétées pendant des années",
+   punti_chiave:["Il n'existe pas de raccourcis — la vraie richesse demande 10-20 ans de constance",'Le compounding fonctionne uniquement dans le temps','Une bonne habitude par mois, pendant 10 ans, change complètement la vie'],
+   esempio_pratico:'200€/mois investis pendant 30 ans à 7% = 243.000€. La même somme pendant 20 ans = 104.000€. Les 10 ans supplémentaires valent 139.000€.',
+   dato_reale:"85% de la richesse de Warren Buffett a été accumulée après ses 60 ans — grâce à des décennies d'intérêts composés.",
+   collegamento_africa:"Le baobab, l'arbre sacré d'Afrique occidentale, pousse pendant 1.000 ans. D'abord des racines profondes, puis une hauteur extraordinaire.",
+   sfida_vita_reale:'Écris ton engagement décennal: "Dans 10 ans je veux avoir ___€. Pour y arriver j épargnerai ___€/mois."',
+   quiz:[
+     {domanda:"Le compounding devient explosif après combien d'années?",opzioni:['5 ans','10 ans','30-40 ans','Immédiatement'],risposta_corretta:2,spiegazione:'La patience est le vrai superpouvoir financier — Buffett en est la preuve vivante.'},
+     {domanda:'Quelle est la différence entre investir 30 ans vs 20 ans (200€/mois)?',opzioni:['Peu de différence','50% de plus','Le double ou plus','Identiques'],risposta_corretta:2,spiegazione:'30 ans = 243.000€, 20 ans = 104.000€. Les 10 ans supplémentaires presque triplent le résultat.'}
+   ]}
+];
+
+// English
+RICCHEZZA_FURTIVA_LESSONS.en = [
+  {id:'rf_01',emoji:'🤖',titolo:'Savings Automation',tempo_minuti:6,semi_reward:100,
+   sottotitolo:'Pay yourself first — every month, automatically',
+   punti_chiave:['Invest 20% before you even see your paycheck','Set up the transfer the same day salary arrives',"If you don't see the money, you don't spend it"],
+   esempio_pratico:'With €1,500/month: set an automatic transfer of €300 on the 27th to a separate account. In 10 years = €36,000 + compound interest.',
+   dato_reale:'People who automate savings accumulate 3x more than those who think about it each month.',
+   collegamento_africa:"The African tontine is the world's oldest automated collective savings system.",
+   sfida_vita_reale:'Set up an automatic transfer today — even €50. Do it now, not tomorrow.',
+   quiz:[
+     {domanda:'When should you set up the automatic savings transfer?',opzioni:['End of month if anything is left','First day of the month','Only when earning a lot','Never — better to decide each time'],risposta_corretta:1,spiegazione:'On payday: if you wait for "what\'s left", nothing ever remains.'},
+     {domanda:'What is the minimum recommended savings percentage?',opzioni:['5%','10%','20%','50%'],risposta_corretta:2,spiegazione:'20% is the minimum to build real financial freedom long-term.'}
+   ]},
+  {id:'rf_14',emoji:'🏆',titolo:'Decade Consistency — The Final Secret',tempo_minuti:7,semi_reward:120,
+   sottotitolo:'Wealth is the result of habits repeated for years',
+   punti_chiave:['There are no shortcuts — real wealth requires 10-20 years of consistency','Compounding only works over time','One good habit per month, for 10 years, completely changes life'],
+   esempio_pratico:'€200/month invested for 30 years at 7% = €243,000. Same amount for 20 years = €104,000. The extra 10 years are worth €139,000.',
+   dato_reale:"85% of Warren Buffett's wealth was accumulated after age 60 — thanks to decades of compound interest.",
+   collegamento_africa:'The baobab, sacred tree of West Africa, grows for 1,000 years. First deep roots, then extraordinary height.',
+   sfida_vita_reale:'Write your decade commitment: "In 10 years I want to have ___€. To get there I will save ___€/month."',
+   quiz:[
+     {domanda:'When does compounding become explosive?',opzioni:['After 5 years','After 10 years','After 30-40 years','Immediately'],risposta_corretta:2,spiegazione:'Patience is the real financial superpower — Buffett is living proof.'},
+     {domanda:'Difference between investing 30 vs 20 years (€200/month)?',opzioni:['Little difference','50% more','Double or more','Identical'],risposta_corretta:2,spiegazione:'30 years = €243,000, 20 years = €104,000. The extra 10 years nearly triple the result.'}
+   ]}
+];
+
+// Wolof
+RICCHEZZA_FURTIVA_LESSONS.wo = [
+  {id:'rf_01',emoji:'🤖',titolo:'Dëkkal Xaalis bi Ci Kanam',tempo_minuti:6,semi_reward:100,
+   sottotitolo:'Def sa bopp ci kanam — fan bu nekk, automatique',
+   punti_chiave:['Def 20% ci kanam ba ci soxor salaire bi','Establir virement bi bëgg-bëgg ngir yëgël xaalis bi','Bi nga gis xaalis bi, mënul dem'],
+   esempio_pratico:'Ak 1.500€/fan: establir virement automatique 300€ ci compte bu nekk ci kanam. Ci 10 at = 36.000€.',
+   dato_reale:'Ñëpp yu automatiser épargne bi accumule 3 yëp ni ñëpp yu xam xam ci fan bu nekk.',
+   collegamento_africa:"Tontine africaine mooy premier système d'épargne automatique bu aduna.",
+   sfida_vita_reale:'Établi ci tey virement automatique — mëna 50€. Def ko ci tey, du ëllëk.',
+   quiz:[
+     {domanda:"Kan lañuy establi virement automatique d'épargne?",opzioni:['Ci diggante fan bi, bi dëkk','Premier bés bu fan bi','Bi xaalis am na lu bari','Déédéét'],risposta_corretta:1,spiegazione:'Ci bëss salaire bi yëgël: bi nga soxor, dara du dëkk.'},
+     {domanda:'Pourcentage bu kanam bu yagg ci épargne?',opzioni:['5%','10%','20%','50%'],risposta_corretta:2,spiegazione:'20% mooy minimum ngir construire liberté financière bi.'}
+   ]},
+  {id:'rf_14',emoji:'🏆',titolo:'Constant ci 10 At — Sirr bi ci Diggante',tempo_minuti:7,semi_reward:120,
+   sottotitolo:'Xaalis bi mooy résultat ci habitudes yu repetees ci at yi',
+   punti_chiave:['Amul raccourci — richesse bi dafa soxor 10-20 at','Compounding dafay liggéey ci yoon wi rekk','Habitude bu baax ci weer, ci 10 at, dafay soppi life bi'],
+   esempio_pratico:'200€/weer ci 30 at ci 7% = 243.000€. 20 at = 104.000€. 10 at bu yokk yi dañuy dëkk 139.000€.',
+   dato_reale:'85% richesse Buffett bi jëm na ci kanam 60 ans — grâce compounding.',
+   collegamento_africa:"Baobab bi, garab bu yëgël Afrique de l'Ouest, mooy dëkk 1.000 at. Mburu yu néew ci kanam, ginnaaw bi.",
+   sfida_vita_reale:'Bind sa engagement: "Ci 10 at bëgg naa am ___€. Pour yëgël, dina def ___€/weer."',
+   quiz:[
+     {domanda:'Compounding dafay xeex bi kane?',opzioni:['Ci 5 at','Ci 10 at','Ci 30-40 at','Ci kanam'],risposta_corretta:2,spiegazione:'Patience mooy superpouvoir financier bi — Buffett dafay démontrer.'},
+     {domanda:'Différence entre investir 30 vs 20 at?',opzioni:['Yëp bu baax','50% bu yokk','Double walla bu yokk','Yëp'],risposta_corretta:2,spiegazione:'30 at = 243.000€, 20 at = 104.000€. 10 at yi bu yokk dañuy triple résultat bi.'}
+   ]}
+];
+
+window.RICCHEZZA_FURTIVA_LESSONS = RICCHEZZA_FURTIVA_LESSONS;
+
+// ══════════════════════════════════════════════════════════════
+// Add RICCHEZZA_FURTIVA to PERCORSI
+// ══════════════════════════════════════════════════════════════
+(function() {
+  if (typeof PERCORSI !== 'undefined' && Array.isArray(PERCORSI)) {
+    var exists = PERCORSI.find(function(p) { return p.id === 'ricchezza_furtiva'; });
+    if (!exists) {
+      PERCORSI.push({
+        id: 'ricchezza_furtiva',
+        label: '🤫 Ricchezza Furtiva',
+        label_fr: '🤫 Richesse Discrète',
+        label_en: '🤫 Stealth Wealth',
+        label_es: '🤫 Riqueza Silenciosa',
+        label_wo: '🤫 Xaalis bu Feebar',
+        col: '#a78bfa'
+      });
+    }
+  }
+})();
+
+// Hook getLessonInLang to also check RICCHEZZA_FURTIVA_LESSONS
+var _origGetLesson = window.getLessonInLang;
+window.getLessonInLang = function(lez, lang) {
+  // Check if it's a RF lesson
+  if (lez && lez.id && lez.id.startsWith('rf_')) {
+    var rfBank = RICCHEZZA_FURTIVA_LESSONS[lang] || RICCHEZZA_FURTIVA_LESSONS['it'];
+    var rfLez = rfBank ? rfBank.find(function(l) { return l.id === lez.id; }) : null;
+    if (rfLez) return rfLez;
+  }
+  if (_origGetLesson) return _origGetLesson(lez, lang);
+  return lez;
+};
+
+// ══════════════════════════════════════════════════════════════
+// PART B: IL TUO NUMERO DELLA LIBERTÀ — widget interattivo
+// ══════════════════════════════════════════════════════════════
+function buildNumeroLiberta() {
+  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+  var t = TRANSLATIONS[lang] || TRANSLATIONS['it'];
+
+  var TESTI = {
+    it: {
+      titolo: '🗽 Il Tuo Numero della Libertà',
+      sub: 'Quanti soldi ti servono per smettere di lavorare?',
+      label_spese: 'Le tue spese mensili (€)',
+      label_eta: 'La tua età attuale',
+      label_risparmio: 'Risparmio mensile attuale (€)',
+      label_ren: 'Rendimento annuo atteso (%)',
+      btn: 'Calcola il Mio Numero 🔢',
+      target_label: '🎯 Il tuo Numero della Libertà:',
+      anni_label: '📅 Anni necessari:',
+      eta_label: '🎂 Età alla libertà:',
+      progress_label: '📈 Percorso verso la libertà:',
+      regola: 'Regola del 4%: con questo capitale puoi prelevare il 4% annuo senza mai esaurire i soldi.',
+      spese_ann: 'Spese annuali:',
+      capitale: 'Capitale necessario (× 25):',
+      messaggio_vicino: '🔥 Sei molto vicino! Mantieni la rotta.',
+      messaggio_medio: '⭐ Ottimo percorso! Ogni anno che passa conta doppio.',
+      messaggio_inizio: '🌱 Il viaggio inizia. Il seme è piantato — ora cresce.',
+      errore: 'Inserisci un importo valido',
+    },
+    fr: {
+      titolo: '🗽 Ton Nombre de la Liberté',
+      sub: "Combien d'argent faut-il pour arrêter de travailler?",
+      label_spese: 'Tes dépenses mensuelles (€)',
+      label_eta: 'Ton âge actuel',
+      label_risparmio: 'Épargne mensuelle actuelle (€)',
+      label_ren: 'Rendement annuel attendu (%)',
+      btn: 'Calculer Mon Nombre 🔢',
+      target_label: '🎯 Ton Nombre de la Liberté:',
+      anni_label: '📅 Années nécessaires:',
+      eta_label: '🎂 Âge à la liberté:',
+      progress_label: '📈 Parcours vers la liberté:',
+      regola: "Règle des 4%: avec ce capital tu peux retirer 4% par an sans jamais l'épuiser.",
+      spese_ann: 'Dépenses annuelles:',
+      capitale: 'Capital nécessaire (× 25):',
+      messaggio_vicino: '🔥 Tu es très proche! Tiens le cap.',
+      messaggio_medio: '⭐ Excellent parcours! Chaque année compte double.',
+      messaggio_inizio: '🌱 Le voyage commence. La graine est plantée — elle pousse maintenant.',
+      errore: 'Entre un montant valide',
+    },
+    en: {
+      titolo: '🗽 Your Freedom Number',
+      sub: 'How much money do you need to stop working?',
+      label_spese: 'Monthly expenses (€)',
+      label_eta: 'Your current age',
+      label_risparmio: 'Current monthly savings (€)',
+      label_ren: 'Expected annual return (%)',
+      btn: 'Calculate My Number 🔢',
+      target_label: '🎯 Your Freedom Number:',
+      anni_label: '📅 Years needed:',
+      eta_label: '🎂 Age at freedom:',
+      progress_label: '📈 Path to freedom:',
+      regola: '4% Rule: with this capital you can withdraw 4% per year and never run out.',
+      spese_ann: 'Annual expenses:',
+      capitale: 'Capital needed (× 25):',
+      messaggio_vicino: '🔥 You are very close! Stay the course.',
+      messaggio_medio: '⭐ Great progress! Every year counts double.',
+      messaggio_inizio: '🌱 The journey begins. The seed is planted — now it grows.',
+      errore: 'Enter a valid amount',
+    },
+    wo: {
+      titolo: '🗽 Sa Numero bu Liberté bi',
+      sub: 'Nit xaalis la soxor ngir dëgël liggéey?',
+      label_spese: 'Sa dépenses ci weer (€)',
+      label_eta: 'Sa at ci tey',
+      label_risparmio: 'Sa épargne ci weer (€)',
+      label_ren: 'Rendement bu jàng (%) ',
+      btn: 'Xam sa Numero 🔢',
+      target_label: '🎯 Sa Numero bu Liberté:',
+      anni_label: '📅 At yu soxor:',
+      eta_label: '🎂 At bi nga lib:',
+      progress_label: '📈 Yoon wi ci liberté bi:',
+      regola: 'Règle 4%: ak xaalis bii mënoo jël 4% ci at bu nekk, du wees.',
+      spese_ann: 'Dépenses bi ci at:',
+      capitale: 'Capital bu soxor (× 25):',
+      messaggio_vicino: '🔥 Yëgël na ko! Naan sa yoon.',
+      messaggio_medio: '⭐ Yoon bu baax! Fan bu nekk dafay dëkk na ñaar.',
+      messaggio_inizio: '🌱 Yoon bi dëkk. Gerte bi tëb na — dafay dëkk.',
+      errore: 'Bind montant bu baax',
+    },
+  };
+
+  var txt = TESTI[lang] || TESTI.it;
+
+  var screen = document.createElement('div');
+  screen.id = 'numero-liberta-screen';
+  screen.style.cssText = 'display:none;position:fixed;inset:0;z-index:80;overflow-y:auto;background:linear-gradient(135deg,#050014,#0a0028);padding:20px 16px 80px';
+
+  screen.innerHTML = [
+    '<div style="position:sticky;top:0;z-index:90;background:rgba(5,0,20,.95);padding:10px 0 12px;margin-bottom:16px;border-bottom:1px solid rgba(167,139,250,.2)">',
+      '<button onclick="document.getElementById(\'numero-liberta-screen\').style.display=\'none\'" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 14px;color:rgba(255,255,255,.6);font-size:.75rem;cursor:pointer;margin-bottom:8px">← Indietro</button>',
+      '<div style="font-family:Fredoka One,serif;font-size:1.4rem;color:#a78bfa;font-weight:900">' + txt.titolo + '</div>',
+      '<div style="font-size:.78rem;color:rgba(255,255,255,.5);margin-top:2px">' + txt.sub + '</div>',
+    '</div>',
+
+    // INPUT SECTION
+    '<div style="background:rgba(167,139,250,.06);border:1.5px solid rgba(167,139,250,.25);border-radius:18px;padding:18px;margin-bottom:16px">',
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">',
+        '<div>',
+          '<div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + txt.label_spese + '</div>',
+          '<input id="nf-spese" type="number" min="100" max="50000" value="1500" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.3);border-radius:10px;padding:10px 12px;color:#fff;font-size:.95rem;font-weight:900;box-sizing:border-box">',
+        '</div>',
+        '<div>',
+          '<div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + txt.label_eta + '</div>',
+          '<input id="nf-eta" type="number" min="16" max="80" value="35" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.3);border-radius:10px;padding:10px 12px;color:#fff;font-size:.95rem;font-weight:900;box-sizing:border-box">',
+        '</div>',
+        '<div>',
+          '<div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + txt.label_risparmio + '</div>',
+          '<input id="nf-risparmio" type="number" min="0" max="20000" value="300" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.3);border-radius:10px;padding:10px 12px;color:#fff;font-size:.95rem;font-weight:900;box-sizing:border-box">',
+        '</div>',
+        '<div>',
+          '<div style="font-size:.72rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + txt.label_ren + '</div>',
+          '<input id="nf-rendimento" type="number" min="1" max="20" value="7" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.3);border-radius:10px;padding:10px 12px;color:#fff;font-size:.95rem;font-weight:900;box-sizing:border-box">',
+        '</div>',
+      '</div>',
+      '<button onclick="calcolaNumeroLiberta()" style="width:100%;margin-top:14px;padding:14px;background:linear-gradient(135deg,#7c3aed,#a78bfa);border:none;border-radius:14px;color:#fff;font-weight:900;font-size:.95rem;cursor:pointer;letter-spacing:.5px">' + txt.btn + '</button>',
+    '</div>',
+
+    // RESULTS SECTION
+    '<div id="nf-risultati" style="display:none">',
+
+      // Main number
+      '<div style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.08));border:2px solid rgba(167,139,250,.5);border-radius:20px;padding:20px;text-align:center;margin-bottom:14px">',
+        '<div style="font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:6px">' + txt.target_label + '</div>',
+        '<div id="nf-numero" style="font-family:Fredoka One,serif;font-size:2.8rem;font-weight:900;color:#a78bfa;line-height:1"></div>',
+        '<div style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:6px">' + txt.regola + '</div>',
+      '</div>',
+
+      // Stats grid
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">',
+        '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;text-align:center">',
+          '<div style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:4px">' + txt.anni_label + '</div>',
+          '<div id="nf-anni" style="font-size:1.8rem;font-weight:900;color:#F5C842"></div>',
+        '</div>',
+        '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;text-align:center">',
+          '<div style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:4px">' + txt.eta_label + '</div>',
+          '<div id="nf-eta-liberta" style="font-size:1.8rem;font-weight:900;color:#4ade80"></div>',
+        '</div>',
+      '</div>',
+
+      // Breakdown
+      '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px;margin-bottom:14px;font-size:.8rem">',
+        '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">',
+          '<span style="color:rgba(255,255,255,.5)">' + txt.spese_ann + '</span>',
+          '<span id="nf-spese-ann" style="font-weight:900;color:#fff"></span>',
+        '</div>',
+        '<div style="display:flex;justify-content:space-between;padding:5px 0">',
+          '<span style="color:rgba(255,255,255,.5)">' + txt.capitale + '</span>',
+          '<span id="nf-capitale" style="font-weight:900;color:#a78bfa"></span>',
+        '</div>',
+      '</div>',
+
+      // Progress bar
+      '<div style="margin-bottom:14px">',
+        '<div style="font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:8px">' + txt.progress_label + '</div>',
+        '<div style="background:rgba(255,255,255,.06);border-radius:999px;height:10px;overflow:hidden">',
+          '<div id="nf-progress" style="height:100%;border-radius:999px;background:linear-gradient(90deg,#7c3aed,#a78bfa);transition:width 1s ease"></div>',
+        '</div>',
+        '<div style="display:flex;justify-content:space-between;font-size:.65rem;color:rgba(255,255,255,.3);margin-top:4px">',
+          '<span>0€</span><span id="nf-progress-label"></span>',
+        '</div>',
+      '</div>',
+
+      // Message
+      '<div id="nf-messaggio" style="background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);border-radius:14px;padding:14px;font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.6;text-align:center;margin-bottom:14px"></div>',
+
+      // CTA — start RF lessons
+      '<button onclick="startRicchezzaFurtiva()" style="width:100%;padding:14px;background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.08));border:1.5px solid rgba(167,139,250,.4);border-radius:14px;color:#a78bfa;font-weight:900;font-size:.85rem;cursor:pointer">',
+        '🤫 Studia le 14 Strategie della Ricchezza Furtiva →',
+      '</button>',
+
+    '</div>',
+  ].join('');
+
+  document.body.appendChild(screen);
+}
+
+function calcolaNumeroLiberta() {
+  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+  var TESTI = {
+    it:{ messaggio_vicino:'🔥 Sei molto vicino! Mantieni la rotta.', messaggio_medio:'⭐ Ottimo percorso! Ogni anno che passa conta doppio.', messaggio_inizio:'🌱 Il viaggio inizia. Il seme è piantato — ora cresce.', errore:'Inserisci un importo valido' },
+    fr:{ messaggio_vicino:'🔥 Tu es très proche! Tiens le cap.', messaggio_medio:'⭐ Excellent parcours! Chaque année compte double.', messaggio_inizio:'🌱 Le voyage commence. La graine est plantée.', errore:'Entre un montant valide' },
+    en:{ messaggio_vicino:'🔥 You are very close! Stay the course.', messaggio_medio:'⭐ Great progress! Every year counts double.', messaggio_inizio:'🌱 The journey begins. The seed is planted.', errore:'Enter a valid amount' },
+    wo:{ messaggio_vicino:'🔥 Yëgël na ko! Naan sa yoon.', messaggio_medio:'⭐ Yoon bu baax! Fan bu nekk dafay dëkk na ñaar.', messaggio_inizio:'🌱 Yoon bi dëkk. Gerte bi tëb na.', errore:'Bind montant bu baax' },
+  };
+  var txt = TESTI[lang] || TESTI.it;
+
+  var spese = parseFloat(document.getElementById('nf-spese').value) || 0;
+  var eta = parseInt(document.getElementById('nf-eta').value) || 35;
+  var risparmio = parseFloat(document.getElementById('nf-risparmio').value) || 0;
+  var rendimento = parseFloat(document.getElementById('nf-rendimento').value) / 100 || 0.07;
+
+  if (spese <= 0) { if (typeof toast === 'function') toast(txt.errore); return; }
+
+  var speseAnnuali = spese * 12;
+  var capitaleTarget = speseAnnuali * 25;  // 4% rule
+
+  // Calculate years to target using compound interest formula
+  // FV = PMT × [(1+r)^n - 1] / r
+  var anni = 0;
+  var capitale = 0;
+  var maxAnni = 60;
+  for (var y = 1; y <= maxAnni; y++) {
+    capitale = capitale * (1 + rendimento) + risparmio * 12;
+    if (capitale >= capitaleTarget) { anni = y; break; }
+    if (y === maxAnni) anni = maxAnni + 1;
+  }
+
+  var etaLiberta = eta + anni;
+  var progressPct = Math.min(100, Math.round((capitale > 0 ? Math.min(capitale, capitaleTarget) / capitaleTarget : 0) * 100));
+
+  // Format numbers
+  var fmtN = function(n) { return Math.round(n).toLocaleString('it-IT') + '€'; };
+
+  document.getElementById('nf-risultati').style.display = 'block';
+  document.getElementById('nf-numero').textContent = fmtN(capitaleTarget);
+  document.getElementById('nf-anni').textContent = anni <= maxAnni ? anni + ' anni' : '60+ anni';
+  document.getElementById('nf-eta-liberta').textContent = etaLiberta <= maxAnni + eta ? etaLiberta + ' anni' : '—';
+  document.getElementById('nf-spese-ann').textContent = fmtN(speseAnnuali);
+  document.getElementById('nf-capitale').textContent = fmtN(capitaleTarget);
+  document.getElementById('nf-progress-label').textContent = fmtN(capitaleTarget);
+  document.getElementById('nf-progress').style.width = '0%';
+  setTimeout(function() { document.getElementById('nf-progress').style.width = progressPct + '%'; }, 100);
+
+  var msg = anni <= 5 ? txt.messaggio_vicino : anni <= 20 ? txt.messaggio_medio : txt.messaggio_inizio;
+  document.getElementById('nf-messaggio').textContent = msg;
+
+  // Reward user
+  if (typeof addSemi === 'function') addSemi(30);
+  if (typeof toast === 'function') toast('🗽 Numero calcolato! +30 Semi');
+}
+
+function openNumeroLiberta() {
+  if (!document.getElementById('numero-liberta-screen')) buildNumeroLiberta();
+  document.getElementById('numero-liberta-screen').style.display = 'block';
+}
+
+function startRicchezzaFurtiva() {
+  // Close calculator, open ricchezza furtiva lessons
+  var nf = document.getElementById('numero-liberta-screen');
+  if (nf) nf.style.display = 'none';
+  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+  var lessons = RICCHEZZA_FURTIVA_LESSONS[lang] || RICCHEZZA_FURTIVA_LESSONS['it'];
+  if (lessons && lessons.length > 0) {
+    if (typeof openLezioneDetail === 'function') openLezioneDetail(lessons[0]);
+    else if (typeof showLezione === 'function') showLezione(lessons[0]);
+    else if (typeof toast === 'function') toast('🤫 Percorso Ricchezza Furtiva — 14 lezioni');
+  }
+}
+
+window.openNumeroLiberta  = openNumeroLiberta;
+window.calcolaNumeroLiberta = calcolaNumeroLiberta;
+window.startRicchezzaFurtiva = startRicchezzaFurtiva;
+window.buildNumeroLiberta = buildNumeroLiberta;
+
+
+// ══════════════════════════════════════════════════════════════
+// CHART.JS — Doughnut nel widget Numero della Libertà
+// ══════════════════════════════════════════════════════════════
+(function() {
+  var _origCalcola = window.calcolaNumeroLiberta;
+  if (!_origCalcola) return;
+  window.calcolaNumeroLiberta = function() {
+    _origCalcola();
+    // After original runs, add doughnut
+    setTimeout(function() {
+      var canvas = document.getElementById('nf-doughnut');
+      if (!canvas || typeof Chart === 'undefined') return;
+      var pctEl = document.getElementById('nf-pct-label');
+      // Read current progress bar width as percent
+      var pb = document.getElementById('nf-progress');
+      var pct = pb ? parseFloat(pb.style.width) || 0 : 0;
+      if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+      if (window._nfDoughnut) window._nfDoughnut.destroy();
+      window._nfDoughnut = new Chart(canvas.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [pct, Math.max(0, 100 - pct)],
+            backgroundColor: ['#a78bfa', 'rgba(255,255,255,0.06)'],
+            borderWidth: 0,
+          }]
+        },
+        options: {
+          cutout: '72%',
+          plugins: { legend: { display: false }, tooltip: { enabled: false } },
+          animation: { duration: 800 },
+        }
+      });
+    }, 200);
+  };
+})();
+
+// Inject doughnut canvas into nf-risultati if not present
+(function() {
+  var _origBuild = window.buildNumeroLiberta;
+  if (!_origBuild) return;
+  window.buildNumeroLiberta = function() {
+    _origBuild();
+    // After build, inject canvas near progress bar
+    setTimeout(function() {
+      var res = document.getElementById('nf-risultati');
+      if (!res || document.getElementById('nf-doughnut')) return;
+      var progWrap = res.querySelector('div[style*="background:rgba(255,255,255,.06)"]');
+      if (!progWrap) return;
+      var wrapper = document.createElement('div');
+      wrapper.style.cssText = 'display:flex;align-items:center;gap:16px;margin-bottom:4px';
+      var canvasWrap = document.createElement('div');
+      canvasWrap.style.cssText = 'position:relative;width:80px;height:80px;flex-shrink:0';
+      var canvas = document.createElement('canvas');
+      canvas.id = 'nf-doughnut';
+      canvas.width = 80; canvas.height = 80;
+      var label = document.createElement('div');
+      label.id = 'nf-pct-label';
+      label.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:900;color:#a78bfa';
+      label.textContent = '0%';
+      canvasWrap.appendChild(canvas);
+      canvasWrap.appendChild(label);
+      wrapper.appendChild(canvasWrap);
+      // Move progress bar into wrapper
+      var parent = progWrap.parentNode;
+      parent.insertBefore(wrapper, progWrap);
+      var progContainer = document.createElement('div');
+      progContainer.style.flex = '1';
+      wrapper.appendChild(progContainer);
+      progContainer.appendChild(progWrap);
+    }, 100);
+  };
+})();
+
+// ══════════════════════════════════════════════════════════════
+// GRAFICO PATRIMONIO — line chart (Chart.js)
+// ══════════════════════════════════════════════════════════════
+var _wealthHistory = [];
+var _wealthChart = null;
+
+function buildWealthChart(canvasId) {
+  var canvas = document.getElementById(canvasId);
+  if (!canvas || typeof Chart === 'undefined') return;
+  var base = (typeof S !== 'undefined' && S.coins) ? S.coins * 8 : 10000;
+  if (_wealthHistory.length === 0) {
+    for (var i = 0; i < 12; i++) {
+      _wealthHistory.push(Math.round(base * (0.85 + Math.random() * 0.3)));
+    }
+  }
+  if (_wealthChart) { _wealthChart.destroy(); }
+  _wealthChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: _wealthHistory.map(function(_, i) { return (i + 1) + 'm'; }),
+      datasets: [{
+        data: _wealthHistory,
+        borderColor: '#a78bfa',
+        backgroundColor: 'rgba(167,139,250,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { x: { display: false }, y: { display: false } },
+      animation: { duration: 400 },
+    }
+  });
+}
+
+function updateWealthChart() {
+  if (!_wealthChart || !_wealthHistory.length) return;
+  var last = _wealthHistory[_wealthHistory.length - 1];
+  _wealthHistory.push(Math.max(0, Math.round(last + (Math.random() - 0.42) * last * 0.025)));
+  if (_wealthHistory.length > 30) _wealthHistory.shift();
+  _wealthChart.data.labels = _wealthHistory.map(function(_, i) { return (i + 1) + 'm'; });
+  _wealthChart.data.datasets[0].data = _wealthHistory;
+  _wealthChart.update('none');
+}
+setInterval(updateWealthChart, 3000);
+window.buildWealthChart = buildWealthChart;
+
+// ══════════════════════════════════════════════════════════════
+// ONBOARDING — goal + risk (IT/FR/EN/WO)
+// ══════════════════════════════════════════════════════════════
+var _obGoal = '';
+var _obRisk = 'medium';
+
+function buildOnboardingStep() {
+  if (document.getElementById('onboarding-screen')) return;
+  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+  var L = {
+    it: { t:'🎯 Configuriamo il tuo percorso', g:'Il tuo obiettivo', r:'Tolleranza al rischio',
+          r1:'🟢 Basso — sicurezza prima', r2:'🟡 Medio — crescita bilanciata', r3:'🔴 Alto — massimizzare',
+          btn:'Inizia il viaggio →' },
+    fr: { t:'🎯 Configurons ton parcours', g:'Ton objectif', r:'Tolérance au risque',
+          r1:'🟢 Faible — sécurité', r2:'🟡 Moyen — équilibré', r3:'🔴 Élevé — maximiser',
+          btn:'Commencer →' },
+    en: { t:'🎯 Set up your journey', g:'Your goal', r:'Risk tolerance',
+          r1:'🟢 Low — safety first', r2:'🟡 Medium — balanced', r3:'🔴 High — maximize',
+          btn:'Start journey →' },
+    wo: { t:'🎯 Dëkkal sa yoon', g:'Sa but', r:'Risque',
+          r1:'🟢 Kanam — sécurité', r2:'🟡 Digën — balance', r3:'🔴 Yagg — maximum',
+          btn:'Tànn sa yoon →' },
+  };
+  var l = L[lang] || L.it;
+  var goals_it = ['🗽 Libertà finanziaria','⏰ Pensione anticipata','🏠 Casa propria','👶 Fondo figli'];
+  var goals_fr = ['🗽 Liberté financière','⏰ Retraite anticipée','🏠 Maison propre','👶 Fonds enfants'];
+  var goals = lang === 'fr' ? goals_fr : goals_it;
+
+  var div = document.createElement('div');
+  div.id = 'onboarding-screen';
+  div.style.cssText = 'display:none;position:fixed;inset:0;z-index:85;background:linear-gradient(135deg,#050014,#0a0028);overflow-y:auto;padding:40px 20px 80px';
+
+  var goalsHTML = goals.map(function(g) {
+    var escaped = g.replace(/'/g, "\\'");
+    return '<button onclick="obSelectGoal(this,\'' + escaped + '\')" style="padding:10px 8px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:rgba(255,255,255,.7);font-size:.75rem;cursor:pointer;width:100%">' + g + '</button>';
+  }).join('');
+
+  var risksHTML = [
+    ['low', l.r1], ['medium', l.r2], ['high', l.r3]
+  ].map(function(pair) {
+    return '<button onclick="obSelectRisk(this,\'' + pair[0] + '\')" style="padding:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(255,255,255,.75);font-size:.82rem;cursor:pointer;text-align:left;width:100%">' + pair[1] + '</button>';
+  }).join('');
+
+  div.innerHTML = '<div style="max-width:400px;margin:0 auto">' +
+    '<div style="text-align:center;margin-bottom:24px"><div style="font-size:3rem">🐉</div>' +
+    '<div style="font-family:Fredoka One,serif;font-size:1.3rem;color:#a78bfa;font-weight:900;margin-top:8px">' + l.t + '</div></div>' +
+    '<div style="margin-bottom:16px"><div style="font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:8px">' + l.g + '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' + goalsHTML + '</div>' +
+    '<input id="ob-custom" placeholder="Altro..." style="width:100%;margin-top:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;color:#fff;font-size:.82rem;box-sizing:border-box"></div>' +
+    '<div style="margin-bottom:24px"><div style="font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:8px">' + l.r + '</div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px">' + risksHTML + '</div></div>' +
+    '<button onclick="finishOnboarding()" style="width:100%;padding:14px;background:linear-gradient(135deg,#7c3aed,#a78bfa);border:none;border-radius:14px;color:#fff;font-weight:900;font-size:.9rem;cursor:pointer">' + l.btn + '</button>' +
+    '</div>';
+
+  document.body.appendChild(div);
+}
+
+function obSelectGoal(btn, goal) {
+  document.querySelectorAll('#onboarding-screen button[onclick*="obSelectGoal"]').forEach(function(b) {
+    b.style.borderColor = 'rgba(167,139,250,.2)';
+    b.style.background = 'rgba(167,139,250,.08)';
+  });
+  btn.style.borderColor = '#a78bfa';
+  btn.style.background = 'rgba(167,139,250,.25)';
+  _obGoal = goal;
+}
+
+function obSelectRisk(btn, risk) {
+  document.querySelectorAll('#onboarding-screen button[onclick*="obSelectRisk"]').forEach(function(b) {
+    b.style.borderColor = 'rgba(255,255,255,.1)';
+  });
+  btn.style.borderColor = '#a78bfa';
+  _obRisk = risk;
+}
+
+async function finishOnboarding() {
+  var goal = _obGoal || (document.getElementById('ob-custom') ? document.getElementById('ob-custom').value : '') || 'libertà finanziaria';
+  if (typeof USER_PROFILE !== 'undefined') { USER_PROFILE.goal = goal; USER_PROFILE.risk = _obRisk; }
+  try {
+    var SUPA = window.supabaseClient || window._supabase;
+    if (SUPA && typeof S !== 'undefined' && S.account && S.account.id) {
+      await SUPA.from('fl_user_profile').upsert({ user_id: S.account.id, goal: goal, risk: _obRisk, updated_at: new Date().toISOString() });
+    }
+  } catch(e) {}
+  localStorage.setItem('fl_onboarding_done', '1');
+  var ob = document.getElementById('onboarding-screen');
+  if (ob) ob.style.display = 'none';
+  if (typeof toast === 'function') toast('🎯 Obiettivo: ' + goal);
+  if (typeof dragonReact === 'function') dragonReact('good');
+}
+
+function openOnboarding() {
+  buildOnboardingStep();
+  var ob = document.getElementById('onboarding-screen');
+  if (ob) ob.style.display = 'block';
+}
+
+// Auto-show on first login
+setTimeout(function() {
+  if (!localStorage.getItem('fl_onboarding_done') && typeof S !== 'undefined' && S.account && S.account.id) {
+    openOnboarding();
+  }
+}, 4000);
+
+window.openOnboarding   = openOnboarding;
+window.finishOnboarding = finishOnboarding;
+window.obSelectGoal     = obSelectGoal;
+window.obSelectRisk     = obSelectRisk;
+
+
+// ══ Traduzione argomenti lezione per fallback offline ══════════
+var TOPIC_TRANS_FR = {
+  'inflazione e difesa del patrimonio': "L'inflation et la défense du patrimoine",
+  'regola 50-30-20': 'La règle 50-30-20',
+  'fondo di emergenza': "Le fonds d'urgence",
+  'interesse composto': "L'intérêt composé",
+  'investimenti etf': 'Les investissements ETF',
+  'diversificazione': 'La diversification',
+  'borsa valori': 'La bourse',
+  'immobiliare': "L'immobilier",
+  'pensione anticipata': 'La retraite anticipée',
+  'reddito passivo': 'Le revenu passif',
+  'budget familiare': 'Le budget familial',
+  'debiti e crediti': 'Les dettes et crédits',
+  'risparmio': "L'épargne",
+  'investimenti': 'Les investissements',
+  'mercati finanziari': 'Les marchés financiers',
+  'tasse e fisco': 'Les impôts et la fiscalité',
+  'criptovalute': 'Les cryptomonnaies',
+  'oro e materie prime': "L'or et les matières premières",
+  'obbligazioni': 'Les obligations',
+};
+var TOPIC_TRANS_EN = {
+  'inflazione e difesa del patrimonio': 'Inflation and Wealth Protection',
+  'regola 50-30-20': 'The 50-30-20 Rule',
+  'fondo di emergenza': 'Emergency Fund',
+  'interesse composto': 'Compound Interest',
+  'investimenti etf': 'ETF Investments',
+  'diversificazione': 'Diversification',
+  'borsa valori': 'Stock Market',
+  'immobiliare': 'Real Estate',
+  'pensione anticipata': 'Early Retirement',
+  'reddito passivo': 'Passive Income',
+  'risparmio': 'Savings',
+  'investimenti': 'Investments',
+  'mercati finanziari': 'Financial Markets',
+};
+function translateTopic(topic, lang) {
+  if (!lang || lang === 'it') return topic;
+  var map = lang === 'fr' ? TOPIC_TRANS_FR : lang === 'en' ? TOPIC_TRANS_EN : null;
+  if (!map) return topic;
+  var key = (topic || '').toLowerCase().trim();
+  return map[key] || topic;
+}
+window.translateTopic = translateTopic;
+
+// ══════════════════════════════════════════════════════════════
+// GIOCO 3D COSTRUZIONI — Three.js city builder
+// ══════════════════════════════════════════════════════════════
+var B3D = {
+  cash: 10000,
+  income: 0,
+  buildings: [],
+  selectedType: null,
+  scene: null, camera: null, renderer: null,
+  ground: null, preview: null,
+  raycaster: null, mouse: null,
+  running: false,
+  gridSize: 10, cellSize: 2,
+};
+
+var B3D_TYPES = {
+  casa:    { name:'🏠 Casa',    cost:500,  income:80,  h:1.5, color:0x4ade80, emissive:0x1a4a2a },
+  ufficio: { name:'🏢 Ufficio', cost:1200, income:200, h:3.5, color:0x60a5fa, emissive:0x1a2a4a },
+  mercato: { name:'🏪 Mercato', cost:800,  income:130, h:2.0, color:0xfb923c, emissive:0x4a2a1a },
+  scuola:  { name:'🏫 Scuola',  cost:2000, income:300, h:2.5, color:0xa78bfa, emissive:0x2a1a4a },
+  banca:   { name:'🏦 Banca',   cost:3500, income:600, h:5.0, color:0xF5C842, emissive:0x4a3a00 },
+};
+
+function initBuild3D() {
+  if (!window.THREE) return;
+  var canvas = document.getElementById('build3d-canvas');
+  if (!canvas) return;
+
+  var W = window.innerWidth;
+  var H = window.innerHeight - 50;
+
+  // Scene
+  B3D.scene = new THREE.Scene();
+  B3D.scene.background = new THREE.Color(0x020010);
+  B3D.scene.fog = new THREE.FogExp2(0x020010, 0.025);
+
+  // Camera — isometric-like perspective
+  B3D.camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 200);
+  B3D.camera.position.set(20, 20, 20);
+  B3D.camera.lookAt(0, 0, 0);
+
+  // Renderer
+  B3D.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  B3D.renderer.setSize(W, H);
+  B3D.renderer.shadowMap.enabled = true;
+
+  // Lights
+  var ambient = new THREE.AmbientLight(0x334466, 2);
+  B3D.scene.add(ambient);
+  var sun = new THREE.DirectionalLight(0xffeedd, 2.5);
+  sun.position.set(15, 30, 15);
+  sun.castShadow = true;
+  B3D.scene.add(sun);
+
+  // Grid ground
+  var groundGeo = new THREE.PlaneGeometry(B3D.gridSize * B3D.cellSize, B3D.gridSize * B3D.cellSize);
+  var groundMat = new THREE.MeshStandardMaterial({ color: 0x0a0a2a, roughness: 1 });
+  B3D.ground = new THREE.Mesh(groundGeo, groundMat);
+  B3D.ground.rotation.x = -Math.PI / 2;
+  B3D.ground.receiveShadow = true;
+  B3D.scene.add(B3D.ground);
+
+  // Grid lines
+  var grid = new THREE.GridHelper(B3D.gridSize * B3D.cellSize, B3D.gridSize, 0x223366, 0x111133);
+  B3D.scene.add(grid);
+
+  // Raycaster for click
+  B3D.raycaster = new THREE.Raycaster();
+  B3D.mouse = new THREE.Vector2();
+
+  // Touch/click handler
+  canvas.addEventListener('click', onBuild3DClick);
+  canvas.addEventListener('touchend', function(e) {
+    if (e.changedTouches.length === 0) return;
+    var rect = canvas.getBoundingClientRect();
+    var t = e.changedTouches[0];
+    B3D.mouse.x = ((t.clientX - rect.left) / rect.width) * 2 - 1;
+    B3D.mouse.y = -((t.clientY - rect.top) / rect.height) * 2 + 1;
+    onBuild3DPlace();
+    e.preventDefault();
+  }, { passive: false });
+
+  // Income every 5 seconds
+  if (B3D._incomeTimer) clearInterval(B3D._incomeTimer);
+  B3D._incomeTimer = setInterval(function() {
+    if (!B3D.running) return;
+    if (B3D.income > 0) {
+      B3D.cash += B3D.income;
+      updBuild3DHud();
+      if (typeof toast === 'function') toast('💰 +' + B3D.income + '€ rendite');
+    }
+  }, 5000);
+
+  B3D.running = true;
+  animateBuild3D();
+  updBuild3DHud();
+}
+
+var _b3dT = 0;
+function animateBuild3D() {
+  if (!B3D.running) return;
+  requestAnimationFrame(animateBuild3D);
+  _b3dT += 0.01;
+  // Rotate camera slowly around the city
+  var r = 28;
+  B3D.camera.position.x = Math.cos(_b3dT * 0.15) * r;
+  B3D.camera.position.z = Math.sin(_b3dT * 0.15) * r;
+  B3D.camera.position.y = 22;
+  B3D.camera.lookAt(0, 2, 0);
+  B3D.renderer.render(B3D.scene, B3D.camera);
+}
+
+function onBuild3DClick(e) {
+  var rect = e.target.getBoundingClientRect();
+  B3D.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  B3D.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  onBuild3DPlace();
+}
+
+function onBuild3DPlace() {
+  if (!B3D.selectedType || !B3D.raycaster || !B3D.ground) return;
+  var type = B3D_TYPES[B3D.selectedType];
+  if (!type) return;
+  if (B3D.cash < type.cost) {
+    if (typeof toast === 'function') toast('💸 Fondi insufficienti! Servono ' + type.cost + '€');
+    return;
+  }
+
+  B3D.raycaster.setFromCamera(B3D.mouse, B3D.camera);
+  var intersects = B3D.raycaster.intersectObject(B3D.ground);
+  if (!intersects.length) return;
+
+  var pt = intersects[0].point;
+  // Snap to grid
+  var cs = B3D.cellSize;
+  var half = (B3D.gridSize * cs) / 2;
+  var gx = Math.round(pt.x / cs) * cs;
+  var gz = Math.round(pt.z / cs) * cs;
+  gx = Math.max(-half + cs/2, Math.min(half - cs/2, gx));
+  gz = Math.max(-half + cs/2, Math.min(half - cs/2, gz));
+
+  // Check if cell occupied
+  var occupied = B3D.buildings.some(function(b) {
+    return Math.abs(b.x - gx) < 0.5 && Math.abs(b.z - gz) < 0.5;
+  });
+  if (occupied) {
+    if (typeof toast === 'function') toast('⚠️ Cella occupata!');
+    return;
+  }
+
+  // Build!
+  var geo = new THREE.BoxGeometry(cs * 0.85, type.h, cs * 0.85);
+  var mat = new THREE.MeshStandardMaterial({
+    color: type.color,
+    emissive: type.emissive,
+    emissiveIntensity: 0.3,
+    roughness: 0.7,
+  });
+  var mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(gx, type.h / 2, gz);
+  mesh.castShadow = true;
+  B3D.scene.add(mesh);
+
+  // Roof accent
+  var roofGeo = new THREE.BoxGeometry(cs * 0.7, 0.2, cs * 0.7);
+  var roofMat = new THREE.MeshStandardMaterial({ color: type.color, emissive: type.color, emissiveIntensity: 0.5 });
+  var roof = new THREE.Mesh(roofGeo, roofMat);
+  roof.position.set(gx, type.h + 0.1, gz);
+  B3D.scene.add(roof);
+
+  // Point light per building
+  var light = new THREE.PointLight(type.color, 0.8, 6);
+  light.position.set(gx, type.h + 1, gz);
+  B3D.scene.add(light);
+
+  B3D.cash -= type.cost;
+  B3D.income += type.income;
+  B3D.buildings.push({ x: gx, z: gz, type: B3D.selectedType, mesh: mesh });
+
+  updBuild3DHud();
+  if (typeof addSemi === 'function') addSemi(Math.round(type.cost / 100));
+  if (typeof toast === 'function') toast(type.name.split(' ')[0] + ' costruita! +' + type.income + '€/5s rendita');
+  if (typeof vibrateAndSound === 'function') vibrateAndSound('good');
+}
+
+function build3dSelect(type) {
+  B3D.selectedType = type;
+  document.querySelectorAll('.build3d-btn').forEach(function(btn) { btn.classList.remove('selected'); });
+  var btn = document.getElementById('bb-' + type);
+  if (btn) btn.classList.add('selected');
+  var lbl = document.getElementById('build3d-selected');
+  if (lbl) lbl.textContent = '→ ' + (B3D_TYPES[type] ? B3D_TYPES[type].name : type);
+}
+
+function updBuild3DHud() {
+  var el = document.getElementById('build3d-hud');
+  if (el) el.textContent = '💰 ' + B3D.cash.toLocaleString('it') + '€  🏠 ' + B3D.buildings.length + '  📈 +' + B3D.income + '€/5s';
+}
+
+function close3DBuild() {
+  B3D.running = false;
+  if (B3D._incomeTimer) clearInterval(B3D._incomeTimer);
+}
+
+window.build3dSelect = build3dSelect;
+window.initBuild3D   = initBuild3D;
+window.close3DBuild  = close3DBuild;
+
+
+// ══════════════════════════════════════════════════════════════
+// IMPOSTAZIONI — Settings screen JS
+// ══════════════════════════════════════════════════════════════
+function openImpostazioni() {
+  if (typeof showScreen === 'function') showScreen('impostazioni');
+  // Populate data
+  setTimeout(function() {
+    var n = document.getElementById('set-nome');
+    var e = document.getElementById('set-email');
+    var av = document.getElementById('set-avatar');
+    var sm = document.getElementById('set-semi');
+    var lv = document.getElementById('set-level');
+    var dr = document.getElementById('set-drago');
+    var rc = document.getElementById('set-ref-code');
+    var pr = document.getElementById('set-pro-status');
+
+    if (typeof S !== 'undefined') {
+      if (n) n.textContent = S.account ? (S.account.nome || S.account.email || '—') : '—';
+      if (e) e.textContent = S.account ? (S.account.email || '—') : '—';
+      if (av) av.textContent = S.avatar || '👤';
+      if (sm) sm.textContent = (S.coins || S.semi || 0).toLocaleString('it');
+      if (lv) lv.textContent = S.level || 1;
+      if (dr) dr.textContent = S.dragon || '🐣';
+      if (pr) pr.textContent = S.isPro ? '✅ Piano PRO attivo' : 'Piano gratuito attivo';
+    }
+    if (rc && typeof getReferralCode === 'function') rc.textContent = getReferralCode();
+
+    // Mark current language
+    document.querySelectorAll('.set-lang-btn').forEach(function(btn) {
+      var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    // Sound toggle
+    var sndCheck = document.getElementById('set-sound');
+    var sndOn = localStorage.getItem('fl_sound') !== 'off';
+    if (sndCheck) {
+      sndCheck.checked = sndOn;
+      updateToggleUI('sound', sndOn);
+    }
+  }, 100);
+}
+
+function setLangSettings(lang) {
+  if (typeof setLang === 'function') setLang(lang, null);
+  document.querySelectorAll('.set-lang-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  if (typeof toast === 'function') {
+    var names = {it:'Italiano',fr:'Français',en:'English',es:'Español',wo:'Wolof',bm:'Bambara',mo:'Mooré'};
+    toast('🌍 Lingua: ' + (names[lang] || lang));
+  }
+}
+
+function togglePref(key, val) {
+  localStorage.setItem('fl_' + key, val ? 'on' : 'off');
+  updateToggleUI(key, val);
+}
+
+function updateToggleUI(key, val) {
+  var track = document.getElementById('set-' + key + '-track');
+  var thumb = document.getElementById('set-' + key + '-thumb');
+  if (track) track.style.background = val ? 'rgba(245,200,66,.5)' : 'rgba(255,255,255,.1)';
+  if (thumb) {
+    thumb.style.background = val ? 'var(--gold)' : '#666';
+    thumb.style.left = val ? '22px' : '3px';
+  }
+}
+
+function exportProgress() {
+  var data = {
+    nome: (typeof S !== 'undefined' && S.account) ? S.account.email : '—',
+    semi: (typeof S !== 'undefined') ? (S.coins || 0) : 0,
+    level: (typeof S !== 'undefined') ? (S.level || 1) : 1,
+    data: new Date().toISOString().slice(0,10),
+  };
+  var json = JSON.stringify(data, null, 2);
+  var a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  a.download = 'finanzaland-progressi-' + data.data + '.json';
+  a.click();
+}
+
+function resetProgress() {
+  localStorage.clear();
+  if (typeof S !== 'undefined') {
+    S.coins = 0; S.semi = 0; S.level = 1; S.xp = 0;
+  }
+  if (typeof toast === 'function') toast('🗑️ Progressi resettati');
+  if (typeof showScreen === 'function') showScreen('home');
+}
+
+function doLogout() {
+  try {
+    var SUPA = window.supabaseClient || window._supabase;
+    if (SUPA && SUPA.auth) SUPA.auth.signOut();
+  } catch(e) {}
+  localStorage.removeItem('fl_session');
+  if (typeof S !== 'undefined') { S.account = null; }
+  if (typeof showScreen === 'function') showScreen('gate');
+  else location.reload();
+}
+
+window.openImpostazioni = openImpostazioni;
+window.setLangSettings  = setLangSettings;
+window.togglePref       = togglePref;
+window.exportProgress   = exportProgress;
+window.resetProgress    = resetProgress;
+window.doLogout         = doLogout;
+
+
+function setLeva(n,btn){
+  BR.leva=n;
+  if(btn){var p=btn.closest('div');if(p)p.querySelectorAll('.leva-b').forEach(function(b){b.style.background='rgba(255,255,255,.05)';});btn.style.background='rgba(167,139,250,.25)';}
+}
+window.setLeva=setLeva;
+
+async function fetchRealPrices(){
+  var syms='AAPL,TSLA,MSFT,NVDA,GC%3DF,CL%3DF,BTC-USD,ETH-USD,%5EGSPC';
+  try{
+    var res=await fetch('https://corsproxy.io/?'+encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols='+syms),{signal:AbortSignal.timeout(5000)});
+    if(!res.ok)throw new Error('fail');
+    var data=await res.json();
+    var quotes=(data.quoteResponse&&data.quoteResponse.result)||[];
+    var n=0;
+    quotes.forEach(function(q){
+      if(!q.regularMarketPrice)return;
+      var MAP={'AAPL':'AAPL','TSLA':'TSLA','MSFT':'MSFT','NVDA':'NVDA','GC=F':'GOLD','CL=F':'OIL','BTC-USD':'BTC','ETH-USD':'ETH','^GSPC':'SP500'};
+      var bTk=MAP[q.symbol]||q.symbol;
+      var s=(BR.stocks||[]).find(function(x){return x.tk===bTk||x.tk===q.symbol;});
+      if(s){s.price=Math.round(q.regularMarketPrice);s.change1d=+(q.regularMarketChangePercent||0).toFixed(1);s.hist.push(s.price);if(s.hist.length>20)s.hist.shift();n++;}
+    });
+    if(n>0&&typeof renderBRMarket==='function'){renderBRMarket();if(typeof toast==='function')toast('📡 '+n+' prezzi reali aggiornati');}
+  }catch(e){console.warn('real data:',e.message);}
+}
+function startRealDataFeed(){fetchRealPrices();clearInterval(window._rdf);window._rdf=setInterval(fetchRealPrices,30000);}
+window.fetchRealPrices=fetchRealPrices;
+window.startRealDataFeed=startRealDataFeed;
+
+// ══════════════════════════════════════════════════════
+// STAGE NAMES — multilingual
+// ══════════════════════════════════════════════════════
+var STAGE_NAMES = {
+  it: {
+    'Seme':'Seme', 'Radice':'Radice', 'Germoglio':'Germoglio',
+    'Arbusto':'Arbusto', 'Albero':'Albero',
+    'Sun Sun! — La Fase di Fioritura':'Sun Sun! — La Fase di Fioritura',
+    'Saggio':'Saggio', 'Infinito':'Infinito',
+    'Seme di Luce':'Seme di Luce',
+  },
+  fr: {
+    'Seme':'Graine', 'Radice':'Racine', 'Germoglio':'Bourgeon',
+    'Arbusto':'Arbuste', 'Albero':'Arbre',
+    'Sun Sun! — La Fase di Fioritura':'Sun Sun! — La Floraison',
+    'Saggio':'Sage', 'Infinito':'Infini',
+    'Seme di Luce':'Graine de Lumière',
+  },
+  en: {
+    'Seme':'Seed', 'Radice':'Root', 'Germoglio':'Sprout',
+    'Arbusto':'Shrub', 'Albero':'Tree',
+    'Sun Sun! — La Fase di Fioritura':'Sun Sun! — The Blooming Phase',
+    'Saggio':'Sage', 'Infinito':'Infinite',
+    'Seme di Luce':'Seed of Light',
+  },
+  es: {
+    'Seme':'Semilla', 'Radice':'Raíz', 'Germoglio':'Brote',
+    'Arbusto':'Arbusto', 'Albero':'Árbol',
+    'Sun Sun! — La Fase di Fioritura':'Sun Sun! — La Fase de Floración',
+    'Saggio':'Sabio', 'Infinito':'Infinito',
+    'Seme di Luce':'Semilla de Luz',
+  },
+};
+
+function translateStageName(name, lang) {
+  if (!lang || lang === 'it') return name;
+  var map = STAGE_NAMES[lang];
+  if (!map) return name;
+  return map[name] || name;
+}
+window.translateStageName = translateStageName;
+
+// ══════════════════════════════════════════════════════
+// GIGANTI — titoli tradotti per lingua
+// ══════════════════════════════════════════════════════
+var GIGANTI_TITLES = {
+  en: {
+    'kiyosaki_padre':    'Rich Dad Poor Dad',
+    'kiyosaki_cashflow': 'Cashflow Quadrant',
+    'psicologia_soldi':  'The Psychology of Money',
+    'millionaire_next':  'The Millionaire Next Door',
+    'ramsey_totalmoney': 'The Total Money Makeover',
+    'bogle_investitore': 'The Little Book of Common Sense Investing',
+    'graham_invest':     'The Intelligent Investor',
+    'buffett_letters':   'Letters to Shareholders',
+    'clason_babilonia':  'The Richest Man in Babylon',
+    'sethi_automata':    'I Will Teach You to Be Rich',
+    'napoleon_hill':     'Think and Grow Rich',
+    'napoleon_leggi':    'The 16 Laws of Success',
+    'napoleon_master':   'Master Key to Riches',
+    'wallace_scienza':   'The Science of Getting Rich',
+    'dispenza_abitudine':'Breaking the Habit of Being Yourself',
+    'dispenza_placebo':  'You Are the Placebo',
+    'carnegie_relazioni':'How to Win Friends and Influence People',
+    'carnegie_amici':    'How to Win Friends',
+    'seven_habits':      'The 7 Habits of Highly Effective People',
+    'dyer_potere':       'The Power of Intention',
+    'tolle_adesso':      'The Power of Now',
+    'robbins_gigante':   'Awaken the Giant Within',
+    'robbins_money':     'Money: Master the Game',
+    'greene_48_leggi':   'The 48 Laws of Power',
+    'greene_mastery':    'Mastery',
+    'sun_tzu_guerra':    'The Art of War',
+    'machiavelli':       'The Prince',
+    'maxwell_leadership':'The 21 Irrefutable Laws of Leadership',
+    'cialdini_influenza':'Influence: The Psychology of Persuasion',
+    'ries_lean':         'The Lean Startup',
+    'zero_to_one':       'Zero to One',
+    'godin_mucca':       'Purple Cow',
+    'ferriss_ore4':      'The 4-Hour Work Week',
+    'naval_almanack':    'The Almanack of Naval Ravikant',
+    'diop_nazioni':      'The African Nations and Culture',
+    'sankara_discorsi':  'Thomas Sankara Speaks',
+    'mo_ibrahim':        'Business in Africa',
+    'dangote_empire':    'Building an African Empire',
+    'lipton_biologia':   'The Biology of Belief',
+    'duhigg_abitudini':  'The Power of Habit',
+    'atomic_habits':     'Atomic Habits',
+    'gladwell_outliers': 'Outliers',
+  },
+  fr: {
+    'kiyosaki_padre':    'Père Riche Père Pauvre',
+    'kiyosaki_cashflow': 'Le Quadrant du Cashflow',
+    'psicologia_soldi':  "La Psychologie de l'Argent",
+    'millionaire_next':  "Le Millionnaire d'à Côté",
+    'ramsey_totalmoney': "Transformation Totale de l'Argent",
+    'bogle_investitore': 'Le Petit Livre du Bon Sens',
+    'napoleon_hill':     'Réfléchissez et Devenez Riche',
+    'napoleon_leggi':    'Les 16 Lois du Succès',
+    'dispenza_abitudine':"Rompre l'Habitude d'Être Soi-Même",
+    'carnegie_relazioni':'Comment se Faire des Amis',
+    'seven_habits':      'Les 7 Habitudes des Gens Efficaces',
+    'tolle_adesso':      'Le Pouvoir du Moment Présent',
+    'greene_48_leggi':   'Les 48 Lois du Pouvoir',
+    'sun_tzu_guerra':    "L'Art de la Guerre",
+    'ries_lean':         'Lean Startup',
+    'atomic_habits':     'Atomic Habits — Changez vos Habitudes',
+    'lipton_biologia':   'La Biologie des Croyances',
+    'duhigg_abitudini':  'Le Pouvoir des Habitudes',
+    'diop_nazioni':      'Nations Nègres et Culture',
+    'clason_babilonia':  "L'Homme le Plus Riche de Babylone",
+  },
+};
+
+function getGigantiTitle(libro_id, lang) {
+  if (!lang || lang === 'it') return null; // use default
+  var map = GIGANTI_TITLES[lang];
+  if (!map) return null;
+  return map[libro_id] || null;
+}
+window.GIGANTI_TITLES = GIGANTI_TITLES;
+window.getGigantiTitle = getGigantiTitle;
 </script>
 
 <div id="npc-dialog" class="g-modal" style="display:none">
@@ -18632,5 +20155,174 @@ window.buildPersonalizedPrompt = buildPersonalizedPrompt;
   <div id="w3d-dialog" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0d0d24,#1a0a2e);border:1.5px solid rgba(245,200,66,.4);border-radius:16px;padding:14px 18px;max-width:320px;z-index:70;font-size:.82rem;color:rgba(255,255,255,.85);text-align:center"></div>
   <canvas id="world3d-canvas" style="width:100%;height:100%"></canvas>
 </div>
+
+<div class="screen" id="impostazioni">
+  <div style="background:linear-gradient(160deg,#050014,#0a0028);min-height:100vh;padding-bottom:80px">
+
+    <!-- Header -->
+    <div style="padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08)">
+      <button onclick="showScreen('home')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);font-size:.75rem;cursor:pointer">←</button>
+      <div style="font-family:Fredoka One,serif;font-size:1.2rem;color:var(--gold)">⚙️ Impostazioni</div>
+    </div>
+
+    <div style="padding:16px">
+
+      <!-- Profilo -->
+      <div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Profilo</div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div id="set-avatar" style="font-size:2.5rem">👤</div>
+          <div>
+            <div id="set-nome" style="font-weight:900;font-size:.9rem">—</div>
+            <div id="set-email" style="font-size:.72rem;color:rgba(255,255,255,.4)">—</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <div style="flex:1;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.2);border-radius:10px;padding:8px;text-align:center;font-size:.72rem">
+            <div id="set-semi" style="font-weight:900;color:var(--gold)">0</div>
+            <div style="color:rgba(255,255,255,.4)">Semi</div>
+          </div>
+          <div style="flex:1;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px;text-align:center;font-size:.72rem">
+            <div id="set-level" style="font-weight:900;color:#4ade80">1</div>
+            <div style="color:rgba(255,255,255,.4)">Livello</div>
+          </div>
+          <div style="flex:1;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:10px;padding:8px;text-align:center;font-size:.72rem">
+            <div id="set-drago" style="font-weight:900;color:#a78bfa">🐣</div>
+            <div style="color:rgba(255,255,255,.4)">Drago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lingua -->
+      <div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Lingua</div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px" id="set-lang-grid">
+          <button onclick="setLangSettings('it')" class="set-lang-btn" data-lang="it">🇮🇹 IT</button>
+          <button onclick="setLangSettings('fr')" class="set-lang-btn" data-lang="fr">🇫🇷 FR</button>
+          <button onclick="setLangSettings('en')" class="set-lang-btn" data-lang="en">🇬🇧 EN</button>
+          <button onclick="setLangSettings('es')" class="set-lang-btn" data-lang="es">🇪🇸 ES</button>
+          <button onclick="setLangSettings('wo')" class="set-lang-btn" data-lang="wo">🌍 WO</button>
+          <button onclick="setLangSettings('bm')" class="set-lang-btn" data-lang="bm">🌍 BM</button>
+          <button onclick="setLangSettings('mo')" class="set-lang-btn" data-lang="mo">🌍 MO</button>
+        </div>
+      </div>
+
+      <!-- Notifiche & Suoni -->
+      <div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Preferenze</div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;margin-bottom:16px">
+        <div style="display:flex;align-items:center;padding:14px;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div style="flex:1"><div style="font-size:.85rem;font-weight:700">🔔 Notifiche</div><div style="font-size:.7rem;color:rgba(255,255,255,.4)">Promemoria lezioni giornaliere</div></div>
+          <label style="position:relative;width:44px;height:24px;display:block;cursor:pointer">
+            <input type="checkbox" id="set-notif" onchange="togglePref('notif',this.checked)" style="opacity:0;width:0;height:0">
+            <span id="set-notif-track" style="position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:12px;transition:.2s"></span>
+            <span id="set-notif-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:#666;border-radius:50%;transition:.2s"></span>
+          </label>
+        </div>
+        <div style="display:flex;align-items:center;padding:14px">
+          <div style="flex:1"><div style="font-size:.85rem;font-weight:700">🔊 Suoni</div><div style="font-size:.7rem;color:rgba(255,255,255,.4)">Effetti sonori nel gioco</div></div>
+          <label style="position:relative;width:44px;height:24px;display:block;cursor:pointer">
+            <input type="checkbox" id="set-sound" onchange="togglePref('sound',this.checked)" checked style="opacity:0;width:0;height:0">
+            <span id="set-sound-track" style="position:absolute;inset:0;background:rgba(245,200,66,.4);border-radius:12px;transition:.2s"></span>
+            <span id="set-sound-thumb" style="position:absolute;top:3px;left:22px;width:18px;height:18px;background:var(--gold);border-radius:50%;transition:.2s"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div style="font-size:.65rem;font-weight:900;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Account</div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;margin-bottom:16px">
+        <div style="display:flex;align-items:center;padding:14px;border-bottom:1px solid rgba(255,255,255,.06)">
+          <div style="flex:1"><div style="font-size:.85rem;font-weight:700">👑 Piano PRO</div><div id="set-pro-status" style="font-size:.7rem;color:rgba(255,255,255,.4)">Piano gratuito attivo</div></div>
+          <button onclick="buyPremium('pro_monthly')" style="background:linear-gradient(135deg,var(--gold),#e67e22);border:none;border-radius:10px;padding:8px 14px;color:#1a0a00;font-weight:900;font-size:.75rem;cursor:pointer">Abbonati</button>
+        </div>
+        <div style="display:flex;align-items:center;padding:14px">
+          <div style="flex:1"><div style="font-size:.85rem;font-weight:700">🔗 Codice invito</div><div id="set-ref-code" style="font-size:.7rem;color:var(--gold);font-weight:900">—</div></div>
+          <button onclick="shareInviteLink()" style="background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:8px 14px;color:#4ade80;font-weight:900;font-size:.75rem;cursor:pointer">Condividi</button>
+        </div>
+      </div>
+
+      <!-- Danger zone -->
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button onclick="exportProgress()" style="width:100%;padding:12px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:12px;color:#60a5fa;font-weight:700;font-size:.82rem;cursor:pointer">📥 Esporta progressi</button>
+        <button onclick="if(confirm('Reset completo? Perderai tutto.')) resetProgress()" style="width:100%;padding:12px;background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);border-radius:12px;color:#f87171;font-weight:700;font-size:.82rem;cursor:pointer">🗑️ Reset completo</button>
+        <button onclick="doLogout()" style="width:100%;padding:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(255,255,255,.5);font-weight:700;font-size:.82rem;cursor:pointer">🚪 Esci dall'account</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="screen" id="guida-giochi">
+  <div style="background:linear-gradient(160deg,#050014,#0a0028);min-height:100vh;padding-bottom:80px">
+    <div style="padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08)">
+      <button onclick="backToHub()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);font-size:.75rem;cursor:pointer">← Giochi</button>
+      <div style="font-family:Fredoka One,serif;font-size:1.1rem;color:var(--gold)">📖 Guide ai Giochi</div>
+    </div>
+    <div style="padding:14px">
+
+      <!-- 4 Quadranti -->
+      <div style="background:rgba(255,215,0,.05);border:1.5px solid rgba(255,215,0,.2);border-radius:16px;padding:14px;margin-bottom:12px">
+        <div style="font-family:Fredoka One,serif;font-size:1rem;color:var(--gold);margin-bottom:8px">👑 4 Quadranti — Come si gioca</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
+          <div>🎯 <strong>Obiettivo:</strong> Raggiùngere il Quadrante I (Investitore) in 12 mesi</div>
+          <div>📊 <strong>Quadranti:</strong> D=Dipendente · A=Autonomo · T=Tecnico · I=Investitore</div>
+          <div>💡 <strong>Come:</strong> Scegli una scelta ogni mese. Le scelte costruiscono il tuo profilo finanziario</div>
+          <div>🏆 <strong>Vinci:</strong> Quando il reddito passivo supera le spese (libertà finanziaria!)</div>
+        </div>
+      </div>
+
+      <!-- Corsa Inflazione -->
+      <div style="background:rgba(248,113,113,.05);border:1.5px solid rgba(248,113,113,.2);border-radius:16px;padding:14px;margin-bottom:12px">
+        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#f87171;margin-bottom:8px">🏃 Corsa Inflazione — Come si gioca</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
+          <div>🎯 <strong>Obiettivo:</strong> Sopravvivere all'inflazione raccogliendo asset e schivando perdite</div>
+          <div>🟢 <strong>Raccogli:</strong> 🥇 Oro · 📈 Azioni · 🏠 Immobili → aumentano la ricchezza</div>
+          <div>🔴 <strong>Schiva:</strong> 💸 Banconote volanti → inflazione mangia i risparmi</div>
+          <div>📱 <strong>Controlli:</strong> Tasto ◀ Sx per andare a sinistra · Tasto Dx ▶ per destra</div>
+          <div>👹 <strong>Mostro:</strong> L'inflazione ti insegue. Se ti raggiùnge perdi ricchezza rapidamente</div>
+        </div>
+      </div>
+
+      <!-- Borsa Globale -->
+      <div style="background:rgba(74,222,128,.05);border:1.5px solid rgba(74,222,128,.2);border-radius:16px;padding:14px;margin-bottom:12px">
+        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#4ade80;margin-bottom:8px">📊 Borsa Globale — Come si gioca</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
+          <div>🎯 <strong>Obiettivo:</strong> Massimizzare il portafoglio comprando basso e vendendo alto</div>
+          <div>📈 <strong>Compra:</strong> Seleziona un'azione → scegli quantità → conferma</div>
+          <div>💼 <strong>Portfolio:</strong> Tab "Portafoglio" per vedere i tuoi asset e venderli</div>
+          <div>🌍 <strong>Filtri:</strong> Africa · Europa · USA · Asia per vedere i mercati regionali</div>
+          <div>📊 <strong>ETF:</strong> Investi in tutti i mercati in una volta sola con gli ETF</div>
+        </div>
+      </div>
+
+      <!-- Monopolio -->
+      <div style="background:rgba(167,139,250,.05);border:1.5px solid rgba(167,139,250,.2);border-radius:16px;padding:14px;margin-bottom:12px">
+        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#a78bfa;margin-bottom:8px">🏗️ Monopolio Urbano — Come si gioca</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
+          <div>🎯 <strong>Obiettivo:</strong> Costruire un impero immobiliare in 4 città africane</div>
+          <div>🏠 <strong>Compra:</strong> Tocca una proprietà disponibile (🟢 verde) per acquistarla</div>
+          <div>📈 <strong>Rendita:</strong> Ogni proprietà genera rendita automatica ogni trimestre</div>
+          <div>⏭️ <strong>Turni:</strong> Premi "Prossimo trimestre" per avanzare e incassare</div>
+          <div>🌍 <strong>Città:</strong> Ouagadougou · Dakar · Abidjan · Lagos — ognuna con prezzi diversi</div>
+        </div>
+      </div>
+
+      <!-- Città 3D -->
+      <div style="background:rgba(251,146,60,.05);border:1.5px solid rgba(251,146,60,.2);border-radius:16px;padding:14px;margin-bottom:12px">
+        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#fb923c;margin-bottom:8px">🏙️ Città 3D — Come si gioca</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
+          <div>🎯 <strong>Obiettivo:</strong> Costruire una città 3D che genera rendita passiva</div>
+          <div>👇 <strong>Scegli:</strong> Seleziona un tipo di edificio dal menu in basso</div>
+          <div>🏗️ <strong>Costruisci:</strong> Tocca una cella vuota sulla griglia per costruire</div>
+          <div>💰 <strong>Rendita:</strong> Ogni edificio genera automaticamente ogni 5 secondi</div>
+          <div>📊 <strong>Strategia:</strong> Casa (economica) · Banca (costosa ma alta rendita)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
