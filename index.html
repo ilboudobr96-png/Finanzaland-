@@ -40,7 +40,7 @@ if (typeof gUpdateHud === 'undefined') {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     var swCode = [
-      "const CACHE='fl-v1';",
+      "const CACHE='fl-v8';",
       "const ASSETS=['/'];",
       "self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));",
       "self.addEventListener('fetch',e=>{if(e.request.url.includes('/api/')){return;}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});",
@@ -1530,9 +1530,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
     <div class="lang-btn" id="lang-fr" onclick="setLang('fr',this)">🇫🇷 FR</div>
     <div class="lang-btn" id="lang-en" onclick="setLang('en',this)">🇬🇧 EN</div>
     <div class="lang-btn" id="lang-es" onclick="setLang('es',this)">🇪🇸 ES</div>
-    <div class="lang-btn" id="lang-wo" onclick="setLang('wo',this)">🌍 WO</div>
-  <div class="lang-btn" id="lang-bm" onclick="setLang('bm',this)">🥁 BM</div>
-  <div class="lang-btn" id="lang-mo" onclick="setLang('mo',this)">🌾 MO</div>
+  </div
   </div>
 
   <!-- CONTENT -->
@@ -1563,7 +1561,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           </div>
         </div>
         <div class="home-btns">
-          <button class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')" data-i18n="btn_accademia">📚 Accademia Infinita</button>
+          <button class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')" data-i18n="btn_accademia"><span>📚</span> <span data-i18n="btn_accademia">Accademia Infinita</span></button>
           <button class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd" data-i18n="btn_bambini">👶 Zona<br>Bambini</button>
           <button class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti<br>Adulti</button>
           <button class="home-btn btn-secondary" onclick="showScreen('academy')" data-i18n="btn_academy">🎓 Academy &amp;<br>Professori</button>
@@ -3265,6 +3263,7 @@ var TOPICS_LANG = {
     btn_adulti_home:"💎 Outils Adultes",
     badge_pronta:"PRÊTE",
     acc_ai_lezioni:"Leçons IA Infinies",
+    btn_accademia_main:"📚 Académie Infinie",
   },
   en: {
     risparmio:    ['50-30-20 Rule','Emergency Fund','Pay Yourself First','SMART Goals','Monthly Budget','Automatic Savings','Psychology of Saving','Checking vs Savings','Saving for Kids','Rule of 72','Fixed vs Variable Expenses','Zero-based Budget','Power of Habits'],
@@ -3936,6 +3935,7 @@ var TRANSLATIONS = {
     btn_adulti_home:"💎 Adult Tools",
     badge_pronta:"READY",
     acc_ai_lezioni:"Infinite AI Lessons",
+    btn_accademia_main:"📚 Infinite Academy",
   },
   fr: {
     /* HOME + NAV + ACCADEMIA */
@@ -4054,7 +4054,7 @@ var TRANSLATIONS = {
     mondo_zone_uk:'🇬🇧 Royaume-Uni',
     /* CIVETTA */
     civetta_system:'Tu es Civetta, une IA pédagogique de FinanzaLand. Tu expliques la finance simplement, dans la langue de l utilisateur.',
-    civetta_subtitle:'Assistant IA · Finances · 7 langues',
+    civetta_subtitle:'Assistant IA · Finances · 4 langues',
     civetta_benvenuto:"Bonjour! Je suis Civetta 🦉, ton guide financier IA. Pose-moi n'importe quelle question sur l'argent, l'investissement ou l'épargne!",
     civetta_chips:[
       {label:'💰 Épargner', q:'Comment commencer à épargner?'},
@@ -4716,185 +4716,7 @@ var TRANSLATIONS = {
     chiave:"Clave",
 
     nav_avatar:"Avatar",
-  },
-  wo: {
-    home_title:'Jang ci Xaalis yi',
-    home_sub:'Ci jiit yi ak jilit yi — yomb, yomb',
-    btn_accademia:'📚 Cosaan bu dekk',
-    btn_3d:'🎮 Fecc Aventure ci jiit yi',
-    btn_adulti:'💎 Jumtukaay yu mag',
-    btn_pro:'👑 Dox ak PRO',
-    btn_academy:'🎓 Academy — Jangalekat yi',
-    btn_muro:'🌍 Ndar bu Aduna — Fecc ak Aduna',
-    btn_kids:'👶 Bunt Jiit yi — Tannal!',
-    btn_share:'↗️ Samp FinanzaLand',
-    /* COSAAN */
-    acc_back:'← Keur',
-    acc_banner:'📚 Ci koolug jang rekk — Cosaan yi def ci IA, du ay xam-xam yu soxor',
-    gen_title:'Def Cosaan bu Yomb',
-    gen_sub:'Bind sa xam-xam bi — Claude di def cosaan ak quiz',
-    gen_write_topic:'Bindal xam-xam!',
-    perc_labels:{
-      risparmio:'💰 Bëgg Xaalis', investimenti:'📈 Jëfandikoo Xaalis', mercati:'🌍 Marché',
-      immobiliare:'🏠 Kër', tasse:'📋 Impôt', obbligazioni:'🏛️ Obligations',
-      pensione:'🧓 Retraite', africa:'🌍 Afrig & BRVM', bambini:'👶 Jiit yi',
-      figli:'🍼 Ci Jiit yi', crypto:'₿ Crypto', derivati:'🎯 Produits dérivés',
-      psicologia:'🧠 Xel ak Xaalis',
-    },
-    liv_labels:{
-      base:'🌱 Sàkk', medio:'📚 ci diggante', avanzato:'🎓 Ci kanam',
-      esperto:'🔬 Ñu xam', master:'💎 Master',
-    },
-    nav_home:'Keur', nav_lezioni:'Cosaan', nav_mercati:'Marchés',
-    nav_premi:'Njariign', nav_famille:'Mbokk', nav_famiglia:'Mbokk', nav_academy:'Academy', nav_muro:'Ndar',
-    /* STATS */
-    lbl_lezioni:'Jàng IA', lbl_streak:'Suite', lbl_semi:'Gerte', lbl_livello:'Nivo',
-    acc_title:'📚 Cosaan', acc_ai:'🤖 IA',
-    gen_placeholder:'lox ci xaalis, jariign...',
-    gen_btn:'🚀 Def Cosaan ak IA',
-    gen_loading:'🤖 Claude di def sa cosaan...',
-    lv_start_quiz:'🎯 Tambali Quiz',
-    quiz_prossima:'Ci kanam →', quiz_risultato:'Xool jerejef 🎯',
-    quiz_ottimo:'Baax na!', quiz_riprova:'Dellali!',
-    quiz_chiudi:'Tëj', quiz_avanti:'Ci kanam →',
-    wall_placeholder:'Waxal ak aduna... 🌍',
-    wall_pubblica:'🌍 Bindal ci Aduna!',
-    wall_rispondi:'↩️ Tontu',
-    wall_risposta_placeholder:'Bind sa tontu... (am tegin! 😊)',
-    wall_online:'🟢 Ci internet leegi:',
-    wall_sfida_titolo:'Defi bu Aduna',
-    wall_partecipa:'⚔️ Dugal ci Defi bu Aduna!',
-    wall_classifica:'Gox yi bu Kanam ci Aduna',
-    kids_title:'🐉 Salaam! Lan nga buga def?',
-    kids_sezioni:'🎮 Lan nga buga def tey?',
-    kids_drago:'🐉 Sa Dragon',
-    kids_mem_title:'Seetlu xaalis yi! 🎴',
-    kids_mem_sub:'Tannal kart ñaar — buy mel ni same, danga doxe!',
-    kids_speed_title:'Tontu ci 10 simili!',
-    acc_login:'Dugal', acc_reg:'Bind sa tur',
-    acc_nome_ph:'Sa tur', acc_email_ph:'Email',
-    acc_pass_ph:'Mot de passe (8 xam bu ma doy)',
-    acc_crea:'🚀 Def compte bu yomb',
-    acc_entra:'🔑 Dugal',
-    acc_codice_ph:'Bindal code (ex. SCUOLA2025)',
-    acc_attiva:'✅ Seetlu Code',
-    cert_download:'📥 Jeel Certificat',
-    cert_non_sbloccato:'Amul fii',
-    toast_lingua:'Làkk: WO ✅',
-    toast_codice_ok:'Code dox na!',
-    toast_codice_err:'Code du bon',
-    toast_post_ok:'Post bindoon! Aduna gi la xoolante 🌍',
-    toast_risposta_ok:'Tontu bindoon! 💬',
-    toast_filtro_msg:'Xam-xam bu rafet rekk! 😊',
-    toast_cert:'Certificat am! 📜',
-    toast_trial:'Trial PRO dox na! 7 fan 🎉',
-    disclaimer:'Ci koolug jang rekk',
-    /* KARTI COSAAN */
-    card_semi:'Gerte', card_completata:'✅ Jeex', card_attiva_pro:'Seetlu PRO',
-    card_pronta:'✓ Dëkk',
-    /* COSAAN BI */
-    sec_cosa_impari:'Lan nga jàng', sec_esempio:'Misaal bu dëkk',
-    sec_dato:'Xam-xam bu dëkk', sec_africa:'Marché Afrique',
-    sec_sfida:'Defi bëjjël',
-    footer_ai:'🤖 Cosaan yi def leen Claude IA — dañu jàng rekk, du xam-xam bu xaalis',
-    kids_sec_memoria:'🎴 Xaalis bu Wëltan', kids_sec_memoria_desc:'Seetlu kart yi!',
-    kids_sec_quiz:'⚡ Quiz bu gaaw', kids_sec_quiz_desc:'Tontu ci 10 simili!',
-    kids_sec_impara:'📚 Jàng', kids_sec_impara_desc:'Cosaan ak IA',
-    kids_sec_drago:'🐉 Sa Dragon', kids_sec_drago_desc:'Soppaliku!',
-    kids_sec_avventura:'🎮 Fecc Aventure', kids_sec_avventura_desc:'Dëkk bu Fecc',
-    kids_sec_trofei:'🏆 Sama Trophées', kids_sec_trofei_desc:'Lan nga doxe',
-    kids_personalizza:'Tannal ngir soppaliku!',
-    kids_cosa_fare:'🐉 Salaam! Lan nga buga def?',
-    kids_oggi:'🎮 Lan nga buga def tey?',
-    fallback_sottotitolo:'Jàng {topic} ak FinanzaLand',
-    fallback_chiave1:'{topic} dafa am solo ci xaalis bu dëkk.',
-    fallback_chiave2:'Xam {topic} dafa jëfandikoo ngir yëgël sa xaalis.',
-    fallback_chiave3:'Seeti jëfandikoo ci sa mbedd bu saa si.',
-    fallback_esempio:'Xool ni {topic} jëfandikoo ci sa mbedd bu saa si.',
-    fallback_dato:'63% nit ñu fi dëkk dañu xam finanse (OCDE 2023).',
-    fallback_sfida:'Bes bii: xoolal ni {topic} jëfandikoo ci sa xaalis.',
-    popup_piani:'Yëgël Xaalis', popup_account:'Konte', popup_mercati:'Marché bu Aduna', popup_premi:'Njariign', popup_famiglia:'Mbokk yi',
-    ai_placeholder:'Laaj ma...',
-    quiz_q1:'Xam nga {topic} ?',
-    quiz_q1_opts:['Waaw, baax na','Ndaw si','Dafa yomb','Deedeet'],
-    quiz_q1_spieg:'Baax na ! Dellali jàng ngir xam ci tëj.',
-    quiz_q2:'Lan nga def ak {topic} ci sa mbedd ?',
-    quiz_q2_opts:['Leegi rekk','Ci kanam','Xam uma','Mana ko doon'],
-    quiz_q2_spieg:'Seeti jëfandikoo ci kanam mooy yëgël jàng bu dëkk.',
-    quiz_q3:'Lou am solo {topic} ci sa xaalis ?',
-    quiz_q3_opts:['Am solo lool','Am solo','Am solo dëkk','Amul solo'],
-    quiz_q3_spieg:'{topic} mooy benn ci dëkkandoo yu am solo ci xaalis bu dëkk.',
-    quiz_domanda:'Laaj', quiz_non_abbastanza:'Du dëkk — dellali !', quiz_torna_lezione:'← Cosaan', quiz_riprova_btn:'Dellali 🔄',
-    civetta_subtitle:'Claude la def · Ci koolug jàng rekk',
-    civetta_benvenuto:'Salaam ! Maa ngi dem sa waxtu ci xaalis. Laaj ma bëgg bëgg — ci régle 50-30-20 ñu des ci ETF, ci marché Afrique ñu des ci dérivés. Ci koolug jàng rekk !',
-    civetta_chips:[
-      {label:'💰 Mës',             q:'Naka mësum xaalis ?'},
-      {label:'📊 P/E',             q:'Ana ratio P/E ?'},
-      {label:'🇮🇪 ETF',            q:'ETF UCITS irlandais ?'},
-      {label:'🌍 BRVM',            q:'Naka BRVM Afrique def ?'},
-      {label:'₿ Bitcoin',         q:'Naka Bitcoin def ?'},
-      {label:'👶 Jiit yi',         q:'Wax ma xaalis ci jiit yi'},
-    ],
-    acc_back_lez:'← Cosaan',
-    chat_inizio:'Tambali wax ak',
-    chat_placeholder:'Bind sa xar-xar...',
-    chat_risposte:['Laaj bu baax! Dangay xool ci kanam.','Jërejëf! Xool karti cosaan bi.','Dugal ci live bi kanam!','Dama soppiku cosaan bi.'],
-    chat_azioni:[{icon:'📎',txt:'Dosier'},{icon:'🎁',txt:'Dox Gerte'},{icon:'📹',txt:'Vidéo'},{icon:'❓',txt:'Laaj IA'}],
-    wall_in_corso:'CI KANAM', wall_partecipanti:'dëkk', wall_premio:'Njariign', wall_online_count:'ci internet', wall_tab_tutti:'Yépp', wall_tab_bambini:'Jiit yi', wall_tab_sfide:'Défi yi', wall_tab_lezioni:'Cosaan yi', wall_tab_vicini:'Sa réew', wall_tab_classifica:'Top', wall_footer:'🌍 Jiit yi ak jilit yi ci Itali, Sénégal, Afrika',
-    academy_sei_prof:'Danga jangalekat ?', academy_crea_corsi:'Def cosaan yi, jangal ci internet, dox Gerte', academy_live_adesso:'🔴 CI KANAM', academy_guardano:'xoolante', academy_ricordami:'🔔 Bégal ma', academy_prossime:'📅 COSAAN YI CI KANAM', academy_cerca:'🔍 Seet ci tur, xam-xam, làkk...', academy_studenti:'Jàng yi', academy_corsi:'Cosaan yi', academy_ore:'Waxtaan', academy_profilo:'👁 Profil', academy_scrivi:'💬 Bindal', academy_entra_live:'🔴 Dugal Live',
-    fam_versamento:'Xaalis bu wëltan', fam_durata:'Yoon (fan)', fam_rendimento:'Njariign bu ñëwaat (%)', fam_anni:'fan', card_versato:'Bindal', fam_interesse:'Xaalis bu yokk', fam_capitale:'Xaalis bu ñëw ci kanam ', fam_tocca_lezione:'Tannal ngir def cosaan IA', fam_strumento:'JUMTUKAAY XAALIS', fam_impara_ai:'JÀNG AK IA', fam_sottotitolo:'Dëkk sa ndey ak sa baay dëkk ci kanam',
-    silver_titolo:'🥈 Monii Xaalis Jiit yi', silver_desc:'Dañu jot ci quiz, devoirs ak cosaan', silver_nota:'Njariign yu jàng rekk.', task_quiz:'Quiz jeex', task_lezione:'Cosaan jeex', task_streak:'7 fan ci kanam', task_muro:'Post ci Ndar', premi_lezioni:'cosaan jeex',
-    btn_mondo:'🌐 Landa Global', btn_mondo_back:'← Dëkk', mondo_titolo:'Landa Global Ecosystem', mondo_sub:'Tann sa Réew', mondo_hint:'Tannal seen bëgg ngir xool', mondo_ruolo:'Tann sa Yoon', mondo_moduli:'📚 Modul Cosaan Omnia',
-    ruolo_comandante:'Comandant', ruolo_comandante_sub:'Jiit · Fecc', ruolo_mentore:'Mentor', ruolo_mentore_sub:'Baay/Yaay · Karte', ruolo_saggio:'Gëlëm', ruolo_saggio_sub:'Coach · Xam-Xam',
-    puntoabla_titolo:'Abla — Xam-Xam', puntoabla_sub:'Misión jàng ngir njariign yu baax', abla_missioni:'📋 Misión Gëlëm', abla_sblocca:'Jeex 5 misión → lakk Landa Card PRO', abla_missioni_completate:'misión jeex', abla_footer:'Gëlëm bi xam lan gisul ci grafik.',
-    landacard_titolo:'Landa Card — Xaalis Merito', landacard_sub:'Toppal njariign yu dëkk', card_bloccata:'Karte Dëkk — Jeex njariijn yu des!', card_sbloccata:'Karte Dëkk — Xaalis Lakk!', card_requisiti:'Merito ≥50% · 3+ Misión Abla', card_req_merito:'Merito', card_req_missioni:'Misión Abla', card_req_lezioni:'Cosaan', card_req_streak:'Yoon', card_valute:'Xaalis yi', card_privacy:'Xam-xam jiit yi defar',
-    compliance_titolo:'Yool Scolair 2023', compliance_desc:'Jëf bu baax ≥ 9 lakk njariign ci fecc bi.',
-    saggi_titolo:'Marché Gëlëm yi', saggi_desc:'Coach yi dox Gerte ci toppandiku xam-xam Comandant yi.', saggi_valida:'Jëfandiku', saggi_premia:'Dox njariign', saggi_guadagna:'Jot', saggi_entra:'Dugal Gëlëm →',
-    adulti_quadro:'Sa Xaalis Tableau', adulti_calcolatori:'Calcul Xaalis',
-    adulti_lezioni_comp:'Cosaan', adulti_free:'Yomb', adulti_piano:'Yëgël',
-    adulti_lezioni_avanzate:'Cosaan Jilit Avancé',
-    adulti_mutuo:'Calcul Crédit', adulti_mutuo_desc:'Xool xaalis bi ak jumtukaay',
-    adulti_pensione:'Simul Retraite', adulti_pensione_desc:'Régle 4% — fan yi ngir FIRE?',
-    adulti_interessi:'Xaalis bu Yokk', adulti_interessi_desc:'Naka xaalis bi dafa yokk',
-    adulti_tasse:'Yëgël Impôt', adulti_tasse_desc:'Impôt, ETF irlandais',
-    quiz_scegli_livello:'Tann niveau bi', quiz_per_risposta:'ci tontu bu dëkk',
-    quiz_lv_facile:'🌱 Yomb', quiz_lv_medio:'📚 Ci diggante', quiz_lv_difficile:'🎓 Dafa dëgël',
-    mindset_domanda_titolo:'Xelam Mindset', mindset_scrivi:'Bindal sa tontu...', mindset_salta:'Yaqq', mindset_continua:'Jokk Cosaan →', mindset_chip:'🧠 Mindset',
-    lv_mindset:'🧠 Xelam', perc_labels_mindset:'Xelam Comandant',
-    mindset_bonus:'Xelam jeex! +30 Jemm',
-    lv_base:'🌱 Dëkk',
-    lv_avanzato:'🎓 Gëna Xam',
-    lv_esperto:'🔬 Xam-Xam',
-    lv_master:'💎 Buur',
-    lv_saggio:'🦁 Sage',
-    lv_infinito:'♾️ Infini',
-    acc_lezioni_pronte:'Cosaan yu Am',
-    acc_ai_lezioni:'Cosaan IA yu Bari',
-    badge_pronta:'AML',
-    game_lesson_title:'📚 Xam li dafa am',
-    game_lesson_study:'Jàng Cosaan',
-    game_lesson_retry:'Feccal',
-    titani_title:'Akademi yi Titan',
-    titani_giovani_label:'Ci Xale yi',
-    titani_adulti_label:'Ci Jigeenkat yi',
-    titani_quote:'"Jàng mooy yëgël bu dul dem ci kanam."',
-    
-    civetta_system:'Yaa Civetta IA bu FinanzaLand, jangalekat xaalis. Tontu ci Wolof dina. Jang rekk.',
-    deep_conn:'Connexion bëgg nañu ci xam-xam bu dëkk.',
-  
-    btn_avatar:'🐉 Ndaw yi ak Xam-Xam',
-    btn_mappa:'🗺️ Jant Aji Aduna',
-    btn_sun_room:'☀️ Bëgg-Bëgg Xam-Xam',
-    btn_bambini:'👶 Xale yi',
-    gc_quadranti:'4 Kàddug Xel',
-    gc_inflazione:'Doxal ci Inflation',
-    gc_borsa:'Boursse Aduna',
-    gc_monopolio:'Monopole Dëkk',
-  
-    btn_numero_liberta:'🗽 Sa Numero bu Liberté',
-  
-  },
-  bm: {
+  },  bm: {
     home_title:'Kalanso ni Wari la',home_sub:'Denw ani faraw ye — Tile 7 nɔgɔya la',
     btn_accademia:'📚 Kalanden Yɔrɔ',btn_3d:'🎮 Dɔ Kɛ',btn_adulti:'📊 Cɛkɔrɔw Baara',
     btn_pro:'🧑‍🏫 Karamɔgɔw',btn_academy:'🎓 Lakɔli',btn_muro:'🌍 Sɔsɔli Kongoban',
@@ -4934,49 +4756,7 @@ var TRANSLATIONS = {
         titani_adulti_label:'Bamanaw kama',
         game_lesson_title:'📚 Fɔ mun dɔnna'
   
-  },
-  mo: {
-    home_title:'Zãmsd-biis Ligdi Yɛlɛma',home_sub:'Biisi la rãmb ye — Wĩnde 7 menga',
-    btn_accademia:'📚 Zãms Yɩɩre',btn_3d:'🎮 Kẽn Dẽ',btn_adulti:'📊 Rãmba Tʋʋm',
-    btn_pro:'🧑‍🏫 Zãmsd-dãmba',btn_academy:'🎓 Lekoll',btn_muro:'🌍 Nẽd Kongoban',
-    btn_kids:'👶 Biisi Daare',btn_share:'📤 Yãk',
-    acc_back:'← Yiig',acc_banner:'Zãmsd bala — Gom fãa AI tõnd na',
-    gen_title:'🤖 Zãmsd Maan',gen_sub:'Ligdi yɛlɛ fãa gʋlsem',
-    gen_write_topic:'Yɛlɛ gʋlsem...',gen_btn:'🚀 AI Zãmsd Maan',
-    gen_loading:'⏳ Maandb...',gen_error:'Zãmsd ka wa ye. Maan paash!',
-    perc_labels:{risparmio:'Ligdi Sekr',investimenti:'Ligdi Kẽer',mercati:'Yʋʋbdo',
-      immobiliare:'Yiri',tasse:'Naab Selgr',obbligazioni:'Kaool',
-      pensione:'Tũusd Wakati',africa:'Afirik',bambini:'Biisi',
-      figli:'Biis Nins',crypto:'Kript',derivati:'Derivi',psicologia:'Yam Sẽng'},
-    lv_base:'🌱 Sɩng',lv_medio:'📚 Sẽoog',lv_esperto:'🎓 Maneg-neda',
-    lv_avanzato:'🏆 Kẽer',lv_master:'💎 Ninsaal',
-    card_semi:'Yĩng Biis',quiz_correct:'✅ Sɩd! +',quiz_wrong:'❌ Kɩɩs!',quiz_points:' yĩng biis',
-    nav_lezioni:'Zãmsd',nav_mercati:'Yʋʋbdo',nav_premi:'Paam',
-    nav_famiglia:'Zaka',nav_academy:'Lekoll',nav_muro:'Kongoban',nav_famille:'Zaka',
-    wall_tab_post:'Gom',wall_tab_sfide:'Kẽlg',wall_tab_classifica:'Nẽb',
-    wall_footer:'🌍 Biisi la Rãmb — Burkĩna Faso, Afirik, Dũnɩ fãa pʋgẽ',
-    academy_live_adesso:'🔴 Wakati Kãng',academy_cerca:'Zãmsd-dãamb yãkẽ...',
-    adulti_benvenuto:'Rãmb Lebg n kẽ',adulti_lezioni_comp:'Zãmsd Maan',
-    acc_back_lez:'← Zãms Yɩɩre',lez_quiz_title:'🎯 Bɩ la bɩ',lez_complete:'✅ Zãmsd Maana!',
-    toast_lingua:'Koɛɛg: Mooré ✅',
-    civetta_welcome:'Ẽe la! Mam yaa Civetta 🦉',
-    civetta_chips:['Ligdi sekr bʋg-bʋg?','Ligdi kẽer yaa bõe?','BRVM yaa bõe?','Yĩng biis paam?'],
-    kids_home_title:'Ẽe la! 👋',kids_home_sub:'F na maan bõe beoogo?',
-    kids_sec_memoria:'🃏 Yam',kids_sec_memoria_desc:'Kaarti Kẽlg',
-    kids_sec_quiz:'🦉 Bɩ la bɩ',kids_sec_quiz_desc:'Zãmsd maan',
-    kids_sec_impara:'📚 Zãms',kids_sec_impara_desc:'Yɛlɛ Paalg',
-    kids_sec_drago:'🐉 Drago',kids_sec_drago_desc:'F Drago Yãk',
-    kids_sec_avventura:'🗺️ Sẽoogo',kids_sec_avventura_desc:'Dũnɩ Kẽn',
-    quiz_lv_facile:'🌱 Noog-noog',quiz_lv_medio:'📚 Sẽoog',quiz_lv_difficile:'🎓 Toeem',
-    acc_login:'Kẽnd',acc_reg:'Yãkẽ',acc_nome_ph:'F yʋʋre',acc_email_ph:'Email',
-    lbl_lezioni:'Zãmsd',lbl_streak:'Rãmba Tile',lbl_semi:'Yĩng Biis',lbl_livello:'Zu-soaba',
-    titani_title:'Akademi Titan',
-        titani_giovani_label:'Kambã rãmb',
-        titani_adulti_label:'Ragmdã rãmb',
-        game_lesson_title:'📚 Bãng bũmb'
-  
-  },
-};
+  },};
 
 function setLang(lang, btnEl) {
   // Validazione lingua
@@ -5023,7 +4803,6 @@ function setLang(lang, btnEl) {
   });
 
   // ── 3. Wolof: forza modalità bambino ─────────────────
-  if (lang === 'wo') S.eta = 'bambino';
 
   // ── 4. Placeholder e campi testo ─────────────────────
   var genInp = document.getElementById('gen-topic-inp');
@@ -5686,6 +5465,10 @@ function init(){
   setTimeout(showDisclaimer, 600);
   if(typeof initExtras==='function') initExtras();
   setTimeout(autoDetectLang, 200);
+  // Also re-apply on DOMContentLoaded in case init ran too early
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(autoDetectLang, 100); });
+  }
 }
 init();
 
@@ -21940,6 +21723,440 @@ var LESSON_BANK_EN = {
     return _orig(lez, lang);
   };
 })();
+
+// ══════════════════════════════════════════════════════════════
+// LEZIONI ANALISTI BORSA — IT/FR/EN
+// ══════════════════════════════════════════════════════════════
+(function() {
+  // ── ITALIANO ──────────────────────────────────────────────
+  var BORSA_IT = [
+    {id:'brs_w1', emoji:'🗽', titolo:'S&P 500 e Wall Street: Come Funziona la Borsa USA',
+     tempo_minuti:7, semi_reward:110, livello:'medio',
+     sottotitolo:"L'indice più importante del mondo — S&P 500, Dow Jones, NASDAQ",
+     punti_chiave:[
+       'S&P 500: le 500 più grandi aziende USA — rappresenta il 50% del mercato globale',
+       'NASDAQ: specializzato in tech — Apple, Microsoft, Google, Amazon, Meta',
+       'Dow Jones Industrial: 30 blue chip storiche — meno rappresentativo del S&P',
+       'ETF S&P 500: investire in 500 aziende con un solo acquisto — costo 0.03%/anno',
+     ],
+     esempio_pratico:'Chi ha investito 1.000€ nel S&P 500 nel 2010 ha oggi oltre 6.000€ — senza fare nulla. Media storica: +10.5% annuo da 1950 ad oggi.',
+     dato_reale:'Il 94% dei fondi attivi non batte il S&P 500 su 20 anni. Warren Buffett ha scommesso 1 milione che il S&P batte qualsiasi hedge fund. Ha vinto.',
+     quiz:[
+       {domanda:'Quante aziende compone il S&P 500?',
+        opzioni:['30','100','500','5.000'],
+        risposta_corretta:2, spiegazione:'S&P 500 include le 500 maggiori aziende quotate negli USA.'},
+       {domanda:'Qual è il rendimento medio storico del S&P 500?',
+        opzioni:['2% annuo','5% annuo','10.5% annuo','25% annuo'],
+        risposta_corretta:2, spiegazione:'Media storica circa 10.5% annuo dal 1950. Con inflazione reale circa 7%.'},
+     ]},
+    {id:'brs_w2', emoji:'🇪🇺', titolo:'Borse Europee: DAX, CAC 40, FTSE MIB',
+     tempo_minuti:7, semi_reward:110, livello:'medio',
+     sottotitolo:'I mercati di casa — Germania, Francia, Italia e come entrarci',
+     punti_chiave:[
+       'DAX 40 (Germania): 40 grandi aziende — BMW, Siemens, SAP, Volkswagen',
+       'CAC 40 (Francia): 40 blue chip francesi — LVMH, TotalEnergies, Sanofi',
+       'FTSE MIB (Italia): 40 grandi italiane — ENI, Enel, Intesa, Ferrari',
+       'Euro Stoxx 50: le 50 maggiori aziende dell area euro in un solo indice',
+     ],
+     esempio_pratico:'Un ETF Euro Stoxx 50 costa 0.09%/anno e dà accesso a 50 grandi aziende europee. Chi lo acquistava nel 2012 ha quasi triplicato il capitale al 2024.',
+     dato_reale:'Il DAX tedesco ha reso mediamente il 8% annuo negli ultimi 30 anni, trainato dall eccellenza industriale delle PMI tedesche (Mittelstand).',
+     quiz:[
+       {domanda:'Qual è il principale indice borsistico italiano?',
+        opzioni:['DAX','CAC 40','FTSE MIB','Euro Stoxx'],
+        risposta_corretta:2, spiegazione:'Il FTSE MIB include le 40 maggiori aziende quotate alla Borsa di Milano.'},
+       {domanda:'LVMH è parte di quale indice?',
+        opzioni:['DAX','CAC 40','FTSE MIB','NASDAQ'],
+        risposta_corretta:1, spiegazione:'LVMH (Louis Vuitton Moet Hennessy) è una delle maggiori componenti del CAC 40 francese.'},
+     ]},
+    {id:'brs_a1', emoji:'📊', titolo:'Analisi Tecnica: Come Leggere i Grafici',
+     tempo_minuti:8, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Candlestick, supporti e resistenze — il linguaggio dei trader',
+     punti_chiave:[
+       'Le candele mostrano apertura, chiusura, massimo e minimo di ogni periodo',
+       'Supporto: zona dove il prezzo rimbalza verso l alto — area di acquisto',
+       'Resistenza: zona dove il prezzo rimbalza verso il basso — area di vendita',
+       'Trend rialzista: massimi e minimi crescenti — ribassista: il contrario',
+     ],
+     esempio_pratico:'NVDA forma una candela Doji dopo 10 giorni di rialzo: segnale di esitazione. Un trader posiziona uno stop-loss stretto e riduce l esposizione.',
+     dato_reale:'Il 73% dei trader retail perde denaro. Chi usa stop-loss sistematici perde il 45% in meno e sopravvive molto più a lungo.',
+     quiz:[
+       {domanda:'Cosa indica una candela rossa?',
+        opzioni:['Il prezzo è salito','Il prezzo è sceso','Il volume è alto','Il mercato è chiuso'],
+        risposta_corretta:1, spiegazione:'Rossa = chiusura sotto apertura = prezzo sceso nel periodo.'},
+       {domanda:'Un livello di supporto è?',
+        opzioni:['Dove vendere sempre','Dove il prezzo rimbalza verso l alto','Il massimo storico','Il costo commissione'],
+        risposta_corretta:1, spiegazione:'Il supporto è dove la domanda supera l offerta — zona di rimbalzo.'},
+     ]},
+    {id:'brs_a2', emoji:'💹', titolo:'Analisi Fondamentale: Valutare un Azienda',
+     tempo_minuti:9, semi_reward:130, livello:'avanzato',
+     sottotitolo:'P/E, EPS, Free Cash Flow — come scelgono le azioni i veri investitori',
+     punti_chiave:[
+       'P/E (Price-to-Earnings): quanti anni di utili stai pagando per ogni azione',
+       'EPS (Earnings Per Share): utile netto diviso numero di azioni totali',
+       'Free Cash Flow: il denaro reale che l azienda genera ogni anno',
+       'Regola di Graham: compra se il prezzo è sotto i 2/3 del valore intrinseco',
+     ],
+     esempio_pratico:'Apple P/E 29 vs media tech 35 — sembra sottovalutata. Free Cash Flow 100 miliardi/anno. ENI P/E 8 con dividendo 6%: classica value stock europea.',
+     dato_reale:'Warren Buffett ha battuto il mercato del 20% annuo per 50 anni con analisi fondamentale. Il suo portafoglio include Apple, Coca-Cola, AMEX.',
+     quiz:[
+       {domanda:'Un P/E di 10 significa?',
+        opzioni:['L azienda vale 10€','Paghi 10 anni di utili per azione','Cresce del 10%','Dividendo 10%'],
+        risposta_corretta:1, spiegazione:'P/E 10 = paghi 10 volte l utile annuale. Basso P/E = possibile sottovalutazione.'},
+       {domanda:'Cosa preferisce Warren Buffett?',
+        opzioni:['Analisi tecnica e grafici','Analisi fondamentale e valore intrinseco','Trading ad alta frequenza','Criptovalute'],
+        risposta_corretta:1, spiegazione:'Buffett compra aziende eccellenti a prezzi ragionevoli — fondamentali sempre.'},
+     ]},
+    {id:'brs_a3', emoji:'📉', titolo:'Gestione del Rischio: Stop-Loss e Position Sizing',
+     tempo_minuti:7, semi_reward:110, livello:'avanzato',
+     sottotitolo:'Il segreto che separa i trader professionisti dai dilettanti',
+     punti_chiave:[
+       'Regola del 2%: mai rischiare più del 2% del capitale in un singolo trade',
+       'Stop-loss: ordine automatico di vendita se il prezzo scende sotto soglia',
+       'Risk/Reward ratio: ogni trade deve avere almeno 1:2 (rischi 100, punti a 200)',
+       'Diversificazione: max 5-10% del portafoglio in un singolo titolo',
+     ],
+     esempio_pratico:'10.000€ di capitale. Regola 2% = max 200€ per trade. Compri Tesla a 200€, stop-loss a 196€ (4€ x 50 azioni = 200€ esatti). Obiettivo: 208€ per ratio 1:2.',
+     dato_reale:'I trader con stop-loss sistematici sopravvivono in media 5x più a lungo nel mercato. Senza stop-loss è solo questione di tempo.',
+     quiz:[
+       {domanda:'Con 5.000€ di capitale, qual è il max per trade con la regola del 2%?',
+        opzioni:['50€','100€','200€','500€'],
+        risposta_corretta:1, spiegazione:'2% di 5.000€ = 100€ massimo per singolo trade.'},
+       {domanda:'Risk/Reward 1:3 significa?',
+        opzioni:['Rischi 3 per guadagnare 1','Rischi 1 per guadagnare 3','30% dei trade vincono','Leva 3x'],
+        risposta_corretta:1, spiegazione:'1:3: per ogni euro rischiate, puntate a guadagnarne 3.'},
+     ]},
+    {id:'brs_c1', emoji:'₿', titolo:'Criptovalute: Opportunità e Trappole',
+     tempo_minuti:8, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Bitcoin, Ethereum, altcoin — cosa è reale e cosa è speculazione pura',
+     punti_chiave:[
+       'Bitcoin: riserva di valore digitale — 21 milioni di BTC totali, mai di più',
+       'Ethereum: piattaforma per smart contract — base delle DeFi e NFT',
+       'Volatilità: BTC può perdere il 70% in un anno — e recuperare il 500%',
+       'Regola pratica: mai più del 5-10% del portafoglio in crypto',
+     ],
+     esempio_pratico:'Chi ha comprato BTC a 3.000$ nel 2020 e venduto a 65.000$ nel 2021 ha fatto 20x. Chi ha comprato a 65.000$ e tenuto ha perso il 75% nel 2022.',
+     dato_reale:'Il 75% degli investitori crypto individuali perde denaro secondo la BIS (Banca dei Regolamenti Internazionali). Solo 25% è in utile a lungo termine.',
+     quiz:[
+       {domanda:'Quanti Bitcoin possono esistere in totale?',
+        opzioni:['1 milione','21 milioni','100 milioni','Infiniti'],
+        risposta_corretta:1, spiegazione:'Bitcoin ha un limite fisso di 21 milioni di unità. Questa scarsità è programmata nel codice.'},
+       {domanda:'Quale percentuale massima del portafoglio in crypto raccomanda la regola pratica?',
+        opzioni:['1%','5-10%','30%','50%'],
+        risposta_corretta:1, spiegazione:'5-10% max in asset altamente speculativi come le crypto.'},
+     ]},
+    {id:'brs_a4', emoji:'🌍', titolo:'BRVM e Mercati Africani: L Africa Che Investe',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:'UEMOA, Nairobi, Johannesburg — le borse del continente in crescita',
+     punti_chiave:[
+       'BRVM (8 paesi UEMOA): franco CFA ancorato all euro — 1€ = 655 CFA',
+       'Nairobi Stock Exchange: Kenya, hub tech africano — Safaricom +300% in 10 anni',
+       'JSE (Johannesburg): la più grande borsa africana — mining, fintech, retail',
+       'Crescita media PIL Africa sub-sahariana: +4.5% annuo vs +1.5% Europa',
+     ],
+     esempio_pratico:'SONATEL (Orange Senegal, BRVM): dividendo 7-9% annuo, crescita utili +15% in 5 anni. Safaricom (Nairobi): ha creato M-Pesa, il mobile banking usato da 30 milioni di kenioti.',
+     dato_reale:'La BRVM ha reso il 47% negli ultimi 3 anni. La JSE è tra le 20 borse più grandi del mondo per capitalizzazione.',
+     quiz:[
+       {domanda:'Quanti paesi fanno parte della BRVM?',
+        opzioni:['3','5','8','15'],
+        risposta_corretta:2, spiegazione:'La BRVM serve 8 paesi UEMOA: Senegal, Costa d Avorio, Burkina Faso, Mali, Niger, Togo, Benin, Guinea Bissau.'},
+       {domanda:'Qual è la borsa più grande del continente africano?',
+        opzioni:['BRVM','Nairobi Stock Exchange','JSE Johannesburg','Cairo Stock Exchange'],
+        risposta_corretta:2, spiegazione:'La JSE (Johannesburg Stock Exchange) è la più grande borsa africana per capitalizzazione.'},
+     ]},
+  ];
+
+    var BORSA_FR = [
+    {id:'brs_w1', emoji:'🗽', titolo:'S&P 500 et Wall Street: Comment Fonctionne la Bourse USA',
+     tempo_minuti:7, semi_reward:110, livello:'medio',
+     sottotitolo:'L indice le plus important du monde — S&P 500, Dow Jones, NASDAQ',
+     punti_chiave:[
+       'S&P 500: les 500 plus grandes entreprises USA — représente 50% du marché mondial',
+       'NASDAQ: spécialisé en tech — Apple, Microsoft, Google, Amazon, Meta',
+       'ETF S&P 500: investir dans 500 entreprises avec un seul achat — 0,03%/an',
+       'Rendement moyen historique: +10,5% annuel depuis 1950',
+     ],
+     esempio_pratico:'Qui a investi 1 000€ dans le S&P 500 en 2010 a aujourd hui plus de 6 000€ — sans rien faire. Moyenne historique solide depuis 70 ans.',
+     dato_reale:'94% des fonds actifs ne battent pas le S&P 500 sur 20 ans. Warren Buffett a parié 1 million sur ce fait. Il a gagné.',
+     quiz:[
+       {domanda:'Combien d entreprises compose le S&P 500?',
+        opzioni:['30','100','500','5 000'],
+        risposta_corretta:2, spiegazione:'S&P 500 inclut les 500 plus grandes entreprises cotées aux USA.'},
+       {domanda:'Quel est le rendement moyen historique du S&P 500?',
+        opzioni:['2% annuel','5% annuel','10,5% annuel','25% annuel'],
+        risposta_corretta:2, spiegazione:'Environ 10,5% annuel depuis 1950. En termes réels (inflation déduite): environ 7%.'},
+     ]},
+    {id:'brs_w2', emoji:'🇪🇺', titolo:'Bourses Européennes: DAX, CAC 40, FTSE MIB',
+     tempo_minuti:7, semi_reward:110, livello:'medio',
+     sottotitolo:'Les marchés de chez nous — Allemagne, France, Italie',
+     punti_chiave:[
+       'DAX 40 (Allemagne): 40 grandes entreprises — BMW, Siemens, SAP, Volkswagen',
+       'CAC 40 (France): 40 blue chips françaises — LVMH, TotalEnergies, Sanofi',
+       'FTSE MIB (Italie): 40 grandes italiennes — ENI, Enel, Intesa Sanpaolo, Ferrari',
+       'Euro Stoxx 50: les 50 plus grandes entreprises de la zone euro en un seul indice',
+     ],
+     esempio_pratico:'Un ETF Euro Stoxx 50 coûte 0,09%/an et donne accès à 50 grandes entreprises européennes. Acheté en 2012, il a presque triplé au cap de 2024.',
+     dato_reale:'Le DAX allemand a rendu en moyenne 8% annuel sur 30 ans, porté par l excellence industrielle des PME allemandes.',
+     quiz:[
+       {domanda:'Quel est le principal indice boursier français?',
+        opzioni:['DAX','CAC 40','FTSE MIB','Euro Stoxx'],
+        risposta_corretta:1, spiegazione:'Le CAC 40 regroupe les 40 plus grandes entreprises cotées à la Bourse de Paris.'},
+       {domanda:'LVMH fait partie de quel indice?',
+        opzioni:['DAX','CAC 40','FTSE MIB','NASDAQ'],
+        risposta_corretta:1, spiegazione:'LVMH est l une des plus grandes composantes du CAC 40 français.'},
+     ]},
+    {id:'brs_a1', emoji:'📊', titolo:'Analyse Technique: Lire les Graphiques',
+     tempo_minuti:8, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Chandeliers, supports et résistances — le langage des traders',
+     punti_chiave:[
+       'Les chandeliers montrent ouverture, clôture, haut et bas de chaque période',
+       'Support: zone où le prix rebondit vers le haut — zone d achat',
+       'Résistance: zone où le prix rebondit vers le bas — zone de vente',
+       'Tendance haussière: hauts et bas croissants',
+     ],
+     esempio_pratico:'NVDA forme un chandelier Doji après 10 jours de hausse. Un trader expérimenté réduit son exposition ou place un stop-loss serré.',
+     dato_reale:'73% des traders retail perdent de l argent. Ceux qui utilisent des stop-loss systématiques perdent 45% de moins.',
+     quiz:[
+       {domanda:'Que signifie un chandelier rouge?',
+        opzioni:['Le prix a monté','Le prix a baissé','Le volume est élevé','Le marché est fermé'],
+        risposta_corretta:1, spiegazione:'Rouge = clôture sous ouverture = prix a baissé sur la période.'},
+       {domanda:'Un niveau de support est?',
+        opzioni:['Où vendre toujours','Où le prix rebondit vers le haut','Le prix maximum historique','Le coût de commission'],
+        risposta_corretta:1, spiegazione:'Le support est une zone où la demande dépasse l offre — zone de rebond.'},
+     ]},
+    {id:'brs_a2', emoji:'💹', titolo:'Analyse Fondamentale: Évaluer une Entreprise',
+     tempo_minuti:9, semi_reward:130, livello:'avanzato',
+     sottotitolo:'P/E, BPA, Free Cash Flow — comment les vrais investisseurs choisissent les actions',
+     punti_chiave:[
+       'P/E: combien d années de bénéfices tu paies pour chaque action',
+       'BPA: bénéfice net divisé par nombre d actions total',
+       'Free Cash Flow: l argent réel que l entreprise génère chaque année',
+       'Règle de Graham: achète si le prix est sous 2/3 de la valeur intrinsèque',
+     ],
+     esempio_pratico:'Apple P/E 29 vs moyenne tech 35 — semble sous-évaluée. Free Cash Flow 100 milliards/an. ENI P/E 8 avec dividende 6%: valeur classique européenne.',
+     dato_reale:'Warren Buffett a battu le marché de 20% par an pendant 50 ans avec l analyse fondamentale.',
+     quiz:[
+       {domanda:'Un P/E de 10 signifie?',
+        opzioni:['L entreprise vaut 10€','Tu paies 10 ans de bénéfices par action','Elle croît de 10%','Dividende 10%'],
+        risposta_corretta:1, spiegazione:'P/E 10 = tu paies 10 fois le bénéfice annuel. Bas P/E = possible sous-évaluation.'},
+       {domanda:'Que préfère Warren Buffett?',
+        opzioni:['Analyse technique','Analyse fondamentale et valeur intrinsèque','Trading haute fréquence','Cryptomonnaies'],
+        risposta_corretta:1, spiegazione:'Buffett achète des entreprises excellentes à des prix raisonnables.'},
+     ]},
+    {id:'brs_a3', emoji:'📉', titolo:'Gestion du Risque: Stop-Loss et Position Sizing',
+     tempo_minuti:7, semi_reward:110, livello:'avanzato',
+     sottotitolo:'Le secret qui sépare les traders professionnels des amateurs',
+     punti_chiave:[
+       'Règle des 2%: ne jamais risquer plus de 2% du capital sur un seul trade',
+       'Stop-loss: ordre automatique de vente si le prix descend sous un seuil',
+       'Ratio Risque/Rendement: chaque trade doit avoir au moins 1:2',
+       'Diversification: max 5-10% du portefeuille dans un seul titre',
+     ],
+     esempio_pratico:'10.000€ de capital. Règle 2% = max 200€ par trade. Achète Tesla à 200€, stop-loss à 196€ (4€ x 50 actions = 200€). Objectif: 208€ pour ratio 1:2.',
+     dato_reale:'Les traders avec stop-loss systématiques survivent en moyenne 5x plus longtemps sur le marché.',
+     quiz:[
+       {domanda:'Avec 5.000€ de capital, quel est le max par trade avec la règle 2%?',
+        opzioni:['50€','100€','200€','500€'],
+        risposta_corretta:1, spiegazione:'2% de 5.000€ = 100€ maximum par trade.'},
+       {domanda:'Ratio Risque/Rendement 1:3 signifie?',
+        opzioni:['Tu risques 3 pour gagner 1','Tu risques 1 pour gagner 3','30% des trades gagnent','Levier 3x'],
+        risposta_corretta:1, spiegazione:'1:3: pour chaque euro risqué, tu vises à en gagner 3.'},
+     ]},
+    {id:'brs_c1', emoji:'₿', titolo:'Cryptomonnaies: Opportunités et Pièges',
+     tempo_minuti:8, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Bitcoin, Ethereum, altcoins — ce qui est réel et ce qui est pure spéculation',
+     punti_chiave:[
+       'Bitcoin: réserve de valeur numérique — 21 millions de BTC au total, jamais plus',
+       'Ethereum: plateforme pour smart contracts — base de la DeFi et des NFT',
+       'Volatilité: BTC peut perdre 70% en un an — et récupérer 500% ensuite',
+       'Règle pratique: jamais plus de 5-10% du portefeuille en crypto',
+     ],
+     esempio_pratico:'Qui a acheté BTC à 3.000$ en 2020 et vendu à 65.000$ en 2021 a fait 20x. Qui a acheté à 65.000$ et gardé a perdu 75% en 2022.',
+     dato_reale:'75% des investisseurs crypto individuels perdent de l argent selon la BRI. Seuls 25% sont en bénéfice à long terme.',
+     quiz:[
+       {domanda:'Combien de Bitcoin peuvent exister au total?',
+        opzioni:['1 million','21 millions','100 millions','Infinis'],
+        risposta_corretta:1, spiegazione:'Bitcoin a une limite fixe de 21 millions d unités. Cette rareté est programmée dans le code.'},
+       {domanda:'Quel pourcentage max du portefeuille en crypto?',
+        opzioni:['1%','5-10%','30%','50%'],
+        risposta_corretta:1, spiegazione:'5-10% max en actifs très spéculatifs comme les cryptos.'},
+     ]},
+    {id:'brs_a4', emoji:'🌍', titolo:'BRVM et Marchés Africains: L Afrique qui Investit',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:'UEMOA, Nairobi, Johannesburg — les bourses du continent en croissance',
+     punti_chiave:[
+       'BRVM (8 pays UEMOA): franc CFA ancré à l euro — 1€ = 655 CFA',
+       'Nairobi Stock Exchange: Kenya, hub tech africain — Safaricom +300% en 10 ans',
+       'JSE (Johannesburg): la plus grande bourse africaine — mines, fintech, retail',
+       'Croissance moyenne PIB Afrique subsaharienne: +4,5%/an vs +1,5% Europe',
+     ],
+     esempio_pratico:'SONATEL (Orange Sénégal, BRVM): dividende 7-9%/an, bénéfices +15% sur 5 ans. Safaricom (Nairobi): créé M-Pesa, le mobile banking utilisé par 30 millions de Kényans.',
+     dato_reale:'La BRVM a rendu 47% sur les 3 dernières années. La JSE est parmi les 20 plus grandes bourses mondiales par capitalisation.',
+     quiz:[
+       {domanda:'Quelle est la plus grande bourse du continent africain?',
+        opzioni:['BRVM','Nairobi Stock Exchange','JSE Johannesburg','Cairo Stock Exchange'],
+        risposta_corretta:2, spiegazione:'La JSE (Johannesburg Stock Exchange) est la plus grande bourse africaine par capitalisation.'},
+       {domanda:'Le franc CFA est ancré à?',
+        opzioni:['Au dollar','À l euro','À l or','Au pétrole'],
+        risposta_corretta:1, spiegazione:'CFA ancré à l euro: 1€ = 655,957 CFA. Stabilité monétaire garantie.'},
+     ]},
+  ];
+
+    var BORSA_EN = [
+    {id:'brs_w1', emoji:'🗽', titolo:'S&P 500 and Wall Street: How the US Stock Market Works',
+     tempo_minuti:7, semi_reward:110, livello:'medio',
+     sottotitolo:'The most important index in the world — S&P 500, Dow Jones, NASDAQ',
+     punti_chiave:[
+       'S&P 500: 500 largest US companies — represents 50% of global market cap',
+       'NASDAQ: tech-focused — Apple, Microsoft, Google, Amazon, Meta',
+       'S&P 500 ETF: invest in 500 companies with one purchase — 0.03%/year cost',
+       'Historical average return: +10.5% annually since 1950',
+     ],
+     esempio_pratico:'Someone who invested €1,000 in the S&P 500 in 2010 has over €6,000 today — without doing anything. Rock-solid 70-year track record.',
+     dato_reale:'94% of active funds do not beat the S&P 500 over 20 years. Warren Buffett bet $1 million on this fact. He won.',
+     quiz:[
+       {domanda:'How many companies make up the S&P 500?',
+        opzioni:['30','100','500','5,000'],
+        risposta_corretta:2, spiegazione:'S&P 500 includes the 500 largest companies listed in the USA.'},
+       {domanda:'What is the historical average return of the S&P 500?',
+        opzioni:['2% annually','5% annually','10.5% annually','25% annually'],
+        risposta_corretta:2, spiegazione:'About 10.5% annually since 1950. Real return after inflation: approximately 7%.'},
+     ]},
+    {id:'brs_w2', emoji:'🇪🇺', titolo:'European Stock Exchanges: DAX, CAC 40, FTSE MIB',
+     tempo_minuti:7, semi_reward:110, livello:'medio',
+     sottotitolo:'Home markets — Germany, France, Italy and how to invest in them',
+     punti_chiave:[
+       'DAX 40 (Germany): 40 large companies — BMW, Siemens, SAP, Volkswagen',
+       'CAC 40 (France): 40 French blue chips — LVMH, TotalEnergies, Sanofi',
+       'FTSE MIB (Italy): 40 large Italian companies — ENI, Enel, Intesa, Ferrari',
+       'Euro Stoxx 50: 50 largest euro zone companies in a single index',
+     ],
+     esempio_pratico:'A Euro Stoxx 50 ETF costs 0.09%/year and gives access to 50 large European companies. Bought in 2012, it nearly tripled by 2024.',
+     dato_reale:'The German DAX has returned an average of 8% annually over 30 years, driven by the excellence of German industrial SMEs.',
+     quiz:[
+       {domanda:'What is the main Italian stock index?',
+        opzioni:['DAX','CAC 40','FTSE MIB','Euro Stoxx'],
+        risposta_corretta:2, spiegazione:'The FTSE MIB includes the 40 largest companies listed on the Milan Stock Exchange.'},
+       {domanda:'LVMH is part of which index?',
+        opzioni:['DAX','CAC 40','FTSE MIB','NASDAQ'],
+        risposta_corretta:1, spiegazione:'LVMH is one of the largest components of the French CAC 40.'},
+     ]},
+    {id:'brs_a1', emoji:'📊', titolo:'Technical Analysis: Reading Charts',
+     tempo_minuti:8, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Candlesticks, support and resistance — the language of traders',
+     punti_chiave:[
+       'Candlesticks show open, close, high and low for each period',
+       'Support: zone where price bounces upward — buying area',
+       'Resistance: zone where price bounces downward — selling area',
+       'Uptrend: higher highs and higher lows',
+     ],
+     esempio_pratico:'NVDA forms a Doji candle after 10 days of gains. An experienced trader reduces exposure or places a tight stop-loss.',
+     dato_reale:'73% of retail traders lose money. Those who use systematic stop-losses lose 45% less.',
+     quiz:[
+       {domanda:'What does a red candlestick indicate?',
+        opzioni:['Price went up','Price went down','Volume is high','Market is closed'],
+        risposta_corretta:1, spiegazione:'Red = close below open = price fell during the period.'},
+       {domanda:'A support level is?',
+        opzioni:['Always sell here','Where price bounces upward','The all-time high','Commission cost'],
+        risposta_corretta:1, spiegazione:'Support is where demand exceeds supply — a bounce zone.'},
+     ]},
+    {id:'brs_a2', emoji:'💹', titolo:'Fundamental Analysis: Valuing a Company',
+     tempo_minuti:9, semi_reward:130, livello:'avanzato',
+     sottotitolo:'P/E, EPS, Free Cash Flow — how real investors choose stocks',
+     punti_chiave:[
+       'P/E: how many years of earnings you are paying per share',
+       'EPS: net income divided by total number of shares',
+       'Free Cash Flow: the real cash the company generates every year',
+       'Graham Rule: buy when price is below 2/3 of intrinsic value',
+     ],
+     esempio_pratico:'Apple P/E 29 vs tech average 35 — looks undervalued. Free Cash Flow 100 billion/year. ENI P/E 8 with 6% dividend: classic European value stock.',
+     dato_reale:'Warren Buffett beat the market by 20% annually for 50 years using only fundamental analysis.',
+     quiz:[
+       {domanda:'A P/E of 10 means?',
+        opzioni:['Company worth €10','You pay 10 years of earnings per share','Grows 10%','Dividend 10%'],
+        risposta_corretta:1, spiegazione:'P/E 10 = you pay 10x annual earnings. Low P/E = possible undervaluation.'},
+       {domanda:'What does Warren Buffett prefer?',
+        opzioni:['Technical analysis and charts','Fundamental analysis and intrinsic value','High-frequency trading','Cryptocurrencies'],
+        risposta_corretta:1, spiegazione:'Buffett buys excellent companies at fair prices — fundamentals always.'},
+     ]},
+    {id:'brs_a3', emoji:'📉', titolo:'Risk Management: Stop-Loss and Position Sizing',
+     tempo_minuti:7, semi_reward:110, livello:'avanzato',
+     sottotitolo:'The secret that separates professional traders from amateurs',
+     punti_chiave:[
+       '2% Rule: never risk more than 2% of capital on a single trade',
+       'Stop-loss: automatic sell order if price drops below a threshold',
+       'Risk/Reward ratio: every trade must have at least 1:2',
+       'Diversification: max 5-10% of portfolio in a single stock',
+     ],
+     esempio_pratico:'€10,000 capital. 2% rule = max €200 per trade. Buy Tesla at €200, stop-loss at €196 (€4 x 50 shares = €200 exactly). Target: €208 for 1:2 ratio.',
+     dato_reale:'Traders with systematic stop-losses survive on average 5x longer in the market.',
+     quiz:[
+       {domanda:'With €5,000 capital, what is the max per trade with the 2% rule?',
+        opzioni:['€50','€100','€200','€500'],
+        risposta_corretta:1, spiegazione:'2% of €5,000 = €100 maximum per trade.'},
+       {domanda:'Risk/Reward 1:3 means?',
+        opzioni:['Risk 3 to earn 1','Risk 1 to earn 3','30% of trades win','3x leverage'],
+        risposta_corretta:1, spiegazione:'1:3: for every euro risked, you aim to earn 3.'},
+     ]},
+    {id:'brs_c1', emoji:'₿', titolo:'Cryptocurrencies: Opportunities and Traps',
+     tempo_minuti:8, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Bitcoin, Ethereum, altcoins — what is real and what is pure speculation',
+     punti_chiave:[
+       'Bitcoin: digital store of value — 21 million BTC total, never more',
+       'Ethereum: platform for smart contracts — base of DeFi and NFTs',
+       'Volatility: BTC can lose 70% in a year — and recover 500% later',
+       'Practical rule: never more than 5-10% of portfolio in crypto',
+     ],
+     esempio_pratico:'Someone who bought BTC at $3,000 in 2020 and sold at $65,000 in 2021 made 20x. Someone who bought at $65,000 and held lost 75% by 2022.',
+     dato_reale:'75% of individual crypto investors lose money according to the BIS. Only 25% are profitable long-term.',
+     quiz:[
+       {domanda:'How many Bitcoin can ever exist?',
+        opzioni:['1 million','21 million','100 million','Infinite'],
+        risposta_corretta:1, spiegazione:'Bitcoin has a fixed limit of 21 million units. This scarcity is programmed into the code.'},
+       {domanda:'What maximum percentage of portfolio in crypto?',
+        opzioni:['1%','5-10%','30%','50%'],
+        risposta_corretta:1, spiegazione:'5-10% max in highly speculative assets like crypto.'},
+     ]},
+    {id:'brs_a4', emoji:'🌍', titolo:'BRVM and African Markets: Africa Invests',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:"UEMOA, Nairobi, Johannesburg — the continent's growing stock exchanges",
+     punti_chiave:[
+       'BRVM (8 UEMOA countries): CFA franc pegged to euro — 1€ = 655 CFA',
+       'Nairobi Stock Exchange: Kenya tech hub — Safaricom +300% in 10 years',
+       'JSE (Johannesburg): Africa s largest stock exchange — mining, fintech, retail',
+       'Average GDP growth sub-Saharan Africa: +4.5%/year vs +1.5% Europe',
+     ],
+     esempio_pratico:'SONATEL (Orange Senegal, BRVM): 7-9% dividend per year, earnings +15% over 5 years. Safaricom (Nairobi): created M-Pesa, mobile banking used by 30 million Kenyans.',
+     dato_reale:'BRVM returned 47% over the last 3 years. JSE is among the 20 largest stock exchanges in the world by market cap.',
+     quiz:[
+       {domanda:'What is the largest stock exchange on the African continent?',
+        opzioni:['BRVM','Nairobi Stock Exchange','JSE Johannesburg','Cairo Stock Exchange'],
+        risposta_corretta:2, spiegazione:'The JSE (Johannesburg Stock Exchange) is Africa s largest stock exchange by market cap.'},
+       {domanda:'The CFA franc is pegged to?',
+        opzioni:['The US dollar','The euro','Gold','Oil'],
+        risposta_corretta:1, spiegazione:'CFA pegged to the euro: 1€ = 655.957 CFA. Monetary stability guaranteed.'},
+     ]},
+  ];
+
+    // ── Add to LESSON_BANK ──────────────────────────────────
+  if (typeof LESSON_BANK !== 'undefined') {
+    LESSON_BANK['mercati_avanzato'] = BORSA_IT;
+  }
+  if (typeof LESSON_BANK_FR !== 'undefined') {
+    LESSON_BANK_FR['mercati_avanzato'] = BORSA_FR;
+  }
+  if (typeof LESSON_BANK_EN !== 'undefined') {
+    LESSON_BANK_EN['mercati_avanzato'] = BORSA_EN;
+  }
+
+  // ── Add to LESSON_TITLE_MAP ─────────────────────────────
+  var borsaTitlesFR = { 'brs_a1':'Analyse Technique: Lire les Graphiques', 'brs_a2':'Analyse Fondamentale: Évaluer une Entreprise', 'brs_a3':'Gestion du Risque: Stop-Loss et Position Sizing', 'brs_a4':'BRVM: La Bourse Africaine que Tu Ne Connais Pas' };
+  var borsaTitlesEN = { 'brs_a1':'Technical Analysis: Reading Charts', 'brs_a2':'Fundamental Analysis: Valuing a Company', 'brs_a3':'Risk Management: Stop-Loss and Position Sizing', 'brs_a4':'BRVM: The African Stock Exchange You Do Not Know' };
+  if (typeof LESSON_TITLE_MAP !== 'undefined') {
+    if (LESSON_TITLE_MAP.fr) Object.assign(LESSON_TITLE_MAP.fr, borsaTitlesFR);
+    if (LESSON_TITLE_MAP.en) Object.assign(LESSON_TITLE_MAP.en, borsaTitlesEN);
+  }
+  
+})();
 </script>
 
 <div id="npc-dialog" class="g-modal" style="display:none">
@@ -22018,9 +22235,9 @@ var LESSON_BANK_EN = {
           <button onclick="setLangSettings('fr')" class="set-lang-btn" data-lang="fr">🇫🇷 FR</button>
           <button onclick="setLangSettings('en')" class="set-lang-btn" data-lang="en">🇬🇧 EN</button>
           <button onclick="setLangSettings('es')" class="set-lang-btn" data-lang="es">🇪🇸 ES</button>
-          <button onclick="setLangSettings('wo')" class="set-lang-btn" data-lang="wo">🌍 WO</button>
-          <button onclick="setLangSettings('bm')" class="set-lang-btn" data-lang="bm">🌍 BM</button>
-          <button onclick="setLangSettings('mo')" class="set-lang-btn" data-lang="mo">🌍 MO</button>
+          
+          
+          
         </div>
       </div>
 
