@@ -1569,15 +1569,15 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
           <button class="home-btn btn-secondary" onclick="showScreen('academy')" data-i18n="btn_academy">🎓 Academy &amp;<br>Professori</button>
           <button class="home-btn btn-secondary" onclick="showScreen('muro-sociale')" data-i18n="btn_muro_home">🌍 Muro<br>Sociale</button>
           <button class="home-btn home-btn-wide" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.4);color:#c4b5fd;margin-top:2px" data-i18n="btn_avatar">🐉 Avatar Cultura &amp; Saggezza</button>
-<button onclick="showScreen('pro-missions-screen')" style="width:100%;padding:12px;background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(167,139,250,.08));border:1.5px solid rgba(245,200,66,.3);border-radius:14px;color:var(--gold);font-weight:900;font-size:.85rem;cursor:pointer;margin-bottom:8px">🎮 Missioni PRO MAX — 7 Sfide con i Giganti</button>
+<button onclick="showScreen('pro-missions-screen')" style="width:100%;padding:12px;background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(167,139,250,.08));border:1.5px solid rgba(245,200,66,.3);border-radius:14px;color:var(--gold);font-weight:900;font-size:.85rem;cursor:pointer;margin-bottom:8px"><span>🎮</span> <span data-i18n="btn_pro_missions">Missioni PRO MAX — 7 Sfide con i Giganti</span></button>
       <button onclick="showScreen('agent-screen')" style="display:flex;align-items:center;gap:8px;padding:12px 16px;width:100%;background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(6,182,212,.06));border:1.5px solid rgba(167,139,250,.3);border-radius:14px;color:#a78bfa;font-weight:900;cursor:pointer;margin-bottom:10px"><span style="font-size:1.4rem">🤖</span><div style="flex:1;text-align:left"><div style="font-size:.88rem" data-i18n="btn_agent">AI Agent — Missioni Live</div><div style="font-size:.62rem;color:rgba(255,255,255,.5);font-weight:400" data-i18n="btn_agent_sub">Analisi mercati in tempo reale</div></div></button>
           <button class="home-btn home-btn-wide" onclick="showScreen('mappa-missioni')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(16,185,129,.1));border:1.5px solid rgba(6,182,212,.5);color:#67e8f9;margin-top:2px;position:relative" data-i18n="btn_mappa">🗺️ Mappa Mondiale — Missioni Finanziarie<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.18);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
           <button class="home-btn home-btn-wide" onclick="showScreen('sun-room')" style="background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.5);color:#fde68a;margin-top:2px;position:relative" data-i18n="btn_sun_room">☀️ Sun Room — Libreria dei Giganti &amp; Coach Live<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">✨ NEW</span></button>
           <button class="home-btn home-btn-wide" onclick="openNumeroLiberta()" style="background:linear-gradient(135deg,rgba(167,139,250,.18),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd;margin-top:2px" data-i18n="btn_numero_liberta">🗽 Il Tuo Numero della Libertà — Calcolatore 4%</button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('protocollo-imperiale')" style="background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(180,100,0,.1));border:1.5px solid rgba(212,175,55,.5);color:#d4af37;margin-top:2px;position:relative">🛡️ Protocollo Imperiale — Kemet · Sun Tzu · Musashi<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(212,175,55,.2);color:#d4af37;border-radius:6px;padding:1px 6px;font-weight:900">KEMET</span></button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('scuola-screen')" style="background:linear-gradient(135deg,rgba(74,222,128,.18),rgba(16,185,129,.1));border:1.5px solid rgba(74,222,128,.5);color:#4ade80;margin-top:2px;position:relative">🎓 Modulo Scuola — Legge 21/2024 · Kit Insegnanti<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:6px;padding:1px 6px;font-weight:900">SCUOLA</span></button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('gran-consiglio');buildGranConsiglio();" style="background:linear-gradient(135deg,rgba(184,134,11,.18),rgba(255,215,0,.08));border:1.5px solid rgba(184,134,11,.5);color:#FFD700;margin-top:2px;position:relative">🏛️ Gran Consiglio dei Titani<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
-          <button class="home-btn home-btn-wide" onclick="showScreen('traiettoria');buildTraiettoria();" style="background:linear-gradient(135deg,rgba(236,72,153,.18),rgba(168,85,247,.1));border:1.5px solid rgba(236,72,153,.5);color:#f472b6;margin-top:2px;position:relative">🚀 La Tua Traiettoria 2026→2040<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(244,114,182,.2);color:#f472b6;border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('protocollo-imperiale')" style="background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(180,100,0,.1));border:1.5px solid rgba(212,175,55,.5);color:#d4af37;margin-top:2px;position:relative"><span>🛡️</span> <span data-i18n="btn_protocollo">Protocollo Imperiale — Kemet · Sun Tzu · Musashi</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(212,175,55,.2);color:#d4af37;border-radius:6px;padding:1px 6px;font-weight:900">KEMET</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('scuola-screen')" style="background:linear-gradient(135deg,rgba(74,222,128,.18),rgba(16,185,129,.1));border:1.5px solid rgba(74,222,128,.5);color:#4ade80;margin-top:2px;position:relative"><span>🎓</span> <span data-i18n="btn_scuola">Modulo Scuola — Legge 21/2024 · Kit Insegnanti</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:6px;padding:1px 6px;font-weight:900">SCUOLA</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('gran-consiglio');buildGranConsiglio();" style="background:linear-gradient(135deg,rgba(184,134,11,.18),rgba(255,215,0,.08));border:1.5px solid rgba(184,134,11,.5);color:#FFD700;margin-top:2px;position:relative"><span>🏛️</span> <span data-i18n="btn_consiglio">Gran Consiglio dei Titani</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('traiettoria');buildTraiettoria();" style="background:linear-gradient(135deg,rgba(236,72,153,.18),rgba(168,85,247,.1));border:1.5px solid rgba(236,72,153,.5);color:#f472b6;margin-top:2px;position:relative"><span>🚀</span> <span data-i18n="btn_traiettoria">La Tua Traiettoria 2026→2040</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(244,114,182,.2);color:#f472b6;border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
         </div>
       </div>
     </div>
@@ -3257,6 +3257,14 @@ var TOPICS_LANG = {
     nav_famiglia:"Famille",
 
     nav_avatar:"Avatar",
+    btn_pro_missions:"🎮 Missions PRO MAX — 7 Défis avec les Géants",
+    btn_protocollo:"🛡️ Protocole Impérial — Kemet · Sun Tzu · Musashi",
+    btn_scuola:"🎓 Module École — Kit Enseignants",
+    btn_consiglio:"🏛️ Grand Conseil des Titans",
+    btn_traiettoria:"🚀 Ta Trajectoire 2026→2040",
+    btn_adulti_home:"💎 Outils Adultes",
+    badge_pronta:"PRÊTE",
+    acc_ai_lezioni:"Leçons IA Infinies",
   },
   en: {
     risparmio:    ['50-30-20 Rule','Emergency Fund','Pay Yourself First','SMART Goals','Monthly Budget','Automatic Savings','Psychology of Saving','Checking vs Savings','Saving for Kids','Rule of 72','Fixed vs Variable Expenses','Zero-based Budget','Power of Habits'],
@@ -3920,6 +3928,14 @@ var TRANSLATIONS = {
 
     nav_avatar:"Avatar",
     nav_avatar:"Avatar",
+    btn_pro_missions:"🎮 PRO MAX Missions — 7 Challenges with the Giants",
+    btn_protocollo:"🛡️ Imperial Protocol — Kemet · Sun Tzu · Musashi",
+    btn_scuola:"🎓 School Module — Teacher Kit",
+    btn_consiglio:"🏛️ Grand Council of Titans",
+    btn_traiettoria:"🚀 Your Trajectory 2026→2040",
+    btn_adulti_home:"💎 Adult Tools",
+    badge_pronta:"READY",
+    acc_ai_lezioni:"Infinite AI Lessons",
   },
   fr: {
     /* HOME + NAV + ACCADEMIA */
@@ -10150,8 +10166,8 @@ function renderLezioniList() {
       card.innerHTML =
         '<div class="lesson-card-icon">'+(lez.emoji||'📖')+'</div>' +
         '<div class="lesson-card-body">' +
-          '<div class="lesson-card-perc" style="color:#4ade80">📚 PRONTA</div>' +
-          '<div class="lesson-card-title">'+(done?'✅ ':'')+lez.titolo+'</div>' +
+          '<div class="lesson-card-perc" style="color:#4ade80">📚 '+((TRANSLATIONS[S.lang]||TRANSLATIONS.it).badge_pronta||'PRONTA')+'</div>' +
+          '<div class="lesson-card-title">'+(done?'✅ ':'')+((typeof getLessonInLang==='function'&&S.lang!=='it')?(getLessonInLang(lez,S.lang).titolo||lez.titolo):lez.titolo)+'</div>' +
           '<div class="lesson-card-lv">'+livLabel+' · '+(lez.tempo_minuti||5)+' min</div>' +
           '<div class="lesson-card-semi">+ '+(lez.semi_reward||80)+' Semi</div>' +
         '</div>' +
@@ -10176,7 +10192,8 @@ function renderLezioniList() {
   // Lezioni AI (topics)
   var aiHdr = document.createElement('div');
   aiHdr.style.cssText = 'font-size:.65rem;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px';
-  aiHdr.textContent = '🤖 Lezioni AI Infinite';
+  var _t_ai = TRANSLATIONS[S.lang]||TRANSLATIONS.it;
+  aiHdr.textContent = '🤖 '+(_t_ai.acc_ai_lezioni||'Lezioni AI Infinite');
   body.appendChild(aiHdr);
 
   var topics = getTopicsForPercorso(currentPercorso.id);
@@ -16303,7 +16320,8 @@ function mmRenderCities(){
       });
     }
     // Missions
-    if (missions && missions.length) (missions||[]).forEach(function(m, mi){
+    var missions = city.missions || [];
+    if (missions.length) missions.forEach(function(m, mi){
       var done = mmGetDone(m.id);
       var locked = mi > 0 && !mmGetDone(city.missions[mi-1].id);
       html += '<div class="mm-mission-row '+(done?'done':locked?'locked':'')+'" onclick="'+(locked?'toast(\'🔒 Completa la missione precedente!\')':done?'toast(\'✅ Già completata! Ripeti per ripassare.\')':'mmOpenMission(\''+MM.continent+'\','+ci+','+mi+')')+'">';
@@ -21866,6 +21884,62 @@ window.generateReport      = generateReport;
 window.generateCertificate = generateCertificate;
 window.generateWisdomBook  = generateWisdomBook;
 window.openPdfMenu         = openPdfMenu;
+
+// ══════════════════════════════════════════════════════════════
+// LESSON_BANK_EN — English pre-written lessons
+// ══════════════════════════════════════════════════════════════
+var LESSON_BANK_EN = {
+  risparmio_base: [
+    {id:'ris_b1',emoji:'💰',titolo:'The 50-30-20 Rule',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'The budget that actually works',
+     punti_chiave:['50% for needs (rent, food, bills)','30% for wants (fun, hobbies)','20% for savings and investments'],
+     esempio_pratico:'Sara earns €1,500/month. She saves €300 automatically. In 1 year: €3,600 without thinking about it.',
+     dato_reale:'People who use the 50-30-20 rule save 3x more than those who spend randomly.',
+     quiz:[
+       {domanda:'In the 50-30-20 rule, what percentage goes to savings?',opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:'20% of income should go to savings and investments.'},
+       {domanda:'If you earn €2,000/month, how much should you save with this rule?',opzioni:['€200','€400','€600','€1,000'],risposta_corretta:1,spiegazione:'20% of €2,000 = €400 per month.'},
+     ]},
+    {id:'ris_b2',emoji:'🏦',titolo:'The Emergency Fund',tempo_minuti:6,semi_reward:80,
+     sottotitolo:'Your financial airbag',
+     punti_chiave:['Save 3-6 months of expenses','Keep it separate and liquid','It prevents going into debt when the unexpected happens'],
+     esempio_pratico:'Marco loses his job. His €8,000 emergency fund gives him 4 months to find a new one calmly.',
+     dato_reale:'67% of financial crises are solved without debt if you have an emergency fund.',
+     quiz:[
+       {domanda:'How many months of expenses should an emergency fund cover?',opzioni:['1 month','3-6 months','12 months','2 years'],risposta_corretta:1,spiegazione:'3-6 months is the financial security standard.'},
+       {domanda:'Where should you keep your emergency fund?',opzioni:['Invested in stocks','In a separate liquid account','Under the mattress','In crypto'],risposta_corretta:1,spiegazione:'It must be accessible immediately when needed.'},
+     ]},
+    {id:'ris_b3',emoji:'🔄',titolo:'Pay Yourself First: The Secret of the Rich',tempo_minuti:5,semi_reward:80,
+     sottotitolo:'Save before you spend',
+     punti_chiave:['Automatic transfer as soon as you receive your salary','10-20% goes to savings BEFORE any expense','What you do not see, you do not spend'],
+     esempio_pratico:'George sets up a €200 automatic transfer on payday. In 3 years: €7,200 without effort.',
+     dato_reale:'People who automate savings accumulate 173% more than those who save "what is left".',
+     quiz:[
+       {domanda:'When should you save according to this principle?',opzioni:['At the end of the month','As soon as you receive your salary','When something is left over','Once a year'],risposta_corretta:1,spiegazione:'Pay yourself first means saving immediately, before any expense.'},
+       {domanda:'What minimum percentage does the "pay yourself first" principle recommend?',opzioni:['1%','5%','10%','50%'],risposta_corretta:2,spiegazione:'The standard minimum is 10%. The ideal is 20%.'},
+     ]},
+  ],
+};
+
+// Update getLessonInLang to handle EN
+(function() {
+  var _orig = window.getLessonInLang || function(l){ return l; };
+  window.getLessonInLang = function(lez, lang) {
+    if (!lez || !lang || lang === 'it') return lez;
+    // EN bank
+    if (lang === 'en' && typeof LESSON_BANK_EN !== 'undefined') {
+      var enBank = LESSON_BANK_EN;
+      var keys = Object.keys(enBank);
+      for (var ki = 0; ki < keys.length; ki++) {
+        var arr = enBank[keys[ki]];
+        if (!arr) continue;
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i] && arr[i].id === lez.id) return arr[i];
+        }
+      }
+    }
+    return _orig(lez, lang);
+  };
+})();
 </script>
 
 <div id="npc-dialog" class="g-modal" style="display:none">
