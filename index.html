@@ -253,7 +253,9 @@ if ('serviceWorker' in navigator) {
 }
 html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(--bg);
   font-family:system-ui,-apple-system,sans-serif;color:var(--txt)}
-#app{width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column}
+#app{width:100%;max-width:480px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column;position:relative}
+html,body{background:#0a0028}
+@media(min-width:600px){body{display:flex;justify-content:center;align-items:stretch;background:linear-gradient(135deg,#050014,#0a0028)}}
 
 /* ── HUD ── */
 #hud{display:flex;align-items:center;gap:8px;padding:8px 12px;
@@ -273,7 +275,7 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 /* ── SCREENS ── */
 #content{flex:1;position:relative;overflow:hidden;padding-bottom:64px}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}.screen:not(.active){display:none!important;visibility:hidden!important;pointer-events:none!important}
-.screen.active{display:flex}#avatar-cultura.active{display:flex;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}#avatar-cultura.active{display:flex;flex-direction:column;overflow:hidden}@media(min-width:600px){.screen{overflow-y:auto}}
 
 /* ── HOME ── */
 #home{background:linear-gradient(160deg,#02001a,#080028);overflow:hidden}
@@ -1505,7 +1507,26 @@ html,body{width:100%;height:100vh;height:100dvh;overflow:hidden;background:var(-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body>
+<body><script>
+window.addEventListener('error', function(e) {
+  var d=document.createElement('div');
+  d.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#c00;color:#fff;padding:6px 10px;font-size:11px;font-family:monospace';
+  d.textContent='JS ERROR: '+e.message+' | Line: '+e.lineno;
+  if(document.body)document.body.appendChild(d);
+});
+</script>
+<script>
+window.addEventListener('error', function(e) {
+  var msg = 'ERROR: ' + e.message + ' File: ' + e.filename + ' Line: ' + e.lineno + ':' + e.colno;
+  console.error(msg);
+  var div = document.createElement('div');
+  div.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#f00;color:#fff;padding:8px;font-size:11px;word-break:break-all';
+  div.textContent = msg;
+  if(document.body) document.body.appendChild(div);
+  else document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(div); });
+});
+</script>
+
 <div id="app">
 
   <!-- HUD -->
@@ -2658,6 +2679,14 @@ function safeSetItem(key, value) {
 // ═══════════════════════════════════════════════════════
 // STATO GLOBALE
 // ═══════════════════════════════════════════════════════
+
+function _safeJson(obj) {
+  try { return JSON.stringify(obj).replace(/"/g, "'"); } catch(e) { return '{}'; }
+}
+function _escQ(s) {
+  return (s || '').replace(/'/g, "\\'");
+}
+
 var S = {
   coins: parseInt(safeLSStr('fl_coins','0'))||0,
   level: parseInt(safeLSStr('fl_level','1'))||1,
@@ -3541,14 +3570,7 @@ function buildLandaCard(zone) {
 }
 window.buildLandaCard = buildLandaCard;
 
-// ── Aggiorna showScreen per le nuove schermate ────────────
-var _origShowScreen = window.showScreen;
-window.showScreen = function(name) {
-  if (_origShowScreen) _origShowScreen(name);
-  if (name==='mondo-globale') setTimeout(buildMondo, 50);
-  else if (name==='punto-abla') setTimeout(buildPuntoAbla, 50);
-  else if (name==='landa-card') setTimeout(function(){ buildLandaCard(currentRegion||'EUROPE'); }, 50);
-};
+// [wrapper removed — all in unified showScreen]
 
 
 function setNav(id){
@@ -3927,14 +3949,14 @@ var TRANSLATIONS = {
 
     nav_avatar:"Avatar",
     nav_avatar:"Avatar",
-    btn_pro_missions:"🎮 PRO MAX Missions — 7 Challenges with the Giants",
-    btn_protocollo:"🛡️ Imperial Protocol — Kemet · Sun Tzu · Musashi",
-    btn_scuola:"🎓 School Module — Teacher Kit",
-    btn_consiglio:"🏛️ Grand Council of Titans",
-    btn_traiettoria:"🚀 Your Trajectory 2026→2040",
-    btn_adulti_home:"💎 Adult Tools",
-    badge_pronta:"READY",
-    acc_ai_lezioni:"Infinite AI Lessons",
+    btn_pro_missions:"🎮 Missioni PRO MAX — 7 Sfide con i Giganti",
+    btn_protocollo:"🛡️ Protocollo Imperiale — Kemet · Sun Tzu · Musashi",
+    btn_scuola:"🎓 Modulo Scuola — Legge 21/2024 · Kit Insegnanti",
+    btn_consiglio:"🏛️ Gran Consiglio dei Titani",
+    btn_traiettoria:"🚀 La Tua Traiettoria 2026→2040",
+    btn_adulti_home:"💎 Strumenti Adulti",
+    badge_pronta:"PRONTA",
+    acc_ai_lezioni:"Lezioni AI Infinite",
     btn_accademia_main:"📚 Infinite Academy",
   },
   fr: {
@@ -4763,7 +4785,7 @@ function setLang(lang, btnEl) {
   if (!TRANSLATIONS[lang]) lang = 'it';
   
   // Quando cambia lingua, SVUOTA TUTTA la cache lezioni
-  // Le lezioni in italiano non vanno bene per FR/EN
+  // Le lezioni in italiano non vanno bene per FR|EN
   if (S.lang && S.lang !== lang) {
     try {
       LESSON_CACHE = {};
@@ -4789,7 +4811,7 @@ function setLang(lang, btnEl) {
   document.querySelectorAll('[data-i18n]').forEach(function(el) {
     var key = el.getAttribute('data-i18n');
     var val = t[key];
-    // Fallback: nav_famiglia per FR/WO usa nav_famille
+    // Fallback: nav_famiglia per FR|WO usa nav_famille
     if (!val && key === 'nav_famiglia') val = t['nav_famille'];
     if (!val) val = (TRANSLATIONS['it'] || {})[key];
     if (val) el.textContent = val;
@@ -4963,39 +4985,80 @@ function initExtras() {
 // ════════════════════════════════════════════════════════
 // SHOWSCREEN MASTER -- gestisce tutte le schermate
 // ════════════════════════════════════════════════════════
-var _baseShowScreen = showScreen; // funzione originale
-showScreen = function(name) {
-  // Nascondi tutte le schermate
+// ════════════════════════════════════════════════════════════════
+// SHOWSCREEN UNIFICATO — sostituisce tutti i 7 wrapper
+// ════════════════════════════════════════════════════════════════
+function showScreen(name) {
+  // ── 1. Nascondi tutte le schermate ──────────────────────────
   document.querySelectorAll('.screen').forEach(function(s){
     s.classList.remove('active');
+    s.classList.remove('fading');
   });
-  // Mostra quella richiesta
+
+  // ── 2. Mostra quella richiesta ───────────────────────────────
   var target = document.getElementById(name);
   if (target) target.classList.add('active');
-  // Aggiorna nav
+
+  // ── 3. Aggiorna nav bar ──────────────────────────────────────
   document.querySelectorAll('.bn').forEach(function(b){ b.classList.remove('active'); });
   var navMap = {
-    'home':'bn-home', 'accademia':'bn-acc',
-    'academy':'bn-academy', 'adulti':'bn-acc'
+    'home':'bn-home','accademia':'bn-acc','academy':'bn-academy',
+    'adulti':'bn-acc','giochi':'bn-games','muro-sociale':'bn-wall',
+    'impostazioni':'bn-settings'
   };
   var bnId = navMap[name];
-  if (bnId) {
-    var bnEl = document.getElementById(bnId);
-    if (bnEl) bnEl.classList.add('active');
-  }
-  // Build dinamici per ogni schermata
-  var builders = {
-    'accademia':      function(){ if(typeof buildAccademia==='function') buildAccademia(); },
-    'adulti':         function(){ if(typeof buildAdulti==='function') buildAdulti(); },
-    'messaggi':       function(){ if(typeof buildMessaggi==='function') buildMessaggi(); },
-    'academy':        function(){ if(typeof buildAcademy==='function') buildAcademy(currentAcademyTab||'live'); },
-    'notifiche':      function(){ if(typeof buildNotifiche==='function') buildNotifiche(); },
-    'calendario':     function(){ if(typeof buildCalendario==='function') buildCalendario(); },
-    'diventa-prof':   function(){ if(typeof buildDiventaProf==='function') buildDiventaProf(); },
+  if (bnId) { var bnEl = document.getElementById(bnId); if (bnEl) bnEl.classList.add('active'); }
+
+  // ── 4. Chiama il builder specifico ──────────────────────────
+  var BUILD_MAP = {
+    'accademia':          function(){ if(typeof buildAccademia==='function') buildAccademia(); },
+    'adulti':             function(){ if(typeof buildAdulti==='function') buildAdulti(); },
+    'muro-sociale':       function(){ if(typeof buildMuroSociale==='function') buildMuroSociale(); },
+    'academy':            function(){ if(typeof buildAcademy==='function') buildAcademy(typeof currentAcademyTab!=='undefined'?currentAcademyTab:'live'); },
+    'messaggi':           function(){ if(typeof buildMessaggi==='function') buildMessaggi(); },
+    'notifiche':          function(){ if(typeof buildNotifiche==='function') buildNotifiche(); },
+    'calendario':         function(){ if(typeof buildCalendario==='function') buildCalendario(); },
+    'diventa-prof':       function(){ if(typeof buildDiventaProf==='function') buildDiventaProf(); },
+    'gran-consiglio':     function(){ if(typeof buildGranConsiglio==='function') buildGranConsiglio(); },
+    'traiettoria':        function(){ if(typeof buildTraiettoria==='function') buildTraiettoria(); },
+    'mondo-globale':      function(){ if(typeof buildMondo==='function') buildMondo(); },
+    'punto-abla':         function(){ if(typeof buildPuntoAbla==='function') buildPuntoAbla(); },
+    'saggezza-screen':    function(){ if(typeof buildSaggezza==='function') buildSaggezza(); },
+    'avatar-cultura':     function(){ if(typeof buildSaggezza==='function') buildSaggezza(); if(typeof cultInit==='function') cultInit(); },
+    'sun-room':           function(){ if(typeof buildSunRoom==='function') buildSunRoom(); },
+    'protocollo-imperiale':function(){ if(typeof buildProtocollo==='function') buildProtocollo(); },
+    'scuola-screen':      function(){ if(typeof buildScuolaScreen==='function') buildScuolaScreen(); },
+    'mappa-missioni':     function(){ if(typeof buildMappaMissioni==='function') buildMappaMissioni(); },
+    'pro-missions-screen':function(){ if(typeof buildProMissionsHub==='function') buildProMissionsHub(); },
+    'agent-screen':       function(){ if(typeof buildAgentHub==='function') buildAgentHub(); },
+    'numero-liberta':     function(){ if(typeof buildNumeroLiberta==='function') buildNumeroLiberta(); },
+    'char-select-screen': function(){ if(typeof buildAvatarSelector==='function') buildAvatarSelector(); },
+    'kids-home':          function(){ if(typeof buildKidsIsland==='function') buildKidsIsland(); if(typeof buildKidsSections==='function') buildKidsSections(); },
+    'kids-dragon-custom': function(){ if(typeof buildDragonCustom==='function') buildDragonCustom(); },
+    'kids-memoria':       function(){ if(typeof buildMemoria==='function') buildMemoria(); },
+    'kids-quiz-speed':    function(){ if(typeof buildSpeedQuiz==='function') buildSpeedQuiz(); },
+    'giochi':             function(){ if(typeof gShowScr==='function') gShowScr('giochi'); if(typeof gUpdateHud==='function') gUpdateHud(); },
+    'landa-card':         function(){ if(typeof buildLandaCard==='function') buildLandaCard(typeof currentRegion!=='undefined'?currentRegion:'EUROPE'); },
   };
-  if (builders[name]) setTimeout(builders[name], 0);
-};
+  if (BUILD_MAP[name]) {
+    setTimeout(function(){ try { BUILD_MAP[name](); } catch(e){ console.warn('showScreen build error ['+name+']:', e.message); } }, 80);
+  }
+
+  // ── 5. Nascondi sotto-schermi giochi quando si esce ─────────
+  if (name !== 'giochi') {
+    ['gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione',
+     'gioco-classifica','fg-simulator-screen','ai-game-screen'].forEach(function(sid){
+      var el = document.getElementById(sid);
+      if (el) el.classList.remove('active');
+    });
+  }
+}
 window.showScreen = showScreen;
+
+// Compat aliases
+var setActiveScreen = showScreen;
+window.setActiveScreen = showScreen;
+
 
 // ════════════════════════════════════════════════════════
 // ZONA BAMBINI -- Interattiva, giocosa, educativa
@@ -7645,7 +7708,7 @@ function buildAvatarSelector(containerEl, onSave) {
     containerEl.appendChild(grpGrid);
   });
 
-  // CAPPELLI/ACCESSORI
+  // CAPPELLI|ACCESSORI
   makeSection('🎩 Accessorio');
   var hatGrid = document.createElement('div');
   hatGrid.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px';
@@ -8416,17 +8479,7 @@ function _buildDragonCustomLEGACY() {
 window.buildDragonCustom = buildDragonCustom;
 
 // ── AGGIORNA showScreen per bambini ──────────────────────
-var _showMaster = showScreen;
-showScreen = function(name) {
-  _showMaster(name);
-  if (name === 'kids-home') {
-    setTimeout(function(){
-      buildKidsIsland();
-      buildKidsSections();
-    }, 50);
-  }
-};
-window.showScreen = showScreen;
+// [Kids wrapper removed — handled in unified showScreen]
 
 
 // ════════════════════════════════════════════════════════
@@ -9176,20 +9229,7 @@ function updateHomeDragon() {
 }
 
 // ── TRANSIZIONE SCHERMATA FLUIDA ─────────────────────────
-var _lastShowScreen = showScreen;
-showScreen = function(name) {
-  var curr = document.querySelector('.screen.active');
-  if (curr && curr.id !== name) {
-    curr.classList.add('fading');
-    setTimeout(function(){
-      curr.classList.remove('fading');
-      _lastShowScreen(name);
-    }, 80);
-  } else {
-    _lastShowScreen(name);
-  }
-};
-window.showScreen = showScreen;
+// [Fade wrapper removed — unified showScreen handles screen switching]
 
 // ── SUONI SU TUTTI I BOTTONI ─────────────────────────────
 document.addEventListener('click', function(e){
@@ -11715,17 +11755,7 @@ window.buildPuntoAbla = buildPuntoAbla;
 window.buildLandaCard = buildLandaCard;
 
 // ── OVERRIDE showScreen per nuove schermate ─────────────────────────────
-var _ss = window.showScreen;
-window.showScreen = function(name) {
-  if (_ss) _ss(name);
-  if (name==='mondo-globale')   setTimeout(buildMondo, 50);
-  if (name==='punto-abla')      setTimeout(buildPuntoAbla, 50);
-  if (name==='landa-card')      setTimeout(function(){ buildLandaCard(currentRegion||'EUROPE'); }, 50);
-  if (name==='accademia')       setTimeout(buildAccademia, 50);
-  if (name==='adulti')          setTimeout(buildAdulti, 50);
-  if (name==='avatar-cultura')  setTimeout(function(){ if(typeof cultInit==='function') cultInit(); if(typeof syncAvatarLevel==='function') syncAvatarLevel(); }, 50);
-  if (name==='saggezza-screen') setTimeout(function(){ if(typeof buildSaggezza==='function') buildSaggezza(); }, 50);
-};
+// [L11741 wrapper removed]
 
 
 
@@ -12817,7 +12847,7 @@ function renderCultureCard() {
             <div class="phrase-local">${f.local}</div>
             <span class="phrase-phonetic">[${f.ph}]</span>
           </div>
-          <button class="play-btn" onclick="playPhrase('${f.it.replace(/'/g,"\\'")}')">🔊</button>
+          <button class="play-btn" onclick="playPhrase('${_escQ(f.it)}')">🔊</button>
         </div>`).join('')}
       </div>
     </div>
@@ -15445,11 +15475,15 @@ function doRegister() {
   var nick=(document.getElementById("acc-r-nk").value||"").trim();
   var em=(document.getElementById("acc-r-em").value||"").trim().toLowerCase();
   var pw=(document.getElementById("acc-r-pw").value||"").trim();
+  var pw2=(document.getElementById("acc-r-pw2")?document.getElementById("acc-r-pw2").value||"":"");
   var tipo=document.getElementById("acc-r-tp").value;
   if(!nome||!nick||!em||!pw){toast("Compila tutti i campi");return;}
+  if(pw2 && pw !== pw2){toast("Le password non coincidono");return;}
   if(!em.includes("@")){toast("Email non valida");return;}
   if(pw.length<8){toast("Password minimo 8 caratteri");return;}
   if(nick.length<3){toast("Soprannome minimo 3 caratteri");return;}
+  if(/\s/.test(nick)){toast("Soprannome senza spazi");return;}
+  if(!/^[a-zA-Z0-9_\-À-ÿ]+$/.test(nick)){toast("Soprannome: solo lettere, numeri, _ e -");return;}
   var saved=safeLS("fl_users",{});
   if(Object.values(saved).some(function(u){return u.nick.toLowerCase()===nick.toLowerCase();})){toast("Soprannome già usato");return;}
   if(saved[em]){toast("Email già registrata");return;}
@@ -15523,6 +15557,8 @@ function buildAccountProfilo(bEl) {
     document.querySelectorAll('.user-avatar-display').forEach(function(el){el.textContent='👤';});
   };
   bEl.appendChild(out);
+
+  bEl.innerHTML += '<button onclick="doLogout()" style="width:100%;margin-top:8px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:10px;color:#f87171;font-weight:700;cursor:pointer;font-size:.8rem">🚪 Esci dall\'account</button>';
 }
 
 // ══════════════════════════════════════════════════════════
@@ -15772,10 +15808,6 @@ function avPickSelect(emoji) {
 </div>
 
 </body>
-</html
-
-// ═══════════════════════════════════════════════════
-</script>
 
 <!-- ═══════════════════════════════════════════════
      MAPPA MISSIONI — CSS + JS
@@ -16234,17 +16266,7 @@ function mmToggleGPS(){
   }
 }
 
-/* ── Hook into showScreen ── */
-(function(){
-  var _ss = window.showScreen;
-  window.showScreen = function(name){
-    if(_ss) _ss(name);
-    if(name === 'mappa-missioni') setTimeout(buildMappaMissioni, 50);
-    if(name === 'sun-room') setTimeout(function(){ if(typeof buildSunRoom==='function') buildSunRoom(); }, 50);
-    if(name === 'protocollo-imperiale') setTimeout(function(){ if(typeof buildProtocollo==='function') buildProtocollo(); }, 50);
-    if(name === 'scuola-screen') setTimeout(function(){ if(typeof buildScuolaScreen==='function') buildScuolaScreen(); }, 50);
-  };
-})();
+
 </script>
 
 <!-- ═══════════════════════════════════════════════
@@ -16321,20 +16343,7 @@ function backToHub(){
   if(typeof gUpdateHud==='function') gUpdateHud();
 }
 
-/* Quando showScreen attiva 'giochi', gShowScr mostra l'hub */
-(function(){
-  var _ss=window.showScreen;
-  window.showScreen=function(name){
-    if(_ss)_ss(name);
-    if(name==='giochi'){gShowScr('giochi');gUpdateHud();}
-    else{
-      // Nascondi tutti i sotto-schermi giochi quando si esce
-      ['gioco-quadranti','gioco-brvm','gioco-immobiliare','gioco-inflazione','gioco-classifica','fg-simulator-screen','ai-game-screen','gioco-build3d'].forEach(function(sid){
-        var el=document.getElementById(sid);if(el)el.classList.remove('active');
-      });
-    }
-  };
-})();
+// [Games wrapper removed — giochi in unified showScreen]
 
 /* ── MODAL & WIN ── */
 function openModal(html){document.getElementById('g-modal-box').innerHTML=html;document.getElementById('g-modal').classList.add('open');}
@@ -16444,7 +16453,7 @@ function renderQQ(){
     evH=`<div class="qq-card"><div class="qq-card-title">${ev.icon} ${ev.ti} — Mese ${QQ.month}</div><div class="qq-evt-txt">${tx}</div><div class="qq-choices">`;
     (ev&&ev.ch||[]).forEach((c,i)=>{
       const col=c.great?'#FFD700':c.good?'#4ade80':c.bad?'#f87171':'rgba(255,255,255,.3)';
-      evH+=`<button class="qq-ch" onclick="qqPick(${i})" style="border-color:${col}30"><span>${c.t}</span>${c.ef?`<span class="qq-effect" style="background:${col}18;color:${col}">${c.ef}</span>`:''}</button>`;
+      evH+='<button class="qq-ch" onclick="qqPick('+i+')" style="border-color:'+col+'30"><span>'+c.t+'</span>'+(c.ef?'<span class="qq-effect" style="background:'+col+'18;color:'+col+'">'+c.ef+'</span>':'')+'</button>';
     });
     evH+=`</div></div>`;
   }
@@ -16480,7 +16489,7 @@ function qqEnd(){
   const semi=won?120:Math.max(30,Math.round(QQ.passive/QQ.expenses*80));
   const q=QQ_QUADS.find(x=>x.q===QQ.quadrant);
   showWin(won?'🏆':'💪',won?'Libertà Finanziaria!':'Bella avventura!',
-    `Rendita passiva: ${Math.floor(QQ.passive)}€/m · Spese: ${QQ.expenses}€/m · Quadrante: ${q?.name||QQ.quadrant}`,semi);
+    `Rendita passiva: ${Math.floor(QQ.passive)}€-mese · Spese: ${QQ.expenses}€-mese · Quadrante: ${q?.name||QQ.quadrant}`,semi);
   if(!GS.scores.qq||GS.scores.qq<semi){GS.scores.qq=semi;saveGS();}
 }
 
@@ -16535,20 +16544,22 @@ function advRound(){
     s.hist.push(s.price);if(s.hist.length>10)s.hist.shift();
   });
   BR._etfP=getETFPrice();
-  // Auto SL/TP
+  // Auto StopLoss TakeProfit
   Object.keys(BR.port).forEach(tk=>{
     const pos=BR.port[tk];const s=BR.stocks.find(x=>x.tk===tk);
     if(!s||!pos||!pos.qty)return;
     const leva=pos.leva||1;
-    if(pos.sl>0&&s.price<=pos.sl){
+    var slHit=(pos.sl>0)&&(s.price<=pos.sl);
+    var tpHit=(pos.tp>0)&&(s.price-pos.tp>=0);
+    if(slHit){
       BR.cash+=Math.round(s.price*pos.qty)+(pos.margin||0);
-      toast("🛑 STOP-LOSS: "+s.name+" venduto! Perdita limitata.");
+      toast("Stop-Loss: "+s.name+" venduto.");
       if(typeof vibrateAndSound==="function")vibrateAndSound("bad");
       delete BR.port[tk];
-    } else if(pos.tp>0&&s.price>=pos.tp){
-      const gain=Math.round(s.price*pos.qty*leva);
+    } else if(tpHit){
+      var gain=Math.round(s.price*pos.qty*leva);
       BR.cash+=gain;
-      toast("🎯 TAKE-PROFIT: "+s.name+"! Guadagno: +"+gain.toLocaleString()+"€");
+      toast("Take-Profit: "+s.name+"! +"+gain.toLocaleString()+"€");
       if(typeof vibrateAndSound==="function")vibrateAndSound("good");
       if(typeof addSemi==="function")addSemi(Math.max(1,Math.round(gain/500)));
       delete BR.port[tk];
@@ -16577,7 +16588,7 @@ function setRegionFilter(r){BR.regionFilter=r;renderBRMarket();}
 function renderBRMarket(){
   const p=document.getElementById('bpanel-mercato');
   const regions=[{id:'ALL',label:'🌐 Tutti'},{id:'AFRICA',label:'🌍 Africa'},{id:'AMERICAS',label:'🇺🇸 America'},{id:'EUROPE',label:'🇪🇺 Europa'},{id:'ASIA',label:'🌏 Asia'}];
-  let h=`<div class="reg-filters">${regions.map(r=>`<button class="reg-chip ${BR.regionFilter===r.id?'active':''}" onclick="setRegionFilter('${r.id}')">${r.label}</button>`).join('')}</div>`;
+  let h='<div class="reg-filters">'+regions.map(r=>'<button class="reg-chip '+(BR.regionFilter===r.id?'active':'')+'" onclick="setRegionFilter(\''+r.id+'\')">'+r.label+'</button>').join('')+'</div>';
   h+=`<div style="padding:6px 12px 0"><div class="brvm-mh"><div class="brvm-round-lbl">📅 Round ${BR.round}/${BR.maxR}</div><button class="brvm-next" onclick="advRound()">⏭ +1 Mese</button></div></div>`;
   BR.stocks.filter(s=>BR.regionFilter==='ALL'||s.region===BR.regionFilter).forEach(s=>{
     const prev=s.hist.length>1?s.hist[s.hist.length-2]:s.price;
@@ -16674,7 +16685,7 @@ function renderBRBond(){
   const p=document.getElementById('bpanel-bond');
   const bonds=[{name:'Titolo di Stato BF',rate:.02,dur:5,min:500,icon:'🇧🇫',risk:'Basso'},{name:'Obbligazione BCEAO',rate:.035,dur:8,min:1000,icon:'🏦',risk:'Basso'},{name:'Bond Sonatel Corporate',rate:.05,dur:10,min:2000,icon:'📡',risk:'Medio'},{name:"Eurobond'Africa",rate:.065,dur:15,min:3000,icon:'🌍',risk:'Medio-Alto'}];
   let h='<div style="font-size:.72rem;color:var(--muted);line-height:1.55;margin-bottom:10px">Le obbligazioni offrono un rendimento <strong style="color:#fff">fisso e garantito</strong>.</div>';
-  (BR.bonds||[]).forEach(b=>{h+=`<div class="scard"><div class="srow"><div><div class="sname">${b.icon} ${b.name}</div><div class="sticker">Durata: ${b.dur} round · Min: ${b.min.toLocaleString()}€ · Rischio: ${b.risk}</div></div><div><div class="sprice up">${(b.rate*100).toFixed(1)}%</div><div class="sticker up">rendimento</div></div></div><button class="s-btn btn-buy" style="width:100%;margin-top:7px" onclick="buyBond(${JSON.stringify(b).replace(/"/g,"'")})">🔒 Investi</button></div>`;});
+  (BR.bonds||[]).forEach(b=>{h+=`<div class="scard"><div class="srow"><div><div class="sname">${b.icon} ${b.name}</div><div class="sticker">Durata: ${b.dur} round · Min: ${b.min.toLocaleString()}€ · Rischio: ${b.risk}</div></div><div><div class="sprice up">${(b.rate*100).toFixed(1)}%</div><div class="sticker up">rendimento</div></div></div><button class="s-btn btn-buy" style="width:100%;margin-top:7px" onclick="buyBond(${_safeJson(b)})">🔒 Investi</button></div>`;});
   if(BR.bonds.length){h+='<div class="sect-title" style="margin-top:14px">LE TUE OBBLIGAZIONI</div>';(BR.bonds||[]).forEach(b=>{h+=`<div style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.18);border-radius:11px;padding:9px 11px;margin-bottom:6px"><div style="font-size:.77rem;font-weight:900">${b.name}</div><div style="font-size:.64rem;color:var(--muted);margin-top:2px">${b.amt.toLocaleString()}€ · Scade round ${b.mR}</div></div>`;});}
   p.innerHTML=h;
 }
@@ -16720,7 +16731,7 @@ function renderIMM(){
     (city.plots||[]).forEach(pl=>{
       const owned=!!IM.props[pl.id];const canBuy=!owned&&IM.cash>=pl.price;
       const cls=owned?'p-owned':canBuy?'p-avail':'p-locked';
-      h+=`<div class="imm-plot ${cls}" onclick="${canBuy?`buyProp('${pl.id}')`:owned?`upgProp('${pl.id}')`:''}" ><div class="imm-pico">${owned?'✅':canBuy?pl.ico:'🔒'}</div><div class="imm-pname">${pl.name}</div>${owned?`<div class="imm-prent">+${IM.props[pl.id].rent}€/m</div>`:`<div class="imm-pprice">${canBuy?pl.price.toLocaleString()+'€':'🔒'}</div>`}</div>`;
+      h+='<div class="imm-plot '+cls+'" onclick="'+(canBuy?'buyProp(\''+pl.id+'\')':owned?'upgProp(\''+pl.id+'\')':'')+'" ><div class="imm-pico">'+(owned?'✅':canBuy?pl.ico:'🔒')+'</div><div class="imm-pname">'+pl.name+'</div>'+(owned?'<div class="imm-prent">+'+IM.props[pl.id].rent+'€-mese</div>':'<div class="imm-pprice">'+(canBuy?pl.price.toLocaleString()+'€':'🔒')+'</div>')+'</div>';
     });
     h+='</div></div>';
   });
@@ -16728,10 +16739,10 @@ function renderIMM(){
   document.getElementById('imm-body').innerHTML=h;
 }
 function buyProp(id){const pl=IM_CITIES.flatMap(c=>c.plots).find(p=>p.id===id);if(!pl||IM.cash<pl.price)return;IM.cash-=pl.price;IM.props[id]={...pl,level:1};IM.income+=pl.rent;toast('🔑 Acquistato: '+pl.name+'!');renderIMM();}
-function upgProp(id){const pr=IM.props[id];if(!pr)return;const cost=Math.round(pr.rent*5);openModal(`<div class="gm-title">🏗️ Migliora Proprietà</div><div class="gm-sub">${pr.name}</div><div class="gm-row"><span class="gm-label">Rendita attuale</span><span class="gm-val">+${pr.rent}€/m</span></div><div class="gm-row"><span class="gm-label">Costo upgrade</span><span class="gm-val">${cost}€</span></div><div class="gm-row"><span class="gm-label">Nuova rendita</span><span class="gm-val" style="color:var(--green)">+${Math.round(pr.rent*1.5)}€/m</span></div><button class="gm-confirm" style="background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff" onclick="${IM.cash>=cost?`doUpg('${id}')`:"toast('❌ '+${cost}+'€ necessari')"}" >🏗️ ${IM.cash>=cost?'Migliora':'Insufficiente ('+cost+'€)'}</button><button class="gm-cancel" onclick="closeModal()">Annulla</button>`);}
+function upgProp(id){const pr=IM.props[id];if(!pr)return;const cost=Math.round(pr.rent*5);openModal(`<div class="gm-title">🏗️ Migliora Proprietà</div><div class="gm-sub">${pr.name}</div><div class="gm-row"><span class="gm-label">Rendita attuale</span><span class="gm-val">+${pr.rent}€/m</span></div><div class="gm-row"><span class="gm-label">Costo upgrade</span><span class="gm-val">${cost}€</span></div><div class="gm-row"><span class="gm-label">Nuova rendita</span><span class="gm-val" style="color:var(--green)">+${Math.round(pr.rent*1.5)}€/m</span></div><button class="gm-confirm" style="background:linear-gradient(135deg,var(--purple),#7c3aed);color:#fff" onclick="${IM.cash>=cost?"doUpg('"+id+"')":"toast('❌ '+${cost}+'€ necessari')"}" >🏗️ ${IM.cash>=cost?'Migliora':'Insufficiente ('+cost+'€)'}</button><button class="gm-cancel" onclick="closeModal()">Annulla</button>`);}
 function doUpg(id){const pr=IM.props[id];if(!pr)return;const cost=Math.round(pr.rent*5);if(IM.cash<cost){toast('❌ Fondi insufficienti');return;}IM.cash-=cost;IM.income-=pr.rent;pr.rent=Math.round(pr.rent*1.5);pr.level=(pr.level||1)+1;IM.income+=pr.rent;closeModal();toast('⬆️ Proprietà migliorata! +'+pr.rent+'€/m');renderIMM();}
 function immTurn(){IM.cash+=IM.income;if(IM.income>0)toast('💰 Rendite incassate: +'+IM.income+'€');const ev=IM_EVENTS[Math.floor(Math.random()*IM_EVENTS.length)];ev.fx(IM);IM.event=ev;IM.turn++;if(IM.turn>IM.maxT){immEnd();return;}renderIMM();}
-function immEnd(){const pv=Object.values(IM.props).reduce((a,p)=>a+p.price,0);const tot=IM.cash+pv;const semi=Math.max(30,Math.min(160,Math.round(tot/150)));showWin('🏠','Portafoglio Immobiliare!',`${Object.keys(IM.props).length} proprietà · Rendita: ${IM.income}€/m · Patrimonio: ${tot.toLocaleString()}€`,semi);}
+function immEnd(){const pv=Object.values(IM.props).reduce((a,p)=>a+p.price,0);const tot=IM.cash+pv;const semi=Math.max(30,Math.min(160,Math.round(tot/150)));showWin('🏠','Portafoglio Immobiliare!',`${Object.keys(IM.props).length} proprietà · Rendita: ${IM.income}€-mese · Patrimonio: ${tot.toLocaleString()}€`,semi);}
 
 /* ══════════════════════════════════════════
    GIOCO 4 — CORSA ALL'INFLAZIONE
@@ -16891,7 +16902,7 @@ async function aigTurn(userMsg){
     var resp=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:aigGetSystem(),messages:msgs})});
     var data=await resp.json();
     var raw=(data.content&&data.content[0]&&data.content[0].text)||'';
-    var cleaned=raw.replace(/^```json\s*/i,'').replace(/^```/i,'').replace(/```\s*$/,'').trim();
+    var cleaned=raw.replace(/^\x60\x60\x60json\s*/i,'').replace(/^\x60\x60\x60/i,'').replace(/\x60\x60\x60\s*$/,'').trim();
     var parsed;
     try{parsed=JSON.parse(cleaned);}catch(e){parsed={scene:'Il mondo ti aspetta. Scegli la tua strada.',dragon:'Ogni scelta conta!',lesson:'Il cash flow è la base della ricchezza.',choices:[{text:'Investo in ETF',effect:'+50€/m passiva',delta:{passive:50},good:true},{text:'Spendo per il presente',effect:'-200€ cassa',delta:{cash:-200},good:false},{text:'Aspetto e osservo',effect:'Nessun cambiamento',delta:{},good:null}],location:AIG.location};}
     if(sceneEl)sceneEl.innerHTML=parsed.scene+(parsed.lesson?'<div style="margin-top:10px;padding:8px;background:rgba(74,222,128,.08);border-left:3px solid #4ade80;border-radius:0 8px 8px 0;font-size:.72rem;color:rgba(255,255,255,.6)">📚 '+parsed.lesson+'</div>':'');
@@ -17430,7 +17441,7 @@ var LESSON_TITLE_MAP = {
 
 // ── ENHANCED getLessonInLang ──────────────────────────────────────
 // Per IT: usa lezione originale
-// Per FR/EN/ES: se esiste LESSON_BANK_FR/EN → usa quella
+// Per FR|EN|ES: se esiste LESSON_BANK_FR|EN → usa quella
 // Altrimenti: usa la lezione IT ma con titolo tradotto → API genera in lingua
 function getLessonInLang(lez, lang) {
   if (!lez || !lang || lang === 'it') return lez;
@@ -19583,7 +19594,7 @@ setInterval(updateWealthChart, 3000);
 window.buildWealthChart = buildWealthChart;
 
 // ══════════════════════════════════════════════════════════════
-// ONBOARDING — goal + risk (IT/FR/EN/WO)
+// ONBOARDING — goal + risk (IT|FR|EN|WO)
 // ══════════════════════════════════════════════════════════════
 var _obGoal = '';
 var _obRisk = 'medium';
@@ -20044,10 +20055,13 @@ function doLogout() {
     var SUPA = window.supabaseClient || window._supabase;
     if (SUPA && SUPA.auth) SUPA.auth.signOut();
   } catch(e) {}
-  localStorage.removeItem('fl_session');
+  try { localStorage.removeItem('fl_session'); } catch(e) {}
+  try { localStorage.removeItem('fl_account'); } catch(e) {}
   if (typeof S !== 'undefined') { S.account = null; }
-  if (typeof showScreen === 'function') showScreen('gate');
-  else location.reload();
+  closePopup();
+  if (typeof updateHUD === 'function') updateHUD();
+  if (typeof showScreen === 'function') showScreen('home');
+  toast('👋 Disconnesso correttamente');
 }
 
 window.openImpostazioni = openImpostazioni;
@@ -20067,7 +20081,7 @@ window.setLeva=setLeva;
 async function fetchRealPrices(){
   var syms='AAPL,TSLA,MSFT,NVDA,GC%3DF,CL%3DF,BTC-USD,ETH-USD,%5EGSPC';
   try{
-    var res=await fetch('https://corsproxy.io/?'+encodeURIComponent('https://query1.finance.yahoo.com/v7/finance/quote?symbols='+syms),{signal:AbortSignal.timeout(5000)});
+    var res=await fetch('https://corsproxy.io/?'+encodeURIComponent('https://query1.finance.yahoo.com-v7-finance-quote?symbols='+syms),{signal:AbortSignal.timeout(5000)});
     if(!res.ok)throw new Error('fail');
     var data=await res.json();
     var quotes=(data.quoteResponse&&data.quoteResponse.result)||[];
@@ -20504,8 +20518,7 @@ function renderProQuizQ(mId, qIdx) {
   var domanda = q.d[lang] || q.d.it;
   var opzioni  = q.o[lang] || q.o.it;
   
-  window._pmMid = mId; window._pmQidx = qIdx;
-  var btns = opzioni.map(function(op, i) {
+     var btns = opzioni.map(function(op, i) {
     return '<button onclick="answerProQuiz(window._pmMid,window._pmQidx,' + i + ')" style="width:100%;padding:11px 12px;margin-bottom:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:11px;color:rgba(255,255,255,.85);font-size:.82rem;cursor:pointer;text-align:left">' + (i===0?'A':i===1?'B':i===2?'C':'D') + '  ' + op + '</button>';
   }).join('');
   
@@ -20591,7 +20604,8 @@ function finishProMission(mId) {
 
 // ── 4. PRO MISSIONS HUB UI ──────────────────────────────────────
 function buildProMissionsHub() {
-  var lang = S.lang || 'it';
+  try {
+  var lang = (typeof S !== "undefined" && S.lang) ? S.lang : "it" || 'it';
   var container = document.getElementById('pro-missions-hub');
   if (!container) return;
   
@@ -20628,6 +20642,7 @@ function buildProMissionsHub() {
   }).join('');
   
   container.innerHTML = header + '<div style="padding:0 14px 14px">' + cards + '</div>';
+  } catch(e) { console.warn("PRO MAX build error:", e.message); }
 }
 
 window.PRO_MISSIONS      = PRO_MISSIONS;
@@ -20643,249 +20658,152 @@ window.buildProMissionsHub = buildProMissionsHub;
 // ══════════════════════════════════════════════════════════════
 
 var AGENT = {
-  running:    false,
-  lastRun:    0,
-  missions:   [],
-  events:     [],
-  interval:   null,
-  RUN_EVERY:  5 * 60 * 1000,  // ogni 5 minuti
+  running:  false,
+  lastRun:  0,
+  missions: [],
+  events:   [],
+  interval: null,
+  isOnline: false,
+  RUN_EVERY: 5 * 60 * 1000,
 };
 
-// ── 1. FETCH NOTIZIE MERCATO (RSS → CORS proxy) ──────────────
+// ── Fallback missions per sessione offline ─────────────────
+var AGENT_OFFLINE_MISSIONS = [
+  { evento:'📉 S&P 500 -1.8% — Correzione tecnica dopo massimi storici', simbolo:'SPX', variazione:-1.8, tipo:'ribasso',
+    missione:'Studia la gestione del rischio: cos è uno stop-loss e come si calcola?', percorso:'mercati', xp:50 },
+  { evento:'📈 NVIDIA +4.2% — Beat sugli utili trimestrali AI', simbolo:'NVDA', variazione:4.2, tipo:'rialzo',
+    missione:'Analisi fondamentale: cos è l EPS e come si usa per valutare un titolo?', percorso:'investimenti', xp:60 },
+  { evento:'🔥 Inflazione EU 2.8% — BCE mantiene tassi invariati', simbolo:'EUR', variazione:0, tipo:'macro',
+    missione:'Come l inflazione erode il risparmio? Calcola l impatto su 10.000€ in 10 anni.', percorso:'risparmio', xp:55 },
+  { evento:'🌍 BRVM Composite +2.1% — SONATEL traina il mercato', simbolo:'SONATEL', variazione:2.1, tipo:'rialzo',
+    missione:'Analizza i mercati africani: cos è la BRVM e perché il franco CFA conta?', percorso:'mercati', xp:65 },
+  { evento:'₿ Bitcoin -3.5% — Profit taking dopo rally settimanale', simbolo:'BTC', variazione:-3.5, tipo:'ribasso',
+    missione:'Gestione del rischio crypto: la regola del 5-10% del portafoglio massimo.', percorso:'mercati', xp:50 },
+  { evento:'🏦 Taglio tassi FED 0.25% — Liquidità in aumento', simbolo:'USD', variazione:0, tipo:'macro',
+    missione:'Come i tassi di interesse influenzano obbligazioni, azioni e immobili?', percorso:'investimenti', xp:70 },
+  { evento:'📊 Gold +1.2% — Oro vola su incertezza geopolitica', simbolo:'GOLD', variazione:1.2, tipo:'rialzo',
+    missione:'L oro come asset: quando protegge davvero il portafoglio dall inflazione?', percorso:'investimenti', xp:55 },
+];
+
 async function agentGetMarketNews() {
-  var sources = [
-    'https://feeds.finance.yahoo.com/rss/2.0/headline?s=^GSPC,AAPL,TSLA,BTC-USD&region=IT&lang=it-IT',
-    'https://www.brvm.org/fr/cours-de-la-bourse',
-  ];
   var news = [];
   try {
-    // Try Yahoo Finance RSS
     var res = await fetch(
-      'https://corsproxy.io/?' + encodeURIComponent('https://feeds.finance.yahoo.com/rss/2.0/headline?s=AAPL,TSLA,BTC-USD,GC%3DF&region=IT&lang=it-IT'),
-      { signal: AbortSignal.timeout(6000) }
+      'https://corsproxy.io/?' + encodeURIComponent('https://feeds.finance.yahoo.com-rss-2.0-headline?s=AAPL,TSLA,NVDA,BTC-USD&region=IT&lang=it-IT'),
+      { signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined }
     );
-    if (res.ok) {
-      var txt = await res.text();
-      // Parse RSS titles
-      var matches = txt.match(/<title><!\[CDATA\[([^\]]+)\]\]><\/title>/g) || [];
-      matches.forEach(function(m) {
-        var t = m.replace(/<title><!\[CDATA\[/, '').replace(/\]\]><\/title>/, '').trim();
-        if (t && t.length > 10 && t.indexOf('Yahoo') < 0) news.push(t);
-      });
-    }
-  } catch(e) {}
-
-  // Fallback: use real price data as "news"
-  if (news.length === 0 && Object.keys(_realCache||{}).length > 0) {
-    Object.entries(_realCache).forEach(function([sym, d]) {
-      if (Math.abs(d.pct||0) > 2) {
-        var dir = d.pct > 0 ? '+' : '';
-        news.push(sym + ' ' + dir + (d.pct||0).toFixed(1) + '% — ' + (d.pct > 0 ? 'rialzo forte' : 'calo forte'));
-      }
-    });
-  }
-
-  // Always have fallback news
-  if (news.length === 0) {
-    var scenarios = [
-      'S&P 500 in calo del 2.3% — paura recessione USA',
-      'Bitcoin supera $70.000 — nuovo record storico',
-      'BRVM: Sonatel +8% dopo utili record',
-      'Fed mantiene tassi invariati — mercati in attesa',
-      'Oro ai massimi storici: $2.500/oz — fuga dal rischio',
-      'Tesla -15% dopo richiamo globale di 200.000 veicoli',
-      'Inflazione eurozona 3.2% — BCE pronta ad alzare tassi',
-      'Apple annuncia buyback da $110 miliardi',
-    ];
-    news.push(scenarios[Math.floor(Date.now()/300000) % scenarios.length]);
-  }
-
-  return news.slice(0, 5);
-}
-
-// ── 2. AI ANALISI NEWS → missione per studenti ────────────────
-async function agentAnalyzeNews(newsItems) {
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  var newsText = newsItems.join('\n');
-  
-  var systemPrompts = {
-    it: 'Sei un mentor finanziario per studenti. Analizza queste notizie di mercato e crea UNA missione educativa breve e coinvolgente. Rispondi SOLO in JSON: {"evento":"testo breve evento","domanda":"cosa fai?","opzioneA":"compro","opzioneB":"vendo","opzioneC":"aspetto","risposta_migliore":"A|B|C","spiegazione":"max 2 frasi","xp":50,"emoji":"📊"}',
-    fr: 'Tu es un mentor financier pour étudiants. Analyse ces actualités et crée UNE mission éducative. Réponds UNIQUEMENT en JSON: {"evento":"texte court","domanda":"que fais-tu?","opzioneA":"j\'achète","opzioneB":"je vends","opzioneC":"j\'attends","risposta_migliore":"A|B|C","spiegazione":"max 2 phrases","xp":50,"emoji":"📊"}',
-    en: 'You are a financial mentor for students. Analyze these market news and create ONE educational mission. Reply ONLY in JSON: {"evento":"short event text","domanda":"what do you do?","opzioneA":"I buy","opzioneB":"I sell","opzioneC":"I wait","risposta_migliore":"A|B|C","spiegazione":"max 2 sentences","xp":50,"emoji":"📊"}',
-  };
-
-  var systemPrompt = systemPrompts[lang] || systemPrompts.it;
-  
-  try {
-    var res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: systemPrompt,
-        messages: [{ role: 'user', content: 'Notizie di oggi:\n' + newsText }],
-        max_tokens: 300,
-      })
-    });
-    if (!res.ok) throw new Error('api_fail');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     var ct = res.headers.get('content-type') || '';
+    if (!ct.includes('xml') && !ct.includes('rss') && !ct.includes('text')) throw new Error('not_rss');
+    var txt = await res.text();
+    var items = txt.match(/<title><!\[CDATA\[([^\]]+)\]\]><\/title>/g) || [];
+    items.slice(0,5).forEach(function(t) {
+      var title = t.replace(/<[^>]+>/g,'').replace(/!\[CDATA\[|\]\]/g,'').trim();
+      if (title && title.length > 10) news.push({ title: title, source: 'Yahoo Finance' });
+    });
+    AGENT.isOnline = news.length > 0;
+  } catch(e) {
+    AGENT.isOnline = false;
+  }
+  return news;
+}
+
+async function agentAnalyzeNews(news) {
+  if (!news || news.length === 0) return null;
+  try {
+    var prompt = 'Sei un AI agent finanziario educativo. Analizza questa notizia e genera una missione di apprendimento in JSON. Notizia: "' + news[0].title + '". Rispondi SOLO con JSON: {"evento":"[notizia breve]","simbolo":"[TICKER]","variazione":0,"tipo":"rialzo|ribasso|macro","missione":"[compito educativo concreto]","percorso":"risparmio|investimenti|mercati","xp":50}';
+    var resp = await fetch('/api/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ message: prompt, lang: (typeof S !== 'undefined' ? S.lang : 'it'), context:'agent' })
+    });
+    if (!resp.ok) throw new Error('api_fail');
+    var ct = resp.headers.get('content-type') || '';
     if (!ct.includes('json')) throw new Error('not_json');
-    var _rt = await res.text();
-    var data = {};
-    try { data = JSON.parse(_rt || '{}'); } catch(e) { throw new Error('parse_fail'); }
-    var txt = (data.content || []).map(function(c) { return c.text || ''; }).join('');
-    // Clean and parse the JSON response
-    var clean = txt.replace(/```json|```/g, '').trim();
-    var jsonStart = clean.indexOf('{');
-    var jsonEnd = clean.lastIndexOf('}');
-    if (jsonStart >= 0 && jsonEnd > jsonStart) {
-      return JSON.parse(clean.slice(jsonStart, jsonEnd + 1));
-    }
-  } catch(e) {}
-
-  // Fallback mission based on news
-  var news0 = newsItems[0] || 'Mercato volatile';
-  return {
-    evento: news0,
-    domanda: lang === 'fr' ? 'Que fais-tu?' : lang === 'en' ? 'What do you do?' : 'Cosa fai?',
-    opzioneA: lang === 'fr' ? 'J\'achète' : lang === 'en' ? 'I buy' : 'Compro',
-    opzioneB: lang === 'fr' ? 'Je vends' : lang === 'en' ? 'I sell' : 'Vendo',
-    opzioneC: lang === 'fr' ? 'J\'attends' : lang === 'en' ? 'I wait' : 'Aspetto',
-    risposta_migliore: 'C',
-    spiegazione: lang === 'fr' ? 'En période d\'incertitude, la patience est souvent la meilleure stratégie.' : lang === 'en' ? 'In uncertain times, patience is often the best strategy.' : 'Nei momenti di incertezza, la pazienza è spesso la strategia migliore.',
-    xp: 50,
-    emoji: '📊',
-  };
-}
-
-// ── 3. MOSTRA MISSIONE DINAMICA ALL'UTENTE ────────────────────
-function agentShowMission(mission) {
-  if (!mission || !mission.evento) return;
-  
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  AGENT.events.unshift({ ts: Date.now(), mission: mission });
-  if (AGENT.events.length > 20) AGENT.events.pop();
-
-  // Store for the agent hub
-  try { localStorage.setItem('fl_agent_events', JSON.stringify(AGENT.events.slice(0,10))); } catch(e) {}
-
-  // Show notification badge if user is not looking at agent screen
-  var agentBadge = document.getElementById('agent-badge');
-  if (agentBadge) {
-    agentBadge.textContent = Math.min(9, (parseInt(agentBadge.textContent) || 0) + 1);
-    agentBadge.style.display = 'flex';
-  }
-
-  // Auto-show if on home or borsa screen
-  var active = document.querySelector('.screen.active');
-  var activeId = active ? active.id : '';
-  if (activeId === 'home' || activeId === 'gioco-brvm' || activeId === 'fg-simulator-screen') {
-    setTimeout(function() { agentShowMissionModal(mission); }, 1500);
+    var data = await resp.json();
+    var text = (data.reply || data.message || '').replace(/\x60\x60\x60json|\x60\x60\x60/g,'').trim();
+    return JSON.parse(text);
+  } catch(e) {
+    return null;
   }
 }
 
-function agentShowMissionModal(mission) {
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  var labelA = lang === 'fr' ? 'Option A' : lang === 'en' ? 'Option A' : 'Opzione A';
-  var labelB = lang === 'fr' ? 'Option B' : lang === 'en' ? 'Option B' : 'Opzione B';
-  var labelC = lang === 'fr' ? 'Option C' : lang === 'en' ? 'Option C' : 'Opzione C';
-  var liveLabel = lang === 'fr' ? '📡 ÉVÉNEMENT EN DIRECT' : lang === 'en' ? '📡 LIVE EVENT' : '📡 EVENTO IN DIRETTA';
-  var missionLabel = lang === 'fr' ? '🤖 Mission générée par FinanzaLand AI' : lang === 'en' ? '🤖 Mission generated by FinanzaLand AI' : '🤖 Missione generata da FinanzaLand AI';
-
-  window._agentMission = mission;
-  
-  openModal(
-    '<div style="text-align:center;margin-bottom:10px">' +
-      '<div style="font-size:.6rem;font-weight:900;color:#f87171;letter-spacing:2px;margin-bottom:6px">' + liveLabel + '</div>' +
-      '<div style="font-size:2rem;margin-bottom:6px">' + (mission.emoji || '📊') + '</div>' +
-      '<div style="font-size:.88rem;font-weight:900;color:#fff;line-height:1.5;margin-bottom:4px">' + mission.evento + '</div>' +
-      '<div style="font-size:.72rem;color:rgba(255,255,255,.5)">' + missionLabel + '</div>' +
-    '</div>' +
-    '<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:10px 12px;margin-bottom:12px">' +
-      '<div style="font-size:.82rem;font-weight:900;color:#fff;margin-bottom:10px">' + mission.domanda + '</div>' +
-      '<button onclick="agentAnswer(\'A\')" style="width:100%;padding:10px 12px;margin-bottom:7px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:10px;color:rgba(255,255,255,.85);font-size:.82rem;cursor:pointer;text-align:left">A  ' + mission.opzioneA + '</button>' +
-      '<button onclick="agentAnswer(\'B\')" style="width:100%;padding:10px 12px;margin-bottom:7px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;color:rgba(255,255,255,.85);font-size:.82rem;cursor:pointer;text-align:left">B  ' + mission.opzioneB + '</button>' +
-      '<button onclick="agentAnswer(\'C\')" style="width:100%;padding:10px 12px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:10px;color:rgba(255,255,255,.85);font-size:.82rem;cursor:pointer;text-align:left">C  ' + mission.opzioneC + '</button>' +
-    '</div>' +
-    '<div style="font-size:.62rem;color:rgba(255,255,255,.3);text-align:center">+' + (mission.xp || 50) + ' XP se corretto</div>'
-  );
+function agentGetOfflineMission() {
+  var idx = Math.floor(Math.random() * AGENT_OFFLINE_MISSIONS.length);
+  var m = Object.assign({}, AGENT_OFFLINE_MISSIONS[idx]);
+  m.ts = Date.now();
+  m.offline = true;
+  return m;
 }
 
-function agentAnswer(choice) {
-  var mission = window._agentMission;
-  if (!mission) return;
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  var isCorrect = choice === mission.risposta_migliore;
-  
-  closeModal();
-  setTimeout(function() {
-    var correctLabel = lang==='fr'?'Bonne réponse!':lang==='en'?'Correct!':'Risposta giusta!';
-    var wrongLabel   = lang==='fr'?'Pas tout à fait...':lang==='en'?'Not quite...':'Quasi...';
-    
-    openModal(
-      '<div style="text-align:center;padding:8px 0 10px">' +
-        '<div style="font-size:2.5rem;margin-bottom:6px">' + (isCorrect ? '🎉' : '💡') + '</div>' +
-        '<div style="font-size:.92rem;font-weight:900;color:' + (isCorrect ? '#4ade80' : '#F5C842') + ';margin-bottom:8px">' + (isCorrect ? correctLabel : wrongLabel) + '</div>' +
-        '<div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7;border-left:3px solid rgba(167,139,250,.5);padding-left:10px;text-align:left;margin-bottom:12px">' + mission.spiegazione + '</div>' +
-        (isCorrect ? '<div style="font-size:.72rem;color:#4ade80">+' + mission.xp + ' XP · +' + Math.round(mission.xp/10) + ' 🌱</div>' : '') +
-      '</div>' +
-      '<button onclick="closeModal()" style="width:100%;padding:11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-weight:700;cursor:pointer">' + (lang==='fr'?'Continuer':lang==='en'?'Continue':'Continua') + '</button>'
-    );
-    if (isCorrect) {
-      if (typeof addXP === 'function') addXP(mission.xp || 50);
-      if (typeof addSemi === 'function') addSemi(Math.round((mission.xp||50)/10));
-      if (typeof vibrateAndSound === 'function') vibrateAndSound('good');
-    }
-  }, 200);
-}
-
-// ── 4. PIPELINE PRINCIPALE DELL'AGENTE ───────────────────────
 async function agentRun() {
   if (AGENT.running) return;
   AGENT.running = true;
   AGENT.lastRun = Date.now();
+  
   try {
     var news = await agentGetMarketNews();
-    if (!news || news.length === 0) return;
-    var mission = await agentAnalyzeNews(news);
-    if (mission && mission.evento) {
-      AGENT.missions.unshift(mission);
-      if (AGENT.missions.length > 50) AGENT.missions.pop();
-      agentShowMission(mission);
-      // Also update BRVM game if active
-      if (typeof advRound === 'function') {
-        var active = document.querySelector('.screen.active');
-        if (active && active.id === 'gioco-brvm') {
-          // Inject real event into the game
-          var eventDiv = document.createElement('div');
-          eventDiv.style.cssText = 'background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:10px;margin:8px 0;font-size:.72rem;color:#f87171;animation:fadeIn .5s ease';
-          eventDiv.innerHTML = '📡 <strong>LIVE:</strong> ' + mission.evento;
-          var brPanel = document.getElementById('bpanel-mercato');
-          if (brPanel) brPanel.insertBefore(eventDiv, brPanel.firstChild);
-          setTimeout(function() { if (eventDiv.parentNode) eventDiv.parentNode.removeChild(eventDiv); }, 30000);
-        }
-      }
+    var mission = null;
+    
+    if (AGENT.isOnline && news.length > 0) {
+      mission = await agentAnalyzeNews(news);
     }
-  } catch(e) { console.warn('Agent:', e.message); }
-  AGENT.running = false;
+    
+    // Fallback to offline mission if API unavailable
+    if (!mission) {
+      mission = agentGetOfflineMission();
+      AGENT.isOnline = false;
+    }
+    
+    if (mission) {
+      mission.ts = mission.ts || Date.now();
+      AGENT.events.unshift(mission);
+      if (AGENT.events.length > 20) AGENT.events.pop();
+      
+      // Award XP
+      if (typeof addXP === 'function') addXP(mission.xp || 50);
+      if (typeof addSemi === 'function') addSemi(Math.round((mission.xp||50)/5));
+      
+      // Toast
+      if (typeof toast === 'function') {
+        toast('🤖 ' + (mission.offline ? '📚 Missione locale: ' : '🔴 Live: ') + (mission.evento||'').slice(0,50));
+      }
+      
+      // Save to localStorage
+      try { localStorage.setItem('fl_agent_events', JSON.stringify(AGENT.events)); } catch(e) {}
+      // Refresh UI
+      if (typeof buildAgentHub === 'function') buildAgentHub();
+    }
+  } catch(e) {
+    if (typeof toast === 'function') toast('🤖 ' + (e.message || 'Errore agente'));
+  } finally {
+    AGENT.running = false;
+  }
 }
 
-// ── 5. START/STOP AGENTE ─────────────────────────────────────
-function agentStart() {
-  if (AGENT.interval) return;
-  // Primo run dopo 3 secondi
-  setTimeout(agentRun, 3000);
-  // Poi ogni 5 minuti
-  AGENT.interval = setInterval(agentRun, AGENT.RUN_EVERY);
-  console.log('🤖 FinanzaLand AI Agent: ONLINE');
+function agentShowMission(m) {
+  if (!m) return;
+  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
+  if (typeof openModal !== 'function') return;
+  var color = m.tipo === 'rialzo' ? '#4ade80' : m.tipo === 'ribasso' ? '#f87171' : '#60a5fa';
+  var arrow = m.tipo === 'rialzo' ? '📈' : m.tipo === 'ribasso' ? '📉' : '📊';
+  openModal(
+    '<div style="text-align:center;padding:8px 0 12px">' +
+      '<div style="font-size:2rem;margin-bottom:4px">' + arrow + '</div>' +
+      '<div style="font-size:.72rem;font-weight:900;color:' + color + ';margin-bottom:8px">' + (m.offline ? '📚 MISSIONE LOCALE' : '🔴 MISSIONE LIVE') + '</div>' +
+      '<div style="font-size:.85rem;color:#fff;font-weight:700;line-height:1.4;margin-bottom:10px">' + (m.evento||'') + '</div>' +
+      '<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.6;text-align:left">' +
+        '🎯 ' + (m.missione||'') +
+      '</div>' +
+      '<div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:8px">+' + (m.xp||50) + ' XP</div>' +
+    '</div>' +
+    '<button onclick="closeModal()" style="width:100%;padding:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-weight:700;cursor:pointer">OK</button>'
+  );
 }
 
-function agentStop() {
-  clearInterval(AGENT.interval);
-  AGENT.interval = null;
-  AGENT.running = false;
-}
+window.AGENT = AGENT;
+window.agentRun = agentRun;
 
-// ── 6. AGENT HUB SCREEN ───────────────────────────────────────
 function buildAgentHub() {
   var container = document.getElementById('agent-hub-body');
   if (!container) return;
@@ -20959,7 +20877,7 @@ function buildAgentHub() {
   } else {
     var allMissions = AGENT.missions.slice(0, 10);
     allMissions.forEach(function(m) {
-      html += '<div onclick="agentShowMissionModal(this._mission)" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 12px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px">';
+      html += '<div onclick="agentShowMission(this._mission)" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 12px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px">';
       html += '<div style="font-size:1.5rem;flex-shrink:0">' + (m.emoji || '📊') + '</div>';
       html += '<div style="flex:1;min-width:0">';
       html += '<div style="font-size:.78rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + m.evento + '</div>';
@@ -20970,11 +20888,11 @@ function buildAgentHub() {
     });
     // Add click handlers after render
     setTimeout(function() {
-      var cards = document.querySelectorAll('#agent-hub-body [onclick*="agentShowMissionModal"]');
+      var cards = document.querySelectorAll('#agent-hub-body [onclick*="agentShowMission"]');
       allMissions.forEach(function(m, i) {
         if (cards[i]) {
           cards[i]._mission = m;
-          cards[i].onclick = function() { agentShowMissionModal(this._mission); };
+          cards[i].onclick = function() { agentShowMission(this._mission); };
         }
       });
     }, 100);
@@ -20987,18 +20905,26 @@ function buildAgentHub() {
 // Auto-start agent when user is logged in
 setTimeout(function() {
   if (typeof S !== 'undefined' && S.account && S.account.id) {
-    agentStart();
+    agentRun();
   }
 }, 5000);
+
+// ── agentStart / agentStop (compatibility) ──────────────
+function agentStart() {
+  if (AGENT.interval) return;
+  setTimeout(agentRun, 3000);
+  AGENT.interval = setInterval(agentRun, AGENT.RUN_EVERY);
+}
+function agentStop() {
+  clearInterval(AGENT.interval);
+  AGENT.interval = null;
+  AGENT.running = false;
+}
 
 // Expose globals
 window.AGENT             = AGENT;
 window.agentRun          = agentRun;
-window.agentStart        = agentStart;
-window.agentStop         = agentStop;
-window.agentAnswer       = agentAnswer;
 window.agentShowMission  = agentShowMission;
-window.agentShowMissionModal = agentShowMissionModal;
 window.buildAgentHub     = buildAgentHub;
 
 // ══════════════════════════════════════════════════════════════
@@ -21725,7 +21651,7 @@ var LESSON_BANK_EN = {
 })();
 
 // ══════════════════════════════════════════════════════════════
-// LEZIONI ANALISTI BORSA — IT/FR/EN
+// LEZIONI ANALISTI BORSA — IT|FR|EN
 // ══════════════════════════════════════════════════════════════
 (function() {
   // ── ITALIANO ──────────────────────────────────────────────
@@ -22157,6 +22083,691 @@ var LESSON_BANK_EN = {
   }
   
 })();
+
+// ══════════════════════════════════════════════════════════════
+// MASTERCLASS PSICOLOGIA FINANZIARIA — IT|FR|EN
+// ══════════════════════════════════════════════════════════════
+(function() {
+
+  var PSICO_IT = [
+    {id:'psi_01', emoji:'🧠', titolo:'I Tre Veleni della Mente Finanziaria',
+     tempo_minuti:8, semi_reward:130, livello:'avanzato',
+     sottotitolo:'Ego, Avidità e Paura — i nemici invisibili di ogni investitore',
+     punti_chiave:[
+       'EGO: credere di essere più intelligente del mercato porta alla rovina — il mercato non ti deve nulla',
+       'AVIDITÀ: cercare guadagno senza uno scopo trasforma il denaro in un vaso senza fondo',
+       'PAURA: blocca l azione o causa fughe disastrose — nasce dall ignoranza, si cura con lo studio',
+     ],
+     esempio_pratico:'Un trader esperto perde il 40% in un mese. L ego gli impedisce di chiudere la posizione. Risultato: perde il 70%. La lezione: taglia le perdite senza orgoglio.',
+     dato_reale:'Secondo Daniel Kahneman (Nobel 2002), gli investitori tengono i titoli in perdita 2x più a lungo di quelli in profitto — solo per non dover ammettere l errore.',
+     sfida_vita_reale:'Prima della prossima decisione finanziaria chiediti: sto agendo per nutrire il mio ego o per proteggere il mio futuro?',
+     quiz:[
+       {domanda:'Qual è il vero motivo per cui gli investitori tengono titoli in perdita troppo a lungo?',
+        opzioni:['Strategia razionale','Ego e paura di ammettere l errore','Mancanza di dati','Consigli sbagliati'],
+        risposta_corretta:1, spiegazione:'L ego impedisce di ammettere l errore. Il mercato non conosce il tuo orgoglio.'},
+       {domanda:'Come si cura la paura nei mercati finanziari?',
+        opzioni:['Evitando di investire','Con l ignoranza','Studiando il sistema e comprendendo il rischio','Guardando solo i guadagni'],
+        risposta_corretta:2, spiegazione:'La paura nasce dall ignoranza. La conoscenza del rischio trasforma la paura in strategia.'},
+     ]},
+
+    {id:'psi_02', emoji:'⚖️', titolo:'Il Test dello Specchio — Psicologia delle Decisioni',
+     tempo_minuti:7, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Come il cervello sabota i tuoi investimenti ogni giorno',
+     punti_chiave:[
+       'Bias di conferma: cerchiamo solo informazioni che confermano quello che già crediamo',
+       'Effetto gregge: compriamo quando tutti comprano e vendiamo quando tutti vendono — al contrario di come dovremmo',
+       'Avversione alla perdita: perdere 100€ fa soffrire 2x più di quanto fa piacere guadagnarne 100',
+       'Ancoraggio: il primo prezzo visto diventa il punto di riferimento irrazionale',
+     ],
+     esempio_pratico:'Tutti parlano di un titolo tech sui social. Lo compri all apice. Crolla del 50%. È l effetto gregge + bias di conferma in azione.',
+     dato_reale:'Dalbar Research: l investitore medio ottiene il 3.6% annuo mentre il S&P 500 fa il 10.5% — la differenza è tutta psicologica.',
+     sfida_vita_reale:'Scrivi le tue ultime 3 decisioni finanziarie. Per ognuna chiediti: ero guidato dalla logica o dall emozione?',
+     quiz:[
+       {domanda:'Cosa dice l avversione alla perdita di Kahneman?',
+        opzioni:['Guadagnare e perdere danno lo stesso impatto','Perdere 100€ fa soffrire 2x di quanto fa piacere guadagnarne 100','I mercati sono irrazionali','Non si deve mai perdere'],
+        risposta_corretta:1, spiegazione:'Kahneman dimostrò che il dolore per la perdita è biologicamente 2x superiore al piacere del guadagno.'},
+       {domanda:'Perché l investitore medio ottiene solo il 3.6% annuo invece del 10.5% del mercato?',
+        opzioni:['Commissioni troppo alte','Cattivi consiglieri','Decisioni emotive — compra alto vende basso','Mercati manipolati'],
+        risposta_corretta:2, spiegazione:'La psicologia — non i mercati — è il vero nemico del rendimento medio.'},
+     ]},
+
+    {id:'psi_03', emoji:'🔥', titolo:'La Resilienza Finanziaria — Jiu-Jitsu del Mercato',
+     tempo_minuti:8, semi_reward:130, livello:'avanzato',
+     sottotitolo:'Come cadere senza rompersi e rialzarsi più forti di prima',
+     punti_chiave:[
+       'Il mercato ti colpirà — non è una possibilità, è una certezza. L importante è saper cadere',
+       'Ogni perdita contiene informazioni preziose — chi non impara ripete gli stessi errori',
+       'Resilienza non è resistere al dolore ma attraversarlo senza perdere la direzione',
+       'Reset cognitivo: saper uccidere le vecchie strategie senza orgoglio per rinascere più forti',
+     ],
+     esempio_pratico:'Ray Dalio perse quasi tutto nel 1982. Tornò più forte con il sistema All Weather Portfolio — oggi il più grande hedge fund del mondo. La caduta fu il suo vero MBA.',
+     dato_reale:'Il 90% dei trader che smettono lo fa dopo la prima grande perdita. Il 10% che sopravvive impara a gestire le perdite come parte del processo.',
+     sfida_vita_reale:'Pensa a una perdita finanziaria che hai vissuto. Cosa hai imparato? Se non lo sai ancora, è lì la risposta.',
+     quiz:[
+       {domanda:'Cosa ha trasformato Ray Dalio dopo la sua quasi-bancarotta del 1982?',
+        opzioni:['Fortuna','Connessioni politiche','Capacità di imparare dalla perdita e costruire un nuovo sistema','Eredità familiare'],
+        risposta_corretta:2, spiegazione:'Dalio usò la caduta come laboratorio. Creò il sistema All Weather Portfolio che gestisce oggi centinaia di miliardi.'},
+       {domanda:'Cosa distingue il 10% di trader che sopravvive dal 90% che smette?',
+        opzioni:['Più soldi iniziali','Più intelligenza','Capacità di gestire le perdite come parte del processo','Più tempo libero'],
+        risposta_corretta:2, spiegazione:'La resilienza — non il talento — è la variabile che separa chi dura da chi si arrende.'},
+     ]},
+
+    {id:'psi_04', emoji:'❤️', titolo:'L Amore come Strategia Finanziaria',
+     tempo_minuti:7, semi_reward:120, livello:'medio',
+     sottotitolo:'Perché il vero motore della ricchezza non è il denaro',
+     punti_chiave:[
+       'Gli investitori con un forte centro affettivo — famiglia, valori, scopo — reggono meglio alle crisi',
+       'Chi investe per un motivo concreto (figli, libertà, impatto) prende decisioni più razionali',
+       'L amore per la verità: cercare la realtà dietro le manipolazioni dei media finanziari',
+       'Connessione: un investitore isolato è un investitore fragile — la community protegge',
+     ],
+     esempio_pratico:'Warren Buffett vive nella stessa casa dal 1958 e mangia al McDonald. Non perché non possa permettersi di più — ma perché sa cosa conta davvero. Il denaro è uno strumento, non il fine.',
+     dato_reale:'Uno studio Harvard su 80 anni di dati dimostrò che le relazioni solide sono il fattore #1 di benessere e resilienza — anche in campo finanziario.',
+     sfida_vita_reale:'Scrivi il tuo "perché": per chi o cosa stai costruendo la tua libertà finanziaria? Leggi questa risposta ogni volta che il mercato ti spaventa.',
+     quiz:[
+       {domanda:'Secondo Buffett, cosa rende un investitore veramente immune al panico?',
+        opzioni:['Più soldi in conto','Avere uno scopo chiaro e un centro affettivo solido','Diversificare tutto','Non seguire le notizie'],
+        risposta_corretta:1, spiegazione:'Buffett ripete da decenni che il segreto non è l intelligenza ma la stabilità emotiva — che viene dallo scopo.'},
+       {domanda:'Cosa significa amore per la verità in finanza?',
+        opzioni:['Credere a tutto quello che dicono i media','Cercare la realtà dietro le narrative e le manipolazioni','Investire solo in ciò che si ama','Seguire i consigli degli amici'],
+        risposta_corretta:1, spiegazione:'I mercati sono pieni di narrative costruite. L investitore critico cerca i dati reali dietro le storie.'},
+     ]},
+
+    {id:'psi_05', emoji:'📚', titolo:'Dante, Platone e i Mercati — La Saggezza dei Classici',
+     tempo_minuti:9, semi_reward:140, livello:'esperto',
+     sottotitolo:'Cosa ci insegnano Omero, Dante e Platone sulla psicologia umana dei mercati',
+     punti_chiave:[
+       'Omero — Ulisse: saper resistere alle sirene (offerte di guadagno facile) legandosi all albero della strategia',
+       'Dante: ogni peccato finanziario (avarizia, prodigalità) ha il suo inferno economico',
+       'Platone — Allegoria della Caverna: la maggior parte degli investitori reagisce alle ombre (news, trend) non alla realtà',
+       'I classici contengono la mappa della psicologia umana — uguale da 3.000 anni',
+     ],
+     esempio_pratico:'Nel 2021 tutti correvano verso le crypto meme coin — le sirene. Chi aveva una strategia scritta (il proprio albero) non seguì il canto. Chi lo seguì perse tutto o quasi.',
+     dato_reale:'Charlie Munger (socio di Buffett) leggeva almeno 500 pagine al giorno di biografie, filosofia e storia. Diceva che la storia umana è il miglior database di errori finanziari.',
+     sfida_vita_reale:'Leggi 10 pagine di un classico questa settimana (Ulisse, Repubblica di Platone, Divina Commedia). Poi scrivi un parallelo con una decisione finanziaria della tua vita.',
+     quiz:[
+       {domanda:'Cosa rappresentano le Sirene di Omero nel mondo degli investimenti?',
+        opzioni:['I buoni consiglieri','Le offerte di guadagno facile e rapido che portano alla rovina','I mercati emergenti','Le criptovalute',],
+        risposta_corretta:1, spiegazione:'Le Sirene sono ogni promessa di guadagno facile. Ulisse si lega all albero — ha una strategia scritta che lo vincola alla razionalità.'},
+       {domanda:'Cosa insegna l Allegoria della Caverna di Platone agli investitori?',
+        opzioni:['Che i mercati sono oscuri','Che la maggior parte reagisce alle ombre (news, hype) invece della realtà dei fondamentali','Che bisogna investire in oro','Che la diversificazione è inutile'],
+        risposta_corretta:1, spiegazione:'Platone: vediamo ombre proiettate sul muro (narrative, trend) e le scambiamo per realtà. L investitore saggio esce dalla caverna e studia i fondamentali.'},
+     ]},
+  ];
+
+  // ── FRANÇAIS ──────────────────────────────────────────────
+  var PSICO_FR = [
+    {id:'psi_01', emoji:'🧠', titolo:'Les Trois Poisons de l Esprit Financier',
+     tempo_minuti:8, semi_reward:130, livello:'avanzato',
+     sottotitolo:'Ego, Avidité et Peur — les ennemis invisibles de tout investisseur',
+     punti_chiave:[
+       'EGO: croire être plus intelligent que le marché mène à la ruine — le marché ne vous doit rien',
+       'AVIDITÉ: chercher le gain sans but transforme l argent en un vase sans fond',
+       'PEUR: bloque l action ou cause des fuites désastreuses — naît de l ignorance, se soigne par l étude',
+     ],
+     esempio_pratico:'Un trader expérimenté perd 40% en un mois. L ego l empêche de clôturer la position. Résultat: il perd 70%. Leçon: couper les pertes sans orgueil.',
+     dato_reale:'Selon Daniel Kahneman (Nobel 2002), les investisseurs gardent les titres perdants 2x plus longtemps que les gagnants — uniquement pour ne pas admettre l erreur.',
+     sfida_vita_reale:'Avant ta prochaine décision financière, demande-toi: est-ce que j agis pour nourrir mon ego ou pour protéger mon avenir?',
+     quiz:[
+       {domanda:'Pourquoi les investisseurs gardent-ils trop longtemps les titres perdants?',
+        opzioni:['Stratégie rationnelle','Ego et peur d admettre l erreur','Manque de données','Mauvais conseils'],
+        risposta_corretta:1, spiegazione:"L'ego empêche d'admettre l'erreur. Le marché ne connaît pas ton orgueil."},
+       {domanda:'Comment guérir la peur sur les marchés financiers?',
+        opzioni:['En évitant d investir','Par l ignorance','En étudiant le système et en comprenant le risque','En regardant seulement les gains'],
+        risposta_corretta:2, spiegazione:'La peur naît de l ignorance. La connaissance du risque transforme la peur en stratégie.'},
+     ]},
+
+    {id:'psi_02', emoji:'⚖️', titolo:'Le Test du Miroir — Psychologie des Décisions',
+     tempo_minuti:7, semi_reward:120, livello:'avanzato',
+     sottotitolo:'Comment le cerveau sabote tes investissements chaque jour',
+     punti_chiave:[
+       'Biais de confirmation: on cherche uniquement les informations qui confirment ce qu on croit déjà',
+       'Effet de troupeau: on achète quand tout le monde achète et on vend quand tout le monde vend',
+       'Aversion aux pertes: perdre 100€ fait souffrir 2x plus que gagner 100€ ne fait plaisir',
+       'Ancrage: le premier prix vu devient le point de référence irrationnel',
+     ],
+     esempio_pratico:'Tout le monde parle d un titre tech sur les réseaux. Tu l achètes au pic. Il chute de 50%. C est l effet de troupeau et le biais de confirmation en action.',
+     dato_reale:'Dalbar Research: l investisseur moyen obtient 3,6% annuel alors que le S&P 500 fait 10,5% — la différence est entièrement psychologique.',
+     sfida_vita_reale:'Écris tes 3 dernières décisions financières. Pour chacune, demande-toi: étais-je guidé par la logique ou par l émotion?',
+     quiz:[
+       {domanda:'Que dit l aversion aux pertes de Kahneman?',
+        opzioni:['Gagner et perdre ont le même impact','Perdre 100€ fait souffrir 2x plus que gagner 100€ ne fait plaisir','Les marchés sont irrationnels','Il ne faut jamais perdre'],
+        risposta_corretta:1, spiegazione:'Kahneman a démontré que la douleur de la perte est biologiquement 2x supérieure au plaisir du gain.'},
+       {domanda:'Pourquoi l investisseur moyen obtient-il 3,6% au lieu des 10,5% du marché?',
+        opzioni:['Commissions trop élevées','Mauvais conseillers','Décisions émotionnelles — achète haut vend bas','Marchés manipulés'],
+        risposta_corretta:2, spiegazione:'La psychologie — pas les marchés — est le vrai ennemi du rendement moyen.'},
+     ]},
+
+    {id:'psi_03', emoji:'🔥', titolo:'La Résilience Financière — Jiu-Jitsu du Marché',
+     tempo_minuti:8, semi_reward:130, livello:'avanzato',
+     sottotitolo:'Comment tomber sans se briser et se relever plus fort',
+     punti_chiave:[
+       'Le marché va te frapper — ce n est pas une possibilité, c est une certitude',
+       'Chaque perte contient des informations précieuses — qui n apprend pas répète les mêmes erreurs',
+       'La résilience ce n est pas résister à la douleur mais la traverser sans perdre la direction',
+       'Reset cognitif: savoir tuer les vieilles stratégies sans orgueil pour renaître plus fort',
+     ],
+     esempio_pratico:'Ray Dalio a tout perdu en 1982. Il est revenu plus fort avec le système All Weather Portfolio — aujourd hui le plus grand hedge fund du monde. La chute fut son vrai MBA.',
+     dato_reale:'90% des traders qui arrêtent le font après la première grande perte. Les 10% qui survivent apprennent à gérer les pertes comme partie du processus.',
+     sfida_vita_reale:'Pense à une perte financière que tu as vécue. Qu as-tu appris? Si tu ne sais pas encore, c est là que se trouve la réponse.',
+     quiz:[
+       {domanda:'Qu est-ce qui a transformé Ray Dalio après sa quasi-faillite de 1982?',
+        opzioni:['La chance','Des connexions politiques','La capacité d apprendre de la perte et de construire un nouveau système','Un héritage familial'],
+        risposta_corretta:2, spiegazione:'Dalio a utilisé la chute comme laboratoire. Il a créé le système All Weather Portfolio qui gère des centaines de milliards aujourd hui.'},
+       {domanda:'Qu est-ce qui distingue les 10% de traders qui survivent?',
+        opzioni:['Plus d argent au départ','Plus d intelligence','Capacité à gérer les pertes comme partie du processus','Plus de temps libre'],
+        risposta_corretta:2, spiegazione:'La résilience — pas le talent — est la variable qui sépare ceux qui durent de ceux qui abandonnent.'},
+     ]},
+
+    {id:'psi_04', emoji:'❤️', titolo:'L Amour comme Stratégie Financière',
+     tempo_minuti:7, semi_reward:120, livello:'medio',
+     sottotitolo:'Pourquoi le vrai moteur de la richesse n est pas l argent',
+     punti_chiave:[
+       'Les investisseurs avec un fort centre affectif résistent mieux aux crises',
+       'Qui investit pour un motif concret (enfants, liberté, impact) prend de meilleures décisions',
+       'L amour de la vérité: chercher la réalité derrière les manipulations médiatiques',
+       'Connexion: un investisseur isolé est un investisseur fragile — la communauté protège',
+     ],
+     esempio_pratico:'Warren Buffett vit dans la même maison depuis 1958 et mange au McDonald. Pas parce qu il ne peut pas se permettre mieux — mais parce qu il sait ce qui compte vraiment.',
+     dato_reale:'Une étude Harvard sur 80 ans démontre que les relations solides sont le facteur #1 de bien-être et de résilience — même en matière financière.',
+     sfida_vita_reale:'Écris ton "pourquoi": pour qui ou pour quoi construis-tu ta liberté financière? Lis cette réponse chaque fois que le marché te fait peur.',
+     quiz:[
+       {domanda:'Selon Buffett, qu est-ce qui rend un investisseur vraiment immune à la panique?',
+        opzioni:['Plus d argent en compte','Avoir un but clair et un centre affectif solide','Tout diversifier','Ne pas suivre les nouvelles'],
+        risposta_corretta:1, spiegazione:'Buffett répète depuis des décennies que le secret n est pas l intelligence mais la stabilité émotionnelle — qui vient du but.'},
+       {domanda:'Qu est-ce que l amour de la vérité signifie en finance?',
+        opzioni:['Croire tout ce que disent les médias','Chercher la réalité derrière les narratives et les manipulations','Investir seulement dans ce qu on aime','Suivre les conseils des amis'],
+        risposta_corretta:1, spiegazione:'Les marchés sont remplis de narratives construites. L investisseur critique cherche les vraies données derrière les histoires.'},
+     ]},
+
+    {id:'psi_05', emoji:'📚', titolo:'Dante, Platon et les Marchés — La Sagesse des Classiques',
+     tempo_minuti:9, semi_reward:140, livello:'esperto',
+     sottotitolo:'Ce qu Homère, Dante et Platon nous enseignent sur la psychologie des marchés',
+     punti_chiave:[
+       'Homère — Ulysse: résister aux sirènes (offres de gain facile) en se liant à l arbre de la stratégie',
+       'Dante: chaque péché financier (avarice, prodigalité) a son enfer économique',
+       'Platon — Allégorie de la Caverne: la plupart des investisseurs réagissent aux ombres (news, trends) pas à la réalité',
+       'Les classiques contiennent la carte de la psychologie humaine — identique depuis 3.000 ans',
+     ],
+     esempio_pratico:'En 2021 tous couraient vers les meme coins crypto — les sirènes. Qui avait une stratégie écrite (son propre arbre) n a pas suivi le chant. Qui a suivi a tout perdu ou presque.',
+     dato_reale:'Charlie Munger lisait au moins 500 pages par jour de biographies, philosophie et histoire. Il disait que l histoire humaine est la meilleure base de données d erreurs financières.',
+     sfida_vita_reale:'Lis 10 pages d un classique cette semaine (Ulysse, La République de Platon, La Divine Comédie). Puis écris un parallèle avec une décision financière de ta vie.',
+     quiz:[
+       {domanda:'Que représentent les Sirènes d Homère dans le monde des investissements?',
+        opzioni:['Les bons conseillers','Les offres de gain facile et rapide qui mènent à la ruine','Les marchés émergents','Les cryptomonnaies'],
+        risposta_corretta:1, spiegazione:'Les Sirènes sont toute promesse de gain facile. Ulysse se lie à l arbre — il a une stratégie écrite qui le lie à la rationalité.'},
+       {domanda:'Que nous enseigne l Allégorie de la Caverne de Platon?',
+        opzioni:['Que les marchés sont obscurs','Que la plupart réagit aux ombres (news, hype) plutôt qu à la réalité des fondamentaux','Qu il faut investir dans l or','Que la diversification est inutile'],
+        risposta_corretta:1, spiegazione:'Platon: on voit des ombres projetées sur le mur (narratives, trends) qu on prend pour la réalité. L investisseur sage sort de la caverne et étudie les fondamentaux.'},
+     ]},
+  ];
+
+  // ── ENGLISH ───────────────────────────────────────────────
+  var PSICO_EN = [
+    {id:'psi_01', emoji:'🧠', titolo:'The Three Poisons of the Financial Mind',
+     tempo_minuti:8, semi_reward:130, livello:'avanzato',
+     sottotitolo:'Ego, Greed and Fear — the invisible enemies of every investor',
+     punti_chiave:[
+       'EGO: believing you are smarter than the market leads to ruin — the market owes you nothing',
+       'GREED: seeking gain without purpose turns money into a bottomless vessel',
+       'FEAR: blocks action or causes disastrous exits — born from ignorance, cured by study',
+     ],
+     esempio_pratico:'An experienced trader loses 40% in a month. Ego stops him from closing the position. Result: he loses 70%. Lesson: cut losses without pride.',
+     dato_reale:'According to Daniel Kahneman (Nobel 2002), investors hold losing stocks 2x longer than winning ones — just to avoid admitting they were wrong.',
+     sfida_vita_reale:'Before your next financial decision ask yourself: am I acting to feed my ego or to protect my future?',
+     quiz:[
+       {domanda:'Why do investors hold losing positions too long?',
+        opzioni:['Rational strategy','Ego and fear of admitting the mistake','Lack of data','Bad advice'],
+        risposta_corretta:1, spiegazione:'Ego prevents admitting the error. The market does not know your pride.'},
+       {domanda:'How do you cure fear in financial markets?',
+        opzioni:['By avoiding investing','Through ignorance','By studying the system and understanding risk','By looking only at gains'],
+        risposta_corretta:2, spiegazione:'Fear comes from ignorance. Knowledge of risk transforms fear into strategy.'},
+     ]},
+
+    {id:'psi_02', emoji:'⚖️', titolo:'The Mirror Test — Psychology of Financial Decisions',
+     tempo_minuti:7, semi_reward:120, livello:'avanzato',
+     sottotitolo:'How the brain sabotages your investments every day',
+     punti_chiave:[
+       'Confirmation bias: we seek only information that confirms what we already believe',
+       'Herd effect: we buy when everyone buys and sell when everyone sells — opposite of what we should',
+       'Loss aversion: losing €100 hurts 2x more than gaining €100 feels good',
+       'Anchoring: the first price seen becomes the irrational reference point',
+     ],
+     esempio_pratico:'Everyone talks about a tech stock on social media. You buy at the peak. It drops 50%. That is herd effect plus confirmation bias in action.',
+     dato_reale:'Dalbar Research: the average investor gets 3.6% annually while the S&P 500 returns 10.5% — the entire difference is psychological.',
+     sfida_vita_reale:'Write down your last 3 financial decisions. For each one ask: was I guided by logic or emotion?',
+     quiz:[
+       {domanda:'What does Kahneman loss aversion say?',
+        opzioni:['Gains and losses feel equal','Losing €100 hurts 2x more than gaining €100 feels good','Markets are irrational','You should never lose'],
+        risposta_corretta:1, spiegazione:'Kahneman showed that the pain of loss is biologically 2x greater than the pleasure of gain.'},
+       {domanda:'Why does the average investor get 3.6% instead of the market 10.5%?',
+        opzioni:['Commissions too high','Bad advisors','Emotional decisions — buy high sell low','Manipulated markets'],
+        risposta_corretta:2, spiegazione:'Psychology — not markets — is the real enemy of average returns.'},
+     ]},
+
+    {id:'psi_03', emoji:'🔥', titolo:'Financial Resilience — Market Jiu-Jitsu',
+     tempo_minuti:8, semi_reward:130, livello:'avanzato',
+     sottotitolo:'How to fall without breaking and rise stronger',
+     punti_chiave:[
+       'The market will hit you — not a possibility, a certainty. The key is knowing how to fall',
+       'Every loss contains valuable information — those who do not learn repeat the same mistakes',
+       'Resilience is not resisting pain but going through it without losing direction',
+       'Cognitive reset: know how to kill old strategies without pride in order to be reborn stronger',
+     ],
+     esempio_pratico:"Ray Dalio lost almost everything in 1982. He came back stronger with the All Weather Portfolio — today the world's largest hedge fund. The fall was his real MBA.",
+     dato_reale:'90% of traders who quit do so after the first major loss. The 10% who survive learn to manage losses as part of the process.',
+     sfida_vita_reale:'Think about a financial loss you experienced. What did you learn? If you still do not know, that is where the answer lies.',
+     quiz:[
+       {domanda:'What transformed Ray Dalio after his near-bankruptcy in 1982?',
+        opzioni:['Luck','Political connections','The ability to learn from loss and build a new system','A family inheritance'],
+        risposta_corretta:2, spiegazione:'Dalio used the fall as a laboratory. He created the All Weather Portfolio which manages hundreds of billions today.'},
+       {domanda:'What distinguishes the 10% of traders who survive from the 90% who quit?',
+        opzioni:['More starting capital','More intelligence','Ability to manage losses as part of the process','More free time'],
+        risposta_corretta:2, spiegazione:'Resilience — not talent — is the variable that separates those who last from those who give up.'},
+     ]},
+
+    {id:'psi_04', emoji:'❤️', titolo:'Love as a Financial Strategy',
+     tempo_minuti:7, semi_reward:120, livello:'medio',
+     sottotitolo:'Why the real engine of wealth is not money',
+     punti_chiave:[
+       'Investors with a strong emotional center — family, values, purpose — weather crises better',
+       'Those who invest for a concrete reason (children, freedom, impact) make more rational decisions',
+       'Love of truth: seeking reality behind media and financial narrative manipulation',
+       'Connection: an isolated investor is a fragile investor — community protects',
+     ],
+     esempio_pratico:"Warren Buffett has lived in the same house since 1958 and eats at McDonald's. Not because he cannot afford better — but because he knows what truly matters.",
+     dato_reale:"An 80-year Harvard study shows that strong relationships are the #1 factor in well-being and resilience — including financial.",
+     sfida_vita_reale:"Write your why: for whom or what are you building financial freedom? Read this answer every time the market frightens you.",
+     quiz:[
+       {domanda:'According to Buffett, what truly makes an investor immune to panic?',
+        opzioni:['More money in the account','Having a clear purpose and a solid emotional center','Diversifying everything','Not following news'],
+        risposta_corretta:1, spiegazione:"Buffett has repeated for decades that the secret is not intelligence but emotional stability — which comes from purpose."},
+       {domanda:'What does love of truth mean in finance?',
+        opzioni:['Believing everything the media says','Seeking reality behind narratives and manipulations','Investing only in what you love','Following friends advice'],
+        risposta_corretta:1, spiegazione:'Markets are full of constructed narratives. The critical investor seeks the real data behind the stories.'},
+     ]},
+
+    {id:'psi_05', emoji:'📚', titolo:'Dante, Plato and Markets — The Wisdom of Classics',
+     tempo_minuti:9, semi_reward:140, livello:'esperto',
+     sottotitolo:'What Homer, Dante and Plato teach us about market psychology',
+     punti_chiave:[
+       'Homer — Odysseus: resisting the Sirens (easy gain offers) by tying himself to the mast of strategy',
+       'Dante: every financial sin (greed, waste) has its economic hell',
+       'Plato — Allegory of the Cave: most investors react to shadows (news, trends) not to reality',
+       'The classics contain the map of human psychology — unchanged for 3,000 years',
+     ],
+     esempio_pratico:'In 2021 everyone ran toward meme coins — the Sirens. Those with a written strategy did not follow the song. Those who followed lost everything or nearly.',
+     dato_reale:"Charlie Munger read at least 500 pages daily of biographies, philosophy and history. He said human history is the best database of financial mistakes.",
+     sfida_vita_reale:'Read 10 pages of a classic this week (Odyssey, Plato Republic, Divine Comedy). Then write a parallel with a financial decision in your life.',
+     quiz:[
+       {domanda:"What do Homer's Sirens represent in investing?",
+        opzioni:['Good advisors','Easy and fast gain offers that lead to ruin','Emerging markets','Cryptocurrencies'],
+        risposta_corretta:1, spiegazione:'The Sirens are every promise of easy gain. Odysseus ties himself to the mast — he has a written strategy that binds him to rationality.'},
+       {domanda:"What does Plato's Allegory of the Cave teach investors?",
+        opzioni:['That markets are dark','That most react to shadows (news, hype) rather than the reality of fundamentals','That you should invest in gold','That diversification is useless'],
+        risposta_corretta:1, spiegazione:'Plato: we see shadows projected on the wall (narratives, trends) and mistake them for reality. The wise investor exits the cave and studies fundamentals.'},
+     ]},
+  ];
+
+  // ── Add to LESSON_BANK ──────────────────────────────────
+  if (typeof LESSON_BANK !== 'undefined') {
+    LESSON_BANK['psicologia_avanzata'] = PSICO_IT;
+  }
+  if (typeof LESSON_BANK_FR !== 'undefined') {
+    LESSON_BANK_FR['psicologia_avanzata'] = PSICO_FR;
+  }
+  if (typeof LESSON_BANK_EN !== 'undefined') {
+    LESSON_BANK_EN['psicologia_avanzata'] = PSICO_EN;
+  }
+
+  // ── Add titles to LESSON_TITLE_MAP ──────────────────────
+  var psiTitlesFR = {
+    'psi_01':'Les Trois Poisons de l Esprit Financier',
+    'psi_02':'Le Test du Miroir — Psychologie des Décisions',
+    'psi_03':'La Résilience Financière — Jiu-Jitsu du Marché',
+    'psi_04':'L Amour comme Stratégie Financière',
+    'psi_05':'Dante, Platon et les Marchés',
+  };
+  var psiTitlesEN = {
+    'psi_01':'The Three Poisons of the Financial Mind',
+    'psi_02':'The Mirror Test — Psychology of Decisions',
+    'psi_03':'Financial Resilience — Market Jiu-Jitsu',
+    'psi_04':'Love as a Financial Strategy',
+    'psi_05':'Dante, Plato and Markets — Wisdom of Classics',
+  };
+  if (typeof LESSON_TITLE_MAP !== 'undefined') {
+    if (LESSON_TITLE_MAP.fr) Object.assign(LESSON_TITLE_MAP.fr, psiTitlesFR);
+    if (LESSON_TITLE_MAP.en) Object.assign(LESSON_TITLE_MAP.en, psiTitlesEN);
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════
+// STRATEGIE DI RICCHEZZA — IT|FR|EN
+// ══════════════════════════════════════════════════════════════
+(function() {
+
+  var STRAT_IT = [
+    {id:'str_01', emoji:'♾️', titolo:'L Interesse Composto — L Ottava Meraviglia',
+     tempo_minuti:8, semi_reward:130, livello:'base',
+     sottotitolo:'La formula che Einstein chiamava la forza più potente dell universo',
+     punti_chiave:[
+       'Formula: M = C × (1 + i)^n — dove n (il tempo) è il fattore più potente di tutti',
+       'Non prelevare i guadagni: lasciali investiti così generano altri guadagni su guadagni',
+       '10.000€ al 7% annuo: dopo 10 anni = 19.672€ — dopo 30 anni = 76.123€',
+       'Iniziare presto conta 3x più di investire tanto — il tempo batte sempre la quantità',
+     ],
+     esempio_pratico:'Amara investe 200€/mese da 25 anni. Kofi inizia a 35 anni ma investe 400€/mese. A 65 anni Amara ha 525.000€, Kofi solo 393.000€. Amara ha vinto investendo la metà.',
+     dato_reale:'Se il nonno di Jeff Bezos avesse investito 1.000$ nel 1950 in un ETF S&P 500 senza toccare nulla, oggi varrebbe oltre 1.400.000$. Solo grazie al tempo.',
+     sfida_vita_reale:'Calcola quanto avresti oggi se avessi investito 100€/mese negli ultimi 5 anni al 7%. Poi calcola quanto avrai nei prossimi 20 anni. La risposta ti cambierà.',
+     quiz:[
+       {domanda:'Nella formula M = C × (1+i)^n, qual è il fattore più potente?',
+        opzioni:['C — il capitale iniziale','i — il tasso di interesse','n — il tempo','La banca scelta'],
+        risposta_corretta:2, spiegazione:'Il tempo è il moltiplicatore più potente. Iniziare 10 anni prima vale più del doppio del capitale.'},
+       {domanda:'Cosa non devi fare con i guadagni per sfruttare l interesse composto?',
+        opzioni:['Reinvestirli','Prelevarli','Diversificarli','Calcolarli'],
+        risposta_corretta:1, spiegazione:'Non prelevare è la regola #1. I guadagni devono generare altri guadagni — il ciclo si interrompe se prelievi.'},
+     ]},
+
+    {id:'str_02', emoji:'💰', titolo:'La Regola 50/30/20 — Standard 2026',
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:'Come dividere ogni euro che entra per diventare ricco automaticamente',
+     punti_chiave:[
+       '50% Necessità: affitto, bollette, spesa alimentare, trasporti essenziali',
+       '30% Desideri: ristoranti, abbonamenti, viaggi, hobby — ma con limite fisso',
+       '20% Investimenti: prima il Fondo Emergenza (3-6 mesi spese), poi ETF e mercati',
+       'Paga prima te stesso: appena arriva lo stipendio, il 20% esce automaticamente',
+     ],
+     esempio_pratico:'Sara guadagna 1.800€/mese. 900€ per affitto+bollette+spesa. 540€ per vita sociale e piaceri. 360€ ogni mese vanno in automatico su ETF S&P 500. In 10 anni: oltre 62.000€.',
+     dato_reale:'Chi automatizza il risparmio con questa regola accumula in media 3x di più rispetto a chi risparmia quello che avanza — che di solito è zero.',
+     sfida_vita_reale:'Dividi le tue uscite dell ultimo mese nelle 3 categorie. Stai rispettando il 50/30/20? Se no, quale categoria supera il budget?',
+     quiz:[
+       {domanda:'Nella regola 50/30/20, cosa comprende il 20%?',
+        opzioni:['Solo il fondo emergenza','Solo investimenti in borsa','Fondo emergenza + investimenti a lungo termine','Vacanze e hobby'],
+        risposta_corretta:2, spiegazione:'Il 20% va diviso: prima si riempie il fondo emergenza (3-6 mesi di spese), poi il resto va in investimenti.'},
+       {domanda:'Quando va trasferito il 20% di investimento?',
+        opzioni:['A fine mese con quello che avanza','Appena arriva lo stipendio — primo movimento automatico','Quando il mercato è in calo','Una volta all anno'],
+        risposta_corretta:1, spiegazione:'Paga prima te stesso. Se aspetti la fine del mese, non avanza mai nulla.'},
+     ]},
+
+    {id:'str_03', emoji:'📦', titolo:'ETF e PAC — Il Portafoglio del Lavoratore Intelligente',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:'Come investire 200€ al mese e battere il 94% dei gestori professionisti',
+     punti_chiave:[
+       'ETF: paniere di azioni o obbligazioni — investi su tutto il mercato con un solo acquisto',
+       'ETF S&P 500: 500 aziende USA — rendimento storico 10.5% annuo dal 1950',
+       'PAC (Piano di Accumulo): somma fissa ogni mese — compri sia quando il mercato sale che scende',
+       'Costo ETF: 0.03-0.20% annuo vs 1.5-2.5% dei fondi tradizionali — la differenza in 20 anni è enorme',
+     ],
+     esempio_pratico:'200€/mese in un ETF MSCI World per 20 anni a rendimento medio 8%: risultato 118.000€ investiti, valore finale 117.804€ — quasi raddoppiato senza fare nulla.',
+     dato_reale:'Il 94% dei fondi attivi gestiti da professionisti non batte il S&P 500 su 20 anni. La soluzione più semplice è spesso la migliore: ETF + PAC + tempo.',
+     sfida_vita_reale:'Cerca su Justetf.com l ETF "iShares Core MSCI World". Vedi il grafico a 10 anni. Poi calcola quanto avresti oggi se avessi iniziato un PAC di 100€/mese.',
+     quiz:[
+       {domanda:'Cos è un PAC (Piano di Accumulo)?',
+        opzioni:['Un conto corrente speciale','Un investimento una tantum','Un metodo per investire una somma fissa ogni mese','Un prestito bancario'],
+        risposta_corretta:2, spiegazione:'Il PAC investe una cifra fissa ogni mese indipendentemente dal mercato — riduce il rischio di timing sbagliato.'},
+       {domanda:'Perché gli ETF battono i fondi attivi nel lungo periodo?',
+        opzioni:['Perché sono gestiti meglio','Perché hanno commissioni 10-50x inferiori che non erodono il rendimento','Perché investono solo in aziende sicure','Perché il governo li protegge'],
+        risposta_corretta:1, spiegazione:'1.5% di commissione annua su 20 anni erode il 26% del capitale finale. Gli ETF costano 0.03-0.20%.'},
+     ]},
+
+    {id:'str_04', emoji:'🏦', titolo:'Dividendi e Rendite Passive — Il Reddito che Dorme',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:'Come costruire un flusso di cassa che arriva sul tuo conto senza lavorare',
+     punti_chiave:[
+       'Dividend Aristocrats: aziende che aumentano il dividendo ogni anno da 25+ anni (P&G, Coca-Cola, JNJ)',
+       'Dividendo: parte degli utili distribuita agli azionisti — puoi riceverlo senza vendere mai le azioni',
+       'Yield medio Dividend Aristocrats: 2-4% annuo + rivalutazione del titolo',
+       'Regola del 4%: con 500.000€ investiti puoi prelevare 20.000€/anno a vita senza esaurire il capitale',
+     ],
+     esempio_pratico:'Marco ha 100.000€ in Dividend Aristocrats con yield medio 3%. Riceve 3.000€ annui (250€/mese) senza vendere nulla. Intanto il valore del portafoglio cresce.',
+     dato_reale:'Coca-Cola paga dividendi in aumento consecutivo da 61 anni. Chi ha comprato azioni negli anni 80 ora riceve ogni anno più del prezzo di acquisto originale — solo in dividendi.',
+     sfida_vita_reale:'Cerca su Dividendhistory.org una Dividend Aristocrat. Calcola: se avessi investito 10.000€ 20 anni fa, quanto riceveresti oggi solo in dividendi annui?',
+     quiz:[
+       {domanda:'Cosa sono i Dividend Aristocrats?',
+        opzioni:['Aziende ad alto dividendo una tantum','Aziende che aumentano il dividendo ogni anno da almeno 25 anni','I 500 titoli S&P 500','Fondi di investimento',],
+        risposta_corretta:1, spiegazione:'Dividend Aristocrats = aziende con track record di 25+ anni di dividendi crescenti. Stabilità e affidabilità massima.'},
+       {domanda:'Cosa dice la regola del 4%?',
+        opzioni:['Investi solo il 4% del reddito','Con 500.000€ puoi prelevare 20.000€ anno a vita senza esaurire il capitale','Il rendimento minimo accettabile è 4%','Tieni il 4% in liquidità'],
+        risposta_corretta:1, spiegazione:'La regola del 4% (Trinity Study 1998) dice che un portafoglio diversificato regge prelievi del 4% annuo indefinitamente con alta probabilità.'},
+     ]},
+
+    {id:'str_05', emoji:'⚠️', titolo:'I 3 Killer dei Tuoi Soldi — Cosa Evitare Sempre',
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:'Inflazione, commissioni e FOMO — i tre nemici invisibili del tuo patrimonio',
+     punti_chiave:[
+       'Inflazione al 3%: 10.000€ sul conto corrente valgono 7.440€ di potere acquisto in 10 anni — senza fare nulla',
+       'Commissioni bancarie: 1.5% su 100.000€ per 20 anni = 39.000€ persi — solo in commissioni',
+       'FOMO (Fear of Missing Out): comprare la crypto di moda perché tutti ne parlano = perdere il 80% in 6 mesi',
+       'Il miglior investimento è sempre sulla formazione — aumenta il reddito da investire',
+     ],
+     esempio_pratico:'Nel 2021 tutti compravano LUNA crypto perché saliva ogni giorno. Poi nel 2022 è crollata del 99.9%. Chi aveva studiato i fondamentali sapeva che era speculazione pura.',
+     dato_reale:'In Italia i conti correnti hanno perso in media il 18% di potere acquisto tra il 2020 e il 2024 a causa dell inflazione. Tenere soldi fermi è perdere soldi.',
+     sfida_vita_reale:'Calcola le commissioni totali del tuo conto bancario nell ultimo anno. Poi cerca un broker online (DEGIRO, Fineco, Trade Republic). Il risparmio ti sorprenderà.',
+     quiz:[
+       {domanda:'Con inflazione al 3%, quanto valgono 10.000€ in 10 anni se li tieni sul conto corrente?',
+        opzioni:['10.000€ — invariati','13.000€ — aumentati','7.440€ — il potere acquisto è calato','Dipende dalla banca'],
+        risposta_corretta:2, spiegazione:'L inflazione erode il valore reale del denaro. 3% per 10 anni = -25.6% di potere acquisto.'},
+       {domanda:'Cosa significa FOMO in finanza?',
+        opzioni:['Una strategia di hedging','La paura di perdere un trend e comprare senza capire','Un tipo di ETF','Un indice di volatilità'],
+        risposta_corretta:1, spiegazione:'FOMO = Fear Of Missing Out. Comprare per paura di perdere il rally, non per convinzione razionale — ricetta per perdere denaro.'},
+     ]},
+
+    {id:'str_06', emoji:'🗺️', titolo:'Piano d Azione in 4 Passi — Inizia Oggi',
+     tempo_minuti:6, semi_reward:100, livello:'base',
+     sottotitolo:'La sequenza esatta per costruire la tua libertà finanziaria da zero',
+     punti_chiave:[
+       'PASSO 1 — Fondo Emergenza: 3-6 mesi di spese su conto deposito separato — non toccare mai',
+       'PASSO 2 — Apri un broker: DEGIRO, Trade Republic o Fineco — costo 0 e accesso a tutti i mercati',
+       'PASSO 3 — PAC automatico: imposta 100-200€/mese su ETF MSCI World o S&P 500 — poi dimentica',
+       'PASSO 4 — Reinvesti tutto: dividendi, plusvalenze, bonus — non spendere mai i frutti, solo i rami',
+     ],
+     esempio_pratico:'Lucas a 28 anni: 2.000€ di fondo emergenza (fatto). Apre DEGIRO (20 minuti). Imposta PAC 150€/mese su iShares MSCI World. A 58 anni: oltre 200.000€ senza pensarci.',
+     dato_reale:'Il 67% degli italiani non ha mai investito in borsa. Il 78% non ha un fondo emergenza. Chi segue questi 4 passi appartiene automaticamente al top 5% per disciplina finanziaria.',
+     sfida_vita_reale:'Fai il PASSO 1 questa settimana: apri un conto deposito separato e trasferiscici una somma. Non serve che sia 6 mesi di spese subito — anche 200€ sono un inizio.',
+     quiz:[
+       {domanda:'Qual è il primo passo obbligatorio prima di investire in borsa?',
+        opzioni:['Aprire un conto trading','Costruire il fondo emergenza di 3-6 mesi di spese','Comprare oro fisico','Leggere tutti i libri di Kiyosaki'],
+        risposta_corretta:1, spiegazione:'Senza fondo emergenza, alla prima crisi (lavoro, salute, auto) sei costretto a vendere gli investimenti in perdita.'},
+       {domanda:'Cosa significa "reinvesti tutto" nel PASSO 4?',
+        opzioni:['Comprare più azioni ogni giorno','Non spendere mai i guadagni degli investimenti — lasciali nel portafoglio a crescere','Vendere e reinvestire ogni anno','Cambiare ETF ogni trimestre'],
+        risposta_corretta:1, spiegazione:'I frutti degli investimenti (dividendi, plusvalenze) devono restare investiti per sfruttare l interesse composto. Non spendere mai il motore.'},
+     ]},
+  ];
+
+  // ── FRANÇAIS ──────────────────────────────────────────────
+  var STRAT_FR = [
+    {id:'str_01', emoji:'♾️', titolo:"L'Intérêt Composé — La Huitième Merveille",
+     tempo_minuti:8, semi_reward:130, livello:'base',
+     sottotitolo:'La formule que Einstein appelait la force la plus puissante de l univers',
+     punti_chiave:[
+       'Formule: M = C × (1 + i)^n — où n (le temps) est le facteur le plus puissant',
+       'Ne pas retirer les gains: les laisser investis pour qu ils génèrent d autres gains',
+       '10 000€ à 7% annuel: après 10 ans = 19 672€ — après 30 ans = 76 123€',
+       'Commencer tôt vaut 3x plus qu investir beaucoup — le temps bat toujours la quantité',
+     ],
+     esempio_pratico:'Amara investit 200€/mois à 25 ans. Kofi commence à 35 ans mais investit 400€/mois. À 65 ans Amara a 525 000€, Kofi seulement 393 000€. Amara a gagné en investissant deux fois moins.',
+     dato_reale:'Si le grand-père de Jeff Bezos avait investi 1 000$ en 1950 dans un ETF S&P 500 sans jamais toucher, cela vaudrait aujourd hui plus de 1 400 000$.',
+     sfida_vita_reale:'Calcule combien tu aurais aujourd hui si tu avais investi 100€/mois ces 5 dernières années à 7%. Puis calcule pour les 20 prochaines années.',
+     quiz:[
+       {domanda:'Dans la formule M = C × (1+i)^n, quel est le facteur le plus puissant?',
+        opzioni:['C — le capital initial','i — le taux d intérêt','n — le temps','La banque choisie'],
+        risposta_corretta:2, spiegazione:'Le temps est le multiplicateur le plus puissant. Commencer 10 ans plus tôt vaut plus que le double du capital.'},
+       {domanda:'Que ne dois-tu pas faire avec les gains pour profiter des intérêts composés?',
+        opzioni:['Les réinvestir','Les retirer','Les diversifier','Les calculer'],
+        risposta_corretta:1, spiegazione:'Ne pas retirer est la règle #1. Les gains doivent générer d autres gains.'},
+     ]},
+    {id:'str_02', emoji:'💰', titolo:'La Règle 50/30/20 — Standard 2026',
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:'Comment diviser chaque euro pour devenir riche automatiquement',
+     punti_chiave:[
+       '50% Besoins: loyer, factures, alimentation, transports essentiels',
+       '30% Envies: restaurants, abonnements, voyages, loisirs — mais avec limite fixe',
+       '20% Investissements: d abord le Fonds d Urgence (3-6 mois de dépenses), puis ETF',
+       'Paye-toi en premier: dès que le salaire arrive, 20% sort automatiquement',
+     ],
+     esempio_pratico:'Sara gagne 1 800€/mois. 900€ loyer+factures+courses. 540€ vie sociale. 360€ chaque mois en automatique sur ETF S&P 500. En 10 ans: plus de 62 000€.',
+     dato_reale:'Ceux qui automatisent l épargne avec cette règle accumulent en moyenne 3x plus que ceux qui épargnent ce qui reste — ce qui est généralement zéro.',
+     quiz:[
+       {domanda:'Dans la règle 50/30/20, que comprend le 20%?',
+        opzioni:['Seulement le fonds d urgence','Seulement les investissements en bourse','Fonds d urgence + investissements long terme','Vacances et loisirs'],
+        risposta_corretta:2, spiegazione:'Les 20% se divisent: d abord remplir le fonds d urgence, puis le reste en investissements.'},
+       {domanda:'Quand transférer les 20% d investissement?',
+        opzioni:['En fin de mois avec ce qui reste','Dès que le salaire arrive — premier virement automatique','Quand le marché baisse','Une fois par an'],
+        risposta_corretta:1, spiegazione:'Paye-toi en premier. Si tu attends la fin du mois, il ne reste jamais rien.'},
+     ]},
+    {id:'str_03', emoji:'📦', titolo:'ETF et PAC — Le Portefeuille du Travailleur Intelligent',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:'Comment investir 200€ par mois et battre 94% des gestionnaires professionnels',
+     punti_chiave:[
+       'ETF: panier d actions ou obligations — investir sur tout le marché en un seul achat',
+       'ETF S&P 500: 500 entreprises USA — rendement historique 10,5% annuel depuis 1950',
+       'PAC (Plan d Accumulation): somme fixe chaque mois — tu achètes quand ça monte et quand ça baisse',
+       'Coût ETF: 0,03-0,20%/an vs 1,5-2,5% des fonds traditionnels — la différence sur 20 ans est énorme',
+     ],
+     esempio_pratico:'200€/mois dans un ETF MSCI World pendant 20 ans à 8%: résultat 117 804€ — presque le double sans rien faire.',
+     dato_reale:'94% des fonds actifs gérés par des professionnels ne battent pas le S&P 500 sur 20 ans. La solution la plus simple est souvent la meilleure: ETF + PAC + temps.',
+     quiz:[
+       {domanda:"Qu'est-ce qu'un PAC (Plan d'Accumulation)?",
+        opzioni:['Un compte courant spécial','Un investissement unique','Une méthode pour investir une somme fixe chaque mois','Un prêt bancaire'],
+        risposta_corretta:2, spiegazione:'Le PAC investit un montant fixe chaque mois indépendamment du marché — réduit le risque de mauvais timing.'},
+       {domanda:'Pourquoi les ETF battent les fonds actifs sur le long terme?',
+        opzioni:['Parce qu ils sont mieux gérés','Parce que leurs commissions sont 10-50x inférieures','Parce qu ils investissent seulement dans les entreprises sûres','Parce que le gouvernement les protège'],
+        risposta_corretta:1, spiegazione:'1,5% de commission annuelle sur 20 ans érode 26% du capital final. Les ETF coûtent 0,03-0,20%.'},
+     ]},
+    {id:'str_04', emoji:'⚠️', titolo:'Les 3 Tueurs de ton Argent — Ce qu il Faut Toujours Éviter',
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:'Inflation, commissions et FOMO — les trois ennemis invisibles de ton patrimoine',
+     punti_chiave:[
+       'Inflation à 3%: 10 000€ sur compte courant valent 7 440€ de pouvoir d achat en 10 ans',
+       'Commissions bancaires: 1,5% sur 100 000€ pendant 20 ans = 39 000€ perdus',
+       'FOMO: acheter la crypto à la mode parce que tout le monde en parle = perdre 80% en 6 mois',
+       'Le meilleur investissement est toujours dans ta formation — augmente le revenu à investir',
+     ],
+     esempio_pratico:'En 2021 tous achetaient LUNA crypto parce qu elle montait. En 2022 elle a chuté de 99,9%. Ceux qui avaient étudié les fondamentaux savaient que c était de la pure spéculation.',
+     dato_reale:'En Italie, les comptes courants ont perdu en moyenne 18% de pouvoir d achat entre 2020 et 2024 à cause de l inflation. Garder l argent immobile c est perdre de l argent.',
+     quiz:[
+       {domanda:'Avec inflation à 3%, combien valent 10 000€ en 10 ans sur compte courant?',
+        opzioni:['10 000€ — inchangés','13 000€ — augmentés','7 440€ — pouvoir achat diminué','Dépend de la banque'],
+        risposta_corretta:2, spiegazione:"L'inflation érode la valeur réelle de l'argent. 3% pendant 10 ans = -25,6% de pouvoir d'achat."},
+       {domanda:'Que signifie FOMO en finance?',
+        opzioni:['Une stratégie de couverture','La peur de rater une tendance et acheter sans comprendre','Un type d ETF','Un indice de volatilité'],
+        risposta_corretta:1, spiegazione:'FOMO = Fear Of Missing Out. Acheter par peur de rater le rally, pas par conviction rationnelle.'},
+     ]},
+  ];
+
+  // ── ENGLISH ───────────────────────────────────────────────
+  var STRAT_EN = [
+    {id:'str_01', emoji:'♾️', titolo:'Compound Interest — The Eighth Wonder',
+     tempo_minuti:8, semi_reward:130, livello:'base',
+     sottotitolo:'The formula Einstein called the most powerful force in the universe',
+     punti_chiave:[
+       'Formula: M = C × (1 + i)^n — where n (time) is the most powerful factor of all',
+       'Do not withdraw gains: leave them invested so they generate returns on returns',
+       '€10,000 at 7% annually: after 10 years = €19,672 — after 30 years = €76,123',
+       'Starting early is worth 3x more than investing a lot — time always beats amount',
+     ],
+     esempio_pratico:'Amara invests €200/month from age 25. Kofi starts at 35 but invests €400/month. At 65 Amara has €525,000, Kofi only €393,000. Amara won by investing half as much.',
+     dato_reale:'If Jeff Bezos grandfather had invested $1,000 in 1950 in an S&P 500 ETF without touching it, it would be worth over $1,400,000 today. Just from time.',
+     quiz:[
+       {domanda:'In the formula M = C × (1+i)^n, what is the most powerful factor?',
+        opzioni:['C — initial capital','i — interest rate','n — time','The bank chosen'],
+        risposta_corretta:2, spiegazione:'Time is the most powerful multiplier. Starting 10 years earlier is worth more than doubling the capital.'},
+       {domanda:'What must you NOT do with gains to benefit from compound interest?',
+        opzioni:['Reinvest them','Withdraw them','Diversify them','Calculate them'],
+        risposta_corretta:1, spiegazione:'Not withdrawing is rule #1. Gains must generate more gains — the cycle breaks if you withdraw.'},
+     ]},
+    {id:'str_02', emoji:'💰', titolo:'The 50/30/20 Rule — 2026 Standard',
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:'How to split every euro to become rich automatically',
+     punti_chiave:[
+       '50% Needs: rent, bills, food, essential transport',
+       '30% Wants: dining out, subscriptions, travel, hobbies — but with a fixed limit',
+       '20% Investments: first Emergency Fund (3-6 months expenses), then ETFs and markets',
+       'Pay yourself first: as soon as salary arrives, 20% leaves automatically',
+     ],
+     esempio_pratico:'Sara earns €1,800/month. €900 for rent+bills+groceries. €540 for social life. €360 every month goes automatically to S&P 500 ETF. In 10 years: over €62,000.',
+     dato_reale:'Those who automate savings with this rule accumulate on average 3x more than those who save what is left — which is usually zero.',
+     quiz:[
+       {domanda:'In the 50/30/20 rule, what does the 20% include?',
+        opzioni:['Only emergency fund','Only stock market investments','Emergency fund + long-term investments','Vacations and hobbies'],
+        risposta_corretta:2, spiegazione:'The 20% splits: first fill the emergency fund, then the rest goes to investments.'},
+       {domanda:'When should you transfer the 20% investment amount?',
+        opzioni:['At end of month with what is left','As soon as salary arrives — first automatic transfer','When the market is falling','Once a year'],
+        risposta_corretta:1, spiegazione:'Pay yourself first. If you wait until month end, there is never anything left.'},
+     ]},
+    {id:'str_03', emoji:'📦', titolo:'ETF and DCA — The Smart Worker Portfolio',
+     tempo_minuti:8, semi_reward:120, livello:'medio',
+     sottotitolo:'How to invest €200 a month and beat 94% of professional fund managers',
+     punti_chiave:[
+       'ETF: basket of stocks or bonds — invest in the whole market with one purchase',
+       'S&P 500 ETF: 500 US companies — historical return 10.5% annually since 1950',
+       'DCA (Dollar Cost Averaging): fixed amount every month — you buy both at highs and lows',
+       'ETF cost: 0.03-0.20%/year vs 1.5-2.5% for traditional funds — the 20-year difference is huge',
+     ],
+     esempio_pratico:'€200/month in MSCI World ETF for 20 years at 8%: result €117,804 — almost doubled without doing anything.',
+     dato_reale:'94% of actively managed funds do not beat the S&P 500 over 20 years. The simplest solution is often the best: ETF + DCA + time.',
+     quiz:[
+       {domanda:'What is DCA (Dollar Cost Averaging)?',
+        opzioni:['A special savings account','A one-time investment','A method of investing a fixed amount every month','A bank loan'],
+        risposta_corretta:2, spiegazione:'DCA invests a fixed amount every month regardless of the market — reduces the risk of bad timing.'},
+       {domanda:'Why do ETFs beat active funds over the long term?',
+        opzioni:['Better managed','Commissions 10-50x lower that do not erode returns','Only invest in safe companies','Government protects them'],
+        risposta_corretta:1, spiegazione:'1.5% annual commission over 20 years erodes 26% of final capital. ETFs cost 0.03-0.20%.'},
+     ]},
+    {id:'str_04', emoji:'⚠️', titolo:'The 3 Money Killers — What to Always Avoid',
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:'Inflation, commissions and FOMO — the three invisible enemies of your wealth',
+     punti_chiave:[
+       'Inflation at 3%: €10,000 in a current account is worth €7,440 purchasing power in 10 years',
+       'Bank commissions: 1.5% on €100,000 for 20 years = €39,000 lost — just in fees',
+       'FOMO: buying the trending crypto because everyone talks about it = losing 80% in 6 months',
+       'The best investment is always in your education — increases the income available to invest',
+     ],
+     esempio_pratico:'In 2021 everyone bought LUNA crypto because it kept rising. In 2022 it crashed 99.9%. Those who studied fundamentals knew it was pure speculation.',
+     dato_reale:'In Italy current accounts lost an average 18% of purchasing power between 2020 and 2024 due to inflation. Keeping money still is losing money.',
+     quiz:[
+       {domanda:'With 3% inflation, how much are €10,000 worth in 10 years in a current account?',
+        opzioni:['€10,000 — unchanged','€13,000 — increased','€7,440 — purchasing power decreased','Depends on the bank'],
+        risposta_corretta:2, spiegazione:'Inflation erodes the real value of money. 3% for 10 years = -25.6% purchasing power.'},
+       {domanda:'What does FOMO mean in finance?',
+        opzioni:['A hedging strategy','The fear of missing a trend and buying without understanding','A type of ETF','A volatility index'],
+        risposta_corretta:1, spiegazione:'FOMO = Fear Of Missing Out. Buying out of fear of missing a rally, not rational conviction.'},
+     ]},
+  ];
+
+  // ── Add to LESSON_BANK ──────────────────────────────────
+  if (typeof LESSON_BANK !== 'undefined') {
+    LESSON_BANK['strategie_ricchezza'] = STRAT_IT;
+  }
+  if (typeof LESSON_BANK_FR !== 'undefined') {
+    LESSON_BANK_FR['strategie_ricchezza'] = STRAT_FR;
+  }
+  if (typeof LESSON_BANK_EN !== 'undefined') {
+    LESSON_BANK_EN['strategie_ricchezza'] = STRAT_EN;
+  }
+
+  // ── Titles in LESSON_TITLE_MAP ─────────────────────────
+  var stratTitlesFR = {
+    'str_01':"L'Intérêt Composé — La Huitième Merveille",
+    'str_02':'La Règle 50/30/20 — Standard 2026',
+    'str_03':'ETF et PAC — Le Portefeuille du Travailleur Intelligent',
+    'str_04':'Les 3 Tueurs de ton Argent',
+  };
+  var stratTitlesEN = {
+    'str_01':'Compound Interest — The Eighth Wonder',
+    'str_02':'The 50/30/20 Rule — 2026 Standard',
+    'str_03':'ETF and DCA — The Smart Worker Portfolio',
+    'str_04':'The 3 Money Killers',
+    'str_05':'Dividends and Passive Income',
+    'str_06':'4-Step Action Plan — Start Today',
+  };
+  if (typeof LESSON_TITLE_MAP !== 'undefined') {
+    if (LESSON_TITLE_MAP.fr) Object.assign(LESSON_TITLE_MAP.fr, stratTitlesFR);
+    if (LESSON_TITLE_MAP.en) Object.assign(LESSON_TITLE_MAP.en, stratTitlesEN);
+  }
+})();
+
+window.agentStart = agentRun; // alias
 </script>
 
 <div id="npc-dialog" class="g-modal" style="display:none">
@@ -22289,74 +22900,185 @@ var LESSON_BANK_EN = {
 
 
 <div class="screen" id="guida-giochi">
-  <div style="background:linear-gradient(160deg,#050014,#0a0028);min-height:100vh;padding-bottom:80px">
-    <div style="padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08)">
-      <button onclick="backToHub()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);font-size:.75rem;cursor:pointer">← Giochi</button>
-      <div style="font-family:Fredoka One,serif;font-size:1.1rem;color:var(--gold)">📖 Guide ai Giochi</div>
-    </div>
-    <div style="padding:14px">
+<div style="background:linear-gradient(160deg,#050014,#0a0028);min-height:100vh;padding-bottom:90px;overflow-y:auto">
 
-      <!-- 4 Quadranti -->
-      <div style="background:rgba(255,215,0,.05);border:1.5px solid rgba(255,215,0,.2);border-radius:16px;padding:14px;margin-bottom:12px">
-        <div style="font-family:Fredoka One,serif;font-size:1rem;color:var(--gold);margin-bottom:8px">👑 4 Quadranti — Come si gioca</div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
-          <div>🎯 <strong>Obiettivo:</strong> Raggiùngere il Quadrante I (Investitore) in 12 mesi</div>
-          <div>📊 <strong>Quadranti:</strong> D=Dipendente · A=Autonomo · T=Tecnico · I=Investitore</div>
-          <div>💡 <strong>Come:</strong> Scegli una scelta ogni mese. Le scelte costruiscono il tuo profilo finanziario</div>
-          <div>🏆 <strong>Vinci:</strong> Quando il reddito passivo supera le spese (libertà finanziaria!)</div>
-        </div>
-      </div>
-
-      <!-- Corsa Inflazione -->
-      <div style="background:rgba(248,113,113,.05);border:1.5px solid rgba(248,113,113,.2);border-radius:16px;padding:14px;margin-bottom:12px">
-        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#f87171;margin-bottom:8px">🏃 Corsa Inflazione — Come si gioca</div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
-          <div>🎯 <strong>Obiettivo:</strong> Sopravvivere all'inflazione raccogliendo asset e schivando perdite</div>
-          <div>🟢 <strong>Raccogli:</strong> 🥇 Oro · 📈 Azioni · 🏠 Immobili → aumentano la ricchezza</div>
-          <div>🔴 <strong>Schiva:</strong> 💸 Banconote volanti → inflazione mangia i risparmi</div>
-          <div>📱 <strong>Controlli:</strong> Tasto ◀ Sx per andare a sinistra · Tasto Dx ▶ per destra</div>
-          <div>👹 <strong>Mostro:</strong> L'inflazione ti insegue. Se ti raggiùnge perdi ricchezza rapidamente</div>
-        </div>
-      </div>
-
-      <!-- Borsa Globale -->
-      <div style="background:rgba(74,222,128,.05);border:1.5px solid rgba(74,222,128,.2);border-radius:16px;padding:14px;margin-bottom:12px">
-        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#4ade80;margin-bottom:8px">📊 Borsa Globale — Come si gioca</div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
-          <div>🎯 <strong>Obiettivo:</strong> Massimizzare il portafoglio comprando basso e vendendo alto</div>
-          <div>📈 <strong>Compra:</strong> Seleziona un'azione → scegli quantità → conferma</div>
-          <div>💼 <strong>Portfolio:</strong> Tab "Portafoglio" per vedere i tuoi asset e venderli</div>
-          <div>🌍 <strong>Filtri:</strong> Africa · Europa · USA · Asia per vedere i mercati regionali</div>
-          <div>📊 <strong>ETF:</strong> Investi in tutti i mercati in una volta sola con gli ETF</div>
-        </div>
-      </div>
-
-      <!-- Monopolio -->
-      <div style="background:rgba(167,139,250,.05);border:1.5px solid rgba(167,139,250,.2);border-radius:16px;padding:14px;margin-bottom:12px">
-        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#a78bfa;margin-bottom:8px">🏗️ Monopolio Urbano — Come si gioca</div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
-          <div>🎯 <strong>Obiettivo:</strong> Costruire un impero immobiliare in 4 città africane</div>
-          <div>🏠 <strong>Compra:</strong> Tocca una proprietà disponibile (🟢 verde) per acquistarla</div>
-          <div>📈 <strong>Rendita:</strong> Ogni proprietà genera rendita automatica ogni trimestre</div>
-          <div>⏭️ <strong>Turni:</strong> Premi "Prossimo trimestre" per avanzare e incassare</div>
-          <div>🌍 <strong>Città:</strong> Ouagadougou · Dakar · Abidjan · Lagos — ognuna con prezzi diversi</div>
-        </div>
-      </div>
-
-      <!-- Città 3D -->
-      <div style="background:rgba(251,146,60,.05);border:1.5px solid rgba(251,146,60,.2);border-radius:16px;padding:14px;margin-bottom:12px">
-        <div style="font-family:Fredoka One,serif;font-size:1rem;color:#fb923c;margin-bottom:8px">🏙️ Città 3D — Come si gioca</div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7">
-          <div>🎯 <strong>Obiettivo:</strong> Costruire una città 3D che genera rendita passiva</div>
-          <div>👇 <strong>Scegli:</strong> Seleziona un tipo di edificio dal menu in basso</div>
-          <div>🏗️ <strong>Costruisci:</strong> Tocca una cella vuota sulla griglia per costruire</div>
-          <div>💰 <strong>Rendita:</strong> Ogni edificio genera automaticamente ogni 5 secondi</div>
-          <div>📊 <strong>Strategia:</strong> Casa (economica) · Banca (costosa ma alta rendita)</div>
-        </div>
-      </div>
-
+  <!-- HEADER -->
+  <div style="padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(245,200,66,.2);position:sticky;top:0;z-index:10;background:rgba(5,0,20,.95);backdrop-filter:blur(12px)">
+    <button onclick="backToHub()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);font-size:.75rem;cursor:pointer">← Giochi</button>
+    <div>
+      <div style="font-family:Fredoka One,serif;font-size:1.05rem;color:var(--gold)">📖 Manuale dei Giochi</div>
+      <div style="font-size:.62rem;color:rgba(255,255,255,.4)">Come giocare · Regole · Strategie</div>
     </div>
   </div>
+
+  <div style="padding:14px">
+
+    <!-- INTRO -->
+    <div style="background:linear-gradient(135deg,rgba(245,200,66,.08),rgba(167,139,250,.05));border:1px solid rgba(245,200,66,.2);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center">
+      <div style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.7">Ogni gioco insegna una competenza finanziaria reale.<br>Gioca, impara, guadagna Semi di Luce 🌱</div>
+    </div>
+
+    <!-- GIOCO 1 — 4 QUADRANTI -->
+    <div style="background:rgba(245,200,66,.06);border:1.5px solid rgba(245,200,66,.25);border-radius:16px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:1.6rem">🏆</div>
+        <div>
+          <div style="font-family:Fredoka One,serif;font-size:1rem;color:var(--gold)">I 4 Quadranti del Cashflow</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4)">Strategia · 5-10 min · Kiyosaki</div>
+        </div>
+        <button onclick="openGame('quadranti')" style="margin-left:auto;background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.4);border-radius:8px;padding:6px 12px;color:var(--gold);font-size:.72rem;font-weight:900;cursor:pointer">▶ Gioca</button>
+      </div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px">
+        <strong style="color:var(--gold)">🎯 Obiettivo:</strong> Raggiungere la libertà finanziaria prima degli altri giocatori spostando il tuo reddito dal quadrante E/L al quadrante I/I.<br><br>
+        <strong style="color:var(--gold)">🗺️ I 4 Quadranti:</strong><br>
+        <span style="color:#f87171">●</span> <strong>E = Employed</strong> — Dipendente. Scambi tempo per soldi. Tasse alte, sicurezza bassa.<br>
+        <span style="color:#fb923c">●</span> <strong>L = Lavoratore autonomo</strong> — Freelance. Possiedi un lavoro, non un business.<br>
+        <span style="color:#4ade80">●</span> <strong>B = Business owner</strong> — Il sistema lavora per te. Persone + processi.<br>
+        <span style="color:#a78bfa">●</span> <strong>I = Investor</strong> — Il denaro lavora per te. Rendita passiva.<br>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.7">
+        <div style="color:var(--gold);font-weight:700;margin-bottom:4px">📋 COME SI GIOCA:</div>
+        <div>1. Scegli il tuo personaggio (ognuno ha un bonus diverso)</div>
+        <div>2. Lanci il dado e ti muovi sulla mappa</div>
+        <div>3. Le caselle ti danno eventi: stipendio, spese, investimenti, crisi</div>
+        <div>4. Accumula asset (azioni, immobili, business) che generano rendita passiva</div>
+        <div>5. <strong style="color:#4ade80">Vinci</strong> quando la tua rendita passiva supera le spese mensili</div>
+      </div>
+      <div style="margin-top:8px;font-size:.68rem;color:rgba(245,200,66,.6)">💡 Strategia: compra asset prima di aggiornare lo stile di vita. L E e L sono trappole — escine il prima possibile.</div>
+    </div>
+
+    <!-- GIOCO 2 — BORSA GLOBALE -->
+    <div style="background:rgba(96,165,250,.06);border:1.5px solid rgba(96,165,250,.25);border-radius:16px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:1.6rem">📈</div>
+        <div>
+          <div style="font-family:Fredoka One,serif;font-size:1rem;color:#60a5fa">Borsa Globale</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4)">Trading · Real-time · S&P500 · BRVM</div>
+        </div>
+        <button onclick="openGame('brvm')" style="margin-left:auto;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.4);border-radius:8px;padding:6px 12px;color:#60a5fa;font-size:.72rem;font-weight:900;cursor:pointer">▶ Gioca</button>
+      </div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px">
+        <strong style="color:#60a5fa">🎯 Obiettivo:</strong> Costruire il portafoglio con il valore più alto entro la fine dei round, usando analisi tecnica e gestione del rischio.<br><br>
+        <strong style="color:#60a5fa">📊 Mercati disponibili:</strong> AAPL · TSLA · MSFT · NVDA · Gold · Oil · BTC · ETH · S&P500 + titoli BRVM africani
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.7">
+        <div style="color:#60a5fa;font-weight:700;margin-bottom:4px">📋 COME SI GIOCA:</div>
+        <div>1. Hai un capitale iniziale — scegli i titoli da comprare</div>
+        <div>2. Imposta <strong>Stop-Loss</strong> (protezione perdite) e <strong>Take-Profit</strong> (obiettivo guadagno)</div>
+        <div>3. Scegli la leva: x1 (normale) · x2 · x5 · x10 (rischio maggiore)</div>
+        <div>4. I prezzi si aggiornano ogni round — eventi casuali cambiano i mercati</div>
+        <div>5. <strong style="color:#4ade80">Vinci</strong> chi ha il portafoglio più alto dopo tutti i round</div>
+      </div>
+      <div style="margin-top:8px;font-size:.68rem;color:rgba(96,165,250,.6)">💡 Strategia: usa sempre stop-loss. La leva x10 può raddoppiare i guadagni ma anche azzerare il capitale in un round.</div>
+    </div>
+
+    <!-- GIOCO 3 — MONOPOLIO URBANO -->
+    <div style="background:rgba(74,222,128,.06);border:1.5px solid rgba(74,222,128,.25);border-radius:16px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:1.6rem">🏘️</div>
+        <div>
+          <div style="font-family:Fredoka One,serif;font-size:1rem;color:#4ade80">Monopolio Urbano</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4)">Immobiliare · Rendite passive · Africa</div>
+        </div>
+        <button onclick="openGame('immobiliare')" style="margin-left:auto;background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.4);border-radius:8px;padding:6px 12px;color:#4ade80;font-size:.72rem;font-weight:900;cursor:pointer">▶ Gioca</button>
+      </div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px">
+        <strong style="color:#4ade80">🎯 Obiettivo:</strong> Diventare il magnate immobiliare con il reddito da affitto più alto, investendo nelle città africane e globali.<br><br>
+        <strong style="color:#4ade80">🌍 Città disponibili:</strong> Ouagadougou · Bobo-Dioulasso · Koudougou · Abidjan · Dakar · Paris · Milano · Londra
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.7">
+        <div style="color:#4ade80;font-weight:700;margin-bottom:4px">📋 COME SI GIOCA:</div>
+        <div>1. Scegli una proprietà da acquistare (appartamento, ufficio, terreno)</div>
+        <div>2. Ogni proprietà genera rendita mensile automatica</div>
+        <div>3. Puoi migliorare le proprietà per aumentare il canone</div>
+        <div>4. Gestisci la liquidità — non restare senza cash per le spese</div>
+        <div>5. <strong style="color:#4ade80">Vinci</strong> chi ha la rendita mensile totale più alta</div>
+      </div>
+      <div style="margin-top:8px;font-size:.68rem;color:rgba(74,222,128,.6)">💡 Strategia: diversifica tra città. Un immobile solo in una città è rischioso. I terreni hanno valorizzazione lenta ma alta.</div>
+    </div>
+
+    <!-- GIOCO 4 — CORSA INFLAZIONE -->
+    <div style="background:rgba(251,146,60,.06);border:1.5px solid rgba(251,146,60,.25);border-radius:16px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:1.6rem">🔥</div>
+        <div>
+          <div style="font-family:Fredoka One,serif;font-size:1rem;color:#fb923c">Corsa all Inflazione</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4)">Sopravvivenza · Tempo reale · Sfida</div>
+        </div>
+        <button onclick="openGame('inflazione')" style="margin-left:auto;background:rgba(251,146,60,.15);border:1px solid rgba(251,146,60,.4);border-radius:8px;padding:6px 12px;color:#fb923c;font-size:.72rem;font-weight:900;cursor:pointer">▶ Gioca</button>
+      </div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px">
+        <strong style="color:#fb923c">🎯 Obiettivo:</strong> Far crescere il tuo patrimonio più velocemente dell inflazione — altrimenti perdi potere acquisto ogni round.<br><br>
+        <strong style="color:#fb923c">⚡ Il nemico:</strong> L inflazione erode il valore reale dei tuoi risparmi ogni turno. I tuoi soldi si svalutano se non li investi.
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.7">
+        <div style="color:#fb923c;font-weight:700;margin-bottom:4px">📋 COME SI GIOCA:</div>
+        <div>1. Usa le frecce Sinistra/Destra per muoverti sulla mappa</div>
+        <div>2. Raccogli asset prima che l inflazione li divori</div>
+        <div>3. Ogni round l inflazione aumenta — la pressione cresce</div>
+        <div>4. Asset diversi proteggono in modo diverso (oro, azioni, immobili)</div>
+        <div>5. <strong style="color:#4ade80">Vinci</strong> se il tuo patrimonio reale cresce — <strong style="color:#f87171">perdi</strong> se l inflazione ti supera</div>
+      </div>
+      <div style="margin-top:8px;font-size:.68rem;color:rgba(251,146,60,.6)">💡 Strategia: l oro protegge meglio dall inflazione alta. Le azioni battono l inflazione nel lungo periodo. Tieni sempre liquidità minima.</div>
+    </div>
+
+    <!-- GIOCO 5 — CITTÀ 3D -->
+    <div style="background:rgba(167,139,250,.06);border:1.5px solid rgba(167,139,250,.25);border-radius:16px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div style="font-size:1.6rem">🏗️</div>
+        <div>
+          <div style="font-family:Fredoka One,serif;font-size:1rem;color:#a78bfa">Costruisci la Città 3D</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4)">City Builder · Rendita passiva · 3D</div>
+        </div>
+        <button onclick="openGame('build3d')" style="margin-left:auto;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.4);border-radius:8px;padding:6px 12px;color:#a78bfa;font-size:.72rem;font-weight:900;cursor:pointer">▶ Gioca</button>
+      </div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px">
+        <strong style="color:#a78bfa">🎯 Obiettivo:</strong> Costruire la città più redditizia — ogni edificio genera rendita passiva automatica ogni 5 secondi.
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.7">
+        <div style="color:#a78bfa;font-weight:700;margin-bottom:4px">📋 COME SI GIOCA:</div>
+        <div>1. Scegli il tipo di edificio dal menu in basso</div>
+        <div>2. Tocca una cella della griglia 3D per costruire</div>
+        <div>3. Ogni edificio ha costo e rendita diversa:</div>
+        <div style="padding-left:12px">🏠 Casa 500€ → +10€/ciclo &nbsp; 🏢 Ufficio 1.200€ → +30€/ciclo</div>
+        <div style="padding-left:12px">🏪 Mercato 800€ → +20€/ciclo &nbsp; 🎓 Scuola 2.000€ → +45€/ciclo</div>
+        <div style="padding-left:12px">🏦 Banca 3.500€ → +80€/ciclo — il più redditizio</div>
+        <div>4. La camera ruota automaticamente — visuale 3D completa</div>
+        <div>5. <strong style="color:#4ade80">Obiettivo:</strong> Massimizza la rendita passiva totale</div>
+      </div>
+      <div style="margin-top:8px;font-size:.68rem;color:rgba(167,139,250,.6)">💡 Strategia: la Banca ha il miglior rapporto rendita/costo. Inizia con Case per liquidità, poi costruisci Banche non appena puoi permettertele.</div>
+    </div>
+
+    <!-- SISTEMA SEMI E XP -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:12px">
+      <div style="font-family:Fredoka One,serif;font-size:.95rem;color:var(--gold);margin-bottom:10px">🌱 Sistema Semi e XP — Come Guadagnarli</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:10px;padding:8px">
+          <div style="font-size:.68rem;font-weight:900;color:#4ade80;margin-bottom:4px">🌱 SEMI DI LUCE</div>
+          <div style="font-size:.65rem;color:rgba(255,255,255,.5);line-height:1.6">+80-140 per lezione<br>+20-50 per quiz<br>+10-30 per partita<br>+25 per certificato PDF</div>
+        </div>
+        <div style="background:rgba(245,200,66,.06);border:1px solid rgba(245,200,66,.2);border-radius:10px;padding:8px">
+          <div style="font-size:.68rem;font-weight:900;color:var(--gold);margin-bottom:4px">⭐ XP E LIVELLI</div>
+          <div style="font-size:.65rem;color:rgba(255,255,255,.5);line-height:1.6">7 livelli: Principiante → Leggenda<br>XP da lezioni e missioni PRO<br>Level up = bonus Semi + toast</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS GENERALI -->
+    <div style="background:linear-gradient(135deg,rgba(245,200,66,.08),rgba(167,139,250,.05));border:1.5px solid rgba(245,200,66,.2);border-radius:14px;padding:14px">
+      <div style="font-family:Fredoka One,serif;font-size:.9rem;color:var(--gold);margin-bottom:8px">🧠 Consigli per Tutti i Giochi</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.65);line-height:1.8">
+        <div>→ <strong style="color:rgba(255,255,255,.85)">Studia prima, poi gioca</strong> — le lezioni Academy ti danno vantaggi reali nel gioco</div>
+        <div>→ <strong style="color:rgba(255,255,255,.85)">Non uscire senza salvare</strong> — i progressi vengono salvati automaticamente</div>
+        <div>→ <strong style="color:rgba(255,255,255,.85)">Ogni sconfitta è una lezione</strong> — al termine di ogni partita Civetta AI ti spiega cosa migliorare</div>
+        <div>→ <strong style="color:rgba(255,255,255,.85)">Il Segno Zodiacale conta</strong> — ogni segno ha bonus su un tipo di gioco specifico</div>
+        <div>→ <strong style="color:rgba(255,255,255,.85)">Le Missioni PRO sbloccano abilità</strong> — completa le 7 Missioni per bonus permanenti</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
 </div>
 
 
