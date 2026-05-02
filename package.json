@@ -1,0 +1,17 @@
+{
+  "name": "finanzaland",
+  "version": "1.0.0",
+  "description": "FinanzaLand Omnia - Gamified Financial Education PWA",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
