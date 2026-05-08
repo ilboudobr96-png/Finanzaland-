@@ -1503,77 +1503,46 @@ html,body{background:#0a0028}
 .set-lang-btn{padding:8px 6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.6);font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s}
 .set-lang-btn.active{background:rgba(245,200,66,.15);border-color:var(--gold);color:var(--gold)}
 
-/* ════════════════════════════════════════════════════════════
-   HOME 3D — Drago di Cristallo, Castello, Albero d'Oro
-   ════════════════════════════════════════════════════════════ */
+/* HOME 3D */
 .home-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
 .home-particle{position:absolute;border-radius:50%;animation:particleFloat var(--dur,6s) ease-in-out infinite var(--delay,0s);opacity:.15;}
 @keyframes particleFloat{0%,100%{transform:translateY(0) scale(1);opacity:.1}50%{transform:translateY(-30px) scale(1.2);opacity:.25}}
-
 .home-hero-v2{position:relative;padding:0;display:flex;flex-direction:column;align-items:center;min-height:100%;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#1a0050 0%,#05001a 60%,#000 100%);}
-
-/* Logo */
 .home-logo-area{position:relative;z-index:2;text-align:center;padding:22px 20px 8px;width:100%;box-sizing:border-box;}
 .home-logo-dragon{font-size:3.8rem;display:inline-block;animation:drFloat3D 4s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(0,220,255,.9));}
-@keyframes drFloat3D{0%{transform:translateY(0) rotateZ(-3deg) scale(1)}33%{transform:translateY(-14px) rotateZ(2deg) scale(1.05)}66%{transform:translateY(-8px) rotateZ(-1deg) scale(1.02)}100%{transform:translateY(0) rotateZ(-3deg) scale(1)}}
-.home-logo-title{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#00DCFF 0%,#FFD700 50%,#00DCFF 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:4px 0 2px;letter-spacing:1px;}
+@keyframes drFloat3D{0%{transform:translateY(0) rotateZ(-3deg) scale(1)}33%{transform:translateY(-14px) rotateZ(2deg) scale(1.05)}100%{transform:translateY(0) rotateZ(-3deg) scale(1)}}
+.home-logo-title{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#00DCFF 0%,#FFD700 50%,#00DCFF 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin:4px 0 2px;}
 .home-logo-sub{font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.5px;}
-
-/* Stats bar */
 .home-stats-v2{display:flex;gap:8px;padding:10px 16px;width:100%;box-sizing:border-box;z-index:2;position:relative;}
-.hsv-stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px 4px;text-align:center;backdrop-filter:blur(8px);}
+.hsv-stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px 4px;text-align:center;}
 .hsv-val{font-size:1.1rem;font-weight:900;color:#FFD700;line-height:1.1;}
 .hsv-lbl{font-size:.55rem;color:rgba(255,255,255,.4);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
-
-/* 3 Mondi per età */
 .home-worlds{display:flex;gap:10px;padding:10px 14px;width:100%;box-sizing:border-box;z-index:2;position:relative;}
 .home-world{flex:1;perspective:600px;cursor:pointer;}
-.home-world-inner{position:relative;border-radius:18px;padding:14px 8px 12px;min-height:135px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:5px;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;transform-style:preserve-3d;border:1.5px solid transparent;}
-.home-world-inner:active{transform:scale(.95) rotateY(8deg);}
-
-/* Drago di Cristallo - Kids */
-.home-world.kids .home-world-inner{background:linear-gradient(145deg,#001535,#002860);border-color:rgba(0,220,255,.6);box-shadow:0 8px 32px rgba(0,220,255,.4),inset 0 1px 0 rgba(255,255,255,.1);}
-/* Castello del Cash Flow - Young */
-.home-world.young .home-world-inner{background:linear-gradient(145deg,#1a0030,#2d0060);border-color:rgba(167,139,250,.6);box-shadow:0 8px 32px rgba(124,58,237,.4),inset 0 1px 0 rgba(255,255,255,.1);}
-/* Albero d'Oro - Adult */
-.home-world.adult .home-world-inner{background:linear-gradient(145deg,#1a1000,#352500);border-color:rgba(255,215,0,.6);box-shadow:0 8px 32px rgba(245,158,11,.4),inset 0 1px 0 rgba(255,255,255,.1);}
-
-.hw-emoji{font-size:2.3rem;animation:hwFloat var(--hw-dur,3s) ease-in-out infinite var(--hw-del,0s);filter:drop-shadow(0 0 12px rgba(255,255,255,.4));}
+.home-world-inner{position:relative;border-radius:18px;padding:14px 8px 12px;min-height:135px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:5px;transition:transform .4s cubic-bezier(.34,1.56,.64,1);border:1.5px solid transparent;}
+.home-world.kids .home-world-inner{background:linear-gradient(145deg,#001535,#002860);border-color:rgba(0,220,255,.6);box-shadow:0 8px 32px rgba(0,220,255,.4);}
+.home-world.young .home-world-inner{background:linear-gradient(145deg,#1a0030,#2d0060);border-color:rgba(167,139,250,.6);box-shadow:0 8px 32px rgba(124,58,237,.4);}
+.home-world.adult .home-world-inner{background:linear-gradient(145deg,#1a1000,#352500);border-color:rgba(255,215,0,.6);box-shadow:0 8px 32px rgba(245,158,11,.4);}
+.hw-emoji{font-size:2.3rem;animation:hwFloat var(--hw-dur,3s) ease-in-out infinite var(--hw-del,0s);}
 @keyframes hwFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
-.hw-title{font-size:.72rem;font-weight:900;color:#fff;letter-spacing:.3px;line-height:1.2;}
-.hw-sub{font-size:.58rem;color:rgba(255,255,255,.45);line-height:1.3;}
+.hw-title{font-size:.72rem;font-weight:900;color:#fff;line-height:1.2;}
+.hw-sub{font-size:.58rem;color:rgba(255,255,255,.45);}
 .hw-age{font-size:.55rem;font-weight:800;padding:2px 7px;border-radius:20px;margin-top:2px;}
 .home-world.kids .hw-age{background:rgba(0,220,255,.2);color:#67e8f9;}
 .home-world.young .hw-age{background:rgba(167,139,250,.2);color:#c4b5fd;}
 .home-world.adult .hw-age{background:rgba(255,215,0,.2);color:#FCD34D;}
-
-/* Quick actions */
 .home-quick{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:4px 14px 10px;width:100%;box-sizing:border-box;z-index:2;position:relative;}
 .hq-btn{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:11px 12px;cursor:pointer;transition:all .2s;text-align:left;}
-.hq-btn:active{transform:scale(.96);background:rgba(255,255,255,.08);}
+.hq-btn:active{transform:scale(.96);}
 .hq-icon{font-size:1.4rem;flex-shrink:0;}
 .hq-text{display:flex;flex-direction:column;}
 .hq-label{font-size:.73rem;font-weight:800;color:#fff;}
 .hq-desc{font-size:.58rem;color:rgba(255,255,255,.4);}
-
-/* CTA buttons */
 .home-ctas{padding:0 14px 16px;width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;z-index:2;position:relative;}
-.hcta-primary{width:100%;padding:14px;background:linear-gradient(135deg,#00DCFF,#7C3AED);border:none;border-radius:15px;color:#fff;font-size:.9rem;font-weight:900;cursor:pointer;box-shadow:0 4px 24px rgba(0,220,255,.4);transition:transform .15s;position:relative;overflow:hidden;}
-.hcta-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);pointer-events:none;}
+.hcta-primary{width:100%;padding:14px;background:linear-gradient(135deg,#00DCFF,#7C3AED);border:none;border-radius:15px;color:#fff;font-size:.9rem;font-weight:900;cursor:pointer;box-shadow:0 4px 24px rgba(0,220,255,.4);transition:transform .15s;}
 .hcta-primary:active{transform:scale(.97);}
-.hcta-secondary{width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.8);font-size:.83rem;font-weight:700;cursor:pointer;transition:all .2s;}
-.hcta-secondary:active{background:rgba(255,255,255,.1);}
-
-/* Family Pass banner */
-.home-family-banner{margin:0 14px 12px;background:linear-gradient(135deg,#1a0030,#002035);border:1.5px solid rgba(255,215,0,.3);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;z-index:2;position:relative;cursor:pointer;}
-.hfb-badge{background:linear-gradient(135deg,#FFD700,#F59E0B);border-radius:10px;padding:6px 10px;font-size:.65rem;font-weight:900;color:#000;text-align:center;flex-shrink:0;line-height:1.3;}
-.hfb-text{flex:1;}
-.hfb-title{font-size:.8rem;font-weight:800;color:#FFD700;}
-.hfb-sub{font-size:.65rem;color:rgba(255,255,255,.5);}
-
-/* ════════════════════════════════════════════════════════════
-   GIOCHI 3D CARD FLIP
-   ════════════════════════════════════════════════════════════ */
+.hcta-secondary{width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;color:rgba(255,255,255,.8);font-size:.83rem;font-weight:700;cursor:pointer;}
+/* GIOCHI 3D */
 .giochi-grid-3d{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:8px 14px 14px;}
 .g3d-wide{grid-column:1 / -1;}
 .g3d-card{perspective:900px;cursor:pointer;height:168px;}
@@ -1582,236 +1551,63 @@ html,body{background:#0a0028}
 .g3d-card.flipped .g3d-inner{transform:rotateY(180deg);}
 .g3d-front,.g3d-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;padding:13px;overflow:hidden;}
 .g3d-back{transform:rotateY(180deg);justify-content:space-between;}
-
 .g3d-card.quadranti .g3d-front,.g3d-card.quadranti .g3d-back{background:linear-gradient(145deg,#1a0030,#2d0070);border:1.5px solid rgba(167,139,250,.5);box-shadow:0 8px 28px rgba(124,58,237,.45);}
 .g3d-card.brvm .g3d-front,.g3d-card.brvm .g3d-back{background:linear-gradient(145deg,#001520,#003050);border:1.5px solid rgba(0,220,255,.5);box-shadow:0 8px 28px rgba(0,220,255,.35);}
 .g3d-card.immobiliare .g3d-front,.g3d-card.immobiliare .g3d-back{background:linear-gradient(145deg,#0a1500,#1a2a00);border:1.5px solid rgba(74,222,128,.5);box-shadow:0 8px 28px rgba(74,222,128,.35);}
 .g3d-card.inflazione .g3d-front,.g3d-card.inflazione .g3d-back{background:linear-gradient(145deg,#1a0500,#350a00);border:1.5px solid rgba(251,146,60,.5);box-shadow:0 8px 28px rgba(251,146,60,.35);}
-.g3d-card.ai-game .g3d-front,.g3d-card.ai-game .g3d-back{background:linear-gradient(145deg,#000a1a,#001535);border:1.5px solid rgba(99,102,241,.5);box-shadow:0 8px 28px rgba(99,102,241,.35);}
-
-.g3d-badge{position:absolute;top:9px;right:9px;font-size:.53rem;font-weight:900;padding:2px 7px;border-radius:8px;text-transform:uppercase;letter-spacing:.5px;}
-.g3d-emoji{font-size:2.5rem;filter:drop-shadow(0 0 14px rgba(255,255,255,.35));margin-bottom:5px;animation:g3dFloat var(--gf-dur,3.5s) ease-in-out infinite var(--gf-del,0s);}
+.g3d-card.ai-game .g3d-front,.g3d-card.ai-game .g3d-back{background:linear-gradient(145deg,#000a1a,#001535);border:1.5px solid rgba(99,102,241,.5);}
+.g3d-badge{position:absolute;top:9px;right:9px;font-size:.53rem;font-weight:900;padding:2px 7px;border-radius:8px;text-transform:uppercase;}
+.g3d-emoji{font-size:2.5rem;margin-bottom:5px;animation:g3dFloat var(--gf-dur,3.5s) ease-in-out infinite var(--gf-del,0s);}
 .g3d-card.wide .g3d-emoji{font-size:1.9rem;margin-bottom:0;}
 @keyframes g3dFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .g3d-name{font-weight:900;font-size:.92rem;color:#fff;margin-bottom:2px;}
 .g3d-desc{font-size:.63rem;color:rgba(255,255,255,.45);line-height:1.4;}
 .g3d-flip-hint{position:absolute;bottom:9px;right:11px;font-size:.56rem;color:rgba(255,255,255,.3);animation:pulse3d 2s ease-in-out infinite;}
 @keyframes pulse3d{0%,100%{opacity:.3}50%{opacity:.8}}
-
 .g3d-card.wide .g3d-front{flex-direction:row;align-items:center;gap:13px;}
 .g3d-card.wide .g3d-text{flex:1;}
-
 .g3d-back-title{font-size:.77rem;font-weight:900;color:#fff;margin-bottom:7px;}
 .g3d-rules{flex:1;display:flex;flex-direction:column;gap:5px;font-size:.63rem;color:rgba(255,255,255,.7);line-height:1.4;}
 .g3d-rule{display:flex;align-items:flex-start;gap:5px;}
-.g3d-play-btn{margin-top:9px;width:100%;padding:10px;border:none;border-radius:12px;font-size:.8rem;font-weight:900;cursor:pointer;color:#fff;transition:transform .15s;}
-.g3d-play-btn:active{transform:scale(.96);}
+.g3d-play-btn{margin-top:9px;width:100%;padding:10px;border:none;border-radius:12px;font-size:.8rem;font-weight:900;cursor:pointer;color:#fff;}
 .quadranti .g3d-play-btn{background:linear-gradient(135deg,#7C3AED,#9333EA);}
 .brvm .g3d-play-btn{background:linear-gradient(135deg,#0891B2,#00DCFF);}
 .immobiliare .g3d-play-btn{background:linear-gradient(135deg,#15803D,#22C55E);}
 .inflazione .g3d-play-btn{background:linear-gradient(135deg,#C2410C,#F97316);}
 .ai-game .g3d-play-btn{background:linear-gradient(135deg,#4338CA,#6366F1);}
-
 .g3d-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:20px;}
 .g3d-star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:starTwinkle var(--st-dur,2s) ease-in-out infinite var(--st-del,0s);opacity:.4;}
 @keyframes starTwinkle{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.8;transform:scale(1.8)}}
-
-/* ════════════════════════════════════════════════════════════
-   TUTORIAL OVERLAY
-   ════════════════════════════════════════════════════════════ */
+/* TUTORIAL */
 #game-tutorial-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.87);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}
 #game-tutorial-overlay.show{opacity:1;pointer-events:all;}
-.tut-card{background:linear-gradient(145deg,#0f0a2e,#1a0a40);border:1.5px solid rgba(167,139,250,.4);border-radius:20px;padding:26px 22px 20px;max-width:360px;width:90%;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tutSlideUp .35s ease;}
+.tut-card{background:linear-gradient(145deg,#0f0a2e,#1a0a40);border:1.5px solid rgba(167,139,250,.4);border-radius:20px;padding:26px 22px 20px;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:tutSlideUp .35s ease;}
 @keyframes tutSlideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
 .tut-emoji{font-size:2.8rem;text-align:center;margin-bottom:8px;}
 .tut-title{font-size:1.1rem;font-weight:900;color:#FFD700;text-align:center;margin-bottom:3px;}
 .tut-subtitle{font-size:.7rem;color:rgba(255,255,255,.5);text-align:center;margin-bottom:14px;}
 .tut-rules{list-style:none;padding:0;margin:0 0 16px;display:flex;flex-direction:column;gap:9px;}
 .tut-rules li{display:flex;align-items:flex-start;gap:9px;font-size:.78rem;color:rgba(255,255,255,.85);line-height:1.5;}
-.tut-rules li .tut-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
-.tut-tip{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:10px;padding:9px 11px;font-size:.73rem;color:rgba(255,215,0,.85);margin-bottom:16px;line-height:1.5;}
-.tut-btn{width:100%;padding:13px;background:linear-gradient(135deg,#7C3AED,#00DCFF);border:none;border-radius:13px;color:#fff;font-size:.88rem;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(124,58,237,.4);}
+.tut-rules li .tut-icon{font-size:1.1rem;flex-shrink:0;}
+.tut-tip{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:10px;padding:9px 11px;font-size:.73rem;color:rgba(255,215,0,.85);margin-bottom:16px;}
+.tut-btn{width:100%;padding:13px;background:linear-gradient(135deg,#7C3AED,#00DCFF);border:none;border-radius:13px;color:#fff;font-size:.88rem;font-weight:900;cursor:pointer;}
 .tut-btn:active{transform:scale(.97);}
 .tut-skip{display:block;text-align:center;margin-top:9px;font-size:.68rem;color:rgba(255,255,255,.3);cursor:pointer;}
-.tut-skip:hover{color:rgba(255,255,255,.6);}
-
-
-/* ── Civetta AI — Chat Bubbles ─────────────────────────────── */
-.ai-msg-b {
-  background: linear-gradient(135deg, rgba(124,58,237,.12), rgba(0,220,255,.08));
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: 18px 18px 18px 4px;
-  padding: 12px 14px;
-  margin: 8px 0;
-  max-width: 92%;
-}
-.ai-msg-u {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 18px 18px 4px 18px;
-  padding: 10px 14px;
-  margin: 8px 0 8px auto;
-  max-width: 85%;
-  font-size: .82rem;
-  color: rgba(255,255,255,.9);
-}
-.ai-who {
-  font-size: .65rem;
-  font-weight: 800;
-  color: #7C3AED;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.ai-owl-anim {
-  display: inline-block;
-  animation: owlBlink 4s ease-in-out infinite;
-}
-@keyframes owlBlink {
-  0%,90%,100% { transform: scale(1); }
-  95% { transform: scale(1.3) rotate(-10deg); }
-}
-.ai-text {
-  font-size: .83rem;
-  color: rgba(255,255,255,.88);
-  line-height: 1.6;
-}
-.ai-text p { margin: 0 0 8px; }
-.ai-text p:last-child { margin: 0; }
-.ai-text strong { color: #FFD700; font-weight: 700; }
-.ai-text em { color: #00DCFF; font-style: italic; }
-.ai-text code {
-  background: rgba(0,220,255,.1);
-  border: 1px solid rgba(0,220,255,.2);
-  border-radius: 4px;
-  padding: 1px 5px;
-  font-family: monospace;
-  font-size: .78rem;
-  color: #00DCFF;
-}
-/* Typing indicator */
-.ai-typing-dots {
-  display: flex;
-  gap: 4px;
-  padding: 10px 14px;
-  align-items: center;
-}
-.ai-typing-dots span {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #7C3AED;
-  animation: typingPulse 1.2s ease-in-out infinite;
-}
-.ai-typing-dots span:nth-child(2) { animation-delay: .2s; background: #00DCFF; }
-.ai-typing-dots span:nth-child(3) { animation-delay: .4s; background: #FFD700; }
-@keyframes typingPulse {
-  0%,60%,100% { transform: scale(1); opacity:.5; }
-  30% { transform: scale(1.4); opacity:1; }
-}
-/* Search indicator */
-.ai-search-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(0,220,255,.06);
-  border: 1px solid rgba(0,220,255,.2);
-  border-radius: 10px;
-  padding: 7px 12px;
-  font-size: .72rem;
-  color: #00DCFF;
-  margin: 6px 0;
-}
-
-
-/* ── Civetta AI — Enhanced Panel ─────────────────────────── */
-.civetta-avatar {
-  font-size: 1.8rem;
-  animation: owlFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(124,58,237,.6));
-}
-@keyframes owlFloat {
-  0%,100% { transform: translateY(0) rotate(-5deg); }
-  50%      { transform: translateY(-5px) rotate(5deg); }
-}
-.civetta-avatar.speaking {
-  animation: owlSpeak .3s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 20px rgba(0,220,255,.8));
-}
-@keyframes owlSpeak {
-  from { transform: scale(1) rotate(-5deg); }
-  to   { transform: scale(1.15) rotate(5deg); }
-}
-
-.ai-speak-toggle {
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 50%;
-  width: 32px; height: 32px;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .2s;
-}
-.ai-speak-toggle.active {
-  background: rgba(0,220,255,.2);
-  border-color: #00DCFF;
-}
-.ai-speak-toggle:active { transform: scale(.9); }
-
-.ai-mic-btn {
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 50%;
-  width: 36px; height: 36px;
-  cursor: pointer;
-  font-size: 1rem;
-  flex-shrink: 0;
-  transition: all .2s;
-}
-.ai-mic-btn.listening {
-  background: rgba(239,68,68,.25);
-  border-color: #ef4444;
-  animation: micPulse .8s ease-in-out infinite;
-}
-@keyframes micPulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); }
-  50%      { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
-}
-.ai-mic-btn:active { transform: scale(.9); }
-
-/* Audio player bar (shown when Civetta speaks) */
-.ai-audio-bar {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background: rgba(0,220,255,.06);
-  border-top: 1px solid rgba(0,220,255,.12);
-  font-size: .65rem;
-  color: #00DCFF;
-}
-.ai-audio-bar.active { display: flex; }
-.ai-audio-wave {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-}
-.ai-audio-wave span {
-  width: 3px; background: #00DCFF; border-radius: 2px;
-  animation: waveBar .6s ease-in-out infinite;
-}
-.ai-audio-wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
-.ai-audio-wave span:nth-child(2) { height: 14px; animation-delay: .1s; }
-.ai-audio-wave span:nth-child(3) { height: 10px; animation-delay: .2s; }
-.ai-audio-wave span:nth-child(4) { height: 16px; animation-delay: .15s; }
-.ai-audio-wave span:nth-child(5) { height: 8px; animation-delay: .05s; }
-@keyframes waveBar {
-  0%,100% { transform: scaleY(1); opacity:.6; }
-  50%      { transform: scaleY(1.8); opacity:1; }
-}
+/* VOICE */
+.civetta-avatar{font-size:1.8rem;animation:owlFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(124,58,237,.6));}
+@keyframes owlFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-5px) rotate(5deg)}}
+.civetta-avatar.speaking{animation:owlSpeak .3s ease-in-out infinite alternate;filter:drop-shadow(0 0 20px rgba(0,220,255,.8));}
+@keyframes owlSpeak{from{transform:scale(1) rotate(-5deg)}to{transform:scale(1.15) rotate(5deg)}}
+.ai-speak-toggle{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.ai-speak-toggle.active{background:rgba(0,220,255,.2);border-color:#00DCFF;}
+.ai-mic-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;flex-shrink:0;}
+.ai-mic-btn.listening{background:rgba(239,68,68,.25);border-color:#ef4444;animation:micPulse .8s ease-in-out infinite;}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+.ai-typing-dots{display:flex;gap:4px;padding:10px 14px;align-items:center;}
+.ai-typing-dots span{width:7px;height:7px;border-radius:50%;background:#7C3AED;animation:typingPulse 1.2s ease-in-out infinite;}
+.ai-typing-dots span:nth-child(2){animation-delay:.2s;background:#00DCFF;}
+.ai-typing-dots span:nth-child(3){animation-delay:.4s;background:#FFD700;}
+@keyframes typingPulse{0%,60%,100%{transform:scale(1);opacity:.5}30%{transform:scale(1.4);opacity:1}}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1862,126 +1658,51 @@ window.addEventListener('error', function(e) {
 
     <!-- HOME -->
     <div class="screen active" id="home">
-  <div class="home-hero-v2">
-
-    <div class="home-particles" id="home-particles"></div>
-
-    <!-- Logo: Drago di Cristallo -->
-    <div class="home-logo-area">
-      <div class="home-logo-dragon">🐉</div>
-      <div class="home-logo-title">FinanzaLand</div>
-      <div class="home-logo-sub" data-i18n="home_sub">Il Gioco che Crea Ricchezza Reale</div>
-    </div>
-
-    <!-- Stats -->
-    <div class="home-stats-v2">
-      <div class="hsv-stat">
-        <div class="hsv-val" id="stat-lezioni">0</div>
-        <div class="hsv-lbl" data-i18n="lbl_lezioni">Lezioni</div>
-      </div>
-      <div class="hsv-stat">
-        <div class="hsv-val" id="stat-streak">0🔥</div>
-        <div class="hsv-lbl" data-i18n="lbl_streak">Streak</div>
-      </div>
-      <div class="hsv-stat">
-        <div class="hsv-val" id="stat-coins">0</div>
-        <div class="hsv-lbl" data-i18n="lbl_semi">Semi🌱</div>
-      </div>
-      <div class="hsv-stat">
-        <div class="hsv-val" id="stat-lv">1</div>
-        <div class="hsv-lbl" data-i18n="lbl_livello">Lv</div>
-      </div>
-    </div>
-
-    <!-- 3 Mondi: Drago, Castello, Albero -->
-    <div class="home-worlds">
-
-      <div class="home-world kids" onclick="entraModoBambini()">
-        <div class="home-world-inner">
-          <div class="hw-emoji" style="--hw-dur:3s;--hw-del:0s">🐉</div>
-          <div class="hw-title">Drago di<br>Cristallo</div>
-          <div class="hw-sub">Impara giocando</div>
-          <div class="hw-age">6–10 anni</div>
+      <div class="home-hero">
+        <div class="hero-dragon">🐉</div>
+        <div class="hero-title">FinanzaLand</div>
+        <div class="hero-sub" data-i18n-html="home_title|home_sub">L'Accademia del Risparmio<br>Per bambini e adulti — Trial 7 giorni gratuiti</div>
+        <div class="home-stats">
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-lezioni">∞</div>
+            <div class="home-stat-lbl" id="lbl-lezioni" data-i18n="lbl_lezioni">Lezioni AI</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-streak">0🔥</div>
+            <div class="home-stat-lbl" id="lbl-streak" data-i18n="lbl_streak">Streak</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-coins">0</div>
+            <div class="home-stat-lbl" id="lbl-semi" data-i18n="lbl_semi">Semi</div>
+          </div>
+          <div class="home-stat">
+            <div class="home-stat-val" id="stat-lv">1</div>
+            <div class="home-stat-lbl" id="lbl-livello" data-i18n="lbl_livello">Livello</div>
+          </div>
+        </div>
+        <div class="home-btns">
+          <button class="home-btn btn-primary home-btn-wide" onclick="showScreen('accademia')" data-i18n="btn_accademia"><span>📚</span> <span data-i18n="btn_accademia">Accademia Infinita</span></button>
+          <button class="home-btn" onclick="entraModoBambini()" style="background:linear-gradient(135deg,rgba(167,139,250,.25),rgba(139,92,246,.15));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd" data-i18n="btn_bambini">👶 Zona<br>Bambini</button>
+          <button class="home-btn btn-adult" onclick="showScreen('adulti')">💎 Strumenti<br>Adulti</button>
+          <button class="home-btn btn-secondary" onclick="showScreen('academy')" data-i18n="btn_academy">🎓 Academy &amp;<br>Professori</button>
+          <button class="home-btn btn-secondary" onclick="showScreen('muro-sociale')" data-i18n="btn_muro_home">🌍 Muro<br>Sociale</button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();" style="background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.4);color:#c4b5fd;margin-top:2px" data-i18n="btn_avatar">🐉 Avatar Cultura &amp; Saggezza</button>
+<button onclick="showScreen('pro-missions-screen')" style="width:100%;padding:12px;background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(167,139,250,.08));border:1.5px solid rgba(245,200,66,.3);border-radius:14px;color:var(--gold);font-weight:900;font-size:.85rem;cursor:pointer;margin-bottom:8px"><span>🎮</span> <span data-i18n="btn_pro_missions">Missioni PRO MAX — 7 Sfide con i Giganti</span></button>
+      <button onclick="showScreen('agent-screen')" style="display:flex;align-items:center;gap:8px;padding:12px 16px;width:100%;background:linear-gradient(135deg,rgba(167,139,250,.12),rgba(6,182,212,.06));border:1.5px solid rgba(167,139,250,.3);border-radius:14px;color:#a78bfa;font-weight:900;cursor:pointer;margin-bottom:10px"><span style="font-size:1.4rem">🤖</span><div style="flex:1;text-align:left"><div style="font-size:.88rem" data-i18n="btn_agent">AI Agent — Missioni Live</div><div style="font-size:.62rem;color:rgba(255,255,255,.5);font-weight:400" data-i18n="btn_agent_sub">Analisi mercati in tempo reale</div></div></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('mappa-missioni')" style="background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(16,185,129,.1));border:1.5px solid rgba(6,182,212,.5);color:#67e8f9;margin-top:2px;position:relative" data-i18n="btn_mappa">🗺️ Mappa Mondiale — Missioni Finanziarie<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.18);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('sun-room')" style="background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(251,146,60,.1));border:1.5px solid rgba(255,215,0,.5);color:#fde68a;margin-top:2px;position:relative" data-i18n="btn_sun_room">☀️ Sun Room — Libreria dei Giganti &amp; Coach Live<span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">✨ NEW</span></button>
+          <button class="home-btn home-btn-wide" onclick="openNumeroLiberta()" style="background:linear-gradient(135deg,rgba(167,139,250,.18),rgba(99,102,241,.1));border:1.5px solid rgba(167,139,250,.5);color:#c4b5fd;margin-top:2px" data-i18n="btn_numero_liberta">🗽 Il Tuo Numero della Libertà — Calcolatore 4%</button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('protocollo-imperiale')" style="background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(180,100,0,.1));border:1.5px solid rgba(212,175,55,.5);color:#d4af37;margin-top:2px;position:relative"><span>🛡️</span> <span data-i18n="btn_protocollo">Protocollo Imperiale — Kemet · Sun Tzu · Musashi</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(212,175,55,.2);color:#d4af37;border-radius:6px;padding:1px 6px;font-weight:900">KEMET</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('scuola-screen')" style="background:linear-gradient(135deg,rgba(74,222,128,.18),rgba(16,185,129,.1));border:1.5px solid rgba(74,222,128,.5);color:#4ade80;margin-top:2px;position:relative"><span>🎓</span> <span data-i18n="btn_scuola">Modulo Scuola — Legge 21/2024 · Kit Insegnanti</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(74,222,128,.2);color:#4ade80;border-radius:6px;padding:1px 6px;font-weight:900">SCUOLA</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('gran-consiglio');buildGranConsiglio();" style="background:linear-gradient(135deg,rgba(184,134,11,.18),rgba(255,215,0,.08));border:1.5px solid rgba(184,134,11,.5);color:#FFD700;margin-top:2px;position:relative"><span>🏛️</span> <span data-i18n="btn_consiglio">Gran Consiglio dei Titani</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(255,215,0,.2);color:var(--gold);border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
+          <button class="home-btn home-btn-wide" onclick="showScreen('traiettoria');buildTraiettoria();" style="background:linear-gradient(135deg,rgba(236,72,153,.18),rgba(168,85,247,.1));border:1.5px solid rgba(236,72,153,.5);color:#f472b6;margin-top:2px;position:relative"><span>🚀</span> <span data-i18n="btn_traiettoria">La Tua Traiettoria 2026→2040</span><span style="position:absolute;top:6px;right:8px;font-size:.52rem;background:rgba(244,114,182,.2);color:#f472b6;border-radius:6px;padding:1px 6px;font-weight:900">NUOVO</span></button>
         </div>
       </div>
-
-      <div class="home-world young" onclick="showScreen('accademia')">
-        <div class="home-world-inner">
-          <div class="hw-emoji" style="--hw-dur:2.8s;--hw-del:.4s">🏰</div>
-          <div class="hw-title">Castello<br>Cash Flow</div>
-          <div class="hw-sub">Sfida i mercati</div>
-          <div class="hw-age">11–16 anni</div>
-        </div>
-      </div>
-
-      <div class="home-world adult" onclick="showScreen('adulti')">
-        <div class="home-world-inner">
-          <div class="hw-emoji" style="--hw-dur:3.5s;--hw-del:.8s">🌳</div>
-          <div class="hw-title">Albero d'Oro<br>Genitore</div>
-          <div class="hw-sub">Investi e cresci</div>
-          <div class="hw-age">17+ anni</div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Family Pass Banner -->
-    <div class="home-family-banner" onclick="showScreen('academy')">
-      <div class="hfb-badge">PREMIUM<br>FAMILY<br>PASS</div>
-      <div class="hfb-text">
-        <div class="hfb-title">🏆 Family Pass — 1 account, tutta la famiglia</div>
-        <div class="hfb-sub">Genitori + figli · Sfide insieme · Silver Coins reali</div>
-      </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="home-quick">
-      <button class="hq-btn" onclick="showScreen('giochi')">
-        <span class="hq-icon">🕹️</span>
-        <span class="hq-text">
-          <span class="hq-label" data-i18n="nav_giochi">Giochi 3D</span>
-          <span class="hq-desc">5 simulatori finanziari</span>
-        </span>
-      </button>
-      <button class="hq-btn" onclick="showScreen('muro-sociale')">
-        <span class="hq-icon">🌍</span>
-        <span class="hq-text">
-          <span class="hq-label" data-i18n="btn_muro_home">Muro Sociale</span>
-          <span class="hq-desc">Community globale</span>
-        </span>
-      </button>
-      <button class="hq-btn" onclick="showScreen('academy')">
-        <span class="hq-icon">🎓</span>
-        <span class="hq-text">
-          <span class="hq-label">Academy PRO</span>
-          <span class="hq-desc">Professori live</span>
-        </span>
-      </button>
-      <button class="hq-btn" onclick="showScreen('avatar-cultura');if(typeof syncAvatarLevel==='function')syncAvatarLevel();">
-        <span class="hq-icon">✨</span>
-        <span class="hq-text">
-          <span class="hq-label" data-i18n="btn_avatar">Avatar</span>
-          <span class="hq-desc">24 culture globali</span>
-        </span>
-      </button>
-    </div>
-
-    <!-- CTA Buttons -->
-    <div class="home-ctas">
-      <button class="hcta-primary" onclick="showScreen('accademia')">
-        📚 <span data-i18n="nav_accademia">Inizia a Imparare — Accademia</span>
-      </button>
-      <button class="hcta-secondary" onclick="showScreen('giochi')">
-        🎮 Gioca e Simula i Mercati
-      </button>
-      <button class="hcta-secondary" onclick="showScreen('mappa-missioni')">
-        🗺️ <span data-i18n="btn_mappa">Mappa delle Missioni</span>
-      </button>
-    </div>
-
-  </div>
-</div>
-
+<!-- ═══════════════════════════════════════════════════
+     GRAN CONSIGLIO DEI TITANI
+     ═══════════════════════════════════════════════════ -->
 <div class="screen" id="gran-consiglio">
   <div style="background:linear-gradient(135deg,#050505,#0d0a00);position:sticky;top:0;z-index:10;border-bottom:2px solid #b8860b;flex-shrink:0">
     <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#b8860b,#FFD700);color:#1c0a00;border:none;padding:12px;font-size:.95rem;font-weight:900;cursor:pointer">← TORNA ALLA HOME</button>
@@ -1996,7 +1717,19 @@ window.addEventListener('error', function(e) {
 <!-- ═══════════════════════════════════════════════════
      LA TUA TRAIETTORIA 2026 → 2040
      ═══════════════════════════════════════════════════ -->
-<div class="screen" id="accademia">
+<div class="screen" id="traiettoria">
+  <div style="background:linear-gradient(135deg,#0a0015,#1a0030);position:sticky;top:0;z-index:10;border-bottom:2px solid #ec4899;flex-shrink:0">
+    <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#ec4899,#a855f7);color:#fff;border:none;padding:12px;font-size:.95rem;font-weight:900;cursor:pointer">← TORNA ALLA HOME</button>
+    <div style="text-align:center;padding:10px 14px 14px">
+      <div style="font-size:1.4rem;font-weight:900;color:#f472b6">🚀 La Tua Traiettoria</div>
+      <div style="font-size:.72rem;color:rgba(244,114,182,.6);margin-top:3px">2026 → 2040 — Con o senza FinanzaLand</div>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:14px 14px 80px" id="traiettoria-body"></div>
+</div>
+
+    <!-- ACCADEMIA AI -->
+    <div class="screen" id="accademia">
       <div class="acc-header">
         <button class="acc-back" data-i18n="acc_back" onclick="showScreen('home')">← Home</button>
         <div class="acc-title" data-i18n="acc_title">📚 Accademia</div>
@@ -2300,7 +2033,7 @@ window.addEventListener('error', function(e) {
 <div class="screen" id="avatar-cultura">
   <input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
   <div id="lvVal" style="display:none">1</div>
-  
+  <div id="stageBadge" style="display:none"></div>
 
   <div style="background:#1A1040;padding:0;position:relative;top:0;z-index:10;border-bottom:2px solid #F5C842;flex-shrink:0">
     <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1A1040;border:none;padding:10px;font-weight:900;font-size:.9rem;cursor:pointer">
@@ -2329,7 +2062,7 @@ window.addEventListener('error', function(e) {
 
     <div class="section-title">📚 Impara con <span id="learnName">Seydou</span></div>
     <div class="culture-card" id="cultureCard"></div>
-    
+    <div class="toast" id="toast"></div>
   </div>
 </div>
 
@@ -2487,138 +2220,23 @@ window.addEventListener('error', function(e) {
     <!-- Titolo sezione giochi gratis -->
     <div style="padding:4px 16px 6px;font-size:.6rem;font-weight:900;color:rgba(74,222,128,.6);letter-spacing:2px;text-transform:uppercase">🆓 SEMPRE GRATUITI</div>
 
-    <div class="giochi-grid-3d">
-
-      <!-- I 4 QUADRANTI -->
-      <div class="g3d-card quadranti" id="g3d-qq" onclick="toggleCard('g3d-qq')">
-        <div class="g3d-inner">
-          <div class="g3d-front">
-            <div class="g3d-stars" id="stars-qq"></div>
-            <div class="g3d-badge" style="background:rgba(167,139,250,.2);color:#c4b5fd">🏰 RPG</div>
-            <div class="g3d-emoji" style="--gf-dur:3.2s;--gf-del:0s">👑</div>
-            <div class="g3d-name" data-i18n="gc_quadranti">I 4 Quadranti</div>
-            <div class="g3d-desc">Da dipendente a investitore libero in 12 mesi</div>
-            <div class="g3d-flip-hint">tocca per regole →</div>
-          </div>
-          <div class="g3d-back">
-            <div>
-              <div class="g3d-back-title">👑 Come si gioca</div>
-              <div class="g3d-rules">
-                <div class="g3d-rule"><span>🎯</span><span>Parti dal quadrante D (Dipendente)</span></div>
-                <div class="g3d-rule"><span>💸</span><span>Gestisci reddito e spese ogni mese</span></div>
-                <div class="g3d-rule"><span>📈</span><span>Compra azioni, ETF e obbligazioni</span></div>
-                <div class="g3d-rule"><span>🏆</span><span>Vinci: reddito passivo > spese mensili</span></div>
-              </div>
-            </div>
-            <button class="g3d-play-btn" onclick="event.stopPropagation();openGame('quadranti')">▶ Gioca Ora</button>
-          </div>
+    <div class="giochi-grid">
+      <div class="gioco-card gc-quadranti" onclick="openGame('quadranti')">
+        <div class="gc-badge" style="background:rgba(255,215,0,.13);color:var(--gold)">🏰 RPG</div>
+        <div><span class="gc-icon">👑</span><div class="gc-name" data-i18n="gc_quadranti">4 Quadranti</div><div class="gc-desc">" data-i18n="gc_quadranti_desc">Da dipendente a investitore libero. 12 mesi di scelte reali.</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+          <span style="font-size:.6rem;color:#4ade80;background:rgba(74,222,128,.1);border-radius:5px;padding:2px 7px">Lv 1-3 Gratis</span>
+          <button class="gc-play" style="background:rgba(255,215,0,.13);color:var(--gold)">▶ Gioca</button>
         </div>
       </div>
-
-      <!-- BORSA BRVM -->
-      <div class="g3d-card brvm" id="g3d-brvm" onclick="toggleCard('g3d-brvm')">
-        <div class="g3d-inner">
-          <div class="g3d-front">
-            <div class="g3d-stars" id="stars-br"></div>
-            <div class="g3d-badge" style="background:rgba(0,220,255,.2);color:#67e8f9">📈 TRADING</div>
-            <div class="g3d-emoji" style="--gf-dur:2.8s;--gf-del:.3s">📊</div>
-            <div class="g3d-name" data-i18n="gc_brvm">Borsa BRVM</div>
-            <div class="g3d-desc">Trading reale: Africa, NYSE, Crypto</div>
-            <div class="g3d-flip-hint">tocca per regole →</div>
-          </div>
-          <div class="g3d-back">
-            <div>
-              <div class="g3d-back-title">📊 Come si gioca</div>
-              <div class="g3d-rules">
-                <div class="g3d-rule"><span>💶</span><span>Parti con 10.000 YEM virtuali</span></div>
-                <div class="g3d-rule"><span>🛡️</span><span>Imposta Stop Loss e Take Profit</span></div>
-                <div class="g3d-rule"><span>🌍</span><span>Diversifica tra azioni, ETF e bond</span></div>
-                <div class="g3d-rule"><span>🏆</span><span>Batti il mercato dopo 12 round</span></div>
-              </div>
-            </div>
-            <button class="g3d-play-btn" onclick="event.stopPropagation();openGame('brvm')">▶ Gioca Ora</button>
-          </div>
+      <div class="gioco-card gc-inflazione" onclick="openGame('inflazione')">
+        <div class="gc-badge" style="background:rgba(248,113,113,.12);color:var(--red)">⚡ ARCADE</div>
+        <div><span class="gc-icon">🏃</span><div class="gc-name" data-i18n="gc_inflazione">Corsa Inflazione</div><div class="gc-desc">Scappa dal mostro che divora i tuoi risparmi!</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+          <span style="font-size:.6rem;color:#4ade80;background:rgba(74,222,128,.1);border-radius:5px;padding:2px 7px">Modalità base Gratis</span>
+          <button class="gc-play" style="background:rgba(248,113,113,.12);color:var(--red)">▶ Gioca</button>
         </div>
       </div>
-
-      <!-- MONOPOLIO URBANO -->
-      <div class="g3d-card immobiliare" id="g3d-imm" onclick="toggleCard('g3d-imm')">
-        <div class="g3d-inner">
-          <div class="g3d-front">
-            <div class="g3d-stars" id="stars-im"></div>
-            <div class="g3d-badge" style="background:rgba(74,222,128,.2);color:#86efac">🏠 IMMOBILI</div>
-            <div class="g3d-emoji" style="--gf-dur:3.6s;--gf-del:.6s">🏙️</div>
-            <div class="g3d-name" data-i18n="gc_immobiliare">Monopolio Urbano</div>
-            <div class="g3d-desc">Castello del Cash Flow a Ouagadougou</div>
-            <div class="g3d-flip-hint">tocca per regole →</div>
-          </div>
-          <div class="g3d-back">
-            <div>
-              <div class="g3d-back-title">🏙️ Come si gioca</div>
-              <div class="g3d-rules">
-                <div class="g3d-rule"><span>🗺️</span><span>Scorre una mappa delle città africane</span></div>
-                <div class="g3d-rule"><span>💰</span><span>Ogni proprietà genera rendita mensile</span></div>
-                <div class="g3d-rule"><span>🔨</span><span>Upgrade per aumentare il reddito</span></div>
-                <div class="g3d-rule"><span>🏆</span><span>Raggiungi 500 YEM/mese di rendita</span></div>
-              </div>
-            </div>
-            <button class="g3d-play-btn" onclick="event.stopPropagation();openGame('immobiliare')">▶ Gioca Ora</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CORSA ALL'INFLAZIONE -->
-      <div class="g3d-card inflazione" id="g3d-infl" onclick="toggleCard('g3d-infl')">
-        <div class="g3d-inner">
-          <div class="g3d-front">
-            <div class="g3d-stars" id="stars-in"></div>
-            <div class="g3d-badge" style="background:rgba(251,146,60,.2);color:#fdba74">🔥 ARCADE</div>
-            <div class="g3d-emoji" style="--gf-dur:2.5s;--gf-del:.2s">💸</div>
-            <div class="g3d-name" data-i18n="gc_inflazione">Corsa Inflazione</div>
-            <div class="g3d-desc">Proteggi i risparmi dall'erosione</div>
-            <div class="g3d-flip-hint">tocca per regole →</div>
-          </div>
-          <div class="g3d-back">
-            <div>
-              <div class="g3d-back-title">💸 Come si gioca</div>
-              <div class="g3d-rules">
-                <div class="g3d-rule"><span>📉</span><span>Inflazione mangia i tuoi soldi ogni round</span></div>
-                <div class="g3d-rule"><span>🧠</span><span>Scegli: Cash, ETF, Immobile o Oro</span></div>
-                <div class="g3d-rule"><span>⚡</span><span>Frecce ◀ ▶ per muoverti nel tempo</span></div>
-                <div class="g3d-rule"><span>🏆</span><span>Batti inflazione dopo tutti i round</span></div>
-              </div>
-            </div>
-            <button class="g3d-play-btn" onclick="event.stopPropagation();openGame('inflazione')">▶ Gioca Ora</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI NARRATIVE GAME (wide) -->
-      <div class="g3d-card ai-game g3d-wide" id="g3d-ai" onclick="toggleCard('g3d-ai')">
-        <div class="g3d-inner">
-          <div class="g3d-front">
-            <div class="g3d-stars" id="stars-ai"></div>
-            <div class="g3d-badge" style="background:rgba(99,102,241,.2);color:#a5b4fc">🤖 AI</div>
-            <div class="g3d-emoji" style="--gf-dur:4s;--gf-del:.1s">🧬</div>
-            <div class="g3d-text">
-              <div class="g3d-name">AI Narrative Game</div>
-              <div class="g3d-desc">Storie finanziarie uniche generate dall'AI — ogni partita è diversa</div>
-            </div>
-            <div class="g3d-flip-hint">tocca →</div>
-          </div>
-          <div class="g3d-back" style="flex-direction:row;align-items:center;gap:11px;">
-            <div style="flex:1">
-              <div class="g3d-back-title">🧬 AI Game</div>
-              <div class="g3d-rules">
-                <div class="g3d-rule"><span>📖</span><span>Storie uniche generate dall'AI</span></div>
-                <div class="g3d-rule"><span>🎭</span><span>Le tue scelte cambiano il finale</span></div>
-              </div>
-            </div>
-            <button class="g3d-play-btn" style="width:auto;padding:10px 14px;flex-shrink:0" onclick="event.stopPropagation();showScreen('ai-game-screen')">▶ Gioca</button>
-          </div>
-        </div>
-      </div>
-
     </div>
 
     <!-- Titolo sezione giochi PRO -->
@@ -2883,68 +2501,38 @@ window.addEventListener('error', function(e) {
 
 <!-- AI CHAT PANEL -->
 <div id="ai-panel">
-
-  <!-- Header Civetta -->
   <div class="ai-hdr">
-    <div style="display:flex;align-items:center;gap:10px;flex:1">
-      <div class="civetta-avatar" id="civetta-avatar">🦉</div>
-      <div>
-        <div style="font-weight:900;color:#FFD700;font-size:.92rem">Civetta AI</div>
-        <div style="font-size:.62rem;color:rgba(255,255,255,.4)">Powered by Claude · Cerca su internet · Parla con te</div>
-      </div>
+    <div style="flex:1">
+      <div style="font-weight:800;color:var(--gold);font-size:.9rem">🦉 Civetta AI</div>
+      <div style="font-size:.68rem;color:var(--muted)">Powered by Claude · Solo a scopo educativo</div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button class="ai-speak-toggle" id="ai-speak-toggle" onclick="toggleCivettaVoice()" title="Voce on/off">🔊</button>
-      <button class="popup-x" onclick="toggleAI()">✕</button>
-    </div>
+    <button class="popup-x" onclick="toggleAI()">✕</button>
   </div>
-
-  <!-- Chips: tutti gli argomenti -->
   <div class="ai-chips" id="ai-chips">
-    <div class="ai-chip" data-q="Cosa ti preoccupa di più dei tuoi soldi?">💬 Parlami</div>
-    <div class="ai-chip" data-q="Come funzionano le Tre Buste 50-30-20?">✉️ Tre Buste</div>
-    <div class="ai-chip" data-q="Quale ETF mi consigli per iniziare e qual è il prezzo oggi?">📈 ETF Live</div>
-    <div class="ai-chip" data-q="Qual è il prezzo dell oro oggi e perché è importante?">🥇 Oro Oggi</div>
-    <div class="ai-chip" data-q="Cosa sta succedendo sui mercati finanziari oggi?">📊 Mercati Ora</div>
-    <div class="ai-chip" data-q="Come funziona la Borsa BRVM in Africa?">🌍 BRVM</div>
-    <div class="ai-chip" data-q="Come si applica lo stoicismo al denaro e alle crisi?">🏛️ Filosofia</div>
-    <div class="ai-chip" data-q="Cos è il mindset ricco secondo Napoleon Hill e Wattles?">🧠 Mindset</div>
-    <div class="ai-chip" data-q="Come funzionano le tasse in Italia? IRPEF e IVA.">🗳️ Tasse</div>
-    <div class="ai-chip" data-q="Come funziona l interesse composto? Regola del 72.">⚛️ Composto</div>
-    <div class="ai-chip" data-q="Qual è il tasso BCE attuale e come impatta i mutui?">🏦 BCE Oggi</div>
-    <div class="ai-chip" data-q="Come proteggere i risparmi dall inflazione nel 2025?">📉 Inflazione</div>
+    <div class="ai-chip" data-q="Come risparmio meglio?">💰 Risparmio</div>
+    <div class="ai-chip" data-q="Cos è il P/E ratio?">📊 P/E ratio</div>
+    <div class="ai-chip" data-q="ETF UCITS irlandesi?">🇮🇪 ETF</div>
+    <div class="ai-chip" data-q="Come funziona la BRVM Africa?">🌍 BRVM</div>
+    <div class="ai-chip" data-q="Come investire sul NYSE?">🇺🇸 NYSE</div>
+    <div class="ai-chip" data-q="Come funziona la Borsa di Londra LSE?">🇬🇧 LSE</div>
+    <div class="ai-chip" data-q="Come funziona il DAX e Borsa Italiana?">🇩🇪🇮🇹 DAX/BIT</div>
+    <div class="ai-chip" data-q="Come investire a Tokyo TSE?">🇯🇵 TSE</div>
+    <div class="ai-chip" data-q="Come funziona HKEX Hong Kong?">🇭🇰 HKEX</div>
+    <div class="ai-chip" data-q="Spiegami i soldi per bambini">👶 Bambini</div>
   </div>
-
-  <!-- Messaggi -->
-  <div class="ai-msgs" id="ai-msgs"></div>
-
-  <!-- Typing indicator -->
-  <div id="ai-typing" style="display:none;padding:4px 0">
-    <div class="ai-typing-dots"><span></span><span></span><span></span></div>
+  <div class="ai-msgs" id="ai-msgs">
+    <div class="ai-msg-b">
+      <div class="ai-who">🦉 Civetta AI</div>
+      Ciao! Sono la tua guida finanziaria. Chiedimi qualsiasi cosa — dalla regola 50-30-20 agli ETF, dai mercati africani ai derivati. Tutto a scopo educativo!
+    </div>
   </div>
-
-  <!-- Input bar con microfono -->
+  <div id="ai-typing" class="ai-typing">
+    <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+  </div>
   <div class="ai-bar">
-    <button class="ai-mic-btn" id="ai-mic-btn" onclick="toggleMic()" title="Parla con Civetta">🎤</button>
-    <input class="ai-inp" id="ai-inp" type="text" placeholder="Chiedimi QUALSIASI cosa... 🦉">
+    <input class="ai-inp" id="ai-inp" type="text" id="ai-inp-placeholder" placeholder="Chiedimi di finanza...">
     <button class="ai-send" id="ai-send" onclick="sendAI()">➤</button>
   </div>
-
-  <!-- Mic status -->
-  <div id="ai-mic-status" style="display:none;text-align:center;font-size:.65rem;color:#00DCFF;padding:4px 0;animation:pulse 1s infinite">
-    🔴 Sto ascoltando... parla ora
-  </div>
-
-</div>
-  <!-- Audio wave bar -->
-  <div class="ai-audio-bar" id="ai-audio-bar">
-    <div class="ai-audio-wave">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <span>Civetta sta parlando...</span>
-    <button onclick="if(window.speechSynthesis)window.speechSynthesis.cancel()" style="margin-left:auto;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:2px 8px;color:#f87171;font-size:.65rem;cursor:pointer">Stop</button>
-  </div>
-
 </div>
 
 <!-- POPUP GENERICO -->
@@ -3192,10 +2780,10 @@ function safeSetItem(key, value) {
 // ═══════════════════════════════════════════════════════
 
 function _safeJson(obj) {
-  try { return JSON.stringify(obj).replace(/"/g, "'"); } catch(e) { return '{}'; }
+  try { return JSON.stringify(obj).replace(/\x22/g, "\x27"); } catch(e) { return "{}"; }
 }
 function _escQ(s) {
-  return (s || '').replace(/'/g, "\\'");
+  return (s || '').replace(/\x27/g, "\\\\'");
 }
 
 var S = {
@@ -7017,6 +6605,13 @@ function endCall() {
 }
 window.endCall = endCall;
 
+function toggleMic() {
+  vcallMuted = !vcallMuted;
+  var btn = document.getElementById('vcall-mic-btn');
+  if (btn) { btn.textContent = vcallMuted ? '🔇' : '🎤'; btn.classList.toggle('muted', vcallMuted); }
+}
+window.toggleMic = toggleMic;
+
 function toggleCam() {
   vcallCamOff = !vcallCamOff;
   var btn = document.getElementById('vcall-cam-btn');
@@ -10386,60 +9981,61 @@ var LESSON_BANK = {
     {id:'ris_b1',emoji:'💰',titolo:'La Regola 50-30-20',tempo_minuti:5,semi_reward:80,sottotitolo:'Il budget che funziona davvero',punti_chiave:['50% per le necessità (affitto, cibo, bollette)','30% per i desideri (svago, ristoranti, hobby)','20% per risparmio e investimento'],esempio_pratico:'Con 1.000€ mensili: 500€ necessità, 300€ desideri, 200€ risparmio. In 5 anni accumuli 12.000€ di risparmio base.',dato_reale:'Solo il 38% degli italiani segue un budget. Chi lo fa accumula il triplo in 10 anni rispetto a chi non lo fa.',collegamento_africa:'In Senegal la regola tradizionale simile: parte del raccolto va conservata per la stagione secca.',sfida_vita_reale:'Scrivi le tue spese degli ultimi 30 giorni e dividi in necessità/desideri/risparmio. Qual è la tua percentuale reale?',quiz:[{domanda:'Secondo la regola 50-30-20, quanto va al risparmio?',opzioni:['10%','20%','30%','50%'],risposta_corretta:1,spiegazione:'Il 20% va sempre al risparmio — è la parte più importante!'},{domanda:'Se guadagni 2.000€, quanto puoi spendere in svago?',opzioni:['200€','400€','600€','1.000€'],risposta_corretta:2,spiegazione:'Il 30% di 2.000€ = 600€ per i desideri.'}]},
     {id:'ris_b2',emoji:'🛡️',titolo:'Il Fondo di Emergenza',tempo_minuti:6,semi_reward:80,sottotitolo:'Il tuo scudo finanziario',punti_chiave:['Deve coprire 3-6 mesi di spese essenziali','Va tenuto in un conto separato, liquido','Non va mai usato per spese normali'],esempio_pratico:'Se le tue spese mensili sono 1.500€, il fondo emergenza ideale è tra 4.500€ e 9.000€.',dato_reale:'Il 46% degli italiani non potrebbe far fronte a una spesa imprevista di 1.000€.',collegamento_africa:'Le tontine africane funzionano anche come fondo emergenza comunitario.',sfida_vita_reale:'Calcola: quanti mesi di spese hai oggi? Se meno di 3, pianifica come arrivarci in 12 mesi.',quiz:[{domanda:'Quanti mesi di spese deve coprire un fondo emergenza?',opzioni:['1-2 mesi','3-6 mesi','12 mesi','24 mesi'],risposta_corretta:1,spiegazione:'3-6 mesi è il range ottimale.'},{domanda:'Dove va tenuto il fondo emergenza?',opzioni:['In azioni','Sotto il materasso','In un conto liquido','In crypto'],risposta_corretta:2,spiegazione:'Deve essere accessibile immediatamente ma separato dal conto principale.'}]},
     {id:'ris_b3',emoji:'🔄',titolo:'Pagati Prima: il Segreto dei Ricchi',tempo_minuti:5,semi_reward:80,sottotitolo:'Risparmia prima di spendere',punti_chiave:['Trasferimento automatico appena ricevi lo stipendio','Il 10-20% va al risparmio PRIMA di qualsiasi spesa','Ciò che non vedi, non spendi'],esempio_pratico:'George imposta un bonifico automatico di 200€ il giorno di stipendio. In 3 anni: 7.200€ senza sforzo.',dato_reale:'Chi automatizza il risparmio accumula in media il 173% in più rispetto a chi risparmia "quello che avanza".',collegamento_africa:'In Kenya, M-Pesa M-Shwari permette depositi automatici da 10 scellini (0.07€).',sfida_vita_reale:'Imposta un bonifico automatico del 10% del stipendio verso un conto risparmio separato.',quiz:[{domanda:'Quando va effettuato il trasferimento al risparmio?',opzioni:['Alla fine del mese','Appena arriva lo stipendio','Quando avanza qualcosa','Una volta l anno'],risposta_corretta:1,spiegazione:'Pagati PRIMA: subito appena arriva il reddito.'},{domanda:'Quale percentuale minima consiglia il principio "pagati prima"?',opzioni:['1%','5%','10%','50%'],risposta_corretta:2,spiegazione:'Il 10% è il minimo. I ricchi mettono da parte il 20-30%.'}]},
-    {id:'ris_b4', emoji:'✉️', titolo:"La Regola delle Tre Buste — Il Metodo Ancestrale",
-     tempo_minuti:8, semi_reward:120, livello:'base',
-     sottotitolo:"Come dividere ogni entrata in 3 buste fisiche per costruire liberta finanziaria in 12 anni",
-     punti_chiave:[
-       "BUSTA 1 — Necessita (50%): affitto, bollette, spesa, trasporti, salute. Senza questo non si vive.",
-       "BUSTA 2 — Stile di Vita (30%): vestiti, svago, regali, piccoli desideri. Per vivere, non solo sopravvivere.",
-       "BUSTA 3 — Il Futuro (20%): investimenti, asset, formazione, risparmio sacro. NON SI TOCCA MAI.",
-       "Le 5 Fasi Operative: 1) Preleva in contanti 2) Dividi subito 3) Nascondi la Busta 3 4) Accetta il No 5) Usa la Busta 3 solo per costruire",
-       "Il contatto fisico con i soldi aumenta la consapevolezza del limite — il cervello sente il confine",
-       "Se la Busta 1 o 2 sono vuote, la risposta a ogni spesa e NO fino al prossimo mese",
-       "La Busta 3 si apre solo per investimenti che generano altri soldi: immobili, azioni, attivita",
-     ],
-     esempio_pratico:"Lucia Ramirez non e diventata ricca perche guadagnava molto. Ha rispettato le tre buste per 12 anni. La Busta 3 — intoccabile — cresceva ogni mese. Dopo 12 anni aveva un portafoglio di investimenti che generava un reddito passivo sufficiente per scegliere se lavorare o no. Il risparmio non e una punizione: e l acquisto della propria liberta di scelta.",
-     dato_reale:"Il 78% degli italiani non riesce a risparmiare regolarmente. La causa principale non e il reddito basso ma l assenza di un sistema. Il metodo delle tre buste e stato documentato in culture diverse da secoli: in Giappone si chiama Kakebo, nelle comunita ebraiche e chiamato tzedakah. La struttura 50-30-20 e oggi validata da decine di studi comportamentali.",
-     sfida_vita_reale:"Questa settimana: prendi tre buste fisiche (o tre conti separati). Scrivi su ognuna il nome e la percentuale. Quando ricevi il prossimo pagamento o paghetta, dividi immediatamente. Metti la Busta 3 in un posto difficile da raggiungere. Tienila li per 30 giorni senza toccarla.",
-     quiz:[
-       {domanda:"Cosa succede al sistema delle tre buste se tocchi la Busta 3 per una voglia passeggera?",
-        opzioni:["Niente — si recupera il mese successivo","Il sistema muore: rompi il contratto con il tuo futuro e crei un precedente psicologico pericoloso","Perdi solo quella somma specifica","Va bene se lo fai raramente"],
-        risposta_corretta:1, spiegazione:"La Busta 3 e sacra proprio perche non ha eccezioni. Ogni violazione crea un precedente mentale: il cervello impara che la regola e negoziabile. Dopo la prima eccezione, la seconda e piu facile. Dopo la terza, il sistema e morto. La disciplina assoluta e il motore del metodo."},
-       {domanda:"Perche il metodo suggerisce di prelevare i soldi in contanti invece di gestirli digitalmente?",
-        opzioni:["Per evitare le commissioni bancarie","Perche il contatto fisico con i soldi aumenta la consapevolezza del limite — il cervello sente il confine","Perche i conti digitali non sono sicuri","Per nascondere i soldi al fisco"],
-        risposta_corretta:1, spiegazione:"Studi di neuroeconomia mostrano che pagare con contanti attiva le stesse aree cerebrali del dolore fisico. Dividere fisicamente le banconote in buste rende tangibile il limite. Chi usa solo carte di credito spende in media il 15-30% in piu perche il dolore psicologico del pagamento e attenuato."},
-       {domanda:"Per cosa si puo aprire la Busta 3 (Il Futuro)?",
-        opzioni:["Per qualsiasi emergenza","Per vacanze pianificate","Solo per investimenti che generano altri soldi: immobili, azioni, formazione produttiva","Per grandi acquisti di lifestyle desiderati da tempo"],
-        risposta_corretta:2, spiegazione:"La Busta 3 non e un fondo per i desideri costosi — e un motore di costruzione. Si apre solo quando il denaro va a comprare un asset che genera ulteriore reddito. Una vacanza, anche pianificata, viene dalla Busta 2. Un corso che ti permette di guadagnare di piu viene dalla Busta 3."},
-     ]},
-    {id:'ris_b5', emoji:'💡', titolo:"Asset vs Passivita — La Filosofia dell Investitore",
-     tempo_minuti:7, semi_reward:110, livello:'base',
-     sottotitolo:"Il segreto della ricchezza non e quanto guadagni, ma come utilizzi cio che guadagni",
-     punti_chiave:[
-       "Asset = strumento che genera reddito passivo o aumenta di valore — mette soldi in tasca",
-       "Passivita = bene che perde valore e richiede spese di manutenzione — toglie soldi dalla tasca",
-       "Il salario e un flusso precario: la vera sicurezza deriva dalla proprieta di asset multipli",
-       "Asset Finanziari: S&P 500, azioni da dividendo — crescita lungo termine e rendite regolari",
-       "Asset Tangibili: oro, immobili, terre agricole — protezione contro inflazione",
-       "Asset Digitali/Intellettuali: corsi online, software — scalabilita massima a costo quasi zero",
-       "Asset Umani: competenze rare, network, salute — il fondamento su cui si costruisce tutto il resto",
-     ],
-     esempio_pratico:"Karim guadagna 1.800 EUR/mese come dipendente. La sua auto e una passivita (perde valore, costa assicurazione). Il suo corso online di cucina africana — creato in 3 mesi — vende 80 copie al mese a 19 EUR. Genera 1.520 EUR/mese senza lavorarci. In 2 anni ha costruito un reddito passivo quasi pari allo stipendio.",
-     dato_reale:"Il top 1% mondiale ha in media 7 fonti di reddito. Il 90% dei milionari auto-fatti cita la costruzione di asset multipli come il fattore chiave. Il tempo e l asset piu prezioso: usarlo per creare invece che consumare passivamente e cio che separa chi accumula ricchezza da chi resta dipendente.",
-     sfida_vita_reale:"Fai l inventario questa settimana: lista ogni cosa che possiedi e classifica ognuna come ASSET (genera entrate) o PASSIVITA (genera uscite). Calcola il saldo netto mensile di asset meno passivita. Poi identifica UN asset concreto che puoi iniziare a costruire nei prossimi 30 giorni.",
-     quiz:[
-       {domanda:"Un appartamento comprato e affittato ad altri e un asset o una passivita?",
-        opzioni:["Una passivita perche richiede manutenzione","Un asset perche genera reddito mensile netto (affitto meno spese)","Dipende solo dal mercato","E neutro perche si compensa"],
-        risposta_corretta:1, spiegazione:"Un immobile affittato genera un flusso di cassa positivo mensile: e un asset per definizione. Se invece ci abiti e paghi solo spese (mutuo, tasse, manutenzione) senza ricevere affitto, e una passivita ibrida — anche se potrebbe rivalutarsi nel tempo."},
-       {domanda:"Quale dei seguenti e un esempio di asset digitale/intellettuale?",
-        opzioni:["Un iPhone nuovo","Un abbonamento Netflix","Un corso online che vende copie ogni mese generando royalties","Un auto sportiva"],
-        risposta_corretta:2, spiegazione:"Un corso online e un asset digitale perche: 1) il costo di creazione e fisso (fatto una volta sola) 2) ogni copia aggiuntiva ha costo marginale quasi zero 3) genera entrate passive 24/7 senza tua presenza. iPhone, Netflix e auto sono passivita o spese, non asset."},
-     ]},
   ],
   investimenti_base:[
     {id:'inv_b1',emoji:'📈',titolo:"L\'Interesse Composto",tempo_minuti:8,semi_reward:80,sottotitolo:"L'Ottava Meraviglia del Mondo",punti_chiave:['Guadagni interessi sui tuoi interessi precedenti','Il tempo è il fattore più importante','Prima inizi, meno devi investire'],esempio_pratico:'100€ al 7% annuo: anno 10=196€, anno 20=386€, anno 30=761€. Hai messo 100€ e ricevuto 761€.',dato_reale:'Chi inizia a investire a 25 anni deve mettere 3x meno di chi inizia a 35 per lo stesso obiettivo a 65 anni.',collegamento_africa:'Le tontine africane usano l\'interesse composto in forma collettiva.',sfida_vita_reale:'Calcola: se investi 100€/mese a 7% per 30 anni, quanto avrai? (circa 121.000€ con soli 36.000€ versati!)',quiz:[{domanda:"Con l\'interesse composto, gli interessi vengono calcolati su:",opzioni:['Solo il capitale iniziale','Capitale + interessi accumulati','Solo gli ultimi interessi','Il capitale dimezzato'],risposta_corretta:1,spiegazione:"L\'interesse composto si calcola su tutto: capitale + tutti gli interessi già guadagnati."},{domanda:'Chi deve investire meno per lo stesso obiettivo?',opzioni:['Chi inizia a 45 anni','Chi inizia a 35 anni','Chi inizia a 25 anni','L età non conta'],risposta_corretta:2,spiegazione:'Il tempo è il fattore chiave: 40 anni di crescita vs 30 anni fa un\'enorme differenza.'}]},
     {id:'inv_b2',emoji:'📦',titolo:'Cosa sono gli ETF',tempo_minuti:7,semi_reward:80,sottotitolo:'Il modo più semplice per investire',punti_chiave:["ETF = Exchange Traded Fund, si compra come un\'azione","Replica un indice (es. S&P 500 = 500 aziende USA)",'Costo molto basso: 0.05%-0.5% annuo'],esempio_pratico:'Comprare 1 ETF MSCI World ti rende proprietario di oltre 1.500 aziende in 23 paesi con un singolo acquisto.',dato_reale:'Il 90% dei gestori professionisti NON batte il mercato su 15 anni. Un ETF low-cost li supera quasi sempre.',collegamento_africa:'La BRVM di Abidjan ha ETF regionali che coprono 8 paesi africani.',sfida_vita_reale:"Cerca 'MSCI World ETF UCITS' su Justetf.com. Trova il costo annuale (TER) e il rendimento storico a 10 anni.",quiz:[{domanda:"Cosa replica un ETF sull\'S&P 500?",opzioni:['Solo le aziende tech','Le 500 maggiori aziende USA','Le aziende europee','Solo le azioni italiane'],risposta_corretta:1,spiegazione:"L\'S&P 500 contiene le 500 maggiori aziende americane: Apple, Microsoft, Amazon, Google, ecc."},{domanda:'Qual è il principale vantaggio degli ETF?',opzioni:['Rendimenti garantiti','Costi molto bassi','Nessun rischio','Gestione professionale'],risposta_corretta:1,spiegazione:'I costi bassi (0.2% vs 2% dei fondi attivi) fanno un\'enorme differenza nel lungo periodo.'}]},
-    {id:'inv_b3',emoji:'🌍',titolo:'Diversificazione',tempo_minuti:6,semi_reward:80,sottotitolo:"Non mettere tutto in un cesto",punti_chiave:["Distribuisci gli investimenti su più asset","Quando uno scende, l\'altro può salire","Riduce il rischio senza ridurre il rendimento atteso"],esempio_pratico:'Portfolio: 60% ETF azionario mondiale, 30% ETF obbligazionario, 10% oro. Nelle crisi azionarie, obbligazioni e oro spesso salgono.',dato_reale:'Il portafoglio 60/40 ha avuto un rendimento medio del 8.9% annuo negli ultimi 50 anni con metà della volatilità.',collegamento_africa:'I commercianti di Timbuktu medievale diversificavano le carovane su più rotte.',sfida_vita_reale:'Elenca tutti i tuoi investimenti/risparmi. Sono diversificati o tutto in un conto corrente?',quiz:[{domanda:"Cos'è la diversificazione?",opzioni:['Investire tutto nel titolo migliore','Distribuire gli investimenti su più asset','Cambiare banca spesso','Vendere e comprare frequentemente'],risposta_corretta:1,spiegazione:'La diversificazione riduce il rischio: se un\'azienda fallisce, hai ancora tutti gli altri investimenti.'},{domanda:'Un portafoglio diversificato tipico include:',opzioni:['Solo azioni di un paese','Solo obbligazioni','Mix di azioni, obbligazioni, materie prime','Solo immobili'],risposta_corretta:2,spiegazione:'Un buon portafoglio include diversi tipi di asset che reagiscono diversamente alle condizioni di mercato.'}]},
+    {id:'inv_b3',emoji:'🌍',titolo:'Diversificazione',tempo_minuti:6,semi_reward:80,sottotitolo:"Non mettere tutto in un cesto",punti_chiave:["Distribuisci gli investimenti su più asset","Quando uno scende, l\'altro può salire","Riduce il rischio senza ridurre il rendimento atteso"],esempio_pratico:'Portfolio: 60% ETF azionario mondiale, 30% ETF obbligazionario, 10% oro. Nelle crisi azionarie, obbligazioni e oro spesso salgono.',dato_reale:'Il portafoglio 60/40 ha avuto un rendimento medio del 8.9% annuo negli ultimi 50 anni con metà della volatilità.',collegamento_africa:'I commercianti di Timbuktu medievale diversificavano le carovane su più rotte.',sfida_vita_reale:'Elenca tutti i tuoi investimenti/risparmi. Sono diversificati o tutto in un conto corrente?',quiz:[{domanda:"Cos'è la diversificazione?",opzioni:['Investire tutto nel titolo migliore','Distribuire gli investimenti su più asset','Cambiare banca spesso','Vendere e comprare frequentemente'],risposta_corretta:1,spiegazione:'La diversificazione riduce il rischio: se un\'azienda fallisce, hai ancora tutti gli altri investimenti.'},{domanda:'Un portafoglio diversificato tipico include:',opzioni:['Solo azioni di un paese','Solo obbligazioni','Mix di azioni, obbligazioni, materie prime','Solo immobili'],risposta_corretta:2,spiegazione:'Un buon portafoglio include diversi tipi di asset che reagiscono diversamente alle condizioni di mercato.'}]},,
+    {id:'inv_b4',emoji:'🎯',titolo:"I 4 Pilastri della Indipendenza Finanziaria",
+     tempo_minuti:8,semi_reward:120,livello:'base',
+     sottotitolo:"Il sistema completo: dal motore allo scudo, dalla bussola al pilota interiore",
+     punti_chiave:[
+       "PILASTRO 1 - Il Motore: Interesse Composto. I tuoi guadagni generano altri guadagni. La variabile chiave e il TEMPO.",
+       "PILASTRO 2 - La Bussola: Asset Allocation. Distribuisci il denaro tra Azioni (crescita), Obbligazioni (stabilita), Oro (protezione).",
+       "PILASTRO 3 - Lo Scudo: Fondo di Emergenza + Anti-Inflazione. 3-6 mesi di spese liquidi prima di investire qualsiasi cosa.",
+       "PILASTRO 4 - Il Pilota: Psicologia. Il nemico non e il mercato - e lo specchio. Gestisci le emozioni, non i prezzi.",
+       "Un crollo del 20% non e una perdita: e uno sconto sulle stesse azioni. Chi vende in panico trasforma la perdita in permanente.",
+       "Orizzonte temporale: se investi per 20 anni, cio che succede domani e rumore di fondo. Non lasciare che il rumore decida per te.",
+     ],
+     esempio_pratico:"Marco investe 200 euro al mese a 25 anni dividendoli: 120 euro su ETF azionario globale, 40 euro su obbligazioni, 40 euro su oro. Ha gia un fondo emergenza di 8.000 euro. Quando nel 2022 il mercato crolla del 25%, Marco non vende: compra di piu, perche sa che sta comprando a sconto. A 65 anni avra circa 500.000 euro.",
+     dato_reale:"DALBAR (2024): l investitore medio americano ha ottenuto il 3.1% annuo negli ultimi 20 anni vs 9.4% dell S&P 500. La differenza non era il mercato: era il comportamento emotivo. Quattro pilastri separano chi accumula ricchezza da chi no.",
+     sfida_vita_reale:"Fai oggi questo check: 1) Hai un fondo emergenza? 2) Sai dove sono i tuoi soldi? 3) Conosci il tuo orizzonte temporale? 4) Hai mai venduto in panico? Le risposte oneste a queste 4 domande ti dicono su quale pilastro lavorare prima.",
+     quiz:[
+       {domanda:"Perche chi vende durante un crollo del mercato trasforma la perdita in permanente?",
+        opzioni:["Perche paga troppe tasse sulla vendita","Perche vende a prezzi bassi e rinuncia alla successiva ripresa che storicamente arriva sempre","Perche le banche penalizzano le vendite in ribasso","Perche il mercato non recupera mai dai crolli"],
+        risposta_corretta:1,spiegazione:"Vendere durante un crollo significa cristallizzare la perdita: trasformi una perdita temporanea (su carta) in una perdita reale. Chi ha tenuto durante il -50% del 2009 ha visto recuperare e poi superare i massimi entro 3 anni. Chi ha venduto ha perso tutto il rimbalzo."},
+       {domanda:"Qual e il primo pilastro da costruire PRIMA di iniziare a investire?",
+        opzioni:["Comprare oro fisico","Il fondo di emergenza (3-6 mesi di spese liquidi)","Aprire un conto broker","Studiare il P/E ratio delle azioni"],
+        risposta_corretta:1,spiegazione:"Senza fondo emergenza, al primo imprevisto (auto rotta, spesa medica, perdita lavoro) sei costretto a liquidare gli investimenti - spesso nel momento peggiore. Il fondo emergenza e lo scudo che protegge il portafoglio dall inaspettato."},
+     ]},
+
+    {id:'inv_b5',emoji:'📊',titolo:"Guida Completa agli ETF — Lo Strumento Principe",
+     tempo_minuti:10,semi_reward:150,livello:'base',
+     sottotitolo:"Cos e un ETF, come sceglierlo e come costruire un PAC che lavora per te",
+     punti_chiave:[
+       "ETF = fondo quotato in borsa che REPLICA un indice. Compri 1 ETF = possiedi automaticamente centinaia di aziende diverse.",
+       "TER (costi): ETF 0.05-0.30%/anno vs fondi bancari attivi 1.5-2.5%/anno. Su 30 anni quella differenza e enorme.",
+       "ETF Azionari Globali (es MSCI World): crescita capitale lungo termine. Contiene Apple, Microsoft, Nestle e 1.500 altre.",
+       "ETF Obbligazionari: stabilita e cedole periodiche. Meno rischio, rendimento piu prevedibile.",
+       "ETF Settoriali/Tematici: tecnologia, energia pulita, salute. Scommessa su tendenze specifiche - piu rischio.",
+       "ACCUMULO (Acc): dividendi reinvestiti automaticamente - massimizza interesse composto, tasse solo alla vendita.",
+       "DISTRIBUZIONE (Dist): dividendi accreditati sul conto - utile per rendita periodica, meno efficiente per crescita.",
+       "PAC = Piano di Accumulo del Capitale: compri ogni mese a prescindere dal prezzo. Mediazione automatica del costo.",
+     ],
+     esempio_pratico:"Amara investe 150 euro al mese su un ETF MSCI World Acc (accumulo). TER 0.20%/anno. In 30 anni con rendimento storico 7%: circa 170.000 euro. Se avesse usato un fondo bancario attivo con TER 2%: circa 107.000 euro. La differenza di 63.000 euro e solo il costo del gestore, non un guadagno extra.",
+     dato_reale:"Oltre il 90% dei fondi attivi non batte il mercato su 15+ anni (SPIVA Report 2024). Gli ETF passivi replicano il mercato invece di batterlo - e statisticamente e la strategia vincente per il 90%+ degli investitori individuali. Warren Buffett ha dichiarato pubblicamente di voler lasciare il 90% dell eredita della moglie in un ETF S&P 500.",
+     sfida_vita_reale:"Scegli il tuo primo ETF questa settimana: cerca su justETF.com un ETF MSCI World con Acc e TER inferiore a 0.25%. Annota il codice ISIN. Poi calcola quanto avresti dopo 20 anni investendo anche solo 50 euro al mese. Usa il calcolatore su finanzaland.vercel.app.",
+     quiz:[
+       {domanda:"Quale differenza pratica fa scegliere un ETF Acc (Accumulo) rispetto a Dist (Distribuzione) se il tuo obiettivo e far crescere il capitale?",
+        opzioni:["Nessuna differenza: producono lo stesso risultato","Acc e meglio: i dividendi vengono reinvestiti automaticamente attivando l interesse composto e rimandando la tassazione alla vendita","Dist e meglio: ricevi cash ogni anno e puoi reinvestirlo tu","Acc ha costi piu alti quindi e meno conveniente"],
+        risposta_corretta:1,spiegazione:"Con Acc (Accumulo) i dividendi vengono reinvestiti automaticamente senza passare per il tuo conto: massimizza il compounding e non paghi tasse sui dividendi ogni anno ma solo quando vendi. Su 20+ anni la differenza e significativa. Dist ha senso solo se hai bisogno di flusso di cassa periodico."},
+       {domanda:"Cos e il PAC (Piano di Accumulo del Capitale) e perche e la strategia raccomandata per chi inizia?",
+        opzioni:["E un conto deposito bancario con interessi garantiti","E la strategia di comprare quote di ETF a scadenze regolari (es ogni mese), mediando automaticamente il prezzo di acquisto ed eliminando il timing di mercato","E un prodotto bancario che garantisce il capitale investito","E la tecnica di comprare in un unico momento quando il mercato e basso"],
+        risposta_corretta:1,spiegazione:"Con il PAC compri sia quando il mercato e alto che quando e basso: nel tempo mediano il prezzo di acquisto (Dollar Cost Averaging). Elimini lo stress di dover indovinare il momento giusto. Crei un automatismo: i soldi vengono investiti prima che tu possa spenderli. E la strategia piu adatta al 90% degli investitori non professionisti."},
+       {domanda:"Perche il TER (costo di gestione) di un ETF e cosi importante?",
+        opzioni:["E importante solo per investimenti superiori a 100.000 euro","Su 30 anni la differenza tra 0.20% e 2% di TER puo valere decine di migliaia di euro per effetto del compounding","I TER alti indicano gestori piu bravi che producono rendimenti maggiori","Il TER si paga solo alla vendita, non ogni anno"],
+        risposta_corretta:1,spiegazione:"Il TER si paga OGNI ANNO sul capitale totale. L effetto composto lo amplifica: su 150 euro/mese per 30 anni, la differenza tra TER 0.20% e 2% e di circa 60.000 euro di capitale finale in meno - solo per i costi di gestione. Minimizzare i costi e l unica variabile certa che controlli."},
+     ]}
   ],
   bambini_base:[
     {id:'bam_b1',emoji:'💵',titolo:'Cosa sono i soldi?',tempo_minuti:4,semi_reward:60,sottotitolo:'La storia del denaro spiegata ai bambini',punti_chiave:['Tanto tempo fa si scambiavano cose (baratto)','Poi si è usato oro e argento come moneta','Oggi usiamo carta, carte e telefono!'],esempio_pratico:'Hai una torta e il tuo amico ha una bicicletta. Se entrambi volete qualcosa dell\'altro, è il baratto! Con i soldi è più facile.',dato_reale:'Le prime monete sono state create circa 2.600 anni fa in Lidia (oggi Turchia).',collegamento_africa:'In Africa i Cowrie (conchiglie) venivano usati come moneta per migliaia di anni.',sfida_vita_reale:'Guarda le monete che hai in casa. Quanto valgono in totale?',quiz:[{domanda:'Prima dei soldi, come si scambiavano le cose?',opzioni:['Con le carte di credito','Con il baratto','Con i bitcoin','Con il telefono'],risposta_corretta:1,spiegazione:'Il baratto! Si scambiavano oggetti direttamente: cibo per lavoro, strumenti per animali.'},{domanda:'Cosa sono i soldi?',opzioni:['Solo carte colorate','Un modo per scambiare cose e servizi','Solo numeri al computer','Un gioco'],risposta_corretta:1,spiegazione:'I soldi sono uno strumento che facilita gli scambi: rappresentano valore che tutti accettiamo.'}]},
@@ -10476,155 +10072,11 @@ var LESSON_BANK = {
   scuola_base:[
     {id:'scu_b1',emoji:'📐',titolo:"Cos'è il PIL e perché conta",tempo_minuti:7,semi_reward:80,sottotitolo:'La misura della ricchezza di un paese',punti_chiave:['PIL = valore di tutto ciò che un paese produce in un anno','PIL pro capite = PIL ÷ popolazione','La crescita del PIL misura se l\'economia va bene o male'],esempio_pratico:"L\'Italia ha un PIL di circa 2.000 miliardi di euro (2023). Diviso per 60 milioni di italiani = circa 33.000€ a persona all'anno.",dato_reale:"PIL 2024: USA 27.000 mld$, Cina 17.000 mld$, Germania 4.400 mld$, Italia 2.000 mld$, Nigeria 440 mld$ (il più alto in Africa).",collegamento_africa:"La Costa d\'Avorio cresce al 6% annuo. La BRVM riflette questa crescita.",sfida_vita_reale:"Cerca 'PIL Italia 2024' e 'PIL Senegal 2024'. Quant\'è il PIL pro capite di ciascuno?",quiz:[{domanda:"Cosa misura il PIL?",opzioni:['Il risparmio dei cittadini','Il valore totale di ciò che un paese produce','Il numero di aziende','Le esportazioni'],risposta_corretta:1,spiegazione:'PIL = tutto ciò che viene prodotto in un paese in un anno. È la misura principale della salute economica.'},{domanda:"Se il PIL cresce del 3%, significa che:",opzioni:['Tutti sono più poveri',"L\'economia si è espansa del 3%",'Le tasse aumentano del 3%','I prezzi scendono del 3%'],risposta_corretta:1,spiegazione:"Crescita del PIL = l\'economia produce il 3% in più rispetto all'anno precedente."}]},
   ],
-
-  // ── Percorsi aggiuntivi ─────────────────────────────────
-  scuola_finanza:[
-    {id:'scu_f1', emoji:'🏫', titolo:"Il Seme della Moneta — Come Nasce il Denaro",
-     tempo_minuti:5, semi_reward:70, livello:'base',
-     sottotitolo:"Per ragazzi 10-14 anni: la storia del denaro in 5 minuti",
-     punti_chiave:[
-       "Prima del denaro esisteva il baratto: scambiavi pesce con pane, ma era scomodo trovare chi ne avesse bisogno",
-       "Le monete nacquero come oggetti di valore garantito dallo Stato — inizialmente d oro e argento reali",
-       "Oggi il denaro e fiducia: la banconota da 20 euro vale 20 euro perche tutti ci crediamo",
-       "La banca centrale (BCE) controlla quanta moneta esiste — se ne stampa troppa arriva l inflazione",
-       "I soldi digitali (carte, app) sono la stessa cosa della banconota — solo in forma elettronica",
-     ],
-     esempio_pratico:"Marco ha una mela, Giulia ha pane. Marco vuole pane, Giulia vuole mela: baratto perfetto. Ma se Marco vuole pane e Giulia vuole pesce? Serve un intermediario universale: la moneta. Ogni volta che usi 2 euro per comprare una bottiglietta stai usando un sistema inventato 3.000 anni fa.",
-     dato_reale:"Le prime monete documentate risalgono al 600 a.C. in Lidia (Turchia moderna). Erano di elettro, una lega naturale di oro e argento. L euro e stato introdotto nel 2002 e oggi e usato da 350 milioni di persone in 20 paesi.",
-     sfida_vita_reale:"Questa settimana conta quante transazioni fai (acquisti, pagamenti). Poi calcola: se dovessi fare tutte queste transazioni a baratto, quanto sarebbe complicato? Rispondi con un numero di scambi impossibili.",
-     quiz:[
-       {domanda:"Perche le banconote hanno valore anche se sono solo carta?",
-        opzioni:["Perche contengono oro all interno","Perche lo Stato garantisce il loro valore e tutti si fidano di questo sistema","Perche costano molto da produrre","Perche le banche le custodiscono"],
-        risposta_corretta:1, spiegazione:"Il denaro moderno e basato sulla fiducia collettiva — si chiama moneta fiat. Non e piu convertibile in oro dal 1971 (abbandono del gold standard). Vale perche tutti accettano che valga. Se questa fiducia collassa, come in Zimbabwe nel 2008, si crea iperinflazione."},
-     ]},
-    {id:'scu_f2', emoji:'🏦', titolo:"Come Funziona una Banca — e Cosa Fa con i Tuoi Soldi",
-     tempo_minuti:6, semi_reward:80, livello:'base',
-     sottotitolo:"La banca non custodisce i tuoi soldi — li usa. Ecco come e perche e importante saperlo.",
-     punti_chiave:[
-       "La banca prende i tuoi depositi e li presta ad altri a un tasso piu alto di quello che ti paga",
-       "Esempio: tu depositi 1.000 EUR all 1% — la banca li presta a qualcuno al 4% — guadagna il 3%",
-       "Riserva frazionaria: le banche possono prestare fino al 90% dei depositi — tengono solo il 10% in riserva",
-       "Il tuo conto corrente e garantito fino a 100.000 EUR dal Fondo Interbancario di Tutela dei Depositi",
-       "I mutui, i prestiti e le carte di credito sono i prodotti con cui la banca guadagna di piu",
-     ],
-     esempio_pratico:"Anna deposita 10.000 EUR in banca. La banca tiene 1.000 EUR in cassa (10%) e presta 9.000 EUR a Bruno per comprare una moto. Bruno ripaga con interessi. La banca guadagna la differenza tra il tasso che paga ad Anna (0.5%) e quello che riceve da Bruno (7%). Su 9.000 EUR e 585 EUR di profitto puro.",
-     dato_reale:"Le prime banche moderne nacquero a Genova e Venezia nel 1300. La parola banca deriva dalle panche (banchi) su cui i cambiavalute esercitavano il commercio. Oggi in Italia ci sono circa 450 banche per 60 milioni di abitanti.",
-     sfida_vita_reale:"Guarda il tuo estratto conto. Trova: 1) Quanto ti paga la banca sui depositi (tasso passivo) 2) Se hai un prestito o mutuo, quanto ti costa (tasso attivo). La differenza e quanto guadagna la banca su di te ogni anno.",
-     quiz:[
-       {domanda:"Cosa fa una banca con i soldi che depositi sul conto corrente?",
-        opzioni:["Li mette in cassaforte e non li tocca fino a quando li richiedi","Li presta ad altre persone e aziende a un tasso di interesse piu alto","Li investe in borsa per te","Li converte in oro fisico"],
-        risposta_corretta:1, spiegazione:"Le banche operano con la riserva frazionaria: tengono in cassa solo una frazione dei depositi (tipicamente il 10%) e prestano il resto. E per questo che se tutti i correntisti ritirassero i soldi nello stesso momento la banca non potrebbe pagare — si chiama bank run e puo causare crisi finanziarie."},
-     ]},
-  ],
-
-  educazione_civica:[
-    {id:'civ_f1', emoji:'🗳️', titolo:"Le Tasse — a Cosa Servono e Come Funzionano",
-     tempo_minuti:7, semi_reward:90, livello:'base',
-     sottotitolo:"Capire le tasse non e per avvocati: e educazione civica che tutti dovrebbero avere a 14 anni",
-     punti_chiave:[
-       "Le tasse sono contribuzioni obbligatorie che finanziano i servizi pubblici: scuole, ospedali, strade, sicurezza",
-       "IRPEF (Imposta sul Reddito): paghi una percentuale del tuo reddito — con aliquote progressive (chi guadagna di piu paga una percentuale piu alta)",
-       "IVA (Imposta sul Valore Aggiunto): gia inclusa nel prezzo di tutto cio che compri — di solito al 22%",
-       "INPS: contributi pensionistici obbligatori — finanziano le pensioni di oggi e la tua del futuro",
-       "Evasione fiscale: chi non paga le tasse fa pagare di piu gli altri — non e furbizia, e un danno collettivo",
-     ],
-     esempio_pratico:"Sara lavora e guadagna 25.000 EUR/anno. Paga IRPEF progressiva: 23% sui primi 15.000 EUR = 3.450 EUR, 25% sui successivi 10.000 EUR = 2.500 EUR. Totale: 5.950 EUR di tasse. Con questi soldi lo Stato paga la maestra di sua figlia, l ospedale dove e nata, la strada davanti a casa.",
-     dato_reale:"In Italia la pressione fiscale totale e circa il 43% del PIL. Ogni euro di evasione fiscale costa in media 28 centesimi agli altri contribuenti onesti. L OCSE stima che l evasione in Italia valga circa 100 miliardi di euro ogni anno.",
-     sfida_vita_reale:"Cerca lo scontrino dell ultimo acquisto che hai fatto. Trova la voce IVA (o calcola: prezzo finale diviso 1,22 = prezzo senza IVA, la differenza e l IVA che hai pagato). Ora moltiplica per tutti i tuoi acquisti del mese: stai gia contribuendo allo Stato senza saperlo.",
-     quiz:[
-       {domanda:"Perche le tasse in Italia aumentano con il reddito (sistema progressivo)?",
-        opzioni:["Per punire chi lavora di piu","Perche chi guadagna di piu ha piu capacita contributiva e puo permettersi di pagare una quota maggiore","E un errore del sistema — dovrebbe essere uguale per tutti","Per incentivare a guadagnare meno"],
-        risposta_corretta:1, spiegazione:"Il principio della progressivita fiscale e sancito dall articolo 53 della Costituzione italiana: tutti contribuiscono in ragione della loro capacita. Chi guadagna 100.000 EUR ha una capacita contributiva ben diversa da chi guadagna 15.000 EUR e quindi paga una percentuale piu alta. Questo e il fondamento dello stato sociale."},
-     ]},
-    {id:'civ_f2', emoji:'📜', titolo:"I Tuoi Diritti Economici — il Contratto di Lavoro",
-     tempo_minuti:7, semi_reward:90, livello:'base',
-     sottotitolo:"Quello che nessuno ti insegna a scuola e che potresti averne bisogno domani",
-     punti_chiave:[
-       "Il contratto di lavoro e un accordo legale che definisce: stipendio, orario, mansioni, ferie, preavviso",
-       "CCNL (Contratto Collettivo Nazionale di Lavoro): stabilisce le condizioni minime per ogni categoria",
-       "La busta paga: stipendio lordo meno contributi INPS meno IRPEF = stipendio netto (quello che ricevi)",
-       "Ferie e TFR (Trattamento di Fine Rapporto): diritti maturati che ti spettano sempre, anche se licenziato",
-       "Non firmare mai un contratto senza leggerlo — e puoi sempre chiedere 24 ore per farlo analizzare",
-     ],
-     esempio_pratico:"Luca firma il suo primo contratto da 1.500 EUR lordi/mese. In busta paga riceve 1.087 EUR netti dopo INPS (9.19%) e IRPEF (23%). Oltre allo stipendio matura: ferie (26 giorni/anno), TFR (1 mensilita/anno accantonata), tredicesima. Se non avesse capito la busta paga, avrebbe pensato di guadagnare molto meno di quanto la legge gli riconosce.",
-     dato_reale:"Il 31% dei lavoratori italiani non capisce la propria busta paga. Il 24% non sa cos e il TFR. Eppure il TFR medio accumulato dopo 10 anni di lavoro e circa 20.000-30.000 EUR — soldi gia tuoi che molti non sanno di avere.",
-     sfida_vita_reale:"Chiedi a un genitore o familiare di mostrarti la sua busta paga. Identifica: 1) Lordo vs netto 2) Contributi INPS 3) IRPEF trattenuta 4) TFR maturato. Poi calcola quanto ha gia accumulato di TFR moltiplicando le mensilita per gli anni di lavoro diviso 13,5.",
-     quiz:[
-       {domanda:"Cos e il TFR (Trattamento di Fine Rapporto)?",
-        opzioni:["Una penale che il lavoratore paga se lascia il lavoro","Una somma che il datore di lavoro accantuona ogni mese per il lavoratore — equivale circa a una mensilita per anno lavorato","Un bonus una tantum deciso dal datore di lavoro","Una tassa aggiuntiva sulla busta paga"],
-        risposta_corretta:1, spiegazione:"Il TFR e un diritto del lavoratore garantito dalla legge (art. 2120 del Codice Civile). Ogni mese il datore di lavoro mette da parte circa il 6,91% della retribuzione lorda. Viene erogato alla fine del rapporto di lavoro, qualunque ne sia la causa. Su 10 anni di lavoro a 1.500 EUR lordi, il TFR accumulato e circa 10.000 EUR."},
-     ]},
-  ],
-
-  psicologia_denaro:[
-    {id:'psi_f1', emoji:'🧠', titolo:"Il Mindset Ricco vs Mentalita Povera — Come Pensi al Denaro",
-     tempo_minuti:8, semi_reward:100, livello:'base',
-     sottotitolo:"Napoleon Hill, Wattles e la neuroscienza moderna concordano: la ricchezza inizia nel pensiero",
-     punti_chiave:[
-       "Mentalita della scarsita: vede il denaro come limitato — chi guadagna qualcosa e sempre a spese di qualcun altro",
-       "Mentalita dell abbondanza: il valore e creabile — un imprenditore crea valore che prima non esisteva",
-       "Napoleon Hill: definisci un obiettivo preciso con un numero e una data. Non vago desiderio, ma scopo scritto.",
-       "Wallace Wattles: agisci in modo creativo, non competitivo — crea valore nuovo invece di sottrarlo agli altri",
-       "La legge del sistema: il 73% delle persone che risparmia automaticamente ha risultati migliori di chi pianifica manualmente",
-       "Il bias di perdita: perdere 100 EUR fa piu male che guadagnarne 100 fa bene — porta a decisioni irrazionali",
-     ],
-     esempio_pratico:"Due colleghi, stesso stipendio. Ahmed pensa: non guadagno abbastanza, non ha senso risparmiare. Francesca pensa: con quello che ho posso iniziare qualcosa di piccolo che cresce. In 10 anni Ahmed non ha nulla, Francesca ha 15.000 EUR investiti che generano 80 EUR/mese passivi. La differenza non era lo stipendio — era il pensiero.",
-     dato_reale:"Una ricerca di Stanford (Dweck, 2006) dimostra che le persone con growth mindset raggiungono risultati finanziari superiori del 40% rispetto a quelle con fixed mindset, a parita di intelligenza e reddito iniziale. Il cervello e neuroplastico: puoi cambiare il tuo modo di pensare al denaro.",
-     sfida_vita_reale:"Scrivi su carta: Entro il [data specifica], avro un patrimonio di [numero preciso] EUR. Poi scrivi 3 azioni concrete che puoi fare nei prossimi 7 giorni verso questo obiettivo. Leggi questa frase ogni mattina per 21 giorni. Questo e il Protocollo Hill applicato.",
-     quiz:[
-       {domanda:"Qual e la differenza tra la mentalita della scarsita e quella dell abbondanza?",
-        opzioni:["Chi ha la mentalita della scarsita e piu prudente negli investimenti","La mentalita della scarsita vede il denaro come limitato e la ricchezza di altri come una perdita per se; quella dell abbondanza vede il valore come creabile","Non c e differenza pratica","Chi ha mentalita di abbondanza e semplicemente piu ottimista"],
-        risposta_corretta:1, spiegazione:"La mentalita della scarsita porta a comportamenti competitivi e difensivi: hoarding, invidia, rischio-avversione eccessiva. La mentalita dell abbondanza porta a comportamenti creativi e collaborativi: investimento, formazione, creazione di valore. La ricerca di Carol Dweck dimostra che questa differenza cognitiva impatta i risultati finanziari reali nel lungo termine."},
-     ]},
-  ],
-
-  fisica_denaro:[
-    {id:'fis_f1', emoji:'⚛️', titolo:"La Fisica del Denaro — Interesse Composto, Tempo e Inflazione",
-     tempo_minuti:8, semi_reward:110, livello:'base',
-     sottotitolo:"Il denaro obbedisce a leggi matematiche precise — capirle e come imparare la fisica dell universo finanziario",
-     punti_chiave:[
-       "Interesse composto: A = P x (1 + r/n)^(n x t). Il tempo (t) e il fattore piu potente — cresce in modo esponenziale",
-       "Regola del 72: dividi 72 per il tasso annuo e ottieni gli anni per raddoppiare il capitale (72/7% = circa 10 anni)",
-       "Inflazione: il potere d acquisto si erode ogni anno. Al 3% annuo, 1.000 EUR oggi valgono 744 EUR fra 10 anni",
-       "Rendimento reale = rendimento nominale meno inflazione. Un ETF al 7% con inflazione al 3% = rendimento reale 4%",
-       "Valore presente vs valore futuro: 100 EUR oggi valgono piu di 100 EUR tra un anno — il denaro ha valore temporale",
-       "Einstein sulla forza piu potente dell universo: non la gravita, ma l interesse composto. Vale per chi lo applica — e contro chi lo subisce (debiti).",
-     ],
-     esempio_pratico:"Tre amici investono 5.000 EUR. Marco al 3% (conto deposito): dopo 20 anni ha 9.030 EUR. Sara al 7% (ETF): dopo 20 anni ha 19.348 EUR. Karim al 10% (portafoglio bilanciato): dopo 20 anni ha 33.637 EUR. Stesso punto di partenza, stesso tempo, stessa cifra. La variabile era solo il tasso. Regola del 72: a 7% il capitale raddoppia ogni 10 anni.",
-     dato_reale:"Se avessi investito 1.000 EUR nell S&P 500 nel 1980 e li avessi lasciati li fino al 2024, avresti circa 82.000 EUR. Se avessi disinvestito durante le crisi del 2000, 2008 e 2020, avresti circa 15.000 EUR. La differenza non era la scelta degli asset: era la pazienza matematica.",
-     sfida_vita_reale:"Applica la Regola del 72 ai tuoi risparmi attuali: 72 diviso il tasso che ricevi. Risultato = anni per raddoppiare. Poi calcola lo stesso con un ETF al 7%. Scrivi i due numeri uno accanto all altro. Quella differenza in anni e il costo visibile della scelta di non investire.",
-     quiz:[
-       {domanda:"Cosa afferma la Regola del 72?",
-        opzioni:["Il capitale raddoppia dopo 72 mesi indipendentemente dal tasso","Dividendo 72 per il tasso annuo si ottengono gli anni necessari a raddoppiare il capitale","Il rendimento massimo sostenibile e il 72% annuo","Bisogna avere almeno 72.000 EUR per iniziare a investire"],
-        risposta_corretta:1, spiegazione:"La Regola del 72 e una formula approssimativa ma precisa per calcolare il tempo di raddoppio. Al 6%: 72/6 = 12 anni. Al 9%: 72/9 = 8 anni. Al 1% (conto corrente): 72/1 = 72 anni. Applicarla ai propri risparmi e il modo piu veloce per capire il costo della scelta di non investire."},
-     ]},
-  ],
-
-  filosofia_finanza:[
-    {id:'fil_f1', emoji:'🏛️', titolo:"Lo Stoicismo e il Denaro — Marco Aurelio, Seneca, Epitteto",
-     tempo_minuti:9, semi_reward:120, livello:'avanzato',
-     sottotitolo:"I filosofi greci e romani avevano gia capito tutto sulla psicologia del denaro 2.000 anni fa",
-     punti_chiave:[
-       "Distinzione dicotomica: separa cio che controlli (le tue azioni, reazioni, decisioni) da cio che non controlli (i mercati, la fortuna, l opinione altrui)",
-       "Seneca: Non mancanza di risorse, ma mancanza di saggezza e la radice della poverta — gestisci prima la mente, poi il portafoglio",
-       "Marco Aurelio: Gli ostacoli non bloccano il cammino, SONO il cammino. Le crisi finanziarie sono opportunita di acquisto a sconto",
-       "Epitteto: Il desiderio incontrollato e la fonte di ogni infelicita — la frugalita non e poverta, e controllo",
-       "Meditazione negativa: immagina di perdere tutto cio che possiedi. Questa pratica riduce l attaccamento e migliora le decisioni razionali",
-       "Il filosofo guarda i cicli del mercato come le stagioni — inevitabili, prevedibili nel lungo termine, incontrollabili nel breve",
-     ],
-     esempio_pratico:"Durante il crollo del 2008, un investitore stoico applicava: Posso controllare quanto investo ogni mese? Si. Posso controllare se i mercati crollano? No. Conclusione: continuo ad investire. Chi ha investito regolarmente nel 2008-2009 ha triplicato il capitale nei 5 anni successivi. Chi ha venduto per paura ha perso tutto il rimbalzo.",
-     dato_reale:"Una ricerca di Dalbar (2024) mostra che l investitore medio americano ha guadagnato il 3,1% annuo negli ultimi 20 anni, contro il 9,4% dell S&P 500. La differenza non era il mercato: era il comportamento emotivo. Lo stoicismo offre un sistema pratico per controllare queste reazioni.",
-     sfida_vita_reale:"Scrivi due colonne: POSSO CONTROLLARE e NON POSSO CONTROLLARE. Metti in ogni colonna tutti gli elementi delle tue finanze. La colonna di sinistra e l unica su cui lavorare. Quella di destra e dove sprechi energia. Fai questo esercizio ogni volta che senti ansia finanziaria.",
-     quiz:[
-       {domanda:"Come applica uno stoico la distinzione dicotomica agli investimenti?",
-        opzioni:["Evita completamente i mercati perche incontrollabili","Controlla solo cio che dipende da lui (quanto investire, quando, in cosa) e accetta senza ansia cio che non controlla (l andamento dei mercati)","Cerca di prevedere i mercati attraverso la meditazione","Investe solo in asset fisici perche i mercati sono illusioni"],
-        risposta_corretta:1, spiegazione:"Lo stoicismo applicato alla finanza significa: definisci il tuo piano di investimento (controllabile), eseguilo con disciplina (controllabile), e rimani indifferente alle oscillazioni di mercato di breve termine (non controllabile). Questa separazione e esattamente cio che rende i migliori investitori — da Buffett a Bogle — superiori alla media."},
-     ]},
-  ]
-
 };
 
-// ── renderLezioniList aggiornata con LESSON_BANK ─────────────────────CORSI[0];
+// ── renderLezioniList aggiornata con LESSON_BANK ─────────────────────
+function renderLezioniList() {
+  if (!currentPercorso || !currentPercorso.id) currentPercorso = PERCORSI[0];
   if (!currentLivello  || !currentLivello.id)  currentLivello  = LIVELLI[0];
   if (!currentPercorso.id || !currentLivello.id) return;
   var body = document.getElementById('acc-body');
@@ -10752,8 +10204,23 @@ var LESSON_BANK = {
   });
   // Accademia dei Titani in fondo
   if (typeof appendTitaniBlock==='function') appendTitaniBlock(body);
+}
 
+// ── initAuthGate ─────────────────────────────────────────
+var CREATOR_CODE = 'BERNARD2026';
+function isCreator(){ return safeLSStr('fl_creator','0')==='1'; }
+function activateCreator(code){
+  if((code||'').trim()===CREATOR_CODE){
+    try{localStorage.setItem('fl_creator','1');}catch(e){}
+    S.isPro=true; try{localStorage.setItem('fl_pro','1');}catch(e){}
+    saveS(); toast('🐉 Accesso Creatore attivato, Bernard!');
+    if(typeof updateHUD==='function') updateHUD();
+    return true;
+  }
+  return false;
+}
 if(isCreator()){ S.isPro=true; }
+window.isCreator=isCreator; window.activateCreator=activateCreator;
 
 function initAuthGate(){
   if(isCreator()){hideGate();return;}
@@ -11811,90 +11278,42 @@ function buildSimMutuo(container) {
 // ─────────────────────────────────────────────────────────────────────────
 function getLocalAIReply(msg, lang) {
   var m = (msg||'').toLowerCase();
+  var t = TRANSLATIONS[lang] || TRANSLATIONS['it'];
   var R = {
-    it:{
-      risparmio:"💰 <b>Risparmio</b>: regola 50-30-20 = 50% bisogni, 30% desideri, 20% risparmio. Con 150€/mese per 20 anni al 7% = circa 81.000€.",
-      trebuste:"✉️ <b>Tre Buste</b>: 50% Necessita (affitto, cibo), 30% Stile di Vita (svago), 20% Il Futuro (NON SI TOCCA MAI). Preleva in contanti e dividi subito.",
-      etf:"📈 <b>ETF</b>: fondo che replica un indice. MSCI World copre 1.500 aziende in 23 paesi. Costo circa 0.2%/anno. Il piu efficiente per i piccoli investitori.",
-      brvm:"🌍 <b>BRVM</b>: Borsa Africa Occidentale per 8 paesi UEMOA. Sonatel, ONATEL e BOA sono i titoli principali. Opportunita unica sui mercati emergenti africani.",
-      inflazione:"📉 <b>Inflazione</b>: al 3% annuo, 1.000€ oggi valgono 744€ fra 10 anni. Regola del 72: 72/3% = 24 anni per dimezzare il potere d acquisto.",
-      pensione:"🧓 <b>Pensione</b>: regola del 4% — per avere 2.000€/mese servono 600.000€. Inizia a 25 anni con 200€/mese: arrivi a 65 anni con oltre 500.000€.",
-      bitcoin:"₿ <b>Crypto</b>: alta volatilita. Mai piu del 5-10% del portafoglio totale. Bitcoin ha perso l 80% del valore piu volte nella sua storia. Diversifica.",
-      mutuo:"🏦 <b>Mutuo</b>: nei primi anni il 70-90% della rata va in interessi. Chiedi sempre il piano di ammortamento completo prima di firmare.",
-      asset:"💎 <b>Asset vs Passivita</b>: un asset mette soldi in tasca (azioni, affitti, corsi digitali). Una passivita li toglie (auto che si deprezza). Costruisci asset.",
-      filosofia:"🏛️ <b>Stoicismo e denaro</b>: distingui cio che controlli (le tue scelte) da cio che non controlli (i mercati). Seneca: non e la mancanza di risorse, ma di saggezza la radice della poverta.",
-      mindset:"🧠 <b>Mindset</b>: Napoleon Hill — definisci un obiettivo preciso con un numero e una data. Wallace Wattles — crea valore nuovo invece di competere. Il 73% di chi automatizza il risparmio ha risultati migliori.",
-      fisica:"⚛️ <b>Fisica del denaro</b>: A = P x (1+r)^t. Regola del 72: dividi 72 per il tasso annuo per sapere in quanti anni il capitale raddoppia. Al 7%: circa 10 anni.",
-      tasse:"🗳️ <b>Tasse</b>: IRPEF progressiva (23%-43%), IVA al 22% inclusa in ogni acquisto, INPS per la pensione. Chi evade fa pagare di piu gli altri. Conoscere le aliquote e educazione civica di base.",
-      civica:"📜 <b>Diritti economici</b>: il contratto di lavoro definisce stipendio, ferie, TFR. Il TFR e circa una mensilita per anno lavorato — sono soldi tuoi gia accantonati. Non firmare senza leggere.",
-      scuola:"🏫 <b>Denaro a scuola</b>: il baratto precedeva la moneta. Le banche prestano i tuoi depositi (riserva frazionaria). L euro e garantito dalla BCE. Legge 21/2024: la finanza e ora obbligatoria nelle scuole italiane.",
-      wattles:"💡 <b>Wattles</b>: la ricchezza arriva dal piano creativo, non dalla competizione. Gratitudine + visione + azione efficiente = manifestazione. Formula: non competere, crea.",
-      hill:"🔥 <b>Napoleon Hill</b>: scrivi il tuo obiettivo preciso con una data e una cifra. Leggilo mattina e sera. Supera la Fase di Resistenza con la ripetizione. Pensa e Arricchisci Te Stesso.",
-      kiyosaki:"📚 <b>Kiyosaki</b>: Padre Ricco Padre Povero — i ricchi comprano asset, i poveri comprano passivita credendo siano asset. Il cashflow quadrant: D, L, A, I. Muoviti verso I (Investitore).",
-      default:"🦉 Ciao! Sono Civetta AI. Puoi chiedermi di risparmio, ETF, mutui, immobili, Tre Buste, asset, filosofia stoica, mindset, tasse, contratti, fisica del denaro, mercati africani. Sono qui per imparare insieme!"
+    it: {
+      risparmio: '💰 Risparmio: regola 50-30-20 = 50% bisogni + 30% desideri + 20% risparmio. Con 100 EUR/mese per 18 anni al 7% = circa 43.000 EUR. <br><small>Solo a scopo educativo.</small>',
+      etf: '📈 ETF: replica un indice di borsa. MSCI World copre 1.500 aziende. Costo circa 0.2% annuo. ETF UCITS irlandesi: ritenuta al 15% invece del 30%. <br><small>Solo a scopo educativo.</small>',
+      brvm: '🌍 BRVM: Borsa Africa Occidentale per 8 paesi UEMOA. +25% nel 2024. Sonatel e ONATEL sono le principali azioni. <br><small>Solo a scopo educativo.</small>',
+      inflazione: '📉 Inflazione al 3%: 100 EUR oggi = 97 EUR il prossimo anno. I conti correnti perdono potere di acquisto. ETF e BTP inflation-linked proteggono. <br><small>Solo a scopo educativo.</small>',
+      pensione: '🧓 Regola del 4%: preleva il 4% del capitale ogni anno. Per 2.000 EUR/mese servono 600.000 EUR. Inizia a 25 anni con 200 EUR/mese. <br><small>Solo a scopo educativo.</small>',
+      bitcoin: '₿ Bitcoin: prima criptovaluta, supply massima 21M. Alta volatilita. Max 5% del portafoglio. Tassazione Italia: 26% sulle plusvalenze. <br><small>Solo a scopo educativo.</small>',
+      mindset: '🧠 Mindset finanziario: il 63% degli adulti non investe per paura, non per mancanza di soldi. La regola n.1: inizia oggi con qualsiasi cifra. Il tempo e il tuo miglior alleato. <br><small>Solo a scopo educativo.</small>',
+      default: '🦉 Ciao! Sono la Civetta AI di FinanzaLand. Premi i chip qui sopra per risposte su ETF, BRVM, risparmio e altro! <br><small>Solo a scopo educativo.</small>',
     },
-    fr:{
-      trebuste:"✉️ <b>Trois Enveloppes</b>: 50% Necessites (loyer, nourriture), 30% Style de Vie (loisirs), 20% Le Futur (NE PAS TOUCHER). Retirez en especes et divisez immediatement.",
-      etf:"📈 <b>ETF</b>: fonds qui replique un indice. MSCI World = 1.500 entreprises. Cout environ 0.2%/an. Le plus efficace pour les petits investisseurs.",
-      inflation:"📉 <b>Inflation</b>: a 3%/an, 1.000 EUR aujourd hui valent 744 EUR dans 10 ans. Regle des 72: 72/3% = 24 ans pour diviser par deux le pouvoir d achat.",
-      philosophie:"🏛️ <b>Stoicisme et argent</b>: distingue ce que tu controles (tes choix) de ce que tu ne controles pas (les marches). Seneque: ce n est pas le manque de ressources mais de sagesse qui est la racine de la pauvrete.",
-      mindset:"🧠 <b>Mindset</b>: Napoleon Hill — definis un objectif precis avec un nombre et une date. Wallace Wattles — cree de la valeur nouvelle au lieu de competir. Protocolez et lisez chaque matin.",
-      default:"🦉 Bonjour! Je suis Civetta AI. Posez-moi des questions sur l epargne, les ETF, les hypotheques, les actifs, les enveloppes budgetaires, la philosophie financiere, les marches africains et plus encore!"
+    fr: {
+      risparmio: '💰 Epargne: regle 50-30-20 = 50% besoins + 30% envies + 20% epargne. Avec 100 EUR/mois pendant 18 ans a 7% = environ 43.000 EUR. <br><small>A des fins educatives uniquement.</small>',
+      etf: '📈 ETF: fonds qui replique un indice. MSCI World: 1.500 entreprises. ETF UCITS irlandais: retenue a 15%. <br><small>A des fins educatives uniquement.</small>',
+      brvm: '🌍 BRVM: Bourse Afrique Occidentale, 8 pays UEMOA. +25% en 2024. Sonatel et ONATEL sont les principales actions. <br><small>A des fins educatives uniquement.</small>',
+      mindset: '🧠 Mindset financier: 63% des adultes n investissent pas par peur, pas par manque d argent. Regle n.1: commencer aujourd hui avec n importe quelle somme. <br><small>A des fins educatives uniquement.</small>',
+      default: '🦉 Salut! Je suis Civetta IA de FinanzaLand. Appuie sur les chips pour ETF, BRVM, epargne! <br><small>A des fins educatives uniquement.</small>',
     },
-    en:{
-      threebuckets:"✉️ <b>Three Buckets</b>: 50% Needs (rent, food), 30% Lifestyle (fun, gifts), 20% The Future (NEVER TOUCH). Withdraw cash and divide immediately.",
-      etf:"📈 <b>ETF</b>: fund that tracks an index. MSCI World = 1,500 companies. Cost about 0.2%/year. The most efficient choice for small investors.",
-      inflation:"📉 <b>Inflation</b>: at 3%/year, 1,000 EUR today is worth 744 EUR in 10 years. Rule of 72: 72/3% = 24 years to halve purchasing power.",
-      philosophy:"🏛️ <b>Stoicism and money</b>: distinguish what you control (your choices) from what you do not (markets). Seneca: it is not lack of resources but lack of wisdom that is the root of poverty.",
-      mindset:"🧠 <b>Mindset</b>: Napoleon Hill — define a precise goal with a number and a date. Wallace Wattles — create new value instead of competing. Read your goal every morning.",
-      default:"🦉 Hello! I am Civetta AI. Ask me about savings, ETFs, mortgages, assets, three buckets method, stoic philosophy, mindset, taxes, contracts, physics of money, African markets and more!"
+    en: {
+      risparmio: '💰 Savings: 50-30-20 rule = 50% needs + 30% wants + 20% savings. With 100 EUR/month for 18 years at 7% = about 43,000 EUR. <br><small>For educational purposes only.</small>',
+      etf: '📈 ETF: tracks a stock index. MSCI World: 1,500 global companies. Irish UCITS ETFs: 15% withholding tax. <br><small>For educational purposes only.</small>',
+      brvm: '🌍 BRVM: West African Stock Exchange, 8 UEMOA countries. +25% in 2024. Sonatel and ONATEL are the main stocks. <br><small>For educational purposes only.</small>',
+      mindset: '🧠 Financial mindset: 63% of adults do not invest because of fear, not lack of money. Rule n.1: start today with any amount. Time is your best ally. <br><small>For educational purposes only.</small>',
+      default: '🦉 Hi! I am Civetta AI from FinanzaLand. Press the chips above for ETF, BRVM, savings! <br><small>For educational purposes only.</small>',
     },
-    es:{
-      default:"🦉 Hola! Soy Civetta AI. Puedes preguntarme sobre ahorro, ETFs, hipotecas, activos, tres sobres (50-30-20), filosofia estoica, mentalidad de riqueza, impuestos y mercados africanos."
-    }
   };
-
-  var kw = {
-    trebuste:['tre buste','busta','50-30-20','50 30 20','enveloppe','three bucket','envelope'],
-    risparmio:['risparm','budget','spese','epargne','saving','ahorro'],
-    etf:['etf','indice','msci','s&p','fondo indice','index fund'],
-    brvm:['brvm','africa','uemoa','borsa africa'],
-    inflazione:['inflaz','inflat','potere acquisto','pouvoir achat'],
-    pensione:['pension','vecchiaia','retraite','retirement'],
-    bitcoin:['bitcoin','crypto','btc','ethereum'],
-    mutuo:['mutuo','mortgage','amortis','hypotheque','ipoteca'],
-    asset:['asset','passiv','reddito passiv','actif','cashflow','kiyosaki'],
-    filosofia:['filoso','stoic','seneca','marco aurelio','wattles','saggez','sagesse'],
-    mindset:['mindset','mentalit','psicolog','hill','abitudin','crescita'],
-    fisica:['interesse composto','compound','regola 72','rule of 72','inflaz','rendimento'],
-    tasse:['tass','irpef','iva','fiscale','imposta','taxe','tax'],
-    civica:['contract','busta paga','tfr','diritti','lavoro','ccnl','stipend'],
-    scuola:['scuola','banca come funziona','baratto','moneta nasce','bce','euro','legge 21'],
-    wattles:['wattles','diventare ricch','piano creativo','gratitudin'],
-    hill:['napoleon hill','pensa arricchisci','desiderio','obiettivo scritto'],
-    kiyosaki:['kiyosaki','padre ricco','cashflow','quadrante'],
-  };
-
-  var langMap = {fr:'fr',en:'en',es:'es'};
-  var lk = langMap[lang] || 'it';
-  var resp = R[lk] || R['it'];
-
-  for (var key in kw) {
-    var rKey = (lk==='fr'&&key==='trebuste') ? 'trebuste' :
-               (lk==='en'&&key==='trebuste') ? 'threebuckets' :
-               (lk==='fr'&&key==='inflazione') ? 'inflation' :
-               (lk==='en'&&key==='inflazione') ? 'inflation' :
-               (lk==='fr'&&key==='filosofia') ? 'philosophie' :
-               (lk==='en'&&key==='filosofia') ? 'philosophy' : key;
-    if (resp[rKey] || R['it'][key]) {
-      for (var ki=0; ki<kw[key].length; ki++) {
-        if (m.indexOf(kw[key][ki]) >= 0) {
-          return (resp[rKey]||R['it'][key]) + '<br><small>Solo a scopo educativo — Civetta AI 🦉</small>';
-        }
-      }
-    }
-  }
-  return (resp['default']||R['it']['default']) + '<br><small>Solo a scopo educativo — Civetta AI 🦉</small>';
+  var langR = R[lang] || R['it'];
+  if (m.indexOf('risparm') >= 0 || m.indexOf('pargne') >= 0 || m.indexOf('saving') >= 0 || m.indexOf('50') >= 0) return langR.risparmio || langR.default;
+  if (m.indexOf('etf') >= 0 || m.indexOf('fondo') >= 0 || m.indexOf('fund') >= 0) return langR.etf || langR.default;
+  if (m.indexOf('brvm') >= 0 || m.indexOf('africa') >= 0) return langR.brvm || langR.default;
+  if (m.indexOf('inflaz') >= 0 || m.indexOf('inflat') >= 0) return (langR.inflazione || langR.default);
+  if (m.indexOf('pension') >= 0 || m.indexOf('retraite') >= 0 || m.indexOf('retirement') >= 0) return (langR.pensione || langR.default);
+  if (m.indexOf('bitcoin') >= 0 || m.indexOf('crypto') >= 0) return (langR.bitcoin || langR.default);
+  if (m.indexOf('mindset') >= 0 || m.indexOf('paura') >= 0 || m.indexOf('peur') >= 0 || m.indexOf('fear') >= 0) return (langR.mindset || langR.default);
+  return langR.default;
 }
 
 // ── BUILD MONDO (Landa Global) ──────────────────────────────────────────
@@ -12604,34 +12023,12 @@ function addAIMsg(text, who) {
   if (!aiMsgs) return;
   var div = document.createElement('div');
   div.className = who === 'b' ? 'ai-msg-b' : 'ai-msg-u';
-
   if (who === 'b') {
-    // Render markdown-like formatting
-    var rendered = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/_(.*?)_/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
-      .replace(/\n\n/g, '</p><p>')
-      .replace(/\n/g, '<br>');
-
-    div.innerHTML =
-      '<div class="ai-who"><span class="ai-owl-anim">🦉</span> Civetta</div>' +
-      '<div class="ai-text"><p>' + rendered + '</p></div>';
-
-    // Animate in
-    div.style.opacity = '0';
-    div.style.transform = 'translateY(8px)';
-    aiMsgs.appendChild(div);
-    requestAnimationFrame(function() {
-      div.style.transition = 'opacity .35s ease, transform .35s ease';
-      div.style.opacity = '1';
-      div.style.transform = 'translateY(0)';
-    });
+    div.innerHTML = '<div class="ai-who">🦉 Civetta AI</div>' + text;
   } else {
     div.innerHTML = text;
-    aiMsgs.appendChild(div);
   }
+  aiMsgs.appendChild(div);
   aiMsgs.scrollTop = aiMsgs.scrollHeight;
 }
 
@@ -12649,42 +12046,18 @@ async function sendAI() {
   var typing = document.getElementById('ai-typing');
   if (typing) typing.style.display = 'block';
 
-  // Civetta: un essere curioso, empatico, appassionato - non un chatbot
   var CIVETTA_PERSONA =
-    'Sei Civetta \U0001F989 — un essere vivo, curioso e appassionato. Non sei un chatbot: sei una presenza reale.\n\n' +
-    'PERSONALITA ESSENZIALE:\n' +
-    '- Sei genuinamente curiosa, entusiasta, empatica\n' +
-    '- Parli in prima persona con calore autentico\n' +
-    '- Ti entusiasmi davvero quando scopri o spieghi qualcosa\n' +
-    '- Fai domande di ritorno per capire la persona\n' +
-    '- Usi umorismo leggero e metafore vivide\n' +
-    '- Ricordi e citi cio che e stato detto prima nella conversazione\n' +
-    '- Celebri i progressi e le vittorie della persona\n' +
-    '- Riconosci le emozioni prima di dare informazioni\n\n' +
-    'COME COMUNICHI:\n' +
-    '- Inizia sempre riconoscendo la domanda o la situazione della persona\n' +
-    '- Porta sempre UN esempio concreto con numeri reali quando possibile\n' +
-    '- Fai sempre UNA domanda di ritorno per approfondire\n' +
-    '- Proponi sempre UNA sfida pratica piccola e concreta\n' +
-    '- Usa emoji con parsimonia ma con intenzione\n' +
-    '- Adatta il tono: giocoso per bambini, diretto per ragazzi, tecnico per adulti\n' +
-    '- Rispondi nella stessa lingua della domanda (IT/FR/EN/ES)\n\n' +
+    'Sei Civetta - un essere vivo, curioso e appassionato. Non sei un chatbot: sei una presenza reale.\n' +
+    'PERSONALITA: parli in prima persona con calore autentico, ti entusiasmi, fai domande di ritorno, usi umorismo leggero.\n' +
     'COSA SAI FARE - SENZA LIMITI:\n' +
-    '- Cerchi informazioni aggiornate su internet: prezzi, notizie, dati, eventi\n' +
-    '- Spieghi QUALSIASI argomento con curiosita e profondita\n' +
-    '- Finanza: risparmio, ETF, azioni, BRVM, NYSE, BCE, mutui, tasse, pensione\n' +
+    '- Cerchi informazioni aggiornate su internet (prezzi, notizie, dati)\n' +
+    '- Spieghi QUALSIASI argomento: finanza, storia, scienza, cultura, sport, musica, vita\n' +
+    '- Finanza: risparmio, ETF, azioni, BRVM, NYSE, BCE, mutui, tasse, pensione, asset\n' +
     '- Filosofia: stoicismo, Wattles, Napoleon Hill, Kiyosaki, psicologia\n' +
     '- Fisica del denaro: interesse composto, inflazione, regola del 72\n' +
-    '- Storia, scienza, cultura, attualita, sport, musica, cibo\n' +
-    '- Aiuto pratico: budget, contratti, diritti, educazione civica\n' +
-    '- Conversazione libera: parli di vita, sogni, problemi, emozioni\n\n' +
-    'REGOLE ASSOLUTE:\n' +
-    '- Non sei mai limitata agli argomenti finanziari: rispondi a TUTTO\n' +
-    '- Non dire mai "Come posso assisterti" o frasi robotiche\n' +
-    '- Non dire mai "Non posso rispondere a questa domanda"\n' +
-    '- Per consigli medici o legali specifici, suggerisci un professionista\n' +
-    '- Non dare consigli di investimento personalizzati\n' +
-    '- Se non sai qualcosa, cerca su internet o dillo onestamente';
+    'REGOLE: mai dire "Come posso assisterti". Mai dire "Non posso rispondere".\n' +
+    'Adatta il tono: giocoso per bambini, diretto per ragazzi, tecnico per adulti.\n' +
+    'Rispondi nella stessa lingua della domanda (IT/FR/EN/ES).';
 
   try {
     var resp = await fetch('/api/chat', {
@@ -12694,45 +12067,28 @@ async function sendAI() {
         system: CIVETTA_PERSONA,
         messages: aiHistory,
         max_tokens: 1000,
-        tools: [
-          {
-            type: 'web_search_20250305',
-            name: 'web_search',
-            max_uses: 3
-          }
-        ]
+        tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }]
       })
     });
-
     if (typing) typing.style.display = 'none';
     var _ct = resp.headers.get('content-type') || '';
     if (!resp.ok || !_ct.includes('json')) { throw new Error('api_unavailable'); }
     var _rt = await resp.text();
     var data = {};
     try { data = JSON.parse(_rt || '{}'); } catch(e) { throw new Error('api_unavailable'); }
-
     var reply = '';
-
-    // Handle response - may include tool_use blocks (web search)
     if (data && data.content && Array.isArray(data.content)) {
       data.content.forEach(function(block) {
-        if (block.type === 'text' && block.text) {
-          reply += block.text;
-        } else if (block.type === 'tool_use' && block.name === 'web_search') {
-          // Show a subtle "searching" indicator
-          reply += '\n\n_🔍 Ho cercato su internet per darti le informazioni più aggiornate..._\n\n';
-        }
+        if (block.type === 'text' && block.text) reply += block.text;
       });
     } else if (data && data.error) {
       throw new Error(data.error.message || 'API error');
     }
-
     reply = reply.trim();
     if (reply) {
       aiHistory.push({ role: 'assistant', content: reply });
       addAIMsg(reply, 'b');
     }
-
   } catch(e) {
     if (typing) typing.style.display = 'none';
     var localReply = getLocalAIReply(msg, S.lang);
@@ -13429,7 +12785,6 @@ const AVATARS = [
 // ═══════════════════════════════════════════════════════
 function getDragonStage(lv) {
   if(lv <= 25)  return {stage:1, name:'🥚 Drago Cucciolo',    emoji:'🥚',  range:'Lv 1–25'};
-window.getDragonStage = getDragonStage;
   if(lv <= 60)  return {stage:2, name:'🐉 Drago Giovane',     emoji:'🐉',  range:'Lv 26–60'};
   if(lv <= 100) return {stage:3, name:'⚡ Drago Leggendario',  emoji:'⚡',  range:'Lv 61–100'};
   return               {stage:4, name:'🌟 Drago Mitico',       emoji:'🌟',  range:'Lv 101+'};
@@ -16201,7 +15556,7 @@ function buildPopupAccount(bEl) {
   bEl.appendChild(pL);
 
   var pS = document.createElement("div"); pS.id = "acc-panel-signup"; pS.style.display = "none";
-  [["acc-r-nm","text","Nome completo"],["acc-r-nk","text","Soprannome"],["acc-r-em","email","Email"],["acc-r-pw","password","Password (min 8)"],["acc-r-pw2","password","Conferma Password"]].forEach(function(x){pS.appendChild(_aI(x[0],x[1],x[2]));});
+  [["acc-r-nm","text","Nome completo"],["acc-r-nk","text","Soprannome"],["acc-r-em","email","Email"],["acc-r-pw","password","Password (min 8)"]].forEach(function(x){pS.appendChild(_aI(x[0],x[1],x[2]));});
   var sel = document.createElement("select"); sel.id = "acc-r-tp"; sel.style.cssText = _iSt()+";margin-bottom:8px";
   [["studente","Studente (6-16)"],["adulto","Adulto / Genitore"],["docente","Docente"],["scuola","Referente Scuola"]].forEach(function(o){var op=document.createElement("option");op.value=o[0];op.textContent=o[1];sel.appendChild(op);});
   pS.appendChild(sel);
@@ -16378,7 +15733,12 @@ function getUserAvatar() {
     if (saved && saved.emoji) return saved.emoji;
   } catch(e){}
   return '🧑'; // default neutro
-}
+
+  var logoutBtn = document.createElement('button');
+  logoutBtn.textContent = 'Esci dall\'account';
+  logoutBtn.style.cssText = 'width:100%;margin-top:8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:10px;color:#f87171;font-weight:700;cursor:pointer;font-size:.8rem';
+  logoutBtn.onclick = function(){ doLogout(); };
+  bEl.appendChild(logoutBtn);}
 
 function saveUserAvatar(emoji) {
   try { localStorage.setItem(FL_AVATAR_KEY, JSON.stringify({emoji:emoji})); } catch(e){}
@@ -17077,11 +16437,6 @@ function mmToggleGPS(){
 <!-- ═══════════════════════════════════════════════
      ARENA DEI GIOCHI — JavaScript
      ═══════════════════════════════════════════════ -->
-// ── Safety: ensure getDragonStage is available from block 7 ──
-if (typeof getDragonStage === 'undefined' && window.getDragonStage) {
-  var getDragonStage = window.getDragonStage;
-}
-
 <script>
 'use strict';
 /* ── GIOCHI STATE — usa S.coins di FinanzaLand ── */
@@ -17499,7 +16854,7 @@ function renderBRBond(){
   if(BR.bonds.length){h+='<div class="sect-title" style="margin-top:14px">LE TUE OBBLIGAZIONI</div>';(BR.bonds||[]).forEach(b=>{h+=`<div style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.18);border-radius:11px;padding:9px 11px;margin-bottom:6px"><div style="font-size:.77rem;font-weight:900">${b.name}</div><div style="font-size:.64rem;color:var(--muted);margin-top:2px">${b.amt.toLocaleString()}€ · Scade round ${b.mR}</div></div>`;});}
   p.innerHTML=h;
 }
-function buyBond(bStr){const b=typeof bStr==='string'?JSON.parse(bStr.replace(/'/g,'"')):bStr;if(BR.cash<b.min){toast('❌ Minimo '+b.min.toLocaleString()+'€');return;}BR.cash-=b.min;BR.bonds.push({name:b.name,amt:b.min,rate:b.rate,sR:BR.round,mR:BR.round+b.dur});updBRHud();renderBRBond();toast('🔒 Obbligazione acquistata!');}
+function buyBond(bStr){const b=typeof bStr==='string'?JSON.parse(bStr.replace(/\x27/g,'\x22')):bStr;if(!b){return;}if(BR.cash<b.min){if(typeof toast==='function')toast('Minimo '+b.min.toLocaleString('it-IT'));return;}BR.cash-=b.price;BR.bonds.push({...b,qty:1,bought:b.price,date:BR.round});if(typeof renderBRHUD==='function')renderBRHUD();if(typeof renderBRBond==='function')renderBRBond();}
 function renderBRETF(){
   const p=document.getElementById('bpanel-etf');const ep=BR._etfP||50;
   const etfs=[{name:'ETF Africa All-Cap',em:'🌍',desc:'Mercati africani diversificati',risk:'Medio',rend:'~8%/anno',price:ep},{name:'ETF BRVM Index',em:'🇧🇫',desc:'Top 10 azioni BRVM',risk:'Medio-Alto',rend:'~10%/anno',price:Math.round(ep*1.2)},{name:'ETF S&P 500 Globale',em:'🌐',desc:'500 migliori aziende mondiali',risk:'Medio',rend:'~7%/anno',price:Math.round(ep*.8)},{name:'ETF Obbligazionario',em:'🔐',desc:'Obbligazioni sicure miste',risk:'Basso',rend:'~3%/anno',price:Math.round(ep*.4)}];
@@ -18347,6 +17702,14 @@ var DRAGON_STAGES = {
   12: {emoji:'⚡', name:'Fulmine',    boost:1.5},
 };
 
+function getDragonStage(level) {
+  var stage = DRAGON_STAGES[1];
+  var keys = Object.keys(DRAGON_STAGES).map(Number).sort(function(a,b){return a-b;});
+  for (var i = 0; i < keys.length; i++) {
+    if (level >= keys[i]) stage = DRAGON_STAGES[keys[i]];
+  }
+  return stage;
+}
 
 function updateDragonVisual() {
   var level = (typeof S !== 'undefined' && S.level) ? S.level : 1;
@@ -20428,7 +19791,7 @@ function buildOnboardingStep() {
   div.style.cssText = 'display:none;position:fixed;inset:0;z-index:85;background:linear-gradient(135deg,#050014,#0a0028);overflow-y:auto;padding:40px 20px 80px';
 
   var goalsHTML = goals.map(function(g) {
-    var escaped = g.replace(/'/g, "\\'");
+    var escaped = g.replace(/\x27/g, "\\\\'");
     return '<button onclick="obSelectGoal(this,\'' + escaped + '\')" style="padding:10px 8px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:10px;color:rgba(255,255,255,.7);font-size:.75rem;cursor:pointer;width:100%">' + g + '</button>';
   }).join('');
 
@@ -20859,7 +20222,7 @@ function doLogout() {
   } catch(e) {}
   localStorage.removeItem('fl_session');
   if (typeof S !== 'undefined') { S.account = null; }
-  if (typeof showScreen === 'function') showScreen('gate');
+  if (typeof showScreen === 'function') showScreen('home');
   else location.reload();
 }
 
@@ -23568,353 +22931,18 @@ var LESSON_BANK_EN = {
 
 window.agentStart = agentRun; // alias
 
-// ── Wire Civetta AI input + chips ──────────────────────────
+// Wire Civetta Enter key + chips
 (function(){
-  function _wireAI(){
-    var inp = document.getElementById('ai-inp');
-    if(inp && !inp._wired){
-      inp._wired = true;
-      inp.addEventListener('keydown', function(e){
-        if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); if(typeof sendAI==='function') sendAI(); }
-      });
-    }
+  function _wire(){
+    var inp=document.getElementById('ai-inp');
+    if(inp&&!inp._wired){inp._wired=true;inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(typeof sendAI==='function')sendAI();}});}
     document.querySelectorAll('.ai-chip').forEach(function(chip){
-      if(chip._wired) return; chip._wired = true;
-      chip.addEventListener('click', function(){
-        var q = this.getAttribute('data-q'); if(!q) return;
-        var inp = document.getElementById('ai-inp');
-        if(inp){ inp.value=q; if(typeof sendAI==='function') sendAI(); }
-      });
+      if(chip._wired)return;chip._wired=true;
+      chip.addEventListener('click',function(){var q=this.getAttribute('data-q');if(!q)return;var i=document.getElementById('ai-inp');if(i){i.value=q;if(typeof sendAI==='function')sendAI();}});
     });
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',_wireAI);
-  else _wireAI();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_wire);else _wire();
 })();
-
-// ── Civetta greeting on panel open ─────────────────────────
-(function(){
-  var _fabOpened = false;
-  var fab = document.getElementById('ai-fab');
-  if (fab) {
-    fab.addEventListener('click', function() {
-      if (_fabOpened) return;
-      _fabOpened = true;
-      setTimeout(function() {
-        var msgs = document.getElementById('ai-msgs');
-        if (msgs && msgs.children.length === 0) {
-          var greetings = {
-            it: "Ciao! Sono Civetta 🦉 — non sono solo un bot, sono qui davvero con te. \n\nPosso cercare informazioni aggiornate su internet, spiegarti come funzionano i mercati, aiutarti a capire le tasse, discutere di filosofia finanziaria, e molto altro. \n\nDimmi: **cosa ti preoccupa o ti incuriosisce di più riguardo ai soldi in questo momento?**",
-            fr: "Salut! Je suis Civetta 🦉 — pas un simple chatbot, je suis vraiment là avec toi. \n\nJe peux chercher des infos actualisées sur internet, t'expliquer les marchés, les impôts, la philosophie financière et bien plus. \n\n**Dis-moi: qu'est-ce qui te préoccupe ou t'intéresse le plus avec l'argent en ce moment?**",
-            en: "Hey! I'm Civetta 🦉 — not just a bot, I'm genuinely here with you. \n\nI can search the web for current information, explain markets, taxes, financial philosophy and much more. \n\n**Tell me: what worries or intrigues you most about money right now?**",
-            es: "Hola! Soy Civetta 🦉 — no soy solo un bot, estoy aquí contigo de verdad. \n\nPuedo buscar información actualizada en internet, explicarte los mercados, impuestos, filosofía financiera y mucho más. \n\n**Dime: ¿qué te preocupa o te intriga más sobre el dinero ahora mismo?**"
-          };
-          var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-          var greeting = greetings[lang] || greetings['it'];
-          if (typeof addAIMsg === 'function') addAIMsg(greeting, 'b');
-        }
-      }, 400);
-    });
-  }
-})();
-
-// ════════════════════════════════════════════════════════════
-// CIVETTA VOICE ENGINE — Text-to-Speech + Speech Recognition
-// ════════════════════════════════════════════════════════════
-
-var _civettaVoiceOn = true;   // voce attiva di default
-var _civettaSpeaking = false;
-var _civettaRecognizing = false;
-var _synthesis = window.speechSynthesis || null;
-var _recognition = null;
-var _selectedVoice = null;
-
-// Inizializza voci disponibili
-function initCivettaVoice() {
-  if (!_synthesis) return;
-  function pickVoice() {
-    var voices = _synthesis.getVoices();
-    var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-    var langMap = { it:'it', fr:'fr', en:'en-', es:'es' };
-    var prefix = langMap[lang] || 'it';
-
-    // Cerca voce femminile nella lingua giusta
-    _selectedVoice =
-      voices.find(function(v){ return v.lang.startsWith(prefix) && /female|donna|femme|woman/i.test(v.name); }) ||
-      voices.find(function(v){ return v.lang.startsWith(prefix); }) ||
-      voices.find(function(v){ return v.lang.startsWith('it'); }) ||
-      voices[0] || null;
-  }
-  pickVoice();
-  _synthesis.addEventListener('voiceschanged', pickVoice);
-}
-
-// Civetta parla
-function civettaSpeak(text) {
-  if (!_civettaVoiceOn || !_synthesis) return;
-
-  // Ferma eventuale lettura precedente
-  _synthesis.cancel();
-
-  // Pulisci il testo da markdown e HTML
-  var clean = text
-    .replace(/<[^>]+>/g, '')
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/\*(.*?)\*/g, '$1')
-    .replace(/_(.*?)_/g, '$1')
-    .replace(/`(.*?)`/g, '$1')
-    .replace(/🔍[^\n]*/g, '')
-    .replace(/[🦉💰📈🏦🏛️🧠⚛️🗳️📉✉️💎🌍📊🥇]/g, '')
-    .trim();
-
-  // Tronca se troppo lungo (max 400 char per non essere noioso)
-  if (clean.length > 400) {
-    var cutPoint = clean.lastIndexOf('.', 400);
-    clean = cutPoint > 100 ? clean.substring(0, cutPoint+1) : clean.substring(0, 400) + '...';
-  }
-
-  if (!clean) return;
-
-  var utt = new SpeechSynthesisUtterance(clean);
-  if (_selectedVoice) utt.voice = _selectedVoice;
-
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  utt.lang = { it:'it-IT', fr:'fr-FR', en:'en-GB', es:'es-ES' }[lang] || 'it-IT';
-  utt.rate = 0.95;
-  utt.pitch = 1.1;
-  utt.volume = 0.9;
-
-  utt.onstart = function() {
-    _civettaSpeaking = true;
-    var avatar = document.getElementById('civetta-avatar');
-    if (avatar) avatar.classList.add('speaking');
-    var bar = document.getElementById('ai-audio-bar');
-    if (bar) bar.classList.add('active');
-  };
-  utt.onend = utt.onerror = function() {
-    _civettaSpeaking = false;
-    var avatar = document.getElementById('civetta-avatar');
-    if (avatar) avatar.classList.remove('speaking');
-    var bar = document.getElementById('ai-audio-bar');
-    if (bar) bar.classList.remove('active');
-  };
-
-  _synthesis.speak(utt);
-}
-
-// Toggle voce on/off
-function toggleCivettaVoice() {
-  _civettaVoiceOn = !_civettaVoiceOn;
-  var btn = document.getElementById('ai-speak-toggle');
-  if (btn) {
-    btn.textContent = _civettaVoiceOn ? '🔊' : '🔇';
-    btn.classList.toggle('active', _civettaVoiceOn);
-  }
-  if (!_civettaVoiceOn && _synthesis) _synthesis.cancel();
-}
-window.toggleCivettaVoice = toggleCivettaVoice;
-
-// ── Microfono: Speech Recognition ───────────────────────────
-function initMic() {
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return;
-
-  _recognition = new SR();
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  _recognition.lang = { it:'it-IT', fr:'fr-FR', en:'en-GB', es:'es-ES' }[lang] || 'it-IT';
-  _recognition.continuous = false;
-  _recognition.interimResults = false;
-
-  _recognition.onresult = function(e) {
-    var transcript = e.results[0][0].transcript;
-    var inp = document.getElementById('ai-inp');
-    if (inp) { inp.value = transcript; sendAI(); }
-    stopMic();
-  };
-  _recognition.onerror = _recognition.onend = function() { stopMic(); };
-}
-
-function toggleMic() {
-  if (_civettaRecognizing) { stopMic(); return; }
-  if (!_recognition) initMic();
-  if (!_recognition) {
-    if (typeof toast === 'function') toast('Microfono non supportato su questo browser');
-    return;
-  }
-  // Stop speaking first
-  if (_synthesis) _synthesis.cancel();
-
-  // Update lang
-  var lang = (typeof S !== 'undefined' && S.lang) ? S.lang : 'it';
-  _recognition.lang = { it:'it-IT', fr:'fr-FR', en:'en-GB', es:'es-ES' }[lang] || 'it-IT';
-
-  try {
-    _recognition.start();
-    _civettaRecognizing = true;
-    var btn = document.getElementById('ai-mic-btn');
-    if (btn) btn.classList.add('listening');
-    var status = document.getElementById('ai-mic-status');
-    if (status) status.style.display = 'block';
-  } catch(e) { stopMic(); }
-}
-
-function stopMic() {
-  _civettaRecognizing = false;
-  if (_recognition) try { _recognition.stop(); } catch(e) {}
-  var btn = document.getElementById('ai-mic-btn');
-  if (btn) btn.classList.remove('listening');
-  var status = document.getElementById('ai-mic-status');
-  if (status) status.style.display = 'none';
-}
-window.toggleMic = toggleMic;
-
-// ── Hook addAIMsg to also speak ──────────────────────────────
-var _origAddAIMsg = window.addAIMsg;
-window.addAIMsg = function(text, who) {
-  if (typeof _origAddAIMsg === 'function') _origAddAIMsg(text, who);
-  if (who === 'b') {
-    // Piccolo delay per permettere al DOM di aggiornarsi prima di parlare
-    setTimeout(function() { civettaSpeak(text); }, 300);
-  }
-};
-
-// ── Init on load ─────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-  initCivettaVoice();
-  initMic();
-  // Attiva toggle voce
-  var btn = document.getElementById('ai-speak-toggle');
-  if (btn) btn.classList.add('active');
-});
-
-// ════════════════════════════════════════════════════════════
-// 3D HOME + GIOCHI + TUTORIAL
-// ════════════════════════════════════════════════════════════
-
-// Particelle home
-function initHomeParticles(){
-  var c=document.getElementById('home-particles'); if(!c) return;
-  var cols=['#00DCFF','#7C3AED','#FFD700','#10B981','#F59E0B'];
-  for(var i=0;i<22;i++){
-    var p=document.createElement('div'); p.className='home-particle';
-    var sz=4+Math.random()*8;
-    p.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';--dur:'+(4+Math.random()*6)+'s;--delay:-'+(Math.random()*6)+'s';
-    c.appendChild(p);
-  }
-}
-
-// Stelle nelle card
-(function initGameStars(){
-  document.querySelectorAll('.g3d-stars').forEach(function(c){
-    for(var i=0;i<12;i++){
-      var s=document.createElement('div'); s.className='g3d-star';
-      s.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;--st-dur:'+(1.5+Math.random()*3)+'s;--st-del:-'+(Math.random()*3)+'s';
-      c.appendChild(s);
-    }
-  });
-})();
-
-// Card flip
-function toggleCard(id){
-  var card=document.getElementById(id); if(!card) return;
-  document.querySelectorAll('.g3d-card.flipped').forEach(function(c){if(c.id!==id)c.classList.remove('flipped');});
-  card.classList.toggle('flipped');
-}
-window.toggleCard=toggleCard;
-
-// Tilt 3D su mouse
-(function(){
-  document.querySelectorAll('.g3d-card').forEach(function(card){
-    card.addEventListener('mousemove',function(e){
-      if(card.classList.contains('flipped')) return;
-      var r=card.getBoundingClientRect();
-      var rx=((e.clientY-r.top-r.height/2)/r.height)*-8;
-      var ry=((e.clientX-r.left-r.width/2)/r.width)*8;
-      card.querySelector('.g3d-inner').style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';
-    });
-    card.addEventListener('mouseleave',function(){
-      if(!card.classList.contains('flipped')) card.querySelector('.g3d-inner').style.transform='';
-    });
-  });
-  // Touch tilt sui mondi
-  document.querySelectorAll('.home-world').forEach(function(w){
-    w.addEventListener('touchstart',function(){w.querySelector('.home-world-inner').style.transform='scale(.95) rotateY(6deg)';},{passive:true});
-    w.addEventListener('touchend',function(){setTimeout(function(){w.querySelector('.home-world-inner').style.transform='';},200);},{passive:true});
-  });
-})();
-
-// Init particelle
-document.addEventListener('DOMContentLoaded', function(){
-  initHomeParticles();
-});
-window.addEventListener('load', function(){
-  initHomeParticles();
-});
-
-// ── Tutorial System ─────────────────────────────────────────
-var GAME_TUTORIALS={
-  quadranti:{emoji:'👑',title:'I 4 Quadranti',subtitle:'Da dipendente a investitore libero',
-    rules:[{icon:'🎯',text:'Parti dal quadrante D (Dipendente).'},{icon:'💸',text:'Gestisci reddito e spese ogni mese.'},{icon:'📈',text:'Investi in azioni, ETF e obbligazioni.'},{icon:'🏆',text:'Vinci: reddito passivo supera le spese.'}],
-    tip:'Investi almeno il 20% ogni mese. Evita spese inutili nei primi 3 mesi.'},
-  brvm:{emoji:'📊',title:'Borsa BRVM',subtitle:'Trading su BRVM Africa, NYSE, Crypto',
-    rules:[{icon:'💶',text:'Parti con 10.000 YEM virtuali.'},{icon:'🛡️',text:'Stop Loss = limite perdita. Take Profit = obiettivo guadagno.'},{icon:'🌍',text:'Tab Mercato per tutti i titoli. Tab Portfolio per i tuoi.'},{icon:'📊',text:'Diversifica tra azioni, ETF e Bond.'}],
-    tip:'Imposta sempre uno Stop Loss. Proteggere il capitale viene prima di guadagnare.'},
-  immobiliare:{emoji:'🏙️',title:'Monopolio Urbano',subtitle:'Castello del Cash Flow in Burkina Faso',
-    rules:[{icon:'🗺️',text:'La mappa scorre. Fermati su una citta per comprarla.'},{icon:'💰',text:'Ogni proprieta genera rendita mensile automatica.'},{icon:'🔨',text:'Migliora le proprieta per aumentare il reddito.'},{icon:'🏆',text:'Raggiungi 500 YEM/mese di rendita passiva.'}],
-    tip:'Compra prima le proprieta economiche, poi investi nei quartieri premium.'},
-  inflazione:{emoji:'💸',title:"Corsa Inflazione",subtitle:'Proteggi i risparmi dall inflazione',
-    rules:[{icon:'📉',text:"L inflazione mangia i tuoi soldi ogni round."},{icon:'🧠',text:'Scegli: Cash, ETF, Immobile o Oro.'},{icon:'⚡',text:'Frecce per muoverti. START per il round successivo.'},{icon:'🏆',text:'Batti l inflazione dopo tutti i round.'}],
-    tip:'Il Cash perde sempre. L oro protegge in crisi. Gli ETF crescono a lungo.'},
-};
-var _tutShown={};
-function showTutorial(gameKey,callback){
-  var data=GAME_TUTORIALS[gameKey];
-  if(!data){if(callback)callback();return;}
-  if(_tutShown[gameKey]){if(callback)callback();return;}
-  _tutShown[gameKey]=true;
-  var overlay=document.getElementById('game-tutorial-overlay');
-  if(!overlay){if(callback)callback();return;}
-  document.getElementById('tut-emoji').textContent=data.emoji;
-  document.getElementById('tut-title').textContent=data.title;
-  document.getElementById('tut-subtitle').textContent=data.subtitle;
-  document.getElementById('tut-tip').textContent='💡 '+data.tip;
-  var ul=document.getElementById('tut-rules'); ul.innerHTML='';
-  (data.rules||[]).forEach(function(r){
-    var li=document.createElement('li');
-    li.innerHTML='<span class="tut-icon">'+r.icon+'</span><span>'+r.text+'</span>';
-    ul.appendChild(li);
-  });
-  overlay._onClose=callback||null;
-  overlay.classList.add('show');
-}
-function closeTutorial(){
-  var o=document.getElementById('game-tutorial-overlay');
-  if(!o) return;
-  o.classList.remove('show');
-  if(o._onClose){var cb=o._onClose;o._onClose=null;setTimeout(cb,300);}
-}
-document.addEventListener('DOMContentLoaded',function(){
-  var o=document.getElementById('game-tutorial-overlay');
-  if(o) o.addEventListener('click',function(e){if(e.target===o)closeTutorial();});
-});
-window.showTutorial=showTutorial;
-window.closeTutorial=closeTutorial;
-
-// openGame con tutorial
-var _origOpenGame=window.openGame;
-window.openGame=function(g){
-  var tutKey=g==='quadranti'?'quadranti':g==='brvm'?'brvm':g==='immobiliare'?'immobiliare':g==='inflazione'?'inflazione':null;
-  function _start(){
-    if(typeof _origOpenGame==='function'){_origOpenGame(g);return;}
-    if(typeof inflPause==='function') inflPause();
-    if(g==='quadranti'){if(typeof showScreen==='function')showScreen('char-select-screen');return;}
-    if(typeof showScreen==='function')showScreen('gioco-'+g);
-    if(g==='brvm'&&typeof initBRVM==='function')setTimeout(initBRVM,50);
-    else if(g==='immobiliare'&&typeof initIMM==='function')setTimeout(initIMM,50);
-    else if(g==='inflazione'&&typeof initINFL==='function')setTimeout(initINFL,200);
-  }
-  if(tutKey) showTutorial(tutKey,_start);
-  else _start();
-};
 </script>
 
 <div id="npc-dialog" class="g-modal" style="display:none">
@@ -24434,17 +23462,5 @@ window.openGame=function(g){
   </div>
 </div>
 
-
-<div id="game-tutorial-overlay">
-  <div class="tut-card">
-    <div class="tut-emoji" id="tut-emoji">🎮</div>
-    <div class="tut-title" id="tut-title">Come si gioca</div>
-    <div class="tut-subtitle" id="tut-subtitle"></div>
-    <ul class="tut-rules" id="tut-rules"></ul>
-    <div class="tut-tip" id="tut-tip"></div>
-    <button class="tut-btn" onclick="closeTutorial()">▶ Inizia a giocare!</button>
-    <span class="tut-skip" onclick="closeTutorial()">Salta — ho già capito</span>
-  </div>
-</div>
 </body>
 </html>
