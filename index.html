@@ -1613,6 +1613,21 @@ html,body{background:#0a0028}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Google Analytics 4 — FinanzaLand -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', {
+    page_title: 'FinanzaLand',
+    send_page_view: true
+  });
+  // Track custom events
+  window.flTrack = function(event, params) {
+    if(typeof gtag !== 'undefined') gtag('event', event, params || {});
+  };
+</script>
 </head>
 <body><script>
 window.addEventListener('error', function(e) {
@@ -1717,19 +1732,7 @@ window.addEventListener('error', function(e) {
 <!-- ═══════════════════════════════════════════════════
      LA TUA TRAIETTORIA 2026 → 2040
      ═══════════════════════════════════════════════════ -->
-<div class="screen" id="traiettoria">
-  <div style="background:linear-gradient(135deg,#0a0015,#1a0030);position:sticky;top:0;z-index:10;border-bottom:2px solid #ec4899;flex-shrink:0">
-    <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#ec4899,#a855f7);color:#fff;border:none;padding:12px;font-size:.95rem;font-weight:900;cursor:pointer">← TORNA ALLA HOME</button>
-    <div style="text-align:center;padding:10px 14px 14px">
-      <div style="font-size:1.4rem;font-weight:900;color:#f472b6">🚀 La Tua Traiettoria</div>
-      <div style="font-size:.72rem;color:rgba(244,114,182,.6);margin-top:3px">2026 → 2040 — Con o senza FinanzaLand</div>
-    </div>
-  </div>
-  <div style="flex:1;overflow-y:auto;padding:14px 14px 80px" id="traiettoria-body"></div>
-</div>
-
-    <!-- ACCADEMIA AI -->
-    <div class="screen" id="accademia">
+<div class="screen" id="accademia">
       <div class="acc-header">
         <button class="acc-back" data-i18n="acc_back" onclick="showScreen('home')">← Home</button>
         <div class="acc-title" data-i18n="acc_title">📚 Accademia</div>
@@ -2033,7 +2036,7 @@ window.addEventListener('error', function(e) {
 <div class="screen" id="avatar-cultura">
   <input type="range" id="lvSlider" min="1" max="120" value="1" style="display:none">
   <div id="lvVal" style="display:none">1</div>
-  <div id="stageBadge" style="display:none"></div>
+  
 
   <div style="background:#1A1040;padding:0;position:relative;top:0;z-index:10;border-bottom:2px solid #F5C842;flex-shrink:0">
     <button onclick="showScreen('home')" style="display:block;width:100%;background:linear-gradient(135deg,#F5C842,#e67e22);color:#1A1040;border:none;padding:10px;font-weight:900;font-size:.9rem;cursor:pointer">
@@ -2062,7 +2065,7 @@ window.addEventListener('error', function(e) {
 
     <div class="section-title">📚 Impara con <span id="learnName">Seydou</span></div>
     <div class="culture-card" id="cultureCard"></div>
-    <div class="toast" id="toast"></div>
+    
   </div>
 </div>
 
@@ -2506,7 +2509,8 @@ window.addEventListener('error', function(e) {
       <div style="font-weight:800;color:var(--gold);font-size:.9rem">🦉 Civetta AI</div>
       <div style="font-size:.68rem;color:var(--muted)">Powered by Claude · Solo a scopo educativo</div>
     </div>
-    <button class="popup-x" onclick="toggleAI()">✕</button>
+    <button class="ai-speak-toggle" id="ai-speak-toggle" onclick="toggleCivettaVoice()" title="Voce on/off">🔊</button>
+      <button class="popup-x" onclick="toggleAI()">✕</button>
   </div>
   <div class="ai-chips" id="ai-chips">
     <div class="ai-chip" data-q="Come risparmio meglio?">💰 Risparmio</div>
@@ -2530,10 +2534,12 @@ window.addEventListener('error', function(e) {
     <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
   </div>
   <div class="ai-bar">
+    <button class="ai-mic-btn" id="ai-mic-btn" onclick="toggleMic()" title="Parla con Civetta">🎤</button>
     <input class="ai-inp" id="ai-inp" type="text" id="ai-inp-placeholder" placeholder="Chiedimi di finanza...">
     <button class="ai-send" id="ai-send" onclick="sendAI()">➤</button>
   </div>
 </div>
+  <div class="ai-audio-bar" id="ai-audio-bar"><div class="ai-audio-wave"><span></span><span></span><span></span><span></span><span></span></div><span>Civetta sta parlando...</span><button onclick="if(window.speechSynthesis)window.speechSynthesis.cancel()" style="margin-left:auto;background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:2px 8px;color:#f87171;font-size:.65rem;cursor:pointer">Stop</button></div>
 
 <!-- POPUP GENERICO -->
 <div class="popup-overlay" id="popup-overlay">
@@ -5735,21 +5741,6 @@ var CORSI_DEMO = [
 // Bernard (creatore) ha accesso totale senza pagare
 // Attivazione: digita il codice segreto nell'input account
 var CREATOR_CODE = 'BERNARD2026';
-function isCreator() {
-  return safeLSStr('fl_creator','0') === '1';
-}
-function activateCreator(code) {
-  if (code === CREATOR_CODE) {
-    try { localStorage.setItem('fl_creator','1'); } catch(e){}
-    S.isPro = true;
-    try { localStorage.setItem('fl_pro','1'); } catch(e){}
-    saveS();
-    toast('🐉 Accesso Creatore attivato! Tutto sbloccato, Bernard!');
-    if (typeof updateHUD === 'function') updateHUD();
-    return true;
-  }
-  return false;
-}
 // Auto-attiva se già impostato
 if (isCreator()) { S.isPro = true; }
 window.isCreator = isCreator;
@@ -7499,7 +7490,8 @@ function generaCertificato(nomeCorso, nomeProfessore, dataCompletamento) {
   var d = dataCompletamento || new Date().toLocaleDateString('it');
   var stl = 'body{font-family:Georgia,serif;background:#020010;min-height:100vh;display:flex;align-items:center;justify-content:center;color:#fff;margin:0}.box{background:#06001a;border:3px solid gold;border-radius:24px;padding:50px;max-width:700px;width:100%;text-align:center}.ico{font-size:5rem;margin-bottom:16px}.tt{font-size:2rem;font-weight:900;color:gold;margin-bottom:8px}.sub{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:30px}.nm{font-size:2.5rem;font-weight:900;color:#fff;margin-bottom:10px;border-bottom:2px solid gold;padding-bottom:14px}.co{font-size:1.1rem;color:rgba(255,255,255,.8);margin:14px 0}.pr{font-size:.9rem;color:rgba(255,255,255,.6)}.dt{font-size:.8rem;color:rgba(255,255,255,.4);margin-top:20px}.sl{font-size:4rem;margin-top:16px}';
   var body = '<div class=box><div class=ico>🐉</div><div class=tt>FinanzaLand</div><div class=sub>Certificato di Completamento</div><div class=nm>' + nome + '</div><div class=co>Ha completato: <strong style=color:gold>' + nomeCorso + '</strong></div><div class=pr>Tenuto da: ' + nomeProfessore + '</div><div style=font-size:.78rem;color:rgba(255,255,255,.5);border-top:1px solid gold;padding-top:14px;margin-top:14px>Solo a scopo educativo</div><div class=dt>' + d + '</div><div class=sl>🥇</div></div>';
-  var c = '<!DOCTYPE html><html><head><meta charset=UTF-8><title>Certificato FinanzaLand</title><style>' + stl + '</style></head><body>' + body + '</body></html>';
+  var c = '_DOCTYPE html><html><head><meta charset=UTF-8><title>Certificato FinanzaLand</title><style>' + stl + '</style></head><body>' + body + '<div id="game-tutorial-overlay"><div class="tut-card"><div class="tut-emoji" id="tut-emoji">🎮</div><div class="tut-title" id="tut-title">Come si gioca</div><div class="tut-subtitle" id="tut-subtitle"></div><ul class="tut-rules" id="tut-rules"></ul><div class="tut-tip" id="tut-tip"></div><button class="tut-btn" onclick="closeTutorial()">▶ Inizia!</button><span class="tut-skip" onclick="closeTutorial()">Salta</span></div></div>'
+  + '</body></html>';
   var w = window.open('','_blank','width=700,height=500');
   if(w){ w.document.write(c); w.document.close(); }
   else { if(typeof toast==='function') toast('Certificato pronto! Abilita i popup.'); }
@@ -9810,7 +9802,7 @@ function generateScholaCertificate(topicEncoded) {
   var now = new Date();
   var dateStr = now.toLocaleDateString('it-IT', {day:'numeric', month:'long', year:'numeric'});
   var studentName = (S.account && S.account.name) ? S.account.name : 'Studente FinanzaLand';
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificato FinanzaLand</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Georgia,serif;background:#fff;color:#1a1a1a;padding:30px}.cert{border:3px double #FFD700;border-radius:16px;padding:44px 40px;max-width:720px;margin:0 auto;text-align:center;position:relative;background:linear-gradient(135deg,#fffdf0,#fff)}.corner{position:absolute;font-size:1.5rem;opacity:.2}.tl{top:12px;left:16px}.tr{top:12px;right:16px}.bl{bottom:12px;left:16px}.br{bottom:12px;right:16px}.top-lbl{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:#999;margin-bottom:18px}.logo{font-size:3.5rem;margin-bottom:6px}.org{font-size:1.6rem;font-weight:700;color:#1a1a1a}.tag{font-size:.78rem;color:#888;margin-bottom:24px;letter-spacing:.3px}.div{height:1px;background:linear-gradient(90deg,transparent,#FFD700,transparent);margin:16px 0}.body-txt{font-size:.95rem;color:#555;margin:8px 0}.name{font-size:1.9rem;font-weight:700;color:#c8860a;display:inline-block;padding:4px 0;border-bottom:2px solid #FFD700;margin:12px 0}.topic{font-size:1.15rem;font-weight:700;color:#1a1a1a;background:#fffbeb;border:1px solid #FFD700;border-radius:8px;padding:12px 24px;display:inline-block;margin:14px 0}.desc{font-size:.84rem;color:#666;line-height:1.7;max-width:520px;margin:12px auto}.footer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:32px;padding-top:18px;border-top:1px solid #e8d88a}.fi{text-align:center;font-size:.7rem;color:#888}.fv{font-size:.86rem;font-weight:700;color:#1a1a1a;margin-bottom:2px}.note{font-size:.66rem;color:#bbb;margin-top:18px;line-height:1.5}@media print{button{display:none}}</style></head><body>' +
+  var html = '_DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificato FinanzaLand</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Georgia,serif;background:#fff;color:#1a1a1a;padding:30px}.cert{border:3px double #FFD700;border-radius:16px;padding:44px 40px;max-width:720px;margin:0 auto;text-align:center;position:relative;background:linear-gradient(135deg,#fffdf0,#fff)}.corner{position:absolute;font-size:1.5rem;opacity:.2}.tl{top:12px;left:16px}.tr{top:12px;right:16px}.bl{bottom:12px;left:16px}.br{bottom:12px;right:16px}.top-lbl{font-size:.68rem;letter-spacing:4px;text-transform:uppercase;color:#999;margin-bottom:18px}.logo{font-size:3.5rem;margin-bottom:6px}.org{font-size:1.6rem;font-weight:700;color:#1a1a1a}.tag{font-size:.78rem;color:#888;margin-bottom:24px;letter-spacing:.3px}.div{height:1px;background:linear-gradient(90deg,transparent,#FFD700,transparent);margin:16px 0}.body-txt{font-size:.95rem;color:#555;margin:8px 0}.name{font-size:1.9rem;font-weight:700;color:#c8860a;display:inline-block;padding:4px 0;border-bottom:2px solid #FFD700;margin:12px 0}.topic{font-size:1.15rem;font-weight:700;color:#1a1a1a;background:#fffbeb;border:1px solid #FFD700;border-radius:8px;padding:12px 24px;display:inline-block;margin:14px 0}.desc{font-size:.84rem;color:#666;line-height:1.7;max-width:520px;margin:12px auto}.footer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:32px;padding-top:18px;border-top:1px solid #e8d88a}.fi{text-align:center;font-size:.7rem;color:#888}.fv{font-size:.86rem;font-weight:700;color:#1a1a1a;margin-bottom:2px}.note{font-size:.66rem;color:#bbb;margin-top:18px;line-height:1.5}@media print{button{display:none}}</style></head><body>' +
     '<div class="cert"><div class="corner tl">🌱</div><div class="corner tr">🌍</div><div class="corner bl">📚</div><div class="corner br">🏆</div>' +
     '<div class="top-lbl">Certificato Internazionale di Completamento</div>' +
     '<div class="logo">🌍</div><div class="org">FinanzaLand Omnia</div>' +
@@ -9881,97 +9873,6 @@ function buildAccademia() {
 }
 
 // ── RENDER LEZIONI LIST ─────────────────────────────────────────────────
-function renderLezioniList() {
-  if (!currentPercorso || !currentPercorso.id) currentPercorso = PERCORSI[0];
-  if (!currentLivello  || !currentLivello.id)  currentLivello  = LIVELLI[0];
-  if (!currentPercorso.id || !currentLivello.id) return;
-  var body = document.getElementById('acc-body');
-  if (!body) return;
-  body.innerHTML = '';
-  var t = TRANSLATIONS[S.lang] || TRANSLATIONS['it'];
-
-  // Banner educativo
-  var banner = document.createElement('div');
-  banner.className = 'edu-banner';
-  banner.textContent = t.acc_banner || 'Solo a scopo educativo — Le lezioni sono generate da AI';
-  body.appendChild(banner);
-
-  // Box genera lezione personalizzata
-  var genBox = document.createElement('div');
-  genBox.className = 'ai-gen-card';
-  genBox.innerHTML =
-    '<div class="ai-gen-title">🤖 '+(t.gen_title||'Genera Lezione')+'</div>' +
-    '<div class="ai-gen-sub">'+(t.gen_sub||'Scrivi qualsiasi argomento finanziario')+'</div>' +
-    '<input type="text" id="gen-input" placeholder="'+(t.gen_placeholder||'es. come funzionano i fondi pensione')+'" class="ai-gen-input">' +
-    '<button id="gen-btn" class="ai-gen-btn">🚀 '+(t.gen_btn||'Genera Lezione con IA')+'</button>';
-  body.appendChild(genBox);
-
-  var genBtn = document.getElementById('gen-btn');
-  var genInput = document.getElementById('gen-input');
-  if (genBtn && genInput) {
-    genBtn.addEventListener('click', function() {
-      var topic = genInput.value.trim();
-      if (!topic) return;
-      genBtn.textContent = '⏳ ' + (t.gen_loading||'Generando...');
-      genBtn.disabled = true;
-      generateLesson(topic, currentPercorso.id, currentLivello.id, S.eta, true)
-        .then(function(lez) {
-          openLezione(lez);
-          genBtn.textContent = '🚀 '+(t.gen_btn||'Genera Lezione con IA');
-          genBtn.disabled = false;
-        });
-    });
-  }
-
-  // Titolo sezione
-  var secTitle = document.createElement('div');
-  secTitle.className = 'acc-section-title';
-  var percLabel = (t.perc_labels || {})[currentPercorso.id] || currentPercorso.label;
-  var livLabel = t['lv_'+currentLivello.id] || currentLivello.label;
-  secTitle.textContent = percLabel + ' — ' + livLabel;
-  body.appendChild(secTitle);
-
-  // Lista topics
-  var topics = getTopicsForPercorso(currentPercorso.id);
-  if (topics && (topics?topics.length:0)) (topics||[]).forEach(function(topic, i) {
-    var topicTranslated = topic;
-    if (S.lang !== 'it') {
-      var langData = TOPICS_LANG[S.lang];
-      if (langData && langData[currentPercorso.id]) {
-        var itTopics = TOPICS[currentPercorso.id] || [];
-        var idx = itTopics.indexOf(topic);
-        if (idx < 0) idx = i; // se già tradotto, usa indice
-        if (langData[currentPercorso.id][idx]) topicTranslated = langData[currentPercorso.id][idx];
-      }
-    }
-    var cacheKey = topicTranslated + '_' + currentLivello.id + '_' + S.eta + '_' + S.lang;
-    var done = S.completate[cacheKey];
-    var semiEarned = LIVELLI.find(function(l){return l.id===currentLivello.id;});
-    var semi = semiEarned ? semiEarned.semi : 80;
-
-    var card = document.createElement('div');
-    card.className = 'lesson-card' + (done ? ' done' : '');
-    card.innerHTML =
-      '<div class="lesson-card-icon">📖</div>' +
-      '<div class="lesson-card-body">' +
-        '<div class="lesson-card-perc">💰 '+percLabel.toUpperCase()+'</div>' +
-        '<div class="lesson-card-title">'+(done?'✅ ':'')+topicTranslated+'</div>' +
-        '<div class="lesson-card-lv">'+livLabel+'</div>' +
-        '<div class="lesson-card-semi">+ '+semi+' '+(t.card_semi||'Semi')+'</div>' +
-      '</div>' +
-      '<div class="lesson-card-arrow">→</div>';
-
-    card.addEventListener('click', function() {
-      card.style.opacity = '0.6';
-      generateLesson(topicTranslated, currentPercorso.id, currentLivello.id, S.eta, false)
-        .then(function(lez) {
-          card.style.opacity = '1';
-          openLezione(lez);
-        });
-    });
-    body.appendChild(card);
-  });
-}
 
 // ══════════════════════════════════════════════════════
 // LESSON_BANK -- 28 lezioni pre-scritte complete con quiz
@@ -10052,7 +9953,136 @@ var LESSON_BANK = {
     {id:'civ_b2',emoji:'💸',titolo:'Le Tasse: perché le paghiamo',tempo_minuti:7,semi_reward:80,sottotitolo:'Il contratto tra cittadini e Stato',punti_chiave:['Le tasse finanziano scuole, ospedali, strade, esercito','IRPEF: tassa sul reddito (23%-43%)','IVA: tassa sui consumi (22%) che paghi su ogni acquisto'],esempio_pratico:'Ogni volta che compri qualcosa a 10€ al supermercato, circa 1.80€ sono IVA. Una famiglia italiana paga circa 4.000€/anno solo di IVA.',dato_reale:"In Italia la pressione fiscale è circa il 43% del PIL. Quasi la metà di ogni euro guadagnato va allo Stato.",collegamento_africa:"In Senegal la 'zakat' islamica è una tassa religiosa (2.5% dei risparmi) per i poveri: redistribuzione che precede le tasse moderne.",sfida_vita_reale:'Guarda uno scontrino recente. Riesci a trovare l\'IVA? Quanto è in percentuale?',quiz:[{domanda:'Cosa finanziano le tasse?',opzioni:['Solo gli stipendi dei politici','Scuole, ospedali, strade e servizi pubblici','Solo le guerre','Nulla di utile'],risposta_corretta:1,spiegazione:'Le tasse finanziano tutto ciò che usiamo in comune: scuola, pronto soccorso, strade, polizia.'},{domanda:"Cos'è l\'IVA?",opzioni:['Una tassa sul reddito','Una tassa sugli acquisti','Una tassa sulla casa','Una tassa sulla pensione'],risposta_corretta:1,spiegazione:'IVA = Imposta sul Valore Aggiunto. La paghi ogni volta che compri qualcosa.'}]},
   ],
   psicologia_base:[
-    {id:'psi_b1',emoji:'🧠',titolo:'I Bias Cognitivi che ti costano soldi',tempo_minuti:8,semi_reward:80,sottotitolo:'I trucchi che il tuo cervello ti fa',punti_chiave:['BIAS DI CONFERMA: cerchi solo info che confermano le tue credenze','AVVERSIONE ALLA PERDITA: perdere 100€ fa 2x più paura che guadagnarne 100','HERD MENTALITY: fai quello che fanno tutti'],esempio_pratico:"Durante il Covid, tutti vendevano azioni per paura. Chi ha capito il bias, ha comprato. I mercati sono tornati ai massimi in 18 mesi.",dato_reale:'Gli investitori che vendono durante le crisi hanno rendimenti inferiori del 1.5-2% annuo rispetto a chi rimane investito.',collegamento_africa:"Il detto Wolof 'Ku bokk xam-xam du bokk xar' (chi condivide la conoscenza non divide le pecore) riflette l\'anti-herd mentality.",sfida_vita_reale:"Pensa all'ultimo acquisto importante. Hai cercato solo opinioni positive (bias di conferma)?",quiz:[{domanda:"Cos'è il bias di conferma?",opzioni:['Confermare gli acquisti online','Cercare solo info che confermano le proprie credenze','Chiedere la conferma del bonifico','Verificare i conti'],risposta_corretta:1,spiegazione:'Il bias di conferma ci fa cercare solo le info che già confermano quello che pensiamo.'},{domanda:"L\'avversione alla perdita significa che:",opzioni:['Non vuoi perdere al gioco','Perdere 100€ fa più male psicologico che guadagnarne 100','Sei contrario alle perdite aziendali','Hai paura delle banche'],risposta_corretta:1,spiegazione:'Il dolore della perdita è psicologicamente 2 volte più intenso del piacere di un guadagno equivalente.'}]},
+    {id:'psi_b1',emoji:'🧠',titolo:'I Bias Cognitivi che ti costano soldi',tempo_minuti:8,semi_reward:80,sottotitolo:'I trucchi che il tuo cervello ti fa',punti_chiave:['BIAS DI CONFERMA: cerchi solo info che confermano le tue credenze','AVVERSIONE ALLA PERDITA: perdere 100€ fa 2x più paura che guadagnarne 100','HERD MENTALITY: fai quello che fanno tutti'],esempio_pratico:"Durante il Covid, tutti vendevano azioni per paura. Chi ha capito il bias, ha comprato. I mercati sono tornati ai massimi in 18 mesi.",dato_reale:'Gli investitori che vendono durante le crisi hanno rendimenti inferiori del 1.5-2% annuo rispetto a chi rimane investito.',collegamento_africa:"Il detto Wolof 'Ku bokk xam-xam du bokk xar' (chi condivide la conoscenza non divide le pecore) riflette l\'anti-herd mentality.",sfida_vita_reale:"Pensa all'ultimo acquisto importante. Hai cercato solo opinioni positive (bias di conferma)?",quiz:[{domanda:"Cos'è il bias di conferma?",opzioni:['Confermare gli acquisti online','Cercare solo info che confermano le proprie credenze','Chiedere la conferma del bonifico','Verificare i conti'],risposta_corretta:1,spiegazione:'Il bias di conferma ci fa cercare solo le info che già confermano quello che pensiamo.'},{domanda:"L\'avversione alla perdita significa che:",opzioni:['Non vuoi perdere al gioco','Perdere 100€ fa più male psicologico che guadagnarne 100','Sei contrario alle perdite aziendali','Hai paura delle banche'],risposta_corretta:1,spiegazione:'Il dolore della perdita è psicologicamente 2 volte più intenso del piacere di un guadagno equivalente.'}]},,
+    {id:'psi_b2', emoji:'🧠', titolo:"Sei un Investitore Consapevole o un Drifter?",
+     tempo_minuti:8, semi_reward:110, livello:'base',
+     sottotitolo:"Ispirato a Napoleon Hill: il 20% e tecnica, l 80% e comportamento",
+     punti_chiave:[
+       "DRIFTER (chi deriva): investe per FOMO senza ricerche, segue la massa, non ha obiettivo scritto",
+       "INVESTITORE CONSAPEVOLE: ha un piano scritto con cifra e data, studia i fondamentali, rimane calmo",
+       "Panic Selling: vendere tutto durante un crollo per paura pura e lo strumento piu costoso del Diavolo",
+       "Ogni fallimento porta il seme di un vantaggio equivalente - le perdite sono tasse universitarie",
+       "Il Ritmo Ipnotico: rendere automatico il risparmio (PAC) fa lavorare la natura a tuo favore",
+       "Definiteness of Purpose: senza obiettivo chiaro la mente deriva e le emozioni sabotano il patrimonio",
+       "In finanza l 80% e psicologia e comportamento. Solo il 20% e tecnica e grafici.",
+     ],
+     esempio_pratico:"Omar nel 2022 vede Bitcoin scendere del 60%. Panico totale: vende tutto a -55%. Sei mesi dopo Bitcoin risale. Omar ha perso il rimbalzo completo. Il suo errore non era il mercato: era l emozione non gestita. Sara invece aveva scritto: Non vendo mai BTC sotto i 2 anni di holding. E rimasta ferma. Oggi il suo portafoglio e positivo.",
+     dato_reale:"DALBAR 2024: l investitore medio guadagna il 3.1% annuo vs 9.4% dell S&P 500. La differenza non e il mercato: e il comportamento emotivo. Il 98% delle persone subisce passivamente l economia. Il 2% la crea consapevolmente. Hill lo aveva capito nel 1938.",
+     sfida_vita_reale:"Scrivi su carta: Il mio obiettivo finanziario e [CIFRA PRECISA] entro [DATA PRECISA]. Per raggiungerlo investiro [IMPORTO] al mese a partire da [DATA]. Firmi e metti sul frigorifero. Questo e il Definiteness of Purpose applicato. Fallo entro oggi.",
+     quiz:[
+       {domanda:"Quale comportamento descrive un investitore che sta derivando secondo Hill?",
+        opzioni:["Seguire una strategia a lungo termine nonostante la volatilita","Comprare un azione solo perche tutti ne parlano sui social senza ricerche proprie","Studiare i fondamentali di una azienda prima di investire","Diversificare in base al proprio profilo di rischio"],
+        risposta_corretta:1, spiegazione:"La deriva e la mancanza di pensiero critico. Chi investe per FOMO (paura di restare fuori) senza un obiettivo chiaro sta lasciando che il ritmo ipnotico della massa controlli i suoi soldi. Hill chiama questo il pericolo piu sottile: sembra una scelta ma e solo contagio emotivo."},
+       {domanda:"Come si manifesta piu pericolosamente la paura secondo Hill in ambito finanziario?",
+        opzioni:["Con la prudenza nel non investire soldi che servono per l affitto","Con il Panic Selling: vendere tutto durante un crollo per timore di perdere tutto","Con l impostazione di uno Stop-Loss tecnico","Con il risparmio sistematico in un conto deposito"],
+        risposta_corretta:1, spiegazione:"La paura paralizza la ragione. Vendere durante un crollo senza motivo razionale ma solo per emotivita e l essenza del controllo negativo. Chi vende al minimo del crollo 2009 ha perso il +400% dei successivi 5 anni. La paura ha un costo preciso e misurabile."},
+       {domanda:"Dopo un investimento andato male, cosa farebbe un investitore consapevole secondo Hill?",
+        opzioni:["Abbandonare per sempre i mercati finanziari","Incolpare la sfortuna o il consulente","Analizzare l errore per trovare la lezione che portera a profitti futuri","Raddoppiare su un asset ancora piu rischioso per recuperare subito"],
+        risposta_corretta:2, spiegazione:"Hill insegna che ogni fallimento porta il seme di un vantaggio equivalente. L investitore consapevole usa le perdite come tasse universitarie. Raddoppiare per recuperare (revenge trading) e invece la trappola piu comune: amplifica le perdite invece di imparare da esse."},
+       {domanda:"Come usa un investitore il Ritmo Ipnotico a proprio vantaggio?",
+        opzioni:["Controllando il prezzo delle azioni ogni 5 minuti","Creando l automatismo del PAC - Piano di Accumulo del Capitale mensile","Cambiando strategia ogni mese in base alle notizie","Aspettando il momento perfetto per entrare sul mercato"],
+        risposta_corretta:1, spiegazione:"Il Ritmo Ipnotico fissa le abitudini. Se rendi automatico il risparmio mensile, la natura del ritmo lavora per te attraverso l interesse composto. Il timing di mercato non funziona: chi aspetta il momento perfetto non investe mai. Chi investe ogni mese a prescindere batte statisticamente chi cerca il timing perfetto."},
+       {domanda:"Qual e il primo passo fondamentale per la liberta finanziaria secondo Hill?",
+        opzioni:["Trovare l azione che fara il +1000% in un mese","Avere un obiettivo finanziario chiaro scritto e con una data precisa","Sperare che l economia globale migliori","Lavorare il piu possibile senza una strategia"],
+        risposta_corretta:1, spiegazione:"Senza un obiettivo definito la mente deriva. La chiarita d intenti e la bussola che impedisce alle emozioni di sabotare il patrimonio. Un obiettivo vago come voglio risparmiare di piu non funziona. Un obiettivo preciso come avro 50.000 euro entro il 31 dicembre 2027 investendo 300 euro al mese attiva un meccanismo psicologico completamente diverso."},
+     ]},
+
+    {id:'psi_b3', emoji:'🎯', titolo:"Il Piano d Azione Definitivo — Napoleon Hill in Pratica",
+     tempo_minuti:7, semi_reward:120, livello:'base',
+     sottotitolo:"Dal pensiero all azione: come costruire il tuo sistema di liberta finanziaria passo dopo passo",
+     punti_chiave:[
+       "Passo 1: Definisci la cifra ESATTA che vuoi. Non generica. 50.000 euro entro il 2027, non voglio essere ricco.",
+       "Passo 2: Stabilisci cosa dai in cambio. Tempo? Competenze? Risparmio mensile? La liberta ha un prezzo preciso.",
+       "Passo 3: Fissa una data precisa. Senza scadenza il cervello non attiva urgenza e rimanda all infinito.",
+       "Passo 4: Crea un piano. Scrivi ogni azione che farai: apro conto broker entro venerdi, imposto PAC lunedi.",
+       "Passo 5: Leggi il piano mattina e sera ad alta voce. Il ritmo crea credenza e la credenza crea azione.",
+       "La mente inconscia non distingue tra reale e immaginato: la ripetizione programma i comportamenti automatici.",
+     ],
+     esempio_pratico:"Fatima applica il piano Hill: scrive Il 31 marzo 2027 avro 25.000 euro investiti in ETF MSCI World. Per raggiungerlo risparmiero 350 euro al mese a partire dal 1 giugno 2025. In cambio rinuncero a due abbonamenti e a 2 uscite al mese. Leggo questo ogni mattina mentre mi faccio il caffe. Dopo 6 mesi Fatima non ha mancato un solo versamento. Non perche ha piu forza di volonta degli altri. Perche ha programmato il suo ritmo ipnotico.",
+     dato_reale:"Uno studio della Dominican University (2015) dimostra che chi scrive gli obiettivi li raggiunge nel 42% dei casi in piu rispetto a chi non li scrive. Chi li scrive E li condivide con qualcuno raggiunge il 76% degli obiettivi. Hill lo sapeva nel 1938. La neuroscienzamoderna lo conferma.",
+     sfida_vita_reale:"Adesso. Non domani. Scrivi le 5 righe del Piano Hill: 1) Cifra esatta e data 2) Cosa dai in cambio 3) Data di inizio 4) Piano azione (3 passi concreti) 5) Firma. Fotografa il foglio e mettilo come sfondo del telefono. Ogni volta che lo guardi il tuo ritmo si rafforza.",
+     quiz:[
+       {domanda:"Perche Hill insiste che l obiettivo deve avere una cifra ESATTA e una DATA PRECISA?",
+        opzioni:["Per poter fare calcoli matematici precisi","Perche la mente inconscia non attiva urgenza e azione senza confini definiti - un obiettivo vago e solo un sogno","Per soddisfare i requisiti burocratici di un business plan","Perche gli investitori lo richiedono prima di finanziare un progetto"],
+        risposta_corretta:1, spiegazione:"Il cervello umano tratta diversamente un obiettivo vago (voglio risparmiare di piu) e uno specifico (avro 30.000 euro entro il 30 giugno 2027). Il secondo attiva la Corteccia Prefrontale in modo diverso: pianificazione, urgenza, monitoraggio. La neuroscienzaconfirma cio che Hill aveva intuito: la specificita trasforma un desiderio in programma d azione."},
+       {domanda:"Cosa rappresenta il passo Cosa dai in cambio nel piano Hill applicato alla finanza?",
+        opzioni:["Il costo delle commissioni del broker","La rinuncia consapevole a spese presenti per costruire liberta futura: tempo abbonamenti uscite","Il prezzo dell ETF che intendi comprare","La percentuale da pagare al consulente finanziario"],
+        risposta_corretta:1, spiegazione:"La liberta finanziaria ha un prezzo specifico. Non e gratuita. Chi non definisce cosa e disposto a sacrificare mantiene inconsciamente tutti i suoi comportamenti di spesa e si chiede perche non riesce a risparmiare. Definire il prezzo trasforma il risparmio da sacrificio a scelta consapevole."},
+     ]},
+    {id:'psi_b4', emoji:'🎭', titolo:"Chi Controlla i Tuoi Soldi? L Analisi del Dominio",
+     tempo_minuti:8, semi_reward:120, livello:'base',
+     sottotitolo:"Il 98% e passeggero della propria vita finanziaria. Il 2% e il pilota.",
+     punti_chiave:[
+       "La Legge della Deriva: il 98% non ha un Obiettivo Maggiore Chiaro. Compra ai massimi per imitazione, vende ai minimi per paura.",
+       "Il Ritmo Ipnotico: rende permanenti le abitudini. Abitudine di spreco = povertà garantita. Abitudine di investimento = ricchezza inevitabile.",
+       "L Altro Se: la tua parte razionale che emerge solo quando metti a tacere la paura. Quella voce che ti dice di restare nel mercato quando tutti scappano.",
+       "Pilota vs Passeggero: il passeggero reagisce alle notizie. Il pilota esegue il piano.",
+       "I 7 Temuti di Hill: paura della poverta e della critica sono le piu distruttive per un investitore.",
+       "Riservatezza Strategica: non urlare i tuoi piani. I risultati parlano da soli. L invidia altrui puo sabotare prima del successo.",
+     ],
+     esempio_pratico:"Kofi e un drifter: ogni mattina controlla il portafoglio, legge 5 forum, si fa influenzare da ogni notizia. In 3 anni ha comprato 12 asset diversi e venduto ognuno in perdita seguendo il panico. Ahmed e un pilota: ha scritto il piano, investe 200 euro al mese in ETF MSCI World, non apre l app broker per settimane. In 3 anni Ahmed e in positivo del 23%. Stessa economia. Stesso mercato. Diverso pilota.",
+     dato_reale:"Una ricerca di Fidelity (2014) ha analizzato i migliori portafogli dei propri clienti. Risultato sorprendente: i portafogli con i rendimenti migliori appartenevano a persone che avevano dimenticato di avere un conto, o erano decedute. Il non-fare, quando il piano e giusto, batte sistematicamente il fare compulsivo.",
+     sfida_vita_reale:"Questa settimana: togli il widget delle azioni dal telefono. Cancella le notifiche del broker. Imposta un promemoria per controllare il portafoglio UNA VOLTA al mese, la stessa data. Poi osserva come cambia il tuo livello di ansia finanziaria. Il pilota non ha bisogno di guardare gli strumenti ogni 5 minuti.",
+     quiz:[
+       {domanda:"Secondo Hill, perche il 98% della popolazione e in stato di deriva finanziaria?",
+        opzioni:["Perche non hanno abbastanza soldi per investire","Perche non hanno un Obiettivo Maggiore Chiaro che guida le loro decisioni","Perche i mercati sono troppo complessi per i non-esperti","Perche le banche nascondono le informazioni necessarie"],
+        risposta_corretta:1, spiegazione:"Hill afferma che la deriva non e causata dalla mancanza di risorse ma dalla mancanza di direzione. Un obiettivo chiaro e quantificato funge da bussola: quando il mercato crolla del 30%, chi ha un obiettivo scritto per il 2035 non vende. Chi non ha obiettivo vende perche non ha un motivo per restare."},
+       {domanda:"Cos e il Ritmo Ipnotico di Hill e come si applica agli investimenti?",
+        opzioni:["E una tecnica di meditazione per ridurre lo stress finanziario","E la legge naturale che rende permanenti le abitudini: se automatizzi l investimento mensile, la natura lavora con l interesse composto a tuo favore","E la tendenza dei mercati a salire sempre nel lungo termine","E una strategia di trading basata sui ritmi ciclici del mercato"],
+        risposta_corretta:1, spiegazione:"Il Ritmo Ipnotico e neutro: amplifica qualsiasi abitudine, buona o cattiva. Se l abitudine e spendere tutto lo stipendio il giorno che arriva, il ritmo fisserà quella abitudine fino alla povertà. Se l abitudine e trasferire automaticamente 200 euro al broker ogni primo del mese, il ritmo + l interesse composto creeranno ricchezza inevitabile nel tempo."},
+       {domanda:"Cosa rappresenta l Altro Se di Hill in termini di decisioni finanziarie?",
+        opzioni:["Un consulente finanziario esterno di fiducia","La parte razionale e potente che emerge quando metti a tacere la paura e che ti dice di restare investito quando tutti scappano","Un alter ego aggressivo che punta a rendimenti massimi","La voce che ti suggerisce investimenti alternativi rischiosi"],
+        risposta_corretta:1, spiegazione:"Durante un crollo del 20%, due voci si contendono la tua mente: la paura (vendi tutto, perderai tutto) e l Altro Se (hai un piano a 15 anni, questo e solo rumore di fondo). L Altro Se e sempre presente ma viene soffocato dal rumore emotivo. Il lavoro dell investitore consapevole e imparare a sentire l Altro Se piu forte della paura."},
+     ]},
+
+    {id:'psi_b5', emoji:'🛡️', titolo:"La Difesa Mentale: il Muro Contro le Emozioni",
+     tempo_minuti:7, semi_reward:110, livello:'base',
+     sottotitolo:"Il mercato cerchera di fregarti usando le tue emozioni. Ecco come costruire il muro di protezione.",
+     punti_chiave:[
+       "I 7 Temuti: paura poverta, paura critica, paura malattia, paura perdita amore, paura vecchiaia, paura morte, paura libertà — tutte sabotano le decisioni finanziarie",
+       "Autodisciplina: chi non controlla le spese compulsive non potrà mai controllare il capitale",
+       "Mastermind: circondati di persone che investono e pensano alla liberta. Le vibrazioni negative dei pessimisti sono contagiose e scientificamente documentate",
+       "Riservatezza Strategica: non condividere i tuoi piani finanziari prima di avere risultati. L invidia altrui e reale e puo demotivarti",
+       "HALT: non prendere MAI decisioni finanziarie quando sei Hungry, Angry, Lonely, Tired — le 4 condizioni che disattivano la corteccia prefrontale",
+       "Il mercato e progettato per separarti dai tuoi soldi sfruttando paura e avidita: riconoscere il meccanismo e la prima difesa",
+     ],
+     esempio_pratico:"Marzo 2020: COVID. I mercati crollano del 35% in 3 settimane. Maria chiama il broker in preda al panico: vende tutto. Perde 8.000 euro. Poi i mercati recuperano in 5 mesi. Pietro non ha venduto: aveva scritto la regola Prima di vendere, aspetta 72 ore e rileggi il piano. Le 72 ore hanno dato tempo alla corteccia prefrontale di riprendere il controllo. Pietro ha guadagnato il +40% nei 12 mesi successivi. La differenza non era l intelligenza: era il Muro di Protezione.",
+     dato_reale:"La ricerca di Kahneman e Tversky (Nobel 2002) dimostra che il dolore di una perdita e psicologicamente circa 2.3 volte piu intenso del piacere di un guadagno equivalente. Questo spiega perche vendiamo troppo in fretta. Il Muro di Protezione serve a correggere questo squilibrio biologico pre-programmato nel cervello umano.",
+     sfida_vita_reale:"Crea la tua Regola delle 72 Ore: scrivi su carta Prima di effettuare qualsiasi vendita o acquisto superiore a X euro, aspetto 72 ore e rileggo il mio piano originale. Poi firma e datala. Questa singola regola vale piu di qualsiasi corso di trading.",
+     quiz:[
+       {domanda:"Quali sono le due paure di Hill piu distruttive per un investitore?",
+        opzioni:["Paura delle criptovalute e paura dei mercati esteri","Paura della poverta e paura della critica degli altri","Paura di guadagnare troppo e paura di perdere gli amici","Paura dei dati economici e paura dei tassi di interesse"],
+        risposta_corretta:1, spiegazione:"La paura della poverta porta a vendere in panico durante i crolli (esatto opposto di cio che dovresti fare). La paura della critica porta a non investire per non sembrare diverso o rischioso agli occhi degli altri. Insieme, queste due paure hanno distrutto piu patrimoni di qualsiasi crollo di borsa."},
+       {domanda:"Cosa significa HALT come regola di protezione nelle decisioni finanziarie?",
+        opzioni:["E l acronimo di un metodo di analisi tecnica dei grafici","Non prendere decisioni finanziarie quando sei Hungry (affamato), Angry (arrabbiato), Lonely (solo), Tired (stanco)","E il segnale di stop per chiudere una posizione in perdita","E una strategia di diversificazione del portafoglio"],
+        risposta_corretta:1, spiegazione:"HALT viene dalla psicologia comportamentale e dalla ricerca sulle dipendenze. In queste 4 condizioni la corteccia prefrontale (responsabile del ragionamento razionale) e letteralmente meno attiva. Le decisioni prese in stato HALT sono statisticamente peggiori. Semplice da ricordare, potente da applicare: prima di cliccare compra o vendi, controlla in quale stato sei."},
+     ]},
+
+    {id:'psi_b6', emoji:'🌱', titolo:"La Trasmutazione del Fallimento — Il Seme nel Crollo",
+     tempo_minuti:6, semi_reward:130, livello:'avanzato',
+     sottotitolo:"Il fallimento non esiste. Esiste solo la sconfitta temporanea da cui estrarre la lezione",
+     punti_chiave:[
+       "Sconfitta Temporanea vs Fallimento definitivo: un investimento a zero e una sconfitta temporanea. Diventa fallimento solo se smetti di investire o non ne trai una lezione.",
+       "Il Seme del Vantaggio: ogni crollo del mercato porta la lezione necessaria per il prossimo guadagno. Chi vendeva nel 2009 perdeva il +400% successivo.",
+       "Intelligenza Universale: quando agisci con obiettivo chiaro, opportunita che prima non vedevi diventano visibili. Non e magia: e focalizzazione cognitiva.",
+       "La Tabella dei 7 Principi da applicare dopo ogni perdita: 1-Analizza 2-Isola la causa 3-Estrai la lezione 4-Aggiorna il piano 5-Riparti",
+       "Il Costo dell Inazione: NON investire per paura di perdere e la perdita piu certa e garantita di tutte (inflazione + costo opportunita).",
+       "La Psicologia del Rimbalzo: i migliori guadagni della storia si concentrano nei 10 giorni migliori di ogni decennio. Chi vende durante i crolli perde esattamente quei giorni.",
+     ],
+     esempio_pratico:"2001: dot-com crash -80%. 2008: -55%. 2020: -35% in 3 settimane. Ogni volta i media dichiaravano la fine del capitalismo. Chi ha tenuto ha visto: +400% dal 2009, +300% dal 2012, +80% in 12 mesi dal minimo del 2020. La sconfitta temporanea di chi ha venduto e diventata fallimento definitivo. La sconfitta temporanea di chi ha tenuto si e trasformata nel piu grande trasferimento di ricchezza della storia moderna.",
+     dato_reale:"JPMorgan (2024): se avessi investito 10.000 euro nell S&P 500 negli ultimi 20 anni e avessi perso solo i 10 migliori giorni di mercato, avresti 29.708 euro. Se fossi rimasto investito per tutti i giorni: 64.844 euro. I 10 migliori giorni su 7.300 totali valgono 35.000 euro. Nessun essere umano puo prevedere quei 10 giorni. Quindi restare e sempre la strategia dominante.",
+     sfida_vita_reale:"Dopo il prossimo investimento che va male (arrivera, e matematicamente certo), non chiudere l app. Apri un foglio e scrivi: 1) Cosa ho comprato e perche 2) Cosa e andato storto 3) Quale regola avrei dovuto seguire 4) Cosa cambio nel piano. Questo processo trasforma ogni sconfitta in mattone del tuo sistema. Hill aveva ragione: il seme e li.",
+     quiz:[
+       {domanda:"Secondo Hill, quando una sconfitta finanziaria diventa un fallimento definitivo?",
+        opzioni:["Quando si perdono piu del 50% dei soldi investiti","Solo quando smetti di investire o non ne trai nessuna lezione — altrimenti e sempre sconfitta temporanea","Quando il mercato non recupera entro 2 anni","Quando si e investito in asset speculativi"],
+        risposta_corretta:1, spiegazione:"Hill fa una distinzione fondamentale: la sconfitta e un evento esterno temporaneo. Il fallimento e una scelta interiore permanente. Chi ha perso il 55% nel 2008 e ha continuato a investire sistematicamente ha recuperato tutto entro il 2013 e moltiplicato il capitale. Chi ha smesso ha trasformato una sconfitta temporanea in fallimento definitivo scegliendo di uscire."},
+       {domanda:"Perche i migliori guadagni si concentrano nei 10 giorni migliori di ogni decennio?",
+        opzioni:["Perche i mercati seguono cicli prevedibili di 10 anni","Perche la volatilita massima (crolli) e immediatamente seguita dai rimbalzi piu violenti: chi vende durante i crolli manca esattamente i rimbalzi","Perche le banche centrali intervengono regolarmente ogni 10 giorni","Perche gli algoritmi di trading programmano rialzi in quei giorni"],
+        risposta_corretta:1, spiegazione:"I giorni di crollo piu violento e i giorni di rimbalzo piu forte sono spesso adiacenti o nella stessa settimana. Chi vende durante il crollo (il momento peggiore emotivamente) esce PRIMA del rimbalzo. Il dato JPMorgan e definitivo: perdere 10 giorni su 7.300 dimezza il rendimento finale. Nessuna strategia di timing puo identificare quei 10 giorni in anticipo."},
+       {domanda:"Cosa dimostra lo studio JPMorgan 2024 sui 20 anni di investimento?",
+        opzioni:["Che i fondi attivi battono il mercato nel lungo periodo","Che perdere solo i 10 migliori giorni di mercato su 7.300 totali dimezza il capitale finale da 64.844 a 29.708 euro","Che l oro e la migliore protezione contro la volatilita","Che investire mensilmente e meno efficiente che investire annualmente"],
+        risposta_corretta:1, spiegazione:"Su 10.000 euro investiti nei 20 anni precedenti al 2024: restare sempre investito = 64.844 euro. Perdere i 10 giorni migliori = 29.708 euro. Differenza: 35.136 euro per soli 10 giorni su 7.300. Questo dato rende il market timing matematicamente impossibile da giustificare. Il costo dell uscita dal mercato non e zero: e enorme e certo."},
+     ]}
   ],
   tasse_base:[
     {id:'tas_b1',emoji:'📋',titolo:'IRPEF: come funziona la tua busta paga',tempo_minuti:8,semi_reward:80,sottotitolo:'Capire cosa ti trattengono e perché',punti_chiave:['IRPEF è progressiva: più guadagni, più paghi','Scaglioni 2024: 0-28.000€→23%, 28-50.000€→35%, oltre→43%','Le detrazioni riducono la tassa'],esempio_pratico:'Stipendio lordo 30.000€. Primo scaglione (28.000€ × 23%) = 6.440€. Secondo (2.000€ × 35%) = 700€. Totale lordo 7.140€. Meno detrazioni ≈ 5.185€ netti IRPEF.',dato_reale:"Il lavoratore italiano medio paga circa il 28-32% del lordo tra IRPEF e contributi INPS.",collegamento_africa:"In Costa d\'Avorio l'imposta sul reddito va dall'1.5% al 36%. Ogni paese ha il suo contratto sociale.",sfida_vita_reale:'Calcola la tua IRPEF usando gli scaglioni. Confronta con la ritenuta sulla busta paga.',quiz:[{domanda:'Come funziona il sistema IRPEF italiano?',opzioni:['Tassa flat uguale per tutti','Sistema progressivo: più guadagni, più paghi','Tassa fissa di 1.000€','Dipende dalla regione'],risposta_corretta:1,spiegazione:'Sistema progressivo: solo la parte di reddito che supera ogni soglia viene tassata all\'aliquota superiore.'},{domanda:'Qual è l\ aliquota IRPEF per il primo scaglione?',opzioni:['15%','23%','35%','43%'],risposta_corretta:1,spiegazione:'Il 23% si applica alla parte di reddito da 0 a 28.000€.'}]},
@@ -16470,7 +16500,7 @@ function gShowScr(id){
     if(el)el.classList.toggle('active',sid===id);
   });
 }
-function openGame(g){
+function openGame(g){ if(window.flTrack) flTrack('game_start',{game:g,lang:S.lang});
   inflPause();
   if(g==='quadranti'){
     // QQ goes through char selection first
@@ -17702,14 +17732,6 @@ var DRAGON_STAGES = {
   12: {emoji:'⚡', name:'Fulmine',    boost:1.5},
 };
 
-function getDragonStage(level) {
-  var stage = DRAGON_STAGES[1];
-  var keys = Object.keys(DRAGON_STAGES).map(Number).sort(function(a,b){return a-b;});
-  for (var i = 0; i < keys.length; i++) {
-    if (level >= keys[i]) stage = DRAGON_STAGES[keys[i]];
-  }
-  return stage;
-}
 
 function updateDragonVisual() {
   var level = (typeof S !== 'undefined' && S.level) ? S.level : 1;
@@ -22943,6 +22965,241 @@ window.agentStart = agentRun; // alias
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_wire);else _wire();
 })();
+
+// ── WAITLIST SYSTEM ─────────────────────────────────────────
+async function submitWaitlist() {
+  var name = (document.getElementById('wl-name')||{}).value || '';
+  var email = (document.getElementById('wl-email')||{}).value || '';
+  var tipo = (document.getElementById('wl-tipo')||{}).value || '';
+
+  if (!name.trim() || !email.trim() || !tipo) {
+    if(typeof toast==='function') toast('⚠️ Compila tutti i campi');
+    return;
+  }
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+    if(typeof toast==='function') toast('⚠️ Email non valida');
+    return;
+  }
+
+  var btn = document.querySelector('#wl-form-area button');
+  if (btn) { btn.textContent = '⏳ Iscrizione in corso...'; btn.disabled = true; }
+
+  try {
+    // Save to Supabase waitlist table
+    if (SUPABASE_URL && SUPABASE_KEY) {
+      await fetch(SUPABASE_URL + '/rest/v1/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.toLowerCase().trim(),
+          tipo: tipo,
+          lang: (typeof S !== 'undefined' ? S.lang : 'it'),
+          source: 'app_waitlist',
+          created_at: new Date().toISOString()
+        })
+      });
+    }
+
+    // Track in GA4
+    if (window.flTrack) flTrack('waitlist_signup', { tipo: tipo, lang: typeof S !== 'undefined' ? S.lang : 'it' });
+
+    // Update count
+    var countEl = document.getElementById('wl-count');
+    if (countEl) {
+      var current = parseInt(countEl.textContent) || 247;
+      countEl.textContent = current + 1;
+    }
+
+    // Show success
+    var formArea = document.getElementById('wl-form-area');
+    if (formArea) {
+      formArea.innerHTML = `<div style="background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(0,220,255,.1));border:1.5px solid rgba(16,185,129,.4);border-radius:16px;padding:28px;text-align:center"><div style="font-size:3rem;margin-bottom:12px">🎉</div><h3 style="color:#10B981;font-size:1rem;font-weight:900;margin:0 0 8px">Sei dentro!</h3><p style="color:rgba(255,255,255,.7);font-size:.82rem;margin:0 0 14px">Controlla la tua email. Ti avvisiamo non appena apriamo l'accesso PRO.</p><div style="background:rgba(255,215,0,.1);border-radius:10px;padding:10px;font-size:.75rem;color:#FFD700">🪙 +500 Semi di Luce pronti per te al primo accesso!</div></div>`
+    }
+
+  } catch(err) {
+    if (btn) { btn.textContent = '🚀 Entra nella Lista'; btn.disabled = false; }
+    if(typeof toast==='function') toast('✅ Iscritto! (offline mode)');
+  }
+}
+window.submitWaitlist = submitWaitlist;
+
+// Load real waitlist count from Supabase
+(function loadWaitlistCount() {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  fetch(SUPABASE_URL + '/rest/v1/waitlist?select=count', {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY,
+               'Prefer': 'count=exact', 'Range': '0-0' }
+  }).then(function(r) {
+    var count = r.headers.get('Content-Range');
+    if (count) {
+      var total = count.split('/')[1];
+      var el = document.getElementById('wl-count');
+      if (el && total) el.textContent = total;
+    }
+  }).catch(function(){});
+})();
+
+// ── CALCOLATORE TASSO RISPARMIO ─────────────────────────────
+function calcolaTasso() {
+  var entrate = parseFloat(document.getElementById('tr-entrate').value) || 0;
+  var uscite  = parseFloat(document.getElementById('tr-uscite').value)  || 0;
+  var el = document.getElementById('tr-result');
+  if (!el) return;
+  if (entrate <= 0) { el.style.display='block'; el.innerHTML='<p style="color:#f87171;font-size:.78rem">Inserisci le entrate mensili.</p>'; return; }
+  var tasso = ((entrate - uscite) / entrate * 100).toFixed(1);
+  var risparmio = (entrate - uscite).toFixed(0);
+  var colore = tasso >= 20 ? '#10B981' : tasso >= 10 ? '#FFD700' : '#ef4444';
+  var giudizio = tasso >= 20 ? '🟢 Ottimo! Sei sulla strada giusta.' : tasso >= 10 ? '🟡 Nella media. Prova a tagliare una spesa.' : '🔴 Critico. Identifica le spese nascoste subito.';
+  el.style.display = 'block';
+  el.innerHTML = `<div style="background:rgba(255,255,255,.05);border-radius:12px;padding:14px;text-align:center">
+    <div style="font-size:2.2rem;font-weight:900;color:${colore}">${tasso}%</div>
+    <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin:4px 0">Tasso di Risparmio</div>
+    <div style="font-size:.8rem;color:#fff;margin:8px 0">Risparmi <strong style="color:${colore}">${parseInt(risparmio).toLocaleString('it-IT')}€/mese</strong></div>
+    <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:6px">${giudizio}</div>
+    ${tasso >= 0 ? '<div style="font-size:.68rem;color:rgba(255,255,255,.4);margin-top:8px">Investendo ' + parseInt(risparmio).toLocaleString('it-IT') + '€/mese per 20 anni al 7%: <strong style=\"color:#00DCFF\">' + Math.round(parseInt(risparmio)*12*((Math.pow(1.07/12+1,240)-1)/((0.07/12)))).toLocaleString('it-IT') + '€</strong></div>' : ''}
+  </div>`;
+}
+
+window.calcolaTasso = calcolaTasso;
+
+// ── VISUALIZZATORE INFLAZIONE ───────────────────────────────
+function calcolaInflazione() {
+  var capitale = parseFloat(document.getElementById('infl-cap').value) || 1000;
+  var tasso    = parseFloat(document.getElementById('infl-tasso').value) || 3;
+  var anni     = parseFloat(document.getElementById('infl-anni').value) || 10;
+  var el = document.getElementById('infl-result');
+  if (!el) return;
+
+  var valoreReale = capitale * Math.pow(1 - tasso/100, anni);
+  var perditaPotere = capitale - valoreReale;
+  var percent = (perditaPotere/capitale*100).toFixed(1);
+
+  // With investment at 7%
+  var conInvestimento = capitale * Math.pow(1 + 0.07, anni);
+
+  el.style.display = 'block';
+  el.innerHTML = `<div style="display:flex;flex-direction:column;gap:9px">
+    <div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:11px;padding:12px;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:.65rem;color:rgba(255,255,255,.45)">💶 Lasciato sul conto (0%)</div><div style="font-size:.75rem;color:#fca5a5;margin-top:2px">Dopo ${anni} anni: potere d'acquisto reale</div></div>
+      <div style="font-size:1.1rem;font-weight:900;color:#ef4444">${Math.round(valoreReale).toLocaleString('it-IT')}€</div>
+    </div>
+    <div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:11px;padding:12px;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:.65rem;color:rgba(255,255,255,.45)">📈 Investito in ETF (7%/anno)</div><div style="font-size:.75rem;color:#6ee7b7;margin-top:2px">Dopo ${anni} anni</div></div>
+      <div style="font-size:1.1rem;font-weight:900;color:#10B981">${Math.round(conInvestimento).toLocaleString('it-IT')}€</div>
+    </div>
+    <div style="text-align:center;font-size:.75rem;color:rgba(255,255,255,.5);padding:8px 0">
+      Differenza: <strong style="color:#FFD700">${Math.round(conInvestimento-valoreReale).toLocaleString('it-IT')}€</strong> — il costo di NON investire
+    </div>
+  </div>`;
+
+}
+window.calcolaInflazione = calcolaInflazione;
+
+// ── CIVETTA VOICE ENGINE ────────────────────────────────────
+var _civettaVoiceOn=true,_civettaSpeaking=false,_civettaRecognizing=false;
+var _synthesis=window.speechSynthesis||null,_recognition=null,_selectedVoice=null;
+function initCivettaVoice(){
+  if(!_synthesis)return;
+  function pickVoice(){
+    var voices=_synthesis.getVoices();
+    var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'it';
+    var prefix={it:'it',fr:'fr',en:'en',es:'es'}[lang]||'it';
+    _selectedVoice=voices.find(function(v){return v.lang.startsWith(prefix)&&/female|donna|femme/i.test(v.name);})||voices.find(function(v){return v.lang.startsWith(prefix);})||voices[0]||null;
+  }
+  pickVoice();_synthesis.addEventListener('voiceschanged',pickVoice);
+}
+function civettaSpeak(text){
+  if(!_civettaVoiceOn||!_synthesis)return;
+  _synthesis.cancel();
+  var clean=text.replace(/<[^>]+>/g,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/[🦉💰📈🏦]/g,'').trim();
+  if(clean.length>400){var cp=clean.lastIndexOf('.',400);clean=cp>100?clean.substring(0,cp+1):clean.substring(0,400);}
+  if(!clean)return;
+  var utt=new SpeechSynthesisUtterance(clean);
+  if(_selectedVoice)utt.voice=_selectedVoice;
+  var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'it';
+  utt.lang={it:'it-IT',fr:'fr-FR',en:'en-GB',es:'es-ES'}[lang]||'it-IT';
+  utt.rate=0.95;utt.pitch=1.1;utt.volume=0.9;
+  utt.onstart=function(){_civettaSpeaking=true;var a=document.getElementById('civetta-avatar');if(a)a.classList.add('speaking');var b=document.getElementById('ai-audio-bar');if(b)b.classList.add('active');};
+  utt.onend=utt.onerror=function(){_civettaSpeaking=false;var a=document.getElementById('civetta-avatar');if(a)a.classList.remove('speaking');var b=document.getElementById('ai-audio-bar');if(b)b.classList.remove('active');};
+  _synthesis.speak(utt);
+}
+function toggleCivettaVoice(){
+  _civettaVoiceOn=!_civettaVoiceOn;
+  var btn=document.getElementById('ai-speak-toggle');
+  if(btn){btn.textContent=_civettaVoiceOn?'🔊':'🔇';btn.classList.toggle('active',_civettaVoiceOn);}
+  if(!_civettaVoiceOn&&_synthesis)_synthesis.cancel();
+}
+window.toggleCivettaVoice=toggleCivettaVoice;
+window.civettaSpeak=civettaSpeak;
+
+// ── 3D HOME + TUTORIAL ──────────────────────────────────────
+function initHomeParticles(){
+  var c=document.getElementById('home-particles');if(!c)return;
+  var cols=['#00DCFF','#7C3AED','#FFD700','#10B981','#F59E0B'];
+  for(var i=0;i<22;i++){var p=document.createElement('div');p.className='home-particle';var sz=4+Math.random()*8;p.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';--dur:'+(4+Math.random()*6)+'s;--delay:-'+(Math.random()*6)+'s';c.appendChild(p);}
+}
+function toggleCard(id){
+  var card=document.getElementById(id);if(!card)return;
+  document.querySelectorAll('.g3d-card.flipped').forEach(function(c){if(c.id!==id)c.classList.remove('flipped');});
+  card.classList.toggle('flipped');
+}
+var GAME_TUTORIALS={
+  quadranti:{emoji:'👑',title:'I 4 Quadranti',subtitle:'Da dipendente a investitore',rules:[{icon:'🎯',text:'Parti dal quadrante D. Gestisci entrate e uscite.'},{icon:'📈',text:'Compra azioni ed ETF per creare reddito passivo.'},{icon:'🏆',text:'Vinci quando il reddito passivo supera le spese.'}],tip:'Investi almeno il 20% ogni mese.'},
+  brvm:{emoji:'📊',title:'Borsa BRVM',subtitle:'Trading Africa, NYSE, Crypto',rules:[{icon:'💶',text:'Parti con 10.000 YEM virtuali.'},{icon:'🛡️',text:'Imposta sempre Stop Loss e Take Profit.'},{icon:'🏆',text:'Batti il mercato dopo 12 round.'}],tip:'Diversifica. Proteggere il capitale viene prima di guadagnare.'},
+  immobiliare:{emoji:'🏙️',title:'Monopolio Urbano',subtitle:'Castello del Cash Flow',rules:[{icon:'🗺️',text:'La mappa scorre. Fermati per comprare.'},{icon:'💰',text:'Ogni proprietà genera rendita automatica.'},{icon:'🏆',text:'Raggiungi 500 YEM/mese di rendita.'}],tip:'Compra le proprietà economiche per prime.'},
+  inflazione:{emoji:'💸',title:"Corsa Inflazione",subtitle:'Proteggi i risparmi',rules:[{icon:'📉',text:"L'inflazione mangia i tuoi soldi ogni round."},{icon:'🧠',text:'Scegli: Cash, ETF, Immobile o Oro.'},{icon:'🏆',text:"Batti l'inflazione dopo tutti i round."}],tip:'Il Cash perde sempre. Gli ETF crescono nel lungo periodo.'},
+};
+var _tutShown={};
+function showTutorial(gameKey,callback){
+  var data=GAME_TUTORIALS[gameKey];
+  if(!data){if(callback)callback();return;}
+  if(_tutShown[gameKey]){if(callback)callback();return;}
+  _tutShown[gameKey]=true;
+  var overlay=document.getElementById('game-tutorial-overlay');
+  if(!overlay){if(callback)callback();return;}
+  document.getElementById('tut-emoji').textContent=data.emoji;
+  document.getElementById('tut-title').textContent=data.title;
+  document.getElementById('tut-subtitle').textContent=data.subtitle;
+  document.getElementById('tut-tip').textContent='💡 '+data.tip;
+  var ul=document.getElementById('tut-rules');ul.innerHTML='';
+  (data.rules||[]).forEach(function(r){var li=document.createElement('li');li.innerHTML='<span class="tut-icon">'+r.icon+'</span><span>'+r.text+'</span>';ul.appendChild(li);});
+  overlay._onClose=callback||null;overlay.classList.add('show');
+}
+function closeTutorial(){
+  var o=document.getElementById('game-tutorial-overlay');if(!o)return;
+  o.classList.remove('show');
+  if(o._onClose){var cb=o._onClose;o._onClose=null;setTimeout(cb,300);}
+}
+window.toggleCard=toggleCard;window.showTutorial=showTutorial;window.closeTutorial=closeTutorial;
+document.addEventListener('DOMContentLoaded',function(){initHomeParticles();var o=document.getElementById('game-tutorial-overlay');if(o)o.addEventListener('click',function(e){if(e.target===o)closeTutorial();});});
+var _origOG=window.openGame;
+window.openGame=function(g){
+  var tKey={quadranti:'quadranti',brvm:'brvm',immobiliare:'immobiliare',inflazione:'inflazione'}[g];
+  function _start(){if(typeof _origOG==='function'){_origOG(g);return;}if(typeof showScreen==='function')showScreen('gioco-'+g);}
+  if(tKey)showTutorial(tKey,_start);else _start();
+};
+
+function initMic(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return;
+  _recognition=new SR();
+  var lang=(typeof S!=='undefined'&&S.lang)?S.lang:'it';
+  _recognition.lang={it:'it-IT',fr:'fr-FR',en:'en-GB',es:'es-ES'}[lang]||'it-IT';
+  _recognition.continuous=false;_recognition.interimResults=false;
+  _recognition.onresult=function(e){var t=e.results[0][0].transcript;var inp=document.getElementById('ai-inp');if(inp){inp.value=t;sendAI();}stopMic();};
+  _recognition.onerror=_recognition.onend=function(){stopMic();};
+}
+function stopMic(){
+  _civettaRecognizing=false;if(_recognition)try{_recognition.stop();}catch(e){}
+  var btn=document.getElementById('ai-mic-btn');if(btn)btn.classList.remove('listening');
+  var st=document.getElementById('ai-mic-status');if(st)st.style.display='none';
+}
 </script>
 
 <div id="npc-dialog" class="g-modal" style="display:none">
@@ -23462,5 +23719,459 @@ window.agentStart = agentRun; // alias
   </div>
 </div>
 
+
+<!-- WAITLIST SCREEN -->
+<div class="screen" id="waitlist-screen">
+  <div style="background:linear-gradient(135deg,#05001a,#0a0030);min-height:100%;padding:0 0 40px">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#7C3AED,#00DCFF);padding:40px 20px 30px;text-align:center;position:relative">
+      <button onclick="showScreen('home')" style="position:absolute;top:16px;left:16px;background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:1.1rem;cursor:pointer">←</button>
+      <div style="font-size:3rem;margin-bottom:10px">🚀</div>
+      <h1 style="color:#fff;font-size:1.5rem;font-weight:900;margin:0 0 8px">FinanzaLand PRO</h1>
+      <p style="color:rgba(255,255,255,.8);font-size:.85rem;margin:0">Sii tra i primi 500. Accesso early + bonus esclusivi.</p>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex;gap:10px;padding:16px 16px 0">
+      <div style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;text-align:center">
+        <div style="font-size:1.4rem;font-weight:900;color:#FFD700" id="wl-count">247</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.45)">In lista d'attesa</div>
+      </div>
+      <div style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;text-align:center">
+        <div style="font-size:1.4rem;font-weight:900;color:#00DCFF">500</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.45)">Posti disponibili</div>
+      </div>
+      <div style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;text-align:center">
+        <div style="font-size:1.4rem;font-weight:900;color:#10B981">Free</div>
+        <div style="font-size:.62rem;color:rgba(255,255,255,.45)">Per i primi 100</div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div style="padding:16px">
+      <h3 style="color:#FFD700;font-size:.85rem;font-weight:800;margin:0 0 12px">Cosa ottieni entrando oggi:</h3>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;gap:11px;align-items:center;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:11px 13px">
+          <span style="font-size:1.3rem">🎓</span>
+          <div>
+            <div style="font-size:.78rem;font-weight:800;color:#fff">Accesso PRO 30 giorni gratuiti</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.45)">Tutte le lezioni, giochi e simulatori sbloccati</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:11px;align-items:center;background:rgba(0,220,255,.08);border:1px solid rgba(0,220,255,.15);border-radius:12px;padding:11px 13px">
+          <span style="font-size:1.3rem">🦉</span>
+          <div>
+            <div style="font-size:.78rem;font-weight:800;color:#fff">Civetta AI illimitata</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.45)">Parla e ascolta — nessun limite di messaggi</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:11px;align-items:center;background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.15);border-radius:12px;padding:11px 13px">
+          <span style="font-size:1.3rem">🪙</span>
+          <div>
+            <div style="font-size:.78rem;font-weight:800;color:#fff">500 Semi di Luce bonus</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.45)">Crediti per sbloccare contenuti premium</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:11px;align-items:center;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15);border-radius:12px;padding:11px 13px">
+          <span style="font-size:1.3rem">📞</span>
+          <div>
+            <div style="font-size:.78rem;font-weight:800;color:#fff">Call 1:1 con il fondatore</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.45)">Per i primi 50 — feedback diretto su FinanzaLand</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div style="padding:0 16px 16px" id="wl-form-area">
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:18px">
+        <h3 style="color:#fff;font-size:.88rem;font-weight:800;margin:0 0 14px;text-align:center">Entra nella lista ora</h3>
+        <input id="wl-name" type="text" placeholder="Il tuo nome" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:12px 14px;color:#fff;font-size:.85rem;margin-bottom:10px;outline:none">
+        <input id="wl-email" type="email" placeholder="La tua email" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:12px 14px;color:#fff;font-size:.85rem;margin-bottom:10px;outline:none">
+        <select id="wl-tipo" style="width:100%;box-sizing:border-box;background:rgba(30,20,60,.95);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:12px 14px;color:#fff;font-size:.85rem;margin-bottom:14px;outline:none">
+          <option value="">Sei un...</option>
+          <option value="genitore">Genitore</option>
+          <option value="studente">Studente (14-25 anni)</option>
+          <option value="insegnante">Insegnante</option>
+          <option value="adulto">Adulto / Professionista</option>
+          <option value="investitore">Potenziale Investitore</option>
+        </select>
+        <button onclick="submitWaitlist()" style="width:100%;padding:14px;background:linear-gradient(135deg,#7C3AED,#00DCFF);border:none;border-radius:13px;color:#fff;font-size:.92rem;font-weight:900;cursor:pointer;box-shadow:0 4px 20px rgba(124,58,237,.4)">
+          🚀 Entra nella Lista — È Gratis
+        </button>
+        <p style="text-align:center;font-size:.62rem;color:rgba(255,255,255,.3);margin:10px 0 0">Nessuno spam. Cancellazione in un click. Privacy policy rispettata.</p>
+      </div>
+    </div>
+
+    <!-- Social proof -->
+    <div style="padding:0 16px">
+      <div style="background:rgba(255,255,255,.03);border-radius:14px;padding:14px;text-align:center">
+        <p style="color:rgba(255,255,255,.5);font-size:.72rem;margin:0 0 8px">Già presenti in lista da:</p>
+        <div style="display:flex;justify-content:center;gap:20px;font-size:.68rem;color:rgba(255,255,255,.35)">
+          <span>🇮🇹 Italia</span><span>🇫🇷 Francia</span><span>🇧🇫 Burkina Faso</span><span>🇨🇭 Svizzera</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PITCH DECK SCREEN (Investor Kit) -->
+<div class="screen" id="investor-screen">
+  <div style="background:linear-gradient(135deg,#05001a,#0a0030);min-height:100%;padding:0 0 40px">
+
+    <div style="background:linear-gradient(135deg,#1a0030,#000a20);padding:28px 20px 22px;border-bottom:1px solid rgba(255,215,0,.2)">
+      <button onclick="showScreen('home')" style="background:rgba(255,255,255,.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:1rem;cursor:pointer;margin-bottom:14px">←</button>
+      <div style="font-size:2rem;margin-bottom:6px">📊</div>
+      <h1 style="color:#FFD700;font-size:1.3rem;font-weight:900;margin:0 0 4px">Investor Kit</h1>
+      <p style="color:rgba(255,255,255,.5);font-size:.72rem;margin:0">FinanzaLand Omnia — Pre-Seed 2025</p>
+    </div>
+
+    <div style="padding:16px;display:flex;flex-direction:column;gap:12px" id="pitch-slides">
+
+      <!-- SLIDE 1: PROBLEMA -->
+      <div class="pitch-slide" style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">😰</div>
+        <div style="font-size:.65rem;font-weight:800;color:#f87171;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">01 — Problema</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">Il 76% degli italiani è finanziariamente analfabeta</h3>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#f87171">16M italiani</strong> non riescono a risparmiare regolarmente</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• La finanza personale <strong style="color:#f87171">non è insegnata</strong> a scuola (fino alla Legge 21/2024)</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• I prodotti esistenti sono <strong style="color:#f87171">noiosi, tecnici, per adulti</strong></div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• La diaspora africana in Europa ha <strong style="color:#f87171">accesso zero</strong> all'educazione finanziaria in lingua</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: SOLUZIONE -->
+      <div class="pitch-slide" style="background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">🎮</div>
+        <div style="font-size:.65rem;font-weight:800;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">02 — Soluzione</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">FinanzaLand: il gioco che crea ricchezza reale</h3>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#a78bfa">Gamification</strong> + AI (Civetta) + Simulatori di mercato reali</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#a78bfa">4 lingue</strong>: Italiano, Français, English, Español</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#a78bfa">3 target</strong>: Bambini (6-10), Ragazzi (11-16), Adulti (17+)</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#a78bfa">Silver Coin fisico</strong>: 31g d'argento per i top performer</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#a78bfa">BRVM Africa</strong>: unico prodotto che insegna i mercati africani</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: PRODOTTO -->
+      <div class="pitch-slide" style="background:rgba(0,220,255,.07);border:1px solid rgba(0,220,255,.2);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">📱</div>
+        <div style="font-size:.65rem;font-weight:800;color:#67e8f9;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">03 — Prodotto</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">PWA live — finanzaland.vercel.app</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:1.1rem;font-weight:900;color:#FFD700">50+</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.5)">Lezioni con quiz</div>
+          </div>
+          <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:1.1rem;font-weight:900;color:#00DCFF">5</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.5)">Giochi simulazione</div>
+          </div>
+          <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:1.1rem;font-weight:900;color:#10B981">Civetta AI</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.5)">TTS + STT + Search</div>
+          </div>
+          <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:1.1rem;font-weight:900;color:#F59E0B">BRVM</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.5)">Borsa Africa simulata</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: MERCATO -->
+      <div class="pitch-slide" style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">🌍</div>
+        <div style="font-size:.65rem;font-weight:800;color:#6ee7b7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">04 — Mercato</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">TAM €12B — Fintech Education Europa + Africa</h3>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#6ee7b7">TAM</strong>: €12B — EdTech finanza Europa + mercato africano emergente</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#6ee7b7">SAM</strong>: €800M — famiglie con figli 6-16 anni in IT/FR/BE/CH</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#6ee7b7">SOM Anno 1</strong>: €240K ARR — 1.000 abbonamenti Family Pass</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#6ee7b7">Legge 21/2024</strong>: finanza obbligatoria nelle scuole → enorme pull istituzionale</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">• <strong style="color:#6ee7b7">Diaspora africana EU</strong>: 8M persone, nessun prodotto dedicato</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: BUSINESS MODEL -->
+      <div class="pitch-slide" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">💰</div>
+        <div style="font-size:.65rem;font-weight:800;color:#FCD34D;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">05 — Business Model</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">Freemium → Subscription → B2B Schools</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px">
+            <div style="font-size:.75rem;font-weight:800;color:#FCD34D">B2C — Family Pass €9.99/mese</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.55)">1 account, tutta la famiglia. 7 giorni free.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px">
+            <div style="font-size:.75rem;font-weight:800;color:#FCD34D">B2B — Licenza Scolastica €299/anno</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.55)">Classe intera, dashboard insegnante, rapporti.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:10px">
+            <div style="font-size:.75rem;font-weight:800;color:#FCD34D">B2G — Partnership Istituzionale</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.55)">Regioni, fondazioni, programmi EU Digital Skills.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: COMPETITOR -->
+      <div class="pitch-slide" style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">🏆</div>
+        <div style="font-size:.65rem;font-weight:800;color:#a5b4fc;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">06 — Vantaggio Competitivo</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">Nessun competitor ha questi 4 elementi insieme</h3>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:.65rem">
+            <tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+              <td style="padding:6px 4px;color:rgba(255,255,255,.4)">Feature</td>
+              <td style="padding:6px 4px;text-align:center;color:#a5b4fc;font-weight:800">FinanzaLand</td>
+              <td style="padding:6px 4px;text-align:center;color:rgba(255,255,255,.4)">Duolingo</td>
+              <td style="padding:6px 4px;text-align:center;color:rgba(255,255,255,.4)">Moneyfarm</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.06)">
+              <td style="padding:5px 4px;color:rgba(255,255,255,.6)">AI vocale</td>
+              <td style="padding:5px 4px;text-align:center">✅</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.06)">
+              <td style="padding:5px 4px;color:rgba(255,255,255,.6)">Mercati Africa</td>
+              <td style="padding:5px 4px;text-align:center">✅</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.06)">
+              <td style="padding:5px 4px;color:rgba(255,255,255,.6)">Bambini 6-10</td>
+              <td style="padding:5px 4px;text-align:center">✅</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+            </tr>
+            <tr>
+              <td style="padding:5px 4px;color:rgba(255,255,255,.6)">4 lingue + diaspora</td>
+              <td style="padding:5px 4px;text-align:center">✅</td>
+              <td style="padding:5px 4px;text-align:center">✅</td>
+              <td style="padding:5px 4px;text-align:center">❌</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: GO TO MARKET -->
+      <div class="pitch-slide" style="background:rgba(236,72,153,.08);border:1px solid rgba(236,72,153,.2);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">📣</div>
+        <div style="font-size:.65rem;font-weight:800;color:#f9a8d4;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">07 — Go-to-Market</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">3 canali con CAC quasi zero</h3>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">📚 <strong style="color:#f9a8d4">Scuole Vicenza</strong>: partnership con 5 istituti → accesso a 3.000 studenti diretti</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🌍 <strong style="color:#f9a8d4">Comunità africane EU</strong>: diaspora burkinabé, senegalese, ivoriana in IT/FR/BE</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">📱 <strong style="color:#f9a8d4">Content marketing</strong>: TikTok/Instagram "Mini lezione finanza" — formato 60sec</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🤝 <strong style="color:#f9a8d4">Fondazioni</strong>: partnership con fondazioni culturali per accesso premium gratuito</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: TRACTION -->
+      <div class="pitch-slide" style="background:rgba(16,185,129,.09);border:1px solid rgba(16,185,129,.3);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">📈</div>
+        <div style="font-size:.65rem;font-weight:800;color:#6ee7b7;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">08 — Traction</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">MVP live. Primissimi segnali di domanda.</h3>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">✅ <strong style="color:#6ee7b7">App live</strong>: finanzaland.vercel.app — PWA accessibile su ogni device</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">✅ <strong style="color:#6ee7b7">50+ lezioni</strong> con quiz + 5 giochi simulatori reali</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">✅ <strong style="color:#6ee7b7">Civetta AI</strong> con voice + web search live</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🎯 <strong style="color:#6ee7b7">Obiettivo Q1 2026</strong>: 50 beta user attivi, 3 partnership scuole</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🎯 <strong style="color:#6ee7b7">Obiettivo Q2 2026</strong>: €2K MRR, 500 utenti waitlist</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: TEAM -->
+      <div class="pitch-slide" style="background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">👤</div>
+        <div style="font-size:.65rem;font-weight:800;color:#FCD34D;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">09 — Founder</div>
+        <h3 style="color:#fff;font-size:.95rem;font-weight:900;margin:0 0 10px">Bernard Ilboudo — Solo Founder</h3>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">📍 <strong style="color:#FCD34D">Vicenza, Italia</strong> — background Burkina Faso</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">💻 <strong style="color:#FCD34D">Full-stack</strong>: HTML5, JS, Supabase, Vercel, Claude API</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🌍 <strong style="color:#FCD34D">Trilingue</strong>: IT / FR / EN — ponte Europa-Africa</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">💡 <strong style="color:#FCD34D">Motivazione personale</strong>: costruisce per sua figlia e per chi non ha accesso</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🔍 <strong style="color:#FCD34D">Cerca</strong>: Co-founder tecnico/commerciale + primo angel</div>
+        </div>
+      </div>
+
+      <!-- SLIDE 10: ASK -->
+      <div class="pitch-slide" style="background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(0,220,255,.1));border:1.5px solid rgba(124,58,237,.4);border-radius:16px;padding:18px">
+        <div style="font-size:1.6rem;margin-bottom:8px">💎</div>
+        <div style="font-size:.65rem;font-weight:800;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">10 — The Ask</div>
+        <h3 style="color:#fff;font-size:1rem;font-weight:900;margin:0 0 10px">Cerchiamo €50K Pre-Seed</h3>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">🛠️ <strong style="color:#a78bfa">€20K</strong> — Sviluppo: mobile nativo + dashboard insegnante</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">📣 <strong style="color:#a78bfa">€15K</strong> — Marketing: content creator + partnership scuole</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">⚖️ <strong style="color:#a78bfa">€10K</strong> — Legal: compliance MiCA, GDPR, contratti B2B</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7)">💼 <strong style="color:#a78bfa">€5K</strong> — Operations: Stripe, cloud, strumenti</div>
+        </div>
+        <div style="background:rgba(255,215,0,.1);border-radius:11px;padding:12px;text-align:center">
+          <div style="color:#FFD700;font-size:.8rem;font-weight:800">Target: 1.000 utenti paganti → €10K MRR entro 12 mesi</div>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <div style="font-size:.72rem;color:rgba(255,255,255,.5)">📧 ilboudobr96@gmail.com</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,.5)">🌐 finanzaland.vercel.app</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Download button -->
+    <div style="padding:0 16px">
+      <button onclick="if(window.flTrack)flTrack('pitch_deck_download');window.print()" style="width:100%;padding:13px;background:linear-gradient(135deg,#7C3AED,#00DCFF);border:none;border-radius:13px;color:#fff;font-size:.88rem;font-weight:900;cursor:pointer">
+        📥 Scarica Pitch Deck (PDF)
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- PIANO 3 FASI SCREEN -->
+<div class="screen" id="piano-fasi-screen">
+  <div style="background:linear-gradient(135deg,#05001a,#0a0030);min-height:100%;padding-bottom:40px">
+    <div style="background:linear-gradient(135deg,#1a0030,#000a20);padding:28px 20px 22px">
+      <button onclick="showScreen('accademia')" style="background:rgba(255,255,255,.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:1rem;cursor:pointer;margin-bottom:14px">←</button>
+      <div style="font-size:2rem;margin-bottom:6px">🗺️</div>
+      <h1 style="color:#FFD700;font-size:1.3rem;font-weight:900;margin:0 0 4px">Il Tuo Piano da 0 a Libero</h1>
+      <p style="color:rgba(255,255,255,.5);font-size:.72rem;margin:0">Audit → Momentum → Espansione. 24 mesi per cambiare tutto.</p>
+    </div>
+
+    <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+
+      <!-- FASE 1 -->
+      <div style="background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.3);border-radius:18px;overflow:hidden">
+        <div style="background:rgba(239,68,68,.15);padding:14px 16px;display:flex;align-items:center;gap:12px">
+          <div style="background:#ef4444;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem;flex-shrink:0">1</div>
+          <div>
+            <div style="font-size:.88rem;font-weight:900;color:#fca5a5">AUDIT & RESET</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.5)">Mesi 1-3 · Obiettivo: ferma l'emorragia</div>
+          </div>
+          <div style="margin-left:auto;font-size:1.4rem">🩺</div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Calcola il tuo <strong style="color:#fca5a5">Tasso di Risparmio</strong> reale (usa il calcolatore qui sotto)</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Identifica le <strong style="color:#fca5a5">spese inconsce</strong>: streaming, abbonamenti fantasma, caffè giornaliero</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Costruisci il <strong style="color:#fca5a5">Fondo Emergenza</strong>: 3-6 mesi di spese in liquidità — intoccabile</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Regola d'oro: <strong style="color:#fca5a5">20% minimo</strong> di risparmio su ogni entrata dal giorno 1</div>
+          <div style="background:rgba(239,68,68,.1);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px">
+            🎯 <strong>Risultato atteso:</strong> Smetti di perdere soldi senza saperlo. Hai un cuscinetto. Sei pronto.
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 2 -->
+      <div style="background:rgba(124,58,237,.08);border:1.5px solid rgba(124,58,237,.3);border-radius:18px;overflow:hidden">
+        <div style="background:rgba(124,58,237,.15);padding:14px 16px;display:flex;align-items:center;gap:12px">
+          <div style="background:#7C3AED;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem;flex-shrink:0">2</div>
+          <div>
+            <div style="font-size:.88rem;font-weight:900;color:#c4b5fd">MOMENTUM</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.5)">Mesi 4-12 · Obiettivo: fai lavorare i soldi</div>
+          </div>
+          <div style="margin-left:auto;font-size:1.4rem">📈</div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Automatizza un <strong style="color:#c4b5fd">PAC mensile</strong> su ETF MSCI World (Acc, TER &lt; 0.25%)</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Diversifica: <strong style="color:#c4b5fd">70% azionario globale</strong>, 20% obbligazionario, 10% oro</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Usa il <strong style="color:#c4b5fd">Simulatore ETF</strong> per vedere la curva del composto in tempo reale</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Non toccare MAI la Busta 3 per spese normali — solo per asset che generano reddito</div>
+          <div style="background:rgba(124,58,237,.1);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px">
+            🎯 <strong>Risultato atteso:</strong> Il portafoglio cresce da solo. L'interesse composto inizia a lavorare.
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 3 -->
+      <div style="background:rgba(16,185,129,.08);border:1.5px solid rgba(16,185,129,.3);border-radius:18px;overflow:hidden">
+        <div style="background:rgba(16,185,129,.15);padding:14px 16px;display:flex;align-items:center;gap:12px">
+          <div style="background:#10B981;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:.85rem;flex-shrink:0">3</div>
+          <div>
+            <div style="font-size:.88rem;font-weight:900;color:#6ee7b7">ESPANSIONE</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.5)">Mesi 12-24 · Obiettivo: seconda fonte di reddito</div>
+          </div>
+          <div style="margin-left:auto;font-size:1.4rem">🚀</div>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Crea una <strong style="color:#6ee7b7">seconda entrata</strong>: freelance, corso online, affitto, consulenza</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Regola FinanzaLand: <strong style="color:#6ee7b7">100% dei redditi extra</strong> vanno reinvestiti — non aumentare il tenore di vita</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Costruisci <strong style="color:#6ee7b7">asset digitali</strong>: contenuti, corsi, software — scalabili senza il tuo tempo</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.8)">• Obiettivo: <strong style="color:#6ee7b7">reddito passivo &gt; 25% delle spese mensili</strong> entro fine fase</div>
+          <div style="background:rgba(16,185,129,.1);border-radius:10px;padding:10px;font-size:.72rem;color:rgba(255,255,255,.6);margin-top:4px">
+            🎯 <strong>Risultato atteso:</strong> Non dipendi più da un solo stipendio. La libertà finanziaria è vicina.
+          </div>
+        </div>
+      </div>
+
+      <!-- CALCOLATORI RAPIDI -->
+      <div id="calc-tasso" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px">
+        <h3 style="color:#FFD700;font-size:.85rem;font-weight:900;margin:0 0 12px">🧮 Calcolatore Tasso di Risparmio</h3>
+        <p style="color:rgba(255,255,255,.5);font-size:.68rem;margin:0 0 12px">Formula: Tasso = (Entrate - Uscite) / Entrate × 100</p>
+        <input id="tr-entrate" type="number" placeholder="Entrate mensili nette (€)" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.85rem;margin-bottom:8px;outline:none">
+        <input id="tr-uscite" type="number" placeholder="Uscite mensili totali (€)" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.85rem;margin-bottom:10px;outline:none">
+        <button onclick="calcolaTasso()" style="width:100%;padding:11px;background:linear-gradient(135deg,#FFD700,#F59E0B);border:none;border-radius:11px;color:#000;font-size:.85rem;font-weight:900;cursor:pointer">Calcola Tasso</button>
+        <div id="tr-result" style="margin-top:10px;display:none"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- VISUALIZZATORE INFLAZIONE SCREEN -->
+<div class="screen" id="inflazione-screen">
+  <div style="background:linear-gradient(135deg,#05001a,#0a0030);min-height:100%;padding-bottom:40px">
+    <div style="background:linear-gradient(135deg,#1a0500,#350a00);padding:28px 20px 22px;border-bottom:1px solid rgba(251,146,60,.2)">
+      <button onclick="showScreen('accademia')" style="background:rgba(255,255,255,.1);border:none;border-radius:50%;width:34px;height:34px;color:#fff;font-size:1rem;cursor:pointer;margin-bottom:14px">←</button>
+      <div style="font-size:2rem;margin-bottom:6px">📉</div>
+      <h1 style="color:#fb923c;font-size:1.3rem;font-weight:900;margin:0 0 4px">Visualizzatore Inflazione</h1>
+      <p style="color:rgba(255,255,255,.5);font-size:.72rem;margin:0">Scopri quanto vale davvero il tuo denaro fermo nel tempo</p>
+    </div>
+
+    <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+
+      <!-- Spiegazione -->
+      <div style="background:rgba(251,146,60,.07);border:1px solid rgba(251,146,60,.2);border-radius:14px;padding:14px">
+        <p style="color:rgba(255,255,255,.75);font-size:.78rem;line-height:1.6;margin:0">
+          L'inflazione è un <strong style="color:#fb923c">mostro invisibile</strong> che mangia il tuo denaro ogni anno. Con un'inflazione del 3%, 1.000€ oggi valgono come <strong style="color:#fb923c">744€</strong> tra 10 anni — senza fare nulla. Investire non è un'opzione: è l'unico modo per non perdere.
+        </p>
+      </div>
+
+      <!-- Calcolatore -->
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px">
+        <h3 style="color:#fb923c;font-size:.85rem;font-weight:900;margin:0 0 12px">🧮 Calcola il tuo caso</h3>
+        <label style="font-size:.7rem;color:rgba(255,255,255,.5);display:block;margin-bottom:4px">Capitale iniziale (€)</label>
+        <input id="infl-cap" type="number" value="1000" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.85rem;margin-bottom:10px;outline:none">
+        <label style="font-size:.7rem;color:rgba(255,255,255,.5);display:block;margin-bottom:4px">Tasso d'inflazione annuo (%)</label>
+        <input id="infl-tasso" type="number" value="3" step="0.1" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.85rem;margin-bottom:10px;outline:none">
+        <label style="font-size:.7rem;color:rgba(255,255,255,.5);display:block;margin-bottom:4px">Anni</label>
+        <input id="infl-anni" type="number" value="10" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:11px 13px;color:#fff;font-size:.85rem;margin-bottom:12px;outline:none">
+        <button onclick="calcolaInflazione()" style="width:100%;padding:11px;background:linear-gradient(135deg,#C2410C,#fb923c);border:none;border-radius:11px;color:#fff;font-size:.85rem;font-weight:900;cursor:pointer">Calcola Erosione</button>
+        <div id="infl-result" style="margin-top:12px;display:none"></div>
+      </div>
+
+      <!-- Tabella rapida -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px">
+        <h3 style="color:#fff;font-size:.78rem;font-weight:800;margin:0 0 10px">📊 1.000€ fermi sul conto a inflazione 3%</h3>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:.7rem">
+            <tr style="border-bottom:1px solid rgba(255,255,255,.1)">
+              <td style="padding:7px 4px;color:rgba(255,255,255,.4);font-weight:700">Anni</td>
+              <td style="padding:7px 4px;text-align:right;color:rgba(255,255,255,.4);font-weight:700">Valore reale</td>
+              <td style="padding:7px 4px;text-align:right;color:rgba(255,255,255,.4);font-weight:700">Con ETF 7%</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05)"><td style="padding:6px 4px;color:rgba(255,255,255,.6)">5 anni</td><td style="padding:6px 4px;text-align:right;color:#f87171">863€</td><td style="padding:6px 4px;text-align:right;color:#6ee7b7">1.403€</td></tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05)"><td style="padding:6px 4px;color:rgba(255,255,255,.6)">10 anni</td><td style="padding:6px 4px;text-align:right;color:#f87171">744€</td><td style="padding:6px 4px;text-align:right;color:#6ee7b7">1.967€</td></tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.05)"><td style="padding:6px 4px;color:rgba(255,255,255,.6)">20 anni</td><td style="padding:6px 4px;text-align:right;color:#f87171">554€</td><td style="padding:6px 4px;text-align:right;color:#6ee7b7">3.870€</td></tr>
+            <tr><td style="padding:6px 4px;color:rgba(255,255,255,.6)">30 anni</td><td style="padding:6px 4px;text-align:right;color:#f87171">412€</td><td style="padding:6px 4px;text-align:right;color:#6ee7b7">7.612€</td></tr>
+          </table>
+        </div>
+        <p style="font-size:.65rem;color:rgba(255,255,255,.3);margin:8px 0 0;text-align:center">Solo a scopo educativo. Non consulenza finanziaria.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
 </body>
 </html>
