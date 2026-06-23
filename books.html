@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanzaLand Books — Tutti i Libri di Kofi</title>
+<meta name="description" content="Tutti i libri pubblicati da Kofi (Bernard Ilboudo) — FinanzaLand Edizioni. Educazione finanziaria per la diaspora africana in italiano, francese e inglese.">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:#08060A;color:#EDE5CC;font-family:'Georgia',serif;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+.kente{height:6px;background:repeating-linear-gradient(90deg,#C8A838 0 12px,#2ECC71 12px 18px,#CC3300 18px 24px,#0044CC 24px 30px,#C8A838 30px 42px,#111 42px 48px);flex-shrink:0}
+
+/* NAV */
+.nav{background:rgba(8,6,10,.97);border-bottom:1px solid rgba(200,168,56,.2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{font-size:1rem;font-weight:700;color:#C8A838;letter-spacing:1px}
+.nav-sub{font-size:.65rem;color:rgba(200,168,56,.5);letter-spacing:2px}
+.nav-app{padding:7px 14px;background:rgba(200,168,56,.12);border:1px solid rgba(200,168,56,.3);color:#C8A838;border-radius:8px;font-size:.75rem;font-weight:700}
+.nav-app:hover{background:rgba(200,168,56,.2)}
+
+/* HERO */
+.hero{background:radial-gradient(ellipse 120% 80% at 50% 0%,#1A0D00 0%,#0A0600 60%,#08060A 100%);padding:52px 20px 40px;text-align:center}
+.hero h1{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:700;color:#C8A838;margin-bottom:8px}
+.hero p{font-size:.9rem;color:rgba(237,229,204,.5);max-width:420px;margin:0 auto 28px;font-style:italic}
+.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{display:block;font-size:1.6rem;font-weight:900;color:#C8A838}
+.stat-l{display:block;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(200,168,56,.4);margin-top:2px}
+
+/* LANG FILTER */
+.filters{display:flex;gap:8px;padding:16px 20px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(200,168,56,.08)}
+.filters::-webkit-scrollbar{display:none}
+.flt{padding:6px 16px;border-radius:20px;font-size:.75rem;font-weight:700;background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);cursor:pointer;white-space:nowrap;transition:all .2s}
+.flt.act,.flt:hover{background:rgba(200,168,56,.12);border-color:rgba(200,168,56,.35);color:#C8A838}
+
+/* MAIN */
+.main{max-width:700px;margin:0 auto;padding:24px 16px 60px}
+
+/* SERIE */
+.serie{margin-bottom:28px}
+.serie-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.serie-icon{font-size:1.8rem}
+.serie-title{font-size:1rem;font-weight:700}
+.serie-sub{font-size:.7rem;font-style:italic;color:rgba(237,229,204,.4);margin-top:2px}
+.serie-desc{font-size:.75rem;color:rgba(237,229,204,.45);line-height:1.6;margin-bottom:14px;padding:10px 14px;background:rgba(255,255,255,.02);border-left:2px solid rgba(200,168,56,.25);border-radius:0 6px 6px 0}
+
+/* BOOK CARD */
+.book-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;transition:border-color .2s}
+.book-card:hover{border-color:rgba(200,168,56,.25)}
+.book-flag{font-size:1.5rem;flex-shrink:0}
+.book-info{flex:1;min-width:0}
+.book-title{font-size:.88rem;font-weight:700;color:rgba(255,255,255,.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.book-meta{font-size:.65rem;color:rgba(255,255,255,.35);margin-top:3px}
+.book-asin{font-size:.6rem;color:rgba(200,168,56,.45);margin-top:2px}
+.book-pending{font-size:.62rem;color:rgba(251,146,60,.6);margin-top:2px}
+.book-btns{display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+.btn-amazon{padding:6px 11px;background:rgba(255,153,0,.15);border:1px solid rgba(255,153,0,.35);color:#FF9900;border-radius:7px;font-size:.65rem;font-weight:700;text-align:center;white-space:nowrap;transition:background .2s}
+.btn-amazon:hover{background:rgba(255,153,0,.25)}
+.btn-kindle{padding:6px 11px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:#34d399;border-radius:7px;font-size:.65rem;font-weight:700;text-align:center;white-space:nowrap;transition:background .2s}
+.btn-kindle:hover{background:rgba(52,211,153,.2)}
+.badge-pending{padding:5px 10px;background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);color:rgba(251,146,60,.6);border-radius:7px;font-size:.6rem;font-weight:700;text-align:center;white-space:nowrap}
+
+.divider{height:1px;background:rgba(200,168,56,.1);margin:24px 0}
+
+/* AUTHOR */
+.author{background:rgba(200,168,56,.04);border:1px solid rgba(200,168,56,.12);border-radius:14px;padding:20px;text-align:center;margin-bottom:20px}
+.author-name{font-size:.95rem;font-weight:700;color:#C8A838;margin-bottom:6px}
+.author-bio{font-size:.75rem;color:rgba(237,229,204,.45);line-height:1.7}
+.author-links{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.author-link{padding:8px 16px;border-radius:8px;font-size:.72rem;font-weight:700}
+.al-app{background:rgba(200,168,56,.12);border:1px solid rgba(200,168,56,.25);color:#C8A838}
+.al-kairos{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);color:#2ECC71}
+
+/* FOOTER */
+footer{text-align:center;padding:24px 20px;font-size:.65rem;color:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+
+<div class="kente"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div>
+    <div class="nav-logo">📖 FinanzaLand Books</div>
+    <div class="nav-sub">KOFI · EDIZIONI · KDP</div>
+  </div>
+  <a href="https://finanzaland.vercel.app" class="nav-app">← App</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>I Libri di Kofi</h1>
+  <p>Educazione finanziaria radicata nell'Africa — per la diaspora, per il mondo</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-n">4</span><span class="stat-l">Serie</span></div>
+    <div class="stat"><span class="stat-n">10</span><span class="stat-l">Libri</span></div>
+    <div class="stat"><span class="stat-n">3</span><span class="stat-l">Lingue</span></div>
+    <div class="stat"><span class="stat-n">KDP</span><span class="stat-l">Amazon</span></div>
+  </div>
+</div>
+
+<!-- LANG FILTERS -->
+<div class="filters">
+  <button class="flt act" onclick="filterLang('all',this)">🌍 Tutti</button>
+  <button class="flt" onclick="filterLang('IT',this)">🇮🇹 Italiano</button>
+  <button class="flt" onclick="filterLang('FR',this)">🇫🇷 Français</button>
+  <button class="flt" onclick="filterLang('EN',this)">🇬🇧 English</button>
+  <button class="flt" onclick="filterLang('LIVE',this)">✅ Su Amazon ora</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ═══ SERIE 1: FinanzaLand Omnia ═══ -->
+  <div class="serie">
+    <div class="serie-head">
+      <span class="serie-icon">🌍</span>
+      <div>
+        <div class="serie-title" style="color:#C8A838">FinanzaLand Omnia</div>
+        <div class="serie-sub">Il Codice della Libertà</div>
+      </div>
+    </div>
+    <div class="serie-desc">Serie filosofica e finanziaria per la diaspora africana. Koudoumde, Ubuntu, Tontine, BRVM — dalla radice profonda alla prosperità concreta.</div>
+
+    <div class="book-card" data-lang="IT" data-live="1">
+      <span class="book-flag">🇮🇹</span>
+      <div class="book-info">
+        <div class="book-title">Il Codice della Libertà</div>
+        <div class="book-meta">Italiano · 172 pagine · €14.99 cartaceo · €4.99 Kindle</div>
+        <div class="book-asin">Print: B0H3886BJF · Kindle: B0GX2S19XW</div>
+      </div>
+      <div class="book-btns">
+        <a href="https://www.amazon.it/dp/B0H3886BJF" target="_blank" class="btn-amazon">🛒 Cartaceo</a>
+        <a href="https://www.amazon.it/dp/B0GX2S19XW" target="_blank" class="btn-kindle">📱 Kindle</a>
+      </div>
+    </div>
+
+    <div class="book-card" data-lang="FR" data-live="1">
+      <span class="book-flag">🇫🇷</span>
+      <div class="book-info">
+        <div class="book-title">Le Code de la Liberté</div>
+        <div class="book-meta">Français · €14.99 cartaceo · €4.99 Kindle</div>
+        <div class="book-asin">Print: B0H3CY7HF1 · Kindle: B0GX2ZPS91</div>
+      </div>
+      <div class="book-btns">
+        <a href="https://www.amazon.fr/dp/B0H3CY7HF1" target="_blank" class="btn-amazon">🛒 Papier</a>
+        <a href="https://www.amazon.fr/dp/B0GX2ZPS91" target="_blank" class="btn-kindle">📱 Kindle</a>
+      </div>
+    </div>
+
+    <div class="book-card" data-lang="EN" data-live="1">
+      <span class="book-flag">🇬🇧</span>
+      <div class="book-info">
+        <div class="book-title">The Code of Freedom</div>
+        <div class="book-meta">English · €14.99 paperback · €4.99 Kindle</div>
+        <div class="book-asin">Print: B0H3CYLHC1 · Kindle: B0H3CQBB3B</div>
+      </div>
+      <div class="book-btns">
+        <a href="https://www.amazon.com/dp/B0H3CYLHC1" target="_blank" class="btn-amazon">🛒 Paperback</a>
+        <a href="https://www.amazon.com/dp/B0H3CQBB3B" target="_blank" class="btn-kindle">📱 Kindle</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ SERIE 2: Il Canale Invisibile ═══ -->
+  <div class="serie">
+    <div class="serie-head">
+      <span class="serie-icon">🌊</span>
+      <div>
+        <div class="serie-title" style="color:#a78bfa">Il Canale Invisibile</div>
+        <div class="serie-sub">Si cade verso l'alto · Il Manifesto di Land Omnia</div>
+      </div>
+    </div>
+    <div class="serie-desc">Filosofia africana, biologia della coscienza, Codice della Matrice. Koudoumde, Rogomik, Ubuntu, Bilancia di Maat — 172 pagine in tre lingue.</div>
+
+    <div class="book-card" data-lang="IT" data-live="0">
+      <span class="book-flag">🇮🇹</span>
+      <div class="book-info">
+        <div class="book-title">Il Canale Invisibile</div>
+        <div class="book-meta">Italiano · 172 pagine</div>
+        <div class="book-pending">⏳ In caricamento su Amazon KDP</div>
+      </div>
+      <div class="book-btns">
+        <span class="badge-pending">Presto</span>
+      </div>
+    </div>
+
+    <div class="book-card" data-lang="FR" data-live="0">
+      <span class="book-flag">🇫🇷</span>
+      <div class="book-info">
+        <div class="book-title">Le Canal Invisible</div>
+        <div class="book-meta">Français · 172 pages</div>
+        <div class="book-pending">⏳ En cours de chargement sur Amazon KDP</div>
+      </div>
+      <div class="book-btns">
+        <span class="badge-pending">Bientôt</span>
+      </div>
+    </div>
+
+    <div class="book-card" data-lang="EN" data-live="0">
+      <span class="book-flag">🇬🇧</span>
+      <div class="book-info">
+        <div class="book-title">The Invisible Channel</div>
+        <div class="book-meta">English · 172 pages</div>
+        <div class="book-pending">⏳ Loading on Amazon KDP</div>
+      </div>
+      <div class="book-btns">
+        <span class="badge-pending">Coming soon</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ SERIE 3: 160 Euros ═══ -->
+  <div class="serie">
+    <div class="serie-head">
+      <span class="serie-icon">🏭</span>
+      <div>
+        <div class="serie-title" style="color:#34d399">160 Euros Series</div>
+        <div class="serie-sub">Dalla fabbrica alla libertà finanziaria</div>
+      </div>
+    </div>
+    <div class="serie-desc">La storia vera di un operaio africano in Italia che costruisce la propria libertà finanziaria con 160 euro al mese. Con BRVM, tontine e rimesse diaspora.</div>
+
+    <div class="book-card" data-lang="IT" data-live="0">
+      <span class="book-flag">🇮🇹</span>
+      <div class="book-info">
+        <div class="book-title">€160 al Mese</div>
+        <div class="book-meta">Italiano · Edizione autobiografica</div>
+        <div class="book-pending">⏳ In caricamento su Amazon KDP</div>
+      </div>
+      <div class="book-btns">
+        <span class="badge-pending">Presto</span>
+      </div>
+    </div>
+
+    <div class="book-card" data-lang="FR" data-live="0">
+      <span class="book-flag">🇫🇷</span>
+      <div class="book-info">
+        <div class="book-title">160 Euros par Mois</div>
+        <div class="book-meta">Français · Édition universelle</div>
+        <div class="book-pending">⏳ En cours de chargement sur Amazon KDP</div>
+      </div>
+      <div class="book-btns">
+        <span class="badge-pending">Bientôt</span>
+      </div>
+    </div>
+
+    <div class="book-card" data-lang="EN" data-live="0">
+      <span class="book-flag">🇬🇧</span>
+      <div class="book-info">
+        <div class="book-title">160 Euros a Month</div>
+        <div class="book-meta">English · Universal edition</div>
+        <div class="book-pending">⏳ Loading on Amazon KDP</div>
+      </div>
+      <div class="book-btns">
+        <span class="badge-pending">Coming soon</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ SERIE 4: FASO-FINANCE ═══ -->
+  <div class="serie">
+    <div class="serie-head">
+      <span class="serie-icon">🌾</span>
+      <div>
+        <div class="serie-title" style="color:#fb923c">FASO-FINANCE</div>
+        <div class="serie-sub">Finanza per l'Afrique de l'Ouest · UEMOA</div>
+      </div>
+    </div>
+    <div class="serie-desc">Guida completa alla finanza personale per il mercato UEMOA e Burkina Faso. 21 capitoli, valori in franchi CFA, BRVM, tontines, sistema delle tre calebasse.</div>
+
+    <div class="book-card" data-lang="FR" data-live="1">
+      <span class="book-flag">🇫🇷</span>
+      <div class="book-info">
+        <div class="book-title">FASO-FINANCE</div>
+        <div class="book-meta">Français · 280 pages · €16.99 cartaceo · €5.99 Kindle</div>
+        <div class="book-asin">Print: B0H3CKHSDN · Kindle: B0H3CNC42W</div>
+      </div>
+      <div class="book-btns">
+        <a href="https://www.amazon.fr/dp/B0H3CKHSDN" target="_blank" class="btn-amazon">🛒 Papier</a>
+        <a href="https://www.amazon.fr/dp/B0H3CNC42W" target="_blank" class="btn-kindle">📱 Kindle</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AUTORE -->
+  <div class="author">
+    <div style="font-size:1.5rem;margin-bottom:8px">✍️</div>
+    <div class="author-name">Kofi — Bernard Ilboudo</div>
+    <div class="author-bio">
+      Tecnico industriale nell'azienda industriale della provincia di Vicenza.<br>
+      Fondatore di FinanzaLand Edizioni e KAIROS Resilience Hub.<br>
+      Originario del Burkina Faso, basato in Italia dal 2016.<br>
+      Scrivo per mio figlio Josué e per la diaspora africana in Europa.
+    </div>
+    <div class="author-links">
+      <a href="https://finanzaland.vercel.app" class="author-link al-app">📱 App FinanzaLand</a>
+      <a href="https://kairos-app.com" class="author-link al-kairos">🛡️ KAIROS</a>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  © 2025 Kofi · FinanzaLand Éditions · Solo a scopo educativo. Non consulenza finanziaria.
+</footer>
+
+<div class="kente"></div>
+
+<script>
+function filterLang(lang, btn) {
+  document.querySelectorAll('.flt').forEach(function(b) {
+    b.classList.remove('act');
+  });
+  btn.classList.add('act');
+
+  document.querySelectorAll('.book-card').forEach(function(card) {
+    if (lang === 'all') {
+      card.style.display = 'flex';
+    } else if (lang === 'LIVE') {
+      card.style.display = card.dataset.live === '1' ? 'flex' : 'none';
+    } else {
+      card.style.display = card.dataset.lang === lang ? 'flex' : 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
